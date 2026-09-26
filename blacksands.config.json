@@ -1,0 +1,13 @@
+{
+  "appId": "southislandguide",
+  "entityName": "Site",
+  "entityIdParam": "siteId",
+  "routeSegment": "sites",
+  "entityLabel": "Location",
+  "features": {
+    "completion": false,
+    "itinerary": true,
+    "push": false,
+    "redemption": false
+  }
+}

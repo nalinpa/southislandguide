@@ -13,17 +13,27 @@ const ALL_TABS: Array<{
   icon: keyof typeof Ionicons.glyphMap;
   activeIcon: keyof typeof Ionicons.glyphMap;
 }> = [
-  { key: "sites", title: "Locations", icon: "list-outline", activeIcon: "list" },
-  { key: "itinerary", title: "Itinerary", icon: "calendar-outline", activeIcon: "calendar" },
+  { key: "sites", title: "Explore", icon: "compass-outline", activeIcon: "compass" },
+  { key: "itinerary", title: "Plans", icon: "calendar-outline", activeIcon: "calendar" },
   { key: "map", title: "Map", icon: "map-outline", activeIcon: "map" },
-  { key: "account", title: "Profile", icon: "person-outline", activeIcon: "person" },
+  { key: "account", title: "Home", icon: "home-outline", activeIcon: "home" },
 ];
 
 const normalizeRouteName = (name: string) => name.replace(/\/index$/, "");
 
+// Which tab button to highlight for a route. Detail routes (sites/[siteId],
+// itinerary/[itineraryId], guide/[slug]) are extra tab screens with no button
+// of their own, so match on the route's first segment; the guide is opened from
+// Home, so it highlights Home.
+const TAB_FOR_SECTION: Record<string, string> = { guide: "account" };
+const highlightedTab = (routeName: string) => {
+  const section = routeName.split("/")[0];
+  return TAB_FOR_SECTION[section] ?? section;
+};
+
 function TabBar({ state, navigation }: any) {
   const insets = useSafeAreaInsets();
-  const activeRouteName = normalizeRouteName(state.routes[state.index]?.name ?? "sites");
+  const activeRouteName = highlightedTab(state.routes[state.index]?.name ?? "sites");
 
   const onSelect = (tabKey: string) => {
     const targetRoute = state.routes.find((r: any) => normalizeRouteName(r.name) === tabKey);
@@ -41,7 +51,11 @@ function TabBar({ state, navigation }: any) {
         {
           backgroundColor: tokens.colors.bgCard,
           borderTopColor: tokens.colors.border,
-          paddingBottom: insets.bottom + 20,
+          // Just the home-indicator space (34pt on Face ID iPhones), not that
+          // plus 20, which left a visible gap under the labels. The floor matters:
+          // on an iPhone SE and in the iPad compatibility window App Review
+          // uses, insets.bottom is 0 and the labels would sit on the edge.
+          paddingBottom: Math.max(insets.bottom, 12),
         },
       ]}
     >

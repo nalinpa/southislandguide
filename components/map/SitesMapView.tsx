@@ -1,0 +1,277 @@
+// components/map/SitesMapView.tsx
+import React, {
+  useRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
+import { StyleSheet, View, Text, LayoutChangeEvent, Platform } from "react-native";
+import ClusterMapView from "react-native-map-clustering";
+import MapView, { Marker, Region, MapType } from "react-native-maps";
+
+import { SiteMarker } from "@/components/map/SiteMarker";
+import { tokens } from "@/lib/ui/tokens";
+import type { SiteCategory } from "@/lib/models";
+export { initialRegionFrom } from "./MapRegion";
+import { COVERAGE_BOUNDS } from "./MapRegion";
+
+const DEFAULT_MAP_BOUNDS = {
+  northEast: { latitude: COVERAGE_BOUNDS.maxLat, longitude: COVERAGE_BOUNDS.maxLng },
+  southWest: { latitude: COVERAGE_BOUNDS.minLat, longitude: COVERAGE_BOUNDS.minLng },
+};
+
+export type SiteMapPoint = {
+  id: string;
+  name?: string;
+  lat: number;
+  lng: number;
+  category?: SiteCategory;
+  completed?: boolean;
+};
+
+export type SitesMapViewHandle = {
+  recenter: (lat: number, lng: number) => void;
+  focusOn: (lat: number, lng: number) => void;
+};
+
+// react-native-maps rasterizes a non-tracked marker's children into a bitmap
+// once, at mount. If that happens before the SVG icon has finished its first
+// paint, the marker freezes on a blank/default look until re-selected. Keep
+// tracksViewChanges on until onLayout fires (native layout committed) plus
+// one further paint cycle (double rAF), so the marker always gets a real
+// paint before freezing -- regardless of device speed or how fast clusters
+// remount during a pinch-zoom, since each mount settles on its own paint
+// rather than racing a fixed wall-clock timer.
+function useSettleOnPaint() {
+  const [settled, setSettled] = useState(false);
+  const onLayout = useCallback((_e: LayoutChangeEvent) => {
+    requestAnimationFrame(() => requestAnimationFrame(() => setSettled(true)));
+  }, []);
+  return { settled, onLayout };
+}
+
+function SiteMapMarker({
+  loc,
+  coordinate,
+  selected,
+  onPress,
+}: {
+  loc: SiteMapPoint;
+  // react-native-map-clustering's isMarker() reads props.coordinate straight
+  // off this component's element (not the <Marker> it renders internally),
+  // to decide whether to feed it into clustering -- must be passed through
+  // at the call site or every marker silently skips clustering entirely.
+  coordinate: { latitude: number; longitude: number };
+  selected: boolean;
+  onPress: () => void;
+}) {
+  const { settled, onLayout } = useSettleOnPaint();
+
+  return (
+    <Marker
+      coordinate={coordinate}
+      onPress={onPress}
+      tracksViewChanges={selected || !settled}
+      anchor={{ x: 0.5, y: 0.5 }}
+      zIndex={selected ? 2 : 1}
+    >
+      <View onLayout={onLayout}>
+        <SiteMarker selected={selected} completed={loc.completed} category={loc.category} />
+      </View>
+    </Marker>
+  );
+}
+
+// Clusters are destroyed and recreated on every re-cluster (e.g. each zoom
+// level change), so they hit the same freeze-before-first-paint issue as
+// individual markers, just more often. Same settle-on-paint fix.
+function SiteClusterMarker({
+  coordinate,
+  count,
+  onPress,
+}: {
+  coordinate: { latitude: number; longitude: number };
+  count: number;
+  onPress: () => void;
+}) {
+  const { settled, onLayout } = useSettleOnPaint();
+
+  return (
+    <Marker coordinate={coordinate} onPress={onPress} anchor={{ x: 0.5, y: 0.5 }} tracksViewChanges={!settled}>
+      <View style={styles.cluster} onLayout={onLayout}>
+        <Text style={styles.clusterText}>{count}</Text>
+      </View>
+    </Marker>
+  );
+}
+
+const SitesMapViewInner = forwardRef<
+  SitesMapViewHandle,
+  {
+    sites: SiteMapPoint[];
+    initialRegion: Region;
+    selectedSiteId: string | null;
+    mapType: MapType;
+    onPressSite: (id: string) => void;
+  }
+>(function SitesMapView(
+  { sites, initialRegion, selectedSiteId, mapType, onPressSite },
+  ref,
+) {
+  const mapRef = useRef<MapView>(null);
+  const currentRegionRef = useRef<Region | null>(null);
+  const focusedSiteIdRef = useRef<string | null>(null);
+
+  useImperativeHandle(ref, () => ({
+    recenter: (lat, lng) => {
+      mapRef.current?.animateToRegion(
+        { latitude: lat, longitude: lng, latitudeDelta: 0.03, longitudeDelta: 0.03 },
+        400,
+      );
+    },
+    focusOn: (lat, lng) => {
+      mapRef.current?.animateToRegion(
+        { latitude: lat, longitude: lng, latitudeDelta: 0.008, longitudeDelta: 0.008 },
+        400,
+      );
+    },
+  }));
+
+  useEffect(() => {
+    if (!selectedSiteId || !mapRef.current) return;
+    // Only auto-focus on an actual new selection — re-running this because `sites`
+    // refetched (e.g. cache refresh on focus) must not fight the user's manual zoom.
+    if (focusedSiteIdRef.current === selectedSiteId) return;
+    focusedSiteIdRef.current = selectedSiteId;
+
+    const siteData = sites.find((loc) => loc.id === selectedSiteId);
+    if (!siteData) return;
+
+    const current = currentRegionRef.current;
+    if (current) {
+      const { latitude, longitude, latitudeDelta, longitudeDelta } = current;
+      const inBounds =
+        Math.abs(siteData.lat - latitude) < latitudeDelta / 2 &&
+        Math.abs(siteData.lng - longitude) < longitudeDelta / 2;
+      if (inBounds && latitudeDelta <= 0.003) return;
+
+      mapRef.current.animateToRegion(
+        {
+          latitude: siteData.lat,
+          longitude: siteData.lng,
+          latitudeDelta: Math.min(latitudeDelta, 0.004),
+          longitudeDelta: Math.min(longitudeDelta, 0.004),
+        },
+        400,
+      );
+    } else {
+      mapRef.current.animateToRegion(
+        {
+          latitude: siteData.lat,
+          longitude: siteData.lng,
+          latitudeDelta: 0.008,
+          longitudeDelta: 0.008,
+        },
+        500,
+      );
+    }
+  }, [selectedSiteId, sites]);
+
+  const handleMapReady = useCallback(() => {
+    if (mapRef.current) {
+      mapRef.current.setMapBoundaries(
+        DEFAULT_MAP_BOUNDS.northEast,
+        DEFAULT_MAP_BOUNDS.southWest,
+      );
+    }
+  }, []);
+
+  const renderedMarkers = useMemo(() => {
+    return sites.map((loc) => {
+      const selected = selectedSiteId === loc.id;
+      return (
+        <SiteMapMarker
+          key={loc.id}
+          loc={loc}
+          coordinate={{ latitude: loc.lat, longitude: loc.lng }}
+          selected={selected}
+          onPress={() => onPressSite(loc.id)}
+        />
+      );
+    });
+  }, [sites, selectedSiteId, onPressSite]);
+
+  return (
+    <ClusterMapView
+      ref={mapRef}
+      style={styles.flex1}
+      initialRegion={initialRegion}
+      mapType={mapType}
+      showsUserLocation
+      showsMyLocationButton={false}
+      toolbarEnabled={false}
+      onMapReady={handleMapReady}
+      onRegionChangeComplete={(region: Region) => {
+        currentRegionRef.current = region;
+      }}
+      // iOS: minZoomLevel/maxZoomLevel run react-native-maps' legacy zoom clamp, which
+      // re-sets the region inside regionDidChange. When MapKit jumps instead of animating
+      // (map not rendering yet, e.g. tab returning from background) that recurses until
+      // a stack overflow (Sentry, build 10). cameraZoomRange uses MapKit's own limits.
+      // ponytail: distances are camera metres, roughly zoom 10 / zoom 19 — tune on device.
+      {...Platform.select({
+        ios: { cameraZoomRange: { minCenterCoordinateDistance: 100, maxCenterCoordinateDistance: 60_000 } },
+        default: { minZoomLevel: 10, maxZoomLevel: 20 },
+      })}
+      moveOnMarkerPress={false}
+      showsTraffic={false}
+      showsBuildings={false}
+      showsPointsOfInterests={false}
+      pointsOfInterestFilter={[]}
+      renderCluster={(cluster: any) => {
+        const { id, geometry, onPress, properties } = cluster;
+        const { point_count } = properties;
+        const [lng, lat] = geometry.coordinates;
+        return (
+          <SiteClusterMarker
+            key={`cluster-${id}`}
+            coordinate={{ latitude: lat, longitude: lng }}
+            count={point_count}
+            onPress={onPress}
+          />
+        );
+      }}
+    >
+      {renderedMarkers}
+    </ClusterMapView>
+  );
+});
+
+export const SitesMapView = React.memo(SitesMapViewInner);
+
+const styles = StyleSheet.create({
+  flex1: { flex: 1 },
+  cluster: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: tokens.colors.accent,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: "#FFFFFF",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.22,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  clusterText: {
+    color: "#FFFFFF",
+    fontSize: 13,
+    fontWeight: "700",
+  },
+});

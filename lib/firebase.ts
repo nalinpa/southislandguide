@@ -1,4 +1,5 @@
 import { initializeApp, getApps } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 // @ts-ignore getReactNativePersistence is only declared in firebase's RN-conditioned types (open upstream gap)
 import { getAuth, getReactNativePersistence, initializeAuth } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -25,3 +26,5 @@ try {
 }
 
 export const auth = authInstance;
+
+export const db = getFirestore(app);

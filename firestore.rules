@@ -1,0 +1,72 @@
+rules_version = '2';
+
+// southislandguide. Replaces the default production-mode rules (deny-all),
+// which made every api route that reads under the caller's own token 403 —
+// surfacing in the app as a 500 from GET /v1/southislandguide/itineraries.
+//
+// Most writes in normal app operation go through enginev1/api's
+// admin-authenticated backend, which bypasses these rules entirely. The app
+// itself only ever writes directly to users/{uid} (useSavedSites.ts). So
+// client write access is deny-by-default except that one path, and read
+// access matches what enginev1/api actually relies on running under the
+// caller's token (itineraries.ts, reviews.ts) or the app's API key.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    match /itineraries/{itineraryId} {
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow write: if false;
+    }
+
+    // DIFFERENT FROM rotorua-guide, deliberately. rotorua-guide denies all
+    // client reads of its locations collection, because its api reads them
+    // with a service account and strips premium content per caller. This app
+    // has no commerce: the registry doc has no storefront.appleAppStore, so
+    // useServiceAccount() is false and enginev1/api reads locations via the
+    // public API-key path (lib/firestore.ts listDocuments) — which IS subject
+    // to these rules. Denying reads here breaks the site list and detail
+    // screens with a 500.
+    //
+    // Revisit when commerce is switched on: set storefront.appleAppStore,
+    // add the api service-account case, deploy that, and only THEN flip this
+    // to deny — in that order, or the api 403s on its own reads.
+    match /locations/{locationId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /siteReviews/{reviewId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Moderation. Unlike every other write, enginev1/api writes these two
+    // under the *caller's* own id token (routes/moderation.ts), so they need
+    // explicit rules — without them both silently 403 and no report or block
+    // ever reaches Firestore. Reports are write-only for users: triage happens
+    // over Telegram and the admin SDK, which bypasses these rules.
+    match /reports/{reportId} {
+      allow create: if request.auth != null
+                    && request.resource.data.reportedByUid == request.auth.uid;
+      allow read, update, delete: if false;
+    }
+
+    // GET /blocks queries blocks where blockedByUid == caller, which satisfies
+    // this read rule; a broader query is rejected, as it should be.
+    match /blocks/{blockId} {
+      allow read: if request.auth != null
+                  && resource.data.blockedByUid == request.auth.uid;
+      allow create: if request.auth != null
+                    && request.resource.data.blockedByUid == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "indexes": [
+    {
+      "//": "GET /v1/:appId/itineraries — the app's trip list (routes/itineraries.ts:22). Equality on userId + orderBy updatedAt needs a composite index; without it Firestore returns 400 FAILED_PRECONDITION, which the api surfaces as a bare 500.",
+      "collectionGroup": "itineraries",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "updatedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "//": "GET /v1/:appId/admin/itineraries?userId= — the admin panel's list (routes/admin.ts:151). Same shape, different sort field.",
+      "collectionGroup": "itineraries",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "//": "GET /v1/:appId/reviews?locationId= — public reviews for a site (routes/reviews.ts:64). locIdFieldFor() resolves to locationId because completion is disabled.",
+      "collectionGroup": "siteReviews",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "locationId", "order": "ASCENDING" },
+        { "fieldPath": "reviewCreatedAt", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

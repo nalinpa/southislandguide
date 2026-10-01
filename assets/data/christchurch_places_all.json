@@ -1,0 +1,894 @@
+[
+  {
+    "name": "Little High Eatery",
+    "slug": "little-high-eatery",
+    "lat": -43.535783,
+    "lng": 172.64093,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.littlehigh.co.nz/",
+    "description": "Eleven family-run kitchens under one roof on St Asaph Street. Thai, Sri Lankan, Chinese and Latin American sit alongside burgers, wood-fired pizza, sushi and dessert, so a group that can't agree on dinner can each order from a different counter and meet back at the shared tables.\n\nThere is a bar serving drinks to have on site, with 20 percent off selected drinks from 4pm to 6pm. Outside food and drink isn't allowed.\nLocal tip: The street parking nearby is metered and enforced, so pay even if someone stays in the car, or park a few blocks away and walk.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 11am to 10pm; closed 25 Dec and 1 Jan",
+    "premium": true
+  },
+  {
+    "name": "C1 Espresso",
+    "slug": "c1-espresso",
+    "lat": -43.535122,
+    "lng": 172.640536,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.c1espresso.co.nz/",
+    "description": "A café in the old High Street post office on the corner of High and Tuam Streets, famous for the pneumatic tubes that fire burgers and fries straight to your table. It makes its own juices and cold drip coffee, serves breakfast until 3pm, and keeps the lunch menu going into the evening on weekdays.\n\nInside it is all jukebox and industrial fittings, and weekends get busy. Groups of six or fewer don't need to book.\nLocal tip: The tubes only deliver food from the lunch menu, called Pneumatics, so order from that one if you want to see them in action.",
+    "recommendedDurationSlots": 2,
+    "featured": 5,
+    "hoursNote": "Open daily; 7am to 9pm weekdays, 7am to 5pm weekends; breakfast menu to 3pm",
+    "premium": true
+  },
+  {
+    "name": "Grizzly Baked Goods (The Welder)",
+    "slug": "grizzly-baked-goods-the-welder",
+    "lat": -43.537025,
+    "lng": 172.637794,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://grizzlybakedgoods.com/",
+    "description": "A sourdough bakery counter at The Welder on Welles Street, selling loaves, croissants, bagels and pastries. There is no brunch menu here. What is in the cabinet is what you get. Grizzly is a small local outfit with other shops in Sydenham and on Cashel Street, plus a stall at the Saturday farmers' market.\n\nThe croissant gets the loudest praise, and the coffee holds its own.\nLocal tip: Order at the counter, then carry your bag into The Welder's plant-filled courtyard rather than eating on the footpath.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 7am to 3pm; Sat and Sun 8.30am to 2.30pm",
+    "premium": true
+  },
+  {
+    "name": "Blue Moon Bakehouse",
+    "slug": "blue-moon-bakehouse",
+    "lat": -43.529185,
+    "lng": 172.603896,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.bluemoonbakehouse.co.nz/",
+    "description": "A pastel-painted bakery and matcha café at 70 Riccarton Road, baking croissants through the day. The cabinet also carries filled croissants, donuts, cookies and cakes, there is a full matcha drinks list, and a small Asian grocery corner sits at the back.\n\nThe Reuben croissant, the matcha croissant and anything with pistachio butter are the orders regulars name.\nLocal tip: It stays open until 7pm every day, public holidays included, so it works for an evening sweet treat as well as a morning coffee. The only day it closes is Christmas Day.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 7.30am to 7pm; Sat and Sun 8.30am to 7pm; closed 25 Dec only",
+    "premium": true
+  },
+  {
+    "name": "Christchurch Farmers' Market",
+    "slug": "christchurch-farmers-market",
+    "lat": -43.526322,
+    "lng": 172.599172,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.christchurchfarmersmarket.co.nz/",
+    "description": "A Saturday morning market in the grounds of Riccarton House and Bush, running since 2004 with around 50 Canterbury producers. Fresh produce, bread, cheese, meat, coffee and baking fill the stalls, and there is plenty of hot food to eat on the grass by the Avon under the old trees.\n\nThe 1856 homestead and the native bush are right beside you, and there is live music most weeks.\nLocal tip: Parking close by is limited, so arrive early or leave the car near Riccarton Mall and walk about five minutes.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Saturdays only, 9am to 12pm",
+    "premium": true
+  },
+  {
+    "name": "Fire and Slice",
+    "slug": "fire-and-slice",
+    "lat": -43.568795,
+    "lng": 172.759248,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.fireandslice.co.nz/",
+    "description": "A wood-fired pizzeria at 7 Wakefield Avenue in Sumner, using hand-stretched dough and locally sourced toppings. The oven is built into a vehicle, and a pizza bar lets you watch the bases go in and out.\n\nService is fast, and pizzas often land in under ten minutes.\nLocal tip: There is only one size, 12 inches, and one pizza is about right for two light eaters, so order with that in mind.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 11.30am to 8pm",
+    "premium": true
+  },
+  {
+    "name": "Lyttelton Farmers Market",
+    "slug": "lyttelton-farmers-market",
+    "lat": -43.602776,
+    "lng": 172.721568,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.projectlyttelton.org/project/market",
+    "description": "A Saturday market on London Street with 35 to 50 stalls of fruit, vegetables, free-range eggs, bread, meat, fish and cheese, plus coffee and brunch to eat while you wander. Many stallholders come from Lyttelton itself or from within 20km of it.\n\nLive music runs every week through 2026, and dogs on a lead are welcome.\nLocal tip: Parking around London Street gets tight on busy Saturdays, so the bus is the easier option. The stallholder list goes out in a newsletter every Friday afternoon.",
+    "recommendedDurationSlots": 3,
+    "featured": 7,
+    "hoursNote": "Saturdays only, 10am to 1pm",
+    "premium": true
+  },
+  {
+    "name": "Bower Fish Supply",
+    "slug": "bower-fish-supply",
+    "lat": -43.503235,
+    "lng": 172.709812,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "description": "A classic fish and chip shop at 14 Bower Avenue, close to New Brighton and North Beach. It is known for hand-cut chips and crumbed Akaroa cod that doesn't come out greasy, and it also does burgers, onion rings and potato fritters.\n\nLocals rate it for being the same every time. It is takeaway only, with no tables.\nLocal tip: In summer, eat on the beach in front of the surf life saving club. In winter, eat in the car with a view of the pier.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Sun and Mon 4.30pm to 8pm; Tue to Sat 11.30am to 1.30pm and 4.30pm to 8pm",
+    "premium": true
+  },
+  {
+    "name": "Christchurch Botanic Gardens",
+    "slug": "christchurch-botanic-gardens",
+    "lat": -43.530699,
+    "lng": 172.623221,
+    "category": [
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "Free public gardens inside a loop of the Avon, next to Hagley Park and the Arts Centre. The rose garden, a stand of giant sequoias, the tree ferns and the rhododendrons are the highlights, and there is a visitor centre with a café and a children's play area.\n\nMost people spend 90 minutes or more wandering, and the lawns are made for a picnic. The punts leave from the boat sheds beside the gardens.\nLocal tip: The 50 minute guided tour ($30) is worth it if you want the seasonal highlights explained. Autumn and rose season are the most colourful times to go.",
+    "recommendedDurationSlots": 4,
+    "featured": 1,
+    "hoursNote": "Open daily; Google lists 7am to 8.30pm but hours shift with the season; the café inside keeps shorter hours (about 9am to 5pm)",
+    "premium": true
+  },
+  {
+    "name": "Canterbury Museum Pop-Up",
+    "slug": "canterbury-museum-pop-up",
+    "lat": -43.529981,
+    "lng": 172.632035,
+    "category": [
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.canterburymuseum.com/",
+    "description": "The main museum building on Rolleston Avenue is closed for redevelopment, so a pop-up at 66 Gloucester Street shows collection highlights and changing exhibitions in the meantime. Expect a small, free display. Recent visitors found a dinosaur exhibition, hands-on microscopes and bug drawers that kids love.\n\nIt is a stop of 30 minutes to an hour, not a half-day museum.\nLocal tip: Check the What's On page before you go, since exhibitions change, and pair it with the Botanic Gardens a few minutes' walk away.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Google lists daily 9am to 5pm; main Rolleston Avenue building closed for redevelopment",
+    "premium": true
+  },
+  {
+    "name": "Christchurch Gondola",
+    "slug": "christchurch-gondola",
+    "lat": -43.58494,
+    "lng": 172.707512,
+    "category": [
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.christchurchattractions.nz/christchurch-gondola/",
+    "description": "A gondola from Heathcote Valley to the crest of the Port Hills, with views over the city, Lyttelton Harbour and, on a clear day, the Southern Alps. At the top there is a café, a gift shop, the Discovery ride and walking tracks, including one out to an old fort. An adult ticket is $45.\n\nMost people make a half day of it with the ride, the lookout and a short walk.\nLocal tip: A shuttle runs out from the city, and the Tram and Gondola combo ($82) saves money if you plan to do both.",
+    "recommendedDurationSlots": 4,
+    "featured": 3,
+    "hoursNote": "Mon to Sat 10am to 5pm; Sun 10am to 4pm",
+    "premium": true
+  },
+  {
+    "name": "Christchurch Tram",
+    "slug": "christchurch-tram",
+    "lat": -43.530449,
+    "lng": 172.638824,
+    "category": [
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.christchurchattractions.nz/christchurch-tram/",
+    "description": "A heritage tram loop through the central city, with the driver giving live commentary as you go. The $42 all-day pass lets you hop on and off at the main landmarks, and trams come roughly every 15 minutes. The operator is based at Cathedral Junction on Worcester Street.\n\nEvery driver tells the story differently, so no two rides are quite the same.\nLocal tip: Ride one full circuit first, which takes about 50 minutes, then pick your stops for the rest of the day.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Google lists Mon to Sat 8.30am to 6.30pm, Sun 9am to 5pm; trams about every 15 minutes",
+    "premium": true
+  },
+  {
+    "name": "International Antarctic Centre",
+    "slug": "international-antarctic-centre",
+    "lat": -43.488843,
+    "lng": 172.546535,
+    "category": [
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.iceberg.co.nz/",
+    "description": "An Antarctic attraction at 38 Orchard Road beside Christchurch Airport. The storm room drops below freezing with wind and noise, a Hägglund vehicle bounces you over rough terrain, and there is a 4D theatre, a gallery and a rescue centre for little blue penguins. Two hour guided tours start from $99 a person.\n\nThe storm and the Hägglund ride are the favourites, and it is a strong pick for families on a wet day.\nLocal tip: The Hägglund has a minimum height and small children can be turned away, so check before you promise it to them.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Open daily 9am to 4.30pm",
+    "premium": true
+  },
+  {
+    "name": "Air Force Museum of New Zealand",
+    "slug": "air-force-museum-of-new-zealand",
+    "lat": -43.546499,
+    "lng": 172.547635,
+    "category": [
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://airforcemuseum.co.nz/",
+    "description": "The national collection of the Royal New Zealand Air Force at Wigram, with historic aircraft, exhibitions, a Mosquito flight simulator and a café. Entry is free for New Zealanders and anyone living here. International visitors aged 18 and over pay $15, and under 18s are free.\n\nGuided tours run daily at 11am, 1.30pm and 3pm for $5, with no need to book. Allow two to three hours, or about an hour for the highlights.\nLocal tip: Parking is free right at the door. Food and drink can't go into the galleries, so eat at the café.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open daily 9.30am to 4.30pm except 25 Dec; tours at 11am, 1.30pm and 3pm",
+    "premium": true
+  },
+  {
+    "name": "Ferrymead Heritage Park",
+    "slug": "ferrymead-heritage-park",
+    "lat": -43.567499,
+    "lng": 172.702384,
+    "category": [
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.ferrymead.org.nz/",
+    "description": "A living history park built around an Edwardian township of restored cottages, a school, a church and period shops, plus trams, a steam railway, fire engines and printing displays. Volunteer societies run the exhibits. Adults are $20, children 5 to 15 are $15, and under 5s are free.\n\nTram rides ($5) and train rides ($8) cost extra and only run on some days.\nLocal tip: It opens Thursday to Sunday outside school holidays. If there is one display you really want to see, contact that society first to check volunteers will be on.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Thu to Sun 10am to 4.30pm, daily in school holidays; closed 25 Dec and 1 Jan; trams and trains not every day",
+    "premium": true
+  },
+  {
+    "name": "Punting on the Avon",
+    "slug": "punting-on-the-avon",
+    "lat": -43.533943,
+    "lng": 172.628066,
+    "category": [
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.christchurchattractions.nz/punting/",
+    "description": "A punt ride along the Avon through the Botanic Gardens, leaving from the Antigua Boat Sheds at 2 Cambridge Terrace. Your punter poles the boat and talks about the river, the boat sheds and the gardens as you go. An adult ticket is $45, and blankets come out on cooler days.\n\nIt is slow and quiet, with birdlife along the banks.\nLocal tip: At busy times expect around a 15 minute wait for a boat, so book online or turn up early in the day.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 9am to 5pm",
+    "premium": true
+  },
+  {
+    "name": "Riccarton House and Bush",
+    "slug": "riccarton-house-and-bush",
+    "lat": -43.526562,
+    "lng": 172.597356,
+    "category": [
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "The 1856 homestead of the Deans family, among Canterbury's first European settlers, with gardens and a protected patch of native bush called Putaringamotu behind it. A short, pram-friendly boardwalk loops through the bush, and Deans Cottage sits near the house.\n\nThe grounds are free to walk and host the Saturday farmers' market. There is also a restaurant, Local at Riccarton House, on site.\nLocal tip: Combine it with the farmers' market on a Saturday morning, and go early since parking is limited.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Grounds open daily, Google lists 6am to 7pm; house tour times not confirmed",
+    "premium": true
+  },
+  {
+    "name": "Mona Vale",
+    "slug": "mona-vale",
+    "lat": -43.523361,
+    "lng": 172.608204,
+    "category": [
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A Victorian-style garden estate on the Avon at 40 Mona Vale Avenue, with a rose garden, a fernery, a lily pond, streams and willows around a historic homestead. There are tea rooms, and dogs on a lead are welcome.\n\nIt is quieter than the Botanic Gardens, and autumn colour brings the biggest crowds.\nLocal tip: Go before about 3pm. Recent visitors found the tea rooms and fernery closed later in the afternoon.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Grounds open daily, Google lists 7am to 5.30pm; fernery and tea rooms keep shorter hours",
+    "premium": true
+  },
+  {
+    "name": "Avon River Walk",
+    "slug": "avon-river-walk",
+    "lat": -43.533903,
+    "lng": 172.627978,
+    "category": [
+      "Walks",
+      "Culture"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A flat riverside stroll through the rebuilt central city. Start at the Antigua Boat Sheds by the Botanic Gardens and follow the Avon east past the Bridge of Remembrance, the Earthquake National Memorial, Victoria Square and the Margaret Mahy Playground. The council's self-guided riverside walks along this stretch take about 45 minutes each.\n\nIt is sealed path the whole way, easy for prams and wheelchairs, and you can turn back at any bridge. The Terrace and Riverside Market sit right on the route if you want food.\nLocal tip: Start at the boat sheds and finish with a drink by the water at The Terrace, or walk it in reverse and end with a punt through the Botanic Gardens.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time; sealed, flat and accessible; the Botanic Gardens end is busiest on sunny weekends",
+    "premium": true
+  },
+  {
+    "name": "Hagley Park Loop",
+    "slug": "hagley-park-loop",
+    "lat": -43.525912,
+    "lng": 172.620629,
+    "category": [
+      "Walks"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A loop of about 7km around Hagley Park, the big inner-city park wrapped around the Botanic Gardens. The full circuit takes about two hours, but it is easy to walk a shorter piece. It is flat, mostly on wide paths under old trees, and the Avon runs along part of it.\n\nThe paths are shared with runners and cyclists, so keep left. Spring is the best time, when the daffodils and cherry blossom are out.\nLocal tip: Pair half a loop of North Hagley with the Botanic Gardens. You get the best of both in about an hour and skip the busier Deans Avenue edge.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open 24 hours; flat and pram friendly; paths shared with cyclists",
+    "premium": true
+  },
+  {
+    "name": "Bridle Path",
+    "slug": "bridle-path",
+    "lat": -43.585222,
+    "lng": 172.707285,
+    "category": [
+      "Walks"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "The route the first settlers took over the Port Hills in 1850, from Heathcote Valley to Lyttelton, starting from the car park at the base of the gondola. It climbs about 300m to the Summit Road and the Pioneer Women's Memorial, then drops down into Lyttelton. It is around 3km each way and a steep, solid climb, so allow 90 minutes to two hours for the crossing.\n\nThe views open up over the city, the Southern Alps and Lyttelton Harbour as you climb. There is a marked rockfall zone where you should keep moving, and storm damage has left some sections rough and slippery.\nLocal tip: Walk over to Lyttelton, have lunch there, and catch the number 28 bus back through the tunnel to the car park rather than climbing back up.",
+    "recommendedDurationSlots": 4,
+    "featured": 6,
+    "hoursNote": "Open any time; steep and exposed with little shade; rockfall zone, do not linger; rough sections after storm damage",
+    "premium": true
+  },
+  {
+    "name": "Rāpaki Track",
+    "slug": "rapaki-track",
+    "lat": -43.568147,
+    "lng": 172.664287,
+    "category": [
+      "Walks"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "The most popular track on the Port Hills, a wide gravel farm road climbing steadily from Rāpaki Road in Huntsbury to the Summit Road. It is about 7km return and takes around two hours, with a long steady climb and a few steep pinches but nothing technical.\n\nAt the top you look straight down onto Lyttelton Harbour on one side and across the whole city on the other. Mountain bikers use it coming downhill, and occasionally a motorbike.\nLocal tip: Park on Centaurus Road or Vernon Terrace rather than in the cul-de-sac at the start, and keep an ear out for bikes on the way down.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open any time; exposed with no shade; shared with downhill mountain bikes",
+    "premium": true
+  },
+  {
+    "name": "Harry Ell Walkway (Victoria Park)",
+    "slug": "harry-ell-walkway-victoria-park",
+    "lat": -43.590081,
+    "lng": 172.643837,
+    "category": [
+      "Walks"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A gently graded walk from Victoria Park on the Port Hills up toward the Sign of the Kiwi on the Summit Road. It is about 4km and takes around two hours at an easy pace, with a gradual climb and more tree shade than most Port Hills tracks.\n\nThe views stretch over the city and across the plains to the Southern Alps, and it is manageable for families. One parent timed an eight-year-old at 48 minutes to the top. The track network in the park has several junctions and some of the signs are unclear.\nLocal tip: Take a photo of the map board at Victoria Park before you set off, and finish with an ice cream from the café at the Sign of the Kiwi.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Victoria Park listed as open 7.30am to 7pm; small car park across the road; can be very windy on the tops",
+    "premium": true
+  },
+  {
+    "name": "Awaroa/Godley Head Loop",
+    "slug": "awaroa-godley-head-loop",
+    "lat": -43.58488,
+    "lng": 172.774618,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "The classic Christchurch coastal walk, a loop from Taylors Mistake out along the clifftops to Godley Head at the mouth of Lyttelton Harbour, and back via Boulder Bay and Breeze Col. It is about 7km and three hours, rated easy to intermediate by DOC, on gravel track with steady ups and downs.\n\nAt the head you can explore World War 2 gun emplacements and bunkers, and you may spot fur seals on the rocks below. The cliffs are unfenced with drops of up to 120m, and there are marked rockfall areas where you shouldn't stop.\nLocal tip: Head out on the Pilgrims Way coastal track and come back via Breeze Bay, which is how most people walk it, and leave time for a swim at Taylors Mistake at the end. Dogs must stay on a lead the whole way.",
+    "recommendedDurationSlots": 6,
+    "featured": 4,
+    "hoursNote": "Track open any time; Godley Head car park open 8am to 8pm; no mountain bikes; dogs on lead; toilets and water at both car parks",
+    "premium": true
+  },
+  {
+    "name": "Taylors Mistake Track",
+    "slug": "taylors-mistake-track",
+    "lat": -43.571746,
+    "lng": 172.774205,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A short coastal track linking Scarborough, above Sumner, with Taylors Mistake beach. It is 2.1km and about an hour one way, zig-zagging along the cliffs with a bush section in the middle. It is moderate, with some steep bits, and not suitable for buggies.\n\nThe views back over Sumner Beach and out to sea last the whole way. The bush section stays damp and can be slippery.\nLocal tip: Start at Nicholson Park, which has parking and toilets. If you have the legs, carry on from Taylors Mistake into the Godley Head loop for a full day on the coast.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open any time; steep cliff edges, slippery bush section; dogs on lead; not for wheelchairs or buggies",
+    "premium": true
+  },
+  {
+    "name": "Ōtamahua/Quail Island Loop",
+    "slug": "otamahua-quail-island-loop",
+    "lat": -43.627857,
+    "lng": 172.693026,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "description": "A ferry ride from Lyttelton to an island in the middle of the harbour, with an easy 4.5km loop track that takes about two and a half hours. The track passes the old quarantine barracks, a former leper colony site and a ship graveyard of wrecked hulks on the shore, with short side tracks to beaches and the summit.\n\nThe walk is free, but the Black Cat ferry is $45 return for adults. There are toilets on the island but no shops, and water must be boiled, so bring everything you need. Dogs aren't allowed.\nLocal tip: See the shipwrecks at low tide and swim at high tide, and don't miss the afternoon ferry back. There is no other way off the island.",
+    "recommendedDurationSlots": 10,
+    "hoursNote": "Ferry from B Jetty, Lyttelton: currently Thu to Sun only (temporary), out 10.15am, back about 3.30pm, extra 12.15pm sailing Dec to Mar; no dogs; high fire danger in summer",
+    "premium": true
+  },
+  {
+    "name": "Christchurch Art Gallery Te Puna o Waiwhetū",
+    "slug": "christchurch-art-gallery",
+    "lat": -43.53075,
+    "lng": 172.631036,
+    "category": [
+      "Culture"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "website": "https://christchurchartgallery.org.nz/",
+    "description": "The city's public art gallery, in the glass building on the corner of Worcester Boulevard and Montreal Street, holding one of the most significant public collections in the country. Entry is free. Current shows include Kā Whakatauraki: The Promises, a major exhibition of Māori art running until March 2027, and a selection of treasures from the historical collection.\n\nThere is a café, a good gift shop and a toddler play area, which makes it an easy rainy-day option. Bags have to be checked in, and tripods, selfie sticks and flash aren't allowed.\nLocal tip: Go on a Wednesday evening, when it stays open until 9pm and is much quieter than a weekend afternoon.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open daily 10am to 5pm; Wednesday until 9pm; free entry",
+    "premium": true
+  },
+  {
+    "name": "The Arts Centre Te Matatiki Toi Ora",
+    "slug": "the-arts-centre",
+    "lat": -43.531159,
+    "lng": 172.627957,
+    "category": [
+      "Culture"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.artscentre.org.nz/",
+    "description": "The Gothic Revival stone buildings of the old Canterbury College on Worcester Boulevard, restored after the earthquakes and now full of galleries, studios, local shops, a cinema and cafés. Rutherford's Den, the science space about Ernest Rutherford, is here too. Wandering the quads is free, though some tenants charge.\n\nIt sits between the Art Gallery and the Botanic Gardens, with two tram stops right outside, and guided walking tours start on site.\nLocal tip: There is free one hour visitor parking behind the buildings, which is often easier than hunting for a spot on Rolleston Avenue.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open daily 10am to 5pm; free to enter, some galleries and shops charge",
+    "premium": true
+  },
+  {
+    "name": "Quake City",
+    "slug": "quake-city",
+    "lat": -43.528583,
+    "lng": 172.633308,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://quakecity.co.nz/",
+    "description": "Canterbury Museum's exhibition about the 2010 and 2011 earthquakes, at 299 Durham Street North. Eyewitness videos, interactive displays and objects like the spire of the old cathedral tell the story, and explain why the city was hit so hard. Tickets start from $20.\n\nIt is moving rather than grim, and it helps a first-time visitor make sense of the rebuilt city around them. Most people take 45 minutes to an hour.\nLocal tip: Go early in your stay. The empty lots, new buildings and the memorial by the river make far more sense afterwards.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 10am to 5pm; tickets from $20",
+    "premium": true
+  },
+  {
+    "name": "Transitional Cardboard Cathedral",
+    "slug": "transitional-cardboard-cathedral",
+    "lat": -43.53234,
+    "lng": 172.643048,
+    "category": [
+      "Culture"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.cardboardcathedral.org.nz/",
+    "description": "The temporary Anglican cathedral on Hereford Street, designed by Japanese architect Shigeru Ban after the old cathedral in the Square was badly damaged in 2011. Giant cardboard tubes hold up the roof, and the building has become one of the symbols of the rebuild.\n\nIt is a working church and free to visit, with volunteers on hand who are happy to explain how it was built. Donations are welcome.\nLocal tip: Check service times before you go if you want to look around freely, and ask a volunteer about the stained glass triangles at the front.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open daily until about 4pm (Sun about 3pm); services held, so visits may be limited at service times; donations welcome",
+    "premium": true
+  },
+  {
+    "name": "Waka on Avon",
+    "slug": "waka-on-avon",
+    "lat": -43.527507,
+    "lng": 172.63679,
+    "category": [
+      "Culture",
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://wakaonavon.co.nz/",
+    "description": "A guided paddle in a hand-crafted waka on the Ōtākaro Avon River, leaving from 794 Colombo Street opposite Victoria Square. It opens with a mihi, then the guide and skipper share stories of Ngāi Tahu and the river while everyone paddles together, for about an hour on the water.\n\nAdults are $99 and children 5 to 15 are $55, and a trip needs at least four people to run. Reviewers keep singling out the young guides for their knowledge and humour.\nLocal tip: Book ahead and check your booking is confirmed, since trips with fewer than four people can be cancelled.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Summer departures daily at 10.30am and 12.30pm; minimum 4 people; book ahead",
+    "premium": true
+  },
+  {
+    "name": "Central City Street Art",
+    "slug": "central-city-street-art",
+    "lat": -43.531373,
+    "lng": 172.637854,
+    "category": [
+      "Culture",
+      "Walks"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "More than 250 street art pieces across the central city, including over 50 major murals. Start at Narcissa by Jacob Yikes just off Cathedral Square, at 53m the tallest mural in the country, then wander Manchester, Tuam, Armagh and Barbadoes Streets, New Regent Street and the streets around Riverside Market.\n\nIt costs nothing and fits around other sightseeing. Pieces change over time as buildings go up and walls get repainted.\nLocal tip: Open the Street Art Cities map on the ChristchurchNZ street art page on your phone. It pins every mural, so you aren't wandering blind.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Outdoors, any time; best in daylight; murals change as sites are redeveloped",
+    "premium": true
+  },
+  {
+    "name": "Willowbank Wildlife Reserve",
+    "slug": "willowbank-wildlife-reserve",
+    "lat": -43.463526,
+    "lng": 172.594071,
+    "category": [
+      "Nature"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://willowbank.co.nz/",
+    "description": "A wildlife park at 60 Hussey Road in the north of the city, focused on native species. Kiwi, kea, kākā, weka, takahē, tuatara and whio are all here and up close, plus farm animals, eel feeding and a café. Adults are $36.50, children 5 to 15 are $13, and a family pass is $93.\n\nParts of the site look a little tired, but the native birds are the reason to come and most visitors rate them highly. It is on the airport side of town, so it fits well on an arrival or departure day.\nLocal tip: Make the kiwi house your first stop, and give your eyes a couple of minutes to adjust to the dark before deciding there is nothing there.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open daily 9.30am to 5pm; closed 25 Dec; no bird flu restrictions as of July 2026",
+    "premium": true
+  },
+  {
+    "name": "Orana Wildlife Park",
+    "slug": "orana-wildlife-park",
+    "lat": -43.467154,
+    "lng": 172.463099,
+    "category": [
+      "Nature"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.oranawildlifepark.co.nz/",
+    "description": "New Zealand's only open range zoo, on 80 hectares on McLeans Island Road near the airport. Lions, giraffes, gorillas and cheetahs share the park with native birds, and animal feedings and talks run through the day at no extra cost. Adults are $39.50, children 5 to 15 are $12.50, and a family pass is $91.50.\n\nThe park suggests at least two hours, but most people stay three to five. There are barbecue spots, playgrounds and a café, and a shuttle loops the grounds.\nLocal tip: Grab the daily map of feeding times at the gate and plan your loop around the giraffe feeding. Stay until closing, when some animals that hide all day come out.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Open daily 10am to 5pm; last entry 4pm; closed 25 Dec",
+    "premium": true
+  },
+  {
+    "name": "He Puna Taimoana Hot Pools",
+    "slug": "he-puna-taimoana-hot-pools",
+    "lat": -43.505733,
+    "lng": 172.730819,
+    "category": [
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://hepunataimoana.co.nz/",
+    "description": "Hot pools right on New Brighton beach next to the pier, with pools at different temperatures, a steam room, a cold plunge and one pool that looks straight out to sea. Sessions are two hours. Adults are $23 off-peak and $28 peak, children 4 to 15 are $19 to $23, and a family pass is $65 to $79.\n\nIt is clean and modern, with lifeguards and heated changing rooms, and because every session is booked it rarely feels crowded. Adults-only late sessions run on Thursday and Friday evenings.\nLocal tip: Book a weekday session between 10am and 3pm for the off-peak price. When you get too hot, run across the sand for a proper cold plunge in the sea.",
+    "recommendedDurationSlots": 4,
+    "featured": 8,
+    "hoursNote": "Daily 10am to 7.30pm, to 10pm Thu and Fri (adults-only late sessions); 2 hour sessions; bookings essential",
+    "premium": true
+  },
+  {
+    "name": "New Brighton Beach and Pier",
+    "slug": "new-brighton-beach-and-pier",
+    "lat": -43.506583,
+    "lng": 172.732257,
+    "category": [
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A long, open surf beach on the east side of the city, with a 300m concrete pier running straight out to sea from beside the library. Walking to the end and back is the thing to do, watching the surfers, the people fishing and the gulls.\n\nThe sand stretches for kilometres in both directions, and the hot pools, fish and chips and the Saturday market are all a few minutes' walk away. An easterly can make it bleak, so bring a layer even on a sunny day.\nLocal tip: The library at the base of the pier has public toilets and a warm spot to sit and watch the sea if the wind picks up.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Pier open any time; surf lifeguards patrol summer weekends only, roughly mid-November to mid-March; swim between the flags",
+    "premium": true
+  },
+  {
+    "name": "Sumner Beach and Cave Rock",
+    "slug": "sumner-beach-and-cave-rock",
+    "lat": -43.566204,
+    "lng": 172.759828,
+    "category": [
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "One of Christchurch's most popular beaches, a sheltered sandy bay with cafés and restaurants along the Esplanade. The landmark is Cave Rock (Tuawera), a volcanic outcrop on the sand you can walk through at low tide and scramble on top of, with a cross that lights up at night.\n\nIt is the easiest beach to reach from the city and gets busy on sunny weekends. The rock is worn smooth and slippery, so wear shoes with grip if you plan to climb.\nLocal tip: Swim between the flags when Sumner Surf Life Saving Club is on patrol (summer weekends, 11am to 5pm), then walk to Fire and Slice or Beach Sumner for lunch.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; lifeguards patrol Sat and Sun 11am to 5pm from Show Weekend in November to mid-March; Cave Rock walk-through at low tide",
+    "premium": true
+  },
+  {
+    "name": "Taylors Mistake Beach",
+    "slug": "taylors-mistake-beach",
+    "lat": -43.583686,
+    "lng": 172.777127,
+    "category": [
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A small, sandy surf beach in a bay tucked behind the hills beyond Sumner. It feels far more remote than it is, with good surf and fewer people than Sumner or New Brighton. It is also the start of the Godley Head loop and the end of the Taylors Mistake Track.\n\nThe road in is narrow and winding, and there is no public transport, so you'll need a car or your legs. There are toilets and showers at the car park, and a surf life saving club on the beach in summer.\nLocal tip: Pair it with a walk. Do the Taylors Mistake Track from Sumner or the Godley Head loop, then finish with a swim here.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; narrow road, no public transport; toilets and showers at the car park; surf beach, swim near the club when lifeguards are on",
+    "premium": true
+  },
+  {
+    "name": "Corsair Bay",
+    "slug": "corsair-bay",
+    "lat": -43.608003,
+    "lng": 172.697176,
+    "category": [
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A small, sheltered swimming beach just around from Lyttelton, with calm green water that suits families better than the open surf beaches. There is a playground, picnic tables, toilets, changing rooms and an outdoor shower, and a coastal track links it to Cass Bay.\n\nThe beach is a short walk down from the car park, and the sand is full of tiny shells. Parking fills on sunny days. A sewage overflow closed it briefly in January 2026, and the warning was lifted after testing.\nLocal tip: As of September 2026 the usual path down is closed for drainage works, and walkers are using an alternative track from Governors Bay Road, so check the signs when you arrive.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; usual access path closed for drainage works as of Sept 2026; check water quality after heavy rain",
+    "premium": true
+  },
+  {
+    "name": "Naval Point Freedom Camping Area",
+    "slug": "naval-point-freedom-camping",
+    "lat": -43.610508,
+    "lng": 172.705973,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A free, council-signposted freedom camping area on the Lyttelton waterfront at Naval Point, for certified self-contained vehicles only. It is one of just two signposted freedom camping areas in the Christchurch district, with harbour views, toilets, a cold shower and slow free wifi.\n\nThe surroundings are a bit industrial, and Lyttelton's cafés and Saturday market are a walk along the waterfront. Council staff check vehicles most nights, and tents or vehicles without a certified self-containment warrant will be moved on or fined.\nLocal tip: It fills up with campers, so arrive by early evening. For the drive back to the city, take the road over the hill rather than the tunnel for the harbour views.",
+    "hoursNote": "Certified self-contained vehicles only; max 2 nights in any 30 days; fines $200 to $800 for breaches",
+    "premium": true
+  },
+  {
+    "name": "Awaroa/Godley Head Campsite",
+    "slug": "awaroa-godley-head-campsite",
+    "lat": -43.588358,
+    "lng": 172.803994,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/godley-head/things-to-do/godley-head-campsite/",
+    "description": "A DOC campsite on the headland at Godley Head, above the mouth of Lyttelton Harbour, with big sea views and the World War 2 gun emplacements a short walk away. It is $18 a night for adults and $9 for children 5 to 17, open to tents, cars, campervans and caravans, with a caretaker living on site.\n\nFacilities are basic, with toilets and water but no showers or power. It is very exposed and the wind can be fierce, and the road up is sealed but narrow, steep and shared with cyclists and walkers.\nLocal tip: Book online before 8pm on the day you arrive to get the gate code, then walk the Godley Head loop straight from your tent.",
+    "hoursNote": "Bookings required before 8pm on arrival day; locked gate, code sent on booking; no showers or power; dogs on lead; exposed to wind",
+    "premium": true
+  },
+  {
+    "name": "Hotel Give",
+    "slug": "hotel-give",
+    "lat": -43.532332,
+    "lng": 172.627744,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://hotelgive.nz/",
+    "description": "A refurbished budget hotel and hostel on Hereford Street in the old YMCA building, right across the road from the Botanic Gardens and the Arts Centre. Rooms run from dorm beds, from about $29 on booking sites, through private rooms and studios to apartments, and the proceeds fund The Kind Foundation's community programmes.\n\nThere are two shared kitchens, a laundry, a café and luggage storage. Guests praise how clean it is and the location, which puts almost everything in the central city within walking distance.\nLocal tip: Onsite parking costs extra, so if you are driving, check nearby parking before you book, or leave the car and walk.",
+    "hoursNote": "Open 24 hours; dorms, private rooms and apartments; paid onsite parking",
+    "premium": true
+  },
+  {
+    "name": "Garden City Motel",
+    "slug": "garden-city-motel",
+    "lat": -43.481116,
+    "lng": 172.616935,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.gardencitymotel.co.nz/",
+    "description": "A small, family-run motel with 10 units on Main North Road in Redwood, in the northern suburbs. It is older but spacious and spotless, with full kitchens in most units, free parking and wifi. Rates on booking sites start from around $150 a night, at the cheaper end for a Christchurch motel.\n\nIt sits on a bus stop with routes to both the city and the airport, and a supermarket is just down the road. It is also pet friendly, which is rare.\nLocal tip: If you are bringing a dog, call before booking so they can put you in a suitable unit.",
+    "hoursNote": "Reception 8.30am to 8.30pm; free parking; pets by arrangement; 2 wheelchair accessible units",
+    "premium": true
+  },
+  {
+    "name": "315 Motel Riccarton",
+    "slug": "315-motel-riccarton",
+    "lat": -43.53157,
+    "lng": 172.578601,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "description": "A small, modern motel on Riccarton Road in Upper Riccarton, near the university and the Bush Inn shops, and a short drive from Westfield Riccarton and the airport. Guests keep singling out how clean it is and the friendly, helpful owner, and one described it as better appointed than the price suggests.\n\nUnits have kitchenettes, and some have a spa bath.\nLocal tip: It is on the airport side of the city, so it suits the night before an early flight. The Bush Inn shops nearby are the easy option for a cheap dinner.",
+    "hoursNote": "Reception 7.30am to 9pm; rates vary by season, check booking sites",
+    "premium": true
+  },
+  {
+    "name": "Jailhouse Accommodation",
+    "slug": "jailhouse-accommodation",
+    "lat": -43.543432,
+    "lng": 172.614121,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.jail.co.nz/",
+    "description": "A backpackers in the old Addington prison on Lincoln Road, a heritage-listed Gothic Revival building where many of the rooms are actual cells. There are 10-bed mixed dorms and 4-bed female-only dorms, plus singles, twins, doubles and a family room, all with shared bathrooms. A few museum-style displays about the prison add to the fun.\n\nThe kitchen is big and well equipped, parking is free, and the city centre is about a 2km walk, with plenty of places to eat in Addington on the way. Common areas go quiet after 9pm.\nLocal tip: If you are arriving late, check your email or texts for the door PIN codes before you set off. The smart locks mean there may be no one at reception.",
+    "hoursNote": "Check-in 2pm, check-out 10am; late arrivals get PIN codes by email or text; free parking, first come first served; towels $4",
+    "premium": true
+  },
+  {
+    "name": "The Old Countryhouse Backpackers",
+    "slug": "the-old-countryhouse-backpackers",
+    "lat": -43.529616,
+    "lng": 172.656779,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "description": "A relaxed, independent backpackers on Gloucester Street in Linwood, spread across a few old houses with lawns and garden between them. The hot tub and sauna are the big draw on cold evenings. Every bunk has its own light, power points and USB charging, and there are lockers for valuables.\n\nThe kitchen is clean and roomy, there is on-site parking, and a bus stop right across the street takes you into the city. Guests regularly mention the friendly reception team and the resident cat.\nLocal tip: Reception is only staffed from 10am to 3pm, so read the after-hours instructions carefully before you arrive. Some guests have been charged for using the wrong facilities.",
+    "hoursNote": "Reception 10am to 3pm; after-hours check-in by instructions; on-site parking; hot tub and sauna",
+    "premium": true
+  },
+  {
+    "name": "Sign of the Kiwi",
+    "slug": "sign-of-the-kiwi",
+    "lat": -43.606317,
+    "lng": 172.645154,
+    "category": [
+      "Scenic",
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A historic stone roadhouse where Dyers Pass Road meets the Summit Road, now a café, with views back over the whole city and across the plains to the Southern Alps. It is one of the easiest ways to get up high on the Port Hills by car.\n\nThe café does good coffee and brunch, and it is the natural finish for the Harry Ell Walkway from Victoria Park. Tracks also head off along the Crater Rim from here.\nLocal tip: Come on a clear morning, when the Alps are sharpest, and cross the road for the view down into Lyttelton Harbour on the other side.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Lookout any time; café daily 8.30am to 3.30pm; can be windy and cold on the tops",
+    "premium": true
+  },
+  {
+    "name": "John Jameson Lookout (Ōrongomai)",
+    "slug": "john-jameson-lookout",
+    "lat": -43.632196,
+    "lng": 172.625851,
+    "category": [
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A lookout on the Summit Road opposite the Sign of the Bellbird, about 4.5km south of the Sign of the Kiwi, with one of the best views over Lyttelton Harbour. Opened in 2023, it has a stone-walled viewing area in the style of Harry Ell's Summit Road buildings, a carved pou whenua and a panel naming the places around the harbour.\n\nIt is accessible from the car park across the road, which also has a toilet. Cross back over to look west across the city and the plains, and you get both views from one stop.\nLocal tip: Go at sunset or early morning, when it is least windy, and add a short walk along the Crater Rim tracks that run in both directions.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Listed as 7.30am to 7.30pm; exposed and cold in wind; car park and toilet opposite",
+    "premium": true
+  },
+  {
+    "name": "Christchurch Adventure Park",
+    "slug": "christchurch-adventure-park",
+    "lat": -43.591221,
+    "lng": 172.631837,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://christchurchadventurepark.com/",
+    "description": "A mountain bike park on the Port Hills, with a 1.8km chairlift built to carry riders and their bikes, plus ziplines, walking trails and a café and bar. The village and walking trails are free. A sightseeing chairlift ride is $30 for adults and $20 for under 18s, and under 10s ride free with an adult.\n\nBike hire includes downhill and enduro bikes and protective gear. The zipline tour gets rave reviews for its length and views, and walkers can climb the uphill trail and ride the chairlift down for free.\nLocal tip: Hire bikes usually sell out at weekends and on public holidays, so book ahead or arrive at opening. On windy days, check the park status page first, since the lift and ziplines stop in high wind.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Hours vary by season (recently Sat and Sun from 9am, weekdays from 10am or 11am, closing 5pm, 7pm Wed and Thu); lift and ziplines pause in high wind; riders must be over 1m",
+    "premium": true
+  },
+  {
+    "name": "Learn to Surf, Sumner",
+    "slug": "learn-to-surf-sumner",
+    "lat": -43.569345,
+    "lng": 172.761876,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://surfcoach.co.nz/",
+    "description": "A surf school on Stoke Street at the Scarborough end of Sumner Beach, where the waves are generally mellow and suit beginners. A two hour group lesson is $89 for adults and $60 for kids 14 and under, with the board and wetsuit included and two extra hours afterwards to keep practising.\n\nIf you already surf, board and wetsuit hire is $35 for three hours. Reviews keep praising the patient instructors, including with nervous adult beginners.\nLocal tip: Book a morning lesson. Light westerlies and the early part of the day give the best conditions before the afternoon nor'easter picks up.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Listed daily 10am to 6pm; lessons by booking and conditions",
+    "premium": true
+  },
+  {
+    "name": "New Brighton Surf",
+    "slug": "new-brighton-surf",
+    "lat": -43.531444,
+    "lng": 172.739789,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://newbrightonsurf.co.nz/",
+    "description": "A small surf school and hire outfit in South New Brighton, running private lessons on learner boards and hiring out softboards, shortboards, longboards, boogie boards and wetsuits. The beach here is long and uncrowded, with plenty of peaks to choose from.\n\nReviewers rate the instructors highly for building confidence fast. Prices aren't listed online, so ask when you book.\nLocal tip: It only opens at weekends unless you book ahead, so message them through the website or WhatsApp a few days early if you want a weekday lesson.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Weekends 8am to 6pm, or by appointment; private lessons only; prices on request",
+    "premium": true
+  },
+  {
+    "name": "Antigua Boatsheds Kayak and Canoe Hire",
+    "slug": "antigua-boatsheds-kayak-canoe-hire",
+    "lat": -43.533903,
+    "lng": 172.627978,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://boatsheds.co.nz/",
+    "description": "Paddle yourself along the Avon through the Botanic Gardens from the historic Antigua Boatsheds on Cambridge Terrace. Single kayaks are $23 an hour and doubles $46, and there are paddle boats, a wooden rowing skiff and a wooden Canadian canoe for three or four people at $35 for half an hour.\n\nIt is a cheaper, more active alternative to the punts, and a relaxed way to see the gardens from the water.\nLocal tip: Single kayaks have a 100kg weight limit, so bigger paddlers should take a double or the canoe.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Listed daily 9am to 4pm; weather dependent",
+    "premium": true
+  },
+  {
+    "name": "TranzAlpine Train",
+    "slug": "tranzalpine-train",
+    "lat": -43.539958,
+    "lng": 172.607941,
+    "category": [
+      "Attractions",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.greatjourneysnz.com/scenic-trains/tranzalpine-train/",
+    "description": "New Zealand's best-known scenic train. It leaves Christchurch Railway Station in Addington at 8.15am, crosses the Canterbury Plains, climbs through the Waimakariri gorge and over Arthur's Pass, and arrives in Greymouth on the West Coast at 1.05pm. The return leaves at 2.05pm and gets back about 6.30pm, so it works as a long day trip.\n\nCarriages have big panoramic windows, and there is an open-air viewing car. Scenic class is around $219 one way, and Scenic Plus with meals and wine is around $499.\nLocal tip: Book ahead, since seats are allocated, and spend time in the open viewing car through the gorge, the most spectacular stretch of the line.",
+    "recommendedDurationSlots": 20,
+    "hoursNote": "Daily from late September (Fri to Mon in winter); departs 8.15am, back about 6.30pm; bookings required",
+    "premium": true
+  }
+]

@@ -18,7 +18,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // Env override exists so CI can point at a secret file instead of the repo copy.
     googleServicesFile: process.env.GOOGLE_SERVICES_FILE ?? "./GoogleService-Info.plist",
     infoPlist: {
-      NSLocationWhenInUseUsageDescription: "South Island Guide uses your location to verify your visits.",
+      NSLocationWhenInUseUsageDescription: "South Island Guide uses your location to show where you are on the map and how far away places are.",
       ITSAppUsesNonExemptEncryption: false,
     },
   },
@@ -65,7 +65,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       "expo-location",
       {
-        locationAlwaysAndWhenInUsePermission: "South Island Guide uses your location to verify your visits.",
+        locationAlwaysAndWhenInUsePermission: "South Island Guide uses your location to show where you are on the map and how far away places are.",
       },
     ],
     [

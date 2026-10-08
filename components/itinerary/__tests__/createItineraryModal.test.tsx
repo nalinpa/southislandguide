@@ -30,12 +30,12 @@ import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import { ApiError } from "@blacksands/client";
 
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
-import { defaultTemplateKey } from "@/lib/itineraryTemplates";
+import { ITINERARY_TEMPLATES, defaultTemplateKey } from "@/lib/itineraryTemplates";
 
-// ITINERARY_TEMPLATES is empty until release 1.3 (templates are baked against the 1.1
-// transit matrix and the 1.2 place list), so every rotorua-guide case that picks a
-// template is parked as a todo below. Restore them from rotorua-guide when templates land.
-const TEMPLATES_1_3 = "(release 1.3: needs ITINERARY_TEMPLATES)";
+// 1.0 ships two templates and both are free, so the rotorua-guide cases that need a
+// PREMIUM template stay parked until paid templates exist (release 1.4).
+const freeTemplate = ITINERARY_TEMPLATES.find((t) => t.free)!;
+const PREMIUM_1_4 = "(release 1.4: needs a premium template)";
 
 const props = { onClose: jest.fn(), onCreated: jest.fn() };
 
@@ -57,7 +57,11 @@ describe("what a locked user is offered", () => {
     expect(view.getByText("Premium — unlock to customize your trip")).toBeTruthy();
   });
 
-  it.todo("preselects a free template rather than Blank " + TEMPLATES_1_3);
+  it("preselects a free template rather than Blank", async () => {
+    const view = await openModal({ locked: true, showTemplateOption: true });
+    expect(view.getByText(freeTemplate.label)).toBeTruthy();
+    expect(defaultTemplateKey(true)).toBe(freeTemplate.key);
+  });
 
   it("leaves an unlocked user on Blank", async () => {
     const view = await openModal({ showTemplateOption: true });
@@ -65,8 +69,8 @@ describe("what a locked user is offered", () => {
     expect(defaultTemplateKey(false)).toBeNull();
   });
 
-  it.todo("marks the premium templates and Blank as premium in the picker " + TEMPLATES_1_3);
-  it.todo("refuses to select a premium template " + TEMPLATES_1_3);
+  it.todo("marks the premium templates and Blank as premium in the picker " + PREMIUM_1_4);
+  it.todo("refuses to select a premium template " + PREMIUM_1_4);
 
   it("blocks a blank trip with an explanation instead of creating one", async () => {
     const view = await openModal({ locked: true, showTemplateOption: false });
@@ -77,7 +81,11 @@ describe("what a locked user is offered", () => {
     expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
   });
 
-  it.todo("hides the day stepper while a template is selected " + TEMPLATES_1_3);
+  it("hides the day stepper while a template is selected", async () => {
+    const view = await openModal({ locked: true, showTemplateOption: true });
+    expect(view.queryByText("1 day")).toBeNull();
+    expect(view.queryByText("3 days")).toBeNull();
+  });
 });
 
 describe("creating a blank trip", () => {
@@ -124,8 +132,37 @@ describe("creating a blank trip", () => {
 });
 
 describe("creating from a template", () => {
-  it.todo("takes its length and its stops from the template, not the stepper " + TEMPLATES_1_3);
-  it.todo("gives every copied stop a time and duration label " + TEMPLATES_1_3);
+  it.each(ITINERARY_TEMPLATES.map((t) => [t.label, t] as const))(
+    "%s: takes its length and its stops from the template, not the stepper",
+    async (label, template) => {
+      const view = await openModal({ showTemplateOption: true });
+
+      await fireEvent.press(view.getByText("Blank"));
+      await fireEvent.press(view.getByText(label));
+      await fireEvent.press(view.getByText("Create Trip"));
+
+      await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+      const payload = mockTrips.saveItinerary.mock.calls[0][0];
+      expect(payload.days).toHaveLength(template.days.length);
+      payload.days.forEach((day: any, i: number) => {
+        expect(day.items.map((item: any) => item.siteName)).toEqual(template.days[i].items.map((item) => item.siteName));
+      });
+    },
+  );
+
+  it("gives every copied stop a time and duration label", async () => {
+    const view = await openModal({ showTemplateOption: true });
+
+    await fireEvent.press(view.getByText("Blank"));
+    await fireEvent.press(view.getByText(freeTemplate.label));
+    await fireEvent.press(view.getByText("Create Trip"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    const item = mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0];
+    expect(item.timeLabel).toBe("9:00 AM");
+    expect(item.durationLabel).toBe("2 Hours");
+    expect(item.id).toContain("item_");
+  });
 });
 
 describe("overlapping dates", () => {

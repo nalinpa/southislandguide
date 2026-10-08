@@ -11,10 +11,10 @@ Each release is the smallest thing that lets the next one be built against real 
 
 | Release | Scope | Why this order |
 |---|---|---|
-| **1.0** | Christchurch places + photos. **Publish.** | Get a real app in the store; everything after is iteration |
-| **1.1** | Itinerary: drive times + multi-day day view. A few more places *around* Christchurch | Drive times and multi-day only mean anything once places are more than a short hop apart — Christchurch-only data can't exercise them |
+| **1.0** | Christchurch places + photos, plus two suggested itineraries (one day, two days). **Publish.** | Get a real app in the store; everything after is iteration |
+| **1.1** | Once 1.0 is live: Dunedin, and the east coast between Christchurch and Dunedin. Then multi-day itineraries: drive times + the multi-day day view | Drive times and multi-day only mean anything once places are more than a short hop apart — Christchurch-only data can't exercise them |
 | **1.2** | The whole location list | Content drop once the planner handles distance properly |
-| **1.3** | Free itineraries (templates) | Templates bake slot times against the transit matrix, so they wait for 1.1's drive times and 1.2's final place list |
+| **1.3** | More suggested itineraries (multi-day, other regions) | These bake slot times against the transit matrix, so they wait for 1.1's drive times and 1.2's final place list |
 | **1.4** | In-app purchases | See "Commerce" below — the api's premium behaviour makes this more than switching a flag |
 
 ---
@@ -22,6 +22,7 @@ Each release is the smallest thing that lets the next one be built against real 
 ## 1.0 — before publishing
 
 ### Bugs and gaps found on device
+- [ ] **Two suggested itineraries — added 2026-10-09, need a device check and a read-through.** `lib/itineraryTemplates.ts`: "Christchurch in a Day" (central city on foot, 9am to 6.30pm) and "Two Days in Christchurch" (the same day, then the gondola, Sumner and New Brighton by car). They show under "Suggested Itinerary" when creating a trip on the Plans tab; Blank stays the default. Times sit inside each place's opening hours on every day of the week, and use the flat 30-minute travel default because the transit matrix is still empty: **re-bake them when the real matrix lands (1.1)** — `lib/__tests__/itineraryTemplates.test.ts` fails if they stop fitting.
 - [x] **Category filter on the map** — was already there, ported from rotorua-guide (filter button + chip row built from `SITE_CATEGORIES`). It only had one chip until the enum grew; now All + 9. Done 2026-09-28.
 - [x] **Category filter on the list** — tabs under the search bar, All + each category that has places (rotorua-guide shows every category unconditionally, which leaves empty tabs once regions differ). Combines with search. Done 2026-09-29.
 - [x] **"Add to itinerary" on every place except Stay** — map overlay and detail screen, both via `canAddToItinerary()` in `lib/models.ts` so the rule lives once. Detail screen uses rotorua-guide's floating button + TripChoiceSheet → CreateItineraryModal → AddToTripModal flow; signed-in only, like the map. No premium gate (v1 has no unlock). Done 2026-09-28. **Saving still 500s** until the api service-account case ships.
@@ -64,7 +65,7 @@ Each release is the smallest thing that lets the next one be built against real 
 - [~] **Apple revocation — launch blocker.** Code done 2026-09-30: `userService.deleteAccount()` now calls `DELETE /v1/southislandguide/account` (server revokes, then deletes the user); registry `appleSignIn.clientId` set to `app.blacksands.southislandguide`. **Untestable until Apple sign-in works** — then: sign in with Apple (tail shows `POST …/auth/apple/link - Ok`), delete the account (tail shows `DELETE …/account - Ok`, no "apple revoke skipped").
 
 ### Housekeeping
-- [x] **Hand-entered test docs** `Aw1z3nHmSHxB2o4zNyR0` and `DXWpQTSPRQQKPt7SIcVi` — deactivated (`active: false`), so they're out of every listing. Still in Firestore; delete when convenient.
+- [ ] **Two hand-entered places are live but unfinished** (checked against the public api 2026-10-09; the earlier note that they were deactivated was wrong, both are `active: true` and in every listing). `DXWpQTSPRQQKPt7SIcVi` **Riverside Markets** (Food, Attractions) and `Aw1z3nHmSHxB2o4zNyR0` **Botanical Gardens Cafe** (Food) each have a one-word description and no region, price or hours note. Decided 2026-10-09: **finish Riverside Markets** (real place, photo waiting as `riverside`) and **switch Botanical Gardens Cafe off** (still listed when last checked; confirm against the public api once done).
 - [ ] **Commit.** One commit so far (`27615b4`, the scaffold); ~38 files changed since — categories, filters, detail page, images, scripts, rules, indexes, TASKS.
 - [ ] **EAS `production` environment** needs the same env vars as `development` (the 8 `EXPO_PUBLIC_*` plus `GOOGLE_SERVICES_FILE`), or the first TestFlight build fails the way the first dev build did.
 - [x] **Testing** — `npm test` runs jest 29 with the `jest-expo` preset (57.0.4, pinned to match react-native 0.86.2) and `@testing-library/react-native` 14, set up as rotorua-guide's (`jest.config.js`, `test/uiKitMock.tsx`, `__mocks__/lucide-react-native.js`, `"types": ["jest"]` in tsconfig). 2026-10-09: 38 suites, 410 tests — 398 passing, 12 `test.todo`. The todos are parked bugs (reviews offline, login bouncing guests, account zero counts, the two known tab-reuse bugs), 1.3 template cases, and one inherited from rotorua's NoteCard test; each bug names its file:line.

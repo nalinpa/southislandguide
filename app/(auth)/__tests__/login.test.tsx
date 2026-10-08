@@ -230,12 +230,17 @@ describe("guest entry", () => {
     expect(mockRouter.replace).not.toHaveBeenCalled();
   });
 
-  // Bug found 2026-09-30. "Sign In" on the Plans tab (itinerary/index.tsx:37,43) and "Sign In
-  // for More" on the list (sites/index.tsx:166) push this route while the user is still a
-  // guest. login.tsx:22-24 — and, before it, app/(auth)/_layout.tsx:23-25 — redirect any guest
-  // to the map, so those buttons silently do nothing. (Account's Sign In works: UserInfoCard
-  // calls disableGuest first.) rotorua-guide fixed this by not redirecting guests.
-  test.todo("lets a guest who came here to sign in stay on the screen (login.tsx:22, (auth)/_layout.tsx:23)");
+  // Bug found 2026-09-30, fixed 2026-10-01. "Sign In" on the Plans tab and "Sign In for More"
+  // on the list push this route while the user is still a guest. login.tsx and
+  // app/(auth)/_layout.tsx both used to redirect any guest to the map, so those buttons
+  // silently did nothing. Neither redirects guests now (rotorua-guide's fix).
+  it("lets a guest who came here to sign in stay on the screen", async () => {
+    mockSession.status = "guest";
+    const view = await render(<LoginScreen />);
+
+    expect(view.getByText("Sign in with email")).toBeTruthy();
+    expect(mockRouter.replace).not.toHaveBeenCalled();
+  });
 });
 
 describe("already signed in", () => {

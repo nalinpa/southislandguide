@@ -138,12 +138,20 @@ describe("useAuthForm", () => {
 
       expect(result.current.err).toBe("Something went wrong");
     });
+
+    it("maps a Firebase auth error code to a friendly message", async () => {
+      mockSignIn.mockRejectedValue(
+        Object.assign(new Error("Firebase: Error (auth/invalid-credential)."), { code: "auth/invalid-credential" }),
+      );
+      const { result } = await renderHook(() => useAuthForm("login"));
+      await act(async () => {
+        result.current.setEmail("a@b.com");
+        result.current.setPassword("pw");
+      });
+
+      await act(async () => result.current.submit());
+
+      expect(result.current.err).toBe("Incorrect email or password.");
+    });
   });
 });
-
-// rotorua-guide's useAuthForm routes failures through getAuthErrorMessage (lib/auth/authErrors.ts),
-// so a Firebase code reads as "Incorrect email or password." rather than Firebase's own
-// "Firebase: Error (auth/invalid-credential)." — south-island's social sign-in already does.
-// south-island's copy predates that change (lib/hooks/useAuthForm.ts:51 uses e.message).
-// Parked until the user decides whether to port it.
-test.todo("maps a Firebase auth error code to a friendly message (useAuthForm.ts:51 shows the raw Firebase text)");

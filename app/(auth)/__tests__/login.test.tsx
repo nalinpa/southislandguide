@@ -125,10 +125,19 @@ describe("email sign-in", () => {
     await waitFor(() => expect(view.getByText("Incorrect password")).toBeTruthy());
   });
 
-  // Same gap as lib/hooks/__tests__/useAuthForm.test.ts: a Firebase error arrives as a code,
-  // and useAuthForm.ts:51 shows Firebase's raw text (or "Something went wrong" for a
-  // non-Error) instead of getAuthErrorMessage's wording.
-  test.todo("words a Firebase rejection like auth/wrong-password for a person (useAuthForm.ts:51)");
+  it("words a Firebase rejection like auth/wrong-password for a person", async () => {
+    mockSignIn.mockRejectedValue(
+      Object.assign(new Error("Firebase: Error (auth/wrong-password)."), { code: "auth/wrong-password" }),
+    );
+    const view = await renderWithEmailOpen();
+
+    await fireEvent.changeText(view.getByPlaceholderText("Email"), "kia@ora.nz");
+    await fireEvent.changeText(view.getByPlaceholderText("Password"), "wrong");
+    await fireEvent.press(view.getByText("Submit login"));
+
+    await waitFor(() => expect(view.getByText("Incorrect email or password.")).toBeTruthy());
+    expect(view.queryByText(/Firebase/)).toBeNull();
+  });
 });
 
 describe("email sign-up", () => {

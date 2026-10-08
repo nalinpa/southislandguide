@@ -7,3 +7,6 @@ GoogleService-Info.plist
 
 # Firebase service-account private keys — never commit
 *firebase-adminsdk*.json
+
+# Reference images for design tools (third-party artwork, not ours to commit)
+design-refs/

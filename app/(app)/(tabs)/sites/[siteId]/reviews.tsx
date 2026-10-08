@@ -8,6 +8,12 @@ import { hooksBag } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { tokens } from "@/lib/ui/tokens";
 
+// Module-level on purpose: <Stack.Screen> calls navigation.setOptions whenever the
+// options object's identity changes, so an inline literal re-fires it every render —
+// that's what hit "Maximum update depth exceeded" in rotorua-guide.
+const PLAIN_OPTIONS = { title: "Reviews" };
+const LIST_OPTIONS = { title: "Community Reviews", headerTransparent: true };
+
 function SiteReviewOptionsMenu({
   reviewId,
   authorId,
@@ -59,13 +65,18 @@ function SiteReviewOptionsMenu({
   );
 }
 
+// Tab screen, so one instance is reused across sites (see sites/[siteId]/index.tsx): keyed by
+// id so the list's scroll position doesn't carry over to the next site's reviews.
 export default function SiteReviewsPage() {
   const { siteId, siteName } = useLocalSearchParams<{
     siteId: string;
     siteName?: string;
   }>();
   const id = String(siteId);
+  return <SiteReviews key={id} id={id} siteName={siteName} />;
+}
 
+function SiteReviews({ id, siteName }: { id: string; siteName?: string }) {
   const { session } = useSession();
   const currentUid = session.status === "authed" ? session.uid : null;
 
@@ -99,16 +110,18 @@ export default function SiteReviewsPage() {
   if (loading) {
     return (
       <Screen>
-        <Stack.Screen options={{ title: "Reviews" }} />
+        <Stack.Screen options={PLAIN_OPTIONS} />
         <LoadingState label="Loading reviews..." />
       </Screen>
     );
   }
 
-  if (err) {
+  // Only block on err when there's nothing cached to show — a background
+  // refetch failing offline shouldn't hide reviews we already have.
+  if (err && !reviews?.length) {
     return (
       <Screen>
-        <Stack.Screen options={{ title: "Reviews" }} />
+        <Stack.Screen options={PLAIN_OPTIONS} />
         <ErrorCard
           title="Couldn't load reviews"
           message={err}
@@ -121,7 +134,7 @@ export default function SiteReviewsPage() {
 
   return (
     <Screen padded={false}>
-      <Stack.Screen options={{ title: "Community Reviews", headerTransparent: true }} />
+      <Stack.Screen options={LIST_OPTIONS} />
 
       <FlashList
         data={safeReviews}

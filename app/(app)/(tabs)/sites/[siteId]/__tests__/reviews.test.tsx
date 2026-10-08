@@ -1,17 +1,23 @@
 // The community reviews list. south-island's screen is an older copy of rotorua-guide's.
 // Report/block feedback and the guest path are ported: both mutations used to fire and
 // forget, so a failure looked exactly like success. So is the title, which was "Location"
-// for every place. The offline behaviour is still rotorua's to copy, so it's a todo naming
-// the line — see the bottom of this file. Everything else is pinned as it works today.
+// for every place. So are the last two: cached reviews stay on screen when a background
+// refetch fails, and each place gets a fresh list (the route is a reused tab screen).
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
 
+// Counts list mounts: a real FlashList's scroll position lives in the instance, so "a new
+// instance per place" is what stops it carrying over.
+const mockListMounts = { count: 0 };
 jest.mock("@shopify/flash-list", () => {
   const React = require("react");
   const { View } = require("react-native");
   return {
-    FlashList: ({ data, renderItem, keyExtractor, ListHeaderComponent, ListEmptyComponent }: any) =>
-      React.createElement(
+    FlashList: ({ data, renderItem, keyExtractor, ListHeaderComponent, ListEmptyComponent }: any) => {
+      React.useEffect(() => {
+        mockListMounts.count += 1;
+      }, []);
+      return React.createElement(
         View,
         null,
         ListHeaderComponent,
@@ -20,7 +26,8 @@ jest.mock("@shopify/flash-list", () => {
           : data.map((item: any, index: number) =>
               React.createElement(View, { key: keyExtractor(item) }, renderItem({ item, index })),
             ),
-      ),
+      );
+    },
   };
 });
 
@@ -85,6 +92,7 @@ let alertSpy: jest.SpyInstance;
 
 beforeEach(() => {
   jest.clearAllMocks();
+  mockListMounts.count = 0;
   mockReport.mutate.mockReset();
   mockBlock.mutate.mockReset();
   mockSession.status = "authed";
@@ -268,14 +276,33 @@ describe("reporting and blocking", () => {
   });
 });
 
-// Bugs found 2026-09-30. Each is fixed in rotorua-guide's copy of this screen; parked until
-// the user agrees to port the fix.
-describe("parked bugs", () => {
-  // reviews.tsx:80 — `if (err)` replaces the list with the error card even when reviews are
-  // cached, so a background refetch failing offline hides reviews already on screen.
-  test.todo("keeps showing cached reviews when a background refetch fails (reviews.tsx:80)");
+// Bugs found 2026-09-30, fixed 2026-10-09 by porting rotorua-guide's copy of this screen.
+describe("bugs ported from rotorua-guide's fixes", () => {
+  it("keeps showing cached reviews when a background refetch fails", async () => {
+    mockBag.err = "offline";
+    const view = await render(<SiteReviewsPage />);
 
-  // Known, parked: tab screen reused across places, so the FlashList keeps its scroll
-  // position. Fix is keying the body on the site id, as sites/[siteId]/index.tsx does.
-  test.todo("opens each place's reviews scrolled to the top (known bug: list keeps scroll position between places)");
+    expect(view.queryByText("Couldn't load reviews")).toBeNull();
+    expect(view.getByText("Worth the early start.")).toBeTruthy();
+  });
+
+  it("still shows the error when there is nothing cached to fall back on", async () => {
+    mockBag.err = "offline";
+    mockBag.reviews = [];
+    const view = await render(<SiteReviewsPage />);
+
+    expect(view.getByText("Couldn't load reviews")).toBeTruthy();
+  });
+
+  // The route is a tab screen, reused across places, so without a key the list (and its
+  // scroll position) survived the move to another place's reviews.
+  it("gives each place a fresh list, so the scroll position doesn't carry over", async () => {
+    const view = await render(<SiteReviewsPage />);
+    expect(mockListMounts.count).toBe(1);
+
+    mockParams.siteId = "site-2";
+    await view.rerender(<SiteReviewsPage />);
+
+    expect(mockListMounts.count).toBe(2);
+  });
 });

@@ -1,7 +1,8 @@
-// The community reviews list. south-island's screen is an older copy of rotorua-guide's, from
-// before rotorua fixed its title, its report/block feedback, its guest path and its offline
-// behaviour. Those fixes are what the screen should do, so each gap is a todo naming the
-// line — see the bottom of this file. Everything else is pinned as it works today.
+// The community reviews list. south-island's screen is an older copy of rotorua-guide's.
+// Report/block feedback and the guest path are ported: both mutations used to fire and
+// forget, so a failure looked exactly like success. The title and the offline behaviour
+// are still rotorua's to copy, so each is a todo naming the line — see the bottom of this
+// file. Everything else is pinned as it works today.
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
 
@@ -63,6 +64,7 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
+import { Alert } from "react-native";
 import { fireEvent, render } from "@testing-library/react-native";
 
 import SiteReviewsPage from "@/app/(app)/(tabs)/sites/[siteId]/reviews";
@@ -77,8 +79,12 @@ const makeReview = (over: Record<string, unknown> = {}) => ({
   ...over,
 });
 
+let alertSpy: jest.SpyInstance;
+
 beforeEach(() => {
   jest.clearAllMocks();
+  mockReport.mutate.mockReset();
+  mockBlock.mutate.mockReset();
   mockSession.status = "authed";
   mockSession.uid = "uid-1";
   mockParams.siteId = "site-1";
@@ -90,7 +96,10 @@ beforeEach(() => {
   mockBag.avgRating = 4.26;
   mockBag.ratingCount = 12;
   mockRouter.canGoBack = jest.fn(() => true);
+  alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
 });
+
+afterEach(() => alertSpy.mockRestore());
 
 describe("the header", () => {
   it("uses the name the caller passed", async () => {
@@ -188,6 +197,59 @@ describe("reporting and blocking", () => {
 
     expect(mockBlock.mutate.mock.calls[0][0]).toEqual({ blockedUid: "author-1" });
   });
+
+  it("confirms a successful report", async () => {
+    mockReport.mutate.mockImplementation((_args, opts) => opts.onSuccess());
+    const view = await render(<SiteReviewsPage />);
+
+    await fireEvent.press(view.getByText("Report Aroha"));
+
+    expect(alertSpy).toHaveBeenCalledWith("Report Received", expect.any(String));
+  });
+
+  it("says so when a report fails, instead of looking like success", async () => {
+    mockReport.mutate.mockImplementation((_args, opts) => opts.onError(new Error("permission-denied")));
+    const view = await render(<SiteReviewsPage />);
+
+    await fireEvent.press(view.getByText("Report Aroha"));
+
+    expect(alertSpy).toHaveBeenCalledWith("Couldn't Send Report", expect.stringContaining("went wrong"));
+  });
+
+  it("confirms a block, naming the author", async () => {
+    mockBlock.mutate.mockImplementation((_args, opts) => opts.onSuccess());
+    const view = await render(<SiteReviewsPage />);
+
+    await fireEvent.press(view.getByText("Block Aroha"));
+
+    expect(alertSpy).toHaveBeenCalledWith("User Blocked", "You won't see reviews from Aroha any more.");
+  });
+
+  it("says so when a block fails", async () => {
+    mockBlock.mutate.mockImplementation((_args, opts) => opts.onError(new Error("permission-denied")));
+    const view = await render(<SiteReviewsPage />);
+
+    await fireEvent.press(view.getByText("Block Aroha"));
+
+    expect(alertSpy).toHaveBeenCalledWith("Couldn't Block User", expect.stringContaining("went wrong"));
+  });
+
+  it("sends a guest who taps report or block to sign in", async () => {
+    mockSession.status = "guest";
+    mockSession.uid = undefined;
+    const view = await render(<SiteReviewsPage />);
+
+    await fireEvent.press(view.getByText("Guest blocked Aroha"));
+
+    expect(alertSpy).toHaveBeenCalledWith("Sign In Required", "Sign in to report content or block a user.", [
+      expect.objectContaining({ text: "Cancel" }),
+      expect.objectContaining({ text: "Sign In" }),
+    ]);
+    alertSpy.mock.calls[0][2][1].onPress();
+    expect(mockRouter.push).toHaveBeenCalledWith("/(auth)/login");
+    expect(mockReport.mutate).not.toHaveBeenCalled();
+    expect(mockBlock.mutate).not.toHaveBeenCalled();
+  });
 });
 
 // Bugs found 2026-09-30. Each is fixed in rotorua-guide's copy of this screen; parked until
@@ -197,16 +259,6 @@ describe("parked bugs", () => {
   // without a siteName (sites/[siteId]/index.tsx:188), so every reviews screen is titled
   // "Location". rotorua falls back to hooksBag.useLocation(id)'s name, then "Reviews".
   test.todo("titles the screen with the place's own name when no siteName param is passed (reviews.tsx:47)");
-
-  // reviews.tsx:31-32 — report.mutate / block.mutate are fire-and-forget: no confirmation on
-  // success, and a failure looks exactly like success. rotorua alerts "Report Received" /
-  // "User Blocked", and "Couldn't Send Report" / "Couldn't Block User" on error.
-  test.todo("confirms a report, and says so when it fails (reviews.tsx:31)");
-  test.todo("confirms a block naming the author, and says so when it fails (reviews.tsx:32)");
-
-  // reviews.tsx:26-33 — no onGuestBlocked is passed, and ReviewOptionsMenu calls
-  // onGuestBlocked?.() for a signed-out viewer, so a guest's tap on the menu does nothing.
-  test.todo("sends a guest who taps report/block to sign in (reviews.tsx:26, no onGuestBlocked)");
 
   // reviews.tsx:80 — `if (err)` replaces the list with the error card even when reviews are
   // cached, so a background refetch failing offline hides reviews already on screen.

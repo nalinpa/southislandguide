@@ -1,8 +1,8 @@
 // The community reviews list. south-island's screen is an older copy of rotorua-guide's.
 // Report/block feedback and the guest path are ported: both mutations used to fire and
-// forget, so a failure looked exactly like success. The title and the offline behaviour
-// are still rotorua's to copy, so each is a todo naming the line — see the bottom of this
-// file. Everything else is pinned as it works today.
+// forget, so a failure looked exactly like success. So is the title, which was "Location"
+// for every place. The offline behaviour is still rotorua's to copy, so it's a todo naming
+// the line — see the bottom of this file. Everything else is pinned as it works today.
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
 
@@ -30,6 +30,7 @@ jest.mock("@/lib/providers/SessionProvider", () => ({ useSession: () => ({ sessi
 const mockReport = { mutate: jest.fn() };
 const mockBlock = { mutate: jest.fn() };
 const mockBag = {
+  site: null as any,
   reviews: [] as any[],
   loading: false,
   err: null as string | null,
@@ -40,6 +41,7 @@ const mockBag = {
 };
 jest.mock("@/lib/hooksBag", () => ({
   hooksBag: {
+    useLocation: () => ({ location: mockBag.site }),
     usePublicReviews: () => ({
       loading: mockBag.loading,
       err: mockBag.err,
@@ -89,6 +91,7 @@ beforeEach(() => {
   mockSession.uid = "uid-1";
   mockParams.siteId = "site-1";
   mockParams.siteName = undefined;
+  mockBag.site = { id: "site-1", name: "Hagley Park" };
   mockBag.reviews = [makeReview()];
   mockBag.loading = false;
   mockBag.err = null;
@@ -106,6 +109,19 @@ describe("the header", () => {
     mockParams.siteName = "Sumner Beach";
     const view = await render(<SiteReviewsPage />);
     expect(view.getByText("Sumner Beach")).toBeTruthy();
+  });
+
+  it("falls back to the place's own name, not a placeholder", async () => {
+    const view = await render(<SiteReviewsPage />);
+
+    expect(view.getByText("Hagley Park")).toBeTruthy();
+    expect(view.queryByText("Location")).toBeNull();
+  });
+
+  it("falls back to a generic title only when the place is unknown too", async () => {
+    mockBag.site = null;
+    const view = await render(<SiteReviewsPage />);
+    expect(view.getByText("Reviews")).toBeTruthy();
   });
 
   it("rounds the average to one decimal", async () => {
@@ -255,11 +271,6 @@ describe("reporting and blocking", () => {
 // Bugs found 2026-09-30. Each is fixed in rotorua-guide's copy of this screen; parked until
 // the user agrees to port the fix.
 describe("parked bugs", () => {
-  // reviews.tsx:47 — `siteName?.trim() || "Location"`. The detail screen opens this route
-  // without a siteName (sites/[siteId]/index.tsx:188), so every reviews screen is titled
-  // "Location". rotorua falls back to hooksBag.useLocation(id)'s name, then "Reviews".
-  test.todo("titles the screen with the place's own name when no siteName param is passed (reviews.tsx:47)");
-
   // reviews.tsx:80 — `if (err)` replaces the list with the error card even when reviews are
   // cached, so a background refetch failing offline hides reviews already on screen.
   test.todo("keeps showing cached reviews when a background refetch fails (reviews.tsx:80)");

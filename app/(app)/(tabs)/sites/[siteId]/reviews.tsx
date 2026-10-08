@@ -69,7 +69,10 @@ export default function SiteReviewsPage() {
   const { session } = useSession();
   const currentUid = session.status === "authed" ? session.uid : null;
 
-  const title = siteName?.trim() || "Location";
+  // The param isn't set when arriving from the site screen or a deep link, so fall back
+  // to the site itself rather than showing a placeholder title.
+  const { location } = hooksBag.useLocation(id);
+  const title = siteName?.trim() || location?.name || "Reviews";
 
   const goBack = useCallback(() => {
     if (router.canGoBack()) router.back();

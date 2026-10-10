@@ -44,6 +44,32 @@ describe("useSavedSites", () => {
     expect(mockGetDoc).not.toHaveBeenCalled();
   });
 
+  // A guest has no account to save to. The toggle used to run its optimistic update anyway,
+  // writing the place into the query cache (which is persisted to the device), so the heart
+  // showed "Saved" and the place appeared under Saved Places with nothing stored anywhere.
+  it("saves nothing for a guest: no optimistic update and no write", async () => {
+    mockUseSession.mockReturnValue({ session: { status: "guest" } });
+    const { result } = await renderHook(() => useSavedSites(), { wrapper });
+
+    await act(async () => result.current.toggleSavedSite({ siteId: "site-c", isSaving: true }));
+
+    expect(result.current.savedSiteIds).toEqual(new Set());
+    expect(mockSetDoc).not.toHaveBeenCalled();
+  });
+
+  it("ignores guest saves an older build left in the device cache", async () => {
+    mockUseSession.mockReturnValue({ session: { status: "guest" } });
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    queryClient.setQueryData(["savedSites", null], ["site-x"]);
+    const seeded = ({ children }: { children: React.ReactNode }) => (
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    );
+
+    const { result } = await renderHook(() => useSavedSites(), { wrapper: seeded });
+
+    expect(result.current.savedSiteIds).toEqual(new Set());
+  });
+
   it("loads saved site ids for an authed user", async () => {
     mockUseSession.mockReturnValue({ session: { status: "authed", uid: "user-1" } });
     mockGetDoc.mockResolvedValue({ data: () => ({ savedSites: ["site-a", "site-b"] }) });

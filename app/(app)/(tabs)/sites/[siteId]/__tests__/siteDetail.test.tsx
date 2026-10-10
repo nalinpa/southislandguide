@@ -74,7 +74,7 @@ jest.mock("expo-haptics", () => ({
 }));
 
 import React from "react";
-import { Text } from "react-native";
+import { Alert, Text } from "react-native";
 import { fireEvent, renderRouter, screen } from "expo-router/testing-library";
 
 import SiteDetailRoute from "@/app/(app)/(tabs)/sites/[siteId]/index";
@@ -301,6 +301,24 @@ describe("saving and reviews", () => {
     await fireEvent.press(screen.getByText("Saved"));
 
     expect(mockSavedSites.toggleSavedSite).toHaveBeenCalledWith({ siteId: "site-1", isSaving: false });
+  });
+
+  // A guest has no account to save to. Saving used to look like it worked: the heart
+  // flipped to "Saved" on the device and nothing was stored anywhere.
+  it("asks a guest to sign in instead of saving", async () => {
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    mockSession.status = "guest";
+    mockSession.uid = undefined;
+    await openDetail();
+
+    await fireEvent.press(screen.getByText("Save"));
+
+    expect(mockSavedSites.toggleSavedSite).not.toHaveBeenCalled();
+    expect(alertSpy).toHaveBeenCalledWith("Sign In Required", "Sign in to save places.", [
+      { text: "Cancel", style: "cancel" },
+      { text: "Sign In", onPress: expect.any(Function) },
+    ]);
+    alertSpy.mockRestore();
   });
 
   it("opens the place's reviews", async () => {

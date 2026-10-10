@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { Animated, View, StyleSheet, Pressable } from "react-native";
+import { Alert, Animated, View, StyleSheet, Pressable } from "react-native";
 import { useNetInfo } from "@react-native-community/netinfo";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Stack as ExpoStack, router, useLocalSearchParams } from "expo-router";
@@ -111,7 +111,19 @@ function SiteDetail({ id }: { id: string }) {
   // letting guests save past a limit (see useEntitlementGate +
   // FULL_GUIDE_PRODUCT_ID in rotorua-guide's [siteId]/index.tsx). Add your
   // own gate here if your app sells tiered access.
-  const handleToggleSave = () => toggleSavedSite({ siteId: id, isSaving: !isSaved });
+  // A guest has no account to save to, so they're asked to sign in — the same
+  // prompt as reporting or blocking on the reviews screen. (useSavedSites also
+  // refuses the save itself.)
+  const handleToggleSave = () => {
+    if (session.status !== "authed") {
+      Alert.alert("Sign In Required", "Sign in to save places.", [
+        { text: "Cancel", style: "cancel" },
+        { text: "Sign In", onPress: () => router.push("/(auth)/login") },
+      ]);
+      return;
+    }
+    toggleSavedSite({ siteId: id, isSaving: !isSaved });
+  };
 
   if (entityLoading || session.status === "loading") {
     return (

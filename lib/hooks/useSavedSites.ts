@@ -22,7 +22,9 @@ export function useSavedSites() {
     },
     enabled: !!uid,
   });
-  const savedSiteIds = useMemo(() => new Set(data), [data]);
+  // Empty without an account, whatever the cache holds: builds before
+  // 2026-10-10 let a guest's tap write into the (persisted) cache.
+  const savedSiteIds = useMemo(() => new Set(uid ? data : []), [uid, data]);
 
   const toggleMutation = useMutation({
     mutationFn: ({ siteId, isSaving }: { siteId: string; isSaving: boolean }) => {
@@ -48,10 +50,19 @@ export function useSavedSites() {
     },
   });
 
+  // Saving needs an account. The guard is here, not in mutationFn: onMutate's
+  // optimistic update runs first and regardless, so a guest's tap used to put
+  // the place in the cache and show it as saved with nothing stored anywhere.
+  // Screens decide how to tell a guest (the detail page asks them to sign in).
+  const toggleSavedSite = (vars: { siteId: string; isSaving: boolean }) => {
+    if (!uid) return;
+    toggleMutation.mutate(vars);
+  };
+
   return {
     savedSiteIds,
     loading: isLoading,
-    toggleSavedSite: toggleMutation.mutate,
+    toggleSavedSite,
     isToggling: toggleMutation.isPending,
   };
 }

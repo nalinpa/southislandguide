@@ -2,23 +2,17 @@
 // own unit tests (lib/hooks/__tests__/useAuthForm.test.ts), so this file keeps the real hook
 // and mocks only firebase — that way a field wired to the wrong setter fails here, without
 // re-asserting the hook's rules. The email form starts closed behind "Sign in with email"
-// (so the photo isn't covered), which is why the form tests open it first.
+// (so the photo isn't covered), which is why the form tests open it first. Email is the
+// only sign-in method in 1.0.
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
 
 jest.mock("@/components/auth/SocialSignInButtons", () => {
   const React = require("react");
-  const { Text, TouchableOpacity } = require("react-native");
-  // Exposes the two callbacks the real component owns, so the screen's handling of a
-  // social error and of social busy state can be driven from a test.
-  return {
-    SocialSignInButtons: ({ onError, onBusyChange }: any) =>
-      React.createElement(
-        TouchableOpacity,
-        { onPress: () => { onBusyChange(true); onError("Apple sign-in failed."); }, accessibilityRole: "button" },
-        React.createElement(Text, null, "Fail Social Sign In"),
-      ),
-  };
+  const { Text } = require("react-native");
+  // 1.0 ships email-only, so the screen must not render this. The mock is the tripwire:
+  // if the buttons come back, "Social Sign In" appears and the render test fails.
+  return { SocialSignInButtons: () => React.createElement(Text, null, "Social Sign In") };
 });
 
 jest.mock("react-native-safe-area-context", () => ({
@@ -55,6 +49,7 @@ import {
 } from "firebase/auth";
 
 import LoginScreen from "@/app/(auth)/login";
+import { tokens } from "@/lib/ui/tokens";
 
 const mockSignIn = signInWithEmailAndPassword as jest.Mock;
 const mockSignUp = createUserWithEmailAndPassword as jest.Mock;
@@ -75,25 +70,51 @@ beforeEach(() => {
 });
 
 describe("render", () => {
-  it("names the app and offers social, email and guest entry, with the email form closed", async () => {
+  it("names the app and offers email and guest entry, with the email form closed", async () => {
     const view = await render(<LoginScreen />);
     expect(view.getByText("South Island Guide")).toBeTruthy();
     expect(view.getByText("Ultimate South Island trip planner")).toBeTruthy();
-    expect(view.getByText("Fail Social Sign In")).toBeTruthy();
     expect(view.getByText("Sign in with email")).toBeTruthy();
     expect(view.getByText("Continue as Guest")).toBeTruthy();
     expect(view.queryByText("Welcome back")).toBeNull();
   });
 
-  it("opens the email form in place of the other options, and closes it again", async () => {
+  // Apple's servers reject this app's Sign in with Apple (see TASKS.md, Sign-in), and
+  // Google can't be offered without it (App Store guideline 4.8).
+  it("offers no Apple or Google sign-in", async () => {
+    const view = await render(<LoginScreen />);
+    expect(view.queryByText("Social Sign In")).toBeNull();
+  });
+
+  // White label, so the button is the full-strength highlight: white on the lighter
+  // on-dark orange is only 2.2:1.
+  it("makes signing in with email the highlighted action, with a white label", async () => {
+    const view = await render(<LoginScreen />);
+
+    expect(view.getByRole("button", { name: "Sign in with email" })).toHaveStyle({
+      backgroundColor: tokens.colors.highlight,
+    });
+    expect(view.getByText("Sign in with email")).toHaveStyle({ color: "#FFFFFF" });
+  });
+
+  it("opens the email form in place of the entry buttons, and closes it again", async () => {
     const view = await renderWithEmailOpen();
     expect(view.getByText("Welcome back")).toBeTruthy();
-    expect(view.queryByText("Fail Social Sign In")).toBeNull();
+    expect(view.queryByText("Sign in with email")).toBeNull();
 
-    await fireEvent.press(view.getByText("Other ways to sign in"));
+    await fireEvent.press(view.getByText("Back"));
 
     expect(view.queryByText("Welcome back")).toBeNull();
-    expect(view.getByText("Fail Social Sign In")).toBeTruthy();
+    expect(view.getByText("Sign in with email")).toBeTruthy();
+  });
+
+  it("won't open the email form while the session is still resolving", async () => {
+    mockSession.status = "loading";
+    const view = await render(<LoginScreen />);
+
+    await fireEvent.press(view.getByText("Sign in with email"));
+
+    expect(view.queryByText("Welcome back")).toBeNull();
   });
 
   it("keeps submit unavailable until there is something to submit", async () => {
@@ -176,34 +197,6 @@ describe("password reset", () => {
 
     await waitFor(() => expect(mockResetEmail).toHaveBeenCalledWith({}, "kia@ora.nz"));
     expect(view.getByText("Check your email for a reset link.")).toBeTruthy();
-  });
-});
-
-describe("social sign-in", () => {
-  it("shows a social failure under the social buttons", async () => {
-    const view = await render(<LoginScreen />);
-
-    await fireEvent.press(view.getByText("Fail Social Sign In"));
-
-    expect(view.getByText("Apple sign-in failed.")).toBeTruthy();
-  });
-
-  it("won't open the email form while a provider sheet is open", async () => {
-    const view = await render(<LoginScreen />);
-
-    await fireEvent.press(view.getByText("Fail Social Sign In"));
-    await fireEvent.press(view.getByText("Sign in with email"));
-
-    expect(view.queryByText("Welcome back")).toBeNull();
-  });
-
-  it("won't open the email form while the session is still resolving", async () => {
-    mockSession.status = "loading";
-    const view = await render(<LoginScreen />);
-
-    await fireEvent.press(view.getByText("Sign in with email"));
-
-    expect(view.queryByText("Welcome back")).toBeNull();
   });
 });
 

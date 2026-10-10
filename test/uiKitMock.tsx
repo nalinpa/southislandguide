@@ -182,4 +182,7 @@ export const components = {
     React.createElement(View, null, label ? React.createElement(Text, null, label) : null, children),
 };
 
+// The real one is the same card built from the form tokens (lib/uiKit.ts).
+export const AuthCard = components.AuthCard;
+
 export const boundingRegionFrom = () => null;

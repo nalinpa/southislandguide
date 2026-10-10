@@ -12,11 +12,10 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Mail } from "lucide-react-native";
-import { Screen, AppText, components } from "@/lib/uiKit";
+import { Screen, AppText, AuthCard } from "@/lib/uiKit";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { tokens } from "@/lib/ui/tokens";
-import { SocialSignInButtons } from "@/components/auth/SocialSignInButtons";
 
 // Aoraki / Mt Cook over Lake Pukaki. Bundled so it paints offline with no
 // network flash.
@@ -34,13 +33,13 @@ export default function LoginScreen() {
     }
   }, [session.status]);
 
-  // Social sign-in lives outside AuthCard rather than inside it: @blacksands/
-  // components deliberately has no appleButton slot (it was added for
-  // rotorua-guide in 0.5.4 and removed in c51f5f1), so the shared package never
-  // imports expo-apple-authentication and no other app inherits that native dep.
-  const [authErr, setAuthErr] = useState<string | null>(null);
-  const [socialBusy, setSocialBusy] = useState(false);
-  const busy = f.busy || socialBusy || session.status === "loading";
+  // ponytail: email-only for 1.0. Apple's servers reject this App ID's Sign in
+  // with Apple ("Invalid client", see TASKS.md Sign-in), and Google can't be
+  // offered without it (App Store guideline 4.8). When Apple fixes it, render
+  // <SocialSignInButtons> above the email button again: the component and
+  // lib/auth are untouched. usesAppleSignIn stays in app.config.ts on purpose:
+  // without it `eas build` switches the capability off at Apple.
+  const busy = f.busy || session.status === "loading";
 
   // The email form stays closed until asked for, so the photo isn't hidden
   // behind a card most people never use.
@@ -68,14 +67,16 @@ export default function LoginScreen() {
           <Image source={HERO_IMAGE} style={StyleSheet.absoluteFill} contentFit="cover" />
           {/* Dark teal at the top (white title over white cloud) and the bottom
               (white guest link over the lake), clear through the mountains. The
-              top tint holds past the subtitle before fading. */}
+              top tint holds past the subtitle before fading, and is nearly
+              opaque there: at 0.75 the clouds still showed through behind the
+              title and subtitle and made them harder to read. */}
           <LinearGradient
             colors={[
-              "rgba(6,63,69,0.9)",
-              "rgba(6,63,69,0.75)",
+              "rgba(6,63,69,0.95)",
+              "rgba(6,63,69,0.88)",
               "rgba(6,63,69,0)",
               "rgba(6,63,69,0)",
-              "rgba(6,63,69,0.75)",
+              "rgba(6,63,69,0.8)",
             ]}
             // Strong to just under the subtitle (~0.36), then a quick fade, clear
             // by 0.5: Aoraki's peak sits at about half screen height.
@@ -106,14 +107,14 @@ export default function LoginScreen() {
                 <AppText variant="screenTitle" style={styles.appName}>
                   South Island Guide
                 </AppText>
-                <AppText variant="label" style={styles.tagline}>
-                  Ultimate South Island trip planner
-                </AppText>
+                {/* Not the label variant: small, widely spaced capitals were the
+                    hardest words on the screen to read. */}
+                <AppText style={styles.tagline}>Ultimate South Island trip planner</AppText>
               </View>
 
               {emailOpen ? (
                 <View style={styles.actions}>
-                  <components.AuthCard
+                  <AuthCard
                     mode={f.mode}
                     title={f.title}
                     subtitle={f.subtitle}
@@ -136,20 +137,11 @@ export default function LoginScreen() {
                     accessibilityRole="button"
                     style={styles.linkBtn}
                   >
-                    <AppText style={styles.linkText}>Other ways to sign in</AppText>
+                    <AppText style={styles.linkText}>Back</AppText>
                   </Pressable>
                 </View>
               ) : (
                 <View style={styles.actions}>
-                  <SocialSignInButtons onError={setAuthErr} onBusyChange={setSocialBusy} />
-                  {authErr ? (
-                    // On a card: red text straight on the photo was unreadable.
-                    <AppText variant="label" style={styles.socialErr}>
-                      {authErr}
-                    </AppText>
-                  ) : null}
-                  {/* White, so it reads as the alternative to the two black
-                      provider buttons. Same 50pt height and 12 radius. */}
                   <Pressable
                     onPress={() => setEmailOpen(true)}
                     disabled={busy}
@@ -157,7 +149,7 @@ export default function LoginScreen() {
                     accessibilityState={{ disabled: busy }}
                     style={[styles.emailBtn, busy && styles.dimmed]}
                   >
-                    <Mail size={20} color={tokens.colors.text} strokeWidth={2.25} />
+                    <Mail size={20} color="#FFFFFF" strokeWidth={2.25} />
                     <AppText style={styles.emailText}>Sign in with email</AppText>
                   </Pressable>
                   <Pressable
@@ -191,49 +183,46 @@ const styles = StyleSheet.create({
   // 52pt (screenTitle is 30) wraps to "South Island / Guide" on every phone
   // width; "South Island" alone is ~290pt, inside an iPhone SE's 327. The
   // shadow lifts it off the cloud.
+  // Letter spacing -0.5, not the tighter -1.5 it had: at this weight the
+  // letters were starting to touch.
   appName: {
     color: "#FFFFFF",
     fontSize: 52,
-    lineHeight: 54,
-    letterSpacing: -1.5,
+    lineHeight: 56,
+    letterSpacing: -0.5,
     textAlign: "center",
-    textShadowColor: "rgba(0,0,0,0.45)",
+    textShadowColor: "rgba(0,0,0,0.6)",
     textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 8,
+    textShadowRadius: 10,
   },
+  // Normal case at 18pt. ~300pt wide, so it stays on one line down to an
+  // iPhone SE (327pt between the margins).
   tagline: {
     marginTop: tokens.space.sm,
     color: "#FFFFFF",
-    fontSize: 14,
-    // Uppercased by the label variant. 1.5 not 2.5: the longer line still wraps
-    // on narrow phones, and lineHeight keeps the two lines tight if it does.
-    letterSpacing: 1.5,
-    lineHeight: 20,
+    fontSize: 18,
+    fontWeight: "600",
+    lineHeight: 24,
     textAlign: "center",
-    textShadowColor: "rgba(0,0,0,0.5)",
+    textShadowColor: "rgba(0,0,0,0.6)",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 6,
   },
   actions: { gap: tokens.space.sm },
-  socialErr: {
-    color: tokens.colors.danger,
-    backgroundColor: tokens.colors.bgCard,
-    textAlign: "center",
-    padding: tokens.space.sm,
-    borderRadius: 12,
-    overflow: "hidden",
-  },
+  // The screen's main action: the full-strength highlight with a white label
+  // (5.2:1). Not the lighter on-dark orange: white on that is only 2.2:1.
+  // 56pt is the kit's primary tap height.
   emailBtn: {
-    height: 50,
-    borderRadius: 12,
-    backgroundColor: "#FFFFFF",
+    height: tokens.tap.primary,
+    borderRadius: tokens.radius.md,
+    backgroundColor: tokens.colors.highlight,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
   },
   dimmed: { opacity: 0.5 },
-  emailText: { color: tokens.colors.text, fontSize: 19, fontWeight: "600" },
+  emailText: { color: "#FFFFFF", fontSize: 19, fontWeight: "700" },
   linkBtn: { alignSelf: "center", paddingVertical: 10, paddingHorizontal: tokens.space.md },
   linkText: { color: "#FFFFFF", fontSize: 15, fontWeight: "700" },
 });

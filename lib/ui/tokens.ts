@@ -1,4 +1,20 @@
+// Named here because both the palette and the hero button below use it.
+const HIGHLIGHT = "#C2410C";
+
+// The shadow that lifts a white card off the page. Don't pair it with
+// overflow: "hidden" on the same view: iOS then clips the shadow away.
+export const cardLift = {
+  shadowColor: "#0A1F1B",
+  shadowOffset: { width: 0, height: 6 },
+  shadowOpacity: 0.12,
+  shadowRadius: 14,
+  elevation: 4,
+} as const;
+
 export const tokens = {
+  // variant="hero" on AppButton: a screen's one main action. Everything else
+  // stays on the default teal "primary".
+  button: { hero: { bg: HIGHLIGHT, text: "#FFFFFF" } },
   space: {
     xxs: 2,
     xs: 8,
@@ -11,16 +27,30 @@ export const tokens = {
   border: { thin: 1, thick: 1 },
   tap: { min: 48, primary: 56 },
   colors: {
-    bgBase: "#D3ECE5",
-    bgSurface: "#C2E2D8",
-    bgCard: "#F4FBF8",
-    bgElevated: "#AED6C9",
-    borderSubtle: "#AED6C9",
-    border: "#8DBFAF",
+    // Pages are near-white and cards pure white so text stands out; the brand
+    // mint (#D3ECE5, still the splash and icon background) is now only the fill
+    // for chips and search bars. lib/ui/__tests__/tokens.test.ts holds the
+    // contrast floors.
+    bgBase: "#EEF6F3",
+    bgSurface: "#E2F0EB",
+    bgCard: "#FFFFFF",
+    bgElevated: "#D3ECE5",
+    borderSubtle: "#CFE1DA",
+    border: "#A9C6BC",
     borderStrong: "#3D6B5F",
     accent: "#095C65",
     accentDim: "rgba(9,92,101,0.12)",
     accentWarm: "#063F45",
+    // The one warm colour: draws the eye to the important thing on a screen.
+    // Opposite teal on the wheel, and not one of the map category colours
+    // (components/map/SiteMarker.tsx). Too weak as text on bgElevated (4.2:1).
+    highlight: HIGHLIGHT,
+    highlightDim: "#FDEDE3",
+    // For the dark brand bar at the top of a screen (accentWarm): the highlight
+    // itself is only 2.3:1 there, so it gets a lighter twin, plus a muted
+    // off-white for whatever isn't selected.
+    highlightOnDark: "#FF9A62",
+    onDarkMuted: "#BFD8D2",
     surf: "#2C4A36",
     surfDim: "rgba(44,74,54,0.12)",
     success: "#2C4A36",
@@ -29,8 +59,21 @@ export const tokens = {
     warningDim: "#FBF3DF",
     danger: "#B42318",
     dangerDim: "#FDF0EE",
-    text: "#08241F",
-    text2: "#264E45",
-    textMuted: "#3F685E"
+    // Near-black, then neutral greys: the old green-on-green secondary text
+    // blended into the page.
+    text: "#0A1F1B",
+    text2: "#33443F",
+    textMuted: "#566661"
   },
 } as const;
+
+// The shared sign-in card (AuthCard) fills its fields and its Sign In / Sign Up
+// switch with bgElevated, draws its submit as the primary button, and has no
+// props for either. Building it from these tokens instead (see lib/uiKit.ts)
+// is the only way to restyle it from this app: near-white fields, so typed
+// text isn't dark on the brand mint, and the highlight for the submit.
+export const formTokens = {
+  ...tokens,
+  button: { ...tokens.button, primary: tokens.button.hero },
+  colors: { ...tokens.colors, bgElevated: "#F1F6F4" },
+};

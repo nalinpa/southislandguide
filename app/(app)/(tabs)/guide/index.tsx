@@ -1,37 +1,18 @@
 import { useState } from "react";
 import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { ChevronLeft, ChevronRight } from "lucide-react-native";
+import { ChevronRight } from "lucide-react-native";
 
-import { AppText, AppIconButton } from "@/lib/uiKit";
+import { AppText } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
+import { TopBar, TopBarBack } from "@/components/layout/TopBar";
+import { TopBarTabs } from "@/components/layout/TopBarTabs";
 import {
   GUIDE_CATEGORIES,
   ISLAND_CATEGORIES,
   REGIONS_WITH_CONTENT,
   type RegionId,
 } from "@/lib/guideContent";
-
-function ScopePill({
-  label,
-  active,
-  onPress,
-}: {
-  label: string;
-  active: boolean;
-  onPress: () => void;
-}) {
-  return (
-    <TouchableOpacity
-      style={[styles.pill, active && styles.pillActive]}
-      onPress={onPress}
-      activeOpacity={0.7}
-    >
-      <AppText style={[styles.pillText, active && styles.pillTextActive]}>{label}</AppText>
-    </TouchableOpacity>
-  );
-}
 
 export default function GuideIndexPage() {
   // null = island-wide. A region id filters to that region's sections.
@@ -40,43 +21,36 @@ export default function GuideIndexPage() {
     ? GUIDE_CATEGORIES.filter((c) => c.region === region)
     : ISLAND_CATEGORIES;
 
-  return (
-    // Top edge only: this screen now sits under (tabs), and the tab bar below
-    // already handles the bottom inset.
-    <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <View style={styles.header}>
-        <AppIconButton
-          icon={ChevronLeft}
-          // Explicit target, not router.back(): the Tabs navigator's default back
-          // behaviour returns to the first tab (Explore), not the Home tab this
-          // screen is opened from.
-          onPress={() => router.navigate("/(app)/(tabs)/account")}
-          accessibilityLabel="Back to Home"
-          variant="control"
-          style={styles.backBtn}
-        />
-        <AppText variant="h1" style={styles.title}>
-          Guide
-        </AppText>
-      </View>
+  const hasRegions = REGIONS_WITH_CONTENT.length > 0;
 
-      {REGIONS_WITH_CONTENT.length > 0 && (
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.scopeRow}
-        >
-          <ScopePill label="South Island" active={region === null} onPress={() => setRegion(null)} />
-          {REGIONS_WITH_CONTENT.map((r) => (
-            <ScopePill
-              key={r.id}
-              label={r.label}
-              active={region === r.id}
-              onPress={() => setRegion(r.id)}
-            />
-          ))}
-        </ScrollView>
-      )}
+  return (
+    <View style={styles.container}>
+      <TopBar
+        title="Guide"
+        flushBottom={hasRegions}
+        leading={
+          <TopBarBack
+            // Explicit target, not router.back(): the Tabs navigator's default back
+            // behaviour returns to the first tab (Explore), not the Home tab this
+            // screen is opened from.
+            onPress={() => router.navigate("/(app)/(tabs)/account")}
+            label="Back to Home"
+          />
+        }
+      >
+        {/* The scopes are a tab strip in the bar, the same as Explore's
+            categories: "South Island" plus each region with sections written. */}
+        {hasRegions && (
+          <TopBarTabs<RegionId | null>
+            tabs={[
+              { key: null, label: "South Island" },
+              ...REGIONS_WITH_CONTENT.map((r) => ({ key: r.id, label: r.label })),
+            ]}
+            selected={region}
+            onSelect={setRegion}
+          />
+        )}
+      </TopBar>
 
       <ScrollView contentContainerStyle={styles.list}>
         {visible.map((category) => {
@@ -97,51 +71,14 @@ export default function GuideIndexPage() {
           );
         })}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  // Near-white, matching the guide articles and the place detail page.
-  safeArea: { flex: 1, backgroundColor: tokens.colors.bgCard },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: tokens.space.sm,
-    paddingHorizontal: tokens.space.md,
-    paddingTop: tokens.space.md,
-    paddingBottom: tokens.space.md,
-  },
-  title: { fontSize: 28 },
-  backBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    // Solid accent with a white chevron (AppIconButton variant="control"): an
-    // outlined circle on this white page was hard to spot. Accent is the app's
-    // "tap me" colour; the white chevron on it is 7.69:1.
-    backgroundColor: tokens.colors.accent,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  list: { paddingHorizontal: tokens.space.md, paddingBottom: tokens.space.xl },
-  scopeRow: {
-    flexDirection: "row",
-    gap: tokens.space.xs,
-    paddingHorizontal: tokens.space.md,
-    paddingBottom: tokens.space.sm,
-  },
-  pill: {
-    paddingHorizontal: tokens.space.sm,
-    paddingVertical: 6,
-    borderRadius: tokens.radius.lg,
-    borderWidth: 1,
-    borderColor: tokens.colors.border,
-    backgroundColor: tokens.colors.bgCard,
-  },
-  pillActive: { backgroundColor: tokens.colors.accent, borderColor: tokens.colors.accent },
-  pillText: { fontSize: 13, fontWeight: "600", color: tokens.colors.text2 },
-  pillTextActive: { color: "#FFFFFF" },
+  // White, matching the guide articles and the place detail page.
+  container: { flex: 1, backgroundColor: tokens.colors.bgCard },
+  list: { paddingHorizontal: tokens.space.md, paddingTop: tokens.space.xs, paddingBottom: tokens.space.xl },
   row: {
     flexDirection: "row",
     alignItems: "center",
@@ -158,5 +95,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexShrink: 0,
   },
-  rowTitle: { flex: 1, fontSize: 15, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1 },
+  rowTitle: { flex: 1, fontSize: 16, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1 },
 });

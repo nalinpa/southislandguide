@@ -34,7 +34,8 @@ import React from "react";
 import { Linking } from "react-native";
 import { fireEvent, render } from "@testing-library/react-native";
 
-import { MapOverlayCard } from "@/components/map/MapOverlay";
+import { MapOverlayCard, SHEET_GRADIENT } from "@/components/map/MapOverlay";
+import { tokens } from "@/lib/ui/tokens";
 
 const site = {
   id: "s1",
@@ -67,6 +68,24 @@ beforeEach(() => {
 });
 
 afterEach(() => openUrlSpy.mockRestore());
+
+// The sheet's text is white. Its background used to fade to the pale page colour at the
+// bottom, which washed out the nearby rows sitting there.
+describe("the sheet background", () => {
+  const luminance = (hex: string) => {
+    const [r, g, b] = [1, 3, 5].map((i) => {
+      const v = parseInt(hex.slice(i, i + 2), 16) / 255;
+      return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+
+  it("stays dark enough for white text from top to bottom", () => {
+    for (const stop of SHEET_GRADIENT) {
+      expect(1.05 / (luminance(stop) + 0.05)).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+});
 
 describe("with no site selected", () => {
   it("renders no card at all", async () => {
@@ -151,6 +170,27 @@ describe("the selected site", () => {
     await fireEvent.press(view.getByText("Wai-O-Tapu"));
 
     expect(handlers.onFocusSite).toHaveBeenCalled();
+  });
+
+  // The sheet is the brand's dark teal, so the highlight is its on-dark twin.
+  it("shows the distance in the highlight colour", async () => {
+    const view = await openSheet();
+
+    expect(view.getByText(/^\d+(\.\d+)?\s?k?m$/)).toHaveStyle({ color: tokens.colors.highlightOnDark });
+  });
+
+  // Orange buttons carry a white label everywhere, so they use the full-strength
+  // highlight: white on the lighter on-dark orange is only 2.2:1.
+  it("makes Directions the highlighted action with a white label, and Details the plain one", async () => {
+    const view = await openSheet();
+
+    expect(view.getByRole("button", { name: "Directions" })).toHaveStyle({
+      backgroundColor: tokens.colors.highlight,
+    });
+    expect(view.getByText("Directions")).toHaveStyle({ color: "#FFFFFF" });
+    expect(view.getByRole("button", { name: "Details" })).not.toHaveStyle({
+      backgroundColor: tokens.colors.highlight,
+    });
   });
 
   it("shows a distance only when there is a location to measure from", async () => {

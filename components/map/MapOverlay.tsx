@@ -6,7 +6,6 @@ import {
   Pressable,
   View,
   Text,
-  Platform,
   ImageBackground,
   useWindowDimensions,
   Linking,
@@ -58,15 +57,18 @@ interface MapOverlayProps {
 
 const SNAP_DEFAULT = ["12%", "22%", "40%"];
 
-const SheetBackground = ({ style }: { style?: any }) => (
-  <LinearGradient
-    colors={[tokens.colors.text, tokens.colors.text, tokens.colors.bgBase]}
-    locations={[0, 0.32, 1]}
-    style={style as any}
-  />
-);
+// The brand's deep teal, like every other screen's top bar. It was the near-
+// black text colour, with a serif title: the one place in the app that looked
+// like a different product.
+// Dark all the way down: the sheet's text is white, and the nearby rows sit at
+// the bottom. It used to fade to the page colour, which was fine when that was
+// a mid mint but left white text at 1.1:1 once the page went near-white. It
+// now only eases from the deep teal to the slightly lighter brand teal.
+export const SHEET_GRADIENT = [tokens.colors.accentWarm, tokens.colors.accentWarm, tokens.colors.accent] as const;
 
-const SERIF = Platform.OS === "ios" ? "Georgia" : "serif";
+const SheetBackground = ({ style }: { style?: any }) => (
+  <LinearGradient colors={SHEET_GRADIENT} locations={[0, 0.32, 1]} style={style as any} />
+);
 
 // ponytail: lib/utils/navigation.ts (and its getDirections export) doesn't exist in this
 // repo — the brief's premise about sites/[siteId]/index.tsx having a handleDirections to
@@ -181,21 +183,27 @@ export function MapOverlayCard({
             </Pressable>
             {hasLoc && (
               <View style={styles.distancePill}>
-                <Navigation size={10} color="rgba(255,255,255,0.85)" strokeWidth={2} />
+                <Navigation
+                  size={10}
+                  color={tokens.colors.highlightOnDark}
+                  fill={tokens.colors.highlightOnDark}
+                  strokeWidth={2}
+                />
                 <Text style={styles.distancePillText}>{distanceLabel}</Text>
               </View>
             )}
           </View>
         </View>
         <View style={styles.actions}>
-          <Pressable onPress={onOpen} style={styles.btnDetails}>
+          <Pressable onPress={onOpen} style={styles.btnDetails} accessibilityRole="button">
             <Text style={styles.btnDetailsText}>Details</Text>
           </Pressable>
           <Pressable
             onPress={() => getDirections(site.lat, site.lng, site.name)}
             style={styles.btnDirections}
+            accessibilityRole="button"
           >
-            <Navigation size={14} color="#FFF" strokeWidth={2} />
+            <Navigation size={14} color="#FFFFFF" strokeWidth={2.25} />
             <Text style={styles.btnDirectionsText}>Directions</Text>
           </Pressable>
         </View>
@@ -204,6 +212,7 @@ export function MapOverlayCard({
             <Pressable
               onPress={onAddToItinerary}
               disabled={isOffline}
+              accessibilityRole="button"
               style={[styles.btnAddToTrip, isOffline && styles.btnAddToTripDisabled]}
             >
               <CalendarPlus size={15} color="#FFFFFF" strokeWidth={2} />
@@ -264,7 +273,7 @@ export function MapOverlayCard({
                         imageStyle={styles.cardImage}
                       >
                         <LinearGradient
-                          colors={["transparent", "rgba(36,26,18,0.82)"]}
+                          colors={["transparent", "rgba(4,32,36,0.85)"]}
                           locations={[0.35, 1]}
                           style={StyleSheet.absoluteFill}
                         />
@@ -316,7 +325,7 @@ export function MapOverlayCard({
                 <Text style={styles.nearbyDist}>
                   {formatDistanceMeters(nearby.distanceMeters)}
                 </Text>
-                <ChevronRight size={14} color="rgba(255,255,255,0.4)" strokeWidth={2} />
+                <ChevronRight size={14} color="rgba(255,255,255,0.7)" strokeWidth={2} />
               </Pressable>
             ))}
           </View>
@@ -333,14 +342,15 @@ const styles = StyleSheet.create({
   header: { paddingHorizontal: 20, paddingTop: 8, paddingBottom: 16, gap: 6 },
   headerRow: { flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", gap: 12 },
   headerLeft: { flex: 1, gap: 3 },
-  siteName: { fontFamily: SERIF, fontSize: 24, fontWeight: "700", color: "#FFFFFF", letterSpacing: -0.3, lineHeight: 30 },
-  siteMeta: { fontSize: 10, fontWeight: "700", color: "rgba(255,255,255,0.5)", letterSpacing: 2 },
+  siteName: { fontSize: 24, fontWeight: "800", color: "#FFFFFF", letterSpacing: -0.4, lineHeight: 30 },
+  siteMeta: { fontSize: 11, fontWeight: "700", color: tokens.colors.onDarkMuted, letterSpacing: 1.5 },
+  // The distance is the live fact, so it takes the highlight, as on the list.
   distancePill: {
-    flexDirection: "row", alignItems: "center", gap: 4,
-    backgroundColor: "rgba(255,255,255,0.15)", paddingHorizontal: 10, paddingVertical: 5,
+    flexDirection: "row", alignItems: "center", gap: 5,
+    backgroundColor: "rgba(255,255,255,0.12)", paddingHorizontal: 10, paddingVertical: 5,
     borderRadius: 20, marginTop: 2,
   },
-  distancePillText: { fontSize: 12, fontWeight: "600", color: "#FFFFFF" },
+  distancePillText: { fontSize: 13, fontWeight: "700", color: tokens.colors.highlightOnDark },
   loadingRow: { flexDirection: "row", alignItems: "center", gap: 8, paddingBottom: 4 },
   loadingLabel: { fontSize: 10, fontWeight: "700", letterSpacing: 2, color: "rgba(255,255,255,0.5)" },
   actions: { flexDirection: "row", gap: 10, paddingHorizontal: 20, paddingBottom: 8 },
@@ -349,15 +359,19 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.92)", alignItems: "center", justifyContent: "center",
   },
   btnDetailsText: { fontSize: 14, fontWeight: "600", color: tokens.colors.text, letterSpacing: 0.1 },
+  // The sheet's main action: the full-strength highlight with a white label
+  // (5.2:1), like every other orange button. Teal on the teal sheet would
+  // vanish, and white on the lighter on-dark orange is only 2.2:1.
   btnDirections: {
     flex: 1, flexDirection: "row", gap: 6, paddingVertical: 14, borderRadius: 10,
-    backgroundColor: tokens.colors.accent, alignItems: "center", justifyContent: "center",
+    backgroundColor: tokens.colors.highlight, alignItems: "center", justifyContent: "center",
   },
-  btnDirectionsText: { fontSize: 14, fontWeight: "600", color: "#FFFFFF", letterSpacing: 0.1 },
+  btnDirectionsText: { fontSize: 14, fontWeight: "700", color: "#FFFFFF", letterSpacing: 0.1 },
   actionsSecondary: { paddingHorizontal: 20, paddingBottom: 8, marginTop: 20 },
+  // Outlined: the third choice after Details and Directions.
   btnAddToTrip: {
     flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8,
-    paddingVertical: 13, borderRadius: 10, backgroundColor: tokens.colors.surf,
+    paddingVertical: 13, borderRadius: 10, borderWidth: 1.5, borderColor: "rgba(255,255,255,0.5)",
   },
   btnAddToTripDisabled: { opacity: 0.5 },
   btnAddToTripText: { fontSize: 14, fontWeight: "600", color: "#FFFFFF", letterSpacing: 0.1 },
@@ -367,21 +381,23 @@ const styles = StyleSheet.create({
     marginHorizontal: 20, marginBottom: 20, marginTop: 8,
   },
   nearbySectionTitle: {
-    fontSize: 10, fontWeight: "700", letterSpacing: 2.5, color: "rgba(255,255,255,0.5)",
+    fontSize: 11, fontWeight: "700", letterSpacing: 2, color: tokens.colors.onDarkMuted,
     paddingHorizontal: 20, marginBottom: 8,
   },
   nearbyRow: {
     flexDirection: "row", alignItems: "center", gap: 12, paddingHorizontal: 20, paddingVertical: 13,
-    marginHorizontal: 12, marginBottom: 6, borderRadius: 12, backgroundColor: "rgba(36,26,18,0.55)",
+    marginHorizontal: 12, marginBottom: 6, borderRadius: 12, backgroundColor: "rgba(255,255,255,0.1)",
   },
-  nearbyDot: { width: 10, height: 10, borderRadius: 5, flexShrink: 0 },
-  nearbyName: { flex: 1, fontSize: 14, fontWeight: "600", color: "#FFFFFF", letterSpacing: -0.1 },
-  nearbyDist: { fontSize: 12, fontWeight: "500", color: "rgba(255,255,255,0.55)" },
+  // A white ring so a dark category colour (Stay's brown, Culture's maroon)
+  // still shows on the teal.
+  nearbyDot: { width: 12, height: 12, borderRadius: 6, flexShrink: 0, borderWidth: 1.5, borderColor: "#FFFFFF" },
+  nearbyName: { flex: 1, fontSize: 15, fontWeight: "600", color: "#FFFFFF", letterSpacing: -0.1 },
+  nearbyDist: { fontSize: 13, fontWeight: "600", color: "#FFFFFF" },
   carouselContent: { paddingLeft: 20, paddingRight: 12, gap: 10, paddingBottom: 4 },
   carouselCard: { width: 128, height: 168, borderRadius: 14, overflow: "hidden" },
   cardImageBg: { width: 128, height: 168, justifyContent: "space-between", padding: 10 },
   cardImage: { borderRadius: 14 },
-  cardFallback: { backgroundColor: "rgba(36,26,18,0.7)", borderLeftWidth: 3 },
+  cardFallback: { backgroundColor: "rgba(255,255,255,0.1)", borderLeftWidth: 3 },
   cardTime: { fontSize: 10, fontWeight: "700", letterSpacing: 0.5, color: "rgba(255,255,255,0.65)", textTransform: "uppercase" },
   cardBottom: { flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between" },
   cardName: { flex: 1, fontSize: 13, fontWeight: "700", color: "#FFFFFF", letterSpacing: -0.1, lineHeight: 17, marginRight: 6 },

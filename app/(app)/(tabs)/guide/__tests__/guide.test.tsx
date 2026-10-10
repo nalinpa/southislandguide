@@ -11,7 +11,10 @@ jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
 jest.mock("react-native-safe-area-context", () => {
   const React = require("react");
   const { View } = require("react-native");
-  return { SafeAreaView: ({ children, style }: any) => React.createElement(View, { style }, children) };
+  return {
+    SafeAreaView: ({ children, style }: any) => React.createElement(View, { style }, children),
+    useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+  };
 });
 
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn(), navigate: jest.fn() };
@@ -21,6 +24,9 @@ jest.mock("expo-router", () => ({
     return mockRouter;
   },
   useLocalSearchParams: () => mockParams,
+  // LightStatusBar uses it to own the status bar while its screen is in front. Here the
+  // screen is always "focused".
+  useFocusEffect: (effect: () => void) => require("react").useEffect(effect, []),
 }));
 
 import React from "react";
@@ -29,6 +35,7 @@ import { fireEvent, render } from "@testing-library/react-native";
 import GuideIndexPage from "@/app/(app)/(tabs)/guide/index";
 import GuideCategoryPage from "@/app/(app)/(tabs)/guide/[slug]";
 import { GUIDE_CATEGORIES, ISLAND_CATEGORIES, REGIONS_WITH_CONTENT } from "@/lib/guideContent";
+import { tokens } from "@/lib/ui/tokens";
 
 const first = ISLAND_CATEGORIES[0];
 const paragraphs = (body: string) => body.split("\n\n");
@@ -97,6 +104,26 @@ describe("the guide index", () => {
     expect(view.queryByText(regional[0].title)).toBeNull();
   });
 
+  it("titles the screen in white on the brand bar", async () => {
+    const view = await render(<GuideIndexPage />);
+
+    expect(view.getByText("Guide")).toHaveStyle({ color: "#FFFFFF" });
+  });
+
+  // The scopes are a tab strip in the brand bar, like Explore's categories.
+  it("marks the current scope in the highlight colour, and moves it with the scope", async () => {
+    const region = REGIONS_WITH_CONTENT[0];
+    const view = await render(<GuideIndexPage />);
+
+    expect(view.getByText("South Island")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+    expect(view.getByText(region.label)).toHaveStyle({ color: tokens.colors.onDarkMuted });
+
+    await fireEvent.press(view.getByText(region.label));
+
+    expect(view.getByText(region.label)).toHaveStyle({ color: tokens.colors.highlightOnDark });
+    expect(view.getByText("South Island")).toHaveStyle({ color: tokens.colors.onDarkMuted });
+  });
+
   it("opens the section that was tapped", async () => {
     const view = await render(<GuideIndexPage />);
 
@@ -122,6 +149,26 @@ describe("a section page", () => {
 
     expect(view.getByText(c.title)).toBeTruthy();
     for (const p of paragraphs(c.body)) expect(view.getByText(p)).toBeTruthy();
+  });
+
+  it("sets subheadings in the highlight colour, and paragraphs not", async () => {
+    const withHeading = GUIDE_CATEGORIES.find((c) => paragraphs(c.body).some(isHeading))!;
+    const heading = paragraphs(withHeading.body).find(isHeading)!;
+    const paragraph = paragraphs(withHeading.body).find((p) => !isHeading(p))!;
+    mockParams.slug = withHeading.slug;
+    const view = await render(<GuideCategoryPage />);
+
+    expect(view.getByText(heading)).toHaveStyle({ color: tokens.colors.highlight });
+    expect(view.getByText(paragraph)).toHaveStyle({ color: tokens.colors.text });
+  });
+
+  // The same round arrow as the guide list, beside the title. It used to be a white
+  // "Guide" pill on a row of its own under the title.
+  it("has an arrow for going back, not a labelled pill", async () => {
+    const view = await render(<GuideCategoryPage />);
+
+    expect(view.getByLabelText("Back to the guide")).toBeTruthy();
+    expect(view.queryByText("Guide")).toBeNull();
   });
 
   it("goes back to the guide index, not to Explore", async () => {

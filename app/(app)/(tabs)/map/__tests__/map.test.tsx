@@ -133,6 +133,7 @@ import { act, fireEvent, render } from "@testing-library/react-native";
 import MapScreen from "@/app/(app)/(tabs)/map/index";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS } from "@/lib/models";
+import { tokens } from "@/lib/ui/tokens";
 
 const makeSite = (id: string, name: string, category: string[], over: Record<string, unknown> = {}) => ({
   id,
@@ -222,6 +223,18 @@ describe("markers", () => {
 });
 
 describe("category chips", () => {
+  it("marks the chosen category in the highlight colour, and only that one", async () => {
+    const view = await render(<MapScreen />);
+    await openFilters(view);
+
+    await fireEvent.press(view.getByText("Scenic"));
+
+    expect(view.getByRole("button", { name: "Scenic" })).toHaveStyle({ backgroundColor: tokens.colors.highlight });
+    expect(view.getByRole("button", { name: "Culture" })).not.toHaveStyle({
+      backgroundColor: tokens.colors.highlight,
+    });
+  });
+
   it("are hidden until the filter button is pressed", async () => {
     const view = await render(<MapScreen />);
     expect(view.queryByText("All")).toBeNull();

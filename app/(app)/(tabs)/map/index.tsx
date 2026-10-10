@@ -354,6 +354,8 @@ export default function MapScreen() {
                 <TouchableOpacity
                   key={String(cat.value)}
                   style={[styles.chip, active && styles.chipActive]}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: active }}
                   onPress={() => {
                     Haptics.selectionAsync();
                     setCategoryFilter(cat.value);
@@ -497,15 +499,17 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 6,
   },
-  filterBtnActive: { backgroundColor: tokens.colors.surf, shadowColor: tokens.colors.surf },
+  // A filter being on is state, so the button and the chosen chip take the
+  // highlight: it's the only sign that some places are hidden.
+  filterBtnActive: { backgroundColor: tokens.colors.highlight, shadowColor: tokens.colors.highlight },
   chipRow: { paddingHorizontal: 16, paddingVertical: 10, gap: 8, flexDirection: "row" },
   chip: {
     paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20, backgroundColor: "rgba(255,255,255,0.95)",
     borderWidth: 1, borderColor: "rgba(36,26,18,0.14)",
     shadowColor: "#241A12", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 8, elevation: 3,
   },
-  chipActive: { backgroundColor: tokens.colors.surf, borderColor: tokens.colors.surf },
-  chipText: { fontSize: 13, fontWeight: "600", color: "rgba(36,26,18,0.7)" },
+  chipActive: { backgroundColor: tokens.colors.highlight, borderColor: tokens.colors.highlight },
+  chipText: { fontSize: 13, fontWeight: "600", color: tokens.colors.text2 },
   chipTextActive: { color: "#FFFFFF" },
   mapControls: {
     position: "absolute", right: 14, top: "40%", backgroundColor: "rgba(255,255,255,0.97)",

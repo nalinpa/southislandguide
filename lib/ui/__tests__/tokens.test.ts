@@ -41,18 +41,20 @@ describe("palette", () => {
     expect(contrast(c.onDarkMuted, c.accentWarm)).toBeGreaterThanOrEqual(4.5);
   });
 
-  // The sign-in form comes from the shared package, which fills its fields with bgElevated
-  // and colours its submit as the primary button. On the brand mint, typed text and the
-  // grey placeholder were hard to read.
-  it("gives the sign-in form near-white fields and a highlighted submit button", () => {
+  // The sign-in card and the review sheet come from the shared package, which fills their
+  // fields with bgElevated. On the brand mint, typed text and the grey placeholder were
+  // hard to read.
+  it("gives the shared forms near-white fields and a highlighted submit button", () => {
     expect(luminance(formTokens.colors.bgElevated)).toBeGreaterThan(0.85);
     expect(contrast(formTokens.colors.textMuted, formTokens.colors.bgElevated)).toBeGreaterThanOrEqual(4.5);
     expect(formTokens.button.primary.bg).toBe(c.highlight);
   });
 
-  // variant="hero" is for a screen's one main action.
-  it("makes the hero button the highlight colour, with readable text", () => {
-    expect(tokens.button.hero.bg).toBe(c.highlight);
-    expect(contrast(tokens.button.hero.text, tokens.button.hero.bg)).toBeGreaterThanOrEqual(4.5);
+  // A filled button is a screen's main action, so it's the highlight with a white label.
+  // That covers the shared package's own buttons too (Save Review, Create a Trip).
+  it.each(["primary", "hero"] as const)("makes the %s button the highlight colour, with a white label", (variant) => {
+    expect(tokens.button[variant].bg).toBe(c.highlight);
+    expect(tokens.button[variant].text).toBe("#FFFFFF");
+    expect(contrast(tokens.button[variant].text, tokens.button[variant].bg)).toBeGreaterThanOrEqual(4.5);
   });
 });

@@ -7,9 +7,11 @@ export { boundingRegionFrom };
 export const uiKit = createUI(tokens);
 export const components = createComponents(tokens, uiKit);
 
-// The sign-in card, built from the form tokens rather than the app's: see the
-// comment on formTokens. Use this, not components.AuthCard.
-export const AuthCard = createComponents(formTokens, createUI(formTokens)).AuthCard;
+// The shared forms, built from the form tokens rather than the app's: see the
+// comment on formTokens. Use these, not components.AuthCard / ReviewModal.
+const formComponents = createComponents(formTokens, createUI(formTokens));
+export const AuthCard = formComponents.AuthCard;
+export const ReviewModal = formComponents.ReviewModal;
 
 export const {
   AppButton,

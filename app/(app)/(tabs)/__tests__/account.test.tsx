@@ -41,7 +41,7 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { fireEvent, render } from "@testing-library/react-native";
+import { fireEvent, render, within } from "@testing-library/react-native";
 
 import AccountScreen from "@/app/(app)/(tabs)/account";
 import { tokens } from "@/lib/ui/tokens";
@@ -130,6 +130,17 @@ describe("signed in", () => {
     expect(view.getByText("Trips")).toBeTruthy();
     expect(view.getByText("3")).toBeTruthy();
     expect(view.getByText("Saved")).toBeTruthy();
+  });
+
+  // The hero used to scroll with the page, which slid the Open Guide button up behind
+  // the clock. Only the sheet scrolls now.
+  it("keeps the guide button fixed above the part that scrolls", async () => {
+    const view = await render(<AccountScreen />);
+    const scrolling = within(view.getByTestId("home-scroll"));
+
+    expect(scrolling.queryByText("Open Guide")).toBeNull();
+    expect(scrolling.getByText("User Info Card")).toBeTruthy();
+    expect(view.getByText("Open Guide")).toBeTruthy();
   });
 
   it("shows the counts in the highlight colour", async () => {

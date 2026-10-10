@@ -115,6 +115,7 @@ import { fireEvent, render, waitFor } from "@testing-library/react-native";
 
 import { ItineraryDetailView } from "@/components/itinerary/ItineraryDetailView";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
+import { tokens } from "@/lib/ui/tokens";
 
 const makeItem = (over: Record<string, unknown> = {}) => ({
   id: "item-1",
@@ -161,9 +162,9 @@ afterEach(() => alertSpy.mockRestore());
 const openTrip = (props: Record<string, unknown> = {}) =>
   render(<ItineraryDetailView tripId="t1" {...(props as any)} />);
 
-// The "..." menu button and a day tab's delete X are icon-only with no accessibilityLabel,
-// so there is no accessible name to query them by. Both sit as the last child of the row
-// their text label is in, which is what this walks to.
+// A day tab's delete X is icon-only with no accessibilityLabel, so there is no accessible
+// name to query it by. It sits as the last child of the row its text label is in, which is
+// what this walks to. (The "..." menu button is labelled "Trip options".)
 const iconButtonBesideText = (view: any, label: string, depth = 1) => {
   let node = view.getByText(label);
   for (let i = 0; i < depth; i++) node = node.parent;
@@ -221,6 +222,20 @@ describe("the trip", () => {
     mockTrips.itineraries = [makeTrip({ title: "" })];
     const view = await openTrip();
     expect(view.getByText("My Trip")).toBeTruthy();
+  });
+
+  it("titles the trip in white on the brand bar", async () => {
+    const view = await openTrip();
+    expect(view.getByText("Hot Pools Weekend")).toHaveStyle({ color: "#FFFFFF" });
+  });
+
+  // The day tabs sit in the dark brand bar, so the open day takes the highlight's
+  // on-dark twin, like the selected category on Explore.
+  it("marks the open day in the highlight colour, and only that one", async () => {
+    const view = await openTrip();
+
+    expect(view.getByText("Day 1")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+    expect(view.getByText("Day 2")).toHaveStyle({ color: tokens.colors.onDarkMuted });
   });
 
   it("shows the stops on the day it opens on", async () => {
@@ -352,14 +367,14 @@ describe("the trip menu", () => {
   it("opens from the header", async () => {
     const view = await openTrip();
 
-    await fireEvent.press(iconButtonBesideText(view, "Hot Pools Weekend"));
+    await fireEvent.press(view.getByLabelText("Trip options"));
 
     expect(view.getByText("Delete Trip")).toBeTruthy();
   });
 
   it("offers Switch Trip only when there is another trip to switch to", async () => {
     const view = await openTrip();
-    await fireEvent.press(iconButtonBesideText(view, "Hot Pools Weekend"));
+    await fireEvent.press(view.getByLabelText("Trip options"));
     expect(view.queryByText("Switch Trip")).toBeNull();
   });
 
@@ -367,7 +382,7 @@ describe("the trip menu", () => {
     mockTrips.itineraries = [makeTrip(), { ...makeTrip(), id: "t2", title: "Taupo Leg" }];
     const view = await openTrip();
 
-    await fireEvent.press(iconButtonBesideText(view, "Hot Pools Weekend"));
+    await fireEvent.press(view.getByLabelText("Trip options"));
     await fireEvent.press(view.getByText("Switch Trip"));
 
     expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/itinerary");
@@ -375,7 +390,7 @@ describe("the trip menu", () => {
 
   it("confirms a trip deletion before doing it", async () => {
     const view = await openTrip();
-    await fireEvent.press(iconButtonBesideText(view, "Hot Pools Weekend"));
+    await fireEvent.press(view.getByLabelText("Trip options"));
 
     await fireEvent.press(view.getByText("Delete Trip"));
 
@@ -385,7 +400,7 @@ describe("the trip menu", () => {
 
   it("deletes the trip and leaves the screen once confirmed", async () => {
     const view = await openTrip();
-    await fireEvent.press(iconButtonBesideText(view, "Hot Pools Weekend"));
+    await fireEvent.press(view.getByLabelText("Trip options"));
     await fireEvent.press(view.getByText("Delete Trip"));
 
     await fireEvent.press(view.getByText("Delete Trip", { exact: true }));

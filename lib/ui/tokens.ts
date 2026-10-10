@@ -12,9 +12,14 @@ export const cardLift = {
 } as const;
 
 export const tokens = {
-  // variant="hero" on AppButton: a screen's one main action. Everything else
-  // stays on the default teal "primary".
-  button: { hero: { bg: HIGHLIGHT, text: "#FFFFFF" } },
+  // A filled button is a screen's main action, so it's the highlight with a
+  // white label, not the kit's default teal. Setting it here also reaches the
+  // shared package's own buttons (Save Review, Create a Trip, the sign-in
+  // card). "hero" is the same colour with a glow, for a button on a bare page.
+  button: {
+    primary: { bg: HIGHLIGHT, text: "#FFFFFF" },
+    hero: { bg: HIGHLIGHT, text: "#FFFFFF" },
+  },
   space: {
     xxs: 2,
     xs: 8,
@@ -67,13 +72,12 @@ export const tokens = {
   },
 } as const;
 
-// The shared sign-in card (AuthCard) fills its fields and its Sign In / Sign Up
-// switch with bgElevated, draws its submit as the primary button, and has no
-// props for either. Building it from these tokens instead (see lib/uiKit.ts)
-// is the only way to restyle it from this app: near-white fields, so typed
-// text isn't dark on the brand mint, and the highlight for the submit.
+// The shared package's forms (the sign-in card, the review sheet) fill their
+// fields with bgElevated and have no props for it. In the app that token is
+// the brand mint, right for buttons and chips but hard to read typed text on.
+// Building those components from these tokens instead (see lib/uiKit.ts) is
+// the only way to restyle them from this app: near-white fields.
 export const formTokens = {
   ...tokens,
-  button: { ...tokens.button, primary: tokens.button.hero },
   colors: { ...tokens.colors, bgElevated: "#F1F6F4" },
 };

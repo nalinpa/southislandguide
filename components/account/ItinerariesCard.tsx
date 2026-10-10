@@ -81,22 +81,25 @@ export function ItinerariesCard() {
 const styles = StyleSheet.create({
   section: { paddingHorizontal: tokens.space.md, paddingVertical: 24 },
   sectionHeader: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 16 },
+  // Letter spacing 1.5, down from 3: at 3 the label read as separate letters.
   sectionLabel: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: "800",
-    letterSpacing: 3,
+    letterSpacing: 1.5,
     textTransform: "uppercase",
     color: tokens.colors.text2,
   },
+  // A count is a live fact about the user, so it takes the highlight.
   countBadge: {
-    backgroundColor: tokens.colors.surf,
-    width: 18,
-    height: 18,
-    borderRadius: 9,
+    backgroundColor: tokens.colors.highlight,
+    minWidth: 20,
+    height: 20,
+    borderRadius: 10,
+    paddingHorizontal: 5,
     alignItems: "center",
     justifyContent: "center",
   },
-  countText: { fontSize: 10, fontWeight: "700", color: "#FFFFFF" },
+  countText: { fontSize: 11, fontWeight: "700", color: "#FFFFFF" },
   emptyText: { fontSize: 14, fontWeight: "400", color: tokens.colors.textMuted, marginBottom: 16 },
   list: { marginBottom: 16, gap: 2 },
   row: {
@@ -107,7 +110,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: tokens.colors.border,
   },
-  index: { fontSize: 11, fontWeight: "700", color: tokens.colors.surf, letterSpacing: 1, width: 20 },
+  index: { fontSize: 11, fontWeight: "700", color: tokens.colors.textMuted, letterSpacing: 1, width: 20 },
   rowContent: { flex: 1, gap: 3 },
   rowTitle: { fontSize: 15, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1 },
   rowDate: { fontSize: 12, fontWeight: "400", color: tokens.colors.text2, letterSpacing: 0.2 },

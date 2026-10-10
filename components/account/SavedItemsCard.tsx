@@ -56,22 +56,25 @@ export function SavedItemsCard() {
 const styles = StyleSheet.create({
   section: { paddingHorizontal: tokens.space.md, paddingVertical: 24 },
   sectionHeader: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 16 },
+  // Letter spacing 1.5, down from 3: at 3 the label read as separate letters.
   sectionLabel: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: "800",
-    letterSpacing: 3,
+    letterSpacing: 1.5,
     textTransform: "uppercase",
     color: tokens.colors.text2,
   },
+  // A count is a live fact about the user, so it takes the highlight.
   countBadge: {
-    backgroundColor: tokens.colors.surf,
-    width: 18,
-    height: 18,
-    borderRadius: 9,
+    backgroundColor: tokens.colors.highlight,
+    minWidth: 20,
+    height: 20,
+    borderRadius: 10,
+    paddingHorizontal: 5,
     alignItems: "center",
     justifyContent: "center",
   },
-  countText: { fontSize: 10, fontWeight: "700", color: "#FFFFFF" },
+  countText: { fontSize: 11, fontWeight: "700", color: "#FFFFFF" },
   emptyText: { fontSize: 14, fontWeight: "400", color: tokens.colors.textMuted, marginBottom: 16 },
   list: { marginBottom: 8 },
   row: {

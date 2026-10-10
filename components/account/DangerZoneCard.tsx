@@ -108,9 +108,9 @@ export function DangerZoneCard() {
 const styles = StyleSheet.create({
   section: { paddingHorizontal: tokens.space.md, paddingVertical: 24 },
   sectionLabel: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: "800",
-    letterSpacing: 3,
+    letterSpacing: 1.5,
     textTransform: "uppercase",
     color: tokens.colors.text2,
     marginBottom: 16,

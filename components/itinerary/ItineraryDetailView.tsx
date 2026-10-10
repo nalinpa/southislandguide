@@ -15,7 +15,8 @@ import { randomUUID } from "expo-crypto";
 import { Plus, MoreHorizontal, X } from "lucide-react-native";
 import * as Sentry from "@sentry/react-native";
 
-import { Screen, LoadingState, ErrorCard, AppText, components } from "@/lib/uiKit";
+import { Screen, LoadingState, ErrorCard, AppText, AppIconButton, components } from "@/lib/uiKit";
+import { TopBar } from "@/components/layout/TopBar";
 import { EditItemModal } from "@/components/itinerary/EditItemModal";
 import { PremiumFeatureModal } from "@/components/itinerary/PremiumFeatureModal";
 import { DeleteTripModal } from "@/components/itinerary/DeleteTripModal";
@@ -465,24 +466,29 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   }
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <View style={styles.header}>
-        <View style={styles.headerRow}>
-          <AppText variant="h1" style={styles.title}>
-            {localTrip.title || "My Trip"}
-          </AppText>
-          <TouchableOpacity
+    <View style={styles.safeArea}>
+      {/* The brand bar, with the day tabs as its bottom edge. They aren't the
+          shared TopBarTabs: each has a date under it and, when open, a delete
+          X, and the strip ends in Add Day. Colours match TopBarTabs. */}
+      <TopBar
+        title={localTrip.title || "My Trip"}
+        compactTitle
+        flushBottom
+        actions={
+          <AppIconButton
+            icon={MoreHorizontal}
+            variant="control"
             onPress={() => setShowTripMenu(true)}
-            style={styles.headerBtn}
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          >
-            <MoreHorizontal size={20} color={tokens.colors.text2} />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.tabContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tabScroll}>
+            accessibilityLabel="Trip options"
+          />
+        }
+      >
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.tabStrip}
+          contentContainerStyle={styles.tabScroll}
+        >
           {localTrip.days.map((day, index) => {
             const isActive = day.id === activeDayId;
             const canDelete = isActive && index > 0;
@@ -501,7 +507,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                       hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                       style={styles.dayDeleteBtn}
                     >
-                      <X size={14} color={tokens.colors.text2} strokeWidth={2.5} />
+                      <X size={14} color="#FFFFFF" strokeWidth={2.5} />
                     </TouchableOpacity>
                   )}
                 </View>
@@ -511,12 +517,12 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
           })}
           {isEntitled && (
             <TouchableOpacity onPress={handleAddDay} style={styles.addDayBtn}>
-              <Plus color={tokens.colors.accent} size={16} />
+              <Plus color="#FFFFFF" size={16} strokeWidth={2.5} />
               <AppText style={styles.addDayText}>Add Day</AppText>
             </TouchableOpacity>
           )}
         </ScrollView>
-      </View>
+      </TopBar>
 
       <ScrollView showsVerticalScrollIndicator={false} style={styles.timelineScroll} scrollEnabled={!isDragging}>
         <View style={styles.timelineContainer}>
@@ -677,19 +683,15 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
           </SafeAreaView>
         </TouchableOpacity>
       </Modal>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: tokens.colors.bgBase },
-  header: { paddingHorizontal: tokens.space.md, paddingTop: tokens.space.md, paddingBottom: 12 },
-  headerRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  title: { fontSize: 24 },
-  headerBtn: { padding: 6, borderRadius: tokens.radius.md, backgroundColor: tokens.colors.bgElevated },
   menuOverlay: { flex: 1, backgroundColor: "rgba(36,26,18,0.3)" },
-  // paddingTop approximates the header's own height (space.md + title line + paddingBottom)
-  // so the menu lands directly under the "..." button rather than needing a measured anchor.
+  // paddingTop approximates the top bar's title row (8 + 44, see TopBar) so the
+  // menu lands directly under the "..." button rather than needing a measured anchor.
   menuSafeArea: { alignItems: "flex-end", paddingTop: 60, paddingRight: tokens.space.md },
   menuCard: {
     minWidth: 170,
@@ -708,18 +710,30 @@ const styles = StyleSheet.create({
   menuRowDivider: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: tokens.colors.border },
   menuRowText: { fontSize: 15, fontWeight: "600", color: tokens.colors.text },
   menuRowDanger: { color: tokens.colors.danger },
-  tabContainer: { borderBottomWidth: 1, borderBottomColor: tokens.colors.borderSubtle },
-  tabScroll: { paddingHorizontal: tokens.space.md, alignItems: "stretch" },
-  dayTab: { paddingHorizontal: 14, paddingVertical: 12, position: "relative", alignItems: "center" },
-  dayTabContent: { flexDirection: "row", alignItems: "center", gap: 5 },
-  dayDeleteBtn: { padding: 5, borderRadius: 10, backgroundColor: tokens.colors.bgElevated },
-  dayTabText: { fontSize: 14, fontWeight: "600", color: tokens.colors.text2 },
-  dayTabTextActive: { color: tokens.colors.accent, fontWeight: "700" },
-  dayTabDate: { fontSize: 11, fontWeight: "500", color: tokens.colors.textMuted, marginTop: 1, textAlign: "center" },
-  dayTabDateActive: { color: tokens.colors.accent },
-  dayTabIndicator: { position: "absolute", bottom: -1, left: 8, right: 8, height: 2, backgroundColor: tokens.colors.accent, borderRadius: 1 },
-  addDayBtn: { flexDirection: "row", alignItems: "center", paddingHorizontal: 14, paddingVertical: 12, gap: 6 },
-  addDayText: { fontSize: 14, fontWeight: "600", color: tokens.colors.accent },
+  // flexGrow 0: a horizontal ScrollView otherwise stretches to fill the bar.
+  tabStrip: { flexGrow: 0 },
+  tabScroll: { paddingHorizontal: tokens.space.xs, alignItems: "stretch" },
+  dayTab: { paddingHorizontal: 14, paddingVertical: 10, position: "relative", alignItems: "center" },
+  dayTabContent: { flexDirection: "row", alignItems: "center", gap: 6 },
+  dayDeleteBtn: { padding: 5, borderRadius: 10, backgroundColor: "rgba(255,255,255,0.16)" },
+  // On the dark bar: muted off-white, and the highlight's lighter twin for the
+  // open day, the same pair as TopBarTabs.
+  dayTabText: { fontSize: 14, fontWeight: "600", color: tokens.colors.onDarkMuted },
+  dayTabTextActive: { color: tokens.colors.highlightOnDark, fontWeight: "700" },
+  dayTabDate: { fontSize: 11, fontWeight: "500", color: tokens.colors.onDarkMuted, marginTop: 1, textAlign: "center" },
+  dayTabDateActive: { color: tokens.colors.highlightOnDark },
+  dayTabIndicator: {
+    position: "absolute",
+    bottom: 0,
+    left: 8,
+    right: 8,
+    height: 3,
+    backgroundColor: tokens.colors.highlightOnDark,
+    borderTopLeftRadius: 3,
+    borderTopRightRadius: 3,
+  },
+  addDayBtn: { flexDirection: "row", alignItems: "center", paddingHorizontal: 14, paddingVertical: 10, gap: 6 },
+  addDayText: { fontSize: 14, fontWeight: "700", color: "#FFFFFF" },
   timelineScroll: { flex: 1 },
   timelineContainer: { position: "relative", paddingTop: tokens.space.md, paddingBottom: 100 },
   gridRow: { flexDirection: "row", height: SLOT_HEIGHT, alignItems: "flex-start" },

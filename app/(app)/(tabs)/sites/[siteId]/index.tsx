@@ -7,7 +7,7 @@ import * as Haptics from "expo-haptics";
 import * as Linking from "expo-linking";
 import { ArrowLeft, Clock, DollarSign, ExternalLink } from "lucide-react-native";
 
-import { LoadingState, ErrorCard, Stack, AppText, components } from "@/lib/uiKit";
+import { LoadingState, ErrorCard, Stack, AppText, ReviewModal, components } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
 import { hooksBag } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -293,7 +293,7 @@ function SiteDetail({ id }: { id: string }) {
         }}
       />
 
-      <components.ReviewModal
+      <ReviewModal
         visible={reviewOpen}
         saving={reviewsSaving}
         draftRating={currentDraft.rating}

@@ -194,16 +194,18 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
               {errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
 
               {/* Saves queue while offline, so without this the button would just spin until reconnect. */}
-              <AppButton
-                variant="primary"
-                onPress={handleAdd}
-                loading={isSaving}
-                loadingLabel="Adding..."
-                disabled={isOffline}
-                fullWidth
-              >
-                {isOffline ? "Reconnect to Add" : "Add to Trip"}
-              </AppButton>
+              <View style={styles.submit}>
+                <AppButton
+                  variant="primary"
+                  onPress={handleAdd}
+                  loading={isSaving}
+                  loadingLabel="Adding..."
+                  disabled={isOffline}
+                  fullWidth
+                >
+                  {isOffline ? "Reconnect to Add" : "Add to Trip"}
+                </AppButton>
+              </View>
             </ScrollView>
           </CardShell>
         </View>
@@ -256,4 +258,6 @@ const styles = StyleSheet.create({
   stepCenter: { flex: 1, alignItems: "center" },
   durationText: { fontSize: 18, fontWeight: "800", color: tokens.colors.accent },
   errorText: { fontSize: 12, color: tokens.colors.danger, marginTop: tokens.space.sm },
+  // The button used to sit hard against the duration stepper above it.
+  submit: { marginTop: tokens.space.md },
 });

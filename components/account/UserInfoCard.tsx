@@ -73,9 +73,9 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   sectionLabel: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: "800",
-    letterSpacing: 3,
+    letterSpacing: 1.5,
     textTransform: "uppercase",
     color: tokens.colors.text2,
     marginBottom: 12,

@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { View, StyleSheet, TextInput, Linking, ScrollView, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TextInput, Linking, Pressable } from "react-native";
 import { router } from "expo-router";
-import { Bookmark, Search, X } from "lucide-react-native";
+import { Bookmark, ChevronRight, Search, X } from "lucide-react-native";
 
-import { Screen, LoadingState, ErrorCard, CardShell, Stack, Row, AppText, AppIconButton } from "@/lib/uiKit";
+import { Screen, LoadingState, ErrorCard, CardShell, Stack, AppText, AppIconButton } from "@/lib/uiKit";
+import { TopBar } from "@/components/layout/TopBar";
+import { TopBarTabs } from "@/components/layout/TopBarTabs";
 import { tokens } from "@/lib/ui/tokens";
 import { hooksBag } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -80,34 +82,33 @@ export default function SiteListPage() {
     );
   }
 
-  const header = (
-    <Stack gap="md" style={styles.headerStack}>
-      <View style={styles.paddedSection}>
-        <Row justify="space-between" align="flex-end">
-          <View>
-            <AppText variant="label" status="hint" style={styles.eyebrow}>
-              Explore
-            </AppText>
-            <AppText variant="h1">Locations</AppText>
-          </View>
-          <Row gap="xs">
-            <AppIconButton
-              icon={searchOpen ? X : Search}
-              onPress={() => {
-                setSearchOpen((open) => !open);
-                if (searchOpen) setSearchQuery("");
-              }}
-              accessibilityLabel="Search Locations"
-            />
-            <AppIconButton
-              icon={Bookmark}
-              onPress={() => router.push("/(app)/saved-sites")}
-              accessibilityLabel="Saved places"
-            />
-          </Row>
-        </Row>
-      </View>
-
+  // Fixed above the list: the list scrolls under it, and the category tabs stay
+  // in reach however far down someone is. The tab strip, when there is one,
+  // forms the bar's bottom edge.
+  const topBar = (
+    <TopBar
+      title="Locations"
+      flushBottom={categoriesWithPlaces.length > 1}
+      actions={
+        <>
+          <AppIconButton
+            icon={searchOpen ? X : Search}
+            variant="control"
+            onPress={() => {
+              setSearchOpen((open) => !open);
+              if (searchOpen) setSearchQuery("");
+            }}
+            accessibilityLabel="Search Locations"
+          />
+          <AppIconButton
+            icon={Bookmark}
+            variant="control"
+            onPress={() => router.push("/(app)/saved-sites")}
+            accessibilityLabel="Saved places"
+          />
+        </>
+      }
+    >
       {searchOpen && (
         <View style={styles.paddedSection}>
           <View style={styles.searchInputWrap}>
@@ -125,85 +126,76 @@ export default function SiteListPage() {
       )}
 
       {categoriesWithPlaces.length > 1 && (
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.categoryTabContent}
-        >
-          {[null, ...categoriesWithPlaces].map((cat) => {
-            const active = category === cat;
-            return (
-              <TouchableOpacity
-                key={cat ?? "all"}
-                style={styles.categoryTab}
-                onPress={() => setCategory(cat)}
-                accessibilityRole="tab"
-                accessibilityState={{ selected: active }}
-              >
-                <AppText style={[styles.categoryTabText, active && styles.categoryTabTextActive]}>
-                  {cat ? SITE_CATEGORY_LABELS[cat] : "All"}
-                </AppText>
-                {active && <View style={styles.categoryTabIndicator} />}
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
+        <TopBarTabs<SiteCategory | null>
+          tabs={[
+            { key: null, label: "All" },
+            ...categoriesWithPlaces.map((c) => ({ key: c, label: SITE_CATEGORY_LABELS[c] })),
+          ]}
+          selected={category}
+          onSelect={setCategory}
+        />
       )}
+    </TopBar>
+  );
 
+  // Scrolls away with the rows. No side padding of its own: the list already
+  // pads its content, so these line up with the cards' edges.
+  const header = (
+    <Stack gap="md" style={styles.headerStack}>
       {locStatus === "denied" && (
-        <View style={styles.paddedSection}>
-          <ErrorCard
-            status="warning"
-            title="Location Disabled"
-            message="Enable location to see distances to nearby Locations."
-            action={{ label: "Open Settings", onPress: handleRefreshGPS }}
-          />
-        </View>
+        <ErrorCard
+          status="warning"
+          title="Location Disabled"
+          message="Enable location to see distances to nearby Locations."
+          action={{ label: "Open Settings", onPress: handleRefreshGPS }}
+        />
       )}
 
       {isGuest ? (
-        <View style={styles.paddedSection}>
-          <CardShell status="surf" onPress={() => router.push("/(auth)/login")}>
-            <Stack gap="xs">
-              <AppText variant="sectionTitle">Sign In for More</AppText>
-              <AppText variant="label" status="hint">
-                Sign in to save Locations and leave reviews.
-              </AppText>
-            </Stack>
-          </CardShell>
-        </View>
+        <Pressable
+          onPress={() => router.push("/(auth)/login")}
+          accessibilityRole="button"
+          style={styles.signInBanner}
+        >
+          <View style={styles.signInText}>
+            <AppText variant="sectionTitle">Sign In for More</AppText>
+            <AppText variant="body" style={styles.signInHint}>
+              Sign in to save Locations and leave reviews.
+            </AppText>
+          </View>
+          <ChevronRight size={22} color={tokens.colors.highlight} strokeWidth={2.5} />
+        </Pressable>
       ) : null}
 
       {activeLocations.length > 0 && rows.length === 0 && (
-        <View style={styles.paddedSection}>
-          <AppText variant="body" status="hint" style={styles.centerText}>
-            {searchQuery.trim()
-              ? "No Locations match your search."
-              : `No ${category ? SITE_CATEGORY_LABELS[category] : "Locations"} to show.`}
-          </AppText>
-        </View>
+        <AppText variant="body" status="hint" style={styles.centerText}>
+          {searchQuery.trim()
+            ? "No Locations match your search."
+            : `No ${category ? SITE_CATEGORY_LABELS[category] : "Locations"} to show.`}
+        </AppText>
       )}
     </Stack>
   );
 
   return (
-    <Screen padded={false}>
+    // paddingTop 0 hands the status-bar inset to the top bar, so the teal runs
+    // up under the clock (same as the login screen).
+    <Screen padded={false} style={styles.screen}>
+      {topBar}
       <ListView
         rows={rows}
         header={header}
         onPressItem={(id) => router.push(`/(app)/(tabs)/sites/${id}`)}
         ListEmptyComponent={
           activeLocations.length === 0 ? (
-            <View style={styles.paddedSection}>
-              <CardShell style={styles.emptyCard}>
-                <Stack gap="sm" align="center">
-                  <AppText variant="h3">No Locations Found</AppText>
-                  <AppText variant="body" status="hint" style={styles.centerText}>
-                    Check back soon.
-                  </AppText>
-                </Stack>
-              </CardShell>
-            </View>
+            <CardShell style={styles.emptyCard}>
+              <Stack gap="sm" align="center">
+                <AppText variant="h3">No Locations Found</AppText>
+                <AppText variant="body" status="hint" style={styles.centerText}>
+                  Check back soon.
+                </AppText>
+              </Stack>
+            </CardShell>
           ) : null
         }
       />
@@ -212,27 +204,26 @@ export default function SiteListPage() {
 }
 
 const styles = StyleSheet.create({
-  categoryTabContent: { gap: 20, paddingHorizontal: tokens.space.md },
-  categoryTab: { paddingVertical: 8, alignItems: "center" },
-  categoryTabText: { fontSize: 14, fontWeight: "600", color: tokens.colors.text2 },
-  // accent, not rotorua-guide's surf: accent is this app's selection colour
-  // everywhere else (map marker selection, primary buttons).
-  categoryTabTextActive: { color: tokens.colors.accent, fontWeight: "700" },
-  categoryTabIndicator: {
-    marginTop: 6,
-    height: 2,
-    width: "100%",
-    backgroundColor: tokens.colors.accent,
-    borderRadius: 1,
+  screen: { paddingTop: 0 },
+  // A tinted panel rather than a bordered card: the old dark-outlined box was
+  // the heaviest thing on the screen for what is an optional prompt.
+  signInBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: tokens.space.sm,
+    backgroundColor: tokens.colors.highlightDim,
+    borderRadius: tokens.radius.md,
+    padding: tokens.space.md,
   },
-  headerStack: { paddingTop: 12, paddingBottom: 8, width: "100%" },
+  signInText: { flex: 1, gap: 2 },
+  signInHint: { color: tokens.colors.text2 },
+  headerStack: { paddingTop: tokens.space.md, paddingBottom: 8, width: "100%" },
   paddedSection: { paddingHorizontal: 16 },
-  eyebrow: { letterSpacing: 2, marginBottom: 2 },
   searchInputWrap: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    backgroundColor: tokens.colors.bgElevated,
+    backgroundColor: tokens.colors.bgCard,
     borderRadius: tokens.radius.md,
     paddingHorizontal: tokens.space.sm,
     height: 44,

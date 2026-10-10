@@ -1,11 +1,11 @@
 // components/sites/list/ListItem.tsx
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { Image as ImageIcon } from "lucide-react-native";
+import { Image as ImageIcon, Navigation } from "lucide-react-native";
 import { MotiView } from "moti";
 import { formatDistanceMeters } from "@blacksands/hooks";
 
-import { AppText, Pill, Row, Stack } from "@/lib/uiKit";
-import { tokens } from "@/lib/ui/tokens";
+import { AppText, Row, Stack } from "@/lib/uiKit";
+import { cardLift, tokens } from "@/lib/ui/tokens";
 import { siteImage } from "@/lib/categoryImages";
 import type { SiteCategory } from "@/lib/models";
 
@@ -35,21 +35,30 @@ export function ListItem({ id, name, description, distanceMeters, imageUrl, cate
       animate={{ opacity: 1, translateY: 0 }}
       transition={{ type: "timing", duration: 250, delay: Math.min(index * 50, 300) }}
     >
-      <TouchableOpacity activeOpacity={0.7} onPress={() => onPress(id)} style={styles.card}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => onPress(id)}
+        accessibilityRole="button"
+        style={styles.card}
+      >
         <View style={styles.main}>
           <Stack gap="xs">
             <AppText variant="h3" numberOfLines={2}>
               {name}
             </AppText>
             {description ? (
-              <AppText variant="body" status="hint" numberOfLines={2}>
+              <AppText variant="body" numberOfLines={2} style={styles.description}>
                 {description}
               </AppText>
             ) : null}
           </Stack>
+          {/* The row's one live, personal fact, so it gets the highlight colour.
+              Plain text and an icon rather than a Pill: a mint chip on every
+              card read as decoration, and the Pill's label style is all caps. */}
           {distanceMeters != null && (
-            <Row style={styles.footer}>
-              <Pill status="basic">{formatDistanceMeters(distanceMeters)}</Pill>
+            <Row gap="xxs" align="center" style={styles.footer}>
+              <Navigation size={13} color={tokens.colors.highlight} fill={tokens.colors.highlight} />
+              <AppText style={styles.distance}>{formatDistanceMeters(distanceMeters)}</AppText>
             </Row>
           )}
         </View>
@@ -76,21 +85,20 @@ const styles = StyleSheet.create({
     padding: tokens.space.md,
     borderWidth: 1,
     borderColor: tokens.colors.borderSubtle,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    elevation: 2,
-    overflow: "hidden",
+    // No overflow: "hidden" here: on iOS it clips the view's own shadow, which
+    // left the cards flat against the page. The image clips itself (imageWrap).
+    ...cardLift,
   },
   main: {
     flex: 1,
     marginRight: tokens.space.sm,
     justifyContent: "space-between",
   },
+  description: { color: tokens.colors.text2 },
   footer: {
     marginTop: tokens.space.sm,
   },
+  distance: { fontSize: 14, fontWeight: "700", color: tokens.colors.highlight, marginLeft: 4 },
   imageWrap: {
     width: 96,
     height: 96,

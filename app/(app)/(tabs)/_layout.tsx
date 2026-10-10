@@ -65,16 +65,17 @@ function TabBar({ state, navigation }: any) {
           <Pressable
             key={t.key}
             onPress={() => onSelect(t.key)}
-            style={[styles.tab, isActive && { backgroundColor: tokens.colors.surfDim }]}
+            // The highlight marks "you are here" on every screen.
+            style={[styles.tab, isActive && { backgroundColor: tokens.colors.highlightDim }]}
           >
             <Ionicons
               name={isActive ? t.activeIcon : t.icon}
               size={24}
-              color={isActive ? tokens.colors.surf : tokens.colors.text2}
+              color={isActive ? tokens.colors.highlight : tokens.colors.text2}
             />
             <AppText
               variant="label"
-              style={[styles.tabLabel, { color: isActive ? tokens.colors.surf : tokens.colors.text2 }]}
+              style={[styles.tabLabel, { color: isActive ? tokens.colors.highlight : tokens.colors.text2 }]}
             >
               {t.title}
             </AppText>

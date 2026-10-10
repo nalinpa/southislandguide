@@ -15,26 +15,44 @@ type ActionsBarProps = {
   onToggleSave: () => void;
 };
 
+// Each action is an icon in a disc with its name under it. Three looks:
+// - primary: the one most people came for, solid teal;
+// - active: something the user has already done here (saved, reviewed,
+//   shared), in the highlight colour;
+// - otherwise the brand mint, with a teal icon.
 function QuickAction({
   icon: Icon,
   label,
   onPress,
   disabled,
   active,
+  primary,
+  fillWhenActive,
 }: {
   icon: typeof MapPin;
   label: string;
   onPress: () => void;
   disabled?: boolean;
   active?: boolean;
+  primary?: boolean;
+  /** Only for outline icons that read as "on" when filled, like the heart. */
+  fillWhenActive?: boolean;
 }) {
-  const color = active ? tokens.colors.success : tokens.colors.accent;
+  const iconColor = active ? tokens.colors.highlight : primary ? "#FFFFFF" : tokens.colors.accent;
+  const discColor = active ? tokens.colors.highlightDim : primary ? tokens.colors.accent : tokens.colors.bgElevated;
+  const labelColor = active ? tokens.colors.highlight : tokens.colors.text2;
   return (
-    <Pressable style={styles.quickAction} onPress={onPress} disabled={disabled} hitSlop={6}>
-      <Icon size={22} color={color} />
-      <AppText variant="label" style={[styles.quickActionLabel, { color }]}>
-        {label}
-      </AppText>
+    <Pressable
+      style={styles.quickAction}
+      onPress={onPress}
+      disabled={disabled}
+      hitSlop={6}
+      accessibilityRole="button"
+    >
+      <View style={[styles.quickDisc, { backgroundColor: discColor }]}>
+        <Icon size={22} color={iconColor} fill={active && fillWhenActive ? iconColor : "none"} />
+      </View>
+      <AppText style={[styles.quickActionLabel, { color: labelColor }]}>{label}</AppText>
     </Pressable>
   );
 }
@@ -58,7 +76,7 @@ export function QuickActions({
 }) {
   return (
     <Row justify="space-between" gap="sm" style={styles.quickRow}>
-      <QuickAction icon={Navigation} label="Directions" onPress={onDirections} />
+      <QuickAction icon={Navigation} label="Directions" onPress={onDirections} primary />
       <QuickAction icon={MessageSquarePlus} label={hasReview ? "Reviewed" : "Review"} onPress={onOpenReview} active={hasReview} />
       <QuickAction
         icon={Share2}
@@ -67,7 +85,13 @@ export function QuickActions({
         disabled={shareBonus}
         active={shareBonus}
       />
-      <QuickAction icon={Heart} label={isSaved ? "Saved" : "Save"} onPress={onToggleSave} active={isSaved} />
+      <QuickAction
+        icon={Heart}
+        label={isSaved ? "Saved" : "Save"}
+        onPress={onToggleSave}
+        active={isSaved}
+        fillWhenActive
+      />
     </Row>
   );
 }
@@ -125,22 +149,13 @@ export function ActionsBar({
 }
 
 const styles = StyleSheet.create({
-  // 2px borderStrong: this row sits on the detail page's near-white sheet, and
-  // with the original 1px borderSubtle it was white-on-white behind a ~1.4:1
-  // line. borderStrong on bgCard is 5.77:1.
-  quickRow: {
-    borderRadius: tokens.radius.lg,
-    borderWidth: 2,
-    borderColor: tokens.colors.borderStrong,
-    // Pure white, one step lighter than the palette's lightest (bgCard
-    // #F4FBF8, which the detail sheet behind this row also uses) — so the row
-    // reads as its own surface. Accent icons are 7.69:1 on it.
-    backgroundColor: "#FFFFFF",
-    paddingVertical: tokens.space.md,
-    paddingHorizontal: tokens.space.sm,
-  },
+  // No box round the row: the discs are what make the actions stand out on the
+  // white sheet. (It used to be a white panel in a 2px dark outline, which was
+  // the heaviest thing on the page.)
+  quickRow: { paddingVertical: tokens.space.xs },
   quickAction: { flex: 1, alignItems: "center", gap: 6 },
-  quickActionLabel: { fontSize: 11 },
+  quickDisc: { width: 52, height: 52, borderRadius: 26, alignItems: "center", justifyContent: "center" },
+  quickActionLabel: { fontSize: 12, fontWeight: "600" },
   card: {
     borderRadius: tokens.radius.lg,
     borderWidth: 1,

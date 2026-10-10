@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { Animated, View, StyleSheet, Pressable } from "react-native";
 import { useNetInfo } from "@react-native-community/netinfo";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Stack as ExpoStack, router, useLocalSearchParams } from "expo-router";
 import * as Haptics from "expo-haptics";
 import * as Linking from "expo-linking";
@@ -18,6 +18,7 @@ import { canAddToItinerary, SITE_CATEGORY_LABELS, type Site } from "@/lib/models
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { AddToTripModal } from "@/components/itinerary/AddToTripModal";
 import { Hero, HERO_HEIGHT } from "@/components/sites/detail/Hero";
+import { LightStatusBar } from "@/components/layout/LightStatusBar";
 // ActionsBar is intentionally not rendered: it duplicated QuickActions' review,
 // save and share controls. ReviewsSummaryCard covers the review summary.
 import { QuickActions } from "@/components/sites/detail/ActionsBar";
@@ -94,6 +95,18 @@ function SiteDetail({ id }: { id: string }) {
     extrapolate: "clamp",
   });
 
+  // The status bar's text is white, for the photo. Once the white sheet scrolls
+  // up under it that text has nothing to sit on, and the page's own text runs
+  // behind the clock. A teal band fades in over the last 40pt before the sheet
+  // gets there (the sheet starts HERO_HEIGHT - 32 down the scroll content).
+  const insets = useSafeAreaInsets();
+  const sheetAtStatusBar = HERO_HEIGHT - 32 - insets.top;
+  const statusBandOpacity = scrollY.interpolate({
+    inputRange: [sheetAtStatusBar - 40, sheetAtStatusBar],
+    outputRange: [0, 1],
+    extrapolate: "clamp",
+  });
+
   // GAP: no premium/entitlement lock here -- RTR's original alerts before
   // letting guests save past a limit (see useEntitlementGate +
   // FULL_GUIDE_PRODUCT_ID in rotorua-guide's [siteId]/index.tsx). Add your
@@ -128,6 +141,8 @@ function SiteDetail({ id }: { id: string }) {
   return (
     <View style={styles.container}>
       <ExpoStack.Screen options={{ headerShown: false }} />
+      {/* The clock sits over the photo, then over the teal band. */}
+      <LightStatusBar />
 
       <Animated.View style={[styles.heroWrap, { transform: [{ translateY: imageTranslateY }] }]}>
         <Hero imageUrl={site.imageUrl} imageThumbnailUrl={site.imageThumbnailUrl} category={site.category[0]} />
@@ -193,6 +208,11 @@ function SiteDetail({ id }: { id: string }) {
           </Stack>
         </View>
       </Animated.ScrollView>
+
+      <Animated.View
+        pointerEvents="none"
+        style={[styles.statusBand, { height: insets.top, opacity: statusBandOpacity }]}
+      />
 
       <SafeAreaView style={styles.backButtonWrap} pointerEvents="box-none">
         <Pressable
@@ -344,8 +364,8 @@ function WebsiteBadge({ url }: { url: string }) {
 // field) — hence "Good to know" rather than "Hours". The data is consistently
 // semicolon-separated clauses, so each gets its own line; as one run-on line
 // the safety clauses got buried mid-sentence. Boxed like the Local tip, which
-// follows it, but neutral (grey tint, dark bar) rather than accent, so the two
-// read as a set without looking like two tips.
+// follows it, but neutral (grey tint, dark bar) rather than the tip's highlight
+// colour, so the two read as a set without looking like two tips.
 function GoodToKnow({ note }: { note: string }) {
   const lines = note
     .split(";")
@@ -419,9 +439,11 @@ const styles = StyleSheet.create({
     // On top of the Stack's md gap, so the tip reads as its own block rather
     // than the tail of the description.
     marginTop: tokens.space.xs,
-    backgroundColor: tokens.colors.accentDim,
+    // The highlight colour: the tip is the best line on the page, and the one
+    // thing here that isn't a plain fact about the place.
+    backgroundColor: tokens.colors.highlightDim,
     borderLeftWidth: 3,
-    borderLeftColor: tokens.colors.accent,
+    borderLeftColor: tokens.colors.highlight,
     borderRadius: tokens.radius.sm,
     paddingVertical: tokens.space.sm,
     paddingHorizontal: tokens.space.md,
@@ -432,14 +454,13 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     letterSpacing: 0.8,
     textTransform: "uppercase",
-    color: tokens.colors.accent,
+    color: tokens.colors.highlight,
   },
   tipText: { fontSize: 15, lineHeight: 23, color: tokens.colors.text },
   container: { flex: 1, backgroundColor: tokens.colors.bgBase },
   heroWrap: { position: "absolute", top: 0, left: 0, right: 0 },
-  // The reading surface is near-white (bgCard), not the mint bgBase used
-  // everywhere else: long text on a tinted ground is more tiring to read.
-  // Text contrast 15.60:1 here vs 13.18:1 on bgBase.
+  // The reading surface is white (bgCard), not the tinted page colour: long
+  // text on a tinted ground is more tiring to read.
   sheet: {
     backgroundColor: tokens.colors.bgCard,
     borderTopLeftRadius: tokens.radius.lg,
@@ -458,6 +479,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   content: { paddingHorizontal: tokens.space.md, paddingTop: tokens.space.sm },
+  statusBand: { position: "absolute", top: 0, left: 0, right: 0, backgroundColor: tokens.colors.accentWarm },
   backButtonWrap: { position: "absolute", top: 0, left: 0, right: 0 },
   itineraryFloatingWrap: {
     position: "absolute",
@@ -469,7 +491,8 @@ const styles = StyleSheet.create({
   },
   itineraryButton: {
     borderRadius: tokens.radius.lg,
-    backgroundColor: tokens.colors.accent,
+    // The page's main action, so it takes the highlight (white text is 5.2:1).
+    backgroundColor: tokens.colors.highlight,
     paddingVertical: 20,
     marginBottom: tokens.space.sm,
     alignItems: "center",
@@ -486,7 +509,9 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "rgba(36,26,18,0.4)",
+    // accentWarm at 70%: dark enough to hold a white arrow over a pale photo
+    // and over the white sheet once the page has scrolled under it.
+    backgroundColor: "rgba(6,63,69,0.7)",
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.3)",
     alignItems: "center",

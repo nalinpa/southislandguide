@@ -79,6 +79,7 @@ import { fireEvent, renderRouter, screen } from "expo-router/testing-library";
 
 import SiteDetailRoute from "@/app/(app)/(tabs)/sites/[siteId]/index";
 import type { Site } from "@/lib/models";
+import { tokens } from "@/lib/ui/tokens";
 
 const makeSite = (over: Partial<Site> = {}): Site => ({
   id: "site-1",
@@ -163,6 +164,33 @@ describe("what it shows", () => {
     mockBag.site = makeSite({ website: "riccartonhouse.co.nz" });
     await openDetail();
     expect(screen.queryByLabelText("Open website")).toBeNull();
+  });
+});
+
+// The highlight colour marks the page's best line (the local tip), its main action, and
+// what the user has already done here.
+describe("highlight", () => {
+  it("sets the local tip in the highlight colour", async () => {
+    await openDetail();
+    expect(screen.getByText("Local tip")).toHaveStyle({ color: tokens.colors.highlight });
+  });
+
+  it("draws the add-to-itinerary button in the highlight colour", async () => {
+    await openDetail();
+    expect(screen.getByRole("button", { name: "+ Add to Itinerary" })).toHaveStyle({
+      backgroundColor: tokens.colors.highlight,
+    });
+  });
+
+  it("leaves Save neutral until the place is saved", async () => {
+    await openDetail();
+    expect(screen.getByText("Save")).not.toHaveStyle({ color: tokens.colors.highlight });
+  });
+
+  it("marks a saved place in the highlight colour", async () => {
+    mockSavedSites.savedSiteIds = new Set(["site-1"]);
+    await openDetail();
+    expect(screen.getByText("Saved")).toHaveStyle({ color: tokens.colors.highlight });
   });
 });
 

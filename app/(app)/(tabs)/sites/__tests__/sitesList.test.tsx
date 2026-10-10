@@ -15,7 +15,9 @@ jest.mock("@/components/sites/list/ListView", () => {
       React.createElement(
         View,
         null,
-        header,
+        // What's passed as `header` scrolls away with the rows; the testID lets a test tell
+        // that apart from the bar fixed above the list.
+        React.createElement(View, { testID: "list-header" }, header),
         rows.length === 0
           ? ListEmptyComponent
           : rows.map((r: any) =>
@@ -28,6 +30,10 @@ jest.mock("@/components/sites/list/ListView", () => {
       ),
   };
 });
+
+jest.mock("react-native-safe-area-context", () => ({
+  useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+}));
 
 const mockSession = { status: "authed", uid: "uid-1" } as any;
 jest.mock("@/lib/providers/SessionProvider", () => ({ useSession: () => ({ session: mockSession }) }));
@@ -53,13 +59,17 @@ jest.mock("expo-router", () => ({
   get router() {
     return mockRouter;
   },
+  // The top bar uses it to own the status bar while its screen is in front. Here the
+  // screen is always "focused".
+  useFocusEffect: (effect: () => void) => require("react").useEffect(effect, []),
 }));
 
 import React from "react";
 import { Linking } from "react-native";
-import { fireEvent, render } from "@testing-library/react-native";
+import { fireEvent, render, within } from "@testing-library/react-native";
 
 import SiteListPage from "@/app/(app)/(tabs)/sites/index";
+import { tokens } from "@/lib/ui/tokens";
 
 const makeSite = (id: string, name: string, category: string[], over: Record<string, unknown> = {}) => ({
   id,
@@ -175,6 +185,14 @@ describe("category tabs", () => {
     expect(selectedTab(view)).toBe("All");
   });
 
+  // The tabs sit on the dark brand bar, so they use the on-dark pair of colours.
+  it("marks the selected tab in the highlight colour, and only that one", async () => {
+    const view = await render(<SiteListPage />);
+
+    expect(view.getByText("All")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+    expect(view.getByText("Walks")).toHaveStyle({ color: tokens.colors.onDarkMuted });
+  });
+
   it("filters to a category, matching any of a place's categories", async () => {
     const view = await render(<SiteListPage />);
 
@@ -236,13 +254,33 @@ describe("search", () => {
   });
 });
 
+describe("top bar", () => {
+  it("sets the title in white on the brand bar", async () => {
+    const view = await render(<SiteListPage />);
+
+    expect(view.getByText("Locations")).toHaveStyle({ color: "#FFFFFF" });
+  });
+
+  // Fixed, so the list scrolls under it and the category tabs stay in reach however far
+  // down the list someone is.
+  it("keeps the title and category tabs out of the part that scrolls with the list", async () => {
+    const view = await render(<SiteListPage />);
+    const scrolling = within(view.getByTestId("list-header"));
+
+    expect(scrolling.queryByText("Locations")).toBeNull();
+    expect(scrolling.queryAllByRole("tab")).toHaveLength(0);
+    expect(view.getAllByRole("tab").length).toBeGreaterThan(1);
+  });
+});
+
 describe("guest and location", () => {
   it("shows a guest a sign-in card, not a login wall", async () => {
     mockSession.status = "guest";
     mockSession.uid = undefined;
     const view = await render(<SiteListPage />);
 
-    expect(view.getByText("Sign In for More")).toBeTruthy();
+    // In the scrolling part, so it doesn't permanently take room from the list.
+    expect(within(view.getByTestId("list-header")).getByText("Sign In for More")).toBeTruthy();
     expect(rowNames(view)).toHaveLength(4);
   });
 

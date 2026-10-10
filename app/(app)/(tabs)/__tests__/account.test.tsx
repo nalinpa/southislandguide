@@ -35,12 +35,16 @@ jest.mock("expo-router", () => ({
   get router() {
     return mockRouter;
   },
+  // LightStatusBar uses it to own the status bar while its screen is in front. Here the
+  // screen is always "focused".
+  useFocusEffect: (effect: () => void) => require("react").useEffect(effect, []),
 }));
 
 import React from "react";
 import { fireEvent, render } from "@testing-library/react-native";
 
 import AccountScreen from "@/app/(app)/(tabs)/account";
+import { tokens } from "@/lib/ui/tokens";
 
 const AUTHED_ONLY = ["Itineraries Card", "Saved Items Card", "Danger Zone Card"];
 
@@ -96,6 +100,17 @@ describe("guest", () => {
 
     expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/guide");
   });
+
+  // White label, so the button is the full-strength highlight: white on the lighter
+  // on-dark orange is only 2.2:1.
+  it("makes opening the guide the highlighted action, with a white label", async () => {
+    const view = await render(<AccountScreen />);
+
+    expect(view.getByRole("button", { name: "Open Guide" })).toHaveStyle({
+      backgroundColor: tokens.colors.highlight,
+    });
+    expect(view.getByText("Open Guide")).toHaveStyle({ color: "#FFFFFF" });
+  });
 });
 
 describe("signed in", () => {
@@ -115,6 +130,13 @@ describe("signed in", () => {
     expect(view.getByText("Trips")).toBeTruthy();
     expect(view.getByText("3")).toBeTruthy();
     expect(view.getByText("Saved")).toBeTruthy();
+  });
+
+  it("shows the counts in the highlight colour", async () => {
+    mockTrips.itineraries = [{ id: "t1" }, { id: "t2" }];
+    const view = await render(<AccountScreen />);
+
+    expect(view.getByText("2")).toHaveStyle({ color: tokens.colors.highlight });
   });
 
   it("uses the singular label for one trip", async () => {

@@ -53,6 +53,9 @@ jest.mock("expo-router", () => ({
   get router() {
     return mockRouter;
   },
+  // The top bar uses it to own the status bar while its screen is in front. Here the
+  // screen is always "focused".
+  useFocusEffect: (effect: () => void) => require("react").useEffect(effect, []),
 }));
 
 import React from "react";
@@ -60,6 +63,7 @@ import { fireEvent, render } from "@testing-library/react-native";
 
 import ItineraryListPage from "@/app/(app)/(tabs)/itinerary/index";
 import { PLANNER } from "@/lib/constants/gameplay";
+import { tokens } from "@/lib/ui/tokens";
 
 const makeTrip = (id: string, over: Record<string, unknown> = {}) => ({
   id,
@@ -102,6 +106,12 @@ describe("guest", () => {
     await fireEvent.press(view.getByText("Sign In"));
 
     expect(mockRouter.push).toHaveBeenCalledWith("/(auth)/login");
+  });
+
+  it("titles the screen in white on the brand bar", async () => {
+    const view = await render(<ItineraryListPage />);
+
+    expect(view.getByText("Plans")).toHaveStyle({ color: "#FFFFFF" });
   });
 });
 
@@ -207,5 +217,20 @@ describe("with trips", () => {
     const view = await render(<ItineraryListPage />);
 
     expect(view.queryByText("Create new trip")).toBeNull();
+  });
+
+  it("titles the list in white on the brand bar", async () => {
+    mockTrips.itineraries = [makeTrip("t1")];
+    const view = await render(<ItineraryListPage />);
+
+    expect(view.getByText("My Trips")).toHaveStyle({ color: "#FFFFFF" });
+  });
+
+  // Starting another trip is the screen's main action, so it takes the highlight.
+  it("offers a new trip in the highlight colour", async () => {
+    mockTrips.itineraries = [makeTrip("t1")];
+    const view = await render(<ItineraryListPage />);
+
+    expect(view.getByText("Create new trip")).toHaveStyle({ color: tokens.colors.highlight });
   });
 });

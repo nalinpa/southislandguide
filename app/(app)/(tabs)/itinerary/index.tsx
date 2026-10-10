@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Calendar, ChevronRight, Plus } from "lucide-react-native";
 
-import { Screen, LoadingState, ErrorCard, CardShell, Stack, AppText, AppButton, components } from "@/lib/uiKit";
-import { tokens } from "@/lib/ui/tokens";
+import { Screen, LoadingState, ErrorCard, AppText, AppButton, components } from "@/lib/uiKit";
+import { cardLift, tokens } from "@/lib/ui/tokens";
+import { TopBar } from "@/components/layout/TopBar";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { useEntitlementGate } from "@/lib/hooks/useEntitlementGate";
@@ -31,21 +31,22 @@ export default function ItineraryListPage() {
 
   if (session.status === "guest") {
     return (
-      <Screen>
-        <Stack gap="lg" style={styles.paddedSection}>
-          <AppText variant="h1">Plans</AppText>
-          <CardShell status="surf" style={styles.signInCard} onPress={() => router.push("/(auth)/login")}>
-            <Stack gap="md" align="center">
-              <AppText variant="h1">Sign In to Plan a Trip</AppText>
-              <AppText variant="body" status="hint" style={styles.centerText}>
-                Create an account to build and save an itinerary.
-              </AppText>
-              <AppButton variant="primary" size="lg" fullWidth onPress={() => router.push("/(auth)/login")}>
-                Sign In
-              </AppButton>
-            </Stack>
-          </CardShell>
-        </Stack>
+      <Screen padded={false} style={styles.screen}>
+        <TopBar title="Plans" />
+        <View style={styles.body}>
+          {/* A white card with one job. The heading is h2: the page title is in
+              the bar, and a second h1 here used to shout over it. The button is
+              the screen's main action, so it's the hero (highlight) variant. */}
+          <View style={styles.signInCard}>
+            <AppText variant="h2">Sign In to Plan a Trip</AppText>
+            <AppText variant="body" style={styles.signInHint}>
+              Create an account to build and save an itinerary.
+            </AppText>
+            <AppButton variant="hero" size="lg" fullWidth onPress={() => router.push("/(auth)/login")}>
+              Sign In
+            </AppButton>
+          </View>
+        </View>
       </Screen>
     );
   }
@@ -80,7 +81,8 @@ export default function ItineraryListPage() {
 
   if (itineraries.length === 0) {
     return (
-      <>
+      <View style={styles.container}>
+        <TopBar title="Plans" />
         <components.EmptyItineraryState
           onCreateNew={() => setIsCreating(true)}
           onBrowse={() => router.push("/(app)/(tabs)/sites")}
@@ -98,17 +100,15 @@ export default function ItineraryListPage() {
           }}
           showTemplateOption
         />
-      </>
+      </View>
     );
   }
 
   // Non-premium + exactly 1 trip renders inline above. Premium users land
   // here even with just 1 trip, so "+ New Itinerary" stays reachable.
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.header}>
-        <AppText variant="h1">My Trips</AppText>
-      </View>
+    <View style={styles.container}>
+      <TopBar title="My Trips" />
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
         {itineraries.map((itin) => (
           <TouchableOpacity
@@ -135,7 +135,7 @@ export default function ItineraryListPage() {
 
         {isEntitled && itineraries.length < PLANNER.MAX_ITINERARIES && (
           <TouchableOpacity style={styles.tripCardCreate} onPress={() => setIsCreating(true)} activeOpacity={0.7}>
-            <Plus size={18} color={tokens.colors.accent} />
+            <Plus size={18} color={tokens.colors.highlight} strokeWidth={2.5} />
             <AppText style={styles.tripCardCreateText}>Create new trip</AppText>
           </TouchableOpacity>
         )}
@@ -151,17 +151,25 @@ export default function ItineraryListPage() {
         }}
         showTemplateOption
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: tokens.colors.bgBase },
-  paddedSection: { paddingHorizontal: 16, paddingTop: 12 },
-  header: { paddingHorizontal: tokens.space.md, paddingTop: tokens.space.md, paddingBottom: 16 },
+  // paddingTop 0 hands the status-bar inset to the top bar.
+  screen: { paddingTop: 0 },
+  container: { flex: 1, backgroundColor: tokens.colors.bgBase },
   body: { padding: tokens.space.md, gap: 14, paddingBottom: 40 },
-  signInCard: { paddingVertical: tokens.space.xl, paddingHorizontal: tokens.space.lg },
-  centerText: { textAlign: "center" },
+  signInCard: {
+    backgroundColor: tokens.colors.bgCard,
+    borderRadius: tokens.radius.lg,
+    borderWidth: 1,
+    borderColor: tokens.colors.borderSubtle,
+    padding: tokens.space.lg,
+    gap: tokens.space.sm,
+    ...cardLift,
+  },
+  signInHint: { color: tokens.colors.text2, marginBottom: tokens.space.xs },
   tripCard: {
     flexDirection: "row",
     alignItems: "center",
@@ -172,6 +180,7 @@ const styles = StyleSheet.create({
     paddingVertical: 22,
     borderWidth: 1,
     borderColor: tokens.colors.borderSubtle,
+    ...cardLift,
   },
   tripCardIcon: {
     width: 44,
@@ -193,8 +202,9 @@ const styles = StyleSheet.create({
     borderRadius: tokens.radius.lg,
     borderWidth: 1.5,
     borderStyle: "dashed",
-    borderColor: tokens.colors.accent,
+    // The screen's main action, so it takes the highlight.
+    borderColor: tokens.colors.highlight,
     marginTop: 6,
   },
-  tripCardCreateText: { fontSize: 15, fontWeight: "600", color: tokens.colors.accent },
+  tripCardCreateText: { fontSize: 15, fontWeight: "700", color: tokens.colors.highlight },
 });

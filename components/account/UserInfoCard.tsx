@@ -59,9 +59,8 @@ export function UserInfoCard() {
       <AppButton variant="primary" onPress={handleSignIn}>
         <Row gap="xs" align="center">
           <LogIn size={16} color="#fff" />
-          <AppText variant="label" style={{ color: "#fff" }}>
-            Sign In / Create Account
-          </AppText>
+          {/* Not the label variant: that sets it in small, widely spaced capitals. */}
+          <AppText style={styles.signInText}>Sign In / Create Account</AppText>
         </Row>
       </AppButton>
     </View>
@@ -100,8 +99,9 @@ const styles = StyleSheet.create({
   guestBody: {
     fontSize: 15,
     fontWeight: "400",
-    color: tokens.colors.text2,
+    color: tokens.colors.text,
     lineHeight: 22,
     marginBottom: 16,
   },
+  signInText: { color: "#fff", fontSize: 15, fontWeight: "700" },
 });

@@ -1,30 +1,32 @@
 // Category ids are storage ids — they must match Firestore data exactly, and
 // they are what CATEGORY_CONFIG (components/map/SiteMarker.tsx) and the admin
 // panel's category multiselect are keyed by. Labels below are display-only and
-// safe to reword. Order here is the filter-tab order; Stay goes last because it
-// is accommodation, not somewhere to visit, and is excluded from itineraries.
+// safe to reword. Order here is the filter-tab order, ranked by how important
+// each category is to a tourist visiting the South Island: scenery and outdoor
+// experiences first, food and culture later, and Stay always last because it is
+// accommodation, not somewhere to visit, and is excluded from itineraries.
 export const SITE_CATEGORIES = [
-  "Food",
-  "Attractions",
-  "Culture",
-  "Walks",
-  "Water",
   "Scenic",
-  "Nature",
   "Adventure",
+  "Walks",
+  "Nature",
+  "Attractions",
+  "Water",
+  "Food",
+  "Culture",
   "Stay",
 ] as const;
 export type SiteCategory = (typeof SITE_CATEGORIES)[number];
 
 export const SITE_CATEGORY_LABELS: Record<SiteCategory, string> = {
-  Food: "Food & Drink",
-  Attractions: "Attractions",
-  Culture: "Culture",
-  Walks: "Walks",
-  Water: "Water",
   Scenic: "Scenic",
-  Nature: "Nature",
   Adventure: "Adventure",
+  Walks: "Walks",
+  Nature: "Nature",
+  Attractions: "Attractions",
+  Water: "Water",
+  Food: "Food & Drink",
+  Culture: "Culture",
   Stay: "Stay",
 };
 

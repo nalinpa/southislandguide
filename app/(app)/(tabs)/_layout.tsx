@@ -66,7 +66,11 @@ function TabBar({ state, navigation }: any) {
             key={t.key}
             onPress={() => onSelect(t.key)}
             // The highlight marks "you are here" on every screen.
-            style={[styles.tab, isActive && { backgroundColor: tokens.colors.highlightDim }]}
+            style={({ pressed }) => [
+              styles.tab,
+              isActive && { backgroundColor: tokens.colors.highlightDim },
+              pressed && styles.tabPressed,
+            ]}
           >
             <Ionicons
               name={isActive ? t.activeIcon : t.icon}
@@ -115,5 +119,8 @@ const styles = StyleSheet.create({
   },
   tabLabel: {
     fontSize: 10,
+  },
+  tabPressed: {
+    opacity: 0.6,
   },
 });

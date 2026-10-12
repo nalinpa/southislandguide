@@ -1,11 +1,13 @@
 import "@/lib/polyfills/buffer";
 import React, { useEffect } from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Stack, useNavigationContainerRef, ErrorBoundaryProps } from "expo-router";
 import { isRunningInExpoGo } from "expo";
 import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as Sentry from "@sentry/react-native";
+import { AlertTriangle } from "lucide-react-native";
+import { tokens } from "@/lib/ui/tokens";
 
 import { AppProviders } from "@/lib/providers/AppProviders";
 import { OfflineBanner } from "@/lib/uiKit";
@@ -60,11 +62,21 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
 
   return (
     <View style={styles.errorBoundaryContainer}>
-      <Text style={styles.errorTitle}>App Crashed</Text>
+      <View style={styles.errorIconWrap}>
+        <AlertTriangle size={32} color={tokens.colors.danger} strokeWidth={2} />
+      </View>
+      <Text style={styles.errorTitle}>Something went wrong</Text>
       <Text style={styles.errorMessage}>
         {error.message || "An unexpected error occurred."}
       </Text>
-      <Button title="Restart App" onPress={retry} />
+      <TouchableOpacity
+        style={styles.errorRetryBtn}
+        onPress={retry}
+        activeOpacity={0.85}
+        accessibilityRole="button"
+      >
+        <Text style={styles.errorRetryBtnText}>Restart App</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -74,16 +86,45 @@ const styles = StyleSheet.create({
   errorBoundaryContainer: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
     padding: 24,
+    backgroundColor: tokens.colors.bgBase,
+  },
+  errorIconWrap: {
+    width: 64,
+    height: 64,
+    borderRadius: tokens.radius.md,
+    backgroundColor: tokens.colors.dangerDim,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
   },
   errorTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 22,
+    fontWeight: "700",
+    color: tokens.colors.text,
     marginBottom: 8,
+    textAlign: "center",
   },
   errorMessage: {
-    fontSize: 16,
-    marginBottom: 24,
+    fontSize: 15,
+    color: tokens.colors.text2,
+    lineHeight: 22,
+    textAlign: "center",
+    marginBottom: 28,
+    paddingHorizontal: 12,
+  },
+  errorRetryBtn: {
+    backgroundColor: tokens.colors.highlight,
+    borderRadius: tokens.radius.md,
+    paddingVertical: 15,
+    paddingHorizontal: 32,
+  },
+  errorRetryBtnText: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#FFFFFF",
+    letterSpacing: 0.1,
   },
 });
 

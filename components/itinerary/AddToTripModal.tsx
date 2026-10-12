@@ -183,7 +183,11 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                 </TouchableOpacity>
                 <View style={styles.stepCenter}>
                   <Text style={styles.durationText}>
-                    {durationSlots / 2} {durationSlots === 2 ? "Hour" : "Hours"}
+                    {durationSlots === 1
+                      ? "30 min"
+                      : durationSlots === 2
+                        ? "1 Hour"
+                        : `${durationSlots / 2} Hours`}
                   </Text>
                 </View>
                 <TouchableOpacity style={styles.stepBtn} onPress={() => setDurationSlots((n) => Math.min(PLANNER.MAX_GRID_SLOTS, n + 1))}>

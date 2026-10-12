@@ -235,7 +235,7 @@ describe("the trip", () => {
     const view = await openTrip();
 
     expect(view.getByText("Day 1")).toHaveStyle({ color: tokens.colors.highlightOnDark });
-    expect(view.getByText("Day 2")).toHaveStyle({ color: tokens.colors.onDarkMuted });
+    expect(view.getByText("Day 2")).toHaveStyle({ color: "#FFFFFF" });
   });
 
   it("shows the stops on the day it opens on", async () => {

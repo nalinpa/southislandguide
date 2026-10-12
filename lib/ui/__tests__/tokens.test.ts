@@ -41,6 +41,13 @@ describe("palette", () => {
     expect(contrast(c.onDarkMuted, c.accentWarm)).toBeGreaterThanOrEqual(4.5);
   });
 
+  // The login screen's title and subtitle sit on a photo, darkened by the scrim colour.
+  // The brand teal was too light a ground for them: the orange subtitle was only 6.8:1.
+  it("has a photo scrim dark enough to make white and the on-dark highlight stand out", () => {
+    expect(contrast("#FFFFFF", c.scrim)).toBeGreaterThanOrEqual(15);
+    expect(contrast(c.highlightOnDark, c.scrim)).toBeGreaterThanOrEqual(7);
+  });
+
   // The sign-in card and the review sheet come from the shared package, which fills their
   // fields with bgElevated. On the brand mint, typed text and the grey placeholder were
   // hard to read.

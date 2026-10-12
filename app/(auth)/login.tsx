@@ -65,18 +65,20 @@ export default function LoginScreen() {
           {/* Outside the KeyboardAvoidingView so the photo doesn't shrink and
               re-crop when the keyboard opens. */}
           <Image source={HERO_IMAGE} style={StyleSheet.absoluteFill} contentFit="cover" />
-          {/* Dark teal at the top (white title over white cloud) and the bottom
-              (white guest link over the lake), clear through the mountains. The
-              top tint holds past the subtitle before fading, and is nearly
-              opaque there: at 0.75 the clouds still showed through behind the
-              title and subtitle and made them harder to read. */}
+          {/* The scrim colour at the top (white title over white cloud) and the
+              bottom (white guest link over the lake), clear through the
+              mountains. It holds past the subtitle before fading and is nearly
+              opaque there, so the clouds don't show through behind the words.
+              It is the deep scrim teal, not the brand teal it used to be: the
+              words were readable on that but didn't stand out. The last two
+              characters of each colour are its opacity. */}
           <LinearGradient
             colors={[
-              "rgba(6,63,69,0.95)",
-              "rgba(6,63,69,0.88)",
-              "rgba(6,63,69,0)",
-              "rgba(6,63,69,0)",
-              "rgba(6,63,69,0.8)",
+              `${tokens.colors.scrim}F5`,
+              `${tokens.colors.scrim}E6`,
+              `${tokens.colors.scrim}00`,
+              `${tokens.colors.scrim}00`,
+              `${tokens.colors.scrim}CC`,
             ]}
             // Strong to just under the subtitle (~0.36), then a quick fade, clear
             // by 0.5: Aoraki's peak sits at about half screen height.
@@ -104,7 +106,9 @@ export default function LoginScreen() {
               showsVerticalScrollIndicator={false}
             >
               <View style={styles.brandContainer}>
-                <AppText variant="screenTitle" style={styles.appName}>
+                {/* Two lines at most, shrinking to fit: at 60pt "South Island" is
+                    wider than an iPhone SE's 327pt between the margins. */}
+                <AppText variant="screenTitle" style={styles.appName} numberOfLines={2} adjustsFontSizeToFit>
                   South Island Guide
                 </AppText>
                 {/* Not the label variant: small, widely spaced capitals were the
@@ -187,22 +191,23 @@ const styles = StyleSheet.create({
   // letters were starting to touch.
   appName: {
     color: "#FFFFFF",
-    fontSize: 52,
-    lineHeight: 56,
+    fontSize: 60,
+    lineHeight: 64,
     letterSpacing: -0.5,
     textAlign: "center",
     textShadowColor: "rgba(0,0,0,0.6)",
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 10,
   },
-  // Normal case at 18pt. ~300pt wide, so it stays on one line down to an
-  // iPhone SE (327pt between the margins).
+  // Normal case, bold, in the highlight's on-dark twin: in white at 18pt it
+  // read as a smaller echo of the title rather than a line of its own. ~330pt
+  // wide at 20pt, so it may wrap to two lines on an iPhone SE.
   tagline: {
     marginTop: tokens.space.sm,
-    color: "#FFFFFF",
-    fontSize: 18,
-    fontWeight: "600",
-    lineHeight: 24,
+    color: tokens.colors.highlightOnDark,
+    fontSize: 20,
+    fontWeight: "700",
+    lineHeight: 26,
     textAlign: "center",
     textShadowColor: "rgba(0,0,0,0.6)",
     textShadowOffset: { width: 0, height: 1 },
@@ -210,7 +215,7 @@ const styles = StyleSheet.create({
   },
   actions: { gap: tokens.space.sm },
   // The screen's main action: the full-strength highlight with a white label
-  // (5.2:1). Not the lighter on-dark orange: white on that is only 2.2:1.
+  // (5.2:1). Not the lighter on-dark orange: white on that is only 1.7:1.
   // 56pt is the kit's primary tap height.
   emailBtn: {
     height: tokens.tap.primary,

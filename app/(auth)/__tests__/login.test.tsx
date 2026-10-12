@@ -86,8 +86,18 @@ describe("render", () => {
     expect(view.queryByText("Social Sign In")).toBeNull();
   });
 
+  // The subtitle is in the highlight's on-dark twin, so it reads as its own line
+  // rather than a smaller echo of the white title.
+  it("sets the subtitle in the highlight colour", async () => {
+    const view = await render(<LoginScreen />);
+
+    expect(view.getByText("Ultimate South Island trip planner")).toHaveStyle({
+      color: tokens.colors.highlightOnDark,
+    });
+  });
+
   // White label, so the button is the full-strength highlight: white on the lighter
-  // on-dark orange is only 2.2:1.
+  // on-dark orange is only 1.7:1.
   it("makes signing in with email the highlighted action, with a white label", async () => {
     const view = await render(<LoginScreen />);
 

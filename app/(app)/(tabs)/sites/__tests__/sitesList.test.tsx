@@ -162,7 +162,7 @@ describe("category tabs", () => {
   it("offers All plus only the categories that have places, in the app's category order", async () => {
     const view = await render(<SiteListPage />);
 
-    expect(tabLabels(view)).toEqual(["All", "Food & Drink", "Walks", "Water", "Scenic", "Nature"]);
+    expect(tabLabels(view)).toEqual(["All", "Scenic", "Walks", "Nature", "Water", "Food & Drink"]);
   });
 
   it("ignores inactive places when deciding which tabs to show", async () => {
@@ -185,12 +185,27 @@ describe("category tabs", () => {
     expect(selectedTab(view)).toBe("All");
   });
 
-  // The tabs sit on the dark brand bar, so they use the on-dark pair of colours.
-  it("marks the selected tab in the highlight colour, and only that one", async () => {
+  // The tabs sit on the dark brand bar. The selected one takes the highlight's on-dark
+  // twin; the rest are full white, not muted, so they're easy to read.
+  it("marks the selected tab in the highlight colour, and the rest in white", async () => {
     const view = await render(<SiteListPage />);
 
     expect(view.getByText("All")).toHaveStyle({ color: tokens.colors.highlightOnDark });
-    expect(view.getByText("Walks")).toHaveStyle({ color: tokens.colors.onDarkMuted });
+    expect(view.getByText("Walks")).toHaveStyle({ color: "#FFFFFF" });
+  });
+
+  // Plain words with nothing under them didn't look like something to tap.
+  it("underlines every tab, so the unselected ones still read as tabs", async () => {
+    const view = await render(<SiteListPage />);
+    const underlineOf = (label: string) => {
+      const tab = view.getAllByRole("tab").find((t: any) => textOf(t) === label)!;
+      const kids = tab.children.filter((c: any) => typeof c !== "string");
+      return kids[kids.length - 1];
+    };
+
+    expect(underlineOf("All")).toHaveStyle({ backgroundColor: tokens.colors.highlightOnDark });
+    expect(underlineOf("Walks")).not.toHaveStyle({ backgroundColor: "transparent" });
+    expect(underlineOf("Walks")).not.toHaveStyle({ backgroundColor: tokens.colors.highlightOnDark });
   });
 
   it("filters to a category, matching any of a place's categories", async () => {

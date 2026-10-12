@@ -54,8 +54,12 @@ export const tokens = {
     // For the dark brand bar at the top of a screen (accentWarm): the highlight
     // itself is only 2.3:1 there, so it gets a lighter twin, plus a muted
     // off-white for whatever isn't selected.
-    highlightOnDark: "#FF9A62",
+    highlightOnDark: "#FFB84D",
     onDarkMuted: "#BFD8D2",
+    // Laid over a photo, behind text (the login screen). A much deeper teal
+    // than accentWarm: on that, white was 11.6:1 and the on-dark highlight
+    // 6.8:1; here they are 16:1 and 9.3:1.
+    scrim: "#03262B",
     surf: "#2C4A36",
     surfDim: "rgba(44,74,54,0.12)",
     success: "#2C4A36",

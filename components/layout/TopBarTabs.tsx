@@ -45,15 +45,18 @@ const styles = StyleSheet.create({
   strip: { flexGrow: 0 },
   content: { gap: 20, paddingHorizontal: tokens.space.md },
   tab: { paddingTop: 8, alignItems: "center" },
-  text: { fontSize: 14, fontWeight: "600", color: tokens.colors.onDarkMuted },
+  // Full white when unselected, not the muted off-white it had: these are the
+  // screen's main way around, and muted they were hard to read on the teal.
+  text: { fontSize: 15, fontWeight: "600", color: "#FFFFFF" },
   textActive: { color: tokens.colors.highlightOnDark, fontWeight: "700" },
-  // Always rendered (transparent when unselected) so the row doesn't change
-  // height, and flush with the bar's bottom edge like a real tab strip.
+  // Every tab is underlined, faintly when unselected, so the words read as
+  // tabs rather than a row of plain text. Flush with the bar's bottom edge
+  // like a real tab strip.
   indicator: {
     marginTop: 8,
     height: 3,
     width: "100%",
-    backgroundColor: "transparent",
+    backgroundColor: "rgba(255,255,255,0.4)",
     borderTopLeftRadius: 3,
     borderTopRightRadius: 3,
   },

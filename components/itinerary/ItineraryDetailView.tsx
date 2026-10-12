@@ -511,7 +511,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                     </TouchableOpacity>
                   )}
                 </View>
-                {isActive && <View style={styles.dayTabIndicator} />}
+                <View style={[styles.dayTabIndicator, isActive && styles.dayTabIndicatorActive]} />
               </TouchableOpacity>
             );
           })}
@@ -716,9 +716,10 @@ const styles = StyleSheet.create({
   dayTab: { paddingHorizontal: 14, paddingVertical: 10, position: "relative", alignItems: "center" },
   dayTabContent: { flexDirection: "row", alignItems: "center", gap: 6 },
   dayDeleteBtn: { padding: 5, borderRadius: 10, backgroundColor: "rgba(255,255,255,0.16)" },
-  // On the dark bar: muted off-white, and the highlight's lighter twin for the
-  // open day, the same pair as TopBarTabs.
-  dayTabText: { fontSize: 14, fontWeight: "600", color: tokens.colors.onDarkMuted },
+  // On the dark bar, same as TopBarTabs: white, with the highlight's lighter
+  // twin for the open day, and every tab underlined (faintly when it isn't
+  // the open one) so they read as tabs.
+  dayTabText: { fontSize: 15, fontWeight: "600", color: "#FFFFFF" },
   dayTabTextActive: { color: tokens.colors.highlightOnDark, fontWeight: "700" },
   dayTabDate: { fontSize: 11, fontWeight: "500", color: tokens.colors.onDarkMuted, marginTop: 1, textAlign: "center" },
   dayTabDateActive: { color: tokens.colors.highlightOnDark },
@@ -728,10 +729,11 @@ const styles = StyleSheet.create({
     left: 8,
     right: 8,
     height: 3,
-    backgroundColor: tokens.colors.highlightOnDark,
+    backgroundColor: "rgba(255,255,255,0.4)",
     borderTopLeftRadius: 3,
     borderTopRightRadius: 3,
   },
+  dayTabIndicatorActive: { backgroundColor: tokens.colors.highlightOnDark },
   addDayBtn: { flexDirection: "row", alignItems: "center", paddingHorizontal: 14, paddingVertical: 10, gap: 6 },
   addDayText: { fontSize: 14, fontWeight: "700", color: "#FFFFFF" },
   timelineScroll: { flex: 1 },

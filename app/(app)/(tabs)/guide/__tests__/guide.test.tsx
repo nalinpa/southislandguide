@@ -116,12 +116,12 @@ describe("the guide index", () => {
     const view = await render(<GuideIndexPage />);
 
     expect(view.getByText("South Island")).toHaveStyle({ color: tokens.colors.highlightOnDark });
-    expect(view.getByText(region.label)).toHaveStyle({ color: tokens.colors.onDarkMuted });
+    expect(view.getByText(region.label)).toHaveStyle({ color: "#FFFFFF" });
 
     await fireEvent.press(view.getByText(region.label));
 
     expect(view.getByText(region.label)).toHaveStyle({ color: tokens.colors.highlightOnDark });
-    expect(view.getByText("South Island")).toHaveStyle({ color: tokens.colors.onDarkMuted });
+    expect(view.getByText("South Island")).toHaveStyle({ color: "#FFFFFF" });
   });
 
   it("opens the section that was tapped", async () => {

@@ -31,10 +31,10 @@ export default function GuideIndexPage() {
         leading={
           <TopBarBack
             // Explicit target, not router.back(): the Tabs navigator's default back
-            // behaviour returns to the first tab (Explore), not the Home tab this
+            // behaviour returns to the first tab (Explore), not the Profile tab this
             // screen is opened from.
             onPress={() => router.navigate("/(app)/(tabs)/account")}
-            label="Back to Home"
+            label="Back to Profile"
           />
         }
       >

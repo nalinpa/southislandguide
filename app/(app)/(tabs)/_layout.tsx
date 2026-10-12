@@ -16,15 +16,15 @@ const ALL_TABS: Array<{
   { key: "sites", title: "Explore", icon: "compass-outline", activeIcon: "compass" },
   { key: "itinerary", title: "Plans", icon: "calendar-outline", activeIcon: "calendar" },
   { key: "map", title: "Map", icon: "map-outline", activeIcon: "map" },
-  { key: "account", title: "Home", icon: "home-outline", activeIcon: "home" },
+  { key: "account", title: "Profile", icon: "person-outline", activeIcon: "person" },
 ];
 
 const normalizeRouteName = (name: string) => name.replace(/\/index$/, "");
 
 // Which tab button to highlight for a route. Detail routes (sites/[siteId],
 // itinerary/[itineraryId], guide/[slug]) are extra tab screens with no button
-// of their own, so match on the route's first segment; the guide is opened from
-// Home, so it highlights Home.
+// of their own, so match on the route's first segment; the guide's own back
+// button goes to Profile, so it highlights Profile.
 const TAB_FOR_SECTION: Record<string, string> = { guide: "account" };
 const highlightedTab = (routeName: string) => {
   const section = routeName.split("/")[0];
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   tabLabel: {
-    fontSize: 10,
+    fontSize: 11,
   },
   tabPressed: {
     opacity: 0.6,

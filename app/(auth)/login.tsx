@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
+  Animated,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -45,6 +46,16 @@ export default function LoginScreen() {
   // behind a card most people never use.
   const [emailOpen, setEmailOpen] = useState(false);
 
+  // The buttons and the form swap in place. Whichever has just arrived fades
+  // in, so the change doesn't snap. A fade-in of the newcomer only, not a
+  // crossfade of both stacked: the form is several times the buttons' height,
+  // and stacking them would take it out of the scroll view's layout.
+  const fade = useRef(new Animated.Value(1)).current;
+  useEffect(() => {
+    fade.setValue(0);
+    Animated.timing(fade, { toValue: 1, duration: 220, useNativeDriver: true }).start();
+  }, [emailOpen, fade]);
+
   // Navigates explicitly: guests are no longer auto-redirected off this screen,
   // so "Continue as Guest" has to take them into the app itself. Also allowed
   // when already a guest — that's someone who came here to sign in and changed
@@ -52,7 +63,7 @@ export default function LoginScreen() {
   const handleGuestEntry = async () => {
     if (session.status !== "loggedOut" && session.status !== "guest") return;
     await enableGuest();
-    router.replace("/(app)/(tabs)/map");
+    router.replace("/(app)/(tabs)/sites");
   };
 
   return (
@@ -117,7 +128,7 @@ export default function LoginScreen() {
               </View>
 
               {emailOpen ? (
-                <View style={styles.actions}>
+                <Animated.View style={[styles.actions, { opacity: fade }]}>
                   <AuthCard
                     mode={f.mode}
                     title={f.title}
@@ -143,9 +154,9 @@ export default function LoginScreen() {
                   >
                     <AppText style={styles.linkText}>Back</AppText>
                   </Pressable>
-                </View>
+                </Animated.View>
               ) : (
-                <View style={styles.actions}>
+                <Animated.View style={[styles.actions, { opacity: fade }]}>
                   <Pressable
                     onPress={() => setEmailOpen(true)}
                     disabled={busy}
@@ -163,7 +174,7 @@ export default function LoginScreen() {
                   >
                     <AppText style={styles.linkText}>Continue as Guest</AppText>
                   </Pressable>
-                </View>
+                </Animated.View>
               )}
             </ScrollView>
           </KeyboardAvoidingView>

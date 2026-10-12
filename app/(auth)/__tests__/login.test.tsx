@@ -211,7 +211,7 @@ describe("password reset", () => {
 });
 
 describe("guest entry", () => {
-  it("makes a first-time visitor a guest and, once they are one, drops them onto the map", async () => {
+  it("makes a first-time visitor a guest and, once they are one, drops them onto the Explore tab", async () => {
     const view = await render(<LoginScreen />);
 
     await fireEvent.press(view.getByText("Continue as Guest"));
@@ -220,7 +220,7 @@ describe("guest entry", () => {
     mockSession.status = "guest";
     await view.rerender(<LoginScreen />);
 
-    await waitFor(() => expect(mockRouter.replace).toHaveBeenCalledWith("/(app)/(tabs)/map"));
+    await waitFor(() => expect(mockRouter.replace).toHaveBeenCalledWith("/(app)/(tabs)/sites"));
   });
 
   it("ignores guest entry while the session is unresolved", async () => {

@@ -2,7 +2,7 @@
 // "South Island" (island-wide sections) plus each region that has sections written — and
 // its category page promotes a punctuation-free line to a subheading. A removed slug has to
 // land on "Guide Not Found" with a working way back rather than a blank page. Back from the
-// index goes to the Home (account) tab and back from a section goes to the index, both by
+// index goes to the Profile (account) tab and back from a section goes to the index, both by
 // explicit route: these are tab screens, and router.back() resets the Tabs navigator to
 // Explore.
 
@@ -132,10 +132,10 @@ describe("the guide index", () => {
     expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/guide/" + first.slug);
   });
 
-  it("goes back to the Home tab, not to Explore", async () => {
+  it("goes back to the Profile tab, not to Explore", async () => {
     const view = await render(<GuideIndexPage />);
 
-    await fireEvent.press(view.getByLabelText("Back to Home"));
+    await fireEvent.press(view.getByLabelText("Back to Profile"));
 
     expect(mockRouter.navigate).toHaveBeenCalledWith("/(app)/(tabs)/account");
     expect(mockRouter.back).not.toHaveBeenCalled();

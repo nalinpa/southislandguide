@@ -1,5 +1,5 @@
 // components/account/ItinerariesCard.tsx
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import { ChevronRight, Plus } from "lucide-react-native";
@@ -8,19 +8,16 @@ import { AppText } from "@/lib/uiKit";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { tokens } from "@/lib/ui/tokens";
 import { PLANNER } from "@/lib/constants/gameplay";
-
-function formatTripDates(startDate: string, endDate: string): string {
-  const fmt = (iso: string) =>
-    new Date(iso + "T00:00:00").toLocaleDateString("en-US", { day: "numeric", month: "short" });
-  if (!endDate || endDate === startDate) return fmt(startDate);
-  return `${fmt(startDate)} — ${fmt(endDate)}`;
-}
+import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
+import { formatTripDates } from "@/lib/utils/formatDates";
 
 export function ItinerariesCard() {
   const { itineraries, error } = useItineraries();
+  const [isCreating, setIsCreating] = useState(false);
   const atLimit = itineraries.length >= PLANNER.MAX_ITINERARIES;
 
   return (
+    <>
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionLabel}>My Itineraries</Text>
@@ -64,17 +61,22 @@ export function ItinerariesCard() {
       {atLimit ? (
         <Text style={styles.limitText}>Up to {PLANNER.MAX_ITINERARIES} itineraries allowed.</Text>
       ) : (
-        // GAP: RTR's original opens a CreateItineraryModal here. This
-        // package doesn't template itinerary-CRUD UI (a bigger feature than
-        // this profile shell) -- wire this onPress to your own
-        // create-itinerary flow. See rotorua-guide's or aklguide's
-        // CreateItineraryModal for a reference shape.
-        <TouchableOpacity style={styles.createBtn} onPress={() => {}} activeOpacity={0.6}>
+        <TouchableOpacity style={styles.createBtn} onPress={() => setIsCreating(true)} activeOpacity={0.6}>
           <Plus size={13} color={tokens.colors.accent} strokeWidth={2.5} />
           <Text style={styles.createBtnText}>New Itinerary</Text>
         </TouchableOpacity>
       )}
     </View>
+    <CreateItineraryModal
+      visible={isCreating}
+      onClose={() => setIsCreating(false)}
+      onCreated={(id) => {
+        setIsCreating(false);
+        if (id) router.push(`/(app)/(tabs)/itinerary/${id}`);
+      }}
+      showTemplateOption
+    />
+    </>
   );
 }
 

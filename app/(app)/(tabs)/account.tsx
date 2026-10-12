@@ -19,8 +19,10 @@ import { DangerZoneCard } from "@/components/account/DangerZoneCard";
 export default function AccountScreen() {
   const { session } = useSession();
   const insets = useSafeAreaInsets();
-  const { itineraries } = useItineraries();
-  const { savedSiteIds } = useSavedSites();
+  const { itineraries, loading: itinerariesLoading } = useItineraries();
+  const { savedSiteIds, loading: savedLoading } = useSavedSites();
+
+  const statsLoading = itinerariesLoading || savedLoading;
 
   if (session.status === "loading") {
     return (
@@ -59,12 +61,14 @@ export default function AccountScreen() {
           {isAuthed && (
             <View style={styles.statsRow}>
               <View style={styles.statChip}>
-                <Text style={styles.statNum}>{itineraries.length}</Text>
-                <Text style={styles.statLabel}>{itineraries.length === 1 ? "Trip" : "Trips"}</Text>
+                <Text style={styles.statNum}>{statsLoading ? "–" : itineraries.length}</Text>
+                <Text style={styles.statLabel}>
+                  {statsLoading ? "Trips" : itineraries.length === 1 ? "Trip" : "Trips"}
+                </Text>
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statChip}>
-                <Text style={styles.statNum}>{savedSiteIds.size}</Text>
+                <Text style={styles.statNum}>{statsLoading ? "–" : savedSiteIds.size}</Text>
                 <Text style={styles.statLabel}>Saved</Text>
               </View>
             </View>
@@ -108,7 +112,7 @@ const styles = StyleSheet.create({
   },
   promoHeadline: { fontSize: 32, fontWeight: "800", color: "#FFFFFF", letterSpacing: -0.6, lineHeight: 38 },
   // The screen's main action: the full-strength highlight with a white label
-  // (5.2:1). Not the lighter on-dark orange: white on that is only 2.2:1.
+  // (5.2:1). Not the lighter on-dark orange: white on that is only 1.7:1.
   promoBtn: {
     flexDirection: "row",
     alignItems: "center",

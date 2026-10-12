@@ -13,13 +13,7 @@ import { PLANNER } from "@/lib/constants/gameplay";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { ItineraryDetailView } from "@/components/itinerary/ItineraryDetailView";
-
-function formatTripDates(startDate: string, endDate: string): string {
-  const fmt = (iso: string) =>
-    new Date(iso + "T00:00:00").toLocaleDateString("en-NZ", { day: "numeric", month: "short" });
-  if (!endDate || endDate === startDate) return fmt(startDate);
-  return `${fmt(startDate)} — ${fmt(endDate)}`;
-}
+import { formatTripDates } from "@/lib/utils/formatDates";
 
 export default function ItineraryListPage() {
   const { session } = useSession();

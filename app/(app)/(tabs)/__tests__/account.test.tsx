@@ -102,7 +102,7 @@ describe("guest", () => {
   });
 
   // White label, so the button is the full-strength highlight: white on the lighter
-  // on-dark orange is only 2.2:1.
+  // on-dark orange is only 1.7:1.
   it("makes opening the guide the highlighted action, with a white label", async () => {
     const view = await render(<AccountScreen />);
 
@@ -165,8 +165,12 @@ describe("signed in", () => {
     expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/guide");
   });
 
-  // account.tsx:62,67 render itineraries.length / savedSiteIds.size without checking the hooks'
-  // loading flags, so both counts read "0" until the requests land. rotorua-guide leaves them
-  // blank while loading. Parked until the user agrees to port the fix.
-  test.todo("leaves a count blank while it is still loading, rather than showing a wrong zero (account.tsx:62,67)");
+  it("shows a dash instead of a wrong zero while counts are loading", async () => {
+    mockTrips.loading = true;
+    mockSavedSites.loading = true;
+    const view = await render(<AccountScreen />);
+
+    expect(view.getAllByText("–")).toHaveLength(2);
+    expect(view.queryByText("0")).toBeNull();
+  });
 });

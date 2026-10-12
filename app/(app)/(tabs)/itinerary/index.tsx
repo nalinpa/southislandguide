@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { View, StyleSheet, TouchableOpacity, ScrollView, RefreshControl } from "react-native";
 import { router } from "expo-router";
 import { Calendar, ChevronRight, Plus } from "lucide-react-native";
 
@@ -21,6 +21,18 @@ export default function ItineraryListPage() {
   const { entitledProductIds, loading: entitlementsLoading } = useEntitlementGate(uid);
   const isEntitled = entitledProductIds.has(FULL_GUIDE_PRODUCT_ID);
   const { itineraries, loading, error, refetch } = useItineraries();
+
+  // Pull to refresh. Its own flag rather than `loading`, which swaps the whole
+  // screen for the loading state.
+  const [refreshing, setRefreshing] = useState(false);
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await refetch();
+    } finally {
+      setRefreshing(false);
+    }
+  };
   const [isCreating, setIsCreating] = useState(false);
 
   if (session.status === "guest") {
@@ -103,7 +115,18 @@ export default function ItineraryListPage() {
   return (
     <View style={styles.container}>
       <TopBar title="My Trips" />
-      <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.body}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => void handleRefresh()}
+            tintColor={tokens.colors.accent}
+            colors={[tokens.colors.accent]}
+          />
+        }
+      >
         {itineraries.map((itin) => (
           <TouchableOpacity
             key={itin.id}

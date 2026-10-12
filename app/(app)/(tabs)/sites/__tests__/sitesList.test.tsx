@@ -52,6 +52,8 @@ jest.mock("@/lib/hooksBag", () => ({
     // Distance ordering belongs to the shared hook, not this screen.
     useSortedRows: (locations: any[]) => locations.map((l) => ({ location: l, distanceMeters: null })),
   },
+  // Pull to refresh; the real one invalidates the locations query.
+  useRefreshLocations: () => jest.fn().mockResolvedValue(undefined),
 }));
 
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
@@ -149,6 +151,15 @@ describe("the list", () => {
     expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/sites/s2");
   });
 
+  // The guide was only reachable from the Profile tab, where few people would find it.
+  it("links to the travel guide", async () => {
+    const view = await render(<SiteListPage />);
+
+    await fireEvent.press(view.getByLabelText("Travel guide"));
+
+    expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/guide");
+  });
+
   it("links to saved places", async () => {
     const view = await render(<SiteListPage />);
 
@@ -228,6 +239,30 @@ describe("category tabs", () => {
 });
 
 describe("search", () => {
+  // Someone typing "surf" or "food" should find places whose names don't say so.
+  it("also matches a place's description", async () => {
+    mockBag.locations = [
+      makeSite("s1", "Sumner Beach", ["Water"], { description: "A long surf beach." }),
+      makeSite("s2", "Riccarton Bush", ["Walks"], { description: "Old-growth forest." }),
+    ];
+    const view = await render(<SiteListPage />);
+    await fireEvent.press(view.getByLabelText("Search Locations"));
+
+    await fireEvent.changeText(view.getByPlaceholderText("Search Locations"), "surf");
+
+    expect(rowNames(view)).toEqual(["Sumner Beach"]);
+  });
+
+  it("also matches a category by the label on its tab", async () => {
+    const view = await render(<SiteListPage />);
+    await fireEvent.press(view.getByLabelText("Search Locations"));
+
+    // "drink" is in no name; it is in the Food category's label, "Food & Drink".
+    await fireEvent.changeText(view.getByPlaceholderText("Search Locations"), "drink");
+
+    expect(rowNames(view)).toEqual(["Riverside Market"]);
+  });
+
   it("opens a search box and matches names case-insensitively", async () => {
     const view = await render(<SiteListPage />);
 

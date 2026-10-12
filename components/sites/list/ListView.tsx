@@ -1,6 +1,6 @@
 // components/sites/list/ListView.tsx
 import { useCallback } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, type RefreshControlProps } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 
 import { ListItem } from "@/components/sites/list/ListItem";
@@ -24,9 +24,11 @@ type ListViewProps = {
   header?: React.ReactElement | null;
   onPressItem: (id: string) => void;
   ListEmptyComponent?: React.ReactElement | null;
+  /** A RefreshControl for pull to refresh. Leave out to disable. */
+  refreshControl?: React.ReactElement<RefreshControlProps>;
 };
 
-export function ListView({ rows, header, onPressItem, ListEmptyComponent }: ListViewProps) {
+export function ListView({ rows, header, onPressItem, ListEmptyComponent, refreshControl }: ListViewProps) {
   const renderItem = useCallback(
     ({ item, index }: { item: ListRow; index: number }) => (
       <ListItem
@@ -51,6 +53,7 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent }: List
       ItemSeparatorComponent={ItemSeparator}
       ListHeaderComponent={header ?? null}
       ListEmptyComponent={ListEmptyComponent ?? null}
+      refreshControl={refreshControl}
       contentContainerStyle={styles.listContent}
       showsVerticalScrollIndicator={false}
     />

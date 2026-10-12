@@ -1,5 +1,6 @@
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { AppState } from "react-native";
+import { useQueryClient } from "@tanstack/react-query";
 import { createHooks } from "@blacksands/hooks";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
@@ -48,6 +49,17 @@ hooksBag.useLocations = () => {
   const locations = useMemo(() => result.locations.filter((l) => l.active), [result.locations]);
   return { ...result, locations };
 };
+
+// For pull to refresh. The shared useLocations doesn't hand back a refetch, so
+// this invalidates its query (key: the prefix above plus "locations") and
+// resolves when the refetch has finished.
+export function useRefreshLocations() {
+  const queryClient = useQueryClient();
+  return useCallback(
+    () => queryClient.invalidateQueries({ queryKey: ["southislandguide", "locations"] }),
+    [queryClient],
+  );
+}
 
 // The shared hook only asks for permission once, on mount, so a user who enables
 // location in Settings stayed "denied" until an app restart. Re-check silently on

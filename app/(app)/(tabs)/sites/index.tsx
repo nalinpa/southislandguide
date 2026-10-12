@@ -1,19 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
-import { View, StyleSheet, TextInput, Linking, Pressable } from "react-native";
+import { View, StyleSheet, TextInput, Linking, Pressable, RefreshControl } from "react-native";
 import { router } from "expo-router";
-import { Bookmark, ChevronRight, Search, X } from "lucide-react-native";
+import { Bookmark, BookOpen, ChevronRight, Search, X } from "lucide-react-native";
 
 import { Screen, LoadingState, ErrorCard, CardShell, Stack, AppText, AppIconButton } from "@/lib/uiKit";
 import { TopBar } from "@/components/layout/TopBar";
 import { TopBarTabs } from "@/components/layout/TopBarTabs";
 import { tokens } from "@/lib/ui/tokens";
-import { hooksBag } from "@/lib/hooksBag";
+import { hooksBag, useRefreshLocations } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { ListView } from "@/components/sites/list/ListView";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, type SiteCategory } from "@/lib/models";
 
 // ponytail: the generator's GAP list, resolved for this app.
 // - saved-places shortcut: DONE, routes to app/(app)/saved-sites.tsx
+// - guide shortcut: DONE, routes to app/(app)/(tabs)/guide from the top bar.
+//   The guide was otherwise only reachable from the Profile tab.
 // - category-filter tabs: DONE. Only categories with places get a tab, and
 //   the row hides entirely when there's just one.
 // - "Featured" hero card: deferred until any doc sets `featured`.
@@ -32,6 +34,19 @@ export default function SiteListPage() {
 
   const handleRefreshGPS = () => Linking.openSettings();
 
+  // Pull to refresh. The spinner is ours to hold: the shared hook's `loading`
+  // is only true on the first load, not on a refetch.
+  const refreshLocations = useRefreshLocations();
+  const [refreshing, setRefreshing] = useState(false);
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await refreshLocations();
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   const [category, setCategory] = useState<SiteCategory | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -49,9 +64,16 @@ export default function SiteListPage() {
   const filteredLocations = useMemo(() => {
     let list = activeLocations;
     if (category) list = list.filter((l) => l.category.includes(category));
+    // Name, description, or a category's label as shown on the tabs: someone
+    // typing "beach" or "food" should find places whose names don't say so.
     if (searchQuery.trim()) {
       const q = searchQuery.trim().toLowerCase();
-      list = list.filter((l) => l.name.toLowerCase().includes(q));
+      list = list.filter(
+        (l) =>
+          l.name.toLowerCase().includes(q) ||
+          !!l.description?.toLowerCase().includes(q) ||
+          l.category.some((cat) => SITE_CATEGORY_LABELS[cat]?.toLowerCase().includes(q)),
+      );
     }
     return list;
   }, [activeLocations, category, searchQuery]);
@@ -91,6 +113,12 @@ export default function SiteListPage() {
       flushBottom={categoriesWithPlaces.length > 1}
       actions={
         <>
+          <AppIconButton
+            icon={BookOpen}
+            variant="control"
+            onPress={() => router.push("/(app)/(tabs)/guide")}
+            accessibilityLabel="Travel guide"
+          />
           <AppIconButton
             icon={searchOpen ? X : Search}
             variant="control"
@@ -186,6 +214,14 @@ export default function SiteListPage() {
         rows={rows}
         header={header}
         onPressItem={(id) => router.push(`/(app)/(tabs)/sites/${id}`)}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => void handleRefresh()}
+            tintColor={tokens.colors.accent}
+            colors={[tokens.colors.accent]}
+          />
+        }
         ListEmptyComponent={
           activeLocations.length === 0 ? (
             <CardShell style={styles.emptyCard}>

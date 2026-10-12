@@ -248,6 +248,17 @@ describe("category chips", () => {
     });
   });
 
+  // Tapping the filter button shut mustn't hide the only sign that a filter is on.
+  it("stay up while a category is chosen, even with the filter button tapped shut", async () => {
+    const view = await render(<MapScreen />);
+    await openFilters(view);
+    await fireEvent.press(view.getByText("Scenic"));
+
+    await openFilters(view);
+
+    expect(view.getByText("Scenic")).toBeTruthy();
+  });
+
   it("are hidden until the filter button is pressed", async () => {
     const view = await render(<MapScreen />);
     expect(view.queryByText("All")).toBeNull();

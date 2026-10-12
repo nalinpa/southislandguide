@@ -318,7 +318,9 @@ export default function MapScreen() {
                 Haptics.impactAsync();
                 setShowFilters((p) => !p);
               }}
-              style={[styles.filterBtn, categoryFilter && styles.filterBtnActive]}
+              accessibilityRole="button"
+              accessibilityLabel="Filter by category"
+              style={[styles.filterBtn, (categoryFilter || showFilters) && styles.filterBtnActive]}
             >
               <SlidersHorizontal color="#FFFFFF" size={18} strokeWidth={2.25} />
             </TouchableOpacity>
@@ -346,7 +348,10 @@ export default function MapScreen() {
           </View>
         )}
 
-        {showFilters && (
+        {/* Hidden until asked for, to leave the map clear. They stay up while a
+            category is chosen even if the button is tapped shut: otherwise
+            nothing would say which filter is on, or offer a way to change it. */}
+        {(showFilters || categoryFilter) && (
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
             {([{ label: "All", value: null }, ...SITE_CATEGORIES.map((c) => ({ label: SITE_CATEGORY_LABELS[c], value: c }))] as {
               label: string;

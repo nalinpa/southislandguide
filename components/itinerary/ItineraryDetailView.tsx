@@ -26,7 +26,7 @@ import { useSession } from "@/lib/providers/SessionProvider";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { useEntitlementGate } from "@/lib/hooks/useEntitlementGate";
 import { usePurchaseContext } from "@/lib/iap/PurchaseProvider";
-import { runPhysicsEngine, slotsToDurationLabel } from "@/lib/utils/itineraryPhysics";
+import { runPhysicsEngine, slotsToDurationLabel, timelineOffsetForMinutes } from "@/lib/utils/itineraryPhysics";
 import { getRequiredTransitSlots } from "@/lib/utils/transitMatrix";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
@@ -82,6 +82,31 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   const [localTrip, setLocalTrip] = useState<Itinerary | null>(sourceTrip);
   const [activeDayId, setActiveDayId] = useState<string | null>(null);
   const activeDay = localTrip?.days.find((d) => d.id === activeDayId) || localTrip?.days[0];
+
+  // The "now" line: only on today's day, and only between 8 AM and 10 PM.
+  // Re-read once a minute while the screen is open.
+  const [nowMinutes, setNowMinutes] = useState(() => {
+    const d = new Date();
+    return d.getHours() * 60 + d.getMinutes();
+  });
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const d = new Date();
+      setNowMinutes(d.getHours() * 60 + d.getMinutes());
+    }, 60_000);
+    return () => clearInterval(interval);
+  }, []);
+  const isToday = activeDay?.date === localIsoDate(new Date());
+  const nowTop = isToday ? timelineOffsetForMinutes(nowMinutes) : null;
+
+  // Opening today's day, start with "now" in the upper part of the screen
+  // rather than at 8 AM. Keyed on the day only: it must not re-scroll each
+  // minute as the line moves.
+  const timelineScrollRef = useRef<ScrollView>(null);
+  useEffect(() => {
+    if (nowTop != null) timelineScrollRef.current?.scrollTo({ y: Math.max(0, nowTop - 120), animated: false });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tripId, activeDay?.id]);
   const [localItems, setLocalItems] = useState<ItineraryItem[]>([]);
   const [editingItem, setEditingItem] = useState<ItineraryItem | null>(null);
   const [viewingNote, setViewingNote] = useState<ItineraryItem | null>(null);
@@ -524,8 +549,21 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
         </ScrollView>
       </TopBar>
 
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.timelineScroll} scrollEnabled={!isDragging}>
+      <ScrollView
+        ref={timelineScrollRef}
+        showsVerticalScrollIndicator={false}
+        style={styles.timelineScroll}
+        scrollEnabled={!isDragging}
+      >
         <View style={styles.timelineContainer}>
+          {/* tokens.space.md is the container's paddingTop, above the 8 AM row. */}
+          {nowTop != null && (
+            <View
+              testID="now-line"
+              pointerEvents="none"
+              style={[styles.nowLine, { top: nowTop + tokens.space.md }]}
+            />
+          )}
           {TIME_SLOTS.map((slot) => {
             const isHour = slot.label !== "";
             return (
@@ -739,6 +777,17 @@ const styles = StyleSheet.create({
   timelineScroll: { flex: 1 },
   timelineContainer: { position: "relative", paddingTop: tokens.space.md, paddingBottom: 100 },
   gridRow: { flexDirection: "row", height: SLOT_HEIGHT, alignItems: "flex-start" },
+  // From the time column's right edge (70, see timeLabelContainer) across the
+  // grid, in the highlight: this app's "you are here" colour.
+  nowLine: {
+    position: "absolute",
+    left: 70,
+    right: 0,
+    height: 2,
+    borderRadius: 1,
+    backgroundColor: tokens.colors.highlight,
+    zIndex: 5,
+  },
   timeLabelContainer: { width: 70, alignItems: "flex-end", paddingRight: tokens.space.sm },
   timeLabel: { position: "absolute", top: -8, fontSize: 11, fontWeight: "700", color: tokens.colors.text2 },
   hourDivider: { flex: 1, borderTopWidth: 1, borderTopColor: tokens.colors.border },

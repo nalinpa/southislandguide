@@ -10,6 +10,15 @@ export function slotsToDurationLabel(durationSlots: number): string {
   return `${hours} Hour${hours !== 1 ? "s" : ""}`;
 }
 
+// How far down the timeline grid a time of day sits, in pixels from the first
+// (8:00 AM) row, or null when it falls outside the grid (before 8 AM or after
+// 10 PM). Used for the "now" line on today's plan.
+export function timelineOffsetForMinutes(minutesSinceMidnight: number): number | null {
+  const fromStart = minutesSinceMidnight - 8 * 60;
+  if (fromStart < 0 || fromStart > PLANNER.MAX_GRID_SLOTS * 30) return null;
+  return (fromStart / 30) * PLANNER.SLOT_HEIGHT;
+}
+
 export function slotIndexToTimeLabel(slotIndex: number): string {
   const totalMinutes = 8 * 60 + slotIndex * 30;
   const hours = Math.floor(totalMinutes / 60);

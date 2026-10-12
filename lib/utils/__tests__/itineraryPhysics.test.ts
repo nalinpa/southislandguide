@@ -2,6 +2,7 @@ import {
   slotsToDurationLabel,
   slotIndexToTimeLabel,
   runPhysicsEngine,
+  timelineOffsetForMinutes,
 } from "@/lib/utils/itineraryPhysics";
 import type { ItineraryItem } from "@/lib/models";
 
@@ -90,5 +91,26 @@ describe("runPhysicsEngine", () => {
     expect(result[0].timeLabel).toBe("5:00 PM");
     expect(result[1].timeLabel).toBe("6:30 PM");
     expect(result[2].timeLabel).toBe("8:00 PM");
+  });
+});
+
+// The "now" line on today's plan. The grid runs 8:00 AM to 10:00 PM in 72pt half-hour rows.
+describe("timelineOffsetForMinutes", () => {
+  it("puts 8:00 AM at the top of the grid", () => {
+    expect(timelineOffsetForMinutes(8 * 60)).toBe(0);
+  });
+
+  it("moves one row down for every half hour, and part of a row for part of one", () => {
+    expect(timelineOffsetForMinutes(8 * 60 + 30)).toBe(72);
+    expect(timelineOffsetForMinutes(10 * 60 + 15)).toBe(72 * 4.5);
+  });
+
+  it("reaches the foot of the grid at 10:00 PM", () => {
+    expect(timelineOffsetForMinutes(22 * 60)).toBe(72 * 28);
+  });
+
+  it("has no position outside the grid's hours", () => {
+    expect(timelineOffsetForMinutes(7 * 60 + 59)).toBeNull();
+    expect(timelineOffsetForMinutes(22 * 60 + 1)).toBeNull();
   });
 });

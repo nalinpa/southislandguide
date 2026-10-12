@@ -7,7 +7,7 @@ import { tokens } from "@/lib/ui/tokens";
 import { siteImage } from "@/lib/categoryImages";
 import type { SiteCategory } from "@/lib/models";
 
-export const HERO_HEIGHT = 320;
+export const HERO_HEIGHT = 360;
 
 type HeroProps = {
   imageUrl?: string | null;
@@ -27,7 +27,13 @@ export function Hero({ imageUrl, imageThumbnailUrl, category }: HeroProps) {
           <ImageOff size={40} color="rgba(255,255,255,0.7)" />
         </View>
       )}
-      <LinearGradient colors={["transparent", "rgba(36,26,18,0.55)"]} style={StyleSheet.absoluteFill} />
+      {/* A soft fade over the lower third only, where the white sheet meets the
+          photo. It used to be a brown wash over the whole image. */}
+      <LinearGradient
+        colors={["transparent", "transparent", `${tokens.colors.scrim}66`]}
+        locations={[0, 0.62, 1]}
+        style={StyleSheet.absoluteFill}
+      />
     </View>
   );
 }

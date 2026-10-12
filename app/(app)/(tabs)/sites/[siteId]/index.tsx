@@ -5,10 +5,10 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import { Stack as ExpoStack, router, useLocalSearchParams } from "expo-router";
 import * as Haptics from "expo-haptics";
 import * as Linking from "expo-linking";
-import { ArrowLeft, Clock, DollarSign, ExternalLink } from "lucide-react-native";
+import { ArrowLeft, ExternalLink, Star } from "lucide-react-native";
 
 import { LoadingState, ErrorCard, Stack, AppText, ReviewModal, components } from "@/lib/uiKit";
-import { tokens } from "@/lib/ui/tokens";
+import { cardLift, tokens } from "@/lib/ui/tokens";
 import { hooksBag } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useSavedSites } from "@/lib/hooks/useSavedSites";
@@ -34,6 +34,10 @@ import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
 // top while `scrollY` kept its old value, sliding the hero up and leaving a gap
 // above the title. Keying the body by id gives each place a fresh instance.
 // rotorua-guide has the same structure and presumably the same latent bug.
+// Height of the back button's row: the 44pt disc with 8pt above and below. The
+// bar that fades in on scroll is this tall under the status bar.
+const SCROLLED_BAR_ROW = 60;
+
 export default function SiteDetailRoute() {
   const { siteId } = useLocalSearchParams<{ siteId: string }>();
   const id = String(siteId);
@@ -95,14 +99,16 @@ function SiteDetail({ id }: { id: string }) {
     extrapolate: "clamp",
   });
 
-  // The status bar's text is white, for the photo. Once the white sheet scrolls
-  // up under it that text has nothing to sit on, and the page's own text runs
-  // behind the clock. A teal band fades in over the last 40pt before the sheet
-  // gets there (the sheet starts HERO_HEIGHT - 32 down the scroll content).
+  // Once the white sheet scrolls up to the top, two things went wrong: the
+  // status bar's white text (white for the photo) had nothing to sit on, and
+  // the floating back button sat on top of the page's text. So a teal bar fades
+  // in over the last 40pt before the sheet gets there, covering the clock and
+  // the back button's row and naming the place. (The sheet starts
+  // HERO_HEIGHT - 32 down the scroll content.)
   const insets = useSafeAreaInsets();
-  const sheetAtStatusBar = HERO_HEIGHT - 32 - insets.top;
-  const statusBandOpacity = scrollY.interpolate({
-    inputRange: [sheetAtStatusBar - 40, sheetAtStatusBar],
+  const sheetAtBar = HERO_HEIGHT - 32 - (insets.top + SCROLLED_BAR_ROW);
+  const scrolledBarOpacity = scrollY.interpolate({
+    inputRange: [sheetAtBar - 40, sheetAtBar],
     outputRange: [0, 1],
     extrapolate: "clamp",
   });
@@ -170,16 +176,12 @@ function SiteDetail({ id }: { id: string }) {
       >
         <View style={{ height: HERO_HEIGHT - 32 }} />
         <View style={styles.sheet}>
-          <View style={styles.dragHandle} />
-
-          <Stack gap="md" style={styles.content}>
+          <Stack gap="lg" style={styles.content}>
             <View style={styles.titleBlock}>
-              <AppText variant="h1">{site.name}</AppText>
-              <View style={styles.badgeRow}>
-                <CategoryBadge category={site.category[0]} />
-                {site.price ? <PriceBadge price={site.price} /> : null}
-                {site.website ? <WebsiteBadge url={site.website} /> : null}
-              </View>
+              <AppText variant="h1" style={styles.title}>
+                {site.name}
+              </AppText>
+              <FactsLine site={site} avgRating={avgRating} ratingCount={ratingCount} />
             </View>
 
             <QuickActions
@@ -223,8 +225,15 @@ function SiteDetail({ id }: { id: string }) {
 
       <Animated.View
         pointerEvents="none"
-        style={[styles.statusBand, { height: insets.top, opacity: statusBandOpacity }]}
-      />
+        style={[
+          styles.scrolledBar,
+          { height: insets.top + SCROLLED_BAR_ROW, paddingTop: insets.top, opacity: scrolledBarOpacity },
+        ]}
+      >
+        <AppText style={styles.scrolledBarTitle} numberOfLines={1}>
+          {site.name}
+        </AppText>
+      </Animated.View>
 
       <SafeAreaView style={styles.backButtonWrap} pointerEvents="box-none">
         <Pressable
@@ -232,7 +241,7 @@ function SiteDetail({ id }: { id: string }) {
           onPress={() => router.back()}
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
         >
-          <ArrowLeft color="#FFFFFF" size={22} />
+          <ArrowLeft color={tokens.colors.text} size={22} strokeWidth={2.25} />
         </Pressable>
       </SafeAreaView>
 
@@ -320,54 +329,74 @@ function SiteDetail({ id }: { id: string }) {
   );
 }
 
-// Primary category only — the same one that sets the map marker, and drawn
-// from the marker's own config so the two can't drift. Icon in the category
-// colour, label in the dark text colour: six of the nine category colours fall
-// below 4.5:1 as small text on their own tint (Nature is 3.20), but every one
-// clears 3:1 as an icon, and the dark label is 12.7:1 or better on all of them.
-function CategoryBadge({ category }: { category: Site["category"][number] | undefined }) {
-  if (!category) return null;
-  const { Icon, color } = CATEGORY_CONFIG[category] ?? CATEGORY_CONFIG.other;
-  return (
-    <View style={[styles.categoryBadge, { backgroundColor: `${color}1F` }]}>
-      <Icon size={14} color={color} strokeWidth={2.25} />
-      <AppText style={styles.categoryBadgeText}>{SITE_CATEGORY_LABELS[category] ?? category}</AppText>
-    </View>
-  );
-}
+// The quiet line under the title: rating, category, price, website. Plain text
+// with small dots between, where there used to be three differently coloured
+// pills competing with the title.
+// - Rating only when the place has reviews; the star is the highlight.
+// - Category is the primary one, the same one that sets the map marker, with
+//   the marker's own icon and colour so the two can't drift.
+// - Website is the one tappable item, so it's in accent. The URL is
+//   admin-entered, so only an http(s) URL renders as a link; anything else (a
+//   typo, a bare domain) is hidden rather than handed to openURL.
+function FactsLine({
+  site,
+  avgRating,
+  ratingCount,
+}: {
+  site: Site;
+  avgRating: number | null;
+  ratingCount: number;
+}) {
+  const category = site.category[0];
+  const cat = category ? CATEGORY_CONFIG[category] ?? CATEGORY_CONFIG.other : null;
+  const website = site.website && /^https?:\/\//i.test(site.website) ? site.website : null;
 
-// Same shape as the category badge, but deliberately neutral: colour on this
-// page means "category", so a second coloured badge would compete with it.
-// Dark label on a faint tint of the text colour — reads as a quiet fact.
-function PriceBadge({ price }: { price: string }) {
-  return (
-    <View style={[styles.categoryBadge, styles.priceBadge]}>
-      <DollarSign size={14} color={tokens.colors.text2} strokeWidth={2.25} />
-      <AppText style={styles.categoryBadgeText}>{price}</AppText>
-    </View>
-  );
-}
+  const facts = [
+    ratingCount > 0 && avgRating != null ? (
+      <View key="rating" style={styles.fact}>
+        <Star size={14} color={tokens.colors.highlight} fill={tokens.colors.highlight} />
+        <AppText style={styles.factStrong}>{avgRating.toFixed(1)}</AppText>
+        <AppText style={styles.factMuted}>({ratingCount})</AppText>
+      </View>
+    ) : null,
+    cat && category ? (
+      <View key="category" style={styles.fact}>
+        <cat.Icon size={14} color={cat.color} strokeWidth={2.25} />
+        <AppText style={styles.factText}>{SITE_CATEGORY_LABELS[category] ?? category}</AppText>
+      </View>
+    ) : null,
+    site.price ? (
+      <AppText key="price" style={styles.factText}>
+        {site.price}
+      </AppText>
+    ) : null,
+    website ? (
+      <Pressable
+        key="website"
+        style={styles.fact}
+        onPress={() => {
+          Linking.openURL(website).catch(() => {});
+        }}
+        accessibilityRole="link"
+        accessibilityLabel="Open website"
+        hitSlop={8}
+      >
+        <AppText style={styles.factLink}>Website</AppText>
+        <ExternalLink size={13} color={tokens.colors.accent} strokeWidth={2.25} />
+      </Pressable>
+    ) : null,
+  ].filter(Boolean);
 
-// The one tappable badge, so it's drawn in accent — this app's "you can tap
-// this" colour — to set it apart from the category and price badges, which are
-// facts. Accent text on its own tint is 6.08:1.
-// The URL is admin-entered, so only an http(s) URL renders as a link; anything
-// else (a typo, a bare domain) is hidden rather than handed to openURL.
-function WebsiteBadge({ url }: { url: string }) {
-  if (!/^https?:\/\//i.test(url)) return null;
+  if (!facts.length) return null;
   return (
-    <Pressable
-      style={[styles.categoryBadge, styles.websiteBadge]}
-      onPress={() => {
-        Linking.openURL(url).catch(() => {});
-      }}
-      accessibilityRole="link"
-      accessibilityLabel="Open website"
-      hitSlop={6}
-    >
-      <ExternalLink size={14} color={tokens.colors.accent} strokeWidth={2.25} />
-      <AppText style={[styles.categoryBadgeText, styles.websiteBadgeText]}>Website</AppText>
-    </Pressable>
+    <View style={styles.factsLine}>
+      {facts.map((fact, i) => (
+        <View key={i} style={styles.factWithDot}>
+          {i > 0 ? <View style={styles.factDot} /> : null}
+          {fact}
+        </View>
+      ))}
+    </View>
   );
 }
 
@@ -375,9 +404,9 @@ function WebsiteBadge({ url }: { url: string }) {
 // with opening times, but "rockfall zone, do not linger" sits in the same
 // field) — hence "Good to know" rather than "Hours". The data is consistently
 // semicolon-separated clauses, so each gets its own line; as one run-on line
-// the safety clauses got buried mid-sentence. Boxed like the Local tip, which
-// follows it, but neutral (grey tint, dark bar) rather than the tip's highlight
-// colour, so the two read as a set without looking like two tips.
+// the safety clauses got buried mid-sentence. A plain list ruled with
+// hairlines: it's reference information, and a tinted box with a side bar made
+// it look like a second tip.
 function GoodToKnow({ note }: { note: string }) {
   const lines = note
     .split(";")
@@ -386,15 +415,12 @@ function GoodToKnow({ note }: { note: string }) {
     .map((l) => l.charAt(0).toUpperCase() + l.slice(1));
   if (!lines.length) return null;
   return (
-    <View style={styles.goodToKnow}>
-      <View style={styles.goodToKnowHeader}>
-        <Clock size={14} color={tokens.colors.text2} strokeWidth={2.25} />
-        <AppText style={styles.goodToKnowLabel}>Good to know</AppText>
-      </View>
+    <View>
+      <AppText style={styles.sectionHeading}>Good to know</AppText>
       {lines.map((line, i) => (
-        <AppText key={i} style={styles.goodToKnowLine}>
-          {line}
-        </AppText>
+        <View key={i} style={styles.goodToKnowRow}>
+          <AppText style={styles.goodToKnowLine}>{line}</AppText>
+        </View>
       ))}
     </View>
   );
@@ -410,64 +436,42 @@ function splitLocalTip(description: string): [string, string | null] {
 }
 
 const styles = StyleSheet.create({
-  // 16/25 rather than the body variant's 15 with no line height, which left
+  // 16/26 rather than the body variant's 15 with no line height, which left
   // multi-paragraph descriptions cramped at React Native's default spacing.
-  description: { fontSize: 16, lineHeight: 25, color: tokens.colors.text },
-  titleBlock: { gap: tokens.space.xs },
-  goodToKnow: {
-    marginTop: tokens.space.xs,
-    backgroundColor: `${tokens.colors.text}0F`,
-    borderLeftWidth: 3,
-    borderLeftColor: tokens.colors.borderStrong,
-    borderRadius: tokens.radius.sm,
-    paddingVertical: tokens.space.sm,
-    paddingHorizontal: tokens.space.md,
-    gap: 4,
-  },
-  goodToKnowHeader: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 2 },
-  goodToKnowLabel: {
-    fontSize: 11,
-    fontWeight: "800",
-    letterSpacing: 0.8,
-    textTransform: "uppercase",
-    color: tokens.colors.text2,
+  description: { fontSize: 16, lineHeight: 26, color: tokens.colors.text },
+  titleBlock: { gap: tokens.space.sm },
+  // 28pt at weight 800, down from the h1 variant's 34 at 900: big enough to
+  // lead the page, without shouting over the quiet facts line under it.
+  title: { fontSize: 28, lineHeight: 33, fontWeight: "800", letterSpacing: -0.6 },
+  factsLine: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", rowGap: 6 },
+  fact: { flexDirection: "row", alignItems: "center", gap: 5 },
+  // A fact with the dot that separates it from the one before. No gap of its
+  // own, so the dot's margins are the only space and it sits dead centre.
+  factWithDot: { flexDirection: "row", alignItems: "center" },
+  factDot: { width: 3, height: 3, borderRadius: 1.5, backgroundColor: tokens.colors.textMuted, marginHorizontal: 9 },
+  factText: { fontSize: 14, fontWeight: "500", color: tokens.colors.text2 },
+  factStrong: { fontSize: 14, fontWeight: "700", color: tokens.colors.text },
+  factMuted: { fontSize: 14, fontWeight: "500", color: tokens.colors.textMuted },
+  factLink: { fontSize: 14, fontWeight: "700", color: tokens.colors.accent },
+  // The heading for a section inside the page. Sentence case and a plain
+  // weight: the small spaced capitals it replaces looked like form labels.
+  sectionHeading: { fontSize: 17, fontWeight: "700", color: tokens.colors.text, marginBottom: 4 },
+  goodToKnowRow: {
+    paddingVertical: 11,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: tokens.colors.border,
   },
   goodToKnowLine: { fontSize: 15, lineHeight: 22, color: tokens.colors.text },
-  badgeRow: { flexDirection: "row", flexWrap: "wrap", gap: tokens.space.xs },
-  categoryBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "flex-start",
-    gap: 6,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 99,
-  },
-  websiteBadge: { backgroundColor: tokens.colors.accentDim },
-  websiteBadgeText: { color: tokens.colors.accent },
-  priceBadge: { backgroundColor: `${tokens.colors.text}1F` }, // same 12% tint as the category badges
-  categoryBadgeText: { fontSize: 13, fontWeight: "700", color: tokens.colors.text },
+  // The one tinted block on the page: the tip is its best line, and the only
+  // thing here that isn't a plain fact about the place. No side bar or
+  // capitals; the colour is enough.
   tipCard: {
-    // On top of the Stack's md gap, so the tip reads as its own block rather
-    // than the tail of the description.
-    marginTop: tokens.space.xs,
-    // The highlight colour: the tip is the best line on the page, and the one
-    // thing here that isn't a plain fact about the place.
     backgroundColor: tokens.colors.highlightDim,
-    borderLeftWidth: 3,
-    borderLeftColor: tokens.colors.highlight,
-    borderRadius: tokens.radius.sm,
-    paddingVertical: tokens.space.sm,
-    paddingHorizontal: tokens.space.md,
+    borderRadius: tokens.radius.md,
+    padding: tokens.space.md,
     gap: 4,
   },
-  tipLabel: {
-    fontSize: 11,
-    fontWeight: "800",
-    letterSpacing: 0.8,
-    textTransform: "uppercase",
-    color: tokens.colors.highlight,
-  },
+  tipLabel: { fontSize: 13, fontWeight: "700", color: tokens.colors.highlight },
   tipText: { fontSize: 15, lineHeight: 23, color: tokens.colors.text },
   container: { flex: 1, backgroundColor: tokens.colors.bgBase },
   heroWrap: { position: "absolute", top: 0, left: 0, right: 0 },
@@ -475,30 +479,33 @@ const styles = StyleSheet.create({
   // text on a tinted ground is more tiring to read.
   sheet: {
     backgroundColor: tokens.colors.bgCard,
-    borderTopLeftRadius: tokens.radius.lg,
-    borderTopRightRadius: tokens.radius.lg,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
     paddingBottom: 120,
     minHeight: 600,
   },
-  dragHandle: {
-    width: 32,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: tokens.colors.borderStrong,
-    opacity: 0.5,
-    alignSelf: "center",
-    marginTop: 14,
-    marginBottom: 6,
+  // 20pt side margins, and no drag handle above: the sheet scrolls, it doesn't
+  // drag, and the handle said otherwise.
+  content: { paddingHorizontal: tokens.space.lg, paddingTop: tokens.space.xl },
+  // The title starts clear of the back button (16 + 44 + 12).
+  scrolledBar: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: tokens.colors.accentWarm,
+    justifyContent: "center",
+    paddingLeft: 72,
+    paddingRight: tokens.space.md,
   },
-  content: { paddingHorizontal: tokens.space.md, paddingTop: tokens.space.sm },
-  statusBand: { position: "absolute", top: 0, left: 0, right: 0, backgroundColor: tokens.colors.accentWarm },
+  scrolledBarTitle: { fontSize: 17, fontWeight: "700", color: "#FFFFFF" },
   backButtonWrap: { position: "absolute", top: 0, left: 0, right: 0 },
   itineraryFloatingWrap: {
     position: "absolute",
     left: 0,
     right: 0,
     bottom: 0,
-    paddingHorizontal: tokens.space.md,
+    paddingHorizontal: tokens.space.lg,
     paddingTop: 12,
   },
   itineraryButton: {
@@ -516,16 +523,18 @@ const styles = StyleSheet.create({
   },
   itineraryButtonDisabled: { opacity: 0.5 },
   itineraryButtonText: { color: "#FFFFFF", fontWeight: "700", fontSize: 16 },
+  // A white disc with a dark arrow and a soft shadow: it reads on any photo,
+  // and the shadow keeps it visible on the white sheet once the page has
+  // scrolled under it.
+  // 8 above and below: with the 44pt disc that is SCROLLED_BAR_ROW.
   backButton: {
-    margin: 16,
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    // accentWarm at 70%: dark enough to hold a white arrow over a pale photo
-    // and over the white sheet once the page has scrolled under it.
-    backgroundColor: "rgba(6,63,69,0.7)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.3)",
+    marginVertical: 8,
+    marginHorizontal: 16,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "#FFFFFF",
+    ...cardLift,
     alignItems: "center",
     justifyContent: "center",
   },

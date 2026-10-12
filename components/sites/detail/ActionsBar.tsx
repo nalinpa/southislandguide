@@ -3,7 +3,7 @@ import { View, StyleSheet, Pressable } from "react-native";
 import { MapPin, MessageSquarePlus, Camera, Heart, Navigation, Share2 } from "lucide-react-native";
 
 import { AppText, AppButton, RatingStars, Row, Stack } from "@/lib/uiKit";
-import { tokens } from "@/lib/ui/tokens";
+import { cardLift, tokens } from "@/lib/ui/tokens";
 
 type ActionsBarProps = {
   hasReview: boolean;
@@ -15,18 +15,15 @@ type ActionsBarProps = {
   onToggleSave: () => void;
 };
 
-// Each action is an icon in a disc with its name under it. Three looks:
-// - primary: the one most people came for, solid teal;
-// - active: something the user has already done here (saved, reviewed,
-//   shared), in the highlight colour;
-// - otherwise the brand mint, with a teal icon.
+// One cell of the action bar: a teal icon over its name. Something the user has
+// already done here (saved, reviewed, shared) takes the highlight instead.
 function QuickAction({
   icon: Icon,
   label,
   onPress,
   disabled,
   active,
-  primary,
+  divided,
   fillWhenActive,
 }: {
   icon: typeof MapPin;
@@ -34,25 +31,21 @@ function QuickAction({
   onPress: () => void;
   disabled?: boolean;
   active?: boolean;
-  primary?: boolean;
+  /** Draws the hairline between this cell and the one before it. */
+  divided?: boolean;
   /** Only for outline icons that read as "on" when filled, like the heart. */
   fillWhenActive?: boolean;
 }) {
-  const iconColor = active ? tokens.colors.highlight : primary ? "#FFFFFF" : tokens.colors.accent;
-  const discColor = active ? tokens.colors.highlightDim : primary ? tokens.colors.accent : tokens.colors.bgElevated;
-  const labelColor = active ? tokens.colors.highlight : tokens.colors.text2;
+  const color = active ? tokens.colors.highlight : tokens.colors.accent;
   return (
     <Pressable
-      style={styles.quickAction}
+      style={[styles.quickAction, divided && styles.quickActionDivided]}
       onPress={onPress}
       disabled={disabled}
-      hitSlop={6}
       accessibilityRole="button"
     >
-      <View style={[styles.quickDisc, { backgroundColor: discColor }]}>
-        <Icon size={22} color={iconColor} fill={active && fillWhenActive ? iconColor : "none"} />
-      </View>
-      <AppText style={[styles.quickActionLabel, { color: labelColor }]}>{label}</AppText>
+      <Icon size={26} color={color} fill={active && fillWhenActive ? color : "none"} strokeWidth={2.1} />
+      <AppText style={[styles.quickActionLabel, active && styles.quickActionLabelActive]}>{label}</AppText>
     </Pressable>
   );
 }
@@ -75,24 +68,32 @@ export function QuickActions({
   onToggleSave: () => void;
 }) {
   return (
-    <Row justify="space-between" gap="sm" style={styles.quickRow}>
-      <QuickAction icon={Navigation} label="Directions" onPress={onDirections} primary />
-      <QuickAction icon={MessageSquarePlus} label={hasReview ? "Reviewed" : "Review"} onPress={onOpenReview} active={hasReview} />
+    <View style={styles.quickRow} accessibilityRole="toolbar">
+      <QuickAction icon={Navigation} label="Directions" onPress={onDirections} />
+      <QuickAction
+        icon={MessageSquarePlus}
+        label={hasReview ? "Reviewed" : "Review"}
+        onPress={onOpenReview}
+        active={hasReview}
+        divided
+      />
       <QuickAction
         icon={Share2}
         label={shareBonus ? "Shared" : "Share"}
         onPress={onShareBonus}
         disabled={shareBonus}
         active={shareBonus}
+        divided
       />
       <QuickAction
         icon={Heart}
         label={isSaved ? "Saved" : "Save"}
         onPress={onToggleSave}
         active={isSaved}
+        divided
         fillWhenActive
       />
-    </Row>
+    </View>
   );
 }
 
@@ -149,13 +150,30 @@ export function ActionsBar({
 }
 
 const styles = StyleSheet.create({
-  // No box round the row: the discs are what make the actions stand out on the
-  // white sheet. (It used to be a white panel in a 2px dark outline, which was
-  // the heaviest thing on the page.)
-  quickRow: { paddingVertical: tokens.space.xs },
-  quickAction: { flex: 1, alignItems: "center", gap: 6 },
-  quickDisc: { width: 52, height: 52, borderRadius: 26, alignItems: "center", justifyContent: "center" },
-  quickActionLabel: { fontSize: 12, fontWeight: "600" },
+  // The page's action bar: one white card raised off the white sheet, four
+  // equal cells split by hairlines. It stands out by being the only raised
+  // surface on the page. Earlier tries: a 2px dark outline, loose discs, and a
+  // solid teal panel, each heavier than the page around it.
+  // No overflow: "hidden": on iOS that would clip the card's own shadow.
+  // A much deeper shadow than an ordinary card's (cardLift is 0.12): white on
+  // white, the shadow is what makes this read as a bar, and at card strength it
+  // barely showed.
+  quickRow: {
+    flexDirection: "row",
+    backgroundColor: tokens.colors.bgCard,
+    borderRadius: tokens.radius.lg,
+    borderWidth: 1,
+    borderColor: tokens.colors.border,
+    ...cardLift,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.26,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  quickAction: { flex: 1, alignItems: "center", gap: 8, paddingVertical: 18 },
+  quickActionDivided: { borderLeftWidth: 1, borderLeftColor: tokens.colors.borderSubtle },
+  quickActionLabel: { fontSize: 13, fontWeight: "700", color: tokens.colors.text, letterSpacing: 0.1 },
+  quickActionLabelActive: { color: tokens.colors.highlight },
   card: {
     borderRadius: tokens.radius.lg,
     borderWidth: 1,

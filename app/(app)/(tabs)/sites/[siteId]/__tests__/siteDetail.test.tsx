@@ -48,14 +48,16 @@ const mockBag = {
   siteErr: null as string | null,
   myRating: null as number | null,
   sharedIds: new Set<string>(),
+  avgRating: 4.5,
+  ratingCount: 12,
 };
 jest.mock("@/lib/hooksBag", () => ({
   hooksBag: {
     useLocation: () => ({ location: mockBag.site, loading: mockBag.siteLoading, err: mockBag.siteErr }),
     useMyCompletions: () => ({ sharedLocationIds: mockBag.sharedIds }),
     useLocationReviewsSummary: () => ({
-      avgRating: 4.5,
-      ratingCount: 12,
+      avgRating: mockBag.avgRating,
+      ratingCount: mockBag.ratingCount,
       myRating: mockBag.myRating,
       myText: "",
       saving: false,
@@ -74,7 +76,7 @@ jest.mock("expo-haptics", () => ({
 }));
 
 import React from "react";
-import { Alert, Text } from "react-native";
+import { Alert, StyleSheet, Text } from "react-native";
 import { fireEvent, renderRouter, screen } from "expo-router/testing-library";
 
 import SiteDetailRoute from "@/app/(app)/(tabs)/sites/[siteId]/index";
@@ -125,6 +127,8 @@ beforeEach(() => {
   mockBag.siteErr = null;
   mockBag.myRating = null;
   mockBag.sharedIds = new Set();
+  mockBag.avgRating = 4.5;
+  mockBag.ratingCount = 12;
   mockNet.isConnected = true;
 });
 
@@ -144,7 +148,9 @@ describe("what it shows", () => {
   it("shows the name, the category and the description, with the local tip pulled out", async () => {
     await openDetail();
 
-    expect(screen.getByText("Riccarton Bush")).toBeTruthy();
+    // Twice: the page title, and the bar that fades in at the top once the page scrolls,
+    // so the back button never sits on top of the text and the place stays named.
+    expect(screen.getAllByText("Riccarton Bush")).toHaveLength(2);
     expect(screen.getByText("Walks")).toBeTruthy();
     expect(screen.getByText("Old-growth kahikatea forest in the middle of the city.")).toBeTruthy();
     expect(screen.getByText("Local tip")).toBeTruthy();
@@ -165,6 +171,38 @@ describe("what it shows", () => {
     await openDetail();
     expect(screen.queryByLabelText("Open website")).toBeNull();
   });
+
+  it("links a proper website", async () => {
+    mockBag.site = makeSite({ website: "https://riccartonhouse.co.nz" });
+    await openDetail();
+    expect(screen.getByLabelText("Open website")).toBeTruthy();
+  });
+});
+
+// Under the title: rating, category, price and website as one quiet line of text,
+// where there used to be three differently coloured pills.
+describe("the facts line", () => {
+  it("leads with the rating when the place has reviews", async () => {
+    await openDetail();
+
+    expect(screen.getByText("4.5")).toBeTruthy();
+    expect(screen.getByText("(12)")).toBeTruthy();
+  });
+
+  it("leaves the rating out when nobody has reviewed the place", async () => {
+    mockBag.ratingCount = 0;
+    mockBag.avgRating = 0;
+    await openDetail();
+
+    expect(screen.queryByText("0.0")).toBeNull();
+    expect(screen.queryByText("(0)")).toBeNull();
+  });
+
+  it("gives the price in words", async () => {
+    mockBag.site = makeSite({ price: "Moderate" });
+    await openDetail();
+    expect(screen.getByText("Moderate")).toBeTruthy();
+  });
 });
 
 // The highlight colour marks the page's best line (the local tip), its main action, and
@@ -180,6 +218,21 @@ describe("highlight", () => {
     expect(screen.getByRole("button", { name: "+ Add to Itinerary" })).toHaveStyle({
       backgroundColor: tokens.colors.highlight,
     });
+  });
+
+  // The four actions share one white card that is raised off the sheet: it stands out by
+  // being the only raised surface on the page, not by being a block of colour.
+  it("puts the actions in one raised white bar", async () => {
+    await openDetail();
+
+    // getByRole only matches accessibility elements, and the bar deliberately isn't one:
+    // that would merge its four buttons into a single VoiceOver stop. So walk up to it.
+    let bar: any = screen.getByText("Directions");
+    while (bar && bar.props.accessibilityRole !== "toolbar") bar = bar.parent;
+
+    expect(bar).toHaveStyle({ backgroundColor: tokens.colors.bgCard });
+    expect(StyleSheet.flatten(bar.props.style).shadowOpacity).toBeGreaterThan(0);
+    expect(bar).not.toHaveStyle({ overflow: "hidden" });
   });
 
   it("leaves Save neutral until the place is saved", async () => {

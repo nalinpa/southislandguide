@@ -8,10 +8,9 @@ import { useSavedSites } from "@/lib/hooks/useSavedSites";
 import { hooksBag } from "@/lib/hooksBag";
 import { tokens } from "@/lib/ui/tokens";
 
-// GAP: RTR's original also links out to a full "Saved Places" list screen
-// (`/(app)/saved-sites`) -- that screen isn't templated by this package.
-// This card shows the 3 most recently saved Locations only; add
-// your own full-list screen and route if you want a "View All" link.
+// The card shows the 3 most recently saved Locations as a preview; the
+// "View All Saved Places" link below takes users to the full list at
+// /(app)/saved-sites. No count in the link: the badge beside the heading has it.
 
 export function SavedItemsCard() {
   const { savedSiteIds } = useSavedSites();
@@ -33,21 +32,33 @@ export function SavedItemsCard() {
       {recentSaved.length === 0 ? (
         <Text style={styles.emptyText}>No saved Locations yet.</Text>
       ) : (
-        <View style={styles.list}>
-          {recentSaved.map((id) => (
+        <>
+          <View style={styles.list}>
+            {recentSaved.map((id) => (
+              <TouchableOpacity
+                key={id}
+                style={styles.row}
+                onPress={() => router.push(`/(app)/(tabs)/sites/${id}`)}
+                activeOpacity={0.6}
+              >
+                <Text style={styles.rowTitle} numberOfLines={1}>
+                  {nameMap.get(id) ?? id}
+                </Text>
+                <ChevronRight size={14} color={tokens.colors.textMuted} strokeWidth={2} />
+              </TouchableOpacity>
+            ))}
+          </View>
+          {savedSiteIds.size > 3 && (
             <TouchableOpacity
-              key={id}
-              style={styles.row}
-              onPress={() => router.push(`/(app)/(tabs)/sites/${id}`)}
+              style={styles.viewAllBtn}
+              onPress={() => router.push(`/(app)/saved-sites`)}
               activeOpacity={0.6}
             >
-              <Text style={styles.rowTitle} numberOfLines={1}>
-                {nameMap.get(id) ?? id}
-              </Text>
-              <ChevronRight size={14} color={tokens.colors.textMuted} strokeWidth={2} />
+              <Text style={styles.viewAllText}>View All Saved Places</Text>
+              <ChevronRight size={14} color={tokens.colors.accent} strokeWidth={2.5} />
             </TouchableOpacity>
-          ))}
-        </View>
+          )}
+        </>
       )}
     </View>
   );
@@ -86,4 +97,13 @@ const styles = StyleSheet.create({
     borderBottomColor: tokens.colors.border,
   },
   rowTitle: { flex: 1, fontSize: 15, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1, marginRight: 8 },
+  viewAllBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    paddingVertical: 14,
+    marginTop: 4,
+  },
+  viewAllText: { fontSize: 13, fontWeight: "700", color: tokens.colors.accent, letterSpacing: 0.2 },
 });

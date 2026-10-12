@@ -1,15 +1,17 @@
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { Swipeable } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { ChevronLeft, Bookmark, Trash2 } from "lucide-react-native";
+import { Bookmark, Trash2 } from "lucide-react-native";
 
-import { AppText, LoadingState, ErrorCard, AppIconButton } from "@/lib/uiKit";
+import { AppText, LoadingState, ErrorCard, Screen } from "@/lib/uiKit";
+import { TopBar, TopBarBack } from "@/components/layout/TopBar";
+import { TopBarTabs } from "@/components/layout/TopBarTabs";
 import { tokens } from "@/lib/ui/tokens";
 import { hooksBag, useAllLocations } from "@/lib/hooksBag";
 import { useSavedSites } from "@/lib/hooks/useSavedSites";
+import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, type SiteCategory } from "@/lib/models";
 import { ListItem } from "@/components/sites/list/ListItem";
 import type { SortedRow } from "@blacksands/hooks";
 import type { Site } from "@/lib/models";
@@ -57,23 +59,38 @@ export default function SavedSitesPage() {
   const { locations, loading, err } = useAllLocations();
   const { loc } = hooksBag.useUserLocation();
 
+  const [category, setCategory] = useState<SiteCategory | null>(null);
+
   const savedLocations = useMemo(
     () => locations.filter((l) => savedSiteIds.has(l.id)),
     [locations, savedSiteIds],
   );
+
+  // Only categories that actually have saved places get a tab, same rule as
+  // the main list — empty tabs would be confusing here too.
+  const categoriesWithPlaces = useMemo(
+    () => SITE_CATEGORIES.filter((c) => savedLocations.some((l) => l.category.includes(c))),
+    [savedLocations],
+  );
+
+  const filteredLocations = useMemo(
+    () => (category ? savedLocations.filter((l) => l.category.includes(category)) : savedLocations),
+    [savedLocations, category],
+  );
+
   // radiusMeters is optional on Site (no admin field sets it) but required by
   // @blacksands/hooks' CheckpointEntity — same coercion as the sites list.
   const sortableLocations = useMemo(
-    () => savedLocations.map((l) => ({ ...l, radiusMeters: l.radiusMeters ?? 0 })),
-    [savedLocations],
+    () => filteredLocations.map((l) => ({ ...l, radiusMeters: l.radiusMeters ?? 0 })),
+    [filteredLocations],
   );
   const rows = hooksBag.useSortedRows(sortableLocations, loc);
 
   if (loading) {
     return (
-      <SafeAreaView style={styles.safeArea}>
+      <Screen>
         <LoadingState label="Loading saved places..." />
-      </SafeAreaView>
+      </Screen>
     );
   }
 
@@ -81,30 +98,46 @@ export default function SavedSitesPage() {
   // failing offline shouldn't hide locations we already have.
   if (err && locations.length === 0) {
     return (
-      <SafeAreaView style={styles.safeArea}>
+      <Screen>
         <ErrorCard title="Connection Issue" message={err} />
-      </SafeAreaView>
+      </Screen>
     );
   }
 
-  const header = (
-    <View style={styles.header}>
-      <AppIconButton icon={ChevronLeft} onPress={() => router.back()} accessibilityLabel="Back" />
-      <View style={styles.titleRow}>
-        <AppText variant="h1" style={styles.title}>
-          Saved Places
-        </AppText>
-        {rows.length > 0 && (
+  // Fixed above the list: the list scrolls under it, and the category tabs stay
+  // in reach however far down someone is. The tab strip, when there is one,
+  // forms the bar's bottom edge.
+  const topBar = (
+    <TopBar
+      title="Saved Places"
+      leading={<TopBarBack onPress={() => router.back()} label="Back" />}
+      flushBottom={categoriesWithPlaces.length > 1}
+      actions={
+        rows.length > 0 ? (
           <View style={styles.countBadge}>
             <AppText style={styles.countText}>{rows.length}</AppText>
           </View>
-        )}
-      </View>
-    </View>
+        ) : undefined
+      }
+    >
+      {categoriesWithPlaces.length > 1 && (
+        <TopBarTabs<SiteCategory | null>
+          tabs={[
+            { key: null, label: "All" },
+            ...categoriesWithPlaces.map((c) => ({ key: c, label: SITE_CATEGORY_LABELS[c] })),
+          ]}
+          selected={category}
+          onSelect={setCategory}
+        />
+      )}
+    </TopBar>
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    // paddingTop 0 hands the status-bar inset to the top bar, same as the
+    // main sites list.
+    <Screen padded={false} style={styles.screen}>
+      {topBar}
       <FlashList
         data={rows}
         keyExtractor={(item) => item.location.id}
@@ -117,47 +150,40 @@ export default function SavedSitesPage() {
             />
           </View>
         )}
-        ListHeaderComponent={header}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <View style={styles.emptyState}>
             <Bookmark color={tokens.colors.borderStrong} size={48} />
             <AppText variant="h3" style={styles.centerText}>
-              No saved places yet
+              {savedLocations.length > 0 && category
+                ? `No saved ${SITE_CATEGORY_LABELS[category]} places`
+                : "No saved places yet"}
             </AppText>
             <AppText variant="body" status="hint" style={styles.centerText}>
-              Tap the bookmark icon on any place to save it here.
+              {savedLocations.length > 0 && category
+                ? "Try a different category."
+                : "Tap the bookmark icon on any place to save it here."}
             </AppText>
           </View>
         }
       />
-    </SafeAreaView>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: tokens.colors.bgBase },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: tokens.space.sm,
-    paddingHorizontal: tokens.space.md,
-    paddingTop: tokens.space.md,
-    paddingBottom: tokens.space.md,
-  },
-  titleRow: { flex: 1, flexDirection: "row", alignItems: "center", gap: 10 },
-  title: { fontSize: 28 },
+  screen: { paddingTop: 0 },
   countBadge: {
     minWidth: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: tokens.colors.surfDim,
+    backgroundColor: "rgba(255,255,255,0.2)",
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 6,
   },
-  countText: { color: tokens.colors.surf, fontSize: 12, fontWeight: "700" },
+  countText: { color: "#FFFFFF", fontSize: 12, fontWeight: "700" },
   listContent: { paddingHorizontal: tokens.space.md, paddingBottom: 32 },
   itemWrap: { marginBottom: tokens.space.md },
   deleteAction: {

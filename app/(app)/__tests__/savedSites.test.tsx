@@ -34,11 +34,9 @@ jest.mock("react-native-gesture-handler", () => {
   };
 });
 
-jest.mock("react-native-safe-area-context", () => {
-  const React = require("react");
-  const { View } = require("react-native");
-  return { SafeAreaView: ({ children, style }: any) => React.createElement(View, { style }, children) };
-});
+jest.mock("react-native-safe-area-context", () => ({
+  useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+}));
 
 jest.mock("@/components/sites/list/ListItem", () => {
   const React = require("react");
@@ -71,6 +69,8 @@ jest.mock("expo-router", () => ({
   get router() {
     return mockRouter;
   },
+  // TopBar's LightStatusBar needs this; the saved page is always focused here.
+  useFocusEffect: (effect: () => void) => require("react").useEffect(effect, []),
 }));
 
 import React from "react";
@@ -169,5 +169,84 @@ describe("the list", () => {
     await fireEvent.press(view.getByLabelText("Back"));
 
     expect(mockRouter.back).toHaveBeenCalled();
+  });
+});
+
+describe("category tabs", () => {
+  const textOf = (node: any): string =>
+    typeof node === "string" ? node : (node?.children ?? []).map(textOf).join("");
+  const tabLabels = (view: any): string[] => view.queryAllByRole("tab").map(textOf);
+
+  it("hides tabs when every saved place shares one category", async () => {
+    const view = await render(<SavedSitesPage />);
+
+    // Both saved places are Walks, so no tabs appear.
+    expect(view.queryAllByRole("tab")).toHaveLength(0);
+  });
+
+  it("shows All plus each category that has saved places", async () => {
+    mockBag.locations = [
+      makeSite("s1", "Sumner Beach", { category: ["Water"] }),
+      makeSite("s2", "Riccarton Bush", { category: ["Nature"] }),
+      makeSite("s3", "Riverside Market", { category: ["Food"] }),
+    ];
+    mockSavedSites.savedSiteIds = new Set(["s1", "s2", "s3"]);
+
+    const view = await render(<SavedSitesPage />);
+
+    expect(tabLabels(view)).toEqual(["All", "Nature", "Water", "Food & Drink"]);
+  });
+
+  it("filters the list to the selected category", async () => {
+    mockBag.locations = [
+      makeSite("s1", "Sumner Beach", { category: ["Water"] }),
+      makeSite("s2", "Riccarton Bush", { category: ["Nature"] }),
+      makeSite("s3", "Riverside Market", { category: ["Food"] }),
+    ];
+    mockSavedSites.savedSiteIds = new Set(["s1", "s2", "s3"]);
+
+    const view = await render(<SavedSitesPage />);
+
+    await fireEvent.press(view.getByText("Nature"));
+
+    expect(view.queryByText("Riccarton Bush")).toBeTruthy();
+    expect(view.queryByText("Sumner Beach")).toBeNull();
+    expect(view.queryByText("Riverside Market")).toBeNull();
+    // Count updates to match the filter.
+    expect(view.getByText("1")).toBeTruthy();
+  });
+
+  it("resets to All when the All tab is pressed", async () => {
+    mockBag.locations = [
+      makeSite("s1", "Sumner Beach", { category: ["Water"] }),
+      makeSite("s2", "Riccarton Bush", { category: ["Nature"] }),
+      makeSite("s3", "Riverside Market", { category: ["Food"] }),
+    ];
+    mockSavedSites.savedSiteIds = new Set(["s1", "s2", "s3"]);
+
+    const view = await render(<SavedSitesPage />);
+
+    await fireEvent.press(view.getByText("Nature"));
+    expect(view.queryByText("Sumner Beach")).toBeNull();
+
+    await fireEvent.press(view.getByText("All"));
+    expect(view.getByText("Sumner Beach")).toBeTruthy();
+    expect(view.getByText("Riccarton Bush")).toBeTruthy();
+    expect(view.getByText("Riverside Market")).toBeTruthy();
+  });
+
+  it("orders tabs by SITE_CATEGORIES (tourist priority), not by save order", async () => {
+    mockBag.locations = [
+      makeSite("s1", "Sumner Beach", { category: ["Food"] }),
+      makeSite("s2", "Riccarton Bush", { category: ["Scenic"] }),
+      makeSite("s3", "Riverside Market", { category: ["Adventure"] }),
+    ];
+    mockSavedSites.savedSiteIds = new Set(["s1", "s2", "s3"]);
+
+    const view = await render(<SavedSitesPage />);
+
+    // Scenic before Adventure before Food & Drink — the SITE_CATEGORIES order,
+    // regardless of which site was saved first.
+    expect(tabLabels(view)).toEqual(["All", "Scenic", "Adventure", "Food & Drink"]);
   });
 });

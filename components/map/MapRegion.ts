@@ -1,17 +1,28 @@
 import type { Region } from "react-native-maps";
 
 // The area this app has content for. v1 is Christchurch only, so the map
-// opens on the city and pans within it. Used in three places — the fallback
-// centre below, SitesMapView's pan limits, and the map screen's "is the user
-// actually here" check — which rotorua-guide kept as three separate copies.
+// opens on the city. Used for the fallback centre below and the map screen's
+// "is the user actually here" check: someone outside it opens on the places
+// rather than on their own position, where there would be nothing to see.
 // ponytail: one fixed box. When a second region gets venues, this becomes a
-// per-region lookup (the RegionId vocabulary in lib/guideContent.ts), and the
-// pan limit should widen to the island or go away entirely.
+// per-region lookup (the RegionId vocabulary in lib/guideContent.ts).
 export const COVERAGE_BOUNDS = {
   minLat: -43.7,
   maxLat: -43.35,
   minLng: 172.4,
   maxLng: 172.85,
+};
+
+// How far the map can be dragged: the whole South Island with Stewart Island,
+// Cape Farewell (-40.5) to South Cape (-47.3), West Cape (166.4) to Cape
+// Campbell (174.3), plus a margin. Deliberately not COVERAGE_BOUNDS, which it
+// was until 2026-10-11: a South Island guide that can't show the island reads
+// as broken, even while the places are all in one city.
+export const MAP_BOUNDS = {
+  minLat: -47.5,
+  maxLat: -40.3,
+  minLng: 166.2,
+  maxLng: 174.6,
 };
 
 export function isInCoverage(lat: number | null | undefined, lng: number | null | undefined): boolean {

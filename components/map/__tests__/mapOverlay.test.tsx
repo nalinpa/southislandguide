@@ -180,7 +180,7 @@ describe("the selected site", () => {
   });
 
   // Orange buttons carry a white label everywhere, so they use the full-strength
-  // highlight: white on the lighter on-dark orange is only 2.2:1.
+  // highlight: white on the lighter on-dark orange is only 1.7:1.
   it("makes Directions the highlighted action with a white label, and Details the plain one", async () => {
     const view = await openSheet();
 
@@ -206,6 +206,15 @@ describe("add to itinerary", () => {
   it("is absent when the screen supplies no handler", async () => {
     const view = await openSheet();
     expect(view.queryByText("Add to Itinerary")).toBeNull();
+  });
+
+  // Solid white, not an outline: on the teal sheet the outline was the faintest thing
+  // there, for the one action that builds a trip.
+  it("is a solid white button", async () => {
+    const view = await openSheet({ onAddToItinerary: jest.fn() });
+
+    expect(view.getByRole("button", { name: "Add to Itinerary" })).toHaveStyle({ backgroundColor: "#FFFFFF" });
+    expect(view.getByText("Add to Itinerary")).toHaveStyle({ color: tokens.colors.text });
   });
 
   it("is offered when it is supplied", async () => {

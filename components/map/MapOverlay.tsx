@@ -215,7 +215,7 @@ export function MapOverlayCard({
               accessibilityRole="button"
               style={[styles.btnAddToTrip, isOffline && styles.btnAddToTripDisabled]}
             >
-              <CalendarPlus size={15} color="#FFFFFF" strokeWidth={2} />
+              <CalendarPlus size={16} color={tokens.colors.accent} strokeWidth={2.25} />
               <Text style={styles.btnAddToTripText}>{isOffline ? "Reconnect to Add" : "Add to Itinerary"}</Text>
             </Pressable>
           </View>
@@ -361,20 +361,22 @@ const styles = StyleSheet.create({
   btnDetailsText: { fontSize: 14, fontWeight: "600", color: tokens.colors.text, letterSpacing: 0.1 },
   // The sheet's main action: the full-strength highlight with a white label
   // (5.2:1), like every other orange button. Teal on the teal sheet would
-  // vanish, and white on the lighter on-dark orange is only 2.2:1.
+  // vanish, and white on the lighter on-dark orange is only 1.7:1.
   btnDirections: {
     flex: 1, flexDirection: "row", gap: 6, paddingVertical: 14, borderRadius: 10,
     backgroundColor: tokens.colors.highlight, alignItems: "center", justifyContent: "center",
   },
   btnDirectionsText: { fontSize: 14, fontWeight: "700", color: "#FFFFFF", letterSpacing: 0.1 },
-  actionsSecondary: { paddingHorizontal: 20, paddingBottom: 8, marginTop: 20 },
-  // Outlined: the third choice after Details and Directions.
+  actionsSecondary: { paddingHorizontal: 20, paddingBottom: 8, marginTop: 4 },
+  // Solid white with a dark label: the brightest thing on the teal sheet after
+  // the orange Directions button. As a thin white outline it was the faintest,
+  // for the one action that builds a trip.
   btnAddToTrip: {
     flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8,
-    paddingVertical: 13, borderRadius: 10, borderWidth: 1.5, borderColor: "rgba(255,255,255,0.5)",
+    paddingVertical: 15, borderRadius: 10, backgroundColor: "#FFFFFF",
   },
   btnAddToTripDisabled: { opacity: 0.5 },
-  btnAddToTripText: { fontSize: 14, fontWeight: "600", color: "#FFFFFF", letterSpacing: 0.1 },
+  btnAddToTripText: { fontSize: 15, fontWeight: "700", color: tokens.colors.text, letterSpacing: 0.1 },
   nearbySection: { paddingTop: 4 },
   nearbySep: {
     height: StyleSheet.hairlineWidth, backgroundColor: "rgba(255,255,255,0.12)",

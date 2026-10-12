@@ -280,7 +280,10 @@ export default function MapScreen() {
         onPressSite={handleSitePress}
       />
 
-      <SafeAreaView style={styles.safeArea}>
+      {/* box-none: only the things in the stack take touches. The stack itself is
+          full width, and without this the strip beside the map controls would
+          swallow drags meant for the map. */}
+      <SafeAreaView style={styles.safeArea} pointerEvents="box-none">
         <View style={styles.searchContainer}>
           <View style={styles.searchBox}>
             <Search color="rgba(36,26,18,0.45)" size={18} strokeWidth={1.75} />
@@ -374,33 +377,41 @@ export default function MapScreen() {
             <Text style={styles.errorText}>Location unavailable</Text>
           </View>
         )}
-      </SafeAreaView>
 
-      <View style={styles.mapControls}>
-        <TouchableOpacity
-          style={styles.controlBtn}
-          onPress={() => {
-            Haptics.impactAsync();
-            if (loc) mapViewRef.current?.recenter(loc.coords.latitude, loc.coords.longitude);
-          }}
-        >
-          <Crosshair color={tokens.colors.text} size={20} strokeWidth={1.75} />
-        </TouchableOpacity>
-        <View style={styles.controlDivider} />
-        <TouchableOpacity
-          style={styles.controlBtn}
-          onPress={() => {
-            Haptics.impactAsync();
-            setMapType((t) => (t === "satellite" ? "standard" : "satellite"));
-          }}
-        >
-          <Layers
-            color={mapType === "satellite" ? tokens.colors.surf : tokens.colors.text}
-            size={20}
-            strokeWidth={1.75}
-          />
-        </TouchableOpacity>
-      </View>
+        {/* Last in the top stack, so they sit under the search bar (and under
+            the filter chips when those are open). They used to be pinned 40%
+            down the screen, where the bottom sheet grows up over them and they
+            covered its distance and Directions button. */}
+        <View style={styles.mapControls}>
+          <TouchableOpacity
+            style={styles.controlBtn}
+            accessibilityRole="button"
+            accessibilityLabel="Centre on my location"
+            onPress={() => {
+              Haptics.impactAsync();
+              if (loc) mapViewRef.current?.recenter(loc.coords.latitude, loc.coords.longitude);
+            }}
+          >
+            <Crosshair color={tokens.colors.text} size={20} strokeWidth={1.75} />
+          </TouchableOpacity>
+          <View style={styles.controlDivider} />
+          <TouchableOpacity
+            style={styles.controlBtn}
+            accessibilityRole="button"
+            accessibilityLabel="Switch map type"
+            onPress={() => {
+              Haptics.impactAsync();
+              setMapType((t) => (t === "satellite" ? "standard" : "satellite"));
+            }}
+          >
+            <Layers
+              color={mapType === "satellite" ? tokens.colors.highlight : tokens.colors.text}
+              size={20}
+              strokeWidth={1.75}
+            />
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
 
       <MapOverlayCard
         site={selectedSite}
@@ -512,9 +523,11 @@ const styles = StyleSheet.create({
   chipText: { fontSize: 13, fontWeight: "600", color: tokens.colors.text2 },
   chipTextActive: { color: "#FFFFFF" },
   mapControls: {
-    position: "absolute", right: 14, top: "40%", backgroundColor: "rgba(255,255,255,0.97)",
+    // In the top stack's flow, at its right edge. No overflow: "hidden": on iOS
+    // that clips the view's own shadow, and nothing here needs clipping.
+    alignSelf: "flex-end", marginRight: 14, marginTop: 10, backgroundColor: "rgba(255,255,255,0.97)",
     borderRadius: 20, shadowColor: "#241A12", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1,
-    shadowRadius: 16, elevation: 6, zIndex: 20, overflow: "hidden",
+    shadowRadius: 16, elevation: 6,
   },
   controlBtn: { width: 46, height: 46, alignItems: "center", justifyContent: "center" },
   controlDivider: { height: StyleSheet.hairlineWidth, backgroundColor: "rgba(36,26,18,0.12)" },

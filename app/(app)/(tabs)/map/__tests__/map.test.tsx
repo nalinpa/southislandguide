@@ -222,6 +222,19 @@ describe("markers", () => {
   });
 });
 
+describe("map controls", () => {
+  // They used to be pinned 40% down the screen, where the bottom sheet grows up over them
+  // and they covered its distance and Directions button. They now flow under the search bar.
+  it("sit in the stack under the search bar, not pinned over the sheet", async () => {
+    const view = await render(<MapScreen />);
+
+    const controls = view.getByLabelText("Centre on my location").parent;
+
+    expect(view.getByLabelText("Switch map type")).toBeTruthy();
+    expect(controls).not.toHaveStyle({ position: "absolute" });
+  });
+});
+
 describe("category chips", () => {
   it("marks the chosen category in the highlight colour, and only that one", async () => {
     const view = await render(<MapScreen />);

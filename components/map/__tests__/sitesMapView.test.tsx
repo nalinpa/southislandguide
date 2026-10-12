@@ -34,6 +34,7 @@ import { render } from "@testing-library/react-native";
 
 import { SitesMapView, initialRegionFrom } from "@/components/map/SitesMapView";
 import type { SitesMapViewHandle } from "@/components/map/SitesMapView";
+import { isInCoverage } from "@/components/map/MapRegion";
 
 const sites = [
   { id: "s1", name: "Wai-O-Tapu", lat: -38.35, lng: 176.36, category: "Walks" as const },
@@ -98,17 +99,43 @@ describe("the map", () => {
     expect(mockClusterProps.current.mapType).toBe("satellite");
   });
 
-  it("fences the map to the coverage area once it is ready", async () => {
+  // The map used to be boxed to Christchurch, where 1.0's places are. It's a South Island
+  // guide: people expect to be able to look at the island.
+  it("lets the map pan across the whole South Island, and no further", async () => {
     await render(
       <SitesMapView sites={sites} initialRegion={region} selectedSiteId={null} mapType="standard" onPressSite={jest.fn()} />,
     );
 
     mockClusterProps.current.onMapReady();
 
-    expect(mockMapRef.setMapBoundaries).toHaveBeenCalledWith(
-      { latitude: -43.35, longitude: 172.85 },
-      { latitude: -43.7, longitude: 172.4 },
+    const [northEast, southWest] = mockMapRef.setMapBoundaries.mock.calls[0];
+    const inside = (lat: number, lng: number) =>
+      lat <= northEast.latitude && lat >= southWest.latitude && lng <= northEast.longitude && lng >= southWest.longitude;
+
+    expect(inside(-43.53, 172.64)).toBe(true); // Christchurch
+    expect(inside(-41.27, 173.28)).toBe(true); // Nelson
+    expect(inside(-40.5, 172.68)).toBe(true); // Cape Farewell
+    expect(inside(-44.67, 167.93)).toBe(true); // Milford Sound
+    expect(inside(-46.41, 168.35)).toBe(true); // Invercargill
+    expect(inside(-46.9, 168.13)).toBe(true); // Oban, Stewart Island
+    expect(inside(-36.85, 174.76)).toBe(false); // Auckland
+  });
+
+  it("lets the map zoom out far enough to take in the island", async () => {
+    await render(
+      <SitesMapView sites={sites} initialRegion={region} selectedSiteId={null} mapType="standard" onPressSite={jest.fn()} />,
     );
+
+    // iOS (jest's default platform): the camera's maximum height in metres. The island is
+    // about 850 km end to end; 60 km only took in Christchurch.
+    expect(mockClusterProps.current.cameraZoomRange.maxCenterCoordinateDistance).toBeGreaterThanOrEqual(1_500_000);
+  });
+
+  // Separate from the pan limit on purpose: "here" decides whether the map opens on the
+  // user or on the places, and someone in Queenstown should still open on the places.
+  it("still counts only the area with places as 'here'", () => {
+    expect(isInCoverage(-43.53, 172.64)).toBe(true); // Christchurch
+    expect(isInCoverage(-45.03, 168.66)).toBe(false); // Queenstown
   });
 
   it("zooms to a newly selected site", async () => {

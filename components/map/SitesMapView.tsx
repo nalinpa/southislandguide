@@ -16,11 +16,11 @@ import { SiteMarker } from "@/components/map/SiteMarker";
 import { tokens } from "@/lib/ui/tokens";
 import type { SiteCategory } from "@/lib/models";
 export { initialRegionFrom } from "./MapRegion";
-import { COVERAGE_BOUNDS } from "./MapRegion";
+import { MAP_BOUNDS } from "./MapRegion";
 
 const DEFAULT_MAP_BOUNDS = {
-  northEast: { latitude: COVERAGE_BOUNDS.maxLat, longitude: COVERAGE_BOUNDS.maxLng },
-  southWest: { latitude: COVERAGE_BOUNDS.minLat, longitude: COVERAGE_BOUNDS.minLng },
+  northEast: { latitude: MAP_BOUNDS.maxLat, longitude: MAP_BOUNDS.maxLng },
+  southWest: { latitude: MAP_BOUNDS.minLat, longitude: MAP_BOUNDS.minLng },
 };
 
 export type SiteMapPoint = {
@@ -221,10 +221,12 @@ const SitesMapViewInner = forwardRef<
       // re-sets the region inside regionDidChange. When MapKit jumps instead of animating
       // (map not rendering yet, e.g. tab returning from background) that recurses until
       // a stack overflow (Sentry, build 10). cameraZoomRange uses MapKit's own limits.
-      // ponytail: distances are camera metres, roughly zoom 10 / zoom 19 — tune on device.
+      // Zoomed right out, the whole South Island fits (it's about 850 km end to end);
+      // the old limits (60 km / zoom 10) only took in Christchurch.
+      // ponytail: distances are camera metres, roughly zoom 5 / zoom 19 — tune on device.
       {...Platform.select({
-        ios: { cameraZoomRange: { minCenterCoordinateDistance: 100, maxCenterCoordinateDistance: 60_000 } },
-        default: { minZoomLevel: 10, maxZoomLevel: 20 },
+        ios: { cameraZoomRange: { minCenterCoordinateDistance: 100, maxCenterCoordinateDistance: 2_000_000 } },
+        default: { minZoomLevel: 5, maxZoomLevel: 20 },
       })}
       moveOnMarkerPress={false}
       showsTraffic={false}

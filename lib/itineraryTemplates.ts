@@ -8,8 +8,10 @@
 // slotIndex/durationSlots are pre-baked so the itinerary physics engine has
 // nothing to move the first time the trip is opened: slot 0 is 8:00 AM, a slot
 // is 30 minutes, and each stop starts at least one transit leg after the last
-// one ends. The transit matrix is still empty, so every leg is the flat 1-slot
-// default. RE-BAKE these when the real matrix lands (release 1.1) —
+// one ends. Every stop is in the christchurch area and the transit matrix is
+// still empty, so every leg is the flat 1-slot default. RE-BAKE these when the
+// real matrix lands (release 1.1), and bake in the drive (lib/areas.ts) for any
+// template that crosses areas, within a day or overnight —
 // lib/__tests__/itineraryTemplates.test.ts fails if they no longer fit.
 //
 // Stops are also placed inside each place's opening hours on every day of the

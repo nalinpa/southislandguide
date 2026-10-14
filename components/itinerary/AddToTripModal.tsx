@@ -8,7 +8,8 @@ import { X, Minus, Plus, Image as ImageIcon } from "lucide-react-native";
 import { CardShell, AppButton } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
 import { useItineraries } from "@/lib/hooks/useItineraries";
-import { runPhysicsEngine } from "@/lib/utils/itineraryPhysics";
+import { usePlaceLookup } from "@/lib/hooks/usePlaceLookup";
+import { tryEdit } from "@/lib/utils/itineraryPhysics";
 import { PLANNER } from "@/lib/constants/gameplay";
 import type { ItineraryItem } from "@/lib/models";
 
@@ -29,6 +30,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   const { itineraries, saveItinerary, isSaving } = useItineraries();
   const netInfo = useNetInfo();
   const isOffline = netInfo.isConnected === false || netInfo.isInternetReachable === false;
+  const { places, ready: placesReady } = usePlaceLookup();
 
   const [itineraryId, setItineraryId] = useState<string | null>(null);
   const [dayId, setDayId] = useState<string | null>(null);
@@ -72,18 +74,24 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
       imageUrl: site.imageUrl,
     };
 
-    let items = [...day.items, newItem];
+    const items = [...day.items, newItem];
     items.sort((a, b) => (a.slotIndex || 0) - (b.slotIndex || 0));
-    items = runPhysicsEngine(items);
 
-    const last = items[items.length - 1];
-    if ((last.slotIndex ?? 0) + (last.durationSlots ?? 2) > PLANNER.MAX_GRID_SLOTS) {
-      setErrorMsg("This day is full. Try a different day or shorten the visit.");
+    // The whole trip, not just this day: a place in another area brings a drive with
+    // it, and as the day's last place it changes the drive the next day opens with.
+    const result = tryEdit(
+      selectedTrip.days,
+      selectedTrip.days.map((d) => (d.id === dayId ? { ...d, items } : d)),
+      dayId,
+      places,
+    );
+    if (!result.ok) {
+      setErrorMsg(result.reason);
       return;
     }
 
-    const placedItem = items.find((i) => i.id === newItem.id)!;
-    const updatedDays = selectedTrip.days.map((d) => (d.id === dayId ? { ...d, items } : d));
+    const updatedDays = result.days;
+    const placedItem = updatedDays.find((d) => d.id === dayId)!.items.find((i) => i.id === newItem.id)!;
 
     try {
       await saveItinerary({ id: selectedTrip.id, days: updatedDays });
@@ -197,17 +205,19 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
 
               {errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
 
-              {/* Saves queue while offline, so without this the button would just spin until reconnect. */}
+              {/* Saves queue while offline, so without this the button would just spin until reconnect.
+                  And nothing is added before the place list is in: without it the drive to
+                  this place can't be worked out, so the fit check would pass anything. */}
               <View style={styles.submit}>
                 <AppButton
                   variant="primary"
                   onPress={handleAdd}
                   loading={isSaving}
                   loadingLabel="Adding..."
-                  disabled={isOffline}
+                  disabled={isOffline || !placesReady}
                   fullWidth
                 >
-                  {isOffline ? "Reconnect to Add" : "Add to Trip"}
+                  {isOffline ? "Reconnect to Add" : placesReady ? "Add to Trip" : "Loading Places..."}
                 </AppButton>
               </View>
             </ScrollView>

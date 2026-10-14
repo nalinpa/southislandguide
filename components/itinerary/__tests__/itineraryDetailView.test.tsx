@@ -32,6 +32,12 @@ jest.mock("@/lib/uiKit", () => {
           ),
           React.createElement(
             TouchableOpacity,
+            // A drop at 6:00 PM, far enough down to pass the stops after it.
+            { onPress: () => onDrop(item.id, 20), accessibilityRole: "button" },
+            React.createElement(Text, null, "Drop late " + item.siteName),
+          ),
+          React.createElement(
+            TouchableOpacity,
             { onPress: () => onEdit(item), accessibilityRole: "button" },
             React.createElement(Text, null, "Edit " + item.siteName),
           ),
@@ -48,12 +54,50 @@ jest.mock("@/lib/uiKit", () => {
 
 jest.mock("@/components/itinerary/EditItemModal", () => {
   const React = require("react");
-  const { Text } = require("react-native");
+  const { Text, TouchableOpacity, View } = require("react-native");
+  const press = (label: string, onPress: () => void) =>
+    React.createElement(
+      TouchableOpacity,
+      { key: label, onPress, accessibilityRole: "button" },
+      React.createElement(Text, null, label),
+    );
+  // Stands in for the stop editor's three ways out, and offers the same days the real
+  // one does: every day but the open one that isn't marked full.
   return {
-    EditItemModal: ({ item, moveLocked }: any) =>
-      item ? React.createElement(Text, null, moveLocked ? "Edit Modal (move locked)" : "Edit Modal") : null,
+    EditItemModal: ({ item, moveLocked, availableDays, currentDayId, onSave, onRemove, onMoveDay }: any) =>
+      item
+        ? React.createElement(
+            View,
+            null,
+            React.createElement(Text, null, moveLocked ? "Edit Modal (move locked)" : "Edit Modal"),
+            press("Remove stop", () => onRemove(item.id)),
+            // Ten hours, with a note.
+            press("Longer visit", () => onSave(item.id, 20, "bring cash")),
+            ...availableDays
+              .filter((d: any) => d.id !== currentDayId && !d.full)
+              .map((d: any) => press("Move to " + d.label, () => onMoveDay(item.id, d.id))),
+          )
+        : null,
   };
 });
+
+// The area each known place is visited from. "site-1" isn't in the list, so its legs are
+// the flat half hour, as every leg was before drive times. Christchurch to Dunedin is
+// 9 slots (4.5 hours).
+const mockAreas: Record<string, string> = {
+  "chc-a": "christchurch",
+  "chc-b": "christchurch",
+  "dun-a": "dunedin",
+  "dun-b": "dunedin",
+};
+const mockLookup = {
+  places: (id: string) => (id in mockAreas ? { area: mockAreas[id] } : undefined),
+  ready: true,
+  count: 4,
+  err: "",
+  refresh: jest.fn(),
+};
+jest.mock("@/lib/hooks/usePlaceLookup", () => ({ usePlaceLookup: () => mockLookup }));
 jest.mock("@/components/itinerary/PremiumFeatureModal", () => {
   const React = require("react");
   const { Text } = require("react-native");
@@ -154,8 +198,26 @@ beforeEach(() => {
   mockTrips.error = null;
   mockTrips.saveItinerary = jest.fn().mockResolvedValue("t1");
   mockTrips.deleteItinerary = jest.fn().mockResolvedValue(undefined);
+  mockLookup.ready = true;
+  mockLookup.err = "";
   alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
 });
+
+const gardens = (over: Record<string, unknown> = {}) =>
+  makeItem({ id: "gardens", siteId: "chc-a", siteName: "Gardens", ...over });
+const gondola = (over: Record<string, unknown> = {}) =>
+  makeItem({ id: "gondola", siteId: "chc-b", siteName: "Gondola", ...over });
+const museum = (over: Record<string, unknown> = {}) =>
+  makeItem({ id: "museum", siteId: "dun-a", siteName: "Museum", ...over });
+const castle = (over: Record<string, unknown> = {}) =>
+  makeItem({ id: "castle", siteId: "dun-b", siteName: "Castle", ...over });
+
+const tripOf = (...days: ReturnType<typeof makeItem>[][]) =>
+  makeTrip({ days: days.map((items, i) => ({ id: "day_" + (i + 1), date: "2026-10-0" + (i + 1), items })) });
+
+const entitle = () => {
+  mockGate.entitledProductIds = new Set([FULL_GUIDE_PRODUCT_ID]);
+};
 
 afterEach(() => alertSpy.mockRestore());
 
@@ -422,5 +484,179 @@ describe("notes", () => {
     await fireEvent.press(view.getByText("Note Wai-O-Tapu"));
 
     expect(view.getByText("Tickets before 10:15")).toBeTruthy();
+  });
+});
+
+// Between two areas the planner reserves that pair's drive time (lib/areas.ts) and the
+// timeline draws it as a block. Inside one area nothing changes.
+describe("the drive between areas", () => {
+  it("draws the drive as a block ending where the next place starts", async () => {
+    mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2 }), museum({ slotIndex: 13 })])];
+    const view = await openTrip();
+
+    expect(view.getByText("Drive to Dunedin")).toBeTruthy();
+    expect(view.getByText("Christchurch to Dunedin")).toBeTruthy();
+    expect(view.getByTestId("drive-block")).toHaveStyle({ top: 4 * 72, height: 9 * 72 });
+  });
+
+  it("draws no drive between two places in the same area", async () => {
+    mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2 }), gondola({ slotIndex: 5 })])];
+    const view = await openTrip();
+
+    expect(view.getByText("Gondola")).toBeTruthy();
+    expect(view.queryByTestId("drive-block")).toBeNull();
+  });
+
+  it("opens a day with the drive from where the day before ended", async () => {
+    mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2 })], [museum({ slotIndex: 9 })])];
+    const view = await openTrip({ jumpToDay: "day_2" });
+
+    await waitFor(() => expect(view.getByText("Drive to Dunedin")).toBeTruthy());
+    expect(view.getByTestId("drive-block")).toHaveStyle({ top: 0, height: 9 * 72 });
+  });
+
+  it("re-times and saves a stored day that left no room for its drive", async () => {
+    mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2 }), museum({ slotIndex: 5 })])];
+    await openTrip();
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    const day1 = mockTrips.saveItinerary.mock.calls[0][0].days[0];
+    expect(day1.items.map((i: any) => i.slotIndex)).toEqual([2, 13]);
+  });
+
+  // Gardens 9 to 10, then free until the drive leaves at 1:30 for a 6:00 PM arrival.
+  it("keeps the free-time card out of the drive", async () => {
+    mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2 }), museum({ slotIndex: 20 })])];
+    const view = await openTrip();
+
+    const gaps = view.getAllByTestId("free-gap");
+    expect(gaps).toHaveLength(2);
+    expect(gaps[0]).toHaveStyle({ top: 4 * 72, height: 7 * 72 });
+    expect(gaps[1]).toHaveStyle({ top: 22 * 72, height: 6 * 72 });
+  });
+});
+
+// Without the place list every drive would be the flat half hour, so nothing is packed,
+// drawn or edited until it is in.
+describe("waiting for the place list", () => {
+  it("holds the loading state until the places are in", async () => {
+    mockLookup.ready = false;
+    const view = await openTrip();
+
+    expect(view.getByText("Loading your trip...")).toBeTruthy();
+    expect(view.queryByText("Wai-O-Tapu")).toBeNull();
+    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+  });
+
+  it("offers a retry when the places couldn't be loaded", async () => {
+    mockLookup.ready = false;
+    mockLookup.err = "Network request failed";
+    const view = await openTrip();
+
+    expect(view.getByText("Couldn't load your trip")).toBeTruthy();
+    await fireEvent.press(view.getByText("Try Again"));
+    expect(mockLookup.refresh).toHaveBeenCalled();
+  });
+});
+
+// Every edit goes through the planner's gate (tryEdit): one that would leave any day of
+// the trip ending past 10 PM is refused, with the reason.
+describe("edits that don't fit", () => {
+  beforeEach(entitle);
+
+  // Museum then Castle are both Dunedin. Gardens dropped between them adds a second drive.
+  it("refuses a reorder that adds a drive the day has no room for, and leaves the day as it was", async () => {
+    mockTrips.itineraries = [
+      tripOf([
+        gardens({ slotIndex: 0, durationSlots: 6 }),
+        museum({ slotIndex: 15, durationSlots: 6 }),
+        castle({ slotIndex: 22, durationSlots: 6 }),
+      ]),
+    ];
+    const view = await openTrip();
+
+    await fireEvent.press(view.getByText("Drop late Gardens"));
+
+    expect(alertSpy).toHaveBeenCalledWith(
+      "Not Enough Time",
+      "There isn't time for the drive to Christchurch on this day. Try a different day or a shorter visit.",
+    );
+    expect(view.getByText("Drive to Dunedin")).toBeTruthy();
+    expect(view.queryByText("Drive to Christchurch")).toBeNull();
+  });
+
+  it("refuses a longer visit the day has no room for, but keeps the note that came with it", async () => {
+    mockTrips.itineraries = [
+      tripOf([gardens({ slotIndex: 0, durationSlots: 10 }), gondola({ slotIndex: 11, durationSlots: 10 })]),
+    ];
+    const view = await openTrip();
+
+    await fireEvent.press(view.getByText("Edit Gardens"));
+    await fireEvent.press(view.getByText("Longer visit"));
+
+    expect(alertSpy).toHaveBeenCalledWith("Not Enough Time", "This day is full. Try a different day or shorten the visit.");
+    await view.unmount();
+    const saved = mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0];
+    expect(saved).toMatchObject({ id: "gardens", durationSlots: 10, note: "bring cash" });
+  });
+
+  // Day 1 ends in Dunedin, so day 2 starts there. Without the Museum, day 1 ends in
+  // Christchurch and day 2 has to open with a 4.5 hour drive it has no room for.
+  it("refuses removing a day's last place when the next day then can't fit its drive", async () => {
+    mockTrips.itineraries = [
+      tripOf([gardens({ slotIndex: 2 }), museum({ slotIndex: 13 })], [castle({ slotIndex: 0, durationSlots: 20 })]),
+    ];
+    const view = await openTrip();
+
+    await fireEvent.press(view.getByText("Edit Museum"));
+    await fireEvent.press(view.getByText("Remove stop"));
+
+    expect(alertSpy).toHaveBeenCalledWith(
+      "Not Enough Time",
+      "Day 2 would no longer fit after the drive from Christchurch. Make room on Day 2 first.",
+    );
+    expect(view.getByText("Museum")).toBeTruthy();
+  });
+
+  it("re-times the next day in the saved trip when a removal that fits changes its drive", async () => {
+    mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2 }), museum({ slotIndex: 13 })], [castle({ slotIndex: 1 })])];
+    const view = await openTrip();
+
+    await fireEvent.press(view.getByText("Edit Museum"));
+    await fireEvent.press(view.getByText("Remove stop"));
+    await view.unmount();
+
+    const days = mockTrips.saveItinerary.mock.calls[0][0].days;
+    expect(days[0].items.map((i: any) => i.id)).toEqual(["gardens"]);
+    expect(days[1].items[0]).toMatchObject({ id: "castle", slotIndex: 9 });
+  });
+
+  // Day 2 is 12:30 to 9:30 PM in Christchurch: no room to add a place in Dunedin. Day 3 is empty.
+  it("offers only the days a place would fit on when moving it", async () => {
+    mockTrips.itineraries = [
+      tripOf([gardens({ slotIndex: 2 }), museum({ slotIndex: 13 })], [gondola({ slotIndex: 9, durationSlots: 18 })], []),
+    ];
+    const view = await openTrip();
+
+    await fireEvent.press(view.getByText("Edit Museum"));
+
+    expect(view.getByText("Move to Day 3")).toBeTruthy();
+    expect(view.queryByText("Move to Day 2")).toBeNull();
+  });
+
+  it("moves a place to a later day, and saves both days", async () => {
+    mockTrips.itineraries = [
+      tripOf([gardens({ slotIndex: 2 }), museum({ slotIndex: 13 })], [gondola({ slotIndex: 9, durationSlots: 18 })], []),
+    ];
+    const view = await openTrip();
+
+    await fireEvent.press(view.getByText("Edit Museum"));
+    await fireEvent.press(view.getByText("Move to Day 3"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    const days = mockTrips.saveItinerary.mock.calls[0][0].days;
+    expect(days[0].items.map((i: any) => i.id)).toEqual(["gardens"]);
+    expect(days[2].items.map((i: any) => i.id)).toEqual(["museum"]);
+    expect(view.getByText("Museum")).toBeTruthy();
   });
 });

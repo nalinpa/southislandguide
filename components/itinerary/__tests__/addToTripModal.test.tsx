@@ -17,6 +17,17 @@ jest.mock("@react-native-community/netinfo", () => ({ useNetInfo: () => mockNet 
 const mockTrips = { itineraries: [] as any[], saveItinerary: jest.fn(), isSaving: false };
 jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
 
+// The area each known place is visited from. "site-1" and "other" aren't in the list, so
+// their legs are the flat half hour, as every leg was before drive times.
+const mockAreas: Record<string, string> = { "chc-a": "christchurch", "dun-a": "dunedin", "dun-b": "dunedin" };
+const mockLookup = {
+  places: (id: string) => (id in mockAreas ? { area: mockAreas[id] } : undefined),
+  ready: true,
+  count: 3,
+  err: "",
+};
+jest.mock("@/lib/hooks/usePlaceLookup", () => ({ usePlaceLookup: () => mockLookup }));
+
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
 jest.mock("expo-router", () => ({
   get router() {
@@ -48,7 +59,26 @@ beforeEach(() => {
   mockTrips.isSaving = false;
   mockTrips.saveItinerary = jest.fn().mockResolvedValue("t1");
   mockTrips.itineraries = [makeTrip("t1")];
+  mockLookup.ready = true;
 });
+
+const makeStop = (id: string, siteId: string, slotIndex: number, durationSlots = 2) => ({
+  id,
+  siteId,
+  siteName: siteId,
+  slotIndex,
+  durationSlots,
+  timeLabel: "",
+  durationLabel: "",
+});
+
+const tripWithDays = (...days: ReturnType<typeof makeStop>[][]) => ({
+  ...makeTrip("t1", days.length),
+  days: days.map((items, i) => ({ id: "day_" + (i + 1), date: "2026-10-0" + (i + 1), items })),
+});
+
+const christchurchPlace = { id: "chc-a", name: "Botanic Gardens" };
+const dunedinPlace = { id: "dun-a", name: "Otago Museum" };
 
 describe("what is shown", () => {
   it("renders nothing until a site is handed in", async () => {
@@ -119,6 +149,22 @@ describe("adding", () => {
     expect(mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0].durationSlots).toBe(2);
   });
 
+  // Day 1 ended in Christchurch, so a Dunedin morning can't start before the 4.5 hour drive.
+  it("starts a day in a new area after the drive from where the day before ended", async () => {
+    mockTrips.itineraries = [tripWithDays([makeStop("a", "chc-a", 2)], [])];
+    const view = await render(<AddToTripModal site={dunedinPlace} onClose={onClose} />);
+
+    await fireEvent.press(view.getByText("Day 2"));
+    await fireEvent.press(view.getByText("Add to Trip"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    const day2 = mockTrips.saveItinerary.mock.calls[0][0].days[1];
+    expect(day2.items[0]).toMatchObject({ siteId: "dun-a", slotIndex: 9, timeLabel: "12:30 PM" });
+    expect(mockRouter.push).toHaveBeenCalledWith(
+      expect.objectContaining({ params: expect.objectContaining({ jumpToDay: "day_2", jumpToSlot: "9" }) }),
+    );
+  });
+
   it("opens the trip at the slot the stop actually landed in", async () => {
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
 
@@ -165,6 +211,47 @@ describe("refusals", () => {
     await waitFor(() => expect(view.getByText("This day is full. Try a different day or shorten the visit.")).toBeTruthy());
     expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
     expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it("refuses a place there is no time to drive to, and names the drive", async () => {
+    mockTrips.itineraries = [tripWithDays([makeStop("a", "chc-a", 0, 18)])];
+    const view = await render(<AddToTripModal site={dunedinPlace} onClose={onClose} />);
+
+    await fireEvent.press(view.getByText("Evening"));
+    await fireEvent.press(view.getByText("Add to Trip"));
+
+    await waitFor(() =>
+      expect(
+        view.getByText("There isn't time for the drive to Dunedin on this day. Try a different day or a shorter visit."),
+      ).toBeTruthy(),
+    );
+    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+  });
+
+  // The new place becomes day 1's last, so day 2 now has to open with the drive back.
+  it("refuses a place that leaves the next day no room for the drive it then opens with", async () => {
+    mockTrips.itineraries = [tripWithDays([makeStop("a", "dun-b", 2)], [makeStop("b", "dun-a", 0, 20)])];
+    const view = await render(<AddToTripModal site={christchurchPlace} onClose={onClose} />);
+
+    await fireEvent.press(view.getByText("Evening"));
+    await fireEvent.press(view.getByText("Add to Trip"));
+
+    await waitFor(() =>
+      expect(
+        view.getByText("Day 2 would no longer fit after the drive from Christchurch. Make room on Day 2 first."),
+      ).toBeTruthy(),
+    );
+    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+  });
+
+  it("waits for the place list, so nothing is added without the drive check", async () => {
+    mockLookup.ready = false;
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+
+    expect(view.queryByText("Add to Trip")).toBeNull();
+    await fireEvent.press(view.getByText("Loading Places..."));
+
+    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
   });
 
   it("asks for a trip and a day when there is nothing to add to", async () => {

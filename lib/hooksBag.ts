@@ -6,11 +6,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
 import NetInfo from "@react-native-community/netinfo";
 import { client } from "@/lib/api";
+import type { Site } from "@/lib/models";
 
 export const hooksBag = createHooks(client, {
   appId: "southislandguide",
   queryKeyPrefix: ["southislandguide"],
   storage: AsyncStorage,
+  // Fixed identity: the shared default is an inline arrow, new on every render,
+  // which defeats the memo in useLocations and hands back a fresh array each time.
+  // Pinning it here stabilises the list for consumers that memo on it.
+  normalizeLocation: (raw: Site) => raw,
   locationSource: {
     requestPermission: async () => {
       const perm = await Location.requestForegroundPermissionsAsync();
@@ -40,9 +45,10 @@ export const hooksBag = createHooks(client, {
   },
 });
 
-// Only active sites should ever be listed; inactive ones stay reachable by
-// direct id (useLocation), or via useAllLocations, for things like existing
-// itinerary entries and saved sites the user already added.
+// Only active sites should ever be listed. The api's list route already leaves
+// inactive ones out (the client never asks for them), so useAllLocations holds
+// the same places today; an inactive place is only reachable by direct id
+// (useLocation). The filter stays as the guard on this side.
 export const useAllLocations = hooksBag.useLocations;
 hooksBag.useLocations = () => {
   const result = useAllLocations();

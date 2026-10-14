@@ -7,7 +7,7 @@
 // track of which tab it's on. See TASKS.md for the bug this fixed: the old
 // router.push/replace-based auto-redirect could leave the tab stuck showing
 // a permanent loading state after navigating away and back.
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, AppState, Alert, Modal } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useFocusEffect } from "expo-router";
@@ -21,16 +21,27 @@ import { EditItemModal } from "@/components/itinerary/EditItemModal";
 import { PremiumFeatureModal } from "@/components/itinerary/PremiumFeatureModal";
 import { DeleteTripModal } from "@/components/itinerary/DeleteTripModal";
 import { NoteCard } from "@/components/itinerary/NoteCard";
+import { DriveBlock } from "@/components/itinerary/DriveBlock";
 import { tokens } from "@/lib/ui/tokens";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { useEntitlementGate } from "@/lib/hooks/useEntitlementGate";
+import { usePlaceLookup } from "@/lib/hooks/usePlaceLookup";
 import { usePurchaseContext } from "@/lib/iap/PurchaseProvider";
-import { runPhysicsEngine, slotsToDurationLabel, timelineOffsetForMinutes } from "@/lib/utils/itineraryPhysics";
-import { getRequiredTransitSlots } from "@/lib/utils/transitMatrix";
+import {
+  dayLegs,
+  dayStartSiteId,
+  moveItemToDay,
+  packTrip,
+  slotsToDurationLabel,
+  timelineOffsetForMinutes,
+  tryEdit,
+  type DayLeg,
+} from "@/lib/utils/itineraryPhysics";
+import { areaLabel } from "@/lib/areas";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
-import type { Itinerary, ItineraryItem } from "@/lib/models";
+import type { Itinerary, ItineraryDay, ItineraryItem } from "@/lib/models";
 
 const { SLOT_HEIGHT, MAX_GRID_SLOTS } = PLANNER;
 
@@ -59,6 +70,8 @@ function formatDayDate(iso: string): string {
   return new Date(iso + "T00:00:00").toLocaleDateString("en-NZ", { day: "numeric", month: "short" });
 }
 
+const bySlot = (a: ItineraryItem, b: ItineraryItem) => (a.slotIndex || 0) - (b.slotIndex || 0);
+
 export type ItineraryDetailViewProps = {
   tripId: string;
   jumpToDay?: string;
@@ -77,6 +90,10 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   } = useEntitlementGate(uid);
   const isEntitled = entitledProductIds.has(FULL_GUIDE_PRODUCT_ID);
   const { requestBuy } = usePurchaseContext();
+  // The planner needs each place's area to know the drive between two of them. Nothing
+  // below packs, draws or edits a day until the list is in (placesReady): against an
+  // empty one every drive would be the flat half hour.
+  const { places, ready: placesReady, count: placeCount, err: placesErr, refresh: refreshPlaces } = usePlaceLookup();
   const sourceTrip = itineraries.find((i) => i.id === tripId) ?? null;
 
   const [localTrip, setLocalTrip] = useState<Itinerary | null>(sourceTrip);
@@ -120,18 +137,24 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     if (isEntitled) setShowPremiumMove(false);
   }, [isEntitled]);
 
+  // The travel on the open day: the hop or drive into each place, and the drive the day
+  // opens with when the day before ended in another area. Drawn below, and kept clear
+  // of the free-gap cards, from this one list, so a card can never sit on a drive.
+  const legs = useMemo(() => {
+    if (!localTrip) return [];
+    const dayIndex = localTrip.days.findIndex((d) => d.id === activeDay?.id);
+    return dayLegs(localItems, places, dayStartSiteId(localTrip.days, dayIndex));
+  }, [localItems, localTrip, activeDay?.id, places]);
+  const legAfter = useMemo(() => new Map(legs.map((leg) => [leg.key, leg])), [legs]);
+
   const freeGaps = useMemo(() => {
     const occupied = new Set<number>();
-    for (let i = 0; i < localItems.length; i++) {
-      const item = localItems[i];
+    for (const item of localItems) {
       const start = item.slotIndex ?? 0;
       for (let s = start; s < start + (item.durationSlots ?? 2); s++) occupied.add(s);
-      const next = localItems[i + 1];
-      if (next) {
-        const transit = getRequiredTransitSlots(item.siteId, next.siteId);
-        const ns = next.slotIndex ?? 0;
-        for (let s = Math.max(0, ns - transit); s < ns; s++) occupied.add(s);
-      }
+    }
+    for (const leg of legs) {
+      for (let s = Math.max(0, leg.startSlot); s < leg.startSlot + leg.slots; s++) occupied.add(s);
     }
     const gaps: { start: number; end: number }[] = [];
     let gs = -1;
@@ -145,7 +168,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     }
     if (gs !== -1) gaps.push({ start: gs, end: MAX_GRID_SLOTS });
     return gaps.filter((g) => g.end - g.start >= 5);
-  }, [localItems]);
+  }, [localItems, legs]);
 
   const latestItemsRef = useRef(localItems);
   const tripRef = useRef(localTrip);
@@ -205,39 +228,45 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     if (localTrip?.days[0]?.id && !activeDayId) setActiveDayId(localTrip.days[0].id);
   }, [localTrip, activeDayId]);
 
-  // On trip load, run physics across every day and save once if any overlaps were found
+  // On trip load, run physics across every day and save once if any overlaps were found.
+  // Once per trip and per place list (placeCount): a trip stored before a place's drive
+  // was known is re-timed the first time it opens with the list in.
+  // ponytail: a stored day with more in it than fits (saved before drive times, or before
+  // a time in lib/areas.ts was raised) comes back ending past 10 PM and is saved that way,
+  // with nothing on screen to say so. Add a notice on the day if times change after release.
   useEffect(() => {
-    if (!localTrip || hasUnsavedChanges.current) return;
-    if (correctedTripIdRef.current === localTrip.id) return;
-    correctedTripIdRef.current = localTrip.id;
+    if (!localTrip || !placesReady || hasUnsavedChanges.current) return;
+    const key = `${localTrip.id}|${placeCount}`;
+    if (correctedTripIdRef.current === key) return;
+    correctedTripIdRef.current = key;
 
-    let anyFixed = false;
-    const fixedDays = localTrip.days.map((day) => {
-      const sorted = [...(day.items ?? [])].sort((a, b) => (a.slotIndex ?? 0) - (b.slotIndex ?? 0));
-      const packed = runPhysicsEngine(sorted);
-      const needsFix = sorted.some((item, i) => item.slotIndex !== packed[i].slotIndex);
-      if (!needsFix) return day;
-      anyFixed = true;
-      return { ...day, items: packed };
-    });
+    const sortedDays = localTrip.days.map((day) => ({ ...day, items: [...(day.items ?? [])].sort(bySlot) }));
+    const packedDays = packTrip(sortedDays, places);
+    const anyFixed = packedDays.some((day, d) =>
+      day.items.some((item, i) => item.slotIndex !== sortedDays[d].items[i].slotIndex),
+    );
 
     if (anyFixed) {
-      const fixedTrip = { ...localTrip, days: fixedDays };
+      const fixedTrip = { ...localTrip, days: packedDays };
       setLocalTrip(fixedTrip);
       saveTrip({ id: fixedTrip.id, days: fixedTrip.days });
     }
-  }, [localTrip?.id]);
+  }, [localTrip?.id, placesReady, placeCount]);
 
   useEffect(() => {
-    if (activeDay?.items && !hasUnsavedChanges.current) {
-      const sorted = [...activeDay.items].sort((a, b) => (a.slotIndex || 0) - (b.slotIndex || 0));
-      const packed = runPhysicsEngine(sorted);
+    if (localTrip && activeDay?.items && placesReady && !hasUnsavedChanges.current) {
+      const sorted = [...activeDay.items].sort(bySlot);
+      const dayIndex = localTrip.days.findIndex((d) => d.id === activeDay.id);
+      const packed = packTrip(
+        localTrip.days.map((d) => (d.id === activeDay.id ? { ...d, items: sorted } : d)),
+        places,
+      )[dayIndex].items;
       const needsCorrection = sorted.some((item, i) => item.slotIndex !== packed[i].slotIndex);
       setLocalItems(packed);
       latestItemsRef.current = packed;
       if (needsCorrection) hasUnsavedChanges.current = true;
     }
-  }, [activeDay?.id, activeDay?.items]);
+  }, [activeDay?.id, activeDay?.items, placesReady, placeCount]);
 
   const flushSave = useCallback(() => {
     if (hasUnsavedChanges.current && tripRef.current && activeDayIdRef.current) {
@@ -270,6 +299,41 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     }
   }, [jumpToDay, jumpToSlot, localTrip, activeDayId, flushSave]);
 
+  // The trip as it stands on screen: the stored days, with the open day's items as
+  // edited. From the refs, not state: handlers called back to back in one tick (see
+  // handleMoveDay) must each see what the one before did.
+  const currentDays = (): ItineraryDay[] =>
+    (tripRef.current?.days ?? []).map((d) =>
+      d.id === activeDayIdRef.current ? { ...d, items: latestItemsRef.current } : d,
+    );
+  const withOpenDayItems = (items: ItineraryItem[]): ItineraryDay[] =>
+    currentDays().map((d) => (d.id === activeDayIdRef.current ? { ...d, items } : d));
+
+  // Every edit goes through here, and so through the planner's gate (tryEdit): given
+  // the trip as the edit would leave it, hands back every day packed, or null after
+  // telling the user why it can't be done. The whole trip, because changing one day's
+  // last place changes the drive the next day opens with.
+  const applyEdit = (nextDays: ItineraryDay[], editedDayId: string): ItineraryDay[] | null => {
+    const result = tryEdit(currentDays(), nextDays, editedDayId, places);
+    if (result.ok) return result.days;
+    Alert.alert("Not Enough Time", result.reason);
+    return null;
+  };
+
+  // Puts an applied edit on screen and marks it for saving. All the days, not just the
+  // open one: the edit may have re-timed the day after, and flushSave sends the lot.
+  const showDays = (days: ItineraryDay[]) => {
+    const trip = tripRef.current;
+    if (!trip) return;
+    const nextTrip = { ...trip, days };
+    const items = days.find((d) => d.id === activeDayIdRef.current)?.items ?? [];
+    hasUnsavedChanges.current = true;
+    tripRef.current = nextTrip;
+    latestItemsRef.current = items;
+    setLocalTrip(nextTrip);
+    setLocalItems(items);
+  };
+
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showTripMenu, setShowTripMenu] = useState(false);
 
@@ -289,11 +353,13 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
         style: "destructive",
         onPress: () => {
           if (!localTrip) return;
-          const currentActiveDayId = activeDayIdRef.current;
-          const latestItems = latestItemsRef.current;
-          const remainingDays = localTrip.days
-            .filter((d) => d.id !== dayId)
-            .map((d) => (d.id === currentActiveDayId && d.id !== dayId ? { ...d, items: latestItems } : d));
+          // Without this day, the one after it follows a different place, and may now
+          // open with a drive it has no room for.
+          const remainingDays = applyEdit(
+            currentDays().filter((d) => d.id !== dayId),
+            dayId,
+          );
+          if (!remainingDays) return;
 
           // Re-date sequentially from startDate so the trip's date range never
           // has a gap where a deleted middle day used to be — a 3-day trip
@@ -382,39 +448,47 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
       return start + duration / 2;
     };
 
-    let updatedItems = [...otherItems, { ...movedItem, slotIndex: targetSlot }];
+    const updatedItems = [...otherItems, { ...movedItem, slotIndex: targetSlot }];
     updatedItems.sort((a, b) => getCenter(a, a.id === itemId) - getCenter(b, b.id === itemId));
-    updatedItems = runPhysicsEngine(updatedItems);
 
-    const finalizedMovedItem = updatedItems.find((item) => item.id === itemId);
-    const actualFinalSlot = finalizedMovedItem?.slotIndex ?? targetSlot;
+    // Refused (a new order can add a drive the day has no room for): the block springs
+    // back to where it was, as it does for a user who can't reorder.
+    const days = applyEdit(withOpenDayItems(updatedItems), activeDay.id);
+    if (!days) return movedItem.slotIndex;
+    showDays(days);
 
-    setLocalItems(updatedItems);
-    latestItemsRef.current = updatedItems;
-    hasUnsavedChanges.current = true;
-
-    return actualFinalSlot;
+    const finalizedMovedItem = latestItemsRef.current.find((item) => item.id === itemId);
+    return finalizedMovedItem?.slotIndex ?? targetSlot;
   };
 
   const handleSaveEdit = (itemId: string, newDurationSlots: number, note: string) => {
-    const label = slotsToDurationLabel(newDurationSlots);
-    let updatedItems = localItems.map((item) =>
-      item.id === itemId ? { ...item, durationSlots: newDurationSlots, durationLabel: label, note: note || undefined } : item,
-    );
-    updatedItems.sort((a, b) => (a.slotIndex || 0) - (b.slotIndex || 0));
-    updatedItems = runPhysicsEngine(updatedItems);
-    setLocalItems(updatedItems);
-    latestItemsRef.current = updatedItems;
-    hasUnsavedChanges.current = true;
+    const dayId = activeDayIdRef.current;
+    const current = latestItemsRef.current.find((item) => item.id === itemId);
+    if (!dayId || !current) return;
+
+    const withDuration = (durationSlots: number) =>
+      withOpenDayItems(
+        latestItemsRef.current.map((item) =>
+          item.id === itemId
+            ? { ...item, durationSlots, durationLabel: slotsToDurationLabel(durationSlots), note: note || undefined }
+            : item,
+        ),
+      );
+    // A longer visit the day has no room for is refused, but the note that came with
+    // it is kept, at the length the visit already had.
+    const days = applyEdit(withDuration(newDurationSlots), dayId) ?? packTrip(withDuration(current.durationSlots || 2), places);
+    showDays(days);
     setEditingItem(null);
   };
 
   const handleRemoveItem = (itemId: string) => {
-    let updatedItems = localItems.filter((item) => item.id !== itemId);
-    updatedItems = runPhysicsEngine(updatedItems);
-    setLocalItems(updatedItems);
-    latestItemsRef.current = updatedItems;
-    hasUnsavedChanges.current = true;
+    const dayId = activeDayIdRef.current;
+    if (!dayId) return;
+    // Taking away a day's last place can leave the next day opening with a drive it
+    // has no room for. Refused then, and the editor stays up.
+    const days = applyEdit(withOpenDayItems(latestItemsRef.current.filter((item) => item.id !== itemId)), dayId);
+    if (!days) return;
+    showDays(days);
     setEditingItem(null);
   };
 
@@ -427,29 +501,21 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     // handleSaveEdit (which updates this ref synchronously) immediately before onMoveDay,
     // in the same event-handler tick. React batches the setLocalItems from that save, so
     // `localItems` here would still be the pre-save value; the ref is not batched.
-    const itemToMove = latestItemsRef.current.find((i) => i.id === itemId);
-    if (!itemToMove) return;
+    if (!latestItemsRef.current.some((i) => i.id === itemId)) return;
 
-    let updatedLocalItems = latestItemsRef.current.filter((i) => i.id !== itemId);
-    updatedLocalItems = runPhysicsEngine(updatedLocalItems);
-    setLocalItems(updatedLocalItems);
-    latestItemsRef.current = updatedLocalItems;
+    // The same move the editor's day list was built from (moveItemToDay), so a day
+    // that was offered is one this fits on.
+    const updatedDays = applyEdit(moveItemToDay(currentDays(), itemId, newDayId), newDayId);
     setEditingItem(null);
-
-    const updatedDays = currentTrip.days.map((day) => {
-      if (day.id === currentActiveDayId) return { ...day, items: updatedLocalItems };
-      if (day.id === newDayId) {
-        let newDayItems = [...(day.items || []), { ...itemToMove }];
-        newDayItems.sort((a, b) => (a.slotIndex || 0) - (b.slotIndex || 0));
-        newDayItems = runPhysicsEngine(newDayItems);
-        return { ...day, items: newDayItems };
-      }
-      return day;
-    });
+    if (!updatedDays) return;
 
     const nextTrip = { ...currentTrip, days: updatedDays };
     const newDayItems = updatedDays.find((d) => d.id === newDayId)?.items ?? [];
 
+    // The refs too, now rather than after the next render: a save in between would
+    // otherwise write the new day's places into the old day.
+    tripRef.current = nextTrip;
+    activeDayIdRef.current = newDayId;
     setLocalTrip(nextTrip);
     setActiveDayId(newDayId);
     setLocalItems(newDayItems);
@@ -489,6 +555,46 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
       </SafeAreaView>
     );
   }
+
+  if (!placesReady) {
+    return placesErr ? (
+      <Screen>
+        <ErrorCard
+          title="Couldn't load your trip"
+          message="We couldn't load the places on it. Check your connection and try again."
+          action={{ label: "Try Again", onPress: () => void refreshPlaces() }}
+        />
+      </Screen>
+    ) : (
+      <SafeAreaView style={styles.safeArea}>
+        <LoadingState label="Loading your trip..." />
+      </SafeAreaView>
+    );
+  }
+
+  const renderLeg = (leg: DayLeg) =>
+    leg.drive ? (
+      <DriveBlock
+        key={`drive_${leg.key}`}
+        fromLabel={areaLabel(leg.drive.fromArea) ?? leg.drive.fromArea}
+        toLabel={areaLabel(leg.drive.toArea) ?? leg.drive.toArea}
+        startSlot={leg.startSlot}
+        slots={leg.slots}
+      />
+    ) : (
+      <components.TransitBlock
+        key={`transit_${leg.key}`}
+        transitSize={leg.slots}
+        top={leg.startSlot * SLOT_HEIGHT}
+        height={leg.slots * SLOT_HEIGHT}
+      />
+    );
+
+  // For the stop editor's "move to" list: a day is offered only if this very move
+  // (moveItemToDay, the one handleMoveDay makes) passes the gate.
+  const daysNow = editingItem ? currentDays() : [];
+  const cannotMoveTo = (dayId: string) =>
+    !!editingItem && !tryEdit(daysNow, moveItemToDay(daysNow, editingItem.id, dayId), dayId, places).ok;
 
   return (
     <View style={styles.safeArea}>
@@ -576,37 +682,27 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
             );
           })}
 
-          {localItems.map((item, index) => {
-            const nextItem = localItems[index + 1];
-            if (!nextItem) return null;
-            const transitSize = getRequiredTransitSlots(item.siteId, nextItem.siteId);
-            const nextStartSlot = nextItem.slotIndex || 0;
-            const departureSlot = nextStartSlot - transitSize;
-            return (
-              <components.TransitBlock
-                key={`transit_${item.id}`}
-                transitSize={transitSize}
-                top={departureSlot * SLOT_HEIGHT}
-                height={transitSize * SLOT_HEIGHT}
-              />
-            );
-          })}
+          {/* In the order of the day (the opening drive, then each place and the leg
+              that leaves it), so a screen reader reads it top to bottom. */}
+          {legAfter.has("opening") ? renderLeg(legAfter.get("opening")!) : null}
 
           {localItems.map((item) => (
-            <components.TimelineBlock
-              key={item.id}
-              item={item}
-              maxSlots={TIME_SLOTS.length}
-              slotHeight={SLOT_HEIGHT}
-              onDrop={handleDrop}
-              onDragStart={() => {
-                hasUnsavedChanges.current = true;
-                setIsDragging(true);
-              }}
-              onDragEnd={() => setIsDragging(false)}
-              onEdit={(item) => setEditingItem(item as ItineraryItem)}
-              onNotePress={(item) => setViewingNote(item as ItineraryItem)}
-            />
+            <Fragment key={item.id}>
+              <components.TimelineBlock
+                item={item}
+                maxSlots={TIME_SLOTS.length}
+                slotHeight={SLOT_HEIGHT}
+                onDrop={handleDrop}
+                onDragStart={() => {
+                  hasUnsavedChanges.current = true;
+                  setIsDragging(true);
+                }}
+                onDragEnd={() => setIsDragging(false)}
+                onEdit={(item) => setEditingItem(item as ItineraryItem)}
+                onNotePress={(item) => setViewingNote(item as ItineraryItem)}
+              />
+              {legAfter.has(item.id) ? renderLeg(legAfter.get(item.id)!) : null}
+            </Fragment>
           ))}
 
           {localItems.length === 0 ? (
@@ -640,6 +736,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
             freeGaps.map((gap) => (
               <View
                 key={`gap_${gap.start}`}
+                testID="free-gap"
                 style={[styles.gapContainer, { top: gap.start * SLOT_HEIGHT, height: (gap.end - gap.start) * SLOT_HEIGHT }]}
               >
                 <TouchableOpacity style={styles.gapCard} onPress={() => router.push("/(app)/(tabs)/sites")} activeOpacity={0.7}>
@@ -654,16 +751,11 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
       <EditItemModal
         item={editingItem}
         currentDayId={activeDayId || ""}
-        availableDays={localTrip.days.map((d, idx) => {
-          let full = false;
-          if (editingItem) {
-            const otherItems = d.items.filter((i) => i.id !== editingItem.id);
-            const simulated = runPhysicsEngine([...otherItems, { ...editingItem, slotIndex: 0 }]);
-            const last = simulated[simulated.length - 1];
-            full = !!last && (last.slotIndex ?? 0) + (last.durationSlots ?? 2) > MAX_GRID_SLOTS;
-          }
-          return { id: d.id, label: `Day ${idx + 1}`, full };
-        })}
+        availableDays={localTrip.days.map((d, idx) => ({
+          id: d.id,
+          label: `Day ${idx + 1}`,
+          full: d.id !== activeDay?.id && cannotMoveTo(d.id),
+        }))}
         onClose={() => setEditingItem(null)}
         onSave={handleSaveEdit}
         onRemove={handleRemoveItem}

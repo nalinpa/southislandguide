@@ -52,6 +52,9 @@ export type Site = {
   active: boolean;
   category: SiteCategory[];
   region?: string;
+  // One level below region: the base town a place is visited from ("christchurch",
+  // "timaru", "dunedin"), so Canterbury's towns can be told apart.
+  area?: string;
   price?: string;
   // Opening times plus anything else a visitor plans around — access, safety,
   // amenities ("rockfall zone, do not linger", "dogs on lead"). Semicolon-

@@ -24,6 +24,12 @@ const path = require("path");
 const EXPECTED_PROJECT = "southislandguide";
 const COLLECTION = "locations"; // registry collections.locations
 const PRICES = new Set(["Free", "Cheap", "Moderate", "Expensive"]);
+// The RegionId vocabulary in lib/guideContent.ts, which the admin panel's Region
+// dropdown shares. A Dunedin file once went in as "otago", which is neither.
+const REGIONS = new Set([
+  "canterbury", "kaikoura", "marlborough", "nelson-tasman", "west-coast",
+  "aoraki-mackenzie", "queenstown-wanaka", "fiordland", "dunedin-otago", "southland-catlins",
+]);
 
 const args = process.argv.slice(2);
 const apply = args.includes("--apply");
@@ -58,6 +64,7 @@ places.forEach((p, i) => {
   seen.add(p.slug);
   if (typeof p.lat !== "number" || typeof p.lng !== "number") problems.push(`${at}: lat/lng must be numbers`);
   if (!Array.isArray(p.category) || p.category.length === 0) problems.push(`${at}: category must be a non-empty array`);
+  if (!REGIONS.has(p.region)) problems.push(`${at}: unknown region "${p.region}"`);
   if (p.price != null && !PRICES.has(p.price)) problems.push(`${at}: unknown price "${p.price}"`);
   if (typeof p.description !== "string" || !p.description.trim()) problems.push(`${at}: missing description`);
 });
@@ -71,7 +78,11 @@ if (problems.length) {
 // that check is not gated on the app having commerce configured — so for an
 // app with no product, isPremium blanks every description (or 503s the whole
 // list). Set it deliberately, per place, once commerce exists.
-const toDoc = ({ premium, isPremium, ...rest }) => ({ ...rest, id: rest.slug });
+//
+// `sourceUrl`/`confidence` are research notes from the place-gathering step (where
+// a fact came from, how sure the researcher was). The api serves every field of a
+// location to the app, so they stay in the JSON and out of Firestore.
+const toDoc = ({ premium, isPremium, sourceUrl, confidence, ...rest }) => ({ ...rest, id: rest.slug });
 
 initializeApp({ credential: cert(key) });
 const db = getFirestore();

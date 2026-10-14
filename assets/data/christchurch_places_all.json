@@ -8,6 +8,7 @@
       "Food"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://www.littlehigh.co.nz/",
@@ -25,6 +26,7 @@
       "Food"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://www.c1espresso.co.nz/",
@@ -43,6 +45,7 @@
       "Food"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Cheap",
     "website": "https://grizzlybakedgoods.com/",
@@ -60,6 +63,7 @@
       "Food"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Cheap",
     "website": "https://www.bluemoonbakehouse.co.nz/",
@@ -77,6 +81,7 @@
       "Food"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Cheap",
     "website": "https://www.christchurchfarmersmarket.co.nz/",
@@ -94,6 +99,7 @@
       "Food"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://www.fireandslice.co.nz/",
@@ -111,6 +117,7 @@
       "Food"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Cheap",
     "website": "https://www.projectlyttelton.org/project/market",
@@ -129,6 +136,7 @@
       "Food"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Cheap",
     "description": "A classic fish and chip shop at 14 Bower Avenue, close to New Brighton and North Beach. It is known for hand-cut chips and crumbed Akaroa cod that doesn't come out greasy, and it also does burgers, onion rings and potato fritters.\n\nLocals rate it for being the same every time. It is takeaway only, with no tables.\nLocal tip: In summer, eat on the beach in front of the surf life saving club. In winter, eat in the car with a view of the pier.",
@@ -145,6 +153,7 @@
       "Attractions"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "Free public gardens inside a loop of the Avon, next to Hagley Park and the Arts Centre. The rose garden, a stand of giant sequoias, the tree ferns and the rhododendrons are the highlights, and there is a visitor centre with a café and a children's play area.\n\nMost people spend 90 minutes or more wandering, and the lawns are made for a picnic. The punts leave from the boat sheds beside the gardens.\nLocal tip: The 50 minute guided tour ($30) is worth it if you want the seasonal highlights explained. Autumn and rose season are the most colourful times to go.",
@@ -162,6 +171,7 @@
       "Attractions"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "website": "https://www.canterburymuseum.com/",
@@ -179,6 +189,7 @@
       "Attractions"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://www.christchurchattractions.nz/christchurch-gondola/",
@@ -197,6 +208,7 @@
       "Attractions"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://www.christchurchattractions.nz/christchurch-tram/",
@@ -214,6 +226,7 @@
       "Attractions"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Expensive",
     "website": "https://www.iceberg.co.nz/",
@@ -231,6 +244,7 @@
       "Attractions"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Cheap",
     "website": "https://airforcemuseum.co.nz/",
@@ -248,6 +262,7 @@
       "Attractions"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://www.ferrymead.org.nz/",
@@ -265,6 +280,7 @@
       "Attractions"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://www.christchurchattractions.nz/punting/",
@@ -282,6 +298,7 @@
       "Attractions"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "The 1856 homestead of the Deans family, among Canterbury's first European settlers, with gardens and a protected patch of native bush called Putaringamotu behind it. A short, pram-friendly boardwalk loops through the bush, and Deans Cottage sits near the house.\n\nThe grounds are free to walk and host the Saturday farmers' market. There is also a restaurant, Local at Riccarton House, on site.\nLocal tip: Combine it with the farmers' market on a Saturday morning, and go early since parking is limited.",
@@ -298,6 +315,7 @@
       "Attractions"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "A Victorian-style garden estate on the Avon at 40 Mona Vale Avenue, with a rose garden, a fernery, a lily pond, streams and willows around a historic homestead. There are tea rooms, and dogs on a lead are welcome.\n\nIt is quieter than the Botanic Gardens, and autumn colour brings the biggest crowds.\nLocal tip: Go before about 3pm. Recent visitors found the tea rooms and fernery closed later in the afternoon.",
@@ -315,6 +333,7 @@
       "Culture"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "A flat riverside stroll through the rebuilt central city. Start at the Antigua Boat Sheds by the Botanic Gardens and follow the Avon east past the Bridge of Remembrance, the Earthquake National Memorial, Victoria Square and the Margaret Mahy Playground. The council's self-guided riverside walks along this stretch take about 45 minutes each.\n\nIt is sealed path the whole way, easy for prams and wheelchairs, and you can turn back at any bridge. The Terrace and Riverside Market sit right on the route if you want food.\nLocal tip: Start at the boat sheds and finish with a drink by the water at The Terrace, or walk it in reverse and end with a punt through the Botanic Gardens.",
@@ -331,6 +350,7 @@
       "Walks"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "A loop of about 7km around Hagley Park, the big inner-city park wrapped around the Botanic Gardens. The full circuit takes about two hours, but it is easy to walk a shorter piece. It is flat, mostly on wide paths under old trees, and the Avon runs along part of it.\n\nThe paths are shared with runners and cyclists, so keep left. Spring is the best time, when the daffodils and cherry blossom are out.\nLocal tip: Pair half a loop of North Hagley with the Botanic Gardens. You get the best of both in about an hour and skip the busier Deans Avenue edge.",
@@ -347,6 +367,7 @@
       "Walks"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "The route the first settlers took over the Port Hills in 1850, from Heathcote Valley to Lyttelton, starting from the car park at the base of the gondola. It climbs about 300m to the Summit Road and the Pioneer Women's Memorial, then drops down into Lyttelton. It is around 3km each way and a steep, solid climb, so allow 90 minutes to two hours for the crossing.\n\nThe views open up over the city, the Southern Alps and Lyttelton Harbour as you climb. There is a marked rockfall zone where you should keep moving, and storm damage has left some sections rough and slippery.\nLocal tip: Walk over to Lyttelton, have lunch there, and catch the number 28 bus back through the tunnel to the car park rather than climbing back up.",
@@ -364,6 +385,7 @@
       "Walks"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "The most popular track on the Port Hills, a wide gravel farm road climbing steadily from Rāpaki Road in Huntsbury to the Summit Road. It is about 7km return and takes around two hours, with a long steady climb and a few steep pinches but nothing technical.\n\nAt the top you look straight down onto Lyttelton Harbour on one side and across the whole city on the other. Mountain bikers use it coming downhill, and occasionally a motorbike.\nLocal tip: Park on Centaurus Road or Vernon Terrace rather than in the cul-de-sac at the start, and keep an ear out for bikes on the way down.",
@@ -380,6 +402,7 @@
       "Walks"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "A gently graded walk from Victoria Park on the Port Hills up toward the Sign of the Kiwi on the Summit Road. It is about 4km and takes around two hours at an easy pace, with a gradual climb and more tree shade than most Port Hills tracks.\n\nThe views stretch over the city and across the plains to the Southern Alps, and it is manageable for families. One parent timed an eight-year-old at 48 minutes to the top. The track network in the park has several junctions and some of the signs are unclear.\nLocal tip: Take a photo of the map board at Victoria Park before you set off, and finish with an ice cream from the café at the Sign of the Kiwi.",
@@ -397,6 +420,7 @@
       "Water"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "The classic Christchurch coastal walk, a loop from Taylors Mistake out along the clifftops to Godley Head at the mouth of Lyttelton Harbour, and back via Boulder Bay and Breeze Col. It is about 7km and three hours, rated easy to intermediate by DOC, on gravel track with steady ups and downs.\n\nAt the head you can explore World War 2 gun emplacements and bunkers, and you may spot fur seals on the rocks below. The cliffs are unfenced with drops of up to 120m, and there are marked rockfall areas where you shouldn't stop.\nLocal tip: Head out on the Pilgrims Way coastal track and come back via Breeze Bay, which is how most people walk it, and leave time for a swim at Taylors Mistake at the end. Dogs must stay on a lead the whole way.",
@@ -415,6 +439,7 @@
       "Water"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "A short coastal track linking Scarborough, above Sumner, with Taylors Mistake beach. It is 2.1km and about an hour one way, zig-zagging along the cliffs with a bush section in the middle. It is moderate, with some steep bits, and not suitable for buggies.\n\nThe views back over Sumner Beach and out to sea last the whole way. The bush section stays damp and can be slippery.\nLocal tip: Start at Nicholson Park, which has parking and toilets. If you have the legs, carry on from Taylors Mistake into the Godley Head loop for a full day on the coast.",
@@ -432,6 +457,7 @@
       "Water"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "description": "A ferry ride from Lyttelton to an island in the middle of the harbour, with an easy 4.5km loop track that takes about two and a half hours. The track passes the old quarantine barracks, a former leper colony site and a ship graveyard of wrecked hulks on the shore, with short side tracks to beaches and the summit.\n\nThe walk is free, but the Black Cat ferry is $45 return for adults. There are toilets on the island but no shops, and water must be boiled, so bring everything you need. Dogs aren't allowed.\nLocal tip: See the shipwrecks at low tide and swim at high tide, and don't miss the afternoon ferry back. There is no other way off the island.",
@@ -448,6 +474,7 @@
       "Culture"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "website": "https://christchurchartgallery.org.nz/",
@@ -465,6 +492,7 @@
       "Culture"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "website": "https://www.artscentre.org.nz/",
@@ -483,6 +511,7 @@
       "Attractions"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://quakecity.co.nz/",
@@ -500,6 +529,7 @@
       "Culture"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "website": "https://www.cardboardcathedral.org.nz/",
@@ -518,6 +548,7 @@
       "Water"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Expensive",
     "website": "https://wakaonavon.co.nz/",
@@ -536,6 +567,7 @@
       "Walks"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "More than 250 street art pieces across the central city, including over 50 major murals. Start at Narcissa by Jacob Yikes just off Cathedral Square, at 53m the tallest mural in the country, then wander Manchester, Tuam, Armagh and Barbadoes Streets, New Regent Street and the streets around Riverside Market.\n\nIt costs nothing and fits around other sightseeing. Pieces change over time as buildings go up and walls get repainted.\nLocal tip: Open the Street Art Cities map on the ChristchurchNZ street art page on your phone. It pins every mural, so you aren't wandering blind.",
@@ -552,6 +584,7 @@
       "Nature"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://willowbank.co.nz/",
@@ -569,6 +602,7 @@
       "Nature"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://www.oranawildlifepark.co.nz/",
@@ -586,6 +620,7 @@
       "Water"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://hepunataimoana.co.nz/",
@@ -604,6 +639,7 @@
       "Water"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "A long, open surf beach on the east side of the city, with a 300m concrete pier running straight out to sea from beside the library. Walking to the end and back is the thing to do, watching the surfers, the people fishing and the gulls.\n\nThe sand stretches for kilometres in both directions, and the hot pools, fish and chips and the Saturday market are all a few minutes' walk away. An easterly can make it bleak, so bring a layer even on a sunny day.\nLocal tip: The library at the base of the pier has public toilets and a warm spot to sit and watch the sea if the wind picks up.",
@@ -620,6 +656,7 @@
       "Water"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "One of Christchurch's most popular beaches, a sheltered sandy bay with cafés and restaurants along the Esplanade. The landmark is Cave Rock (Tuawera), a volcanic outcrop on the sand you can walk through at low tide and scramble on top of, with a cross that lights up at night.\n\nIt is the easiest beach to reach from the city and gets busy on sunny weekends. The rock is worn smooth and slippery, so wear shoes with grip if you plan to climb.\nLocal tip: Swim between the flags when Sumner Surf Life Saving Club is on patrol (summer weekends, 11am to 5pm), then walk to Fire and Slice or Beach Sumner for lunch.",
@@ -636,6 +673,7 @@
       "Water"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "A small, sandy surf beach in a bay tucked behind the hills beyond Sumner. It feels far more remote than it is, with good surf and fewer people than Sumner or New Brighton. It is also the start of the Godley Head loop and the end of the Taylors Mistake Track.\n\nThe road in is narrow and winding, and there is no public transport, so you'll need a car or your legs. There are toilets and showers at the car park, and a surf life saving club on the beach in summer.\nLocal tip: Pair it with a walk. Do the Taylors Mistake Track from Sumner or the Godley Head loop, then finish with a swim here.",
@@ -652,6 +690,7 @@
       "Water"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "A small, sheltered swimming beach just around from Lyttelton, with calm green water that suits families better than the open surf beaches. There is a playground, picnic tables, toilets, changing rooms and an outdoor shower, and a coastal track links it to Cass Bay.\n\nThe beach is a short walk down from the car park, and the sand is full of tiny shells. Parking fills on sunny days. A sewage overflow closed it briefly in January 2026, and the warning was lifted after testing.\nLocal tip: As of September 2026 the usual path down is closed for drainage works, and walkers are using an alternative track from Governors Bay Road, so check the signs when you arrive.",
@@ -668,6 +707,7 @@
       "Stay"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "A free, council-signposted freedom camping area on the Lyttelton waterfront at Naval Point, for certified self-contained vehicles only. It is one of just two signposted freedom camping areas in the Christchurch district, with harbour views, toilets, a cold shower and slow free wifi.\n\nThe surroundings are a bit industrial, and Lyttelton's cafés and Saturday market are a walk along the waterfront. Council staff check vehicles most nights, and tents or vehicles without a certified self-containment warrant will be moved on or fined.\nLocal tip: It fills up with campers, so arrive by early evening. For the drive back to the city, take the road over the hill rather than the tunnel for the harbour views.",
@@ -683,6 +723,7 @@
       "Stay"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Cheap",
     "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/godley-head/things-to-do/godley-head-campsite/",
@@ -699,6 +740,7 @@
       "Stay"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Cheap",
     "website": "https://hotelgive.nz/",
@@ -715,6 +757,7 @@
       "Stay"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://www.gardencitymotel.co.nz/",
@@ -731,6 +774,7 @@
       "Stay"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "description": "A small, modern motel on Riccarton Road in Upper Riccarton, near the university and the Bush Inn shops, and a short drive from Westfield Riccarton and the airport. Guests keep singling out how clean it is and the friendly, helpful owner, and one described it as better appointed than the price suggests.\n\nUnits have kitchenettes, and some have a spa bath.\nLocal tip: It is on the airport side of the city, so it suits the night before an early flight. The Bush Inn shops nearby are the easy option for a cheap dinner.",
@@ -746,6 +790,7 @@
       "Stay"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Cheap",
     "website": "https://www.jail.co.nz/",
@@ -762,6 +807,7 @@
       "Stay"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Cheap",
     "description": "A relaxed, independent backpackers on Gloucester Street in Linwood, spread across a few old houses with lawns and garden between them. The hot tub and sauna are the big draw on cold evenings. Every bunk has its own light, power points and USB charging, and there are lockers for valuables.\n\nThe kitchen is clean and roomy, there is on-site parking, and a bus stop right across the street takes you into the city. Guests regularly mention the friendly reception team and the resident cat.\nLocal tip: Reception is only staffed from 10am to 3pm, so read the after-hours instructions carefully before you arrive. Some guests have been charged for using the wrong facilities.",
@@ -778,6 +824,7 @@
       "Food"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "A historic stone roadhouse where Dyers Pass Road meets the Summit Road, now a café, with views back over the whole city and across the plains to the Southern Alps. It is one of the easiest ways to get up high on the Port Hills by car.\n\nThe café does good coffee and brunch, and it is the natural finish for the Harry Ell Walkway from Victoria Park. Tracks also head off along the Crater Rim from here.\nLocal tip: Come on a clear morning, when the Alps are sharpest, and cross the road for the view down into Lyttelton Harbour on the other side.",
@@ -794,6 +841,7 @@
       "Scenic"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Free",
     "description": "A lookout on the Summit Road opposite the Sign of the Bellbird, about 4.5km south of the Sign of the Kiwi, with one of the best views over Lyttelton Harbour. Opened in 2023, it has a stone-walled viewing area in the style of Harry Ell's Summit Road buildings, a carved pou whenua and a panel naming the places around the harbour.\n\nIt is accessible from the car park across the road, which also has a toilet. Cross back over to look west across the city and the plains, and you get both views from one stop.\nLocal tip: Go at sunset or early morning, when it is least windy, and add a short walk along the Crater Rim tracks that run in both directions.",
@@ -811,6 +859,7 @@
       "Scenic"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://christchurchadventurepark.com/",
@@ -829,6 +878,7 @@
       "Water"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://surfcoach.co.nz/",
@@ -847,6 +897,7 @@
       "Water"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Moderate",
     "website": "https://newbrightonsurf.co.nz/",
@@ -865,6 +916,7 @@
       "Water"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Cheap",
     "website": "https://boatsheds.co.nz/",
@@ -883,6 +935,7 @@
       "Scenic"
     ],
     "region": "canterbury",
+    "area": "christchurch",
     "active": true,
     "price": "Expensive",
     "website": "https://www.greatjourneysnz.com/scenic-trains/tranzalpine-train/",

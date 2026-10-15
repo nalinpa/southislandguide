@@ -1,0 +1,210 @@
+[
+  {
+    "name": "Elephant Rocks and Anatini Whale Fossil",
+    "slug": "elephant-rocks-anatini",
+    "lat": -44.893551,
+    "lng": 170.656091,
+    "category": [
+      "Nature",
+      "Scenic"
+    ],
+    "region": "dunedin-otago",
+    "active": true,
+    "price": "Free",
+    "description": "A field of huge, weathered limestone boulders on a working sheep farm about 5km south of Duntroon, in the Waitaki Whitestone Geopark. It stood in for Aslan's camp in the 2005 Narnia film, and you are free to wander among the rocks. It is a 300m, five minute walk from the car park.\n\nEntry is by donation to the landowner, paid into the tube before the gate, and there are public toilets and a picnic spot at the car park. About 1km further down the same road is the Anatini whale fossil, a short signposted walk along a limestone bluff to fossilised whale bones under a protective cover. It also asks for a donation, but has no toilets.\nLocal tip: There is no marked path among the rocks and the limestone gets slippery when wet, so wear decent shoes. Leave gates as you find them and give the sheep space.",
+    "recommendedDurationSlots": 2,
+    "featured": 1,
+    "hoursNote": "Open daylight hours; donation entry; toilets at Elephant Rocks only; no camping",
+    "sourceUrl": "https://www.whitestonegeopark.nz/elephant-rocks",
+    "confidence": "high",
+    "area": "waitaki-valley"
+  },
+  {
+    "name": "Benmore Dam and Peninsula Track",
+    "slug": "benmore-dam-peninsula-track",
+    "lat": -44.557866,
+    "lng": 170.201032,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "Benmore is New Zealand's largest earth dam, and you can drive across its crest from Loch Laird Road, about five minutes off SH83 near Otematata. From the top you look over Lake Benmore on one side and Lake Aviemore on the other, and there are public toilets at the power station.\n\nOn the far side of the dam, the Benmore Peninsula Track is a DOC loop through forest and along a ridge above the lake. DOC rates it easy at about 1 hour 40 minutes, though walkers say the first climb is steep. The Islands Lookout at the top has a bench and views over the dam and the small islands of Lake Benmore.\nLocal tip: Walkers recommend doing the loop anticlockwise, heading straight up the hill from the car park. Take a windproof layer, since the ridge is exposed.",
+    "recommendedDurationSlots": 4,
+    "featured": 2,
+    "hoursNote": "Open any time; dam road sometimes closed for Meridian works; Benmore Dam carpark partly closed for seismic strengthening until mid 2029",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/lake-benmore-and-lake-aviemore-area/things-to-do/benmore-peninsula-walk/",
+    "confidence": "high",
+    "area": "waitaki-valley"
+  },
+  {
+    "name": "Vanished World Centre",
+    "slug": "vanished-world-centre",
+    "lat": -44.855121,
+    "lng": 170.684215,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "dunedin-otago",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.vanishedworld.co.nz/",
+    "description": "A small, volunteer-run fossil museum on Duntroon's main street, with whale, dolphin, penguin and shark fossils from 20 to 30 million years ago, most of them found within 50km of the building. There is a rock and mineral room, and a fossil extraction room where kids dig out their own fossils and earn a Junior Palaeontologist certificate.\n\nAdults are $18, children 5 to 17 are $9, under 5s are free, and a family pass is $50. The volunteers know the area well and will help you plan a loop of the nearby geosites.\nLocal tip: Come here first. The staff will point you to Elephant Rocks, the Anatini whale fossil and the Takiroa rock art in an order that saves you crossing the highway.",
+    "recommendedDurationSlots": 2,
+    "featured": 3,
+    "hoursNote": "10am to 4pm daily; closed Mondays in winter; closed Good Friday, Christmas Day and Boxing Day",
+    "sourceUrl": "https://www.vanishedworld.co.nz/visit-our-centre",
+    "confidence": "high",
+    "area": "waitaki-valley"
+  },
+  {
+    "name": "Kurow Hill Walk",
+    "slug": "kurow-hill-walk",
+    "lat": -44.729892,
+    "lng": 170.465986,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "dunedin-otago",
+    "active": true,
+    "price": "Free",
+    "description": "A short, steep climb from the end of Grey Street in Kurow to the top of Kurow Hill, with views over the town, the braided Waitaki River and up the Hakataramea Valley. It is about 1.1km each way with roughly 260m of climbing, and most people reach the top in 25 to 45 minutes.\n\nThe track crosses farmland, so close every gate and stay on the formed path. Armchairs placed along the way give you somewhere to catch your breath. There are no toilets at the start, so use the public ones in town.\nLocal tip: Take an extra layer, since it can be cold and breezy at the top even when the town below is warm.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; farmland, close all gates; no toilets at trailhead",
+    "sourceUrl": "https://waitakinz.com/explore/kurow-hill",
+    "confidence": "medium",
+    "area": "waitaki-valley"
+  },
+  {
+    "name": "Alps 2 Ocean: Otematata to Kurow",
+    "slug": "alps-2-ocean-otematata-kurow",
+    "lat": -44.655959,
+    "lng": 170.355119,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.alps2ocean.com/",
+    "description": "Section 6 of the Alps 2 Ocean Cycle Trail, linking three hydro lakes over 44km of sealed road, sealed track and shingle trail. It climbs onto Benmore Dam, follows the shore of Lake Aviemore, then crosses Aviemore Dam and passes Waitaki Dam on the way into Kurow. The official grade is 3, intermediate.\n\nRiding the trail is free. Part of it follows Te Akatarawa Road, which the trail managers describe as narrow with moderate traffic, so keep left and wear high-vis. There are lakeside campgrounds, toilets and swimming spots along the way.\nLocal tip: Check the trail's Latest Trail Information page before you set off. The dam roads close at times for works, with detours via SH83.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Open year round; Aviemore Dam road closed 5 and 15 Oct 2026, 8.30am to 4pm; check trail alerts",
+    "sourceUrl": "https://www.alps2ocean.com/trail-map/section-6-otematata-to-kurow",
+    "confidence": "high",
+    "area": "waitaki-valley"
+  },
+  {
+    "name": "Waitaki Braids Cafe",
+    "slug": "waitaki-braids-cafe",
+    "lat": -44.732267,
+    "lng": 170.469442,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://waitakibraids.com/",
+    "description": "A popular coffee house on Kurow's main street, part of a small lodge, serving coffee, fresh baking and light meals seven days a week. Reviewers single out the cheese scones straight from the oven and the cinnamon scrolls, and it is the morning coffee stop for locals and Alps 2 Ocean riders alike.\n\nDogs are welcome in the secure outdoor area. The lodge also serves a set three course dinner made with Waitaki Valley produce, by reservation only.\nLocal tip: Come mid-morning for the best choice from the cabinet, and book ahead if you want dinner.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Cafe 8am to 3pm, 7 days; dinner by reservation only",
+    "sourceUrl": "https://waitakibraids.com/",
+    "confidence": "high",
+    "area": "waitaki-valley"
+  },
+  {
+    "name": "River Restaurant and Takeaways",
+    "slug": "river-restaurant-takeaways-kurow",
+    "lat": -44.732007,
+    "lng": 170.469337,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "active": true,
+    "price": "Cheap",
+    "description": "A classic small-town takeaway and café on Kurow's main street, doing fish and chips, burgers and cooked breakfasts. Reviewers praise the fish of the day, often elephant fish, and the friendly welcome.\n\nIt stays open until 7pm, which makes it one of the few places in the valley for an early dinner on the road.\nLocal tip: Ask what the fish of the day is, and know that a half scoop of chips is plenty for one.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "9am to 7pm daily",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ41toYb0NKqgRnBQGpv5RAbM",
+    "confidence": "medium",
+    "area": "waitaki-valley"
+  },
+  {
+    "name": "Duntroon Hotel",
+    "slug": "duntroon-hotel",
+    "lat": -44.855136,
+    "lng": 170.684916,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "active": true,
+    "price": "Moderate",
+    "description": "The village pub next door to the Vanished World Centre, recently refurbished, with a restaurant, a bar and simple rooms. It is a regular overnight stop for Alps 2 Ocean riders, with bike storage and a laundry.\n\nReviewers praise the friendly staff and the very large portions. The loaded wedges are a favourite, and a Thai menu runs on some nights.\nLocal tip: If you're in a big group, call ahead, since the small kitchen can be slow when it is busy.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "10.30am to 9pm daily",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJrY_sMY8eKqgRp_IC4FevcB4",
+    "confidence": "medium",
+    "area": "waitaki-valley"
+  },
+  {
+    "name": "The Hungry Hydro",
+    "slug": "the-hungry-hydro-otematata",
+    "lat": -44.603529,
+    "lng": 170.189756,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "active": true,
+    "price": "Cheap",
+    "description": "A little food truck on the main road through Otematata, serving coffee and fresh baking like cheese scones, cheese rolls and muffins, plus toasted sandwiches and breakfast. There are picnic tables outside.\n\nIt is one of the best rated stops in the valley, and reviewers say the owner is generous with advice on what to do around the lakes.\nLocal tip: It only opens Thursday to Sunday and closes at 1.30pm. On other days, the On the Spot store nearby on SH83 sells pies and coffee.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Thu to Sun 7.30am to 1.30pm; closed Mon to Wed",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ51MNaXN5KqgRku2aSgCrbBM",
+    "confidence": "medium",
+    "area": "waitaki-valley"
+  },
+  {
+    "name": "Duntroon Domain Camping",
+    "slug": "duntroon-domain-camping",
+    "lat": -44.85511,
+    "lng": 170.688759,
+    "category": [
+      "Stay"
+    ],
+    "region": "dunedin-otago",
+    "active": true,
+    "price": "Cheap",
+    "description": "A council-run camping ground on the domain at the edge of Duntroon, a short walk from the pub and the Vanished World Centre. There are powered and unpowered sites, plus toilets, hot showers, a kitchen, a small lounge and a laundry.\n\nFees are $15 per adult per night and $5 for children 5 to 15, with under 5s free, and from May to September power costs an extra $10 per site per night. You pay on site, and there is plenty of space.\nLocal tip: The kitchen has a door code. If it isn't on your receipt, text the caretaker on the number posted by the payment point.",
+    "hoursNote": "Open year round; $15 adult, $5 child per night; powered sites extra",
+    "sourceUrl": "https://www.waitaki.govt.nz/Services/Fees-and-Charges/Camping",
+    "confidence": "high",
+    "area": "waitaki-valley"
+  },
+  {
+    "name": "Waitangi West Campground, Lake Aviemore",
+    "slug": "waitangi-west-campground-lake-aviemore",
+    "lat": -44.601804,
+    "lng": 170.302752,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "description": "One of five council camping reserves along the north shore of Lake Aviemore, on Te Akatarawa Road and right on the Alps 2 Ocean route. You camp on grass under willows at the water's edge, with swimming, kayaking, boating and fishing straight from your site.\n\nFacilities are basic: toilets, water taps (boil before drinking) and a dump station. In the 2025/26 season, casual fees were $20 per site for a single or couple and $35 for a family, paid by cash at the registration booth or by EFTPOS at the Waitangi office.\nLocal tip: The summer holidays are busy with long-stay caravans, but outside January there is usually room. Bring your own drinking water or a way to boil it.",
+    "hoursNote": "Mid September to early May; no bookings; no open fires; quiet 10pm to 7am",
+    "sourceUrl": "https://www.waimatedc.govt.nz/community/camping/1waimate-lakes",
+    "confidence": "high",
+    "area": "waitaki-valley"
+  }
+]

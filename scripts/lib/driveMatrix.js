@@ -140,7 +140,7 @@ function costUSD(elements) {
 // The app's list of area tables (assets/data/transit/index.ts). Metro needs a static
 // require for each file, so the list is written out rather than read at run time.
 function transitIndex(areaIds) {
-  const lines = [...areaIds].sort().map((id) => `  ${id}: require("./${id}.json"),`);
+  const lines = [...areaIds].sort().map((id) => `  "${id}": require("./${id}.json"),`);
   return [
     "// Written by scripts/generate-drive-times.js (towns). Don't edit by hand: run it again.",
     "// One table per area of travel times between that area's own places, in half-hour",

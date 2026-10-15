@@ -175,7 +175,7 @@ describe("costUSD", () => {
 describe("transitIndex", () => {
   it("lists each area's table for the app, in order", () => {
     expect(transitIndex(["dunedin", "christchurch"])).toContain(
-      'christchurch: require("./christchurch.json"),\n  dunedin: require("./dunedin.json"),',
+      '"christchurch": require("./christchurch.json"),\n  "dunedin": require("./dunedin.json"),',
     );
   });
 

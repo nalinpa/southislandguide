@@ -1,0 +1,299 @@
+[
+  {
+    "name": "Mt Sunday (Edoras) Track",
+    "slug": "mt-sunday-edoras-track",
+    "lat": -43.547447,
+    "lng": 170.906729,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "The small rocky hill in the Rangitata valley where Edoras, the Rohan capital in The Lord of the Rings: The Two Towers, was built for filming. The set is long gone, but the 360 degree view of braided rivers, tussock and the Southern Alps is reason enough to come.\n\nDOC grades the track as easy and allows 30 minutes one way, and most people take 45 minutes to an hour return. It starts flat, with a few small bridges, then climbs steeply for the last stretch to the top. The car park is on Hakatere Potts Road, about 48km west of Mt Somers, and much of the drive in is gravel.\nLocal tip: Park at the signposted Mt Sunday car park, not where Google Maps drops the Edoras pin. Bring water, sunscreen and a windproof layer, since the only toilet is at the car park and there is no phone reception.",
+    "recommendedDurationSlots": 3,
+    "featured": 1,
+    "hoursNote": "Open all the time; long gravel access road; very exposed to wind; one toilet at car park; no mobile coverage",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/hakatere-conservation-park/things-to-do/tracks/mount-sunday-track/",
+    "confidence": "high",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "Rakaia Gorge Walkway",
+    "slug": "rakaia-gorge-walkway",
+    "lat": -43.518282,
+    "lng": 171.659034,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A walk high above the turquoise Rakaia River, starting on the north side of the historic Rakaia Gorge bridges on the Inland Scenic Route, about 11km from Methven. Along the way you pass an old ferryman's track, the entrances to the Snowdon coal mines and old volcanic rock formations.\n\nThe main lookout is about 45 minutes each way, and the full walk is 3 to 4 hours return on the same track, with a loop option over the tussock terraces. The walkway crosses private farmland, so dogs and horses aren't allowed.\nLocal tip: Go early or late in the day for the best light on the gorge, and hold on to your hat, because the wind can be fierce. From January to March the wasps are thick, so carry antihistamine.",
+    "recommendedDurationSlots": 4,
+    "featured": 2,
+    "hoursNote": "Open all the time; no dogs; slippery after rain; small car park, more parking beside the bridge",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/mount-hutt-area/things-to-do/rakaia-gorge-walkway/",
+    "confidence": "high",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "Lake Clearwater",
+    "slug": "lake-clearwater",
+    "lat": -43.60329,
+    "lng": 171.043723,
+    "category": [
+      "Nature",
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A clear high country lake in the Hakatere Conservation Park, ringed by tussock and mountains, with a small village of huts at its southern end. On a still morning it mirrors the ranges perfectly, and a track circles the lake for walkers.\n\nOnly non-motorised boats are allowed, which keeps it quiet for kayaking and paddleboarding. There is basic camping near the boat ramp, with toilets and water that must be boiled, and you pay a small fee into an honesty box. Dogs are banned throughout the area, with a $300 fine.\nLocal tip: Pair it with Mt Sunday further up Hakatere Potts Road. If you're staying the night, bring warm gear, since it can drop below freezing even after a warm day.",
+    "recommendedDurationSlots": 6,
+    "featured": 3,
+    "hoursNote": "Access on gravel roads west of Mt Somers; no dogs ($300 fine); no motorised boats; light no fires; boil water",
+    "sourceUrl": "https://www.ashburtondc.govt.nz/community-facilities/ashburton-district/lakes-camp-and-clearwater",
+    "confidence": "high",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "Lake Camp Camping",
+    "slug": "lake-camp-camping",
+    "lat": -43.612968,
+    "lng": 171.05795,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "Informal lakeside camping at Lake Camp (Ōtautari), right beside Lake Clearwater in the Hakatere high country. You can camp on the northern and eastern sides of the lake, where there are public toilets, but not on the southern side.\n\nIt is a big, open spot with room for tents and vans and views across to the mountains. There is no running water, and it gets very windy. The motorised boat ban covers Lake Clearwater, not Lake Camp, so expect boats here on summer weekends.\nLocal tip: Bring all the water you need, and pack for wind and cold nights. Dogs aren't allowed, and fires can't be lit on council land.",
+    "hoursNote": "Camp on northern and eastern shores only; toilets; no drinking water; no dogs; no fires; gravel access",
+    "sourceUrl": "https://www.ashburtondc.govt.nz/__data/assets/pdf_file/0023/58253/20847-Lake-Camp-Brochure-webversion.pdf",
+    "confidence": "medium",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "Big Tree Walk, Peel Forest",
+    "slug": "big-tree-walk-peel-forest",
+    "lat": -43.893073,
+    "lng": 171.26177,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A short walk into one of the last big stands of lowland podocarp forest in South Canterbury. Some of the mataī, kahikatea and tōtara here are thought to be around 1,000 years old, and the biggest tōtara is almost three metres across.\n\nDOC allows about 15 minutes. It starts from the shelter at Te Wanahu Flat on Rangitata Gorge Road, and the first 100m suits assisted wheelchairs before the track gets steeper. Listen out for bellbirds, fantails and kererū.\nLocal tip: Pair it with a night at the DOC campground just up the road, and walk it early in the morning, when the birdsong is loudest.",
+    "recommendedDurationSlots": 2,
+    "featured": 4,
+    "hoursNote": "Open all the time; about 15 min; steeper beyond first 100 m",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/peel-forest-park-scenic-reserve/things-to-do/big-tree-walk/",
+    "confidence": "high",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "Peel Forest Campground (DOC)",
+    "slug": "peel-forest-campground-doc",
+    "lat": -43.889597,
+    "lng": 171.266384,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "description": "One of the best equipped DOC campgrounds in the South Island, set among native forest on Rangitata Gorge Road. There are 47 sites, 34 of them powered, plus four heated cabins, hot showers, a full communal kitchen, a laundry and camp hosts.\n\nNon-powered sites are $20 per adult and $10 per child, powered sites are $23 per adult, and cabins are $60 for one or two people. Book online, and same-day bookings are possible until 8pm if there is space.\nLocal tip: It is only open from 16 October to 30 April, so book early for summer weekends. Bring gas for cooking, since fires aren't allowed.",
+    "hoursNote": "Open 16 Oct to 30 Apr (closed mid May to mid Oct); book online; no pets; no fires; generators off after 10pm",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/peel-forest-park-scenic-reserve/things-to-do/peel-forest-campground/",
+    "confidence": "high",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "Rakaia Salmon Statue",
+    "slug": "rakaia-salmon-statue",
+    "lat": -43.755527,
+    "lng": 172.025311,
+    "category": [
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "Rakaia calls itself the salmon capital of New Zealand, and this giant fibreglass salmon beside State Highway 1 has been its landmark since 1990. Christchurch artist Phil Price made it for the Rakaia Lions Club.\n\nIn early 2026 it was fully restored with pearlescent scales and put back on a pole about 50cm higher than before. The park around it has clean toilets, a playground and information boards, with a supermarket next door.\nLocal tip: Make it your stretch and snack stop on SH1 between Christchurch and Ashburton. The kids can burn off energy at the playground while you stock up.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open all the time; toilets and playground on site; parking on side street",
+    "sourceUrl": "https://www.ashburtondc.govt.nz/news/2026-news/rakaias-iconic-salmon-back-on-its-perch",
+    "confidence": "high",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "Sharplin Falls Track",
+    "slug": "sharplin-falls-track",
+    "lat": -43.627899,
+    "lng": 171.41787,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A family-friendly walk through beech forest to a waterfall below Mt Somers, near Staveley. The old track closed for about ten years after rockfall, and in 2023 the Mt Somers Walkways Society opened a new route on the other side of the valley, with two new bridges.\n\nMost people take about 30 minutes each way on a well made, undulating track with some steps. There are toilets at the car park, a picnic table by the river, and small swimming spots in summer.\nLocal tip: Go after rain, when the falls are at their best. Bring insect repellent for the sandflies, and arrive early at weekends, since the car park fills.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open all the time; about 1 hr return; toilets at car park; parking fills on busy days",
+    "sourceUrl": "https://www.guardianonline.co.nz/news/sharplin-falls-walkway-opened/",
+    "confidence": "medium",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "The Staveley Store",
+    "slug": "the-staveley-store",
+    "lat": -43.652826,
+    "lng": 171.442032,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "description": "A country store and café at the foot of Mt Somers on Inland Scenic Route 72, and the natural coffee stop between Methven and Geraldine. Expect freshly made cabinet food, a small breakfast menu, home baking and pies, plus beer and wine.\n\nThere is seating inside and out with rural views, and the shop sells homemade jams, chutneys, books and gifts. The Sharplin Falls and Mt Somers tracks are only a few minutes away.\nLocal tip: Reviewers rave about the pies, especially the beef brisket and mushroom, so grab one before or after your walk.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily, listed as 8am to 4.30pm; hours may vary seasonally",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJy5ljjDAyLG0RY0M8anm6AOU",
+    "confidence": "medium",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "The Alpine Grind, Methven",
+    "slug": "the-alpine-grind-methven",
+    "lat": -43.633206,
+    "lng": 171.646845,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small, friendly café on Methven's Main Street that opens early, which suits skiers, trampers and anyone heading out to the Ashburton Lakes. It serves Kokako coffee, cabinet food, scones and muffins, plus build-your-own toasties and sandwiches.\n\nReviewers praise the coffee and the warm service, and it is the place to sort out lunch before a day on gravel roads with no shops.\nLocal tip: Order sandwiches to take away for Mt Sunday or Lake Clearwater. There are no cafés or shops out in the Hakatere high country.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon 6am to 2pm; Tue to Fri 6am to 2.30pm; Sat and Sun 6.30am to 2.30pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJA9go0ojRLW0RHR6_U3vcILw",
+    "confidence": "medium",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "Ōpuke Thermal Pools",
+    "slug": "opuke-thermal-pools",
+    "lat": -43.623125,
+    "lng": 171.648052,
+    "category": [
+      "Water",
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://opuke.nz/",
+    "description": "Modern hot pools on the edge of Methven with views to Mt Hutt. The family Discovery area has a 36°C lazy river, a 37°C cave pool, a jump pool, a cold plunge and an aqua play zone, and there are separate adults-only pools with a swim-up bar.\n\nDiscovery sessions are two hours and cost $34 per adult, $23 per child aged 3 to 15 or $94 for a family, and under 3s are free. Lockers are included, and there is a café on site.\nLocal tip: Book ahead, since sessions are capacity limited, and save your soak for the end of a day on the gravel roads.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Discovery pools daily 10am to 8pm; closed 25 and 26 Dec; book online",
+    "sourceUrl": "https://opuke.nz/soak/discovery/",
+    "confidence": "high",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "Rangitata Rafts",
+    "slug": "rangitata-rafts",
+    "lat": -43.795702,
+    "lng": 171.23229,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.rafts.co.nz/",
+    "description": "White water rafting in the Rangitata Gorge, one of the few commercial trips in New Zealand that runs grade 5 rapids. The river builds from easy water up to the big rapids in the gorge, with about 2.5 hours on the water and around 6 hours in total.\n\nIt costs $219 per person, including all rafting gear, hot showers and a barbecue meal at the lodge on Mt Peel Station. Trips meet at 12.30pm daily. The minimum age is 13, and you need basic swimming ability.\nLocal tip: Call the day before to confirm river conditions. If you're coming from Christchurch, optional transport costs an extra $30.",
+    "recommendedDurationSlots": 12,
+    "hoursNote": "Trips meet 12.30pm daily, subject to river levels; min age 13; confirm the day before",
+    "sourceUrl": "https://www.bookme.co.nz/things-to-do/christchurch-canterbury-kaikoura/activity/rafting-grade-5-rangitata-rafts/533",
+    "confidence": "medium",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "Peak Hill, Lake Coleridge",
+    "slug": "peak-hill-lake-coleridge",
+    "lat": -43.333488,
+    "lng": 171.506854,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "The best view of Lake Coleridge, a huge blue lake in the Rakaia high country. The route climbs a marked easement over private land to the summit of Peak Hill, looking straight down on the lake and across to the Southern Alps.\n\nDOC allows three hours return. It is steep and fully exposed, with loose gravel on the way down, so it suits fit walkers. The start is on Algidus Road, about 9km west of Lake Coleridge Village, on a gravel road.\nLocal tip: Pick a calm, clear day and wear proper shoes. Walking poles help on the steep descent, and it gets very windy near the top.",
+    "recommendedDurationSlots": 7,
+    "hoursNote": "Open all the time; steep and exposed; gravel road access",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/peak-hill-conservation-area/things-to-do/tracks/peak-hill-route/",
+    "confidence": "high",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "Taylors Stream Reserve Camping",
+    "slug": "taylors-stream-reserve-camping",
+    "lat": -43.621012,
+    "lng": 171.480543,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A free council picnic reserve on Inland Scenic Route 72 between Methven and Staveley, where self-contained vehicles can also stay the night. It has tidy native plantings, picnic tables and a clean long drop toilet.\n\nSince 7 June 2026, freedom camping vehicles need the new green self-containment warrant, which means a permanently fixed toilet. It is quiet at night and handy for Sharplin Falls and the Staveley Store.\nLocal tip: Only stay in a certified self-contained vehicle, take all your rubbish with you, and fill up with water in Methven first, since there is none here.",
+    "hoursNote": "Certified self contained vehicles only (Green Warrant from 7 Jun 2026); long drop toilet; no water",
+    "sourceUrl": "https://www.ashburtondc.govt.nz/community-facilities/parks-and-reserves/rec-lakes-trails-and-rest-areas",
+    "confidence": "high",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "Rakaia Gorge Campground",
+    "slug": "rakaia-gorge-campground",
+    "lat": -43.519305,
+    "lng": 171.654266,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "description": "A cheap, well kept, community-run campground right beside the Rakaia Gorge and the start of the walkway. Hedges shelter it from the wind, and the views of the gorge are excellent.\n\nIn summer it is $15 per person, with free gas-heated hot showers and a covered cooking area, and children under 10 stay free. In winter, from May to mid-October, only 10 sites stay open on an honesty box at $10 per person, with toilets only. There are no powered sites and no advance bookings.\nLocal tip: In summer, call the caretakers the day before or on the day to check for space. Dogs on leads are welcome.",
+    "hoursNote": "Summer rate $15 pp from mid Oct; winter honesty box $10 pp; no bookings; no power; dogs on leads",
+    "sourceUrl": "https://www.rakaiagorgecamp.net/summer-home-page",
+    "confidence": "high",
+    "area": "mid-canterbury"
+  },
+  {
+    "name": "Mt Hutt Bunkhouse",
+    "slug": "mt-hutt-bunkhouse",
+    "lat": -43.630362,
+    "lng": 171.646543,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small, owner-run backpackers a couple of minutes' walk from Methven's centre and the i-SITE. Guests describe it as clean, quiet and homely, with a proper lounge, a fireplace and comfortable couches.\n\nIt is a good budget base for Mt Hutt in winter, and for the Rakaia Gorge, the Ashburton Lakes and Mt Sunday in summer. Reviews note that wifi costs extra.\nLocal tip: Book ahead in ski season, and before heading into the high country, check road and weather conditions at the i-SITE around the corner.",
+    "hoursNote": "Book ahead in ski season; wifi extra",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ82PFxdLRLW0Rf7g96CLlThA",
+    "confidence": "medium",
+    "area": "mid-canterbury"
+  }
+]

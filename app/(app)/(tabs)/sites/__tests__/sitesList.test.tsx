@@ -187,10 +187,12 @@ describe("the list", () => {
 });
 
 describe("category tabs", () => {
-  it("offers All plus only the categories that have places, in the app's category order", async () => {
+  // A place is listed under its main (first) category only, so a tab is offered only for
+  // a category that is some place's main one. Scenic and Nature are only second here.
+  it("offers All plus only the categories that are some place's main one, in the app's order", async () => {
     const view = await render(<SiteListPage />);
 
-    expect(tabLabels(view)).toEqual(["All", "Scenic", "Walks", "Nature", "Water", "Food & Drink"]);
+    expect(tabLabels(view)).toEqual(["All", "Walks", "Water", "Food & Drink"]);
   });
 
   it("ignores inactive places when deciding which tabs to show", async () => {
@@ -236,12 +238,15 @@ describe("category tabs", () => {
     expect(underlineOf("Walks")).not.toHaveStyle({ backgroundColor: tokens.colors.highlightOnDark });
   });
 
-  it("filters to a category, matching any of a place's categories", async () => {
+  // Sumner Beach and Port Hills Walk are both Scenic too, but second: under Scenic only
+  // the place that is Scenic first.
+  it("lists a place under its main category only", async () => {
+    mockBag.locations.push(makeSite("s5", "Godley Head", ["Scenic"]));
     const view = await render(<SiteListPage />);
 
     await fireEvent.press(view.getByText("Scenic"));
 
-    expect(rowNames(view)).toEqual(["Sumner Beach", "Port Hills Walk"]);
+    expect(rowNames(view)).toEqual(["Godley Head"]);
     expect(selectedTab(view)).toBe("Scenic");
   });
 

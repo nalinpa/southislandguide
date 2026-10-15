@@ -92,11 +92,12 @@ export default function SiteListPage() {
 
   const areaLocations = useMemo(() => activeLocations.filter((l) => (l.area ?? "") === area), [activeLocations, area]);
 
-  // Only categories that actually have places in this town get a tab — rotorua-guide
-  // shows every category unconditionally, which would leave empty tabs for a town with
-  // a different mix of categories.
+  // A place is listed under its main (first) category only, the one its marker and
+  // default photo use, so it doesn't turn up under several tabs. Only categories that are
+  // some place's main one in this town get a tab — rotorua-guide shows every category
+  // unconditionally, which would leave empty tabs for a town with a different mix.
   const categoriesWithPlaces = useMemo(
-    () => SITE_CATEGORIES.filter((c) => areaLocations.some((l) => l.category.includes(c))),
+    () => SITE_CATEGORIES.filter((c) => areaLocations.some((l) => l.category[0] === c)),
     [areaLocations],
   );
   // A category chosen in one town that the town now shown has nothing in: back to All.
@@ -104,7 +105,7 @@ export default function SiteListPage() {
 
   const filteredLocations = useMemo(() => {
     let list = areaLocations;
-    if (activeCategory) list = list.filter((l) => l.category.includes(activeCategory));
+    if (activeCategory) list = list.filter((l) => l.category[0] === activeCategory);
     // Name, description, or a category's label as shown on the tabs: someone
     // typing "beach" or "food" should find places whose names don't say so.
     if (searchQuery.trim()) {
@@ -290,7 +291,7 @@ export default function SiteListPage() {
           setChosenArea(id);
           // Not carried to the next town as a filter it has nothing in, to come back
           // unasked when the user returns to this one.
-          if (!activeLocations.some((l) => (l.area ?? "") === id && category && l.category.includes(category))) {
+          if (!activeLocations.some((l) => (l.area ?? "") === id && category && l.category[0] === category)) {
             setCategory(null);
           }
           setAreaMenuOpen(false);

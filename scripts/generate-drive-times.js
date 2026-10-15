@@ -5,12 +5,17 @@
  *   node scripts/generate-drive-times.js areas --apply    # ask, then write assets/data/area-drive-minutes.json
  *   node scripts/generate-drive-times.js towns            # dry run for every area
  *   node scripts/generate-drive-times.js towns --area dunedin --apply   # one area's table
+ *   ... --all                                             # ask again for what is already known
  *
  * areas: one time per pair of areas, town centre (the middle of its places) to town centre,
  *        read by lib/areas.ts. A pair the service can't route keeps the time it had.
  * towns: one table per area of times between that area's own places, both ways, in
  *        half-hour slots, at assets/data/transit/<area>.json, read by
- *        lib/utils/transitMatrix.ts. Re-run one area after adding places there.
+ *        lib/utils/transitMatrix.ts.
+ *
+ * Only what isn't known yet is asked for: a new area costs only its pairs with the other
+ * areas, and a new place only its times to and from the rest of its town. --all asks
+ * again for everything (roads change), at the full cost.
  *
  * Places come from the live api, so run it after the admin panel is up to date. --apply
  * needs GOOGLE_MAPS_API_KEY in the environment (not on the command line, where it would
@@ -23,6 +28,8 @@ const {
   centreOf,
   areaDriveTimes,
   areaTransit,
+  transitLookups,
+  pairKey,
   googleFetchMatrix,
   costUSD,
   transitIndex,
@@ -43,6 +50,7 @@ const TRANSIT_DIR = path.join(DATA, "transit");
 const args = process.argv.slice(2);
 const mode = args[0];
 const apply = args.includes("--apply");
+const all = args.includes("--all");
 const onlyArea = args.includes("--area") ? args[args.indexOf("--area") + 1] : null;
 
 async function livePlaces() {
@@ -61,13 +69,17 @@ function fetcher() {
 async function areas(groups) {
   const centres = Object.fromEntries([...groups].map(([id, places]) => [id, centreOf(places)]));
   const ids = Object.keys(centres);
-  const lookups = (ids.length * (ids.length - 1)) / 2;
+  const before = fs.existsSync(AREA_FILE) ? JSON.parse(fs.readFileSync(AREA_FILE, "utf8")) : {};
+  const known = all ? {} : before;
+  let lookups = 0;
+  for (let i = 0; i < ids.length; i++)
+    for (let j = i + 1; j < ids.length; j++) if (!(pairKey(ids[i], ids[j]) in known)) lookups++;
   console.log(`${ids.length} areas: ${ids.join(", ")}`);
+  if (!lookups) return console.log("Every pair already has a time. Nothing to ask for (--all to ask again).");
   console.log(`${lookups} pairs to ask for, ${priceNote(lookups)}`);
   if (!apply) return console.log("Dry run. Add --apply to ask the maps service and write the file.");
 
-  const { minutes, failed } = await areaDriveTimes(centres, fetcher());
-  const before = fs.existsSync(AREA_FILE) ? JSON.parse(fs.readFileSync(AREA_FILE, "utf8")) : {};
+  const { minutes, failed } = await areaDriveTimes(centres, fetcher(), known);
   const merged = { ...before, ...minutes };
   fs.writeFileSync(AREA_FILE, JSON.stringify(merged, Object.keys(merged).sort(), 2) + "\n");
   console.log(`Wrote ${Object.keys(minutes).length} times to ${path.relative(process.cwd(), AREA_FILE)}`);
@@ -77,19 +89,25 @@ async function areas(groups) {
 async function towns(groups) {
   const ids = onlyArea ? [onlyArea] : [...groups.keys()];
   if (onlyArea && !groups.has(onlyArea)) throw new Error(`No active places with a position in area "${onlyArea}".`);
+  const tableFile = (id) => path.join(TRANSIT_DIR, `${id}.json`);
+  const knownFor = (id) => (!all && fs.existsSync(tableFile(id)) ? JSON.parse(fs.readFileSync(tableFile(id), "utf8")) : {});
   let total = 0;
+  const todo = [];
   for (const id of ids) {
     const n = groups.get(id).length;
-    total += n * n;
-    console.log(`${id}: ${n} places, ${n * n} lookups, about US$${costUSD(n * n)}`);
+    const lookups = transitLookups(groups.get(id), knownFor(id));
+    total += lookups;
+    if (lookups) todo.push(id);
+    console.log(`${id}: ${n} places, ${lookups ? `${lookups} lookups` : "up to date"}`);
   }
+  if (!total) return console.log("Every area is up to date. Nothing to ask for (--all to ask again).");
   console.log(`In all: ${total} lookups, ${priceNote(total)}`);
   if (!apply) return console.log("Dry run. Add --apply to ask the maps service and write the tables.");
 
   const fetchMatrix = fetcher();
   fs.mkdirSync(TRANSIT_DIR, { recursive: true });
-  for (const id of ids) {
-    const table = await areaTransit(groups.get(id), fetchMatrix);
+  for (const id of todo) {
+    const table = await areaTransit(groups.get(id), fetchMatrix, knownFor(id));
     fs.writeFileSync(path.join(TRANSIT_DIR, `${id}.json`), JSON.stringify(table) + "\n");
     console.log(`Wrote assets/data/transit/${id}.json`);
   }
@@ -100,7 +118,7 @@ async function towns(groups) {
 
 async function main() {
   if (mode !== "areas" && mode !== "towns") {
-    console.error("Usage: node scripts/generate-drive-times.js areas|towns [--area <id>] [--apply]");
+    console.error("Usage: node scripts/generate-drive-times.js areas|towns [--area <id>] [--all] [--apply]");
     process.exitCode = 1;
     return;
   }

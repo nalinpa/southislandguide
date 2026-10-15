@@ -45,14 +45,18 @@ function chunks(list, size) {
   return out;
 }
 
-// Each pair of areas once (the app uses one time both ways). Pairs the service has no
-// route for are left out and listed in `failed`.
-async function areaDriveTimes(centres, fetchMatrix) {
+// Each pair of areas once (the app uses one time both ways), except pairs already in
+// `known`: adding an area costs only its own pairs. Pairs the service has no route for
+// are left out and listed in `failed`. `asked` is how many pairs it asked for.
+async function areaDriveTimes(centres, fetchMatrix, known = {}) {
   const ids = Object.keys(centres);
   const minutes = {};
   const failed = [];
+  let asked = 0;
   for (let i = 0; i < ids.length - 1; i++) {
-    for (const batch of chunks(ids.slice(i + 1), MAX_SIDE)) {
+    const todo = ids.slice(i + 1).filter((id) => !(pairKey(ids[i], id) in known));
+    for (const batch of chunks(todo, MAX_SIDE)) {
+      asked += batch.length;
       const [row] = await fetchMatrix([centres[ids[i]]], batch.map((id) => centres[id]));
       batch.forEach((id, j) => {
         const key = pairKey(ids[i], id);
@@ -61,26 +65,49 @@ async function areaDriveTimes(centres, fetchMatrix) {
       });
     }
   }
-  return { minutes, failed };
+  return { minutes, failed, asked };
+}
+
+// A place is in an area's table once it has been asked for (as a key, even with no
+// routes found), so the next run knows not to ask again.
+function splitByKnown(places, known) {
+  const fresh = places.filter((p) => !(p.id in known));
+  const old = places.filter((p) => p.id in known);
+  return { fresh, old };
+}
+
+// How many times areaTransit would ask for: each new place to every place, and every
+// place already known to each new one.
+function transitLookups(places, known) {
+  const { fresh, old } = splitByKnown(places, known);
+  return fresh.length * places.length + old.length * fresh.length;
 }
 
 // Every place in one area to every other, both ways (one-way streets and hills make them
-// differ), in half-hour slots, at least one. Places the service can't route between are
-// left out; the app estimates those.
-async function areaTransit(places, fetchMatrix) {
-  const table = {};
+// differ), in half-hour slots, at least one, kept with what `known` already has. Only
+// times involving a place not yet in `known` are asked for: a place added to a town
+// costs only its own times. Places the service can't route between are left out; the
+// app estimates those.
+async function areaTransit(places, fetchMatrix, known = {}) {
+  const table = JSON.parse(JSON.stringify(known));
+  const { fresh, old } = splitByKnown(places, known);
+  for (const p of fresh) table[p.id] = table[p.id] || {};
   const side = Math.floor(Math.sqrt(MAX_ELEMENTS));
-  for (const from of chunks(places, side)) {
-    for (const to of chunks(places, side)) {
-      const grid = await fetchMatrix(from, to);
-      from.forEach((a, i) =>
-        to.forEach((b, j) => {
-          if (a.id === b.id || grid[i][j] == null) return;
-          (table[a.id] = table[a.id] || {})[b.id] = Math.max(1, Math.ceil(grid[i][j] / SLOT_MINUTES));
-        }),
-      );
+  const fill = async (origins, destinations) => {
+    for (const from of chunks(origins, side)) {
+      for (const to of chunks(destinations, side)) {
+        const grid = await fetchMatrix(from, to);
+        from.forEach((a, i) =>
+          to.forEach((b, j) => {
+            if (a.id === b.id || grid[i][j] == null) return;
+            table[a.id][b.id] = Math.max(1, Math.ceil(grid[i][j] / SLOT_MINUTES));
+          }),
+        );
+      }
     }
-  }
+  };
+  await fill(fresh, places);
+  await fill(old, fresh);
   return table;
 }
 
@@ -132,6 +159,7 @@ module.exports = {
   pairKey,
   areaDriveTimes,
   areaTransit,
+  transitLookups,
   parseDistanceMatrix,
   googleFetchMatrix,
   costUSD,

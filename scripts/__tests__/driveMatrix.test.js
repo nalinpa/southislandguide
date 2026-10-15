@@ -7,6 +7,7 @@ const {
   pairKey,
   areaDriveTimes,
   areaTransit,
+  transitLookups,
   parseDistanceMatrix,
   costUSD,
   transitIndex,
@@ -72,6 +73,25 @@ describe("areaDriveTimes", () => {
     expect(calls.reduce((n, c) => n + c.origins * c.destinations, 0)).toBe(3);
   });
 
+  // A new area costs only its own pairs: what is in the file already is not asked again.
+  it("asks only for pairs not already known", async () => {
+    const { fetchMatrix, calls } = fakeService();
+
+    const { minutes, asked } = await areaDriveTimes(centres, fetchMatrix, { "christchurch|timaru": 120 });
+
+    expect(minutes).toEqual({ "christchurch|dunedin": 241, "dunedin|timaru": 151 });
+    expect(asked).toBe(2);
+    expect(calls.reduce((n, c) => n + c.origins * c.destinations, 0)).toBe(2);
+  });
+
+  it("asks for nothing when every pair is known", async () => {
+    const { fetchMatrix, calls } = fakeService();
+
+    const known = { "christchurch|timaru": 1, "christchurch|dunedin": 2, "dunedin|timaru": 3 };
+    expect((await areaDriveTimes(centres, fetchMatrix, known)).asked).toBe(0);
+    expect(calls).toHaveLength(0);
+  });
+
   it("leaves out a pair the service has no route for, and says which", async () => {
     const fetchMatrix = async (origins, destinations) =>
       origins.map((o) => destinations.map((d) => (o.lat === -43.5 && d.lat === -45.9 ? null : fakeMinutes(o, d))));
@@ -97,6 +117,28 @@ describe("areaTransit", () => {
     expect(table.p0.p1).toBe(1);
     expect(table.p0.p11).toBe(4);
     expect(table.p11.p0).toBe(4);
+  });
+
+  // A place added to a town costs only its own times: to and from every other place there.
+  it("asks only for times involving places not yet in the table, and keeps the rest", async () => {
+    const { fetchMatrix, calls } = fakeService();
+    const known = await areaTransit(town.slice(0, 10), fakeService().fetchMatrix);
+    known.p0.p1 = 7; // what was there stays, even if the service would now say otherwise
+
+    const table = await areaTransit(town, fetchMatrix, known);
+
+    // p10 and p11 to all 12, and the 10 known places to p10 and p11.
+    expect(calls.reduce((n, c) => n + c.origins * c.destinations, 0)).toBe(2 * 12 + 10 * 2);
+    expect(table.p0.p1).toBe(7);
+    expect(table.p0.p11).toBe(4);
+    expect(table.p11.p0).toBe(4);
+    expect(table.p10.p11).toBe(1);
+  });
+
+  it("counts what it would ask for before asking", () => {
+    expect(transitLookups(town, {})).toBe(144);
+    expect(transitLookups(town, { p0: {}, p1: {} })).toBe(10 * 12 + 2 * 10);
+    expect(transitLookups(town.slice(0, 2), { p0: {}, p1: {} })).toBe(0);
   });
 
   it("never asks for more than 100 times at once, the service's limit", async () => {

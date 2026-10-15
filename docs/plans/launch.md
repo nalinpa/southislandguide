@@ -8,16 +8,16 @@ One launch, finished and ready to promote: every area of the South Island, all i
 
 **Who does what:** *You* is the owner (content, Apple, store, money). *Me* is code, scripts, tests. Sizes for code are as in the other plans: small is one file and its test, medium one screen, large several.
 
-## Questions for you first
+## Decisions (owner, 2026-10-16)
 
-Each blocks a workstream below; each has my recommended answer.
-
-1. **Which places are premium?** Recommended: **each town's top 5 featured places free, everything else premium.** Every town shows real value to a free user, and the rest is the reason to buy. One rule, worked out from `featured`, so new towns follow it without hand-picking. (Alternatives: by category; by hand.)
-2. **What can a free user do in the planner?** Recommended: **one trip of up to 3 days, built from free places; seeing the trip view, drives and town pictures free; more trips, longer trips, reordering, moving drives and Add Day with the unlock.** Close to Rotorua's free tier, but the trip view stays free because it sells the planner.
-3. **One unlock or regional packs?** Recommended: **one unlock, "Full South Island"** (Rotorua's `full_guide_unlock` model). Packs can come later; going from packs back to one unlock is the hard direction.
-4. **Price.** Yours. Rotorua's is a reference point.
-5. **Testers who already have accounts.** Recommended: **grant the unlock to their accounts by hand** (a few Firestore writes, `apps/southislandguide/entitlements/{uid}`), not a script over every account.
-6. **Tour stops and the review moment.** Recommended in workstream C below; change freely.
+| Question | Decision |
+|---|---|
+| 1. Which places are premium | Roughly: each town's top few featured places free, the rest premium. **Christchurch may be free entirely.** To settle before places are flagged (step 6 of the order). |
+| 2. What a free user can do in the planner | **As Rotorua: free users can use the suggested itineraries but not change them.** Building or editing a trip is the unlock. So the suggested itineraries are the free product: they need to exist across the island (A7), and to be useful without the unlock their stops should be free places or read well when locked. |
+| 3. One unlock or packs | **One full unlock for now.** |
+| 4. Price | **About US$20.** |
+| 5. Testers with accounts | **Unlocked by hand.** |
+| 6. Tour stops and the review moment | **Worked through together** when C4 and C5 come up. |
 
 ## Workstreams
 
@@ -51,7 +51,7 @@ Cost: B1 is a few hundred lookups. B2 grows with each town's size squared: a 40-
 | # | What | Size | Notes |
 |---|---|---|---|
 | C1 | The unlock: swap the stand-ins for Rotorua's real `useEntitlementGate` and `PurchaseProvider`, add `expo-iap` | medium | Native package: needs a new EAS build. |
-| C2 | Free tier rules (question 2) | medium | The gated branches are already in the screens; this sets which ones are on. |
+| C2 | Free tier rules (decision 2) | medium | Free users open suggested itineraries but can't add, remove, move or retime stops, add days or make their own trips. The gated branches are already in the screens (Rotorua's model); this switches them on and checks every edit path. |
 | C3 | Paywall and locked place card | medium | Ported from Rotorua; reworded. |
 | C4 | Opening tour | medium | Rotorua's spotlight engine (`lib/tour/`), new steps: Explore's town sheet; adding a place to a trip; the Trip and Days switch; dragging a stop or a drive; swiping between days. Starts once, after sign-in. |
 | C5 | Review prompt | small | `expo-store-review`, already installed. Asked once a trip first has three or more places, not on an app-open count. Apple limits how often it shows. |
@@ -94,11 +94,18 @@ From Rotorua's rejections and fixes (`rotorua-guide/TASKS.md`, 2026-09):
 
 ## Order
 
-1. **Now, in parallel:** A1 (import) with A2; B1 to B3 (once your maps key is ready); D1 (deploy before any place is flagged premium).
-2. **Then:** C1 to C3 and D2 on a branch, with a new EAS build; C4 and C5.
-3. **Content fills in while code runs:** A3 to A7.
-4. **Flag premium places** (question 1) only after D1 and D2 are live and the real unlock code is in a build.
-5. **E and the IAP checks**, TestFlight, then submit.
+Recommended 2026-10-16. Content (A) is the long pole and is mostly yours, so it starts now and runs alongside everything else; the code is ordered by risk.
+
+1. **Push both repos.** Two days of work exists only on one PC.
+2. **D1, locked places keep their town.** Small, harmless now, and it has to be live before anything is premium. Get it out of the way.
+3. **B1 to B3, drive times.** Small, and every imported area needs them: without them a hop between new towns is a flat half hour. Needs your maps API key.
+4. **A1 starts (you): import areas**, with A2 labels as names come in. Look at size and speed (C8) once a few hundred places are in.
+5. **C1 to C3 and D2, the unlock, on a branch, with a new EAS build.** The riskiest part of the launch (Rotorua's review history), so it goes into TestFlight's sandbox early, with plenty of time to fix store-side problems. In parallel (you): the paid apps agreement, the IAP product at about US$20, its review screenshot.
+6. **C2, the free tier, and A7, suggested itineraries across the island.** They go together: under decision 2 the itineraries are what a free user gets. Baking them needs B.
+7. **Decide question 1 and flag premium places**, after D1, D2 and a build with the real unlock.
+8. **B4 to B6** once real drive times are in and you can see which places read wrong.
+9. **C4 tour and C5 review prompt** last among the code: the tour points at screens that should have stopped changing.
+10. **E, the store checklist and Rotorua's IAP checks, TestFlight, submit.** E1 (icon) and E2 (Apple sign-in) can be chased any time before this; E2 depends on Apple.
 
 ## Already done (2026-10-14 to 16)
 

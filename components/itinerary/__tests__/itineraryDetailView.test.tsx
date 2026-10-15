@@ -157,7 +157,7 @@ jest.mock("expo-router", () => {
 
 import React from "react";
 import { Alert, ScrollView } from "react-native";
-import { fireEvent, render, waitFor } from "@testing-library/react-native";
+import { fireEvent, render, waitFor, within } from "@testing-library/react-native";
 
 import { ItineraryDetailView } from "@/components/itinerary/ItineraryDetailView";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
@@ -285,23 +285,39 @@ describe("loading and failure", () => {
 });
 
 describe("the trip", () => {
-  it("shows the trip's title and its days", async () => {
+  it("shows its days", async () => {
     const view = await openTrip();
 
-    expect(view.getByText("Hot Pools Weekend")).toBeTruthy();
     expect(view.getByText("Day 1")).toBeTruthy();
     expect(view.getByText("Day 3")).toBeTruthy();
   });
 
-  it("falls back to a generic title for an unnamed trip", async () => {
-    mockTrips.itineraries = [makeTrip({ title: "" })];
+  // The bar has no title row: on a phone the timeline needs the room. The trip's name,
+  // dates and length head the trip view instead, and scroll away with it.
+  it("names the trip, with its dates and length, at the top of the trip view", async () => {
+    const view = await openTripView();
+
+    expect(view.getByText("Hot Pools Weekend")).toHaveStyle({ color: tokens.colors.text });
+    expect(view.getByText("1 Oct — 3 Oct · 3 days")).toBeTruthy();
+  });
+
+  it("leaves the name off the day timeline", async () => {
     const view = await openTrip();
+    expect(view.queryByText("Hot Pools Weekend")).toBeNull();
+  });
+
+  it("falls back to a generic name for an unnamed trip", async () => {
+    mockTrips.itineraries = [makeTrip({ title: "" })];
+    const view = await openTripView();
     expect(view.getByText("My Trip")).toBeTruthy();
   });
 
-  it("titles the trip in white on the brand bar", async () => {
-    const view = await openTrip();
-    expect(view.getByText("Hot Pools Weekend")).toHaveStyle({ color: "#FFFFFF" });
+  it("puts the trip menu on the switch's row", async () => {
+    const view = await openTripView();
+
+    const row = view.getByLabelText("Trip options").parent!;
+    expect(within(row).getByText("Trip")).toBeTruthy();
+    expect(within(row).getByText("Days")).toBeTruthy();
   });
 
   // The day tabs sit in the dark brand bar, so the open day takes the highlight's

@@ -5,10 +5,13 @@ import { Car, ChevronRight, MapPin } from "lucide-react-native";
 import { cardLift, tokens } from "@/lib/ui/tokens";
 import { areaName } from "@/lib/areas";
 import { slotsToDurationLabel, tripSummary } from "@/lib/utils/itineraryPhysics";
+import { formatTripDates } from "@/lib/utils/formatDates";
 import type { PlaceLookup } from "@/lib/utils/transitMatrix";
 import type { ItineraryDay } from "@/lib/models";
 
 type TripOverviewProps = {
+  /** The trip's name, at the head of the list: the bar above has no title row. */
+  title: string;
   /** The trip's days as they stand on screen, packed. */
   days: ItineraryDay[];
   places: PlaceLookup;
@@ -35,7 +38,7 @@ function dateParts(iso: string, length: "short" | "long"): string {
 // A day that starts in a different town from where the one before ended opens with that
 // drive, and says so: the planner doesn't know where the traveller sleeps, and this is
 // where they see what that costs across the trip.
-export function TripOverview({ days, places, imageFor, onOpenDay }: TripOverviewProps) {
+export function TripOverview({ title, days, places, imageFor, onOpenDay }: TripOverviewProps) {
   const summary = useMemo(() => tripSummary(days, places), [days, places]);
   const today = localIsoDate(new Date());
 
@@ -51,6 +54,14 @@ export function TripOverview({ days, places, imageFor, onOpenDay }: TripOverview
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
+      <View style={styles.heading}>
+        <Text style={styles.tripTitle}>{title}</Text>
+        {days.length > 0 ? (
+          <Text style={styles.tripDates}>
+            {formatTripDates(days[0].date, days[days.length - 1].date)} · {days.length} {days.length === 1 ? "day" : "days"}
+          </Text>
+        ) : null}
+      </View>
       {days.map((day, index) => {
         const { placeCount, areas, openingDrive, driveSlots, overflows } = summary[index];
         const isToday = day.date === today;
@@ -137,6 +148,9 @@ export function TripOverview({ days, places, imageFor, onOpenDay }: TripOverview
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
   content: { padding: tokens.space.md, gap: tokens.space.sm, paddingBottom: 40 },
+  heading: { gap: 2, paddingHorizontal: 4, paddingBottom: 4 },
+  tripTitle: { fontSize: 22, fontWeight: "800", color: tokens.colors.text },
+  tripDates: { fontSize: 14, color: tokens.colors.text2 },
   row: {
     flexDirection: "row",
     alignItems: "center",

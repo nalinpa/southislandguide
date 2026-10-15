@@ -40,6 +40,7 @@ const localIso = (d: Date) =>
 const show = (days: ItineraryItem[][], opts: { dates?: string[]; onOpenDay?: (id: string) => void } = {}) =>
   render(
     <TripOverview
+      title="South Island Trip"
       days={packTrip(
         days.map((items, i) => ({ id: "day_" + (i + 1), date: opts.dates?.[i] ?? "2020-10-" + (14 + i), items })),
         places,

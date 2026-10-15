@@ -81,4 +81,18 @@ describe("TopBar", () => {
     expect(stack).not.toHaveStyle({ gap: 8 });
     expect(within(stack).getByLabelText("Search Locations")).toBeTruthy();
   });
+
+  // For a screen whose controls are its top row (the trip screen's Trip | Days switch).
+  it("draws no title row without a title, only what it is given", async () => {
+    const { Text } = require("react-native");
+    const view = await render(
+      <TopBar>
+        <Text>Switch</Text>
+      </TopBar>,
+    );
+
+    expect(view.getByText("Switch")).toBeTruthy();
+    expect(view.queryAllByText(/./)).toHaveLength(1);
+  });
 });
+

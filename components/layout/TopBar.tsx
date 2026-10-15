@@ -8,7 +8,8 @@ import { tokens } from "@/lib/ui/tokens";
 import { LightStatusBar } from "@/components/layout/LightStatusBar";
 
 type TopBarProps = {
-  title: string;
+  /** Left out, the bar has no title row: for a screen whose own controls are its top row. */
+  title?: string;
   /** A back button to the left of the title (TopBarBack), for a screen that isn't a tab's root. */
   leading?: ReactNode;
   /** Icon buttons on the right of the title. Use AppIconButton variant="control" (white). */
@@ -53,42 +54,44 @@ export function TopBar({
           has the width, and at full size the bar grew by about 50pt. */}
       <View>
         {actionsAbove && actionsRow ? <View style={styles.actionsAbove}>{actionsRow}</View> : null}
-        <Row align="center" gap="sm" style={[styles.titleRow, actionsAbove && styles.titleRowUnder]}>
-          {leading}
-          {onTitlePress ? (
-            // The title as a dropdown. The chevron sits hard against the word, so it reads
-            // as part of the title and not as one more button in the bar.
-            <TouchableOpacity
-              style={styles.titleButton}
-              activeOpacity={0.7}
-              onPress={onTitlePress}
-              accessibilityRole="button"
-              accessibilityLabel={titleLabel ?? title}
-            >
-              {/* Shrinks to fit rather than cutting off: some town names are longer than a
-                  phone is wide at this size. */}
+        {title !== undefined ? (
+          <Row align="center" gap="sm" style={[styles.titleRow, actionsAbove && styles.titleRowUnder]}>
+            {leading}
+            {onTitlePress ? (
+              // The title as a dropdown. The chevron sits hard against the word, so it reads
+              // as part of the title and not as one more button in the bar.
+              <TouchableOpacity
+                style={styles.titleButton}
+                activeOpacity={0.7}
+                onPress={onTitlePress}
+                accessibilityRole="button"
+                accessibilityLabel={titleLabel ?? title}
+              >
+                {/* Shrinks to fit rather than cutting off: some town names are longer than a
+                    phone is wide at this size. */}
+                <AppText
+                  variant="h1"
+                  style={[styles.titleInButton, (compactTitle || actionsAbove) && styles.titleCompact]}
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.6}
+                >
+                  {title}
+                </AppText>
+                <ChevronDown color="#FFFFFF" size={26} strokeWidth={2.5} />
+              </TouchableOpacity>
+            ) : (
               <AppText
                 variant="h1"
-                style={[styles.titleInButton, (compactTitle || actionsAbove) && styles.titleCompact]}
-                numberOfLines={1}
-                adjustsFontSizeToFit
-                minimumFontScale={0.6}
+                style={[styles.title, compactTitle && styles.titleCompact]}
+                numberOfLines={compactTitle ? 2 : 1}
               >
                 {title}
               </AppText>
-              <ChevronDown color="#FFFFFF" size={26} strokeWidth={2.5} />
-            </TouchableOpacity>
-          ) : (
-            <AppText
-              variant="h1"
-              style={[styles.title, compactTitle && styles.titleCompact]}
-              numberOfLines={compactTitle ? 2 : 1}
-            >
-              {title}
-            </AppText>
-          )}
-          {actionsAbove ? null : actionsRow}
-        </Row>
+            )}
+            {actionsAbove ? null : actionsRow}
+          </Row>
+        ) : null}
       </View>
       {children}
     </View>

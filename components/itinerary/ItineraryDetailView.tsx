@@ -690,20 +690,18 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
           bar's bottom edge. They aren't the shared TopBarTabs: each has a date under
           it and, when open, a delete X, and the strip ends in Add Day. Colours match
           TopBarTabs. */}
-      <TopBar
-        title={localTrip.title || "My Trip"}
-        compactTitle
-        flushBottom={view === "days"}
-        actions={
+      {/* No title row: on a phone the timeline needs the room. The trip's name heads the
+          trip view instead (TripOverview), and the menu sits beside the switch. */}
+      <TopBar flushBottom={view === "days"}>
+        <View style={styles.switchRow}>
+          <TripViewSwitch view={view} onChange={handleChangeView} style={styles.switch} />
           <AppIconButton
             icon={MoreHorizontal}
             variant="control"
             onPress={() => setShowTripMenu(true)}
             accessibilityLabel="Trip options"
           />
-        }
-      >
-        <TripViewSwitch view={view} onChange={handleChangeView} />
+        </View>
         {view === "days" && (
           <ScrollView
             ref={dayStripRef}
@@ -763,7 +761,13 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
       </TopBar>
 
       {view === "trip" ? (
-        <TripOverview days={localTrip.days} places={places} imageFor={imageForArea} onOpenDay={handleOpenDay} />
+        <TripOverview
+          title={localTrip.title || "My Trip"}
+          days={localTrip.days}
+          places={places}
+          imageFor={imageForArea}
+          onOpenDay={handleOpenDay}
+        />
       ) : (
         <ScrollView
           ref={timelineScrollRef}
@@ -951,6 +955,8 @@ const styles = StyleSheet.create({
   menuRowDivider: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: tokens.colors.border },
   menuRowText: { fontSize: 15, fontWeight: "600", color: tokens.colors.text },
   menuRowDanger: { color: tokens.colors.danger },
+  switchRow: { flexDirection: "row", alignItems: "center", gap: tokens.space.sm, paddingHorizontal: tokens.space.md },
+  switch: { flex: 1 },
   // flexGrow 0: a horizontal ScrollView otherwise stretches to fill the bar.
   tabStrip: { flexGrow: 0 },
   tabScroll: { paddingHorizontal: tokens.space.xs, alignItems: "stretch" },

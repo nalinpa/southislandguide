@@ -3,4 +3,8 @@
 // slots, read by lib/utils/transitMatrix.ts.
 type Transit = Record<string, Record<string, Record<string, number>>>;
 
-export const TRANSIT: Transit = {};
+export const TRANSIT: Transit = {
+  christchurch: require("./christchurch.json"),
+  dunedin: require("./dunedin.json"),
+  timaru: require("./timaru.json"),
+};

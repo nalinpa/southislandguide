@@ -9,12 +9,15 @@ describe("areas", () => {
     expect(AREA_LABELS.timaru).toBe("Timaru");
   });
 
-  // The planner falls back to a flat half hour for a pair with no time, which is the bug
-  // this table exists to fix. A new area must come with a time to every other one.
-  it("has a drive time for every pair of areas", () => {
+  // The planner estimates a pair with no time and draws no drive block for it, so a new
+  // area must come with a time to every other one. Checked against the generated file
+  // itself (by its path: the "@/" import gives tests fixed sample times; jest.config.js).
+  it("has a drive time for every pair of areas in the generated file", () => {
+    const generated: Record<string, number> = require("../../assets/data/area-drive-minutes.json");
     for (const a of AREAS) {
       for (const b of AREAS) {
-        if (a.id !== b.id) expect({ pair: `${a.id}-${b.id}`, minutes: areaDriveMinutes(a.id, b.id) }).toEqual({ pair: `${a.id}-${b.id}`, minutes: expect.any(Number) });
+        const pair = [a.id, b.id].sort().join("|");
+        if (a.id !== b.id) expect({ pair, minutes: generated[pair] }).toEqual({ pair, minutes: expect.any(Number) });
       }
     }
   });

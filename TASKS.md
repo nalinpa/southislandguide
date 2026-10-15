@@ -7,15 +7,7 @@ Reference app for every port: `rotorua-guide`.
 
 ## Release plan
 
-Each release is the smallest thing that lets the next one be built against real data.
-
-| Release | Scope | Why this order |
-|---|---|---|
-| **1.0** | Christchurch places + photos, plus two suggested itineraries (one day, two days). **Publish.** | Get a real app in the store; everything after is iteration |
-| **1.1** | Once 1.0 is live: Dunedin, and the east coast between Christchurch and Dunedin. Then multi-day itineraries: drive times + the multi-day day view | Drive times and multi-day only mean anything once places are more than a short hop apart — Christchurch-only data can't exercise them |
-| **1.2** | The whole location list | Content drop once the planner handles distance properly |
-| **1.3** | More suggested itineraries (multi-day, other regions) | These bake slot times against the transit matrix, so they wait for 1.1's drive times and 1.2's final place list |
-| **1.4** | In-app purchases | See "Commerce" below — the api's premium behaviour makes this more than switching a flag |
+**One launch (owner, 2026-10-16):** the whole island, all content, and the paid unlock together, finished and ready to promote. The plan, with its open questions and workstreams, is [docs/plans/launch.md](docs/plans/launch.md). It replaces the staged plan that was here (1.0 Christchurch, 1.1 drive times, 1.2 the full list, 1.3 itineraries, 1.4 in-app purchase); the sections below keep their old headings for history.
 
 ---
 

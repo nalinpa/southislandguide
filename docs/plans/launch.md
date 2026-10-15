@@ -35,6 +35,8 @@ One launch, finished and ready to promote: every area of the South Island, all i
 
 ### B. Drive times (me; your maps key)
 
+**B1 to B3 built 2026-10-16** (`scripts/generate-drive-times.js`, tested against a fake maps service). Not yet run: needs `GOOGLE_MAPS_API_KEY`. Dry run on the live list: 3 area pairs; all three towns' tables 3,468 lookups, about US$17.
+
 | # | What | Size | Notes |
 |---|---|---|---|
 | B1 | Area-to-area matrix script | small | One time per pair of town centres, from a maps service; writes `assets/data/area-drive-minutes.json`, read by `lib/areas.ts`. Every pair must have a time (the test enforces it). |

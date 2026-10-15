@@ -1,3 +1,5 @@
+import AREA_DRIVE_MINUTES_JSON from "@/assets/data/area-drive-minutes.json";
+
 // Areas of the South Island guide, as a visitor divides them: the base town a
 // place is visited from. One level below regions (lib/guideContent.ts).
 //
@@ -34,14 +36,11 @@ export function areaName(id: string): string {
   return areaLabel(id) ?? id.replace(/-/g, " ").replace(/\b[a-z]/g, (c) => c.toUpperCase());
 }
 
-// Minutes by road, town to town, used in both directions. One entry per pair:
-// the two ids in alphabetical order, joined with "|".
-// From memory, not checked against a map (owner, 2026-10-14). Confirm before release.
-const AREA_DRIVE_MINUTES: Record<string, number> = {
-  "christchurch|timaru": 120,
-  "dunedin|timaru": 150,
-  "christchurch|dunedin": 270,
-};
+// Minutes by road, town to town, used in both directions. One entry per pair: the two
+// ids in alphabetical order, joined with "|". Written by
+// `node scripts/generate-drive-times.js areas --apply` (a maps service, town centre to
+// town centre); the three in it until then are from memory (owner, 2026-10-14).
+const AREA_DRIVE_MINUTES: Record<string, number> = AREA_DRIVE_MINUTES_JSON;
 
 export function areaDriveMinutes(a: string, b: string): number | undefined {
   if (a === b) return undefined;

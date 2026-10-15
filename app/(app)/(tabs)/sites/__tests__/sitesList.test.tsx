@@ -92,6 +92,7 @@ const makeSite = (id: string, name: string, category: string[], over: Record<str
   category,
   active: true,
   area: "christchurch",
+  region: "canterbury",
   lat: -43.53,
   lng: 172.63,
   ...over,
@@ -389,8 +390,8 @@ describe("towns", () => {
 
   beforeEach(() => {
     mockBag.locations.push(
-      makeSite("d1", "Otago Museum", ["Culture"], { area: "dunedin", lat: -45.8656, lng: 170.5107 }),
-      makeSite("d2", "Tunnel Beach", ["Walks"], { area: "dunedin", lat: -45.92, lng: 170.46 }),
+      makeSite("d1", "Otago Museum", ["Culture"], { area: "dunedin", region: "dunedin-otago", lat: -45.8656, lng: 170.5107 }),
+      makeSite("d2", "Tunnel Beach", ["Walks"], { area: "dunedin", region: "dunedin-otago", lat: -45.92, lng: 170.46 }),
       makeSite("t1", "Caroline Bay", ["Water"], { area: "timaru", lat: -44.39, lng: 171.25 }),
     );
   });
@@ -488,6 +489,18 @@ describe("towns", () => {
       await fireEvent.press(view.getByLabelText("Christchurch, choose a town"));
 
       expect(menuRows(view)).toEqual(["Christchurch, 4 places", "Timaru, 1 place", "Dunedin, 2 places"]);
+    });
+
+    // A town's region is the one its places are in; the guide's region names head them.
+    it("groups the towns under their region", async () => {
+      const view = await render(<SiteListPage />);
+
+      await fireEvent.press(view.getByLabelText("Christchurch, choose a town"));
+
+      expect(view.getAllByRole("header").map((h: any) => h.props.children)).toEqual([
+        "Canterbury & Christchurch",
+        "Dunedin & Otago Coast",
+      ]);
     });
 
     it("shows the chosen town, names it in the title, and closes", async () => {

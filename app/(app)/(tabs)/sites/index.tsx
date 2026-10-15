@@ -10,7 +10,7 @@ import { tokens } from "@/lib/ui/tokens";
 import { hooksBag, useRefreshLocations } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { ListView } from "@/components/sites/list/ListView";
-import { AreaMenu, type AreaOption } from "@/components/sites/AreaMenu";
+import { AreaSheet, type AreaOption } from "@/components/sites/AreaSheet";
 import { nearestArea } from "@/components/map/MapRegion";
 import { AREAS, DEFAULT_AREA, areaName } from "@/lib/areas";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, type SiteCategory } from "@/lib/models";
@@ -61,15 +61,27 @@ export default function SiteListPage() {
   // The towns the list can show: each area with at least one place, in the app's order,
   // then any the app has no label for yet (added in the admin panel since), then "Other"
   // for places with no area at all, so that none can drop out of sight. "" is its id.
+  // A town's region, for the sheet's headings, is the one most of its places are in.
   const areaOptions = useMemo<AreaOption[]>(() => {
     const counts = new Map<string, number>();
-    for (const l of activeLocations) counts.set(l.area ?? "", (counts.get(l.area ?? "") ?? 0) + 1);
+    const regions = new Map<string, Map<string, number>>();
+    for (const l of activeLocations) {
+      const id = l.area ?? "";
+      counts.set(id, (counts.get(id) ?? 0) + 1);
+      if (id && l.region) {
+        const r = regions.get(id) ?? new Map<string, number>();
+        r.set(l.region, (r.get(l.region) ?? 0) + 1);
+        regions.set(id, r);
+      }
+    }
+    const regionOf = (id: string) => [...(regions.get(id) ?? new Map()).entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
     const known: string[] = AREAS.map((a) => a.id).filter((id) => counts.has(id));
     const unlabelled = [...counts.keys()].filter((id) => id && !known.includes(id)).sort();
     return [...known, ...unlabelled, ...(counts.has("") ? [""] : [])].map((id) => ({
       id,
       label: id ? areaName(id) : "Other",
       count: counts.get(id) ?? 0,
+      region: regionOf(id),
     }));
   }, [activeLocations]);
 
@@ -283,7 +295,7 @@ export default function SiteListPage() {
           ) : null
         }
       />
-      <AreaMenu
+      <AreaSheet
         visible={areaMenuOpen}
         options={areaOptions}
         selected={area}

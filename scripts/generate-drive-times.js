@@ -31,6 +31,13 @@ const {
 const PLACES_URL = "https://api.blacksands.app/v1/southislandguide/locations";
 const DATA = path.join(__dirname, "../assets/data");
 const AREA_FILE = path.join(DATA, "area-drive-minutes.json");
+// Google's free allowance for Distance Matrix (checked 2026-10-16): the cost shown is only
+// for lookups past it in a month, and only if nothing else on the key used it.
+const FREE_PER_MONTH = 10000;
+const priceNote = (lookups) =>
+  lookups <= FREE_PER_MONTH
+    ? `within Google's ${FREE_PER_MONTH.toLocaleString()} free a month (US$${costUSD(lookups)} past that)`
+    : `about US$${costUSD(lookups - FREE_PER_MONTH)} past Google's ${FREE_PER_MONTH.toLocaleString()} free a month`;
 const TRANSIT_DIR = path.join(DATA, "transit");
 
 const args = process.argv.slice(2);
@@ -56,7 +63,7 @@ async function areas(groups) {
   const ids = Object.keys(centres);
   const lookups = (ids.length * (ids.length - 1)) / 2;
   console.log(`${ids.length} areas: ${ids.join(", ")}`);
-  console.log(`${lookups} pairs to ask for, about US$${costUSD(lookups)}`);
+  console.log(`${lookups} pairs to ask for, ${priceNote(lookups)}`);
   if (!apply) return console.log("Dry run. Add --apply to ask the maps service and write the file.");
 
   const { minutes, failed } = await areaDriveTimes(centres, fetcher());
@@ -76,7 +83,7 @@ async function towns(groups) {
     total += n * n;
     console.log(`${id}: ${n} places, ${n * n} lookups, about US$${costUSD(n * n)}`);
   }
-  console.log(`In all: ${total} lookups, about US$${costUSD(total)}`);
+  console.log(`In all: ${total} lookups, ${priceNote(total)}`);
   if (!apply) return console.log("Dry run. Add --apply to ask the maps service and write the tables.");
 
   const fetchMatrix = fetcher();

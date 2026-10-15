@@ -1,6 +1,6 @@
 // The Map tab. What south-island changes over rotorua-guide: the category chips are "All" plus
 // every category (all nine, whether or not a place has it yet), "Add to Itinerary" is hidden
-// for Stay via canAddToItinerary, the map centres on the Christchurch coverage box, and 1.0
+// for Stay via canAddToItinerary, the map opens on the user when a place is near them, and 1.0
 // has no paid unlock — the real useEntitlementGate stub is used, so nothing is ever locked,
 // there's no premium banner and no paywall before adding to a trip.
 
@@ -349,6 +349,27 @@ describe("what opens selected", () => {
     mockBag.loc = { coords: { latitude: -43.569, longitude: 172.759 } }; // Sumner
     await render(<MapScreen />);
     expect(mockMapStore.setSelectedLocationId).toHaveBeenCalledWith("s1");
+  });
+
+  // The box around Christchurch used to be the only "here": someone in Dunedin got the
+  // featured place, 300 km away.
+  it("picks the nearest place for a visitor in another town", async () => {
+    mockBag.locations.push(makeSite("d1", "Otago Museum", ["Culture"], { lat: -45.8656, lng: 170.5107, area: "dunedin" }));
+    mockBag.loc = { coords: { latitude: -45.874, longitude: 170.504 } }; // the Octagon
+    await render(<MapScreen />);
+    expect(mockMapStore.setSelectedLocationId).toHaveBeenCalledWith("d1");
+  });
+
+  // Oamaru is 74 km from anything. Not the nearest place (a camping area up the coast) and
+  // not the Christchurch favourite either: the nearest town's own.
+  it("picks the nearest town's featured place for a visitor between towns", async () => {
+    mockBag.locations.push(
+      makeSite("d1", "Warrington Domain", ["Stay"], { lat: -45.71, lng: 170.59, area: "dunedin" }),
+      makeSite("d2", "St Clair Pool", ["Water"], { lat: -45.912, lng: 170.489, area: "dunedin", featured: 4 }),
+    );
+    mockBag.loc = { coords: { latitude: -45.1, longitude: 170.97 } }; // Oamaru
+    await render(<MapScreen />);
+    expect(mockMapStore.setSelectedLocationId).toHaveBeenCalledWith("d2");
   });
 
   it("falls back to the featured place when location is denied", async () => {

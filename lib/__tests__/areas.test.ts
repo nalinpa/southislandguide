@@ -1,4 +1,4 @@
-import { AREAS, AREA_LABELS, areaLabel, areaDriveMinutes } from "@/lib/areas";
+import { AREAS, AREA_LABELS, DEFAULT_AREA, areaLabel, areaName, areaDriveMinutes } from "@/lib/areas";
 
 describe("areas", () => {
   it("has three areas with ids and labels", () => {
@@ -22,6 +22,21 @@ describe("areas", () => {
   it("areaLabel returns the label for a known id and undefined otherwise", () => {
     expect(areaLabel("christchurch")).toBe("Christchurch");
     expect(areaLabel("not-an-area")).toBeUndefined();
+  });
+
+  // An area added in the admin panel before the app knows it still has to be shown as something.
+  // A new town's name is nearly always its id with capitals, so it reads right from the
+  // day it is entered. A label is only needed for what capitals can't do (a macron, an "&").
+  it("areaName returns the label for a known id, and otherwise the id with capitals", () => {
+    expect(areaName("dunedin")).toBe("Dunedin");
+    expect(areaName("oamaru")).toBe("Oamaru");
+    expect(areaName("lake-tekapo")).toBe("Lake Tekapo");
+  });
+
+  // Where Explore opens for someone who isn't on the island, or has no position.
+  it("starts from Christchurch, which is one of the areas", () => {
+    expect(DEFAULT_AREA).toBe("christchurch");
+    expect(AREAS.map((a) => a.id)).toContain(DEFAULT_AREA);
   });
 
   it("areaDriveMinutes returns the listed time for a known pair in either order", () => {

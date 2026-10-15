@@ -49,6 +49,22 @@ describe("ListItem", () => {
     expect((await view).queryByText(/km$/)).toBeNull();
   });
 
+  // For a list that spans towns (saved places). The town is where the place is, not a
+  // live fact about the user, so it stays out of the highlight.
+  it("names the town before the distance when it is given one", async () => {
+    const { view } = renderItem({ area: "Dunedin" });
+
+    expect((await view).getByText("Dunedin")).toHaveStyle({ color: tokens.colors.text2 });
+    expect((await view).getByText("1.2 km")).toBeTruthy();
+  });
+
+  it("names the town with no distance beside it when the distance isn't known", async () => {
+    const { view } = renderItem({ area: "Dunedin", distanceMeters: null });
+
+    expect((await view).getByText("Dunedin")).toBeTruthy();
+    expect((await view).queryByText(/km$/)).toBeNull();
+  });
+
   it("sets the description in strong secondary text", async () => {
     const { view } = renderItem();
     expect((await view).getByText("A long, open surf beach.")).toHaveStyle({ color: tokens.colors.text2 });

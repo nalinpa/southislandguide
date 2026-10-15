@@ -9,6 +9,7 @@ import { AppText, LoadingState, ErrorCard, Screen } from "@/lib/uiKit";
 import { TopBar, TopBarBack } from "@/components/layout/TopBar";
 import { TopBarTabs } from "@/components/layout/TopBarTabs";
 import { tokens } from "@/lib/ui/tokens";
+import { areaName } from "@/lib/areas";
 import { hooksBag, useAllLocations } from "@/lib/hooksBag";
 import { useSavedSites } from "@/lib/hooks/useSavedSites";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, type SiteCategory } from "@/lib/models";
@@ -18,7 +19,17 @@ import type { Site } from "@/lib/models";
 
 type SiteRow = SortedRow<Site>;
 
-function SwipeableRow({ item, index, onUnsave }: { item: SiteRow; index: number; onUnsave: () => void }) {
+function SwipeableRow({
+  item,
+  index,
+  showArea,
+  onUnsave,
+}: {
+  item: SiteRow;
+  index: number;
+  showArea: boolean;
+  onUnsave: () => void;
+}) {
   const swipeRef = useRef<Swipeable>(null);
 
   return (
@@ -47,6 +58,7 @@ function SwipeableRow({ item, index, onUnsave }: { item: SiteRow; index: number;
         distanceMeters={item.distanceMeters}
         imageUrl={item.location.imageThumbnailUrl ?? item.location.imageUrl}
         category={item.location.category[0]}
+        area={showArea && item.location.area ? areaName(item.location.area) : null}
         onPress={(id) => router.push(`/(app)/(tabs)/sites/${id}`)}
         index={index}
       />
@@ -65,6 +77,10 @@ export default function SavedSitesPage() {
     () => locations.filter((l) => savedSiteIds.has(l.id)),
     [locations, savedSiteIds],
   );
+
+  // Saved places come from every town, so a row names its town, but only when there is
+  // more than one town to tell apart.
+  const showArea = useMemo(() => new Set(savedLocations.map((l) => l.area ?? "")).size > 1, [savedLocations]);
 
   // Only categories that actually have saved places get a tab, same rule as
   // the main list — empty tabs would be confusing here too.
@@ -146,6 +162,7 @@ export default function SavedSitesPage() {
             <SwipeableRow
               item={item}
               index={index}
+              showArea={showArea}
               onUnsave={() => toggleSavedSite({ siteId: item.location.id, isSaving: false })}
             />
           </View>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView, Keyboard, Alert } from "react-native";
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView, Keyboard } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
@@ -18,7 +18,7 @@ import { usePurchaseContext } from "@/lib/iap/PurchaseProvider";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, canAddToItinerary, type SiteCategory } from "@/lib/models";
-import { distanceMeters } from "@/lib/utils/geoDistance";
+import { distanceMeters, nearestSite, NEAR_PLACES_METERS } from "@/lib/utils/geoDistance";
 import { SitesMapView, initialRegionFrom } from "@/components/map/SitesMapView";
 import type { SitesMapViewHandle } from "@/components/map/SitesMapView";
 import { MapOverlayCard } from "@/components/map/MapOverlay";
@@ -27,11 +27,7 @@ import { AddToTripModal } from "@/components/itinerary/AddToTripModal";
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { PremiumFeatureModal } from "@/components/itinerary/PremiumFeatureModal";
 
-import { isInCoverage } from "@/components/map/MapRegion";
-
-// Walk-in/boat-only — no road access, so trip transit timing can't be
-// trusted for it. See handleAddToItinerary below.
-const HOT_WATER_BEACH_ID = "77e801056ee1453ebfb1";
+import { nearestArea } from "@/components/map/MapRegion";
 
 export default function MapScreen() {
   const { session } = useSession();
@@ -91,40 +87,19 @@ export default function MapScreen() {
     [locations, isSiteLocked],
   );
 
-  const handleAddToItinerary = useCallback(
-    (siteId?: string) => {
-      const startAddFlow = () => {
-        if (!entitledProductIds.has(FULL_GUIDE_PRODUCT_ID)) {
-          setShowPremiumAdd(true);
-          return;
-        }
-        if (itineraries.length === 0) {
-          setIsCreatingItinerary(true);
-        } else if (itineraries.length < PLANNER.MAX_ITINERARIES) {
-          setShowTripChoice(true);
-        } else {
-          setIsAddingToTrip(true);
-        }
-      };
-
-      // ponytail: hardcoded for this one site rather than a general
-      // "walk/boat-only" data flag — build the flag if a second site needs it.
-      if (siteId === HOT_WATER_BEACH_ID) {
-        Alert.alert(
-          "Reachable via the Tarawera Trail",
-          "Hot Water Beach sits at the end of the 15–16km Tarawera Trail, or by boat/water taxi — there's no road access, so the itinerary's travel timing won't be accurate for this stop.",
-          [
-            { text: "Cancel", style: "cancel" },
-            { text: "Add Anyway", onPress: startAddFlow },
-          ],
-        );
-        return;
-      }
-
-      startAddFlow();
-    },
-    [itineraries.length, entitledProductIds],
-  );
+  const handleAddToItinerary = useCallback(() => {
+    if (!entitledProductIds.has(FULL_GUIDE_PRODUCT_ID)) {
+      setShowPremiumAdd(true);
+      return;
+    }
+    if (itineraries.length === 0) {
+      setIsCreatingItinerary(true);
+    } else if (itineraries.length < PLANNER.MAX_ITINERARIES) {
+      setShowTripChoice(true);
+    } else {
+      setIsAddingToTrip(true);
+    }
+  }, [itineraries.length, entitledProductIds]);
 
   const mapSites = useMemo(() => {
     const q = debouncedSearchQuery.trim().toLowerCase();
@@ -145,28 +120,33 @@ export default function MapScreen() {
     }
   }, [debouncedSearchQuery, mapSites, setSelectedSiteId]);
 
+  // The place nearest the user, when one is close enough for them to count as "here"
+  // (somewhere the app has places). Decides both what opens selected and whether the
+  // map opens on the user or on the places.
+  const nearHere = useMemo(() => {
+    if (!loc) return null;
+    const nearest = nearestSite(loc.coords.latitude, loc.coords.longitude, visibleSites);
+    return nearest && nearest.meters <= NEAR_PLACES_METERS ? nearest.site : null;
+  }, [loc, visibleSites]);
+
   const hasAutoSelected = useRef(false);
   useEffect(() => {
     if (hasAutoSelected.current || loading || !visibleSites.length || selectedSiteId) return;
     if (!loc && locStatus !== "denied" && !locErr) return;
     hasAutoSelected.current = true;
 
-    const userLat = loc?.coords.latitude;
-    const userLng = loc?.coords.longitude;
-    const inCoverage = isInCoverage(userLat, userLng);
-
-    if (inCoverage && userLat != null && userLng != null) {
-      const nearest = [...visibleSites].sort(
-        (a, b) =>
-          distanceMeters({ lat: userLat, lng: userLng }, { lat: a.lat, lng: a.lng }) -
-          distanceMeters({ lat: userLat, lng: userLng }, { lat: b.lat, lng: b.lng }),
-      )[0];
-      if (nearest) setSelectedSiteId(nearest.id);
-    } else {
-      const featured = [...visibleSites].sort((a, b) => (b.featured ?? 0) - (a.featured ?? 0))[0];
-      if (featured) setSelectedSiteId(featured.id);
+    // Here: the nearest place. Between towns: the nearest town's favourite, not the
+    // nearest place, which can be a camping area an hour up the road. Off the island or
+    // with no position: the favourite of all, one fixed start for someone planning at home.
+    if (nearHere) {
+      setSelectedSiteId(nearHere.id);
+      return;
     }
-  }, [loading, visibleSites, selectedSiteId, loc, locStatus, locErr, setSelectedSiteId]);
+    const town = nearestArea(loc?.coords.latitude, loc?.coords.longitude, visibleSites);
+    const inTown = town ? visibleSites.filter((s) => s.area === town) : [];
+    const featured = [...(inTown.length ? inTown : visibleSites)].sort((a, b) => (b.featured ?? 0) - (a.featured ?? 0))[0];
+    if (featured) setSelectedSiteId(featured.id);
+  }, [loading, visibleSites, selectedSiteId, loc, locStatus, locErr, nearHere, setSelectedSiteId]);
 
   const selectedSite = useMemo(
     () => visibleSites.find((s) => s.id === selectedSiteId) ?? null,
@@ -175,11 +155,12 @@ export default function MapScreen() {
 
   const initialRegion = useMemo(() => {
     if (loading) return null;
-    const userLat = loc?.coords.latitude ?? null;
-    const userLng = loc?.coords.longitude ?? null;
-    const inBounds = isInCoverage(userLat, userLng);
-    return initialRegionFrom(inBounds ? userLat : null, inBounds ? userLng : null, mapSites);
-  }, [loading, loc, mapSites]);
+    return initialRegionFrom(
+      nearHere && loc ? loc.coords.latitude : null,
+      nearHere && loc ? loc.coords.longitude : null,
+      mapSites,
+    );
+  }, [loading, loc, nearHere, mapSites]);
 
   const todayItems = useMemo<ActiveItineraryItem[] | null>(() => {
     if (!itineraries.length) return null;
@@ -430,7 +411,7 @@ export default function MapScreen() {
         }}
         onAddToItinerary={
           session.status !== "guest" && selectedSite && canAddToItinerary(selectedSite)
-            ? () => handleAddToItinerary(selectedSite?.id)
+            ? handleAddToItinerary
             : undefined
         }
         isOffline={isOffline}

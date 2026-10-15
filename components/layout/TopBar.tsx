@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ChevronLeft } from "lucide-react-native";
+import { ChevronDown, ChevronLeft } from "lucide-react-native";
 
 import { AppIconButton, AppText, Row } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
@@ -19,28 +19,77 @@ type TopBarProps = {
   flushBottom?: boolean;
   /** A smaller title that may wrap to two lines, for titles that are a phrase rather than a word. */
   compactTitle?: boolean;
+  /** Makes the title a dropdown: a chevron after it, and this on press. */
+  onTitlePress?: () => void;
+  /** What a screen reader calls the title when it is a dropdown. Defaults to the title. */
+  titleLabel?: string;
+  /** The actions on a row of their own above the title, which then has the bar's whole
+   * width: for a title that can be long (Explore's town). */
+  actionsAbove?: boolean;
 };
 
 // The brand bar at the top of a screen: deep teal (the login screen's colour)
 // from the clock down, with the screen's title in white. It sits fixed above
 // whatever scrolls. The screen must not add its own top inset: with <Screen>,
 // pass padded={false} and style={{ paddingTop: 0 }}.
-export function TopBar({ title, leading, actions, children, flushBottom, compactTitle }: TopBarProps) {
+export function TopBar({
+  title,
+  leading,
+  actions,
+  children,
+  flushBottom,
+  compactTitle,
+  onTitlePress,
+  titleLabel,
+  actionsAbove,
+}: TopBarProps) {
   const insets = useSafeAreaInsets();
+  const actionsRow = actions ? <Row gap="xs">{actions}</Row> : null;
   return (
     <View style={[styles.bar, { paddingTop: insets.top + tokens.space.xs }, !flushBottom && styles.padBottom]}>
       <LightStatusBar />
-      <Row align="center" gap="sm" style={styles.titleRow}>
-        {leading}
-        <AppText
-          variant="h1"
-          style={[styles.title, compactTitle && styles.titleCompact]}
-          numberOfLines={compactTitle ? 2 : 1}
-        >
-          {title}
-        </AppText>
-        {actions ? <Row gap="xs">{actions}</Row> : null}
-      </Row>
+      {/* With actionsAbove the buttons and the title share one block, so the bar's gap
+          doesn't open up between them, and the title takes the smaller size: it already
+          has the width, and at full size the bar grew by about 50pt. */}
+      <View>
+        {actionsAbove && actionsRow ? <View style={styles.actionsAbove}>{actionsRow}</View> : null}
+        <Row align="center" gap="sm" style={[styles.titleRow, actionsAbove && styles.titleRowUnder]}>
+          {leading}
+          {onTitlePress ? (
+            // The title as a dropdown. The chevron sits hard against the word, so it reads
+            // as part of the title and not as one more button in the bar.
+            <TouchableOpacity
+              style={styles.titleButton}
+              activeOpacity={0.7}
+              onPress={onTitlePress}
+              accessibilityRole="button"
+              accessibilityLabel={titleLabel ?? title}
+            >
+              {/* Shrinks to fit rather than cutting off: some town names are longer than a
+                  phone is wide at this size. */}
+              <AppText
+                variant="h1"
+                style={[styles.titleInButton, (compactTitle || actionsAbove) && styles.titleCompact]}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.6}
+              >
+                {title}
+              </AppText>
+              <ChevronDown color="#FFFFFF" size={26} strokeWidth={2.5} />
+            </TouchableOpacity>
+          ) : (
+            <AppText
+              variant="h1"
+              style={[styles.title, compactTitle && styles.titleCompact]}
+              numberOfLines={compactTitle ? 2 : 1}
+            >
+              {title}
+            </AppText>
+          )}
+          {actionsAbove ? null : actionsRow}
+        </Row>
+      </View>
       {children}
     </View>
   );
@@ -66,8 +115,14 @@ const styles = StyleSheet.create({
   // minHeight matches an icon button, so a title with no actions sits at the
   // same height as one with them.
   titleRow: { paddingHorizontal: tokens.space.md, minHeight: 44 },
+  actionsAbove: { flexDirection: "row", justifyContent: "flex-end", paddingHorizontal: tokens.space.md },
+  titleRowUnder: { minHeight: 34 },
   // flex 1 pushes any actions to the right edge.
   title: { flex: 1, color: "#FFFFFF" },
+  // The button takes the row's spare width (pushing any actions right); the word inside
+  // only its own, shrinking before it pushes the chevron out.
+  titleButton: { flex: 1, flexDirection: "row", alignItems: "center", gap: 4 },
+  titleInButton: { flexShrink: 1, color: "#FFFFFF" },
   titleCompact: { fontSize: 24, lineHeight: 29 },
   back: {
     width: 40,

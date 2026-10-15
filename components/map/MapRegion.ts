@@ -1,23 +1,12 @@
 import type { Region } from "react-native-maps";
 
-// The area this app has content for. v1 is Christchurch only, so the map
-// opens on the city. Used for the fallback centre below and the map screen's
-// "is the user actually here" check: someone outside it opens on the places
-// rather than on their own position, where there would be nothing to see.
-// ponytail: one fixed box. When a second region gets venues, this becomes a
-// per-region lookup (the RegionId vocabulary in lib/guideContent.ts).
-export const COVERAGE_BOUNDS = {
-  minLat: -43.7,
-  maxLat: -43.35,
-  minLng: 172.4,
-  maxLng: 172.85,
-};
+import { nearestSite } from "@/lib/utils/geoDistance";
 
 // How far the map can be dragged: the whole South Island with Stewart Island,
 // Cape Farewell (-40.5) to South Cape (-47.3), West Cape (166.4) to Cape
-// Campbell (174.3), plus a margin. Deliberately not COVERAGE_BOUNDS, which it
-// was until 2026-10-11: a South Island guide that can't show the island reads
-// as broken, even while the places are all in one city.
+// Campbell (174.3), plus a margin. Until 2026-10-11 it was a box around
+// Christchurch: a South Island guide that can't show the island reads as
+// broken, even while the places are all in a few towns.
 export const MAP_BOUNDS = {
   minLat: -47.5,
   maxLat: -40.3,
@@ -25,18 +14,33 @@ export const MAP_BOUNDS = {
   maxLng: 174.6,
 };
 
-export function isInCoverage(lat: number | null | undefined, lng: number | null | undefined): boolean {
+export function isOnIsland(lat: number | null | undefined, lng: number | null | undefined): boolean {
   return (
     lat != null &&
     lng != null &&
-    lat >= COVERAGE_BOUNDS.minLat &&
-    lat <= COVERAGE_BOUNDS.maxLat &&
-    lng >= COVERAGE_BOUNDS.minLng &&
-    lng <= COVERAGE_BOUNDS.maxLng
+    lat >= MAP_BOUNDS.minLat &&
+    lat <= MAP_BOUNDS.maxLat &&
+    lng >= MAP_BOUNDS.minLng &&
+    lng <= MAP_BOUNDS.maxLng
   );
 }
 
-// Central Christchurch.
+// The town nearest the user: the area of the nearest place, however far, for anyone on
+// the island. The map and Explore both open on it, so they always name the same town.
+// Undefined off the island (nearest means little from Auckland), with no position, and
+// when that place has no area.
+// ponytail: nearest in a straight line, not by road. Right for towns down one coast;
+// revisit when a town across a range can be nearer on the map and further to drive.
+export function nearestArea(
+  lat: number | null | undefined,
+  lng: number | null | undefined,
+  sites: { lat: number; lng: number; area?: string }[],
+): string | undefined {
+  if (lat == null || lng == null || !isOnIsland(lat, lng)) return undefined;
+  return nearestSite(lat, lng, sites)?.site.area;
+}
+
+// Central Christchurch: only reached with no position and no places at all.
 const DEFAULT_CENTER: Region = {
   latitude: -43.5321,
   longitude: 172.6362,

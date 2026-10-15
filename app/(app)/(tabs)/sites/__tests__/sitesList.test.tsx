@@ -1,7 +1,8 @@
-// The Explore tab. What south-island adds over rotorua-guide is the category tab row: "All"
-// plus only the categories that have (active) places, hidden entirely when there's just one,
-// and combined with the name search. Also pinned: a guest's sign-in card and the
-// location-denied card.
+// The Explore tab. What south-island adds over rotorua-guide: the list shows one town at a
+// time, named in the bar's title, which is a dropdown of the towns that have places; and the
+// category tab row: "All" plus only the categories that have (active) places in that town,
+// hidden entirely when there's just one, and combined with the name search. Also pinned: a
+// guest's sign-in card and the location-denied card.
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
 
@@ -31,9 +32,15 @@ jest.mock("@/components/sites/list/ListView", () => {
   };
 });
 
-jest.mock("react-native-safe-area-context", () => ({
-  useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
-}));
+jest.mock("react-native-safe-area-context", () => {
+  const React = require("react");
+  const { View } = require("react-native");
+  return {
+    // The town menu sits in one, to clear the status bar.
+    SafeAreaView: ({ children, style }: any) => React.createElement(View, { style }, children),
+    useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+  };
+});
 
 const mockSession = { status: "authed", uid: "uid-1" } as any;
 jest.mock("@/lib/providers/SessionProvider", () => ({ useSession: () => ({ session: mockSession }) }));
@@ -43,12 +50,15 @@ const mockBag = {
   loading: false,
   err: null as string | null,
   locStatus: "granted" as string,
+  // The live position, and the one kept from earlier in the session.
+  loc: null as any,
+  storedLoc: null as any,
 };
 jest.mock("@/lib/hooksBag", () => ({
   hooksBag: {
     useLocations: () => ({ locations: mockBag.locations, loading: mockBag.loading, err: mockBag.err }),
-    useUserLocation: () => ({ loc: null, status: mockBag.locStatus }),
-    useLocationStore: { getState: () => ({ location: null }) },
+    useUserLocation: () => ({ loc: mockBag.loc, status: mockBag.locStatus }),
+    useLocationStore: { getState: () => ({ location: mockBag.storedLoc }) },
     // Distance ordering belongs to the shared hook, not this screen.
     useSortedRows: (locations: any[]) => locations.map((l) => ({ location: l, distanceMeters: null })),
   },
@@ -73,12 +83,17 @@ import { fireEvent, render, within } from "@testing-library/react-native";
 import SiteListPage from "@/app/(app)/(tabs)/sites/index";
 import { tokens } from "@/lib/ui/tokens";
 
+// In Christchurch unless a test says otherwise, so the tests that aren't about towns see
+// one town: no dropdown, and every place listed.
 const makeSite = (id: string, name: string, category: string[], over: Record<string, unknown> = {}) => ({
   id,
   name,
   description: "",
   category,
   active: true,
+  area: "christchurch",
+  lat: -43.53,
+  lng: 172.63,
   ...over,
 });
 
@@ -104,6 +119,8 @@ beforeEach(() => {
   mockBag.loading = false;
   mockBag.err = null;
   mockBag.locStatus = "granted";
+  mockBag.loc = null;
+  mockBag.storedLoc = null;
   openSettings = jest.spyOn(Linking, "openSettings").mockResolvedValue(undefined as never);
 });
 
@@ -289,7 +306,7 @@ describe("search", () => {
     await fireEvent.changeText(view.getByPlaceholderText("Search Locations"), "zzz");
 
     expect(rowNames(view)).toEqual([]);
-    expect(view.getByText("No Locations match your search.")).toBeTruthy();
+    expect(view.getByText("No Locations in Christchurch match your search.")).toBeTruthy();
   });
 
   it("clears the query when the search box is closed", async () => {
@@ -308,7 +325,7 @@ describe("top bar", () => {
   it("sets the title in white on the brand bar", async () => {
     const view = await render(<SiteListPage />);
 
-    expect(view.getByText("Locations")).toHaveStyle({ color: "#FFFFFF" });
+    expect(view.getByText("Christchurch")).toHaveStyle({ color: "#FFFFFF" });
   });
 
   // Fixed, so the list scrolls under it and the category tabs stay in reach however far
@@ -317,7 +334,8 @@ describe("top bar", () => {
     const view = await render(<SiteListPage />);
     const scrolling = within(view.getByTestId("list-header"));
 
-    expect(scrolling.queryByText("Locations")).toBeNull();
+    expect(view.getByText("Christchurch")).toBeTruthy();
+    expect(scrolling.queryByText("Christchurch")).toBeNull();
     expect(scrolling.queryAllByRole("tab")).toHaveLength(0);
     expect(view.getAllByRole("tab").length).toBeGreaterThan(1);
   });
@@ -346,5 +364,210 @@ describe("guest and location", () => {
     expect(view.getByText("Location Disabled")).toBeTruthy();
     await fireEvent.press(view.getByText("Open Settings"));
     expect(openSettings).toHaveBeenCalled();
+  });
+});
+
+// The list shows one town at a time. The bar's title names it and, when more than one town
+// has places, opens the menu to change it.
+describe("towns", () => {
+  const at = (latitude: number, longitude: number) => ({ coords: { latitude, longitude } });
+  const OCTAGON = at(-45.874, 170.504); // central Dunedin
+  const PALMERSTON = at(-45.48, 170.72); // 45 km north of Dunedin: between towns, Dunedin nearest
+  const AUCKLAND = at(-36.85, 174.76);
+
+  const chooseTown = async (view: any, row: RegExp) => {
+    await fireEvent.press(view.getByLabelText(/, choose a town$/));
+    await fireEvent.press(view.getByLabelText(row));
+  };
+  const menuRows = (view: any): string[] =>
+    view.getAllByLabelText(/, \d+ places?$/).map((r: any) => r.props.accessibilityLabel);
+
+  beforeEach(() => {
+    mockBag.locations.push(
+      makeSite("d1", "Otago Museum", ["Culture"], { area: "dunedin", lat: -45.8656, lng: 170.5107 }),
+      makeSite("d2", "Tunnel Beach", ["Walks"], { area: "dunedin", lat: -45.92, lng: 170.46 }),
+      makeSite("t1", "Caroline Bay", ["Water"], { area: "timaru", lat: -44.39, lng: 171.25 }),
+    );
+  });
+
+  describe("where it starts", () => {
+    it("starts on Christchurch with no position", async () => {
+      const view = await render(<SiteListPage />);
+
+      expect(rowNames(view)).toEqual(["Sumner Beach", "Riccarton Bush", "Riverside Market", "Port Hills Walk"]);
+      expect(view.getByText("Christchurch")).toBeTruthy();
+    });
+
+    it("starts on the town the user is in", async () => {
+      mockBag.storedLoc = OCTAGON;
+      const view = await render(<SiteListPage />);
+
+      expect(rowNames(view)).toEqual(["Otago Museum", "Tunnel Beach"]);
+      expect(view.getByText("Dunedin")).toBeTruthy();
+    });
+
+    it("starts on the nearest town for someone between towns, not on Christchurch", async () => {
+      mockBag.storedLoc = PALMERSTON;
+      const view = await render(<SiteListPage />);
+
+      expect(rowNames(view)).toEqual(["Otago Museum", "Tunnel Beach"]);
+    });
+
+    it("starts on Christchurch for someone off the island", async () => {
+      mockBag.storedLoc = AUCKLAND;
+      const view = await render(<SiteListPage />);
+
+      expect(view.getByText("Christchurch")).toBeTruthy();
+    });
+
+    // The position isn't kept between launches, so on a cold start it comes in after the
+    // list is drawn.
+    it("moves to the user's town when their position comes in", async () => {
+      const view = await render(<SiteListPage />);
+      expect(view.getByText("Christchurch")).toBeTruthy();
+
+      mockBag.loc = OCTAGON;
+      await view.rerender(<SiteListPage />);
+
+      expect(rowNames(view)).toEqual(["Otago Museum", "Tunnel Beach"]);
+    });
+
+    it("leaves the user on the town they chose when their position comes in", async () => {
+      const view = await render(<SiteListPage />);
+      await chooseTown(view, /^Timaru, /);
+
+      mockBag.loc = OCTAGON;
+      await view.rerender(<SiteListPage />);
+
+      expect(rowNames(view)).toEqual(["Caroline Bay"]);
+    });
+
+    it("starts on the first town that has places when Christchurch has none", async () => {
+      mockBag.locations = mockBag.locations.filter((l) => l.area !== "christchurch");
+      const view = await render(<SiteListPage />);
+
+      expect(rowNames(view)).toEqual(["Caroline Bay"]);
+    });
+  });
+
+  describe("the dropdown", () => {
+    it("makes the title a button when more than one town has places", async () => {
+      const view = await render(<SiteListPage />);
+
+      expect(view.getByLabelText("Christchurch, choose a town")).toBeTruthy();
+    });
+
+    // Beside the three buttons an iPhone SE leaves the title about 150pt.
+    it("gives the town the bar's whole width, under the buttons", async () => {
+      const view = await render(<SiteListPage />);
+
+      const titleRow = view.getByLabelText("Christchurch, choose a town").parent!;
+      expect(within(titleRow).queryByLabelText("Search Locations")).toBeNull();
+      expect(view.getByLabelText("Search Locations")).toBeTruthy();
+    });
+
+    it("leaves the title as plain text when only one town has places", async () => {
+      mockBag.locations = mockBag.locations.filter((l) => l.area === "christchurch");
+      const view = await render(<SiteListPage />);
+
+      expect(view.getByText("Christchurch")).toBeTruthy();
+      expect(view.queryByLabelText(/choose a town/)).toBeNull();
+    });
+
+    it("offers only the towns that have an active place, with their counts, and no way to list everything", async () => {
+      mockBag.locations.push(makeSite("o1", "Closed Gallery", ["Culture"], { area: "oamaru", active: false }));
+      const view = await render(<SiteListPage />);
+
+      await fireEvent.press(view.getByLabelText("Christchurch, choose a town"));
+
+      expect(menuRows(view)).toEqual(["Christchurch, 4 places", "Timaru, 1 place", "Dunedin, 2 places"]);
+    });
+
+    it("shows the chosen town, names it in the title, and closes", async () => {
+      const view = await render(<SiteListPage />);
+
+      await chooseTown(view, /^Dunedin, /);
+
+      expect(rowNames(view)).toEqual(["Otago Museum", "Tunnel Beach"]);
+      expect(view.getByLabelText("Dunedin, choose a town")).toBeTruthy();
+      expect(view.queryByLabelText(/, \d+ places?$/)).toBeNull();
+    });
+
+    // An area added in the admin panel before the app has a label for it.
+    it("offers a town it has no label for under its id, with capitals", async () => {
+      mockBag.locations.push(makeSite("o1", "Steampunk HQ", ["Attractions"], { area: "oamaru" }));
+      const view = await render(<SiteListPage />);
+
+      await fireEvent.press(view.getByLabelText("Christchurch, choose a town"));
+
+      expect(menuRows(view)).toContain("Oamaru, 1 place");
+    });
+
+    // The admin panel doesn't require an area, and a place in no town would otherwise
+    // never be listed.
+    it("keeps a place with no town reachable under Other", async () => {
+      mockBag.locations.push(makeSite("x1", "Somewhere", ["Scenic"], { area: undefined }));
+      const view = await render(<SiteListPage />);
+
+      await chooseTown(view, /^Other, 1 place$/);
+
+      expect(rowNames(view)).toEqual(["Somewhere"]);
+    });
+
+    it("has no Other while every place has a town", async () => {
+      const view = await render(<SiteListPage />);
+
+      await fireEvent.press(view.getByLabelText("Christchurch, choose a town"));
+
+      expect(view.queryByLabelText(/^Other, /)).toBeNull();
+    });
+  });
+
+  describe("with the category tabs and the search", () => {
+    it("offers only the chosen town's categories", async () => {
+      const view = await render(<SiteListPage />);
+
+      await chooseTown(view, /^Dunedin, /);
+
+      expect(tabLabels(view)).toEqual(["All", "Walks", "Culture"]);
+    });
+
+    it("keeps the chosen category when the new town has it", async () => {
+      const view = await render(<SiteListPage />);
+      await fireEvent.press(view.getByText("Walks"));
+
+      await chooseTown(view, /^Dunedin, /);
+
+      expect(selectedTab(view)).toBe("Walks");
+      expect(rowNames(view)).toEqual(["Tunnel Beach"]);
+    });
+
+    it("goes back to All when the new town has nothing in the chosen category", async () => {
+      const view = await render(<SiteListPage />);
+      await fireEvent.press(view.getByText("Food & Drink"));
+
+      await chooseTown(view, /^Dunedin, /);
+
+      expect(selectedTab(view)).toBe("All");
+      expect(rowNames(view)).toEqual(["Otago Museum", "Tunnel Beach"]);
+    });
+
+    it("searches inside the chosen town", async () => {
+      const view = await render(<SiteListPage />);
+      await fireEvent.press(view.getByLabelText("Search Locations"));
+
+      await fireEvent.changeText(view.getByPlaceholderText("Search Locations"), "beach");
+
+      expect(rowNames(view)).toEqual(["Sumner Beach"]);
+    });
+
+    it("names the town when a search finds nothing in it", async () => {
+      const view = await render(<SiteListPage />);
+      await fireEvent.press(view.getByLabelText("Search Locations"));
+
+      await fireEvent.changeText(view.getByPlaceholderText("Search Locations"), "museum");
+
+      expect(view.getByText("No Locations in Christchurch match your search.")).toBeTruthy();
+    });
   });
 });

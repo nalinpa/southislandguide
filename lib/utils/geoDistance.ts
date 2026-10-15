@@ -20,3 +20,23 @@ export function distanceMeters(
 
   return EARTH_RADIUS_METERS * c;
 }
+
+// How close a place has to be for the user to count as "here": somewhere the app has
+// places. Worked out from the live places, so a town added in the admin panel is "here"
+// with no app change.
+// ponytail: one number, chosen by eye against the places live on 2026-10-14 (Rolleston,
+// Rangiora, Mosgiel and both airports in; Ashburton and Oamaru out). Tune if it reads wrong.
+export const NEAR_PLACES_METERS = 30_000;
+
+export function nearestSite<T extends { lat: number; lng: number }>(
+  lat: number,
+  lng: number,
+  sites: T[],
+): { site: T; meters: number } | null {
+  let nearest: { site: T; meters: number } | null = null;
+  for (const site of sites) {
+    const meters = distanceMeters({ lat, lng }, site);
+    if (!nearest || meters < nearest.meters) nearest = { site, meters };
+  }
+  return nearest;
+}

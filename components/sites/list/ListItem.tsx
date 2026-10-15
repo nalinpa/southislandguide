@@ -23,11 +23,13 @@ type ListItemProps = {
   imageUrl?: string | null;
   /** Primary category — its default image is shown when imageUrl is empty. */
   category?: SiteCategory | null;
+  /** The town's name, for a list that spans towns. Explore names its one town in the bar. */
+  area?: string | null;
   onPress: (id: string) => void;
   index: number;
 };
 
-export function ListItem({ id, name, description, distanceMeters, imageUrl, category, onPress, index }: ListItemProps) {
+export function ListItem({ id, name, description, distanceMeters, imageUrl, category, area, onPress, index }: ListItemProps) {
   const source = siteImage(imageUrl, category, "thumb");
   return (
     <MotiView
@@ -55,10 +57,17 @@ export function ListItem({ id, name, description, distanceMeters, imageUrl, cate
           {/* The row's one live, personal fact, so it gets the highlight colour.
               Plain text and an icon rather than a Pill: a mint chip on every
               card read as decoration, and the Pill's label style is all caps. */}
-          {distanceMeters != null && (
+          {(area || distanceMeters != null) && (
             <Row gap="xxs" align="center" style={styles.footer}>
-              <Navigation size={13} color={tokens.colors.highlight} fill={tokens.colors.highlight} />
-              <AppText style={styles.distance}>{formatDistanceMeters(distanceMeters)}</AppText>
+              {/* Where the place is, not a live fact about the user: no highlight. */}
+              {area ? <AppText style={styles.area}>{area}</AppText> : null}
+              {area && distanceMeters != null ? <AppText style={styles.area}> · </AppText> : null}
+              {distanceMeters != null && (
+                <>
+                  <Navigation size={13} color={tokens.colors.highlight} fill={tokens.colors.highlight} />
+                  <AppText style={styles.distance}>{formatDistanceMeters(distanceMeters)}</AppText>
+                </>
+              )}
             </Row>
           )}
         </View>
@@ -99,6 +108,7 @@ const styles = StyleSheet.create({
     marginTop: tokens.space.sm,
   },
   distance: { fontSize: 14, fontWeight: "700", color: tokens.colors.highlight, marginLeft: 4 },
+  area: { fontSize: 14, fontWeight: "600", color: tokens.colors.text2 },
   imageWrap: {
     width: 96,
     height: 96,

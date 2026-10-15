@@ -26,7 +26,9 @@ export function pressable(label: Any, onPress: Any, disabled?: boolean) {
   );
 }
 
-const text = ({ children, style }: Any) => React.createElement(Text, { style }, children);
+// The rest of the props go through, as the real AppText passes them to Text
+// (numberOfLines, adjustsFontSizeToFit).
+const text = ({ children, style, ...rest }: Any) => React.createElement(Text, { style, ...rest }, children);
 
 export const AppText = text;
 export const AppButton = ({ children, onPress, disabled }: Any) => pressable(children, onPress, disabled);

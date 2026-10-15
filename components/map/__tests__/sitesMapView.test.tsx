@@ -34,7 +34,7 @@ import { render } from "@testing-library/react-native";
 
 import { SitesMapView, initialRegionFrom } from "@/components/map/SitesMapView";
 import type { SitesMapViewHandle } from "@/components/map/SitesMapView";
-import { isInCoverage } from "@/components/map/MapRegion";
+import { isOnIsland, nearestArea } from "@/components/map/MapRegion";
 
 const sites = [
   { id: "s1", name: "Wai-O-Tapu", lat: -38.35, lng: 176.36, category: "Walks" as const },
@@ -131,12 +131,6 @@ describe("the map", () => {
     expect(mockClusterProps.current.cameraZoomRange.maxCenterCoordinateDistance).toBeGreaterThanOrEqual(1_500_000);
   });
 
-  // Separate from the pan limit on purpose: "here" decides whether the map opens on the
-  // user or on the places, and someone in Queenstown should still open on the places.
-  it("still counts only the area with places as 'here'", () => {
-    expect(isInCoverage(-43.53, 172.64)).toBe(true); // Christchurch
-    expect(isInCoverage(-45.03, 168.66)).toBe(false); // Queenstown
-  });
 
   it("zooms to a newly selected site", async () => {
     const view = await render(
@@ -218,5 +212,39 @@ describe("the imperative handle", () => {
       expect.objectContaining({ latitude: -38.14, longitude: 176.25 }),
       expect.any(Number),
     );
+  });
+});
+
+// "Nearest town" is what the map and Explore both open on for someone on the island.
+describe("where the user is", () => {
+  const places = [
+    { lat: -43.5306, lng: 172.6217, area: "christchurch" },
+    { lat: -44.3965, lng: 171.2545, area: "timaru" },
+    { lat: -45.8656, lng: 170.5107, area: "dunedin" },
+    { lat: -45.71, lng: 170.59, area: "dunedin" }, // Warrington, Dunedin's northernmost place
+  ];
+
+  it("counts the South Island and Stewart Island as on the island, and nowhere else", () => {
+    expect(isOnIsland(-43.53, 172.64)).toBe(true); // Christchurch
+    expect(isOnIsland(-41.29, 174.0)).toBe(true); // Picton
+    expect(isOnIsland(-46.9, 168.13)).toBe(true); // Oban
+    expect(isOnIsland(-41.29, 174.78)).toBe(false); // Wellington
+    expect(isOnIsland(-36.85, 174.76)).toBe(false); // Auckland
+  });
+
+  it("names the area of the nearest place, however far, for someone on the island", () => {
+    expect(nearestArea(-45.874, 170.504, places)).toBe("dunedin"); // the Octagon
+    expect(nearestArea(-45.1, 170.97, places)).toBe("dunedin"); // Oamaru, between towns
+    expect(nearestArea(-43.9, 171.75, places)).toBe("timaru"); // Ashburton
+  });
+
+  it("names no area off the island, with no position, or with no places", () => {
+    expect(nearestArea(-36.85, 174.76, places)).toBeUndefined(); // Auckland
+    expect(nearestArea(null, null, places)).toBeUndefined();
+    expect(nearestArea(-45.874, 170.504, [])).toBeUndefined();
+  });
+
+  it("names no area when the nearest place has none", () => {
+    expect(nearestArea(-45.874, 170.504, [...places, { lat: -45.874, lng: 170.504 }])).toBeUndefined();
   });
 });

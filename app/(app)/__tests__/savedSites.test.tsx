@@ -42,11 +42,12 @@ jest.mock("@/components/sites/list/ListItem", () => {
   const React = require("react");
   const { Text, TouchableOpacity } = require("react-native");
   return {
-    ListItem: ({ id, name, onPress }: any) =>
+    ListItem: ({ id, name, area, onPress }: any) =>
       React.createElement(
         TouchableOpacity,
         { onPress: () => onPress(id), accessibilityRole: "button" },
         React.createElement(Text, null, name),
+        area ? React.createElement(Text, null, "in " + area) : null,
       ),
   };
 });
@@ -169,6 +170,32 @@ describe("the list", () => {
     await fireEvent.press(view.getByLabelText("Back"));
 
     expect(mockRouter.back).toHaveBeenCalled();
+  });
+});
+
+// Explore shows one town at a time; this list is whatever the user saved, from anywhere.
+describe("towns", () => {
+  it("names each place's town when the saved places are in more than one", async () => {
+    mockBag.locations = [
+      makeSite("s1", "Sumner Beach", { area: "christchurch" }),
+      makeSite("s2", "Riccarton Bush", { area: "christchurch" }),
+      makeSite("s3", "Tunnel Beach", { area: "dunedin" }),
+    ];
+    const view = await render(<SavedSitesPage />);
+
+    expect(view.getByText("in Christchurch")).toBeTruthy();
+    expect(view.getByText("in Dunedin")).toBeTruthy();
+  });
+
+  it("leaves the town off when every saved place is in the same one", async () => {
+    mockBag.locations = [
+      makeSite("s1", "Sumner Beach", { area: "christchurch" }),
+      makeSite("s2", "Tunnel Beach", { area: "dunedin" }),
+      makeSite("s3", "Riverside Market", { area: "christchurch" }),
+    ];
+    const view = await render(<SavedSitesPage />);
+
+    expect(view.queryByText(/^in /)).toBeNull();
   });
 });
 

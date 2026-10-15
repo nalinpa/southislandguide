@@ -10,6 +10,9 @@ import { tokens } from "@/lib/ui/tokens";
 import { hooksBag, useRefreshLocations } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { ListView } from "@/components/sites/list/ListView";
+import { AreaMenu, type AreaOption } from "@/components/sites/AreaMenu";
+import { nearestArea } from "@/components/map/MapRegion";
+import { AREAS, DEFAULT_AREA, areaName } from "@/lib/areas";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, type SiteCategory } from "@/lib/models";
 
 // ponytail: the generator's GAP list, resolved for this app.
@@ -18,6 +21,8 @@ import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, type SiteCategory } from "@/lib/
 //   The guide was otherwise only reachable from the Profile tab.
 // - category-filter tabs: DONE. Only categories with places get a tab, and
 //   the row hides entirely when there's just one.
+// - one town at a time: DONE. The bar's title names the town and is the
+//   dropdown that changes it.
 // - "Featured" hero card: deferred until any doc sets `featured`.
 
 export default function SiteListPage() {
@@ -53,17 +58,53 @@ export default function SiteListPage() {
 
   const activeLocations = useMemo(() => locations.filter((l) => l.active !== false), [locations]);
 
-  // Only categories that actually have places get a tab — rotorua-guide shows
-  // every category unconditionally, which would leave empty tabs once regions
-  // with a different mix of categories are added.
-  const categoriesWithPlaces = useMemo(
-    () => SITE_CATEGORIES.filter((c) => activeLocations.some((l) => l.category.includes(c))),
-    [activeLocations],
+  // The towns the list can show: each area with at least one place, in the app's order,
+  // then any the app has no label for yet (added in the admin panel since), then "Other"
+  // for places with no area at all, so that none can drop out of sight. "" is its id.
+  const areaOptions = useMemo<AreaOption[]>(() => {
+    const counts = new Map<string, number>();
+    for (const l of activeLocations) counts.set(l.area ?? "", (counts.get(l.area ?? "") ?? 0) + 1);
+    const known: string[] = AREAS.map((a) => a.id).filter((id) => counts.has(id));
+    const unlabelled = [...counts.keys()].filter((id) => id && !known.includes(id)).sort();
+    return [...known, ...unlabelled, ...(counts.has("") ? [""] : [])].map((id) => ({
+      id,
+      label: id ? areaName(id) : "Other",
+      count: counts.get(id) ?? 0,
+    }));
+  }, [activeLocations]);
+
+  // The town being shown: the one the user chose; until they choose, the town nearest
+  // them (the same one the map opens on); off the island or with no position, the
+  // default. Worked out here, not copied into state when a position arrives, so a choice
+  // always wins and nothing has to be kept in step. lockedLoc is the first position of
+  // the session: driving on to the next town doesn't change the list under the user.
+  const [chosenArea, setChosenArea] = useState<string | null>(null);
+  const [areaMenuOpen, setAreaMenuOpen] = useState(false);
+  const hereArea = useMemo(
+    () => nearestArea(lockedLoc?.coords.latitude, lockedLoc?.coords.longitude, activeLocations),
+    [lockedLoc, activeLocations],
   );
+  const area =
+    [chosenArea, hereArea, DEFAULT_AREA].find((id) => id != null && areaOptions.some((o) => o.id === id)) ??
+    areaOptions[0]?.id ??
+    "";
+  const areaLabel = areaOptions.find((o) => o.id === area)?.label;
+
+  const areaLocations = useMemo(() => activeLocations.filter((l) => (l.area ?? "") === area), [activeLocations, area]);
+
+  // Only categories that actually have places in this town get a tab — rotorua-guide
+  // shows every category unconditionally, which would leave empty tabs for a town with
+  // a different mix of categories.
+  const categoriesWithPlaces = useMemo(
+    () => SITE_CATEGORIES.filter((c) => areaLocations.some((l) => l.category.includes(c))),
+    [areaLocations],
+  );
+  // A category chosen in one town that the town now shown has nothing in: back to All.
+  const activeCategory = category && categoriesWithPlaces.includes(category) ? category : null;
 
   const filteredLocations = useMemo(() => {
-    let list = activeLocations;
-    if (category) list = list.filter((l) => l.category.includes(category));
+    let list = areaLocations;
+    if (activeCategory) list = list.filter((l) => l.category.includes(activeCategory));
     // Name, description, or a category's label as shown on the tabs: someone
     // typing "beach" or "food" should find places whose names don't say so.
     if (searchQuery.trim()) {
@@ -76,7 +117,7 @@ export default function SiteListPage() {
       );
     }
     return list;
-  }, [activeLocations, category, searchQuery]);
+  }, [areaLocations, activeCategory, searchQuery]);
 
   // radiusMeters is optional on Site (no admin field sets it) but required by
   // @blacksands/hooks' CheckpointEntity. Default it here rather than lying in
@@ -109,7 +150,13 @@ export default function SiteListPage() {
   // forms the bar's bottom edge.
   const topBar = (
     <TopBar
-      title="Locations"
+      // The town being shown, and the way to change it when there is another to change to.
+      title={areaLabel ?? "Locations"}
+      onTitlePress={areaOptions.length > 1 ? () => setAreaMenuOpen(true) : undefined}
+      titleLabel={`${areaLabel}, choose a town`}
+      // The town gets the whole width under the buttons: beside them an iPhone SE
+      // leaves it about 150pt, and "Christchurch" needs about 240.
+      actionsAbove
       flushBottom={categoriesWithPlaces.length > 1}
       actions={
         <>
@@ -159,7 +206,7 @@ export default function SiteListPage() {
             { key: null, label: "All" },
             ...categoriesWithPlaces.map((c) => ({ key: c, label: SITE_CATEGORY_LABELS[c] })),
           ]}
-          selected={category}
+          selected={activeCategory}
           onSelect={setCategory}
         />
       )}
@@ -198,8 +245,8 @@ export default function SiteListPage() {
       {activeLocations.length > 0 && rows.length === 0 && (
         <AppText variant="body" status="hint" style={styles.centerText}>
           {searchQuery.trim()
-            ? "No Locations match your search."
-            : `No ${category ? SITE_CATEGORY_LABELS[category] : "Locations"} to show.`}
+            ? `No Locations${areaLabel ? ` in ${areaLabel}` : ""} match your search.`
+            : `No ${activeCategory ? SITE_CATEGORY_LABELS[activeCategory] : "Locations"} to show.`}
         </AppText>
       )}
     </Stack>
@@ -234,6 +281,21 @@ export default function SiteListPage() {
             </CardShell>
           ) : null
         }
+      />
+      <AreaMenu
+        visible={areaMenuOpen}
+        options={areaOptions}
+        selected={area}
+        onSelect={(id) => {
+          setChosenArea(id);
+          // Not carried to the next town as a filter it has nothing in, to come back
+          // unasked when the user returns to this one.
+          if (!activeLocations.some((l) => (l.area ?? "") === id && category && l.category.includes(category))) {
+            setCategory(null);
+          }
+          setAreaMenuOpen(false);
+        }}
+        onClose={() => setAreaMenuOpen(false)}
       />
     </Screen>
   );

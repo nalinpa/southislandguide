@@ -43,8 +43,10 @@ const AREA_FILE = path.join(DATA, "area-drive-minutes.json");
 const FREE_PER_MONTH = 10000;
 const priceNote = (lookups) =>
   lookups <= FREE_PER_MONTH
-    ? `within Google's ${FREE_PER_MONTH.toLocaleString()} free a month (US$${costUSD(lookups)} past that)`
-    : `about US$${costUSD(lookups - FREE_PER_MONTH)} past Google's ${FREE_PER_MONTH.toLocaleString()} free a month`;
+    ? `free: comes out of Google's ${FREE_PER_MONTH.toLocaleString()} free lookups a month` +
+      ` (only if those were already used up this month would it cost about US$${costUSD(lookups)})`
+    : `the first ${FREE_PER_MONTH.toLocaleString()} free, about US$${costUSD(lookups - FREE_PER_MONTH)} for the rest` +
+      ` (more if some of this month's free lookups are already used)`;
 const TRANSIT_DIR = path.join(DATA, "transit");
 
 const args = process.argv.slice(2);

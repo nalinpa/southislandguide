@@ -78,6 +78,9 @@ export type ItineraryItem = {
   durationSlots: number;
   imageUrl?: string;
   note?: string;
+  // When the drive into this place leaves, for a place reached by a drive from another
+  // area, if the user has moved it. Absent: it ends where this place starts.
+  driveStartSlot?: number;
 };
 
 export type ItineraryDay = {

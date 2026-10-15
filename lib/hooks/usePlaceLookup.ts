@@ -10,10 +10,11 @@ import type { PlaceLookup } from "@/lib/utils/transitMatrix";
 // `ready` is false until the list holds at least one place. Callers must not pack or
 // check a trip before then: against an empty list every drive is the flat half hour.
 // Key effects on `ready` and `count`, not on `places`: they only change when the list does.
+// `list` is the list itself, for what needs every place at once (a town's picture).
 export function usePlaceLookup() {
   const { locations, err } = useAllLocations();
   const byId = useMemo(() => new Map(locations.map((l) => [l.id, l])), [locations]);
   const places = useCallback<PlaceLookup>((siteId) => byId.get(siteId), [byId]);
   const refresh = useRefreshLocations();
-  return { places, ready: byId.size > 0, count: byId.size, err, refresh };
+  return { places, list: locations, ready: byId.size > 0, count: byId.size, err, refresh };
 }

@@ -1,5 +1,5 @@
 import { getLeg, type Leg, type PlaceLookup } from "./transitMatrix";
-import { areaLabel } from "@/lib/areas";
+import { areaName } from "@/lib/areas";
 import { PLANNER } from "@/lib/constants/gameplay";
 import type { ItineraryDay, ItineraryItem } from "@/lib/models";
 
@@ -120,25 +120,82 @@ export function packTrip(days: ItineraryDay[], places: PlaceLookup): ItineraryDa
   return days.map((day, i) => ({ ...day, items: runPhysicsEngine(day.items ?? [], places, dayStartSiteId(days, i)) }));
 }
 
-export type DayLeg = Leg & { key: string; startSlot: number };
+// `move` is set on a drive only: the place it leads to (where a moved start is kept, as
+// driveStartSlot) and the earliest and latest it can start.
+export type DayLeg = Leg & {
+  key: string;
+  startSlot: number;
+  move?: { intoId: string; earliest: number; latest: number };
+};
+
+// A drive starts where the user put it, kept between the end of the place before it (or
+// 8 AM) and the start of the place it leads to. Not moved, it ends where that place
+// starts, so spare time stays in the town being left.
+function driveLeg(leg: Leg, key: string, into: ItineraryItem, earliest: number): DayLeg {
+  const latest = Math.max(earliest, (into.slotIndex || 0) - leg.slots);
+  const startSlot = Math.min(latest, Math.max(earliest, into.driveStartSlot ?? latest));
+  return { ...leg, key, startSlot, move: { intoId: into.id, earliest, latest } };
+}
 
 // The travel on a packed day: one leg into each place after the first, and before
-// them the opening drive when the day starts in a new area. A leg ends where the
-// place it leads to starts, so spare time stays in the town being left. The day view
-// draws these and keeps its free-gap cards out of them, from this one list.
+// them the opening drive when the day starts in a new area. A hop inside a town ends
+// where the place it leads to starts; a drive starts where the user moved it, if they
+// did (driveLeg). The day view draws these and keeps its free-gap cards out of them,
+// from this one list.
 export function dayLegs(items: ItineraryItem[], places: PlaceLookup, startFromSiteId?: string): DayLeg[] {
   const legs: DayLeg[] = [];
   if (startFromSiteId && items.length > 0) {
     const opening = getLeg(startFromSiteId, items[0].siteId, places);
-    if (opening.drive) {
-      legs.push({ ...opening, key: "opening", startSlot: Math.max(0, (items[0].slotIndex || 0) - opening.slots) });
-    }
+    if (opening.drive) legs.push(driveLeg(opening, "opening", items[0], 0));
   }
   for (let i = 0; i < items.length - 1; i++) {
     const leg = getLeg(items[i].siteId, items[i + 1].siteId, places);
-    if (leg.slots > 0) legs.push({ ...leg, key: items[i].id, startSlot: (items[i + 1].slotIndex || 0) - leg.slots });
+    if (leg.drive) legs.push(driveLeg(leg, items[i].id, items[i + 1], endSlot([items[i]])));
+    else if (leg.slots > 0) legs.push({ ...leg, key: items[i].id, startSlot: (items[i + 1].slotIndex || 0) - leg.slots });
   }
   return legs;
+}
+
+export type DaySummary = {
+  dayId: string;
+  placeCount: number;
+  // Area ids in visit order, the same one twice in a row once. A place with no known
+  // area (not in the place list, or listed without one) is counted but names no town.
+  // An empty day is in the town the day before ended in, as the planner takes it.
+  areas: string[];
+  openingDrive: { fromArea: string; slots: number } | null;
+  // Every drive in the day, the opening one included. Hops inside a town aren't driving.
+  driveSlots: number;
+  overflows: boolean;
+};
+
+// One line per day for the trip view. `days` are packed, as the day timeline holds them.
+// No rule about travel lives here: what is a drive, how long it is and where a day
+// starts all come from dayLegs, so the trip view and the timeline can't disagree.
+export function tripSummary(days: ItineraryDay[], places: PlaceLookup): DaySummary[] {
+  return days.map((day, i) => {
+    const items = day.items ?? [];
+    const startFrom = dayStartSiteId(days, i);
+    const legs = dayLegs(items, places, startFrom);
+    const opening = legs.find((leg) => leg.key === "opening");
+    const areas: string[] = [];
+    // Nothing planned: the traveller is still where they were, which is also where the
+    // next day's drive is counted from.
+    const stayingIn = items.length === 0 && startFrom ? places(startFrom)?.area : undefined;
+    if (stayingIn) areas.push(stayingIn);
+    for (const item of items) {
+      const area = places(item.siteId)?.area;
+      if (area && areas[areas.length - 1] !== area) areas.push(area);
+    }
+    return {
+      dayId: day.id,
+      placeCount: items.length,
+      areas,
+      openingDrive: opening?.drive ? { fromArea: opening.drive.fromArea, slots: opening.slots } : null,
+      driveSlots: legs.reduce((sum, leg) => sum + (leg.drive ? leg.slots : 0), 0),
+      overflows: dayOverflows(items),
+    };
+  });
 }
 
 // The one way a place changes day: out of the day it is in, into the other by its
@@ -155,8 +212,6 @@ export function moveItemToDay(days: ItineraryDay[], itemId: string, toDayId: str
 }
 
 export type EditResult = { ok: true; days: ItineraryDay[] } | { ok: false; reason: string };
-
-const areaName = (id: string) => areaLabel(id) ?? id;
 
 // The gate every edit goes through. `current` is the trip as it stands, `next` as the
 // edit would leave it (each day in visit order), `editedDayId` the day the user is

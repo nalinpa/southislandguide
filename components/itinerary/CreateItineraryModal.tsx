@@ -12,6 +12,7 @@ import { tokens } from "@/lib/ui/tokens";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { ITINERARY_TEMPLATES, defaultTemplateKey } from "@/lib/itineraryTemplates";
 import { slotIndexToTimeLabel, slotsToDurationLabel } from "@/lib/utils/itineraryPhysics";
+import { PLANNER } from "@/lib/constants/gameplay";
 
 type CreateItineraryModalProps = {
   visible: boolean;
@@ -84,7 +85,7 @@ export function CreateItineraryModal({
   const handleCreate = async () => {
     setErrorMsg(null);
 
-    const resolvedTitle = title.trim() || "Christchurch Trip";
+    const resolvedTitle = title.trim() || "South Island Trip";
     const template = templatesEnabled
       ? ITINERARY_TEMPLATES.find((t) => t.key === selectedTemplate && (!locked || t.free))
       : undefined;
@@ -162,7 +163,7 @@ export function CreateItineraryModal({
               <AppText style={styles.label}>Trip Name</AppText>
               <TextInput
                 style={styles.input}
-                placeholder="Optional — defaults to Christchurch Trip"
+                placeholder="Optional — defaults to South Island Trip"
                 placeholderTextColor={tokens.colors.textMuted}
                 value={title}
                 onChangeText={setTitle}
@@ -359,6 +360,8 @@ export function CreateItineraryModal({
                       style={styles.stepBtn}
                       onPress={() => setNumDays((n) => Math.max(1, n - 1))}
                       disabled={locked}
+                      accessibilityRole="button"
+                      accessibilityLabel="Fewer days"
                     >
                       <Minus color={locked ? tokens.colors.textMuted : tokens.colors.accent} size={20} />
                     </TouchableOpacity>
@@ -369,8 +372,10 @@ export function CreateItineraryModal({
                     </View>
                     <TouchableOpacity
                       style={styles.stepBtn}
-                      onPress={() => setNumDays((n) => Math.min(14, n + 1))}
+                      onPress={() => setNumDays((n) => Math.min(PLANNER.MAX_TRIP_DAYS, n + 1))}
                       disabled={locked}
+                      accessibilityRole="button"
+                      accessibilityLabel="More days"
                     >
                       <Plus color={locked ? tokens.colors.textMuted : tokens.colors.accent} size={20} />
                     </TouchableOpacity>

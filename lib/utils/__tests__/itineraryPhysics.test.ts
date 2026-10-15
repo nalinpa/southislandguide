@@ -8,6 +8,7 @@ import {
   dayLegs,
   moveItemToDay,
   tryEdit,
+  tripSummary,
 } from "@/lib/utils/itineraryPhysics";
 import type { PlaceLookup } from "@/lib/utils/transitMatrix";
 import type { ItineraryDay, ItineraryItem } from "@/lib/models";
@@ -253,12 +254,61 @@ describe("dayLegs", () => {
       [makeItem({ id: "a", siteId: "chc-a", slotIndex: 2 }), makeItem({ id: "b", siteId: "dun-a", slotIndex: 20 })],
       places,
     );
-    expect(legs).toEqual([{ key: "a", startSlot: 11, slots: 9, drive: { fromArea: "christchurch", toArea: "dunedin" } }]);
+    expect(legs).toEqual([
+      {
+        key: "a",
+        startSlot: 11,
+        slots: 9,
+        drive: { fromArea: "christchurch", toArea: "dunedin" },
+        move: { intoId: "b", earliest: 4, latest: 11 },
+      },
+    ]);
   });
 
   it("starts with the drive from where the day before ended", () => {
     const legs = dayLegs([makeItem({ id: "b", siteId: "dun-a", slotIndex: 12 })], places, "chc-a");
-    expect(legs).toEqual([{ key: "opening", startSlot: 3, slots: 9, drive: { fromArea: "christchurch", toArea: "dunedin" } }]);
+    expect(legs).toEqual([
+      {
+        key: "opening",
+        startSlot: 3,
+        slots: 9,
+        drive: { fromArea: "christchurch", toArea: "dunedin" },
+        move: { intoId: "b", earliest: 0, latest: 3 },
+      },
+    ]);
+  });
+
+  // A drive can be moved anywhere between the place before it and the place it leads
+  // to, so the spare time can be spent in the new town. Where it was put is kept on the
+  // place it leads to (driveStartSlot).
+  it("starts a drive where the user moved it", () => {
+    const legs = dayLegs(
+      [makeItem({ id: "a", siteId: "chc-a", slotIndex: 2 }), makeItem({ id: "b", siteId: "dun-a", slotIndex: 20, driveStartSlot: 6 })],
+      places,
+    );
+    expect(legs[0].startSlot).toBe(6);
+  });
+
+  it("keeps a moved drive after the place before it and ending by the place it leads to", () => {
+    const day = (driveStartSlot: number) => [
+      makeItem({ id: "a", siteId: "chc-a", slotIndex: 2 }),
+      makeItem({ id: "b", siteId: "dun-a", slotIndex: 20, driveStartSlot }),
+    ];
+    expect(dayLegs(day(1), places)[0].startSlot).toBe(4);
+    expect(dayLegs(day(15), places)[0].startSlot).toBe(11);
+  });
+
+  it("starts a moved morning drive where the user put it", () => {
+    const legs = dayLegs([makeItem({ id: "b", siteId: "dun-a", slotIndex: 12, driveStartSlot: 0 })], places, "chc-a");
+    expect(legs[0].startSlot).toBe(0);
+  });
+
+  it("leaves the half-hour hop inside an area where it is, and not movable", () => {
+    const legs = dayLegs(
+      [makeItem({ id: "a", siteId: "chc-a", slotIndex: 2 }), makeItem({ id: "b", siteId: "chc-b", slotIndex: 8, driveStartSlot: 4 })],
+      places,
+    );
+    expect(legs).toEqual([{ key: "a", startSlot: 7, slots: 1, drive: null }]);
   });
 
   it("has no opening leg when the day before ended in the same area", () => {
@@ -386,5 +436,75 @@ describe("timelineOffsetForMinutes", () => {
   it("has no position outside the grid's hours", () => {
     expect(timelineOffsetForMinutes(7 * 60 + 59)).toBeNull();
     expect(timelineOffsetForMinutes(22 * 60 + 1)).toBeNull();
+  });
+});
+
+// What the trip view shows for each day. Built on the same legs the day timeline draws,
+// so the two can't disagree about what is a drive or how long it is.
+describe("tripSummary", () => {
+  const at = (id: string, siteId: string, slotIndex = 0) => makeItem({ id, siteId, slotIndex });
+  const summary = (...days: ItineraryItem[][]) =>
+    tripSummary(packTrip(days.map((items, i) => makeDay("d" + (i + 1), items)), places), places);
+
+  it("gives a day in one town that town and no driving", () => {
+    expect(summary([at("a", "chc-a"), at("b", "chc-b")])).toEqual([
+      { dayId: "d1", placeCount: 2, areas: ["christchurch"], openingDrive: null, driveSlots: 0, overflows: false },
+    ]);
+  });
+
+  it("lists the towns in the order visited, each once in a row, with the drive between them", () => {
+    const [day] = summary([at("a", "chc-a"), at("b", "chc-b"), at("c", "dun-a")]);
+
+    expect(day.areas).toEqual(["christchurch", "dunedin"]);
+    expect(day.driveSlots).toBe(9);
+  });
+
+  it("keeps a town that is come back to", () => {
+    const [day] = summary([at("a", "chc-a"), at("b", "tim-a"), at("c", "chc-b")]);
+
+    expect(day.areas).toEqual(["christchurch", "timaru", "christchurch"]);
+    expect(day.driveSlots).toBe(8);
+  });
+
+  it("gives a day that starts in a new town its opening drive, counted in the day's driving", () => {
+    const [, day2] = summary([at("a", "chc-a")], [at("b", "dun-a")]);
+
+    expect(day2.areas).toEqual(["dunedin"]);
+    expect(day2.openingDrive).toEqual({ fromArea: "christchurch", slots: 9 });
+    expect(day2.driveSlots).toBe(9);
+  });
+
+  // The planner takes it that the traveller stays where the day before ended, so an empty
+  // day is in that town.
+  it("gives an empty day the town the day before ended in, and no drive", () => {
+    const [, day2, day3] = summary([at("a", "chc-a")], [], [at("b", "dun-a")]);
+
+    expect(day2).toEqual({ dayId: "d2", placeCount: 0, areas: ["christchurch"], openingDrive: null, driveSlots: 0, overflows: false });
+    expect(day3.openingDrive).toEqual({ fromArea: "christchurch", slots: 9 });
+  });
+
+  it("names no town for an empty day with nothing before it to go on", () => {
+    const [day1, day2] = summary([], [at("a", "ghost")], []);
+
+    expect(day1.areas).toEqual([]);
+    expect(summary([at("a", "ghost")], [])[1].areas).toEqual([]);
+    expect(day2.placeCount).toBe(1);
+  });
+
+  it("counts a place that isn't in the place list, without a town or a drive for it", () => {
+    const [day] = summary([at("a", "chc-a"), at("b", "ghost"), at("c", "chc-b")]);
+
+    expect(day.placeCount).toBe(3);
+    expect(day.areas).toEqual(["christchurch"]);
+    expect(day.driveSlots).toBe(0);
+  });
+
+  it("flags a day with more in it than fits before 10 PM", () => {
+    const long = (id: string) => makeItem({ id, siteId: "chc-a", durationSlots: 12 });
+    const [fits] = summary([long("a"), makeItem({ id: "b", siteId: "chc-b", durationSlots: 12 })]);
+    const [over] = summary([long("a"), makeItem({ id: "b", siteId: "chc-b", durationSlots: 12 }), makeItem({ id: "c", siteId: "chc-a", durationSlots: 6 })]);
+
+    expect(fits.overflows).toBe(false);
+    expect(over.overflows).toBe(true);
   });
 });

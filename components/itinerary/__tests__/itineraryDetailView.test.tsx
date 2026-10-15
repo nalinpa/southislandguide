@@ -92,6 +92,8 @@ const mockAreas: Record<string, string> = {
 };
 const mockLookup = {
   places: (id: string) => (id in mockAreas ? { area: mockAreas[id] } : undefined),
+  // The list itself: what a town's picture on the trip view comes from.
+  list: [] as any[],
   ready: true,
   count: 4,
   err: "",
@@ -154,7 +156,7 @@ jest.mock("expo-router", () => {
 });
 
 import React from "react";
-import { Alert } from "react-native";
+import { Alert, ScrollView } from "react-native";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 
 import { ItineraryDetailView } from "@/components/itinerary/ItineraryDetailView";
@@ -200,6 +202,7 @@ beforeEach(() => {
   mockTrips.deleteItinerary = jest.fn().mockResolvedValue(undefined);
   mockLookup.ready = true;
   mockLookup.err = "";
+  mockLookup.list = [];
   alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
 });
 
@@ -221,8 +224,18 @@ const entitle = () => {
 
 afterEach(() => alertSpy.mockRestore());
 
-const openTrip = (props: Record<string, unknown> = {}) =>
+// A trip opens on its trip view (one row per day).
+const openTripView = (props: Record<string, unknown> = {}) =>
   render(<ItineraryDetailView tripId="t1" {...(props as any)} />);
+
+// Most of this file is about the day timeline, one tap away behind the switch. While the
+// trip or its places are still loading there is no switch to press.
+const openTrip = async (props: Record<string, unknown> = {}) => {
+  const view = await openTripView(props);
+  const days = view.queryByText("Days");
+  if (days) await fireEvent.press(days);
+  return view;
+};
 
 // A day tab's delete X is icon-only with no accessibilityLabel, so there is no accessible
 // name to query it by. It sits as the last child of the row its text label is in, which is
@@ -496,7 +509,7 @@ describe("the drive between areas", () => {
 
     expect(view.getByText("Drive to Dunedin")).toBeTruthy();
     expect(view.getByText("Christchurch to Dunedin")).toBeTruthy();
-    expect(view.getByTestId("drive-block")).toHaveStyle({ top: 4 * 72, height: 9 * 72 });
+    expect(view.getByTestId("drive-block")).toHaveStyle({ height: 9 * 72, transform: [{ translateY: 4 * 72 }] });
   });
 
   it("draws no drive between two places in the same area", async () => {
@@ -660,3 +673,248 @@ describe("edits that don't fit", () => {
     expect(view.getByText("Museum")).toBeTruthy();
   });
 });
+
+// The trip view and the day timeline are two views of one trip, swapped by the switch
+// under the title. Which town a day is in comes from its places (tripOverview.test.tsx).
+describe("the trip view", () => {
+  const isSelected = (view: any, name: string) => view.getByRole("tab", { name }).props.accessibilityState?.selected;
+
+  it("is what a trip opens on: a row for each day, and no timeline", async () => {
+    const view = await openTripView();
+
+    expect(view.getByText(/^Day 1 · /)).toBeTruthy();
+    expect(view.getByText(/^Day 3 · /)).toBeTruthy();
+    expect(view.queryByText("Wai-O-Tapu")).toBeNull();
+  });
+
+  it("marks Trip on the switch, and shows no day tabs", async () => {
+    const view = await openTripView();
+
+    expect(isSelected(view, "Trip")).toBe(true);
+    expect(isSelected(view, "Days")).toBe(false);
+    expect(view.getByText("Trip")).toHaveStyle({ color: tokens.colors.text });
+    expect(view.queryByText("Day 1")).toBeNull();
+  });
+
+  it("swaps to the day timeline, with its day tabs, on Days", async () => {
+    const view = await openTripView();
+
+    await fireEvent.press(view.getByText("Days"));
+
+    expect(isSelected(view, "Days")).toBe(true);
+    expect(view.getByText("Wai-O-Tapu")).toBeTruthy();
+    expect(view.getByText("Day 1")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+    expect(view.queryByText(/^Day 1 · /)).toBeNull();
+  });
+
+  it("swaps back on Trip", async () => {
+    const view = await openTrip();
+
+    await fireEvent.press(view.getByText("Trip"));
+
+    expect(view.getByText(/^Day 1 · /)).toBeTruthy();
+    expect(view.queryByText("Wai-O-Tapu")).toBeNull();
+  });
+
+  it("opens a day's timeline when its row is tapped", async () => {
+    mockTrips.itineraries = [tripOf([gardens()], [gondola()])];
+    const view = await openTripView();
+
+    await fireEvent.press(view.getByText(/^Day 2 · /));
+
+    await waitFor(() => expect(view.getByText("Gondola")).toBeTruthy());
+    expect(view.queryByText("Gardens")).toBeNull();
+    expect(view.getByText("Day 2")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+  });
+
+  // Day 1 is the open day from the start, so tapping its row changes no day: it must
+  // still leave the trip view.
+  it("opens the first day's timeline from its row too", async () => {
+    const view = await openTripView();
+
+    await fireEvent.press(view.getByText(/^Day 1 · /));
+
+    expect(view.getByText("Wai-O-Tapu")).toBeTruthy();
+  });
+
+  // Adding a place sends the user here with the day it went on.
+  it("goes straight to the day when the caller jumped to one", async () => {
+    mockTrips.itineraries = [tripOf([gardens()], [gondola()])];
+    const view = await openTripView({ jumpToDay: "day_2" });
+
+    await waitFor(() => expect(view.getByText("Gondola")).toBeTruthy());
+    expect(isSelected(view, "Days")).toBe(true);
+  });
+
+  it("saves an edit, once, when the user swaps to the trip view", async () => {
+    entitle();
+    const view = await openTrip();
+    await fireEvent.press(view.getByText("Drag Wai-O-Tapu"));
+    await fireEvent.press(view.getByText("Drop Wai-O-Tapu"));
+    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+
+    await fireEvent.press(view.getByText("Trip"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(1));
+    expect(mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0].slotIndex).toBe(5);
+  });
+
+  it("shows the towns, and the drive a day opens with", async () => {
+    mockTrips.itineraries = [tripOf([gardens()], [museum()])];
+    const view = await openTripView();
+
+    await waitFor(() => expect(view.getByText("Starts with the drive from Christchurch")).toBeTruthy());
+    expect(view.getByText("Christchurch")).toBeTruthy();
+    expect(view.getByText("Dunedin")).toBeTruthy();
+  });
+
+  // The screen for a trip stays mounted between visits, so the second place added to the
+  // same trip arrives as new params on the same screen, not a fresh one.
+  it("honours a later jump to another day, from the trip view too", async () => {
+    mockTrips.itineraries = [tripOf([gardens()], [gondola()], [castle()])];
+    const view = await openTripView({ jumpToDay: "day_2", jumpToSlot: "2" });
+    await waitFor(() => expect(view.getByText("Gondola")).toBeTruthy());
+    await fireEvent.press(view.getByText("Trip"));
+
+    await view.rerender(<ItineraryDetailView tripId="t1" jumpToDay="day_3" jumpToSlot="4" />);
+
+    await waitFor(() => expect(view.getByText("Castle")).toBeTruthy());
+    expect(view.getByText("Day 3")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+  });
+
+  // No photo of the town itself yet: its top featured place's photo stands in.
+  it("shows each day's town as a picture, from the town's places until it has its own", async () => {
+    mockLookup.list = [
+      { id: "chc-a", area: "christchurch", featured: 2, imageThumbnailUrl: "https://img/gardens-thumb.webp" },
+      { id: "dun-a", area: "dunedin" },
+    ];
+    mockTrips.itineraries = [tripOf([gardens()], [museum()])];
+    const view = await openTripView();
+
+    await waitFor(() => expect(view.getAllByTestId("day-image")).toHaveLength(1));
+    expect(view.getByTestId("day-image").props.source).toEqual({ uri: "https://img/gardens-thumb.webp" });
+    expect(view.getAllByTestId("day-image-placeholder")).toHaveLength(1);
+  });
+
+  it("has no switch while the places are still loading", async () => {
+    mockLookup.ready = false;
+    const view = await openTripView();
+
+    expect(view.getByText("Loading your trip...")).toBeTruthy();
+    expect(view.queryByText("Trip")).toBeNull();
+  });
+});
+
+// A drive can be moved between the place before it and the one it leads to. Gardens ends
+// at 9:00 AM and the Museum starts at 3:00 PM; the 4.5 hour drive starts 10:30 AM unless
+// moved. Moved through the block's screen-reader action, which is what a drag lands on.
+describe("moving a drive", () => {
+  const nudge = async (view: any, actionName: "increment" | "decrement") =>
+    fireEvent(view.getByTestId("drive-block"), "accessibilityAction", { nativeEvent: { actionName } });
+
+  beforeEach(() => {
+    mockTrips.itineraries = [tripOf([gardens({ slotIndex: 0 }), museum({ slotIndex: 14 })])];
+  });
+
+  it("starts where it ends at the next place until it is moved", async () => {
+    const view = await openTrip();
+
+    expect(view.getByLabelText("Drive from Christchurch to Dunedin, about 4.5 hours, leaving 10:30 AM")).toBeTruthy();
+  });
+
+  it("moves for an entitled user, and is saved on the place it leads to", async () => {
+    entitle();
+    const view = await openTrip();
+
+    await nudge(view, "decrement");
+
+    expect(view.getByLabelText("Drive from Christchurch to Dunedin, about 4.5 hours, leaving 10:00 AM")).toBeTruthy();
+    await fireEvent.press(view.getByText("Trip"));
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(1));
+    const saved = mockTrips.saveItinerary.mock.calls[0][0].days[0].items;
+    expect(saved.find((i: any) => i.id === "museum").driveStartSlot).toBe(4);
+    expect(saved.find((i: any) => i.id === "museum").slotIndex).toBe(14);
+  });
+
+  it("upsells instead of moving for a user who can't reorder", async () => {
+    const view = await openTrip();
+
+    await nudge(view, "decrement");
+
+    expect(view.getByText("Premium Modal")).toBeTruthy();
+    expect(view.getByLabelText("Drive from Christchurch to Dunedin, about 4.5 hours, leaving 10:30 AM")).toBeTruthy();
+  });
+});
+
+// A South Island trip can run three weeks or more, far more days than the strip shows.
+describe("a long trip", () => {
+  const isoFrom = (offset: number) => {
+    const d = new Date();
+    d.setDate(d.getDate() + offset);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  };
+  // 21 days; startOffset is the first day's distance from today.
+  const longTrip = (startOffset: number) =>
+    makeTrip({
+      days: Array.from({ length: 21 }, (_, i) => ({ id: "day_" + (i + 1), date: isoFrom(startOffset + i), items: [] })),
+    });
+  const scrollTo = () => (ScrollView.prototype as any).scrollTo as jest.Mock;
+
+  beforeEach(() => scrollTo().mockClear());
+
+  it("opens Days on today when the trip is under way", async () => {
+    mockTrips.itineraries = [longTrip(-14)];
+    const view = await openTrip();
+
+    expect(view.getByText("Day 15")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+  });
+
+  it("opens Days on the first day before the trip starts", async () => {
+    mockTrips.itineraries = [longTrip(3)];
+    const view = await openTrip();
+
+    expect(view.getByText("Day 1")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+  });
+
+  // The open day's tab is put in the middle of the strip, wherever it is along it.
+  it("keeps the open day's tab in view", async () => {
+    mockTrips.itineraries = [longTrip(3)];
+    const view = await openTrip();
+    await fireEvent(view.getByTestId("day-strip"), "layout", { nativeEvent: { layout: { x: 0, y: 0, width: 375, height: 58 } } });
+    await fireEvent(view.getByTestId("day-tab-day_17"), "layout", {
+      nativeEvent: { layout: { x: 1200, y: 0, width: 80, height: 58 } },
+    });
+    scrollTo().mockClear();
+
+    await fireEvent.press(view.getByText("Day 17"));
+
+    expect(scrollTo()).toHaveBeenCalledWith({ x: 1200 + 40 - 375 / 2, animated: true });
+  });
+
+  // Past 60 the api turns the save away, which would only show as "Couldn't save".
+  it("stops offering Add Day at 60 days", async () => {
+    entitle();
+    const sixty = makeTrip({ days: Array.from({ length: 60 }, (_, i) => ({ id: "day_" + (i + 1), date: isoFrom(100 + i), items: [] })) });
+    mockTrips.itineraries = [sixty];
+    const view = await openTrip();
+    expect(view.queryByText("Add Day")).toBeNull();
+  });
+
+  it("still offers Add Day at 59", async () => {
+    entitle();
+    mockTrips.itineraries = [
+      makeTrip({ days: Array.from({ length: 59 }, (_, i) => ({ id: "day_" + (i + 1), date: isoFrom(100 + i), items: [] })) }),
+    ];
+    const view = await openTrip();
+    expect(view.getByText("Add Day")).toBeTruthy();
+  });
+
+  // Swiping the timeline sideways changes day (lifecycle in daySwipe.test.ts); it has to
+  // be wired to the timeline itself.
+  it("listens for a sideways swipe on the timeline", async () => {
+    mockTrips.itineraries = [longTrip(3)];
+    const view = await openTrip();
+    expect(view.getByTestId("timeline").props.onMoveShouldSetResponder).toEqual(expect.any(Function));
+  });
+});
+

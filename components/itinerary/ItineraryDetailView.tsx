@@ -8,7 +8,7 @@
 // router.push/replace-based auto-redirect could leave the tab stuck showing
 // a permanent loading state after navigating away and back.
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, AppState, Alert, Modal } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, AppState, Alert, Modal, PanResponder } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useFocusEffect } from "expo-router";
 import { randomUUID } from "expo-crypto";
@@ -22,6 +22,9 @@ import { PremiumFeatureModal } from "@/components/itinerary/PremiumFeatureModal"
 import { DeleteTripModal } from "@/components/itinerary/DeleteTripModal";
 import { NoteCard } from "@/components/itinerary/NoteCard";
 import { DriveBlock } from "@/components/itinerary/DriveBlock";
+import { TripOverview } from "@/components/itinerary/TripOverview";
+import { TripViewSwitch, type TripView } from "@/components/itinerary/TripViewSwitch";
+import { daySwipeHandlers } from "@/components/itinerary/daySwipe";
 import { tokens } from "@/lib/ui/tokens";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useItineraries } from "@/lib/hooks/useItineraries";
@@ -38,7 +41,8 @@ import {
   tryEdit,
   type DayLeg,
 } from "@/lib/utils/itineraryPhysics";
-import { areaLabel } from "@/lib/areas";
+import { areaName } from "@/lib/areas";
+import { areaImage } from "@/lib/areaImages";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
 import type { Itinerary, ItineraryDay, ItineraryItem } from "@/lib/models";
@@ -93,12 +97,25 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   // The planner needs each place's area to know the drive between two of them. Nothing
   // below packs, draws or edits a day until the list is in (placesReady): against an
   // empty one every drive would be the flat half hour.
-  const { places, ready: placesReady, count: placeCount, err: placesErr, refresh: refreshPlaces } = usePlaceLookup();
+  const {
+    places,
+    list: placeList,
+    ready: placesReady,
+    count: placeCount,
+    err: placesErr,
+    refresh: refreshPlaces,
+  } = usePlaceLookup();
+  const imageForArea = useCallback((areaId: string) => areaImage(areaId, placeList), [placeList]);
   const sourceTrip = itineraries.find((i) => i.id === tripId) ?? null;
 
   const [localTrip, setLocalTrip] = useState<Itinerary | null>(sourceTrip);
   const [activeDayId, setActiveDayId] = useState<string | null>(null);
   const activeDay = localTrip?.days.find((d) => d.id === activeDayId) || localTrip?.days[0];
+  // A trip opens on its trip view (every day on one page); the day timeline is the other
+  // half of the switch. Opened to show a particular day (after adding a place), it starts
+  // on that day. Kept apart from the open day on purpose: saving is keyed on the open
+  // day through the refs below, so a day stays open while the trip view is up.
+  const [view, setView] = useState<TripView>(jumpToDay ? "days" : "trip");
 
   // The "now" line: only on today's day, and only between 8 AM and 10 PM.
   // Re-read once a minute while the screen is open.
@@ -117,13 +134,13 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   const nowTop = isToday ? timelineOffsetForMinutes(nowMinutes) : null;
 
   // Opening today's day, start with "now" in the upper part of the screen
-  // rather than at 8 AM. Keyed on the day only: it must not re-scroll each
-  // minute as the line moves.
+  // rather than at 8 AM. Keyed on the day and the view only (the timeline is drawn
+  // afresh each time it is swapped to): it must not re-scroll each minute as the line moves.
   const timelineScrollRef = useRef<ScrollView>(null);
   useEffect(() => {
     if (nowTop != null) timelineScrollRef.current?.scrollTo({ y: Math.max(0, nowTop - 120), animated: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tripId, activeDay?.id]);
+  }, [tripId, activeDay?.id, view]);
   const [localItems, setLocalItems] = useState<ItineraryItem[]>([]);
   const [editingItem, setEditingItem] = useState<ItineraryItem | null>(null);
   const [viewingNote, setViewingNote] = useState<ItineraryItem | null>(null);
@@ -175,7 +192,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   const activeDayIdRef = useRef(activeDay?.id);
   const hasUnsavedChanges = useRef(false);
   const saveItineraryRef = useRef(saveItinerary);
-  const jumpAppliedRef = useRef(false);
+  const jumpAppliedRef = useRef<string | null>(null);
   const correctedTripIdRef = useRef<string | null>(null);
 
   useEffect(() => {
@@ -224,9 +241,29 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   useEffect(() => {
     activeDayIdRef.current = activeDay?.id;
   }, [activeDay?.id]);
+  // The day Days opens on: today's, when the trip is under way (a trip can run three
+  // weeks or more, and on the road today is the one that matters), otherwise the first.
   useEffect(() => {
-    if (localTrip?.days[0]?.id && !activeDayId) setActiveDayId(localTrip.days[0].id);
+    if (!localTrip?.days[0]?.id || activeDayId) return;
+    const today = localIsoDate(new Date());
+    setActiveDayId((localTrip.days.find((d) => d.date === today) ?? localTrip.days[0]).id);
   }, [localTrip, activeDayId]);
+
+  // The day strip keeps the open day's tab in the middle, wherever it is along the strip:
+  // a long trip has far more days than fit across the screen. Positions come from layout,
+  // so a tab that hasn't been laid out yet is scrolled to when it is.
+  const dayStripRef = useRef<ScrollView>(null);
+  const dayStripWidth = useRef(0);
+  const dayTabFrames = useRef<Record<string, { x: number; width: number }>>({});
+  const scrollStripTo = (dayId: string | undefined, animated: boolean) => {
+    const tab = dayId ? dayTabFrames.current[dayId] : undefined;
+    if (!tab || !dayStripWidth.current) return;
+    dayStripRef.current?.scrollTo({ x: Math.max(0, tab.x + tab.width / 2 - dayStripWidth.current / 2), animated });
+  };
+  useEffect(() => {
+    if (view === "days") scrollStripTo(activeDay?.id, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeDay?.id, view]);
 
   // On trip load, run physics across every day and save once if any overlaps were found.
   // Once per trip and per place list (placeCount): a trip stored before a place's drive
@@ -289,8 +326,13 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   }, [flushSave]);
 
   useEffect(() => {
-    if (!jumpToDay || jumpAppliedRef.current || !localTrip) return;
-    jumpAppliedRef.current = true;
+    // Each jump once, not the first jump only: this screen stays mounted between visits,
+    // so the second place added to the trip arrives here as new params.
+    // ponytail: a jump to the same day and slot as the last one is taken for the same jump.
+    const jump = `${jumpToDay}|${jumpToSlot ?? ""}`;
+    if (!jumpToDay || jumpAppliedRef.current === jump || !localTrip) return;
+    jumpAppliedRef.current = jump;
+    setView("days");
     const dayExists = localTrip.days.some((d) => d.id === jumpToDay);
     if (dayExists && jumpToDay !== activeDayId) {
       flushSave();
@@ -389,6 +431,30 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     setActiveDayId(dayId);
   };
 
+  // A sideways swipe on the timeline: the next day or the one before, nothing past either
+  // end. Made once; it reads the day it's on through this ref.
+  const swipeDayRef = useRef<(step: 1 | -1) => void>(() => {});
+  swipeDayRef.current = (step) => {
+    const days = tripRef.current?.days ?? [];
+    const next = days[days.findIndex((d) => d.id === activeDayIdRef.current) + step];
+    if (next) handleSwitchDay(next.id);
+  };
+  const daySwipe = useRef(PanResponder.create(daySwipeHandlers((step) => swipeDayRef.current(step)))).current;
+
+  // Swapping to the trip view saves first, as switching day does, so the trip view never
+  // sits over an edit that hasn't been sent.
+  const handleChangeView = (next: TripView) => {
+    if (next === "trip") flushSave();
+    setView(next);
+  };
+
+  // A row on the trip view. The view is set before the day: handleSwitchDay does nothing
+  // for the day that is already open, and that day's row still has to open its timeline.
+  const handleOpenDay = (dayId: string) => {
+    setView("days");
+    handleSwitchDay(dayId);
+  };
+
   const handleAddDay = async () => {
     if (!localTrip) return;
 
@@ -459,6 +525,23 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
 
     const finalizedMovedItem = latestItemsRef.current.find((item) => item.id === itemId);
     return finalizedMovedItem?.slotIndex ?? targetSlot;
+  };
+
+  // A drive moved within its gap: where it now starts is kept on the place it leads to.
+  // It changes no time a place starts, so nothing can stop fitting and the gate has
+  // nothing to check. Moving is for an entitled user, as reordering places is.
+  const handleMoveDrive = (intoId: string, startSlot: number): number => {
+    const was = legs.find((leg) => leg.move?.intoId === intoId)?.startSlot ?? startSlot;
+    if (!isEntitled) {
+      setShowPremiumMove(true);
+      return was;
+    }
+    showDays(
+      withOpenDayItems(
+        latestItemsRef.current.map((item) => (item.id === intoId ? { ...item, driveStartSlot: startSlot } : item)),
+      ),
+    );
+    return startSlot;
   };
 
   const handleSaveEdit = (itemId: string, newDurationSlots: number, note: string) => {
@@ -576,10 +659,15 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     leg.drive ? (
       <DriveBlock
         key={`drive_${leg.key}`}
-        fromLabel={areaLabel(leg.drive.fromArea) ?? leg.drive.fromArea}
-        toLabel={areaLabel(leg.drive.toArea) ?? leg.drive.toArea}
+        fromLabel={areaName(leg.drive.fromArea)}
+        toLabel={areaName(leg.drive.toArea)}
         startSlot={leg.startSlot}
         slots={leg.slots}
+        earliest={leg.move?.earliest}
+        latest={leg.move?.latest}
+        onMove={leg.move ? (slot) => handleMoveDrive(leg.move!.intoId, slot) : undefined}
+        onDragStart={() => setIsDragging(true)}
+        onDragEnd={() => setIsDragging(false)}
       />
     ) : (
       <components.TransitBlock
@@ -598,13 +686,14 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
 
   return (
     <View style={styles.safeArea}>
-      {/* The brand bar, with the day tabs as its bottom edge. They aren't the
-          shared TopBarTabs: each has a date under it and, when open, a delete
-          X, and the strip ends in Add Day. Colours match TopBarTabs. */}
+      {/* The brand bar: the Trip | Days switch, and under Days the day tabs as the
+          bar's bottom edge. They aren't the shared TopBarTabs: each has a date under
+          it and, when open, a delete X, and the strip ends in Add Day. Colours match
+          TopBarTabs. */}
       <TopBar
         title={localTrip.title || "My Trip"}
         compactTitle
-        flushBottom
+        flushBottom={view === "days"}
         actions={
           <AppIconButton
             icon={MoreHorizontal}
@@ -614,139 +703,161 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
           />
         }
       >
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.tabStrip}
-          contentContainerStyle={styles.tabScroll}
-        >
-          {localTrip.days.map((day, index) => {
-            const isActive = day.id === activeDayId;
-            const canDelete = isActive && index > 0;
-            return (
-              <TouchableOpacity key={day.id} onPress={() => handleSwitchDay(day.id)} style={styles.dayTab}>
-                <View style={styles.dayTabContent}>
-                  <View>
-                    <AppText style={[styles.dayTabText, isActive && styles.dayTabTextActive]}>Day {index + 1}</AppText>
-                    <AppText style={[styles.dayTabDate, isActive && styles.dayTabDateActive]}>
-                      {formatDayDate(day.date)}
-                    </AppText>
+        <TripViewSwitch view={view} onChange={handleChangeView} />
+        {view === "days" && (
+          <ScrollView
+            ref={dayStripRef}
+            testID="day-strip"
+            onLayout={(e) => {
+              dayStripWidth.current = e.nativeEvent.layout.width;
+              scrollStripTo(activeDay?.id, false);
+            }}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.tabStrip}
+            contentContainerStyle={styles.tabScroll}
+          >
+            {localTrip.days.map((day, index) => {
+              const isActive = day.id === activeDayId;
+              const canDelete = isActive && index > 0;
+              return (
+                <TouchableOpacity
+                  key={day.id}
+                  testID={`day-tab-${day.id}`}
+                  onPress={() => handleSwitchDay(day.id)}
+                  onLayout={(e) => {
+                    dayTabFrames.current[day.id] = { x: e.nativeEvent.layout.x, width: e.nativeEvent.layout.width };
+                    if (isActive) scrollStripTo(day.id, false);
+                  }}
+                  style={styles.dayTab}
+                >
+                  <View style={styles.dayTabContent}>
+                    <View>
+                      <AppText style={[styles.dayTabText, isActive && styles.dayTabTextActive]}>Day {index + 1}</AppText>
+                      <AppText style={[styles.dayTabDate, isActive && styles.dayTabDateActive]}>
+                        {formatDayDate(day.date)}
+                      </AppText>
+                    </View>
+                    {canDelete && (
+                      <TouchableOpacity
+                        onPress={() => handleDeleteDay(day.id)}
+                        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                        style={styles.dayDeleteBtn}
+                      >
+                        <X size={14} color="#FFFFFF" strokeWidth={2.5} />
+                      </TouchableOpacity>
+                    )}
                   </View>
-                  {canDelete && (
-                    <TouchableOpacity
-                      onPress={() => handleDeleteDay(day.id)}
-                      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                      style={styles.dayDeleteBtn}
-                    >
-                      <X size={14} color="#FFFFFF" strokeWidth={2.5} />
-                    </TouchableOpacity>
-                  )}
-                </View>
-                <View style={[styles.dayTabIndicator, isActive && styles.dayTabIndicatorActive]} />
+                  <View style={[styles.dayTabIndicator, isActive && styles.dayTabIndicatorActive]} />
+                </TouchableOpacity>
+              );
+            })}
+            {isEntitled && localTrip.days.length < PLANNER.MAX_TRIP_DAYS && (
+              <TouchableOpacity onPress={handleAddDay} style={styles.addDayBtn}>
+                <Plus color="#FFFFFF" size={16} strokeWidth={2.5} />
+                <AppText style={styles.addDayText}>Add Day</AppText>
               </TouchableOpacity>
-            );
-          })}
-          {isEntitled && (
-            <TouchableOpacity onPress={handleAddDay} style={styles.addDayBtn}>
-              <Plus color="#FFFFFF" size={16} strokeWidth={2.5} />
-              <AppText style={styles.addDayText}>Add Day</AppText>
-            </TouchableOpacity>
-          )}
-        </ScrollView>
+            )}
+          </ScrollView>
+        )}
       </TopBar>
 
-      <ScrollView
-        ref={timelineScrollRef}
-        showsVerticalScrollIndicator={false}
-        style={styles.timelineScroll}
-        scrollEnabled={!isDragging}
-      >
-        <View style={styles.timelineContainer}>
-          {/* tokens.space.md is the container's paddingTop, above the 8 AM row. */}
-          {nowTop != null && (
-            <View
-              testID="now-line"
-              pointerEvents="none"
-              style={[styles.nowLine, { top: nowTop + tokens.space.md }]}
-            />
-          )}
-          {TIME_SLOTS.map((slot) => {
-            const isHour = slot.label !== "";
-            return (
-              <View key={slot.id} style={styles.gridRow}>
-                <View style={styles.timeLabelContainer}>
-                  {isHour ? <AppText style={styles.timeLabel}>{slot.label}</AppText> : null}
-                </View>
-                <View style={isHour ? styles.hourDivider : styles.halfHourDivider} />
-              </View>
-            );
-          })}
-
-          {/* In the order of the day (the opening drive, then each place and the leg
-              that leaves it), so a screen reader reads it top to bottom. */}
-          {legAfter.has("opening") ? renderLeg(legAfter.get("opening")!) : null}
-
-          {localItems.map((item) => (
-            <Fragment key={item.id}>
-              <components.TimelineBlock
-                item={item}
-                maxSlots={TIME_SLOTS.length}
-                slotHeight={SLOT_HEIGHT}
-                onDrop={handleDrop}
-                onDragStart={() => {
-                  hasUnsavedChanges.current = true;
-                  setIsDragging(true);
-                }}
-                onDragEnd={() => setIsDragging(false)}
-                onEdit={(item) => setEditingItem(item as ItineraryItem)}
-                onNotePress={(item) => setViewingNote(item as ItineraryItem)}
+      {view === "trip" ? (
+        <TripOverview days={localTrip.days} places={places} imageFor={imageForArea} onOpenDay={handleOpenDay} />
+      ) : (
+        <ScrollView
+          ref={timelineScrollRef}
+          showsVerticalScrollIndicator={false}
+          style={styles.timelineScroll}
+          scrollEnabled={!isDragging}
+        >
+          <View testID="timeline" style={styles.timelineContainer} {...daySwipe.panHandlers}>
+            {/* tokens.space.md is the container's paddingTop, above the 8 AM row. */}
+            {nowTop != null && (
+              <View
+                testID="now-line"
+                pointerEvents="none"
+                style={[styles.nowLine, { top: nowTop + tokens.space.md }]}
               />
-              {legAfter.has(item.id) ? renderLeg(legAfter.get(item.id)!) : null}
-            </Fragment>
-          ))}
-
-          {localItems.length === 0 ? (
-            // Matches AKL's plans.tsx: three copies spread across the grid
-            // (top/middle/bottom thirds) instead of one card appended after
-            // all 28 slot rows, so it reads as sitting on the timeline
-            // rather than as a footer below it.
-            ([0, 1, 2] as const).map((i) => {
-              const sectionSlots = Math.floor(MAX_GRID_SLOTS / 3);
+            )}
+            {TIME_SLOTS.map((slot) => {
+              const isHour = slot.label !== "";
               return (
-                <View
-                  key={`empty_${i}`}
-                  style={[styles.gapContainer, { top: i * sectionSlots * SLOT_HEIGHT, height: sectionSlots * SLOT_HEIGHT }]}
-                >
-                  <TouchableOpacity
-                    style={styles.emptyDayCard}
-                    onPress={() => router.push("/(app)/(tabs)/sites")}
-                    activeOpacity={0.7}
-                  >
-                    <AppText variant="body" style={styles.emptyDayTitle}>
-                      Nothing here yet
-                    </AppText>
-                    <AppText variant="label" status="hint" style={styles.emptyDayBody}>
-                      Browse places and tap "+ Add to Itinerary" to build this day.
-                    </AppText>
-                  </TouchableOpacity>
+                <View key={slot.id} style={styles.gridRow}>
+                  <View style={styles.timeLabelContainer}>
+                    {isHour ? <AppText style={styles.timeLabel}>{slot.label}</AppText> : null}
+                  </View>
+                  <View style={isHour ? styles.hourDivider : styles.halfHourDivider} />
                 </View>
               );
-            })
-          ) : (
-            freeGaps.map((gap) => (
-              <View
-                key={`gap_${gap.start}`}
-                testID="free-gap"
-                style={[styles.gapContainer, { top: gap.start * SLOT_HEIGHT, height: (gap.end - gap.start) * SLOT_HEIGHT }]}
-              >
-                <TouchableOpacity style={styles.gapCard} onPress={() => router.push("/(app)/(tabs)/sites")} activeOpacity={0.7}>
-                  <AppText style={styles.gapCardText}>+ Find more things to do</AppText>
-                </TouchableOpacity>
-              </View>
-            ))
-          )}
-        </View>
-      </ScrollView>
+            })}
+
+            {/* In the order of the day (the opening drive, then each place and the leg
+                that leaves it), so a screen reader reads it top to bottom. */}
+            {legAfter.has("opening") ? renderLeg(legAfter.get("opening")!) : null}
+
+            {localItems.map((item) => (
+              <Fragment key={item.id}>
+                <components.TimelineBlock
+                  item={item}
+                  maxSlots={TIME_SLOTS.length}
+                  slotHeight={SLOT_HEIGHT}
+                  onDrop={handleDrop}
+                  onDragStart={() => {
+                    hasUnsavedChanges.current = true;
+                    setIsDragging(true);
+                  }}
+                  onDragEnd={() => setIsDragging(false)}
+                  onEdit={(item) => setEditingItem(item as ItineraryItem)}
+                  onNotePress={(item) => setViewingNote(item as ItineraryItem)}
+                />
+                {legAfter.has(item.id) ? renderLeg(legAfter.get(item.id)!) : null}
+              </Fragment>
+            ))}
+
+            {localItems.length === 0 ? (
+              // Matches AKL's plans.tsx: three copies spread across the grid
+              // (top/middle/bottom thirds) instead of one card appended after
+              // all 28 slot rows, so it reads as sitting on the timeline
+              // rather than as a footer below it.
+              ([0, 1, 2] as const).map((i) => {
+                const sectionSlots = Math.floor(MAX_GRID_SLOTS / 3);
+                return (
+                  <View
+                    key={`empty_${i}`}
+                    style={[styles.gapContainer, { top: i * sectionSlots * SLOT_HEIGHT, height: sectionSlots * SLOT_HEIGHT }]}
+                  >
+                    <TouchableOpacity
+                      style={styles.emptyDayCard}
+                      onPress={() => router.push("/(app)/(tabs)/sites")}
+                      activeOpacity={0.7}
+                    >
+                      <AppText variant="body" style={styles.emptyDayTitle}>
+                        Nothing here yet
+                      </AppText>
+                      <AppText variant="label" status="hint" style={styles.emptyDayBody}>
+                        Browse places and tap "+ Add to Itinerary" to build this day.
+                      </AppText>
+                    </TouchableOpacity>
+                  </View>
+                );
+              })
+            ) : (
+              freeGaps.map((gap) => (
+                <View
+                  key={`gap_${gap.start}`}
+                  testID="free-gap"
+                  style={[styles.gapContainer, { top: gap.start * SLOT_HEIGHT, height: (gap.end - gap.start) * SLOT_HEIGHT }]}
+                >
+                  <TouchableOpacity style={styles.gapCard} onPress={() => router.push("/(app)/(tabs)/sites")} activeOpacity={0.7}>
+                    <AppText style={styles.gapCardText}>+ Find more things to do</AppText>
+                  </TouchableOpacity>
+                </View>
+              ))
+            )}
+          </View>
+        </ScrollView>
+      )}
 
       <EditItemModal
         item={editingItem}

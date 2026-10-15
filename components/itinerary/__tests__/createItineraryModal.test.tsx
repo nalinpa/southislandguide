@@ -97,14 +97,31 @@ describe("creating a blank trip", () => {
 
     await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
     const payload = mockTrips.saveItinerary.mock.calls[0][0];
-    expect(payload.title).toBe("Christchurch Trip");
+    expect(payload.title).toBe("South Island Trip");
     expect(payload.days).toHaveLength(3);
+  });
+
+  // A South Island trip can run weeks. 60 days is what the api takes.
+  it("lets a trip run up to 60 days, and no further", async () => {
+    const view = await openModal();
+
+    for (let i = 0; i < 60; i++) await fireEvent.press(view.getByLabelText("More days"));
+
+    expect(view.getByText("60 days")).toBeTruthy();
+  });
+
+  it("goes down to one day, and no further", async () => {
+    const view = await openModal();
+
+    for (let i = 0; i < 3; i++) await fireEvent.press(view.getByLabelText("Fewer days"));
+
+    expect(view.getByText("1 day")).toBeTruthy();
   });
 
   it("uses the name that was typed", async () => {
     const view = await openModal();
 
-    await fireEvent.changeText(view.getByPlaceholderText("Optional — defaults to Christchurch Trip"), "  Hot Pools Weekend  ");
+    await fireEvent.changeText(view.getByPlaceholderText("Optional — defaults to South Island Trip"), "  Hot Pools Weekend  ");
     await fireEvent.press(view.getByText("Create Trip"));
 
     await waitFor(() => expect(mockTrips.saveItinerary.mock.calls[0][0].title).toBe("Hot Pools Weekend"));

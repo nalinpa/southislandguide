@@ -24,6 +24,12 @@ describe("usePlaceLookup", () => {
     expect(result.current.places("otago-museum")?.area).toBe("dunedin");
   });
 
+  // For what needs the whole list, not one place at a time (a town's picture).
+  it("hands back the list itself too", async () => {
+    const { result } = await renderHook(() => usePlaceLookup());
+    expect(result.current.list).toEqual([gardens, museum]);
+  });
+
   it("has nothing for a place that isn't in the list", async () => {
     const { result } = await renderHook(() => usePlaceLookup());
     expect(result.current.places("gone")).toBeUndefined();

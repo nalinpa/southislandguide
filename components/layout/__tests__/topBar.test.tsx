@@ -1,5 +1,5 @@
-// The brand bar. Pinned here: the title as a dropdown (Explore's town), which with
-// actionsAbove gets the whole width under the buttons, so a long town name has room.
+// The brand bar. Pinned here: the title as a dropdown (Explore's town), which shares
+// its row with the buttons and shrinks to fit a long name.
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
 
@@ -44,42 +44,15 @@ describe("TopBar", () => {
     expect(onTitlePress).toHaveBeenCalled();
   });
 
-  // Beside three buttons an iPhone SE leaves the title about 150pt; "Christchurch" alone
-  // needs about 240 at the title size.
-  it("gives the title its own row under the buttons with actionsAbove", async () => {
+  // Beside three buttons an iPhone SE leaves a dropdown title about 150pt, and some town
+  // names are longer than that: shrink, don't cut.
+  it("shrinks a dropdown title to fit beside the buttons rather than cutting it off", async () => {
     const view = await render(
-      <TopBar
-        title="Christchurch"
-        onTitlePress={jest.fn()}
-        titleLabel="Christchurch, choose a town"
-        actions={buttons}
-        actionsAbove
-      />,
+      <TopBar title="Queenstown & Wānaka" onTitlePress={jest.fn()} actions={buttons} compactTitle />,
     );
-
-    const titleRow = view.getByLabelText("Christchurch, choose a town").parent!;
-    expect(within(titleRow).queryByLabelText("Search Locations")).toBeNull();
-    expect(view.getByLabelText("Search Locations")).toBeTruthy();
-  });
-
-  // Some town names are longer than a phone is wide at the title size: shrink, don't cut.
-  it("shrinks a dropdown title to fit rather than cutting it off", async () => {
-    const view = await render(<TopBar title="Queenstown & Wānaka" onTitlePress={jest.fn()} actionsAbove />);
 
     expect(view.getByText("Queenstown & Wānaka").props.adjustsFontSizeToFit).toBe(true);
-  });
-
-  // Under the buttons the title already has the width; at full size the bar grew by
-  // about 50pt. The smaller size and no gap above it keep the bar close to its old height.
-  it("keeps a title under the buttons at the smaller size, tight under them", async () => {
-    const view = await render(
-      <TopBar title="Christchurch" onTitlePress={jest.fn()} titleLabel="Christchurch, choose a town" actions={buttons} actionsAbove />,
-    );
-
-    expect(view.getByText("Christchurch")).toHaveStyle({ fontSize: 24 });
-    const stack = view.getByLabelText("Christchurch, choose a town").parent!.parent!;
-    expect(stack).not.toHaveStyle({ gap: 8 });
-    expect(within(stack).getByLabelText("Search Locations")).toBeTruthy();
+    expect(view.getByText("Queenstown & Wānaka")).toHaveStyle({ fontSize: 24 });
   });
 
   // For a screen whose controls are its top row (the trip screen's Trip | Days switch).

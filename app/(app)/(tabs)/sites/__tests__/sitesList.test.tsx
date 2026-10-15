@@ -457,13 +457,15 @@ describe("towns", () => {
       expect(view.getByLabelText("Christchurch, choose a town")).toBeTruthy();
     });
 
-    // Beside the three buttons an iPhone SE leaves the title about 150pt.
-    it("gives the town the bar's whole width, under the buttons", async () => {
+    // One row with the buttons, so the bar stays short: at the smaller title size, and
+    // shrinking further for a long name rather than cutting it off.
+    it("keeps the town on the buttons' row, small, shrinking to fit", async () => {
       const view = await render(<SiteListPage />);
 
       const titleRow = view.getByLabelText("Christchurch, choose a town").parent!;
-      expect(within(titleRow).queryByLabelText("Search Locations")).toBeNull();
-      expect(view.getByLabelText("Search Locations")).toBeTruthy();
+      expect(within(titleRow).getByLabelText("Search Locations")).toBeTruthy();
+      expect(view.getByText("Christchurch")).toHaveStyle({ fontSize: 24 });
+      expect(view.getByText("Christchurch").props.adjustsFontSizeToFit).toBe(true);
     });
 
     it("leaves the title as plain text when only one town has places", async () => {

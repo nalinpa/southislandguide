@@ -24,9 +24,6 @@ type TopBarProps = {
   onTitlePress?: () => void;
   /** What a screen reader calls the title when it is a dropdown. Defaults to the title. */
   titleLabel?: string;
-  /** The actions on a row of their own above the title, which then has the bar's whole
-   * width: for a title that can be long (Explore's town). */
-  actionsAbove?: boolean;
 };
 
 // The brand bar at the top of a screen: deep teal (the login screen's colour)
@@ -42,57 +39,49 @@ export function TopBar({
   compactTitle,
   onTitlePress,
   titleLabel,
-  actionsAbove,
 }: TopBarProps) {
   const insets = useSafeAreaInsets();
-  const actionsRow = actions ? <Row gap="xs">{actions}</Row> : null;
   return (
     <View style={[styles.bar, { paddingTop: insets.top + tokens.space.xs }, !flushBottom && styles.padBottom]}>
       <LightStatusBar />
-      {/* With actionsAbove the buttons and the title share one block, so the bar's gap
-          doesn't open up between them, and the title takes the smaller size: it already
-          has the width, and at full size the bar grew by about 50pt. */}
-      <View>
-        {actionsAbove && actionsRow ? <View style={styles.actionsAbove}>{actionsRow}</View> : null}
-        {title !== undefined ? (
-          <Row align="center" gap="sm" style={[styles.titleRow, actionsAbove && styles.titleRowUnder]}>
-            {leading}
-            {onTitlePress ? (
-              // The title as a dropdown. The chevron sits hard against the word, so it reads
-              // as part of the title and not as one more button in the bar.
-              <TouchableOpacity
-                style={styles.titleButton}
-                activeOpacity={0.7}
-                onPress={onTitlePress}
-                accessibilityRole="button"
-                accessibilityLabel={titleLabel ?? title}
-              >
-                {/* Shrinks to fit rather than cutting off: some town names are longer than a
-                    phone is wide at this size. */}
-                <AppText
-                  variant="h1"
-                  style={[styles.titleInButton, (compactTitle || actionsAbove) && styles.titleCompact]}
-                  numberOfLines={1}
-                  adjustsFontSizeToFit
-                  minimumFontScale={0.6}
-                >
-                  {title}
-                </AppText>
-                <ChevronDown color="#FFFFFF" size={26} strokeWidth={2.5} />
-              </TouchableOpacity>
-            ) : (
+      {title !== undefined ? (
+        <Row align="center" gap="sm" style={styles.titleRow}>
+          {leading}
+          {onTitlePress ? (
+            // The title as a dropdown. The chevron sits hard against the word, so it reads
+            // as part of the title and not as one more button in the bar.
+            <TouchableOpacity
+              style={styles.titleButton}
+              activeOpacity={0.7}
+              onPress={onTitlePress}
+              accessibilityRole="button"
+              accessibilityLabel={titleLabel ?? title}
+            >
+              {/* Shrinks to fit rather than cutting off: a dropdown's title (Explore's town)
+                  shares the row with the buttons, and some names are long. */}
               <AppText
                 variant="h1"
-                style={[styles.title, compactTitle && styles.titleCompact]}
-                numberOfLines={compactTitle ? 2 : 1}
+                style={[styles.titleInButton, compactTitle && styles.titleCompact]}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.6}
               >
                 {title}
               </AppText>
-            )}
-            {actionsAbove ? null : actionsRow}
-          </Row>
-        ) : null}
-      </View>
+              <ChevronDown color="#FFFFFF" size={compactTitle ? 22 : 26} strokeWidth={2.5} />
+            </TouchableOpacity>
+          ) : (
+            <AppText
+              variant="h1"
+              style={[styles.title, compactTitle && styles.titleCompact]}
+              numberOfLines={compactTitle ? 2 : 1}
+            >
+              {title}
+            </AppText>
+          )}
+          {actions ? <Row gap="xs">{actions}</Row> : null}
+        </Row>
+      ) : null}
       {children}
     </View>
   );
@@ -118,8 +107,6 @@ const styles = StyleSheet.create({
   // minHeight matches an icon button, so a title with no actions sits at the
   // same height as one with them.
   titleRow: { paddingHorizontal: tokens.space.md, minHeight: 44 },
-  actionsAbove: { flexDirection: "row", justifyContent: "flex-end", paddingHorizontal: tokens.space.md },
-  titleRowUnder: { minHeight: 34 },
   // flex 1 pushes any actions to the right edge.
   title: { flex: 1, color: "#FFFFFF" },
   // The button takes the row's spare width (pushing any actions right); the word inside

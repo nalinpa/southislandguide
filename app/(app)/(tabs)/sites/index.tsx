@@ -154,9 +154,9 @@ export default function SiteListPage() {
       title={areaLabel ?? "Locations"}
       onTitlePress={areaOptions.length > 1 ? () => setAreaMenuOpen(true) : undefined}
       titleLabel={`${areaLabel}, choose a town`}
-      // The town gets the whole width under the buttons: beside them an iPhone SE
-      // leaves it about 150pt, and "Christchurch" needs about 240.
-      actionsAbove
+      // The smaller title size, on the buttons' row, so the bar stays short. Beside the
+      // three buttons an iPhone SE leaves it about 150pt: "Christchurch" shrinks a little.
+      compactTitle
       flushBottom={categoriesWithPlaces.length > 1}
       actions={
         <>

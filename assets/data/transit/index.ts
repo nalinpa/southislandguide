@@ -7,7 +7,10 @@ export const TRANSIT: Transit = {
   "banks-peninsula": require("./banks-peninsula.json"),
   "christchurch": require("./christchurch.json"),
   "dunedin": require("./dunedin.json"),
+  "hanmer-springs": require("./hanmer-springs.json"),
+  "kaikoura": require("./kaikoura.json"),
   "mid-canterbury": require("./mid-canterbury.json"),
+  "oamaru": require("./oamaru.json"),
   "timaru": require("./timaru.json"),
   "waitaki-valley": require("./waitaki-valley.json"),
 };

@@ -9,6 +9,8 @@ export const AREAS = [
   { id: "christchurch", label: "Christchurch" },
   { id: "timaru", label: "Timaru" },
   { id: "dunedin", label: "Dunedin" },
+  { id: "oamaru", label: "Ōamaru" },
+  { id: "kaikoura", label: "Kaikōura" },
 ] as const;
 
 export type AreaId = (typeof AREAS)[number]["id"];

@@ -1,12 +1,14 @@
 import { AREAS, AREA_LABELS, DEFAULT_AREA, areaLabel, areaName, areaDriveMinutes } from "@/lib/areas";
 
 describe("areas", () => {
-  it("has three areas with ids and labels", () => {
-    expect(AREAS).toHaveLength(3);
-    expect(AREAS.map((a) => a.id).sort()).toEqual(["christchurch", "dunedin", "timaru"]);
+  it("has five areas with ids and labels", () => {
+    expect(AREAS).toHaveLength(5);
+    expect(AREAS.map((a) => a.id).sort()).toEqual(["christchurch", "dunedin", "kaikoura", "oamaru", "timaru"]);
     expect(AREA_LABELS.christchurch).toBe("Christchurch");
     expect(AREA_LABELS.dunedin).toBe("Dunedin");
     expect(AREA_LABELS.timaru).toBe("Timaru");
+    expect(AREA_LABELS.oamaru).toBe("Ōamaru");
+    expect(AREA_LABELS.kaikoura).toBe("Kaikōura");
   });
 
   // The planner estimates a pair with no time and draws no drive block for it, so a new
@@ -32,7 +34,9 @@ describe("areas", () => {
   // day it is entered. A label is only needed for what capitals can't do (a macron, an "&").
   it("areaName returns the label for a known id, and otherwise the id with capitals", () => {
     expect(areaName("dunedin")).toBe("Dunedin");
-    expect(areaName("oamaru")).toBe("Oamaru");
+    expect(areaName("oamaru")).toBe("Ōamaru");
+    expect(areaName("kaikoura")).toBe("Kaikōura");
+    expect(areaName("hanmer-springs")).toBe("Hanmer Springs");
     expect(areaName("lake-tekapo")).toBe("Lake Tekapo");
   });
 

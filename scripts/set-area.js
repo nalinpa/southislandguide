@@ -14,7 +14,8 @@ const { getFirestore } = require("firebase-admin/firestore");
 const fs = require("fs");
 const path = require("path");
 
-const FILES = ["christchurch_places_all.json", "timaru_places.json", "dunedin_places.json", "akaroa_banks_peninsula_places.json"];
+const FILES = ["christchurch_places_all.json", "timaru_places.json", "dunedin_places.json", "akaroa_banks_peninsula_places.json",
+  "hanmer_springs_places.json", "oamaru_north_otago_places.json", "kaikoura_places.json"];
 // Docs entered by hand in the admin panel, so not in any file.
 const EXTRA = { DXWpQTSPRQQKPt7SIcVi: { region: "canterbury", area: "christchurch" } }; // Riverside Markets
 

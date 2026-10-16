@@ -1,0 +1,305 @@
+[
+  {
+    "name": "Hanmer Springs Thermal Pools & Spa",
+    "slug": "hanmer-springs-thermal-pools-and-spa",
+    "lat": -42.522572,
+    "lng": 172.829057,
+    "category": [
+      "Water",
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Moderate",
+    "description": "The reason most people come to Hanmer. The complex sits right in the middle of the village on Amuri Avenue, with outdoor thermal pools from 28°C to 42°C in the adults' area, plus a family zone with freshwater pools, a lazy river and hydroslides for ages 5 and up.\n\nAn Online Saver pass for a set date is $40 for adults, $23 for children 5 to 15, $27 for seniors and $103 for a mini group of two adults and up to three children, and under 5s are free. Walk-up Flexi passes cost a little more, at $43 for an adult. The slides are included in general entry, and you can bring your own food or eat at the Tea Kiosk café.\nLocal tip: Book online before the day to get the saver price, and go in the evening, when the Christchurch day trippers have gone home and the steam rises off the pools.",
+    "recommendedDurationSlots": 6,
+    "featured": 1,
+    "hoursNote": "Open daily 10am to 7pm; online saver adult $40, child $23; under 5s free; slides for ages 5+",
+    "website": "https://hanmersprings.co.nz/",
+    "sourceUrl": "https://hanmersprings.co.nz/plan-your-visit/pricing",
+    "confidence": "high"
+  },
+  {
+    "name": "Conical Hill Walk",
+    "slug": "conical-hill-walk",
+    "lat": -42.51229,
+    "lng": 172.828485,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Free",
+    "description": "The village's most popular short walk, starting at the top of Conical Hill Road a few minutes on foot from the pools. A zigzag path climbs steadily through tall pine and fir forest to a lookout shelter with a picnic table and views over the whole Hanmer basin and the ranges around it.\n\nAllow about an hour return. The climb is gentle and well graded, and there are public toilets at the start. You can also reach the lookout on the Majuba Walk from the forest park entrance on Jollies Pass Road.\nLocal tip: Go up at sunrise or in the late afternoon light, and take a windproof layer, since it is noticeably cooler and breezier at the top than in the village.",
+    "recommendedDurationSlots": 2,
+    "featured": 2,
+    "hoursNote": "Open all hours; about 1 hour return; toilets at the Conical Hill Road start; dogs allowed under control",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/hanmer-forest-park/things-to-do/hanmer-forest-park-short-walks/",
+    "confidence": "high"
+  },
+  {
+    "name": "Hanmer Springs Jet Boating, Waiau Ferry Bridge",
+    "slug": "hanmer-springs-jet-boating-waiau-ferry-bridge",
+    "lat": -42.585354,
+    "lng": 172.781743,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Expensive",
+    "description": "A jet boat ride through the narrow Waiau River canyon below the historic Waiau Ferry Bridge, about 10 minutes' drive from the village, just past the State Highway 7 turnoff. The same base, long known as Thrillseekers Adventures, also runs the bridge bungy, rafting and quad bikes, but the jet boat is the classic trip.\n\nThe whole experience takes about an hour, with roughly 30 minutes on the water. Adults are $130, children 3 to 13 are $70, and a family of two adults and up to three children is $350. Life jackets and full-length spray jackets are provided, and the boats have heated handrails.\nLocal tip: Boats need at least four adults to run, so book ahead in quiet months, and expect to get wet if you sit near the front.",
+    "recommendedDurationSlots": 2,
+    "featured": 3,
+    "hoursNote": "Open 7 days, about 9am to 5pm; adult $130, child $70, family $350; minimum age 3; high river levels can cancel trips",
+    "website": "https://hanmerspringsattractions.nz/jet-boating/",
+    "sourceUrl": "https://hanmerspringsattractions.nz/jet-boating/",
+    "confidence": "high"
+  },
+  {
+    "name": "Waterfall Track to Dog Stream Waterfall",
+    "slug": "waterfall-track-dog-stream-waterfall",
+    "lat": -42.5039,
+    "lng": 172.843386,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Free",
+    "description": "A proper half day walk through beech forest to the 41m Dog Stream waterfall in Hanmer Forest Park. The track starts from the small car park at the end of Mullans Road, reached via McIntyre Road off Jollies Pass Road, and there are no facilities there.\n\nDOC allows about 1 hour 30 minutes one way. It is 1.8km to the Spur Track junction and about 15 minutes more to the falls, with a fair bit of climbing. Many walkers go up the Waterfall Track and come back down the rougher Spur Track to make a loop.\nLocal tip: Wear sturdy shoes and carry water and a snack. From January to March, watch for wasps, and carry antihistamine if you react to stings.",
+    "recommendedDurationSlots": 7,
+    "featured": 4,
+    "hoursNote": "About 1.5 hours one way; no toilets at the car park; tracks can close for extreme fire danger or forestry harvesting",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/hanmer-forest-park/things-to-do/waterfall-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Heritage Forest and Woodland Walks",
+    "slug": "heritage-forest-and-woodland-walks",
+    "lat": -42.518914,
+    "lng": 172.839919,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Free",
+    "description": "Easy, mostly flat loops through one of New Zealand's oldest exotic forests, planted in the early 1900s with larch, Corsican pine, Norway spruce, Douglas fir and redwoods. They start by the main Hanmer Forest Park entrance on Jollies Pass Road, which has a car park, toilets and a picnic area.\n\nThe Forest Amble is a 30 minute loop with carved wooden sculptures to spot along the way, which kids love. The Forest Walk takes about an hour, and the Woodland Walk is a one hour loop past a stream, a flax wetland and ponds, with a link up to Conical Hill on the Majuba Walk.\nLocal tip: Strong winds have damaged some sections and they may be closed, so follow the signs at the entrance. In autumn, keep kids away from the red and white toadstools under the birches, which are poisonous.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open all hours; loops of 30 minutes to 1 hour; toilets at the Jollies Pass Road entrance; dogs allowed under control",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/hanmer-forest-park/things-to-do/woodlands-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Hanmer Adventure Bike Hire",
+    "slug": "hanmer-adventure-bike-hire",
+    "lat": -42.520469,
+    "lng": 172.829347,
+    "category": [
+      "Adventure",
+      "Nature"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Moderate",
+    "description": "Hanmer has a big network of mountain bike trails right on the edge of the village, from wide, gentle forest roads to proper single track around Conical Hill. This shop on Conical Hill Road hires out bikes and e-bikes, and gives you a trail map and advice on routes to suit your level.\n\nA hardtail mountain bike is $39 for an hour, $69 for four hours or $89 for a full day, which runs from 8.30am to 4.30pm. Full suspension bikes are $79 for two hours, and e-bikes start at $90 for two hours.\nLocal tip: If you aren't a confident rider, stick to the flat forest roads through the Heritage Forest. They are wide, shady and very pretty.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Shop open about 9am to 5pm daily; hardtail from $39 per hour or $89 per day; e-bikes from $90 for 2 hours",
+    "website": "https://www.hanmeradventure.co.nz/mountain-bike-hire/",
+    "sourceUrl": "https://www.hanmeradventure.co.nz/mountain-bike-hire/",
+    "confidence": "high"
+  },
+  {
+    "name": "PJ's Pies",
+    "slug": "pjs-pies",
+    "lat": -42.52193,
+    "lng": 172.829097,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small pie shop on the corner of Conical Hill Road, right beside the thermal pools, with outdoor tables out front. It is one of the best reviewed places to eat in the village.\n\nAlongside a classic Angus mince there are gourmet fillings like brisket, pork belly and apple, butter chicken and a vegan vegetable pie, plus coffee and hot chocolate. They are pricey for a pie, but the pastry and fillings get consistent praise.\nLocal tip: Come early for the best choice, since popular flavours can sell out before the 3pm close, and keep an eye on the cheeky sparrows at the outdoor tables.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 9am to 3pm; Sat and Sun 8.30am to 3pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJTUV1-NNjMG0RdPTKeYnV5PE",
+    "confidence": "medium"
+  },
+  {
+    "name": "La Mia Pizza",
+    "slug": "la-mia-pizza",
+    "lat": -42.520426,
+    "lng": 172.829387,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small, family-run pizza shop on Conical Hill Road that has become the village favourite for an easy dinner after the pools. Reviewers praise the fresh ingredients, the chewy crust and the friendly service, and prices are reasonable for Hanmer.\n\nIt keeps things simple with pizza only, no chips or sides, and does good coffee and hot chocolate during the day. You can eat in or take away.\nLocal tip: The plain margherita is the one people rave about. For chips, try one of the takeaways a few doors down.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 9am to 8pm; eat in or takeaway",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJpUocPhdjMG0RPPSQZSRqkrI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Maruia Hot Springs",
+    "slug": "maruia-hot-springs",
+    "lat": -42.379059,
+    "lng": 172.333057,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Expensive",
+    "description": "A quieter hot springs retreat in beech forest beside the Maruia River on State Highway 7, about an hour's drive west of Hanmer over the Lewis Pass. There are four natural outdoor hot pools from 38°C to 42°C, a steam room, saunas, a cold plunge and a lounge, all with mountain and river views.\n\nA day retreat is $99 per adult, or $89 for seniors 65 and over, and includes a welcome drink, towel, robe, locker and a guided sauna session. A twilight session from 5.30pm to 9pm is $79. It is cashless, and there is no phone coverage.\nLocal tip: Book online before you drive over, and bring darker togs, since the mineral water can stain light swimwear. Sandflies are fierce on warm days, so use the free repellent by the pools.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Open daily 8am to 9pm in peak periods (incl. 24 Sept to 12 Oct 2026 and 15 Oct to 4 May); off peak Thu to Mon 3pm to 9pm, Tue 8am to 12pm; day retreat $99",
+    "website": "https://www.maruiahotsprings.nz/",
+    "sourceUrl": "https://www.maruiahotsprings.nz/experiences/day-retreats/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lewis Pass Alpine Nature Walk",
+    "slug": "lewis-pass-alpine-nature-walk",
+    "lat": -42.380033,
+    "lng": 172.400331,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Free",
+    "description": "A short, easy loop at the top of the Lewis Pass, starting from the St James car park 400m east of the summit on State Highway 7. Boardwalks cross an alpine wetland and a small tarn, with views to Gloriana Peak and the Spenser Mountains, before the track loops back through beech forest.\n\nIt takes about 20 minutes and is the first section of the St James Walkway. There are picnic tables and a long drop toilet at the car park, so it makes an easy leg stretch on the drive between Hanmer and the West Coast.\nLocal tip: Pair it with a soak at Maruia Hot Springs, about 10 minutes further west, and take a warm layer, since it is much colder up here than in Hanmer.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open all hours; 20 minute loop; long drop toilet at the St James car park; SH7 can close in snow or heavy rain",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/lewis-pass-scenic-reserve/things-to-do/tracks/alpine-nature-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Molesworth Road (Acheron Road)",
+    "slug": "molesworth-acheron-road",
+    "lat": -42.395855,
+    "lng": 172.955993,
+    "category": [
+      "Scenic",
+      "Adventure"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Free",
+    "description": "A summer-only gravel road through Molesworth Station, New Zealand's largest farm, running 207km between Hanmer Springs and Blenheim. It climbs over Jacks Pass and down the Clarence Valley to the restored 1863 Acheron Accommodation House, then crosses Wards Pass at 1,145m to Molesworth Cob Cottage, with huge high country views the whole way.\n\nThe road is unsealed, with potholes, corrugations and narrow bridges without barriers, and the 59km through the station takes at least two hours at the 50km/h limit. There are simple DOC campsites with long drops at Acheron and at Cob Cottage. As of September 2026, Marlborough District Council lists Awatere Valley Road, the Blenheim end of the route, as closed at Cam Corner, so plan a return trip from Hanmer unless the council confirms it has reopened.\nLocal tip: Fill up with fuel and bring food and water from Hanmer. There are no shops or fuel anywhere on the road.",
+    "recommendedDurationSlots": 12,
+    "hoursNote": "Open 1 Oct to Easter Monday or 2nd Monday in April, whichever is later; daytime only; no vehicles over 7 m or caravans; can close for weather or fire risk",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/molesworth-reserve/things-to-do/tracks/acheron-road/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Lake Tennyson",
+    "slug": "lake-tennyson",
+    "lat": -42.211416,
+    "lng": 172.74001,
+    "category": [
+      "Scenic",
+      "Stay"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Free",
+    "description": "An alpine lake at about 1,100m at the head of the Clarence River, reached from Hanmer over Jacks Pass on Tophouse Road. It is a big, bare tussock landscape with trout fishing, kayaking and walking, and a free DOC campsite by the shore.\n\nDOC says the road is fine as far as the lake for 2WD vehicles under 7m, though there are a few fords to cross. Beyond the lake it becomes the Rainbow Road to St Arnaud, a private toll road for high-clearance 4WD vehicles only, so turn back at the lake in a normal car or campervan.\nLocal tip: Even in summer it can freeze overnight up here, so bring warm gear if you camp, along with food, water and fuel. Snow, slips or fire risk can close the road without notice.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Free DOC campsite; 2WD to the lake only, 4WD toll road beyond; fords; road can close without notice",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/molesworth-reserve/things-to-do/campsites/lake-tennyson-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Hanmer Springs River Reserve Freedom Camping",
+    "slug": "hanmer-springs-river-reserve-freedom-camping",
+    "lat": -42.577455,
+    "lng": 172.786828,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Free",
+    "description": "A free council freedom camping area beside the Hanmer River at 692 Hanmer Springs Road, near the bridge on the way into the village and about 10 minutes' drive from the pools. There are 10 signposted spaces along the fence, and under the current council bylaw it is for certified self-contained vehicles only.\n\nThe limit is two nights in any 30 day period. There are flush toilets but no water filling point, and rangers do check. The council closes the reserve when the river is high, and a visitor reported the site had changed after flooding in July 2026.\nLocal tip: Arrive by early afternoon to get a space, and check the Hurunui District Council page or CamperMate for its current status before you head out.",
+    "hoursNote": "Certified self-contained only; 10 spaces; max 2 nights in 30 days; toilets; no water; closes in floods",
+    "sourceUrl": "https://www.hurunui.govt.nz/repository/libraries/id:23wyoavbi17q9ssstcjd/hierarchy/Support_Services/Policies/Freedom%20Camping/Amended%20Freedom%20Camping%20Bylaw%202025.pdf",
+    "confidence": "medium"
+  },
+  {
+    "name": "Chisholm Park Car Park Freedom Camping",
+    "slug": "chisholm-park-car-park-freedom-camping",
+    "lat": -42.519814,
+    "lng": 172.828432,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Free",
+    "description": "Freedom camping is banned across most of Hanmer village, but the council allows two vehicles overnight in the Chisholm Park car park on Chisholm Crescent, a short walk from the pools and cafés. Unusually, this spot is open to vehicles that aren't self-contained, and there are public toilets right beside it.\n\nYou can only stay between 8pm and 8am, tents aren't allowed, and the limit is two nights in any 30 day period. The only other spot in the village, the War Memorial Hall car park, is for certified self-contained vehicles only.\nLocal tip: With just two spaces, it fills fast. If you're self-contained, leave it for the people who aren't and use the River Reserve instead.",
+    "hoursNote": "8pm to 8am only; 2 vehicles; non self-contained allowed; no tents; max 2 nights in 30 days; public toilets",
+    "sourceUrl": "https://www.hurunui.govt.nz/repository/libraries/id:23wyoavbi17q9ssstcjd/hierarchy/Support_Services/Policies/Freedom%20Camping/Amended%20Freedom%20Camping%20Bylaw%202025.pdf",
+    "confidence": "high"
+  },
+  {
+    "name": "Deer Valley Campsite",
+    "slug": "deer-valley-campsite",
+    "lat": -42.40483,
+    "lng": 172.3977,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small DOC campsite in beech forest beside the Lewis River, just off State Highway 7 in the Lewis Pass Scenic Reserve, about 20km east of Springs Junction. A short gravel road leads in, suitable for cars, campervans and caravans.\n\nIt is a standard DOC campsite at $10 per adult and $5 per child a night, with individual sites among the trees and a long drop toilet. Campers mention plenty of morning birdsong and some truck noise from the highway.\nLocal tip: Book online before you arrive, since DOC doesn't take walk-ups here, though same-day bookings stay open until 8pm. Bring plenty of sandfly repellent.",
+    "hoursNote": "Bookings essential online; adult $10, child $5, under 5 free; long drop toilet; sandflies",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/lewis-pass-scenic-reserve/things-to-do/campsites/deer-valley-campsite/",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/lewis-pass-scenic-reserve/things-to-do/campsites/deer-valley-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Hanmer Backpackers",
+    "slug": "hanmer-backpackers",
+    "lat": -42.518881,
+    "lng": 172.829511,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small, independent Swiss chalet-style backpackers on Conical Hill Road, a short walk from the thermal pools and the start of the Conical Hill track. It sleeps only about 18 people in six rooms, from a five bed dorm to private ensuite rooms, so it feels homely rather than like a big hostel.\n\nThere is a well equipped kitchen, a lounge with a fire and board games, a patio with a barbecue, free wifi, free parking and free tea, coffee and milk. Guests consistently rate it highly for cleanliness and its friendly owners.\nLocal tip: Check-in is 2pm to 9pm, and with so few beds it books out at weekends and in the school holidays, so reserve ahead.",
+    "hoursNote": "Check in 2pm to 9pm; check out by 10am; quiet after 10.30pm; dorms and private rooms",
+    "sourceUrl": "https://www.hostelworld.com/hostels/p/34610/hanmer-backpackers/",
+    "confidence": "medium"
+  }
+]

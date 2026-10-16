@@ -1,0 +1,300 @@
+[
+  {
+    "name": "Kaikōura Peninsula Walkway and Seal Colony",
+    "slug": "kaikoura-peninsula-walkway",
+    "lat": -42.423215,
+    "lng": 173.716352,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Free",
+    "description": "Kaikōura's signature walk, along the clifftops at the tip of the peninsula. It starts at the Point Kean car park, about 4km from town, where fur seals sprawl across the rocks and pools a few metres from the parked cars. From there the track climbs onto the cliffs, with the sea on one side and the snow-capped Seaward Kaikōura Range behind you.\n\nDOC puts the clifftop section from Point Kean to the South Bay car park at 3.4km, about 65 minutes one way, so the return trip takes a little over two hours before stops. There are toilets at Point Kean, Armers Beach and South Bay but none on the clifftop, and the cliff edges are unfenced. DOC doesn't maintain the shoreline route back and advises against it, so return the way you came.\nLocal tip: Stay at least 20m from the seals, as DOC asks, and never get between a seal and the sea. The big males in the Point Kean car park can bite if they're disturbed.",
+    "recommendedDurationSlots": 4,
+    "featured": 1,
+    "hoursNote": "Open any time; free parking and toilets at Point Kean; cliff edges and some steps; shore route only at low tide",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ2cD3opNXN20RPvbWxXJqHPw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Ōhau Point Seal Colony",
+    "slug": "ohau-point-seal-colony",
+    "lat": -42.24406,
+    "lng": 173.834121,
+    "category": [
+      "Nature",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Free",
+    "description": "A roadside stop on State Highway 1, about 25 minutes north of Kaikōura, above one of the biggest fur seal colonies on the coast. You don't need to walk anywhere: from the car park you look straight down on hundreds of seals hauled out on the rocks, and a boardwalk runs about 200m along the shore.\n\nPups are born from around January, and by late summer they're playing in the rock pools below the lookout, many of them lifted out of the sea by the 2016 earthquake. The stopping area opened in 2018 with parking for about 20 vehicles. There are no toilets.\nLocal tip: The Ōhau Stream waterfall walk nearby, where the pups used to swim, has been closed since the earthquake. Don't climb the fence. Watch them from the lookout instead.",
+    "recommendedDurationSlots": 1,
+    "featured": 2,
+    "hoursNote": "Open any time; roadside car park on SH1; no toilets; Ōhau Stream waterfall walk closed",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJBe6C4sHlOW0RC9xUio5yzjQ",
+    "confidence": "medium"
+  },
+  {
+    "name": "Whale Watch Kaikōura",
+    "slug": "whale-watch-kaikoura",
+    "lat": -42.395919,
+    "lng": 173.680698,
+    "category": [
+      "Nature",
+      "Water"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Expensive",
+    "description": "The trip most people come to Kaikōura for. Whale Watch takes you out over the deep sea canyon just off the coast, where sperm whales come to feed, often with dusky dolphins and albatross for company. It's Māori owned and has been running since 1987.\n\nAdults are $185 and children 3 to 15 are $60, and under 3s can't go. The tour runs about three and a quarter hours in total, with just over two hours on the water, and if you don't see a whale you get 80% of your fare back.\nLocal tip: Book an early departure and leave a spare day in your plans, since rough seas often cancel trips. If you get seasick, take something before you board, not once you're out there.",
+    "recommendedDurationSlots": 7,
+    "featured": 3,
+    "hoursNote": "Several departures daily, weather permitting; booking recommended; 80% refund if no whales",
+    "website": "https://whalewatch.co.nz/",
+    "sourceUrl": "https://whalewatch.co.nz/your-experience/our-tours/whale-watch-tour/",
+    "confidence": "high"
+  },
+  {
+    "name": "Encounter Kaikōura (Dolphin and Albatross Tours)",
+    "slug": "encounter-kaikoura",
+    "lat": -42.408704,
+    "lng": 173.685448,
+    "category": [
+      "Adventure",
+      "Nature"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Expensive",
+    "description": "One base on the Esplanade running two of Kaikōura's best known boat trips. Dolphin Encounter takes you out to swim with pods of wild dusky dolphins, some of the most acrobatic in the world, in a thick wetsuit, mask and snorkel. The swim starts from $265 for adults and $240 for children 8 to 14, with higher prices in the November to April peak, and there's a cheaper option to watch from the boat. It takes about three and a half hours, with around 40 minutes in water that ranges from about 8°C to 18°C.\n\nAlbatross Encounter heads 15 to 20 minutes offshore in a smaller boat, with no more than 12 people, to see wandering and royal albatross, the largest flying birds in the world, plus petrels and shearwaters. It's $200 for adults and $95 for children 3 to 14, and takes about two and a half hours. There's a café at the base for afterwards.\nLocal tip: For the dolphin swim, book the early morning departure, when the sea is usually calmest. For albatross, winter brings the widest variety of species, but from June to September there's only one trip a day, at 10am.",
+    "recommendedDurationSlots": 7,
+    "hoursNote": "Dolphin swims up to three times daily including a sunrise trip; albatross Nov to Apr 6am, 9am, 1pm, Oct and May 9am, 1pm, Jun to Sep 10am; weather dependent; book ahead",
+    "website": "https://www.dolphinencounter.co.nz/",
+    "sourceUrl": "https://www.albatrossencounter.co.nz/our-tours/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Seal Swim Kaikōura",
+    "slug": "seal-swim-kaikoura",
+    "lat": -42.413149,
+    "lng": 173.69038,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Expensive",
+    "description": "Guided snorkelling with wild fur seals off the Kaikōura coast, in small groups with guides in the water beside you. You get a thick wetsuit, and there are boards for less confident swimmers. The seals are free to come and go, and the curious ones often swim right up to you.\n\nTours run by boat or from the shore. The swim is $110 for adults and $70 for children 14 and under, and if you'd rather stay dry, view only tickets are $55 and $35. Seal Swim is licensed by DOC.\nLocal tip: If you're booking ahead, pick the boat tour. It can find seals in a wider range of conditions, so it has a better success rate than the shore trip.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Boat and shore tours; times vary with tide and conditions; book ahead",
+    "website": "https://www.sealswimkaikoura.co.nz/",
+    "sourceUrl": "https://www.sealswimkaikoura.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kaikōura Lookout",
+    "slug": "kaikoura-lookout",
+    "lat": -42.418117,
+    "lng": 173.691846,
+    "category": [
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Free",
+    "description": "A hilltop lookout at the end of Scarborough Street, a few minutes' drive from town, with a small platform looking over both bays, the peninsula and the Seaward Kaikōura Range. There's free parking right beside it.\n\nIt's one of the best spots in town for sunset, and on a clear night, for stars.\nLocal tip: Get there before the tour buses at sunset. Once they pull in, they can block the view from the car park.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; free parking",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJddd3v4lWN20RdXiqSyVNeXM",
+    "confidence": "medium"
+  },
+  {
+    "name": "Fyffe House",
+    "slug": "fyffe-house",
+    "lat": -42.416674,
+    "lng": 173.706947,
+    "category": [
+      "Culture"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Cheap",
+    "description": "Kaikōura's oldest surviving building, and the last trace of a whaling station set up here in 1842. The cottage famously stands on piles made from the vertebrae of a southern right whale (tohorā). Heritage New Zealand runs it, telling the story of the whaling years and the three families who lived here between 1844 and 1980, and it was repaired after the 2016 earthquake.\n\nEntry is $10 for adults and $3 for children 16 and under. It's self-guided, though staff usually give a short introduction at the door. From Labour Weekend to April it's open daily, and in the cooler months it closes midweek, so check the days before you go.\nLocal tip: It's at 62 Avoca Street, on the road out to Point Kean, so pair it with the peninsula walk and the seals.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Listed Fri to Mon 10am to 4pm; closed Tue to Thu; about $10 entry",
+    "website": "https://www.visitheritage.co.nz/visit/upper-south-island/fyffe-house",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJNeHnX1hWN20RRKKgdCyQpcQ",
+    "confidence": "medium"
+  },
+  {
+    "name": "Kaikōura Seafood BBQ Kiosk",
+    "slug": "kaikoura-seafood-bbq-kiosk",
+    "lat": -42.41946,
+    "lng": 173.706221,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Moderate",
+    "description": "A roadside kiosk on Fyffe Quay, on the way out to the seal colony, grilling crayfish, scallops, mussels, fish and whitebait fritters to order. You queue, order and eat at outdoor tables looking out to sea.\n\nIt's the easiest way to try the crayfish the town is named for (kai means food and kōura means crayfish), though a whole cray isn't cheap. Reviewers rate the chowder and the grilled fish too.\nLocal tip: If crayfish is out of your budget, get the chowder and a piece of grilled fish. You still get the seaside setting for a fraction of the price.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Listed daily from 10am, closing 5pm Mon to Fri, 3pm Sat, 4pm Sun",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ0V_8p_dWN20RBI5PVrxURxI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Top Shop Kaikōura",
+    "slug": "top-shop-kaikoura",
+    "lat": -42.376838,
+    "lng": 173.681674,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Cheap",
+    "description": "A takeaway on Beach Road at the north end of town that reviewers rate as the best fish and chips in Kaikōura. Order the blue cod or the crumbed gurnard, the two favourites, with chips cooked in clean oil and your pick of sauces.\n\nIt's open from 11am to 7.30pm, so it works for lunch or an early dinner, but there's hardly anywhere to sit.\nLocal tip: It's on the main road north, so pick it up on your way to Blenheim, or on your way into town, and eat it on the beach.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Listed daily 11am to 7.30pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJT4xwgRX9OW0RFRJf_sbU5r0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Asian Taste",
+    "slug": "asian-taste-kaikoura",
+    "lat": -42.400423,
+    "lng": 173.681395,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small Malaysian takeaway on West End, Kaikōura's main street, run single-handed by a friendly owner. The menu is long and simple: fried rice, noodles, Singapore bee hoon and beef rendang, all in generous portions.\n\nThere are a few outdoor seats with a sea view, or you can take it away. With one person doing all the cooking, expect a wait when it's busy.\nLocal tip: It's lunch only, from 10.30am to 2pm, so get there early, before the queue builds.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Listed daily 10.30am to 2pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJCRv-HedXN20RRvaIyD9On3Y",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Store, Kekerengu",
+    "slug": "the-store-kekerengu",
+    "lat": -42.00356,
+    "lng": 174.010393,
+    "category": [
+      "Food"
+    ],
+    "region": "marlborough",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Cheap",
+    "description": "A café right on the beach at Kekerengu, about an hour north of Kaikōura on the road to Blenheim, and the natural place to break the drive. Expect good coffee, pies, sandwiches and scones, plus a seafood chowder that reviewers rate highly.\n\nThe deck out the back looks straight over the sea, and the kitchen copes well when the tour buses pull in.\nLocal tip: Sit out on the deck on a fine day, but keep a hand over your food, because the seagulls are bold.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Listed daily 8am to 4pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJWZmxm6m-OW0R8u0cIf8kunw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Cathedral Cliffs, Gore Bay",
+    "slug": "cathedral-cliffs-gore-bay",
+    "lat": -42.868273,
+    "lng": 173.304304,
+    "category": [
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Free",
+    "description": "Tall, fluted clay cliffs that erosion has carved into shapes like organ pipes, above Gore Bay near Cheviot. They're a 10 to 15 minute detour off State Highway 1 on the drive between Christchurch and Kaikōura, and you see them from a roadside viewpoint on Cathedral Road, with no walk needed.\n\nThe viewing area is small, and bushes block part of the view. The beach and little settlement at Gore Bay below are worth a stop too, and seals sometimes haul out on the sand.\nLocal tip: The best angle is where the viewing area's guardrail meets the road, not from the grassy patch. The road up is steep, so take it slowly in a campervan.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; roadside viewpoint; toilets nearby",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJLXSPCFrcMG0R-Sr4-UwMcwQ",
+    "confidence": "medium"
+  },
+  {
+    "name": "Jimmy Armers Beach Freedom Camping",
+    "slug": "jimmy-armers-beach-freedom-camping",
+    "lat": -42.41875,
+    "lng": 173.705428,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Free",
+    "description": "One of five council freedom camping sites in Kaikōura, by the beach on the Esplanade and a short drive from the seals at Point Kean. There are only six spaces, for vehicles up to 7.5m, with flush toilets, cold outdoor showers, picnic tables and bins.\n\nIt's for certified self-contained vehicles only, and the council also requires your toilet to be usable with the bed made up, with a $400 fine if it isn't. You can stay one night in any four weeks, and you must be gone by 7am.\nLocal tip: Spaces usually fill by mid-afternoon, so arrive early. If it's full, the West End car park in town is the next option.",
+    "hoursNote": "Certified self-contained only; 6 spaces; max 7.5m; 1 night in 4 weeks; leave by 7am; $400 fines enforced",
+    "sourceUrl": "https://www.kaikoura.govt.nz/rules-regs-licenses/responsible-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "West End Car Park Freedom Camping",
+    "slug": "west-end-car-park-freedom-camping",
+    "lat": -42.402287,
+    "lng": 173.682748,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Free",
+    "description": "A council car park in the middle of town that becomes a free overnight spot for up to 10 certified self-contained vehicles once the daytime parking rules end. You're steps from the beach, cafés and bars, with toilets and a water fountain at one end.\n\nThe same council rules apply as at the other sites: one night in any four weeks, and your toilet must be usable with the bed made up.\nLocal tip: Normal parking rules run from 8.30am to 5.30pm, so arrive after 5.30pm and be gone by 8.30am the next morning.",
+    "hoursNote": "Certified self-contained only; up to 10 vehicles; free overnight after 5.30pm; leave by 8.30am; 1 night in 4 weeks",
+    "sourceUrl": "https://www.kaikoura.govt.nz/rules-regs-licenses/responsible-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Puhi Puhi DOC Campsite",
+    "slug": "puhi-puhi-doc-campsite",
+    "lat": -42.270005,
+    "lng": 173.737563,
+    "category": [
+      "Stay",
+      "Nature"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small, grassy DOC campsite in native forest in the Puhi Puhi Valley. From Kaikōura, head 9km north on State Highway 1, turn left onto Puhi Puhi Valley Road just after the Hāpuku River, and it's 6km up the gravel valley road on your right. Tents, cars and campervans are all welcome, so it suits anyone who isn't self-contained.\n\nIt's $15 a night for adults and $7.50 for children 5 to 17, and under 5s stay free. Facilities are basic, with a long drop, picnic tables and a short bush walk. There's no drinking water, so bring your own.\nLocal tip: Book online before you drive in, since DOC holds no spaces for walk-ins, though same-day bookings stay open until 8pm. After heavy rain, check the Kaikōura District road closures page first.",
+    "hoursNote": "Book online; $15 adult, $7.50 child per night; long drop; no drinking water; gravel road",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/puhi-puhi-scenic-reserve/things-to-do/campsites/puhi-puhi-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Gore Bay & Buxton Camp",
+    "slug": "gore-bay-buxton-camp",
+    "lat": -42.859915,
+    "lng": 173.308898,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Cheap",
+    "description": "Two council-owned camping grounds at Gore Bay, a surf beach near Cheviot, and a good place to break the drive between Christchurch and Kaikōura. The main camp at 31 Moody Street sits right behind the beach and is open all year, and Buxton Camp, just down Gore Bay Road, has its own beach access and opens from October to May.\n\nPowered sites are $40 for two people and unpowered sites are $35, with extra adults $10 and children 5 to 15 $5. There are toilets, hot showers and kitchens, but no dump station, and generators aren't allowed.\nLocal tip: Book ahead for long weekends and the summer holidays. In winter you can just drive in and pick a spot. Empty your tanks in Cheviot on the way, since that's the nearest dump station.",
+    "hoursNote": "Book with the camp manager (03 319 8010); powered and unpowered sites; hot showers; no dogs",
+    "website": "https://campgorebay.com/",
+    "sourceUrl": "https://www.hurunui.govt.nz/recreation/camping-grounds/gore-bay-buxton-camp-gore-bay",
+    "confidence": "medium"
+  }
+]

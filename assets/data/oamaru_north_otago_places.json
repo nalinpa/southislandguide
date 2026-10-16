@@ -1,0 +1,301 @@
+[
+  {
+    "name": "Oamaru Victorian Precinct",
+    "slug": "oamaru-victorian-precinct",
+    "lat": -45.102745,
+    "lng": 170.970094,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Free",
+    "description": "A few streets of 1870s and 1880s warehouses and grain stores around Harbour and Tyne Streets, built from the pale local limestone and now one of the best preserved Victorian streetscapes in the country. Instead of souvenir shops, the old buildings hold small galleries, secondhand and vintage stores, cafés and a bakery.\n\nThe streets are free to wander any time, but most shops keep roughly 10am to 4pm hours and some close on Mondays. You can see it in an hour or two, and Steampunk HQ, the harbour and the penguin colony are all within walking distance.\nLocal tip: Come on a Sunday morning, when the farmers market sets up at the harbour end on the corner of Wansbeck and Tyne Streets and the precinct is at its liveliest.",
+    "recommendedDurationSlots": 4,
+    "featured": 1,
+    "hoursNote": "Streets open any time; most shops and galleries about 10am to 4pm, some closed Mondays",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJIRAJRc6ZKagR_8cLwxythbQ",
+    "confidence": "high"
+  },
+  {
+    "name": "Steampunk HQ",
+    "slug": "steampunk-hq",
+    "lat": -45.102249,
+    "lng": 170.970477,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Cheap",
+    "description": "An interactive museum of retro-futuristic sculpture, machinery, film and sound, inside the 1883 Meeks Grain Elevator building at the entrance to the Victorian Precinct. Old industrial and medical machines have been rebuilt into strange contraptions, and you can play the organ as you come in. For most people the highlight is the mirrored Portal room.\n\nAdults are $15, children under 16 are $5 and a family of two adults and two children is $30. Tickets are sold at the door, last entry is 3.30pm, and most visits take 45 minutes to an hour. Inside is dark, with flashing lights and loud noises, so it may be too much for very young kids.\nLocal tip: Bring a coin for the steampunk locomotive out front. Feed it one and it lights up, whistles and breathes fire from its chimney. Then head out the back door to the yard of half-built machines.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 10am to 4pm, last entry 3.30pm; closed Christmas Day; tickets at the door",
+    "website": "https://www.steampunkoamaru.co.nz/",
+    "sourceUrl": "https://www.steampunkoamaru.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ōamaru Blue Penguin Colony",
+    "slug": "oamaru-blue-penguin-colony",
+    "lat": -45.110327,
+    "lng": 170.979894,
+    "category": [
+      "Nature",
+      "Attractions"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Expensive",
+    "description": "A working colony of little blue penguins in an old quarry by the harbour, where hundreds come ashore just after dark and waddle up to their nest boxes. In the breeding season the colony has counted more than 300 landing in a single night. Evening general viewing is $50 for adults and $30 for children 5 to 17, premium seats right beside the landing are $70 and $42, and under 5s are free.\n\nAllow one to two hours. The start time moves with sunset, so check it for your date when you book, and note that cameras, phones and anything with a bright screen are banned during evening viewing. If you'd rather see penguins in their nests, daytime entry from 10am is $25 for adults and $15 for children, and includes the Discovery Centre and a look inside the nest boxes.\nLocal tip: Book ahead in summer and the school holidays, since nights sell out, and bring a warm jacket, because it gets cold sitting still once the sun goes down.",
+    "recommendedDurationSlots": 4,
+    "featured": 3,
+    "hoursNote": "Open daily from 10am for day tours; evening viewing from around sunset (start time varies by season); bookings recommended",
+    "website": "https://www.penguins.co.nz/",
+    "sourceUrl": "https://www.penguins.co.nz/visit/evening-viewing/",
+    "confidence": "high"
+  },
+  {
+    "name": "Oamaru Public Garden",
+    "slug": "oamaru-public-garden",
+    "lat": -45.098631,
+    "lng": 170.960647,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Free",
+    "description": "One of the oldest public gardens in the country, opened in October 1876 and a short walk from the town centre, with entrances off Severn and Chelmer Streets. Oamaru Creek winds through the middle, past Mirror Lake and its ponds.\n\nHighlights include a Chinese garden with a red lacquer bridge over the creek, a rhododendron dell, a rose garden, a native fernery and a children's playground. Entry is free, it's open every day, and there are toilets and picnic areas, with the Top 10 holiday park backing onto it.\nLocal tip: Come in spring for the rhododendrons and azaleas, and bring a picnic for the lawns.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time; glasshouses reported closed for restoration; playground and toilets on site",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJQ6lMRtyZKagRgTKRHO3_b3c",
+    "confidence": "medium"
+  },
+  {
+    "name": "Waitaki Museum & Archive",
+    "slug": "waitaki-museum",
+    "lat": -45.099817,
+    "lng": 170.969549,
+    "category": [
+      "Culture"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Free",
+    "description": "The district museum, Te Whare Taoka o Waitaki, in the old Athenaeum building at 60 Thames Street. Entry is free. The ground floor holds Kā Puipuiaki o Korotuaheka, a big collection of taoka Māori from the area, alongside galleries on the Waitaki landscape and the Victorian settlers who built the stone town. Upstairs, Ballad of the Waitaki covers the 20th century.\n\nIt's recently renovated, with hands-on drawers of rocks and fossils for kids. Allow about an hour. The Forrester Gallery, the town's art gallery, is a few doors along.\nLocal tip: It's open 10am to 4pm Tuesday to Friday but only until 12.30pm at weekends, and it's closed on Mondays, so a weekday visit gives you the most time.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Listed Tue to Fri 10am to 4pm, Sat and Sun 10am to 12.30pm, closed Mondays; free entry",
+    "sourceUrl": "https://www.culturewaitaki.org.nz/Waitaki-Museum",
+    "confidence": "medium"
+  },
+  {
+    "name": "Harbour Street Bakery",
+    "slug": "harbour-street-bakery-oamaru",
+    "lat": -45.103097,
+    "lng": 170.97064,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small bakery at 4 Harbour Street, in the middle of the Victorian Precinct, in a building that still carries an old Lane's Emulsions sign reading \"It's famous because it's good.\" Everything is made from scratch, and sourdough is the speciality, but reviewers come for the pies: steak and pepper, steak and jalapeño, and big sausage rolls with proper flaky pastry.\n\nThere are cronuts, custard pastries and good coffee too, and the staff stay quick and friendly even when it's busy. There's a little room to sit inside, or take it down to the harbour.\nLocal tip: It's closed on Mondays and shuts at 3pm or 4pm depending on the day, so make it a lunch stop, and come early for the full selection.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Tue to Sun from 9am, closing 3pm Tue and Sun, 4pm Wed to Sat; closed Mondays",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJF6CAOM6ZKagRWHLCfNkiKig",
+    "confidence": "medium"
+  },
+  {
+    "name": "Scotts Brewing Co",
+    "slug": "scotts-brewing-co",
+    "lat": -45.104867,
+    "lng": 170.970184,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Moderate",
+    "description": "A brewpub on Wansbeck Street, at the harbour end of the Victorian Precinct, with beer brewed on site and a menu of pizzas, loaded fries, wings and sharing plates. Order a tasting tray if you want to work through the range.\n\nIn the evening it's the busiest room in town, warm, loud and friendly, with booths inside and tables outside. It opens at 11am, or 10am at weekends, and stays open until 9pm or later, and until about 11.30pm on Fridays and Saturdays.\nLocal tip: Eat here before the penguins. The colony is about 15 minutes' walk along the waterfront, so you can have dinner and still make the evening viewing.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily from 11am (10am Sat and Sun) to about 9pm, later on Fri and Sat",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJV5riTW5BDW0R4k3VOBn6dqA",
+    "confidence": "medium"
+  },
+  {
+    "name": "Whitestone Cheese Diner & Deli",
+    "slug": "whitestone-cheese-diner",
+    "lat": -45.075649,
+    "lng": 170.987325,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Cheap",
+    "description": "The café and deli of Whitestone, the Oamaru cheesemaker whose cheeses turn up in shops all over the country. It's at 469 Thames Highway, on State Highway 1 at the north end of town, so it's an easy stop on the drive between Christchurch and Dunedin.\n\nThe menu is built around the cheese: cheese rolls, poutine, burgers and toasties, plus blue cod and chips, and you can buy cheese to take away. Guided factory tours run Tuesday to Friday at 10am for $35, take about 90 minutes and include a tasting, but you must book ahead.\nLocal tip: Order a round of the cheese rolls, and try a few cheeses at the counter before you buy any for the road. On Mondays it's cheese and coffee only, with no kitchen.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Tue to Sun 8am to 5pm; Monday 9am to 3pm for cheese and coffee only",
+    "website": "https://www.whitestonecheese.com/",
+    "sourceUrl": "https://www.whitestonecheese.com/",
+    "confidence": "high"
+  },
+  {
+    "name": "Oamaru Farmers Market",
+    "slug": "oamaru-farmers-market",
+    "lat": -45.104724,
+    "lng": 170.969935,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Cheap",
+    "description": "A Sunday morning market on the corner of Wansbeck and Tyne Streets, next to Scotts Brewing at the harbour end of the Victorian Precinct. Expect local vegetables, meat, bread, cheese, preserves and coffee, plus some crafts.\n\nIt runs from 9.30am to 1pm, and it's a good place to stock up before a road trip or a few nights camping.\nLocal tip: The bacon butties are what everyone talks about, so get one first, then do your shopping before the stalls pack up at 1pm.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Sundays 9.30am to 1pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJfRmQ8M6ZKagRz56wHCedvJQ",
+    "confidence": "medium"
+  },
+  {
+    "name": "Bushy Beach Penguin Hide",
+    "slug": "bushy-beach-penguin-hide",
+    "lat": -45.121625,
+    "lng": 170.980278,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Free",
+    "description": "A clifftop reserve at the end of Bushy Beach Road, on the southern edge of town, with a hide looking over the beach where hoiho, the yellow-eyed penguin, come ashore. It's one of the rarest penguins in the world, and this is a free alternative to the paid colony. The track is short and easy, 10 to 20 minutes, and passes a platform above the rocks where fur seals often lie.\n\nThe penguins cross the beach early and late, so DOC suggests going before 9am or after 3pm. They're shy and often far off, and some visits see none at all.\nLocal tip: Bring binoculars, arrive a couple of hours before sunset, and stay off the beach from 3pm. The penguins won't come ashore if people are on the sand.",
+    "recommendedDurationSlots": 3,
+    "featured": 4,
+    "hoursNote": "Open any time; keep off the beach from 3pm so penguins can land; exposed and windy",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/bushy-beach-scenic-reserve/things-to-do/bushy-beach-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kātiki Point Lighthouse",
+    "slug": "katiki-point-lighthouse",
+    "lat": -45.391873,
+    "lng": 170.866209,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Free",
+    "description": "A small lighthouse on the point beyond Moeraki village, about 40 minutes south of Oamaru, and one of the best places in North Otago to see yellow-eyed penguins. From the car park by the lighthouse, an easy 20 minute return track leads out along the point, with fur seals on the rocks and sometimes on the track itself.\n\nTo get there, follow Lighthouse Road from Moeraki for about 4km of narrow gravel. Penguins are most likely a few hours before sunset. The reserve is open from 7.30am to 5.30pm, and the Moeraki Boulders are only a few minutes away, so the two pair well.\nLocal tip: In summer, come mid-afternoon, since the reserve closes at 5.30pm, and keep 20m from the seals. Don't eat anywhere in the reserve, which holds sites of spiritual significance to Ngāi Tahu.",
+    "recommendedDurationSlots": 2,
+    "featured": 2,
+    "hoursNote": "Reserve open 7.30am to 5.30pm; narrow gravel road; no bikes; no food in the reserve",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/moeraki-area/things-to-do/katiki-point-walking-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Shag Point / Matakaea",
+    "slug": "shag-point-matakaea",
+    "lat": -45.473617,
+    "lng": 170.831168,
+    "category": [
+      "Nature",
+      "Scenic"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Free",
+    "description": "A rocky headland just off State Highway 1 near Palmerston, where large numbers of fur seals haul out on the rocks below the lookout. A five minute track leads from the car park to viewing platforms, with wide views along the coast.\n\nIt's a quick, usually quiet detour on the drive between Oamaru and Dunedin. The seals are wild and can move fast, and some lie right beside the path. Watch your footing near the steep, rocky edges.\nLocal tip: Come mid-afternoon on a sunny day, when the seals are hauled out basking, and stay on the marked path at least 20m from them.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; free parking; steep, rocky edges; keep 20m from wildlife",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJvx0D5ftrKagR9fuXgR33bgk",
+    "confidence": "medium"
+  },
+  {
+    "name": "All Day Bay Freedom Camping",
+    "slug": "all-day-bay-freedom-camping",
+    "lat": -45.211823,
+    "lng": 170.884279,
+    "category": [
+      "Stay"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Free",
+    "description": "A free roadside camping area at All Day Bay, south of Kakanui and about 20 minutes from Oamaru. You park on grass beside the road, sheltered by trees, with the beach just behind them and an estuary on the other side.\n\nThere are long drop toilets and a rubbish bin but no water, and fires aren't allowed. Like all freedom camping in Waitaki, it's for certified self-contained vehicles only, with a limit of three nights in any four weeks, and the council can fine you $200 if you're not self-contained.\nLocal tip: The bin is often full, so take your rubbish with you, and bring insect repellent, since the mosquitoes can be bad on still evenings.",
+    "hoursNote": "Certified self-contained vehicles only; max 3 nights in 4 weeks; long drop toilets and bin; no water; no fires",
+    "sourceUrl": "https://campermate.com/en/location/new-zealand/ota/waitaki/free-campsites/all-day-bay-free-campground/27b1e64b-91d7-4680-8d2d-7d6e04ef173c",
+    "confidence": "medium"
+  },
+  {
+    "name": "Katiki Beach North Reserve",
+    "slug": "katiki-beach-north-reserve",
+    "lat": -45.400256,
+    "lng": 170.839239,
+    "category": [
+      "Stay"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Free",
+    "description": "A free rest area right on the beach beside State Highway 1, a few minutes south of Moeraki, where certified self-contained vehicles can stay up to three nights. There's plenty of room and level parking, the spots at the front look straight out to sea, and Kātiki Point and the Moeraki Boulders are close by.\n\nFacilities are pit toilets only, with no water, and you'll hear the highway during the day.\nLocal tip: Arrive by early evening for a beachfront spot, and bring sandfly repellent, because they come out in force at dusk.",
+    "hoursNote": "Certified self-contained vehicles only; max 3 nights; pit toilets; no water; highway noise",
+    "sourceUrl": "https://campermate.com/en/location/new-zealand/ota/waitaki/free-campgrounds/katiki-beach-north-reserve-rest-stop/f27061ad-088d-4313-b90f-4490a747a5f5",
+    "confidence": "medium"
+  },
+  {
+    "name": "Glencoe Campsite (DOC)",
+    "slug": "glencoe-campsite",
+    "lat": -45.227263,
+    "lng": 170.757369,
+    "category": [
+      "Stay",
+      "Nature"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Cheap",
+    "description": "A quiet DOC campsite in beech and podocarp forest by the north branch of the Waianakarua River, 2km up a gravel road west of Herbert and about 25 minutes south of Oamaru. It's $15 a night for adults and $7.50 for children 5 to 17, with under 5s free, and it's one of the few cheap spots nearby for tents and cars that aren't self-contained.\n\nThere are long drop toilets, a cooking shelter and tap water you need to boil, and a five minute track leads down to the river. To find it, turn off SH1 at Herbert into Ord Street, go left into Monk Street, then right onto Glencoe Road.\nLocal tip: Book online before you go, since DOC keeps no spaces for walk-ins and phone signal at the site can be patchy. The nohoanga next door is reserved for Ngāi Tahu from 16 August to 30 April, so pitch only in the campsite.",
+    "hoursNote": "Book online; $15 adult, $7.50 child per night; long drops; untreated water; gravel access road",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/moeraki-area/things-to-do/glencoe-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Oamaru Backpackers",
+    "slug": "oamaru-backpackers",
+    "lat": -45.105175,
+    "lng": 170.968096,
+    "category": [
+      "Stay"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small hostel on Tees Street, on the hill just above the Victorian Precinct, with rooms looking out over the bay. It has a well kept kitchen and lounge, free tea and cereal, and a garden of succulents planted in old bikes and wheelbarrows.\n\nCheck-in is self-service, and the office is only open from 10am to 4.30pm. It's a quiet place rather than a party hostel, and reviewers praise how clean it is, though noise carries between rooms.\nLocal tip: Pack earplugs, and park on the street early in the evening, since spaces near the hostel fill up.",
+    "hoursNote": "Self check-in; office 10am to 4.30pm; limited street parking",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJhxntGNeZKagRZsRIEu0XAqc",
+    "confidence": "medium"
+  }
+]

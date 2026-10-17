@@ -1,0 +1,362 @@
+[
+  {
+    "name": "Te Waikoropupū Springs",
+    "slug": "te-waikoropupu-springs",
+    "lat": -40.848109,
+    "lng": 172.770405,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "New Zealand's largest freshwater springs, and the largest cold water springs in the southern hemisphere, pushing out about 14,000 litres of astonishingly clear water every second. An easy 45 minute loop on boardwalks and viewing platforms takes you through bush to the main spring and the Dancing Sands, and it's suitable for wheelchairs and buggies.\n\nThe springs are wāhi tapu, a sacred place for Māori, and the water is closed to all contact: no swimming, wading, touching the water or filling bottles, and no dogs. Panels at Whare Mātauranga Marae, at the entrance, explain the cultural story. It's free, about 7km from Tākaka off State Highway 60.\nLocal tip: Go on a sunny day, when the light shows the blues at their best, and keep children close, since some boardwalk sections are unfenced and the water is fast and very cold.",
+    "recommendedDurationSlots": 2,
+    "featured": 1,
+    "hoursNote": "Open any time; free; 45 min easy loop; no touching the water; no dogs",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/takaka-area/things-to-do/tracks/te-waikoropupu-springs-walk/",
+    "confidence": "high",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Wharariki Beach",
+    "slug": "wharariki-beach",
+    "lat": -40.509169,
+    "lng": 172.684868,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "A wild, windswept beach near Cape Farewell, with big sand dunes, sea caves and the Archway Islands just offshore. From the free car park at the end of Wharariki Road, it's about 20 minutes' walk each way over farmland and dunes, through Pūponga Farm Park.\n\nSwimming isn't recommended because of strong currents and rips. Seal pups often play in the rock pools, and DOC asks you to stay at least 20m away and never follow or chase them. Dogs aren't allowed, and the farm park can close for lambing, calving or extreme fire risk.\nLocal tip: Aim for a lower tide, so you can wander further along the sand and around the rocks, and bring a windproof layer, since it's often gusty out here.",
+    "recommendedDurationSlots": 4,
+    "featured": 2,
+    "hoursNote": "Open any time unless farm closed for lambing or fire risk; 20 min walk each way; no swimming; no dogs",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/farewell-spit-and-puponga-farm-park/things-to-do/tracks/wharariki-beach-track/",
+    "confidence": "high",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Farewell Spit Eco Tours",
+    "slug": "farewell-spit-eco-tours",
+    "lat": -40.676746,
+    "lng": 172.682598,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.farewellspit.com/",
+    "description": "Farewell Spit is a long sand spit and nature reserve where the public can only walk the first few kilometres, and the rest is reached on supervised tours. This Collingwood operator's Farewell Spit Tour takes about six and a half hours by 4WD bus along the ocean beach to the historic lighthouse, roughly 27km out.\n\nStops include Cape Farewell, the northernmost point of the South Island, Fossil Point, where fur seals haul out, and 45 minutes at the lighthouse with refreshments in the old keepers' cottage, plus a climb up a big sand dune on the way back. From 1 November 2026, adults are $220 and children $70. Shorter Gannet Colony and Wader Watch tours are also offered.\nLocal tip: Departure times follow the tides, so check the timetable before you plan the rest of your day, and bring binoculars, sunscreen and a jacket.",
+    "recommendedDurationSlots": 14,
+    "featured": 3,
+    "hoursNote": "Tide dependent departures from 6 Tasman Street, Collingwood; booking needed; office 8am to 5pm",
+    "sourceUrl": "https://www.farewellspit.com/farewell-spit-tour",
+    "confidence": "high",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Labyrinth Rocks Park",
+    "slug": "labyrinth-rocks-park",
+    "lat": -40.850498,
+    "lng": 172.824203,
+    "category": [
+      "Attractions",
+      "Walks"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "A maze of narrow paths winding between limestone outcrops and native bush on Scott Road, just outside Tākaka, founded by an English geologist. Small figurines and toys are tucked into the rocks for a self-guided scavenger hunt, from kissing pigs to a stegosaurus, and some of the formations look like faces.\n\nEntry is free, with a donation box to support the people who look after it. Most visitors spend 30 minutes to an hour, and kids love it. Parking is limited to about ten vehicles, with overflow along the road.\nLocal tip: Grab the free map at the entrance, and keep little ones close, since it really is easy to lose each other in the passages.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily; free, donations welcome; small car park",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJG6-lZyyJPG0RnIPbMEZMcdM",
+    "confidence": "medium",
+    "area": "golden-bay"
+  },
+  {
+    "name": "The Grove Scenic Reserve",
+    "slug": "the-grove-scenic-reserve",
+    "lat": -40.847342,
+    "lng": 172.870919,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "A short, atmospheric walk among limestone blocks gripped by the roots of northern rātā, with nīkau palms overhead. The track squeezes between the rocks before reaching a viewing platform over Golden Bay.\n\nDOC rates it easy at about 40 minutes return. It's off Rocklands Road near Clifton, about 8km east of Tākaka on the way to Pōhara, and has a small car park and picnic area.\nLocal tip: The car park is tight for large campervans, so go early or late in the day in summer.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time; free; 40 min return; small car park",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/takaka-area/things-to-do/tracks/grove-scenic-reserve-walk/",
+    "confidence": "high",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Rawhiti Cave",
+    "slug": "rawhiti-cave",
+    "lat": -40.884081,
+    "lng": 172.866471,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "A huge cave mouth hung with stalactites, many of them growing outwards towards the light and covered in mosses and ferns. DOC says its entrance plant life is possibly the most diverse and extensive of any cave in New Zealand, and you look in from a platform at the entrance.\n\nThe track starts off Packard Road near Motupipi, about 15 minutes from Tākaka, through private farmland. It follows the Dry River valley for about 30 minutes, then climbs steeply for another 30. DOC rates the narrow final section for fit, experienced walkers, so allow one to two hours return and wear good shoes.\nLocal tip: Don't cross the Dry River during or after heavy rain, stay on the track and platform so you don't trample the formations, and leave the farm gates as you found them.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open any time; free; steep track, about 1 hr each way; avoid after heavy rain",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/takaka-area/things-to-do/tracks/rawhiti-cave-track/",
+    "confidence": "high",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Wainui Falls",
+    "slug": "wainui-falls",
+    "lat": -40.838883,
+    "lng": 172.940052,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "The largest and easiest to reach waterfall in Golden Bay, at the northern end of Abel Tasman National Park, about 20km from Tākaka. The track starts from the Wainui Bay car park, crosses farmland, then follows the bouldery Wainui River through nīkau and rātā forest and over a swing bridge.\n\nIt takes about an hour return. DOC warns of steep, unfenced drops, rockfall after heavy rain and slippery rocks above fast water at the falls, and the stepping-stone stream crossing can be impassable during or after heavy rain. Dogs aren't allowed, as it's inside the national park.\nLocal tip: It gets busy in summer, so go early in the morning or try it in autumn, walk it in dry weather, and keep children within arm's reach on the drop-off sections.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; free; 1 hr return; no dogs; can be impassable after heavy rain",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/abel-tasman-national-park/things-to-do/tracks/wainui-falls-track/",
+    "confidence": "high",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Pōhara Beach",
+    "slug": "pohara-beach",
+    "lat": -40.832168,
+    "lng": 172.852451,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "Golden Bay's main swimming beach, a long sandy stretch about 10 minutes from Tākaka along Abel Tasman Drive. It's popular for swimming, kayaking, windsurfing and fishing, with shady trees along the back of the beach.\n\nThe tide goes out a very long way, leaving a huge flat expanse of sand at low tide. There's a boat ramp, public toilets and a few cafés nearby in Pōhara village.\nLocal tip: Swim around high tide, since at low tide it's a long walk to water deep enough.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open any time; free; best swimming near high tide",
+    "sourceUrl": "https://www.nelsontasman.nz/scenic-attractions/pohara-beach/",
+    "confidence": "medium",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Hawkes Lookout",
+    "slug": "hawkes-lookout",
+    "lat": -41.025025,
+    "lng": 172.904726,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "A quick stop near the top of Tākaka Hill on State Highway 60, about 14km from Riwaka. A 10 minute return walk through sharp marble karst and sinkholes leads to a viewing platform looking down the Riuwaka valley to Tasman Bay and across to the Richmond Range.\n\nStoryboards along the way tell the local Māori story of the land. There's parking and a toilet by the road.\nLocal tip: Stay on the track, since DOC warns some sinkholes are hidden by grass and shrubs and may go down hundreds of metres.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; free; 10 min return; no camping or fires",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/kahurangi-national-park/things-to-do/tracks/hawkes-lookout-walk/",
+    "confidence": "high",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Ngarua Caves",
+    "slug": "ngarua-caves",
+    "lat": -41.018957,
+    "lng": 172.902822,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.ngaruacaves.co.nz/",
+    "description": "A guided walk through a marble cave on top of Tākaka Hill, with stalactites, stalagmites and a display of skeletal remains of the extinct moa. The tour takes about 45 minutes underground on an easy path suitable for all ages.\n\nAdults are $30, children 5 to 15 are $10, and under 5s are free. Tours run on the hour from 10am to 4pm, and you can't go in without a guide. There's a small shop selling local crafts, coffee and ice blocks at the entrance, just up the road from Hawkes Lookout.\nLocal tip: Bring a warm layer and sturdy shoes, since it's cool inside. From June to September, bookings are essential.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Hourly tours from 10am, last tour mid afternoon; daily in summer; book ahead June to September",
+    "sourceUrl": "https://www.ngaruacaves.co.nz/",
+    "confidence": "high",
+    "area": "golden-bay"
+  },
+  {
+    "name": "The Mussel Inn",
+    "slug": "the-mussel-inn",
+    "lat": -40.759513,
+    "lng": 172.703246,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.musselinn.co.nz/",
+    "description": "A much loved country pub and brewery at Onekaka, about 17km from Tākaka towards Collingwood, built by the Dixon family in 1992. It's a one room, woolshed-style building with verandas on three sides, a big open fire, and no TV, pokies or pool table.\n\nEverything on tap is brewed next door, including the Captain Cooker mānuka beer, plus ciders and soft drinks. The food is simple: steamed mussels and mussel chowder, with steak, fish and vegetarian dishes. There's live music most weekend nights, and about every second night in January.\nLocal tip: They don't usually take bookings, so arrive early in summer, and know that fresh mussels are often off the menu from Christmas to around mid January.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily from 11am; dinner 5pm to 9pm; closed Christmas Day and New Year's Day",
+    "sourceUrl": "https://www.musselinn.co.nz/About/about.html",
+    "confidence": "high",
+    "area": "golden-bay"
+  },
+  {
+    "name": "The Wholemeal Café",
+    "slug": "the-wholemeal-cafe",
+    "lat": -40.858653,
+    "lng": 172.806337,
+    "category": [
+      "Food"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://wholemealcafe.co.nz/",
+    "description": "Tākaka's best known café, on the main street, with indoor and outdoor seating, local art on the walls and a full cabinet of baking. It serves cooked breakfasts and lunches with plenty of wholesome options, plus smoothies, juices and ice cream.\n\nThe coffee is Café Timor Leste, from Arabica beans bought directly from a small group of farmers, and you can buy bags to take away. It's a good place to fuel up before heading to the springs or out to Collingwood.\nLocal tip: It opens at 7.30am, so it suits an early start for Wharariki or a Farewell Spit tour.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 7.30am to 3pm (from 8am Sunday)",
+    "sourceUrl": "https://wholemealcafe.co.nz/",
+    "confidence": "high",
+    "area": "golden-bay"
+  },
+  {
+    "name": "The Courthouse Café",
+    "slug": "the-courthouse-cafe",
+    "lat": -40.677564,
+    "lng": 172.682569,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Cheap",
+    "description": "A café in Collingwood's restored old courthouse at 11 Elizabeth Street, a short walk from where the Farewell Spit tours leave. Bread is baked on site, and the menu leans on local seafood such as mussel chowder and market fish, alongside cooked breakfasts and generous cabinet food.\n\nThere are several indoor rooms and plenty of outdoor seating, and dogs are welcome. It's also home to the gallery and studio of local artist Sue Dasler.\nLocal tip: Stop in for coffee before a morning spit tour, or for lunch on the way back from Wharariki.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 8am to 3pm",
+    "sourceUrl": "https://www.nelsontasman.nz/eat-drink/the-courthouse-cafe/",
+    "confidence": "medium",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Old School Cafe, Bar and Restaurant",
+    "slug": "old-school-cafe-puponga",
+    "lat": -40.598746,
+    "lng": 172.686891,
+    "category": [
+      "Food"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Moderate",
+    "description": "A café, bar and restaurant in an old school building at Pūponga, near the base of Farewell Spit and the road to Wharariki Beach. It's the natural place to eat after a day at the spit or the beach, with a fire inside in winter and tables inside and out.\n\nMains are big and not cheap, with blue cod, steak, burgers, pizza and seafood chowder among the favourites. The owners work in the café, and the service is friendly and relaxed.\nLocal tip: It only opens Friday to Sunday, with dinner from Friday and lunch at weekends, so plan your Wharariki or Farewell Spit day around it and arrive hungry.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Fri 4pm to 8pm; Sat and Sun 11am to 2pm and 5pm to 8pm; closed Mon to Thu",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJWXu-nT_vPG0RNriDEHyXmLY",
+    "confidence": "medium",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Al Forno Pizza",
+    "slug": "al-forno-pizza-pohara",
+    "lat": -40.833837,
+    "lng": 172.882975,
+    "category": [
+      "Food"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Moderate",
+    "description": "A small pizzeria on Abel Tasman Drive at Pōhara, a few minutes from the beach, making pizzas with crisp bases and fresh toppings. Reviewers rate the vegan options highly.\n\nIt's a relaxed place with a small dining area, and it gets very busy in peak summer, so expect a wait.\nLocal tip: It only opens Friday to Sunday, 4.30pm to 7.30pm, so order early and pair it with an evening swim at Pōhara Beach.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Fri to Sun 4.30pm to 7.30pm; closed Mon to Thu",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJmd94isyJPG0ROLoIcb0cd1s",
+    "confidence": "medium",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Anatoki Salmon",
+    "slug": "anatoki-salmon",
+    "lat": -40.883851,
+    "lng": 172.768787,
+    "category": [
+      "Food",
+      "Attractions"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.anatokisalmon.co.nz/",
+    "description": "A salmon farm at 230 McCallum Road, a few minutes from Tākaka, where you catch your own Chinook salmon from a pond. Rods, bait and cleaning are free and no experience is needed. You pay for the fish you land, and staff will hot smoke it, slice it as sashimi or vacuum pack it for an extra fee.\n\nThe café serves salmon dishes such as salmon pizza for $26 and a platter for two for $58. The big tame longfin eels, which have lived in the stream here for more than 100 years, are a highlight, and you can buy food to feed them for $3.\nLocal tip: Have your catch hot smoked and eat it on the deck for lunch. It takes a little while, so feed the eels and walk the ponds while you wait.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open daily 9.30am to 4.30pm, last entry 4pm; gear free, pay per fish caught",
+    "sourceUrl": "https://www.anatokisalmon.co.nz/",
+    "confidence": "high",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Motupipi Car Park Freedom Camping",
+    "slug": "motupipi-car-park-freedom-camping",
+    "lat": -40.858983,
+    "lng": 172.807602,
+    "category": [
+      "Stay"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "The council's freedom camping spot in central Tākaka, at 33 Motupipi Street, right behind the main street shops. It's for certified self-contained vehicles only, with up to 11 spaces on a first come basis.\n\nIt's simply a car park with no facilities. Tasman District Council allows a maximum of two consecutive nights, no more than twice in a calendar month, you must leave by 8am, and breaking the rules can bring a $400 fine. Tent camping on public land isn't allowed anywhere in Tasman, and camping is banned elsewhere in Tākaka township and at Pōhara Recreation Reserve, Ligar Bay and Tata Beach.\nLocal tip: There's a free dump station just along the road at 82 Motupipi Street.",
+    "hoursNote": "Certified self-contained only; 11 spaces; max 2 nights; leave by 8am; no facilities",
+    "sourceUrl": "https://www.tasman.govt.nz/my-region/recreation/responsible-camping",
+    "confidence": "high",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Tōtaranui Campground",
+    "slug": "totaranui-campground",
+    "lat": -40.822464,
+    "lng": 173.004254,
+    "category": [
+      "Stay"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Cheap",
+    "description": "A large DOC campground behind the golden sands of Tōtaranui Beach at the northern end of Abel Tasman National Park. Sites are spread across 23 grassy zones under mature trees, with six amenity blocks, flush toilets and cold showers, and designated fireplaces when there's no fire ban, but no powered sites.\n\nFrom 9 February to 25 December it costs $18 a night for adults and $9 for children 5 to 17, and from 26 December to 8 February it's $20 and $10, with a $40 minimum per site. Book online, since DOC holds no spaces for walk-ins. The gates lock overnight, and the last 12km of road from Pōhara is narrow, winding and unsealed.\nLocal tip: There are no rubbish bins, so plan to take everything out with you, keep food locked away from the cheeky weka, and bring insect repellent for the sandflies.",
+    "hoursNote": "Book online; gate 7.30am to 8.30pm Oct to Mar, 7.30am to 6.30pm Apr to Sep; max 14 nights; no dogs",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/abel-tasman-national-park/things-to-do/campsites/totaranui-campground/",
+    "confidence": "high",
+    "area": "golden-bay"
+  },
+  {
+    "name": "Golden Bay Barefoot Backpackers",
+    "slug": "golden-bay-barefoot-backpackers",
+    "lat": -40.85539,
+    "lng": 172.806959,
+    "category": [
+      "Stay"
+    ],
+    "region": "nelson-tasman",
+    "active": true,
+    "price": "Cheap",
+    "description": "A relaxed, friendly hostel on Commercial Street, a short walk from the middle of Tākaka. It has dorms and private rooms, plus spots for tents and your own campervan, and a couple of caravans to rent.\n\nGuests regularly mention the welcoming owners, the family feel and the free bikes to borrow, and it's one of the cheapest beds in town.\nLocal tip: Book ahead over Christmas and New Year, when Golden Bay fills up fast.",
+    "hoursNote": "Reception about 8am to 7pm; phone 03 525 7005",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ710sg9iOPG0R-_KSq6Fr5lQ",
+    "confidence": "medium",
+    "area": "golden-bay"
+  }
+]

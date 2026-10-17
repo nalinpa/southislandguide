@@ -1,0 +1,365 @@
+[
+  {
+    "name": "Cape Foulwind Walkway and Seal Colony",
+    "slug": "cape-foulwind-walkway-seal-colony",
+    "lat": -41.763688,
+    "lng": 171.456813,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/westport/things-to-do/tracks/cape-foulwind-walkway/",
+    "description": "A clifftop walk on the headland 15 minutes west of Westport, with a year round New Zealand fur seal colony at one end and the Cape Foulwind lighthouse at the other. From the Tauranga Bay car park it's only about 15 minutes each way to the seal viewing platform, on a path suitable for wheelchairs and buggies, and from September to February you'll see pups playing on the rocks below.\n\nThe full walkway between the two car parks takes about 1 hour 15 minutes one way, or 2 hours for the 5.8km return, on a well formed gravel path with information panels along the way. Parking is free, with toilets at both ends and picnic tables at Tauranga Bay, but there's no drinking water and no bins. Dogs must be on a lead, and bikes and drones aren't allowed.\nLocal tip: Watch the seals from the platform and stay at least 20m away, as DOC asks, and bring a windproof layer, because the cape earns its name.",
+    "recommendedDurationSlots": 4,
+    "featured": 1,
+    "hoursNote": "Open any time; free parking at Tauranga Bay and Lighthouse Road car parks; dogs on a lead and 20 m from seals; no bikes or drones",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/westport/things-to-do/tracks/cape-foulwind-walkway/",
+    "confidence": "high",
+    "area": "westport"
+  },
+  {
+    "name": "Tauranga Bay Beach",
+    "slug": "tauranga-bay-beach",
+    "lat": -41.765723,
+    "lng": 171.458211,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "description": "A wide, sandy surf beach backed by hills, right beside the seal colony car park at Cape Foulwind. You'll often see surfers here, and it's a lovely place to wander, especially at sunset when the headland lights up.\n\nThere's plenty of free parking and toilets at the car park, and the Kawatiri Coastal Trail runs past, so you can link it with a walk or ride along the coast to Cape Foulwind (3.5km) or Ōkari Lagoon (5.5km).\nLocal tip: It's an exposed West Coast surf beach, so only swim on a calm day and stay close to shore.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time; free parking and toilets at the Tauranga Bay car park",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJxaPNfACnJW0R6DPaaxh53ec",
+    "confidence": "medium",
+    "area": "westport"
+  },
+  {
+    "name": "Denniston Plateau and Brakehead",
+    "slug": "denniston-plateau-brakehead",
+    "lat": -41.735,
+    "lng": 171.796042,
+    "category": [
+      "Culture",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/denniston-area/things-to-do/tracks/denniston-brakehead-walks/",
+    "description": "The remains of a coal mining settlement high on a plateau above the coast, and the top of the Denniston Incline, one of the steepest railways in the world when it was built. From 1880 to 1967, loaded coal wagons dropped 518m down the incline, and a five minute, wheelchair accessible path from the lower car park leads to a platform looking straight down it.\n\nThe Brakehead Walk is an easy 2km loop of about an hour past the old brakehead, coal relics and the town site, with plenty of information boards, and a 15 minute side trip leads to the Banbury Arches, a drystone bridge built by Cornish stonemasons in 1878. It's 26km, about 30 minutes, from Westport via State Highway 67, and the last 8km is a steep, winding sealed road.\nLocal tip: The plateau often makes its own cold, foggy weather even when the coast is sunny, so take a warm layer, and bring food and water, since there are no shops, drinking water or bins up there.",
+    "recommendedDurationSlots": 5,
+    "featured": 2,
+    "hoursNote": "Open any time; free; toilets and picnic tables but no drinking water; the underground Denniston Experience mine tour is not operating",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/denniston-area/things-to-do/tracks/denniston-brakehead-walks/",
+    "confidence": "high",
+    "area": "westport"
+  },
+  {
+    "name": "Charming Creek Walkway to Mangatini Falls",
+    "slug": "charming-creek-walkway-mangatini-falls",
+    "lat": -41.586388,
+    "lng": 171.95525,
+    "category": [
+      "Walks",
+      "Culture"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/westport/things-to-do/tracks/charming-creek-walkway/",
+    "description": "An old bush tramway that follows Charming Creek into the Ngakawau Gorge, past the relics of coal mines and sawmills. From the car park at the end of Charming Creek Road, about 8.5km of gravel from Seddonville, it's about 2 hours one way to the 50m Mangatini Tunnel, which opens out onto a view of Mangatini Falls.\n\nAlong the way you pass the old mine bathhouse, Mumm's Mill with its steam engine and log hauler, and Watson's Mill. The track is mostly flat, but there's rockfall risk on the approach to the tunnel, so avoid it in heavy rain or wind. Don't drink the stream water, which is high in minerals from old mine drainage.\nLocal tip: Only the northern section from the Seddonville side is open. The southern section from Ngakawau has been closed by slips since 2019 and DOC won't reopen it, so don't head for the old Ngakawau car park.",
+    "recommendedDurationSlots": 9,
+    "hoursNote": "Northern section open from Seddonville car park; southern (Ngakawau) section closed by slips; don't drink the stream water",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/westport/things-to-do/tracks/charming-creek-walkway/",
+    "confidence": "high",
+    "area": "westport"
+  },
+  {
+    "name": "Buller Gorge Swingbridge Adventure and Heritage Park",
+    "slug": "buller-gorge-swingbridge",
+    "lat": -41.767573,
+    "lng": 172.193007,
+    "category": [
+      "Adventure",
+      "Attractions"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://bullergorge.co.nz/",
+    "description": "New Zealand's longest swingbridge, 110m long and hanging high above the Buller River, on State Highway 6 west of Murchison. Once you're across, loop walks lead through the bush past information boards on the area's gold mining history, and a visit can be anything from a 10 minute leg stretch to half a day.\n\nCrossing the bridge is $12.50 for adults and $5 for children 14 and under, with no booking needed. Gold panning is $12.50 for adults and $10 for children, with tuition and dirt from a spot where you're bound to find some gold, and you keep what you find. For more thrills there's the Comet Line, a 160m seated zipline, and jet boat rides.\nLocal tip: It's a natural stop on the drive between Nelson and Westport. Do the short loop on the far side and cross back over the bridge for a second look at the river.",
+    "recommendedDurationSlots": 3,
+    "featured": 4,
+    "hoursNote": "Daily 9am to 5pm; bridge $12.50 adult, $5 child; gold panning $12.50 adult, $10 child",
+    "sourceUrl": "https://bullergorge.co.nz/swingbridge/",
+    "confidence": "high",
+    "area": "westport"
+  },
+  {
+    "name": "Ōpārara Arch",
+    "slug": "oparara-arch",
+    "lat": -41.151942,
+    "lng": 172.190504,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/kahurangi-national-park/things-to-do/tracks/oparara-arch/",
+    "description": "Huge limestone arches in the rainforest of Kahurangi National Park, north of Karamea, which is about 90 minutes' drive from Westport. DOC says the Ōpārara Arch is reputed to be the largest natural arch in Australasia.\n\nThe walk to it is an easy 1.1km track of about 30 minutes each way, and it gets slippery in the rain. The Moria Gate and Mirror Tarn loop takes about 1 hour 30 minutes and passes a second arch and a still tarn with beautiful reflections. To get there, head about 10km north from Karamea and turn onto McCallums Mill Road, a narrow, steep gravel road that runs 14km to the car park, with a recommended speed of 30km/h.\nLocal tip: The road isn't suitable for campervans or large vehicles, so come in a car, and pack lunch and a torch, since there are no shops past Karamea.",
+    "recommendedDurationSlots": 6,
+    "featured": 3,
+    "hoursNote": "Open any time; free; 23 km (about 30 min) from Karamea, last 14 km gravel; no campervans or large vehicles",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/kahurangi-national-park/things-to-do/tracks/oparara-arch/",
+    "confidence": "high",
+    "area": "westport"
+  },
+  {
+    "name": "Museum of Kawatiri (Pounamu Pathway)",
+    "slug": "museum-of-kawatiri",
+    "lat": -41.754088,
+    "lng": 171.598677,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.pounamupathway.com/kawatiri/",
+    "description": "Westport's museum at 123 Palmerston Street, part of the West Coast's Pounamu Pathway and made with Wētā Workshop. It tells the story of the Buller District through pounamu, coal and gold, from early Polynesian settlers and Poutini Ngāi Tahu to the mining towns.\n\nTickets are $25 for adults, $5 for children and $20 for SuperGold card holders, bought on site. Visitors rate the walk-through mine exhibit and its film on how the old mines worked. It's open 9am to 4pm on weekdays and 10am to 2pm on Saturdays, and closed on Sundays.\nLocal tip: Visit before you drive up to Denniston. The history makes the relics on the plateau far more interesting.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Mon to Fri 9am to 4pm, Sat 10am to 2pm, closed Sun; adults $25, children $5",
+    "sourceUrl": "https://www.pounamupathway.com/kawatiri/",
+    "confidence": "high",
+    "area": "westport"
+  },
+  {
+    "name": "Kawatiri Coastal Trail",
+    "slug": "kawatiri-coastal-trail",
+    "lat": -41.765311,
+    "lng": 171.597846,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://kawatiricoastaltrail.co.nz/",
+    "description": "A 40km walking and cycling trail from Westport to Charleston, mostly Grade 2 with some short Grade 3 stretches. It runs out past Carters Beach to Cape Foulwind and Tauranga Bay, then on through bush, wetlands and over suspension bridges to Ōkari Lagoon, the Tōtara River and the Nile River.\n\nIt's split into eight sections, so it's easy to do just a piece of it. The 5km from Westport to Carters Beach and the 3.5km from Cape Foulwind to Tauranga Bay are good short options, and you can hire e-bikes in Westport.\nLocal tip: For a big day out, ride from Westport to Tauranga Bay, walk to the seal colony, and ride back along the beachfront at Carters Beach.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Open any time; all sections open at last check; free",
+    "sourceUrl": "https://kawatiricoastaltrail.co.nz/",
+    "confidence": "high",
+    "area": "westport"
+  },
+  {
+    "name": "The Wild Pie Co",
+    "slug": "wild-pie-co-westport",
+    "lat": -41.76006,
+    "lng": 171.600019,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://westcoastpies.co.nz/",
+    "description": "An award winning pie shop on Palmerston Street, formerly the West Coast Pie Co, making pies from wild hunted meat such as venison, wallaby, goat and hare. It has won several Outstanding New Zealand Food Producer Awards, the pastry gets plenty of praise, and there are classic flavours alongside the unusual ones.\n\nPies are big and priced at the top end for a pie, but still make a cheap, filling lunch. The website lists it as open seven days, 8am to 2pm, or 9am on Sundays.\nLocal tip: Reviewers rate the open pork and fennel sausage roll as highly as the pies.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Website lists Mon to Sat 8am to 2pm, Sun 9am to 2pm, but opening days vary by season; check before going",
+    "sourceUrl": "https://westcoastpies.co.nz/",
+    "confidence": "medium",
+    "area": "westport"
+  },
+  {
+    "name": "Euro Food Store",
+    "slug": "euro-food-store-westport",
+    "lat": -41.755078,
+    "lng": 171.598889,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small European deli and café on Palmerston Street, and one of the best rated places to eat in Westport. It does cooked breakfasts, good coffee and cakes, and sells imported European groceries.\n\nRegulars rave about the scrambled eggs on fried ciabatta, the Portuguese tarts and the chocolate cake, and the owners are known for friendly service.\nLocal tip: Grab a few Portuguese tarts to take away for the drive or the Cape Foulwind walk.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Mon to Fri 8am to 3pm, Sat 8am to 1pm, closed Sun",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJZ9Z_mRwHJW0RdPNvigVbKAo",
+    "confidence": "medium",
+    "area": "westport"
+  },
+  {
+    "name": "Star Tavern",
+    "slug": "star-tavern-cape-foulwind",
+    "lat": -41.74969,
+    "lng": 171.481747,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Moderate",
+    "description": "A country pub on Lighthouse Road at Cape Foulwind, close to the lighthouse end of the walkway. It pours local and New Zealand beers on tap and serves hearty pub dinners.\n\nReviewers single out the seafood chowder and the lamb shank, and it's a handy option for an evening meal if you're staying out at the cape.\nLocal tip: It's dinner only and closed on Tuesdays and Wednesdays, so walk the cape in the afternoon and finish here.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Dinner 4.30pm to 8.30pm Thu to Mon; closed Tue and Wed",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJh_GTsRCpJW0RaLl9PH8pDg0",
+    "confidence": "medium",
+    "area": "westport"
+  },
+  {
+    "name": "Coalface Cafe and Takeaways",
+    "slug": "coalface-cafe-ngakawau",
+    "lat": -41.608004,
+    "lng": 171.87583,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Cheap",
+    "description": "A friendly café and takeaway on the main road through Ngakawau, on State Highway 67 north of Westport. It's known for fish and chips, fish burgers and pizza, with ice cream and coffee too.\n\nIt's a good stop on the way to Karamea or the Charming Creek Walkway, and there's outdoor seating where you can eat with the dog.\nLocal tip: Take your fish and chips a few minutes up the road to the beach at Hector or Granity for dinner with a sea view.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 11am to 7pm, until 7.30pm Fri and Sat",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJGTqas9HfJG0ROAJrBGFfS1c",
+    "confidence": "medium",
+    "area": "westport"
+  },
+  {
+    "name": "Tutaki Bakery",
+    "slug": "tutaki-bakery-murchison",
+    "lat": -41.801549,
+    "lng": 172.325265,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Cheap",
+    "description": "A tiny standalone bakery beside the Murchison District Museum on Fairfax Street, on the Buller Gorge route between Nelson and Westport. The baker makes everything himself, from flaky meat and vegetarian pies to pain au chocolat and slices.\n\nIt's mostly takeaway, with a few outdoor tables and benches nearby.\nLocal tip: It only opens a few days a week, so if it lines up with your drive, stock up for a picnic at the Buller Gorge Swingbridge.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "9.30am to 2pm Thu, Fri, Sun and Mon; closed Tue, Wed and Sat",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJfZwvtr_ROm0RZj9ZWg4FUig",
+    "confidence": "medium",
+    "area": "westport"
+  },
+  {
+    "name": "Scotts Beach Walk (Heaphy Track)",
+    "slug": "scotts-beach-walk-heaphy-track",
+    "lat": -41.087957,
+    "lng": 172.103715,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "description": "The first stretch of the Heaphy Track, starting from Kōhaihai at the end of the road, 16km north of Karamea. The track crosses the Kōhaihai River on a suspension bridge, climbs gently through nīkau palm forest over a coastal bluff, then drops to Scotts Beach, a wild sandy beach with a picnic area.\n\nIt's an easy 7km return and takes about 2 hours. A short side track at the top of the bluff leads to a viewpoint over the coast, and the 35 minute Nīkau Walk and a 10 minute lookout track also start from the Kōhaihai car park.\nLocal tip: Don't swim anywhere along this coast, since DOC warns of extreme tidal currents and rips. The track near the suspension bridge can be swamped in storms, floods or high tides, so check conditions first.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open any time; 7 km, about 2 hr return from Kōhaihai car park; no swimming; no mobile coverage",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/kahurangi-national-park/things-to-do/tracks/kohaihai-area-short-walks/",
+    "confidence": "high",
+    "area": "westport"
+  },
+  {
+    "name": "Underworld Adventures",
+    "slug": "underworld-adventures-charleston",
+    "lat": -41.906016,
+    "lng": 171.439187,
+    "category": [
+      "Adventure",
+      "Attractions"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://caverafting.com/",
+    "description": "A long running caving operator on State Highway 6 at Charleston, south of Westport. Every trip starts with a 20 minute ride on the little Nile River Rainforest Train through the bush and a limestone canyon into Paparoa National Park, then heads into the Metro / Te Ananui cave system with its stalactites, stalagmites and glowworms.\n\nThe Glow Worm Cave Tour is a guided walk through the cave and takes about 3.5 hours from the base. It's $165 for adults and $115 for children, and the minimum age is 5. There's also a four hour cave rafting trip, where you float on a tube under the glowworms, and a harder adventure caving option.\nLocal tip: Book online at least a day ahead, since same-day and next-day bookings are by phone only. Wear sturdy shoes and bring a warm layer and a rain jacket.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Glow Worm Cave Tour departs 9am and 11.30am Oct to Apr, 10am May to Sep; minimum age 5; book ahead",
+    "sourceUrl": "https://caverafting.com/gloworm-cave-tour/",
+    "confidence": "high",
+    "area": "westport"
+  },
+  {
+    "name": "Kawatiri Beach Reserve Freedom Camping",
+    "slug": "kawatiri-beach-reserve-freedom-camping",
+    "lat": -41.734888,
+    "lng": 171.60577,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "description": "A free gravel camping area at North Beach on the northern edge of Westport, a short walk through the driftwood to the sea and about 10 minutes by bike from town. There are 30 spaces, for certified self-contained vehicles only, and you can stay up to two nights.\n\nThere's a long drop toilet, rubbish bins and a tap with non-drinkable water. Across Buller, freedom camping is for certified self-contained vehicles only, with a maximum of nine nights a month, and the council can fine you $200 for breaking the rules.\nLocal tip: It fills up by early evening in summer, so arrive by late afternoon, and keep your food away from the cheeky weka.",
+    "hoursNote": "Certified self-contained only; 30 spaces; max 2 nights; long drop; non-potable water; $200 fines under Buller rules",
+    "sourceUrl": "https://bullerdc.govt.nz/recreation/freedom-camping/",
+    "confidence": "medium",
+    "area": "westport"
+  },
+  {
+    "name": "Lyell Campsite",
+    "slug": "lyell-campsite",
+    "lat": -41.79694,
+    "lng": 172.048988,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/lyell-area/things-to-do/campsites/lyell-campsite/",
+    "description": "A large, grassy DOC campsite in the Upper Buller Gorge on State Highway 6, about 15km northeast of Inangahua, on the site of an old gold mining town. It takes tents, cars, campervans and caravans, and it's the southern end of the Old Ghost Road.\n\nIt's $18 a night for adults and $9 for children 5 to 17, with under 5s free. Book online, since DOC holds no spaces for walk-ins, and same-day bookings close at 8pm. Short walks lead to the old cemetery and the gold workings at Gibbstown, Zalatown and 8 Mile.\nLocal tip: Bring repellent, because the sandflies and wasps are fierce in summer. The ground can go soft after heavy rain, so take care if you're towing or in a 2WD.",
+    "hoursNote": "$18 adult, $9 child per night; book online (same day bookings close 8pm); basic toilets; sandflies",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/lyell-area/things-to-do/campsites/lyell-campsite/",
+    "confidence": "high",
+    "area": "westport"
+  },
+  {
+    "name": "Bazil's Hostel & Surf School",
+    "slug": "bazils-hostel-surf-school",
+    "lat": -41.754111,
+    "lng": 171.599627,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.bazils.com/",
+    "description": "A colourful backpackers at 54 to 56 Russell Street in Westport, covered in street art and murals, with dorms, private rooms, family units, self-contained units, and campervan and tent sites. There's a well equipped kitchen, a covered barbecue and pizza area, a garden with hammocks, a laundry and off-street parking.\n\nIt's also an accredited surf school, with lessons and hire of surfboards, wetsuits, kayaks, paddleboards, bikes and e-mountain bikes. Pay for five nights on arrival and you get a free surf lesson, and in winter the fourth night is free when you pay for three.\nLocal tip: If the surf is up, book a lesson with the owner. The park and the beach are a short walk away.",
+    "hoursNote": "Dorms, private rooms, units, campervan and tent sites; surf lessons and gear hire; book online",
+    "sourceUrl": "https://www.bazils.com/",
+    "confidence": "medium",
+    "area": "westport"
+  },
+  {
+    "name": "Kōhaihai Campsite",
+    "slug": "kohaihai-campsite",
+    "lat": -41.10921,
+    "lng": 172.10312,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Cheap",
+    "description": "A DOC campsite at the very end of the road, 16km north of Karamea, where the Heaphy Track meets the sea. It sits between nīkau palm forest and a big surf beach, with flush toilets, sinks, a picnic shelter and a large rainwater tank, and the last 3km in is gravel.\n\nIt's $10 a night for adults and $5 for children 5 to 17, with a maximum stay of two nights, and you need to book online. The Scotts Beach walk and the short Nīkau Walk start right from the camp. Dogs are allowed at the campsite but not on the Heaphy Track or anywhere in the national park.\nLocal tip: There's no mobile coverage and the tap water isn't treated, so boil it or bring your own. Only swim in the lagoon upstream, well back from where it meets the sea, and bring plenty of sandfly repellent.",
+    "hoursNote": "$10 adult, $5 child per night; max 2 nights; book online; untreated water; no mobile coverage",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/kahurangi-national-park/things-to-do/campsites/kohaihai-campsite/",
+    "confidence": "high",
+    "area": "westport"
+  }
+]

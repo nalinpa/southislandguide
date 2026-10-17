@@ -1,0 +1,311 @@
+[
+  {
+    "name": "Pancake Rocks and Blowholes Walk",
+    "slug": "pancake-rocks-and-blowholes-walk",
+    "lat": -42.115403,
+    "lng": 171.329656,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/paparoa-national-park/things-to-do/tracks/pancake-rocks-and-blowholes-walk/",
+    "description": "The West Coast's best known stop, a paved 30 minute loop at Dolomite Point, Punakaiki, through layered limestone stacks that look like piles of pancakes. When the sea surges in, water booms up through the blowholes and Sudden Sound fills with spray.\n\nThe walk itself is free and suitable for wheelchairs with help, apart from one optional section with steps. DOC charges for the car park across the road, at $2.50 per half hour or $20 a day, card only, and it's free if you're in and out within 10 minutes. The return path comes out suddenly onto the highway, so keep children close.\nLocal tip: Aim to be there around high tide, ideally with a south-westerly swell, for the blowholes to really perform. At low tide on a calm day they barely stir.",
+    "recommendedDurationSlots": 2,
+    "featured": 1,
+    "hoursNote": "Open all hours; 30 min loop; DOC paid car park $2.50 per half hour or $20 per day, card only",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/paparoa-national-park/things-to-do/tracks/pancake-rocks-and-blowholes-walk/",
+    "confidence": "high",
+    "area": "punakaiki"
+  },
+  {
+    "name": "Truman Track",
+    "slug": "truman-track",
+    "lat": -42.09237,
+    "lng": 171.339779,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/paparoa-national-park/things-to-do/tracks/truman-track/",
+    "description": "A short DOC track 3km north of the Punakaiki visitor centre that drops through subtropical rainforest and flax to a wild little cove in the Punakaiki Marine Reserve. Viewing platforms look over sea caves, surging rock gutters and a waterfall that spills from the cliffs straight onto the beach.\n\nIt takes about 30 minutes return and is free, with a small car park beside State Highway 6. If it's full, DOC asks you to use the gravel shoulder 600m south rather than park on the highway. There are no toilets, water or bins, and the beach isn't safe for swimming.\nLocal tip: Only go down onto the beach at low tide in calm seas, since the far cove gets cut off at high tide and waves can wash over the lower platform. Don't linger under the soft sandstone cliffs.",
+    "recommendedDurationSlots": 2,
+    "featured": 3,
+    "hoursNote": "Open all hours; 30 min return; beach safe only at low tide in calm seas",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/paparoa-national-park/things-to-do/tracks/truman-track/",
+    "confidence": "high",
+    "area": "punakaiki"
+  },
+  {
+    "name": "Pororari River Track",
+    "slug": "pororari-river-track",
+    "lat": -42.107037,
+    "lng": 171.339745,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/paparoa-national-park/things-to-do/tracks/pororari-river-track/",
+    "description": "An easy riverside walk into a limestone gorge, starting from the car park by the Pororari River bridge, 1km north of the Punakaiki visitor centre. Tall cliffs, huge boulders and deep, clear pools line the river, and the forest shifts from subtropical to temperate as you go.\n\nA 15 minute stroll gets you to a seat and lookout into the gorge, and carrying on to the suspension bridge, about 2.5km further, makes it about 1.5 hours return. This is also the Punakaiki end of the Paparoa Track Great Walk, so you get a free taste of it without the overnight.\nLocal tip: Don't linger under the cliffs past the lookout, where the gorge is prone to rockfall, and skip it after heavy rain, when parts of the track can become impassable.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open all hours; lookout 15 min, suspension bridge about 1.5 hrs return; can flood in heavy rain",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/paparoa-national-park/things-to-do/tracks/pororari-river-track/",
+    "confidence": "high",
+    "area": "punakaiki"
+  },
+  {
+    "name": "Punakaiki Cavern",
+    "slug": "punakaiki-cavern",
+    "lat": -42.112353,
+    "lng": 171.332484,
+    "category": [
+      "Nature",
+      "Adventure"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/paparoa-national-park/things-to-do/tracks/punakaiki-cavern/",
+    "description": "A small limestone cave right beside State Highway 6, about 500m north of the Punakaiki visitor centre. A wooden stairway leads down into around 130m of passages with stalactites and a few glowworms.\n\nIt's free and takes well under an hour, and you can just look in from the entrance in a couple of minutes. The ground can be wet, so wear decent shoes.\nLocal tip: Bring a good torch and a spare, then switch it off deep inside and wait for your eyes to adjust to spot the glowworms. Take care crossing the highway to and from your car.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open all hours; bring a torch; entrance on the roadside, cross SH6 with care",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/paparoa-national-park/things-to-do/tracks/punakaiki-cavern/",
+    "confidence": "high",
+    "area": "punakaiki"
+  },
+  {
+    "name": "Barrytown Knifemaking",
+    "slug": "barrytown-knifemaking",
+    "lat": -42.255012,
+    "lng": 171.320496,
+    "category": [
+      "Adventure",
+      "Culture"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://barrytownknifemaking.com/",
+    "description": "A full day workshop in Barrytown, on the coast road between Punakaiki and Greymouth, where you forge your own blade from red-hot steel and finish it with a native timber handle, brass bolsters and pins. You take the knife home, and reviewers regularly call it a highlight of their New Zealand trip.\n\nThe day runs from 9.30am to around 4pm, with a toasted sandwich lunch, axe throwing, target practice and a giant swing in the breaks. It's $220 per person, paid by cash or bank transfer, and you must book by 7pm the day before.\nLocal tip: Book well ahead in summer, and confirm which days are running when you book, since the website now lists classes on just two days a week.",
+    "recommendedDurationSlots": 14,
+    "featured": 2,
+    "hoursNote": "Tue to Sun 9.30am to about 4pm; closed Mon; book by 7pm the day before; cash or bank transfer",
+    "sourceUrl": "https://barrytownknifemaking.com/make-a-knife/",
+    "confidence": "medium",
+    "area": "punakaiki"
+  },
+  {
+    "name": "Pete's Pattie Palace",
+    "slug": "petes-pattie-palace",
+    "lat": -42.106589,
+    "lng": 171.336705,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small food cart inside Punakaiki Beach Camp, a short walk from the Pororari River and the beach. Pete makes West Coast whitebait patties, cheese rolls with three cheeses, soft serve, coffee and coconut iced coffee, and the reviews are close to perfect.\n\nIt's the best value feed in Punakaiki, where the options near Pancake Rocks are pricey, and the beach is a two minute walk away for eating your pattie with a view.\nLocal tip: Come in the morning for coffee and a whitebait pattie before the Pancake Rocks crowds arrive.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Inside Punakaiki Beach Camp, 5 Owen St; hours vary, coffee from the morning",
+    "sourceUrl": "https://www.punakaikibeachcamp.co.nz/petes-pattie-palace-update/",
+    "confidence": "medium",
+    "area": "punakaiki"
+  },
+  {
+    "name": "McMillan Road Freedom Camping",
+    "slug": "mcmillan-road-freedom-camping",
+    "lat": -42.129563,
+    "lng": 171.328461,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "description": "A small free camping area at the end of McMillan Road, just south of Pancake Rocks, right behind a wild beach with big sunsets. It's for certified self-contained vehicles only, with a limit of two nights.\n\nThere are no toilets or showers and only about five spaces, so it's full most evenings in summer. Weka roam the site and will raid any food you leave out. Freedom camping is banned north of here, between the Punakaiki and Fox Rivers, so don't try the village or the Pancake Rocks car park.\nLocal tip: Arrive by mid-afternoon to get a spot, bring sandfly repellent, and keep off the dunes behind the beach, which are breeding ground for protected seabirds.",
+    "hoursNote": "Certified self-contained only; max 2 nights; about 5 spaces; no toilets; first come first served",
+    "sourceUrl": "https://www.rankers.co.nz/experiences/10442-McMillan_Road_Freedom_Camping_Area",
+    "confidence": "medium",
+    "area": "punakaiki"
+  },
+  {
+    "name": "Point Elizabeth Walkway",
+    "slug": "point-elizabeth-walkway",
+    "lat": -42.385108,
+    "lng": 171.227867,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/greymouth-area/things-to-do/tracks/point-elizabeth-walkway/",
+    "description": "An easy coastal walk just north of Greymouth, between Rapahoe and the North Beach end near Cobden. It follows an old gold miners' water race, with deep cuttings dug by hand, through nīkau palms, tree ferns and northern rātā to a rocky lookout at Point Elizabeth, with sea stacks below.\n\nThe full walk takes about 1 hour 45 minutes one way on a well surfaced, mostly level track, so it suits families. There's parking at both ends. Rapahoe is 11km from Greymouth on SH6, and the southern end is about 6km.\nLocal tip: On a clear day you can see south to Aoraki Mt Cook from the lookout. Without a car at each end, start from Rapahoe and walk to the lookout and back.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all hours; about 1 hr 45 min one way; parking at Rapahoe and North Beach Rd, Cobden",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/greymouth-area/things-to-do/tracks/point-elizabeth-walkway/",
+    "confidence": "high",
+    "area": "greymouth"
+  },
+  {
+    "name": "Monteith's Brewery",
+    "slug": "monteiths-brewery",
+    "lat": -42.453949,
+    "lng": 171.206743,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.thebrewery.co.nz/",
+    "description": "The original home of Monteith's beer in central Greymouth, now a busy bar and restaurant with a free museum on the brewery's history. Tasting trays of craft beers and ciders let you try the range, and the menu runs from stacked burgers to fish and chips.\n\nThe guided 45 minute Brewery Experience runs daily at 4pm. You get to pour your own beer from the tap, and you take home a six pack. It's open from 11am to 9pm, seven days.\nLocal tip: Book the tour online, and book a table too if you want dinner, since tables fill from about 5.30pm.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily 11am to 9pm; tour daily at 4pm; closed 25 and 26 Dec and 1 Jan",
+    "sourceUrl": "https://www.thebrewery.co.nz/",
+    "confidence": "high",
+    "area": "greymouth"
+  },
+  {
+    "name": "DP1 Cafe",
+    "slug": "dp1-cafe",
+    "lat": -42.44805,
+    "lng": 171.212889,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Cheap",
+    "description": "A quirky café on Mawhera Quay, beside the floodwall in central Greymouth, with bare floors, painted brick walls and a relaxed feel. Locals rate the coffee as the best in town.\n\nThere's a cabinet of baking and a full breakfast and lunch menu, and staff are happy to help with vegetarian requests. Free newspapers are there to read.\nLocal tip: Grab a coffee and walk the floodwall along the Grey River, where info panels explain the town's history.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Mon to Fri 7am to 3pm; Sat and Sun 8am to 3pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJRWlDD35pL20RSjRWiCDM42E",
+    "confidence": "medium",
+    "area": "greymouth"
+  },
+  {
+    "name": "Shantytown Heritage Park",
+    "slug": "shantytown-heritage-park",
+    "lat": -42.533791,
+    "lng": 171.182434,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://shantytown.co.nz/",
+    "description": "A recreated gold rush town 10km south of Greymouth, built in the early 1970s, with around 30 historic buildings, steam trains, a sawmill and a café. Entry includes a ride on one of the heritage trains, the sluice gun demonstration when it's running, and theatre shows.\n\nAdults are $45, children 5 to 17 are $21, seniors and students are $35, and under 5s are free. A family pass for two adults and up to four children is $110, or $89 for one adult. Gold panning and old-time photos cost extra, and you keep any gold you find.\nLocal tip: Plan your visit around the train times, 11am, 12.30pm and 2pm, and allow at least 90 minutes.",
+    "recommendedDurationSlots": 5,
+    "featured": 4,
+    "hoursNote": "Open daily from 10am, closed Christmas Day; trains 11am, 12.30pm, 2pm; gold panning $15 extra",
+    "sourceUrl": "https://shantytown.co.nz/about/",
+    "confidence": "high",
+    "area": "greymouth"
+  },
+  {
+    "name": "Formerly the Blackball Hilton",
+    "slug": "formerly-the-blackball-hilton",
+    "lat": -42.364331,
+    "lng": 171.413232,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://blackballhilton.co.nz/",
+    "description": "A pub built in 1910 in the old mining town of Blackball, inland from Greymouth, with \"Formerly\" added to its name. Blackball is where the 1908 crib time strike, over a 15 minute lunch break, helped spark New Zealand's labour movement, and the pub is full of that history.\n\nThe kitchen serves à la carte meals using West Coast produce, and the bar has an open fire and a pool table. There are 16 simple rooms with continental breakfast, plus six powered motorhome sites that can also charge electric cars, and it's a popular base the night before the Paparoa Track.\nLocal tip: Book dinner ahead by phone, and call into Blackball Salami Co around the corner for venison salami and black pudding.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Winter 2026: lunch Thu to Sun noon to 2.30pm; dinner daily from 6pm; bookings recommended",
+    "sourceUrl": "https://blackballhilton.co.nz/",
+    "confidence": "high",
+    "area": "greymouth"
+  },
+  {
+    "name": "Moana Lakefront, Lake Brunner",
+    "slug": "moana-lakefront-lake-brunner",
+    "lat": -42.575888,
+    "lng": 171.470476,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://westcoast.co.nz/visit/see-do/outdoors-and-adventure/walks-and-hikes/lake-brunner-moana-walks/",
+    "description": "Lake Brunner, Kotuku Whakaoho, is the West Coast's largest lake, and the little settlement of Moana sits on its northern shore, east of Greymouth. The lakefront by the boat ramp is the spot for a swim, a picnic and big views across to the mountains.\n\nFrom here the easy Rakaitane Walk crosses a suspension bridge over the Arnold River and loops through forest by the lake, 1.2km and about 45 minutes. The longer Lake Brunner Scenic Trail follows 11km of shoreline, about 3 hours return, with more swimming beaches along the way.\nLocal tip: The lake is far calmer than the surf beaches for a summer swim, and the Moana hotel does meals. Bring sandfly repellent.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all hours; Rakaitane Walk 45 min loop; toilets and hotel in Moana",
+    "sourceUrl": "https://westcoast.co.nz/visit/see-do/outdoors-and-adventure/walks-and-hikes/lake-brunner-moana-walks/",
+    "confidence": "high",
+    "area": "greymouth"
+  },
+  {
+    "name": "Iveagh Bay Freedom Camping",
+    "slug": "iveagh-bay-freedom-camping",
+    "lat": -42.619738,
+    "lng": 171.486251,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "description": "A free Grey District Council camping area on the shore of Lake Brunner at Iveagh Bay, south of Moana, with lake views and swimming out front. It's for certified self-contained vehicles only, in about 10 marked spots.\n\nThere are flush toilets, bins and water, but no showers or dump station, and fires aren't allowed. The council's limit is two consecutive nights in one spot, and the fine for breaking the rules is $400.\nLocal tip: Arrive before 4pm, since the bays fill quickly, park only south of the toilet block, and bring repellent for the sandflies.",
+    "hoursNote": "Certified self-contained only; about 10 spaces; max 3 consecutive nights; toilets and water; no fires",
+    "sourceUrl": "https://www.rankers.co.nz/experiences/6525-Iveagh_Bay_Overnight_Campervan_Parking",
+    "confidence": "medium",
+    "area": "greymouth"
+  },
+  {
+    "name": "Cobden Aromahana Lagoon Freedom Camping",
+    "slug": "cobden-aromahana-lagoon-freedom-camping",
+    "lat": -42.438788,
+    "lng": 171.197733,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "description": "A free council camping area in Cobden, just across the river from central Greymouth, between the lagoon and the beach near the breakwater. It's for certified self-contained vehicles only, and tents aren't allowed.\n\nThere are public toilets, cleaned regularly, and a 20 minute loop track around the lagoon with picnic tables and black swans. It can get very windy, and busy on summer nights.\nLocal tip: Walk up to the breakwater at sunset to watch the fishing boats cross the Grey River bar, and check the signs for the current night limit.",
+    "hoursNote": "Certified self-contained only; toilets; dump station; night limits signposted",
+    "sourceUrl": "https://www.travellers-autobarn.co.nz/blog/freedom-camping-greymouth",
+    "confidence": "medium",
+    "area": "greymouth"
+  },
+  {
+    "name": "Global Village Backpackers",
+    "slug": "global-village-backpackers",
+    "lat": -42.458814,
+    "lng": 171.200559,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://globalvillagebackpackers.co.nz/",
+    "description": "A colourful, art-filled backpackers at 42 to 54 Cowper Street in Greymouth, with dorms, twins and doubles, central heating and off-street parking. It rates 9.5 on Hostelworld from more than a thousand guests, with cleanliness and value scoring highest.\n\nBikes, kayaks and the gym are free, and there's a spa and sauna for a small fee. They'll pick you up from the train station, 1.7km away, for free, which is handy for the TranzAlpine.\nLocal tip: It doesn't take children under 13, and you need to cancel 48 hours ahead to avoid a charge.",
+    "hoursNote": "Check in 1pm to 8pm; check out 10am; no under 13s; 48 hrs cancellation",
+    "sourceUrl": "https://www.hostelworld.com/hostels/p/25994/global-village-travellers-lodge/",
+    "confidence": "medium",
+    "area": "greymouth"
+  }
+]

@@ -19,21 +19,24 @@ The shared hook does the asking: `useReviewPrompt` in `@blacksands/hooks` (`engi
 |---|---|
 | Tasks 1 and 2: release `@blacksands/hooks` 0.4.5 and bump to it | **Not needed.** The installed copy is 0.4.7, which has `useReviewPrompt` (`node_modules/@blacksands/hooks/dist/index.d.ts`). Only the version range in `package.json` (`^0.4.1`) should be raised to `^0.4.7`, so the requirement is written down. |
 | Task 3: `npx expo install expo-store-review` | **Already installed** (`~57.0.3`, commit `0680045`). Only the adapter in `lib/hooksBag.ts` is missing. |
-| One trigger, first trip created | Rotorua has since added two more (commit `562d136`): the **second app open** (`app/_layout.tsx`, with `lib/hooks/useAppOpenCount.ts`) and the **first review posted** (`app/(app)/(tabs)/sites/[siteId]/index.tsx`). Question 1 below. |
+| One trigger, first trip created | Rotorua has since added two more (commit `562d136`): the **second app open** (`app/_layout.tsx`, with `lib/hooks/useAppOpenCount.ts`) and the **first review posted**. This app uses the first trip and the **fifth** app open (decisions below). |
 | No test harness: manual QA only | **This repo works test-first** (jest, React Native Testing Library). Every trigger gets its tests first; manual checks only for what a device shows. |
 | `useItineraries` `onSuccess` is synchronous | Here it awaits the list refetch, and saves go through an offline queue. The prompt is asked **before** the refetch is awaited, so it isn't held up by it. |
 
 The launch plan had suggested "once a trip first has three or more places". Under launch decision 2 a free user can't add places, so that moment would never reach them. Creating a trip from a suggested itinerary does, which is one reason to keep Rotorua's "first trip created".
 
-## Questions for the owner
+## Decisions (owner, 2026-10-17)
 
-1. **Which moments ask?** Recommended: **the first trip created, and the first review posted.** Both come after the person has got something out of the app.
-   - **Not the second app open**, which Rotorua also uses. It asks before the person has done anything, and with only three sheets a year per person, an early one is wasted.
-   - Who each moment reaches:
-     - **First trip created:** free users (from a suggested itinerary) and paid users.
-     - **First review posted:** anyone signed in.
-     - **Guests:** neither, since they can't make trips or post reviews.
-2. **Anything to hold it back?** Recommended: **no extra rule.** The system already limits it, and both moments are deliberate actions the person has just finished. (If the opening tour is built to start on first open, neither moment can fall inside it: you can't create a trip or post a review mid-tour.)
+| Question | Decision |
+|---|---|
+| Which moments ask | **The first trip created, and the fifth app open.** Not the first review posted: too few people review places to rely on it. |
+| What counts as an open | **The app starting up** (Rotorua's `useAppOpenCount`), not every switch back to it. iOS keeps apps running in the background, so the fifth start-up comes after days or weeks of use, which is the point; counting every return would reach five in one afternoon. |
+| Anything to hold it back | **No extra rule.** The system limits how often the sheet shows. If both moments land in the same session, the system shows at most one. |
+
+Who each moment reaches:
+
+- **First trip created:** free users (from a suggested itinerary) and paid users.
+- **Fifth app open:** everyone, guests included.
 
 ## Steps
 
@@ -87,24 +90,28 @@ Each step leaves `npm test` and `npx tsc --noEmit` passing.
   - deleting doesn't.
 - **Worked if:** tests pass. On a development build, making a first trip, from a suggested itinerary or blank, shows the rating sheet.
 
-### 3. First review posted (small)
+### 3. The fifth app open (small)
 
-- **Files:** `app/(app)/(tabs)/sites/[siteId]/index.tsx`, `app/(app)/(tabs)/sites/[siteId]/__tests__/siteDetail.test.tsx`.
-- **Change**, as Rotorua's detail screen:
-  - Read the user's review count with `hooksBag.useMyReviews(uid)` and keep it in a ref, as in step 2.
-  - Call `hooksBag.useReviewPrompt()` at the top of the screen.
-  - In the review sheet's `onSave`, when `res.ok` and the count was 0, call `requestReview()` after closing the sheet.
+- **Files:** a new `lib/hooks/useAppOpenCount.ts` (Rotorua's, with the storage key `southislandguide:appOpenCount`) and `lib/hooks/__tests__/useAppOpenCount.test.ts`; `app/_layout.tsx` and its test.
+- **Change:**
+  - The hook adds one to a count kept on the phone each time the app starts up, and returns it (`null` until read).
+  - In the root layout, ask once the count is 5:
+
+    ```ts
+    const openCount = useAppOpenCount();
+    const { requestReview } = hooksBag.useReviewPrompt();
+    useEffect(() => {
+      if (openCount === 5) requestReview();
+    }, [openCount, requestReview]);
+    ```
+
+  - The fifth start-up exactly, not "five or more": the system decides about later times, and the app shouldn't ask on every launch after.
+- **Shared counter:** the opening tour's plan may start the tour on the first open, as Rotorua does. If both are built, they share this one hook.
 - **Tests first:**
-  - a first review saved asks;
-  - a review when the user already has one doesn't;
-  - a failed save doesn't.
-- **Worked if:** tests pass. On a development build, posting a first review closes the review sheet and then shows the rating sheet.
-
-### 4. Only if question 1 says so: the second app open (small)
-
-- **Files:** a new `lib/hooks/useAppOpenCount.ts` (Rotorua's, with the storage key `southislandguide:appOpenCount`) and its test; `app/_layout.tsx`.
-- The opening tour's plan may want the same counter (Rotorua's tour starts on the first open). If both are built, they share this one hook.
-- **Tests first:** the count goes up by one each launch and survives a restart; the prompt is asked on the second open only.
+  - the count goes up by one each start-up, and carries on from what was stored;
+  - it is `null` until read;
+  - the layout asks on the fifth start-up, and not on the fourth or the sixth.
+- **Worked if:** tests pass. On a development build, the fifth start-up shows the rating sheet. To get there quickly, fully close and reopen the app five times; the count lives on the phone, so deleting the app resets it.
 
 ## Checking on a phone
 
@@ -127,7 +134,7 @@ Each step leaves `npm test` and `npx tsc --noEmit` passing.
 - **Package installed:** `expo-store-review` `~57.0.3` is in `package.json`. `lib/hooksBag.ts` has no `storeReview` adapter yet.
 - **New vs edit:** `itineraryService.saveItinerary` creates when there is no `id` and updates when there is one.
 - **Creating a trip from a suggested itinerary** goes through `saveItinerary` without an `id` (`CreateItineraryModal`), so it counts as a first trip.
-- **Rotorua today** asks on the second open, on the first trip and on the first review (commit `562d136`).
+- **Rotorua today** asks on the second open, on the first trip and on the first review (commit `562d136`); this app keeps the first trip and moves the open to the fifth.
 
 ### Assumed
 

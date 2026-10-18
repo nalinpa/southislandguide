@@ -1,0 +1,263 @@
+[
+  {
+    "name": "Queen Charlotte Track Day Walk",
+    "slug": "queen-charlotte-track-day-walk",
+    "lat": -41.196098,
+    "lng": 174.089927,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "marlborough",
+    "area": "picton",
+    "active": true,
+    "price": "Moderate",
+    "description": "A 73km track along the ridges and bays between Queen Charlotte and Kenepuru Sounds, usually walked over three to five days. Most visitors walk one section as a day trip instead, taking a water taxi from Picton to the start and being picked up at the end. Two popular day sections are Ship Cove to Resolution Bay, 4.5km and about 2 hours, and Mistletoe Bay to Anakiwa, 12.5km and about 4 hours, on DOC's slow-pace times.\n\nA one-way boat from Picton to Ship Cove costs about $90 for an adult. Between Kenepuru Saddle and Anakiwa the track crosses private land, so you need a track pass, $15 for a day or $30 for up to five days, sold online and at the Picton and Blenheim i-SITEs. Several water taxi companies on the Picton waterfront can plan a day walk for you.\nLocal tip: Book your water taxi the day before and ask them to match the drop-off and pick-up to your pace. The views from the ridge between the two sounds are the reason to go, so pick a clear day.",
+    "recommendedDurationSlots": 14,
+    "featured": 1,
+    "hoursNote": "Track open year round; water taxis run daily from Picton; track pass required for sections crossing private land",
+    "sourceUrl": "https://www.newzealand-spirit.com/guides/queen-charlotte-track/",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Snout Track",
+    "slug": "snout-track-picton",
+    "lat": -41.27438,
+    "lng": 174.019716,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "marlborough",
+    "area": "picton",
+    "active": true,
+    "price": "Free",
+    "description": "A walk from the edge of Picton along the ridge of the peninsula between Picton Harbour and Queen Charlotte Sound. From the car park in Victoria Domain, about five minutes' drive from town, it's about 30 minutes to the Queen Charlotte View lookout, which has a picnic table and a long drop toilet, and about 1 hour 20 minutes to the end at Snout Point.\n\nThe track is easy and mostly shaded by bush, with good views of the ferries coming and going, and a short section follows the road. There's no water along the way, and it gets slippery after rain.\nLocal tip: If you have a few hours before or after the ferry, walk up to the lookout and back. On foot from town, you can start from the Picton foreshore instead, which adds about an hour to the full return walk.",
+    "recommendedDurationSlots": 5,
+    "featured": 2,
+    "hoursNote": "Open any time; small car park; long drop at the lookout; bring water; slippery after rain",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJW5yKWbIwOW0RmAWZHRo22wE",
+    "confidence": "medium"
+  },
+  {
+    "name": "Edwin Fox Maritime Museum",
+    "slug": "edwin-fox-maritime-museum",
+    "lat": -41.286777,
+    "lng": 174.005843,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "marlborough",
+    "area": "picton",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.edwinfox.nz/",
+    "description": "A museum on the Picton waterfront built around the Edwin Fox, a teak sailing ship built in Calcutta in 1853 and one of the oldest surviving merchant ships in the world. She was a Crimean War troopship, carried convicts to Western Australia, and brought 751 settlers to New Zealand, and she's the only surviving ship that carried convicts to Australia. Today she sits preserved, not restored, in a dry dock, and you can go down onto two of her decks.\n\nAdults are $15, children 5 to 14 are $5, and under 5s are free. A short film and displays upstairs tell her story. It's open daily from 9am, until 5pm from October to April and 3pm from May to September. Most people spend about an hour.\nLocal tip: It's right beside the ferry terminal, so it's a good way to fill time while you wait for a sailing.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 9am to 5pm Oct to Apr, 9am to 3pm May to Sep; closed Christmas Day",
+    "sourceUrl": "https://www.edwinfox.nz/your-visit",
+    "confidence": "high"
+  },
+  {
+    "name": "Queen Charlotte Drive and Cullen Point Lookout",
+    "slug": "queen-charlotte-drive-cullen-point",
+    "lat": -41.268673,
+    "lng": 173.784942,
+    "category": [
+      "Scenic"
+    ],
+    "region": "marlborough",
+    "area": "marlborough-sounds",
+    "active": true,
+    "price": "Free",
+    "description": "The winding coastal road between Picton and Havelock, along the edges of Queen Charlotte and Pelorus Sounds, with bays, lookouts and DOC campsites along the way. It's much slower than the highway via Blenheim but far more scenic.\n\nCullen Point, just before Havelock, has a short walk of about 10 minutes to a lookout over Havelock and Pelorus Sound, and a longer loop around the headland. The road is narrow and winding, and DOC notes that vehicles over 3,500kg towing more than 12.6m aren't permitted on it.\nLocal tip: Check the council's road alerts before you drive. Storm repairs are still going on, with construction closures near Linkwater on 20 and 21 October 2026.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; narrow and winding; restrictions on heavy vehicles and long towing combinations after flood damage",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJvSIZoIxPOW0RbIb5hYmk_gQ",
+    "confidence": "medium"
+  },
+  {
+    "name": "Pelorus Mail Boat",
+    "slug": "pelorus-mail-boat",
+    "lat": -41.275831,
+    "lng": 173.769037,
+    "category": [
+      "Water",
+      "Attractions"
+    ],
+    "region": "marlborough",
+    "area": "marlborough-sounds",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.themailboat.co.nz/",
+    "description": "A day on the boat that delivers mail, groceries and supplies to people living in remote bays of Pelorus Sound, where many homes have no road access. It runs on Mondays, Wednesdays and Fridays, leaving Pier B at Havelock Marina at 10am (check in by 9.30am) and getting back between 3.30 and 4.30pm. You meet the locals, and their dogs, at each stop, and you may see dolphins, seals and rare king shags along the way.\n\nAdults are $145, children are $72.50, and a family pass for two adults and two children is $360. Tea and coffee are included, but lunch isn't.\nLocal tip: Pick up lunch at one of Havelock's cafés or the bakery before you board, and bring a warm layer even on a sunny day, since it gets cold on the top deck once the boat is moving.",
+    "recommendedDurationSlots": 12,
+    "featured": 3,
+    "hoursNote": "Mail run Mon, Wed and Fri year round, plus Saturdays in summer; departs 10am from Pier B, Havelock Marina",
+    "sourceUrl": "https://www.themailboat.co.nz/cruising-and-delivering-mail-on-our-mail-run-cruises/the-mail-run-cruise/",
+    "confidence": "high"
+  },
+  {
+    "name": "Motuara Island Bird Sanctuary Cruise",
+    "slug": "motuara-island-bird-sanctuary-cruise",
+    "lat": -41.28863,
+    "lng": 174.008604,
+    "category": [
+      "Nature",
+      "Water"
+    ],
+    "region": "marlborough",
+    "area": "picton",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.beachcombercruises.co.nz/",
+    "description": "A half day boat trip from Picton to Motuara Island, a predator-free bird sanctuary in outer Queen Charlotte Sound. You get about an hour on the island, with a five minute walk to a bird viewing station and an 800m track with lookouts up to the 128m summit, looking out over Ship Cove and Cook Strait. Look for tīeke (South Island saddleback), toutouwai (robin), bellbirds and kererū, and little blue penguins sometimes nest in boxes along the track.\n\nThe cruise also stops at historic Ship Cove, where Captain Cook anchored. It's $120 for adults and $80 for children 5 to 14, leaving London Quay at 8am (check in by 7.30am) and returning about 12.30pm, and runs from 1 October to 30 April.\nLocal tip: Bring binoculars and take the walk to the top slowly. The birds are easiest to spot if you stop and wait quietly.",
+    "recommendedDurationSlots": 10,
+    "hoursNote": "1 October to 30 April only; departs 8am from London Quay, Picton (check in 7.30am); back about 12.30pm",
+    "sourceUrl": "https://www.beachcombercruises.co.nz/marlborough-sounds/cruises-and-walks/motuara-island-bird-sanctuary-cruise",
+    "confidence": "high"
+  },
+  {
+    "name": "Governors Bay",
+    "slug": "governors-bay-queen-charlotte-drive",
+    "lat": -41.268499,
+    "lng": 173.968463,
+    "category": [
+      "Water"
+    ],
+    "region": "marlborough",
+    "area": "picton",
+    "active": true,
+    "price": "Free",
+    "description": "A small, sheltered beach on Queen Charlotte Sound, reached by a short track of about 10 minutes, steep in places, from a small car park on Queen Charlotte Drive. The water is clear and calm, and there's a grassy area with benches, a picnic table and a toilet.\n\nThe beach shrinks at high tide. It's a good spot for a quick swim on the drive between Picton and Havelock.\nLocal tip: Heavy rain has damaged the track in the past, so check it's open before you go, and wear shoes with grip for the steep sections.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time; small car park; steep 10 minute track; toilet and picnic table; track has been damaged by storms, so check before visiting",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJd3HEDFc3OW0Rfv2VWNfbXds",
+    "confidence": "low"
+  },
+  {
+    "name": "Pelorus Bridge Scenic Reserve",
+    "slug": "pelorus-bridge-scenic-reserve",
+    "lat": -41.298852,
+    "lng": 173.57269,
+    "category": [
+      "Nature",
+      "Water"
+    ],
+    "region": "marlborough",
+    "area": "marlborough-sounds",
+    "active": true,
+    "price": "Free",
+    "description": "A reserve of old native forest where State Highway 6 crosses the Pelorus River, between Havelock and Nelson. The clear river pools below the bridge are good for swimming, people jump off the rocks on hot days, and the barrel escape scene in The Hobbit was filmed on this river.\n\nShort walks loop through the forest, including the 30 minute Tōtara Walk to a giant tōtara and the 45 minute Circle Walk, which is wheelchair accessible as far as the swing bridge. There are toilets, picnic areas and a café, and the car park fills up on sunny weekends.\nLocal tip: Arrive before 10.30am on a sunny summer day to get a park, and bring insect repellent, because the sandflies are thick by the river.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; toilets and picnic areas; coffee cart with limited hours; no camping in the car park",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJJXTEEIviO20RaTz_re9RCiQ",
+    "confidence": "medium"
+  },
+  {
+    "name": "Toastie Lords",
+    "slug": "toastie-lords-picton",
+    "lat": -41.288935,
+    "lng": 174.007677,
+    "category": [
+      "Food"
+    ],
+    "region": "marlborough",
+    "area": "picton",
+    "active": true,
+    "price": "Cheap",
+    "description": "A toastie shop at 10 London Quay, on the Picton waterfront, with a short menu of toasted sandwiches, donuts and coffee. The Goldie, a classic cheese and onion, and the Quint, a tuna, jalapeño and cheese melt, are the favourites, and it caters well for vegans and other diets.\n\nService is fast, which suits people rushing for the ferry, and it opens at 6.30am every day, until 4pm. There are a few tables inside and out.\nLocal tip: Grab breakfast here before an early ferry or water taxi, since the terminal and the water taxi wharf are a short walk away. Lunchtime gets busy.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Daily 6.30am to 4pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJIxOnYWw5OW0RJDC2CTu3q_Q",
+    "confidence": "medium"
+  },
+  {
+    "name": "Mills Bay Mussels",
+    "slug": "mills-bay-mussels-havelock",
+    "lat": -41.279122,
+    "lng": 173.76928,
+    "category": [
+      "Food"
+    ],
+    "region": "marlborough",
+    "area": "marlborough-sounds",
+    "active": true,
+    "price": "Moderate",
+    "description": "A tasting room and eatery at Havelock Marina, next to the Mills Bay mussel packhouse, in the town that calls itself the green-lipped mussel capital of the world. Mussels come steamed with white wine, garlic and lemon, grilled with garlic butter, mānuka smoked, as Dutch-style croquettes, and in a mussel, smoked fish and kūmara pie.\n\nReviewers rate them the best mussels they've had in New Zealand, and the beer-battered fish and chips are good too. There's a pet-friendly patio, and it doesn't take bookings.\nLocal tip: It's lunch only, 10.30am to 2.30pm from Tuesday to Friday, and closed Saturday to Monday, so plan your drive through Havelock around it.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Tue to Fri 10.30am to 2.30pm; closed Sat to Mon",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJqb8tPlFFOW0RdUw_hH9FKWo",
+    "confidence": "medium"
+  },
+  {
+    "name": "Whatamango Bay DOC Campsite",
+    "slug": "whatamango-bay-doc-campsite",
+    "lat": -41.269899,
+    "lng": 174.074305,
+    "category": [
+      "Stay"
+    ],
+    "region": "marlborough",
+    "area": "picton",
+    "active": true,
+    "price": "Cheap",
+    "description": "A DOC campsite by a quiet bay about 10km east of Picton on Port Underwood Road, around 15 minutes from the ferry terminal and the closest cheap place to stay for an early or late sailing. It's $15 a night for adults and $7.50 for children 5 to 17, with under 5s free, and it takes tents, cars, campervans and caravans.\n\nThere are flush toilets, but water comes from a stream and must be boiled, filtered or treated, and there are no rubbish bins. The last stretch of road is sealed but narrow and winding, and part of the riverbank has eroded, so keep out of the taped-off areas.\nLocal tip: Book online before a late ferry, since DOC holds no spaces for walk-ins, and take all your rubbish with you. Check the council's road alerts too, since Port Underwood Road has construction closures planned, including on 3 November 2026.",
+    "hoursNote": "Book online; $15 adult, $7.50 child per night; flush toilets; boil water; no rubbish bins",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/queen-charlotte-sound-totaranui-area/things-to-do/campsites/whatamango-bay-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Aussie Bay DOC Campsite",
+    "slug": "aussie-bay-doc-campsite",
+    "lat": -41.273163,
+    "lng": 173.929363,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "marlborough",
+    "area": "picton",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small DOC campsite right beside the sea in the Grove Arm of Queen Charlotte Sound, near Momorangi Bay and about 15km from Picton on Queen Charlotte Drive. The water is clear for swimming and snorkelling, and the Queen Charlotte Track is close by. It's $15 a night for adults and $7.50 for children 5 to 17, with under 5s free.\n\nThere's a toilet but no showers or bins. The driveway is steep and tight for long vehicles, so motorhomes over 7m can't use it. Quiet hours are 9.30pm to 6.30am, and generators can only run from 5.30pm to 7.30pm.\nLocal tip: Book online ahead, since it's small, fills quickly and DOC holds no spaces for walk-ins, and check Queen Charlotte Drive is open before you set off.",
+    "hoursNote": "Book online; $15 adult, $7.50 child per night; toilet only; max 7m vehicles; quiet hours 9.30pm to 6.30am",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/queen-charlotte-sound-totaranui-area/things-to-do/campsites/aussie-bay-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Pelorus Bridge DOC Campground",
+    "slug": "pelorus-bridge-doc-campground",
+    "lat": -41.301367,
+    "lng": 173.569294,
+    "category": [
+      "Stay"
+    ],
+    "region": "marlborough",
+    "area": "marlborough-sounds",
+    "active": true,
+    "price": "Cheap",
+    "description": "A DOC campground in the forest beside the Pelorus River, with powered and unpowered sites, next to the swimming holes and walks at Pelorus Bridge. It's $25 a night for adults and $12.50 for children for most of the year, rising to $27 and $13.50 from 26 December to 8 February.\n\nIt's better equipped than most DOC sites, with a communal kitchen, flush toilets, hot showers ($1 for four minutes), and a washing machine and dryer at $6 a cycle each. There's no dump station, and the nearest is at the Havelock service station. The office is open 9.30am to 3pm, next to the café.\nLocal tip: Bring $1 and $2 coins for the showers and laundry, and book well ahead for December to February and holiday weekends, when there's a three night minimum over Christmas week.",
+    "hoursNote": "Book online; $25 adult off-peak, $27 peak (26 Dec to 8 Feb); hot showers $1; no dump station",
+    "sourceUrl": "https://www.doc.govt.nz/pelorus-bridge-campsite",
+    "confidence": "high"
+  },
+  {
+    "name": "Alfred Stream Reserve Freedom Camping",
+    "slug": "alfred-stream-reserve-freedom-camping",
+    "lat": -41.231949,
+    "lng": 173.581452,
+    "category": [
+      "Stay"
+    ],
+    "region": "marlborough",
+    "area": "marlborough-sounds",
+    "active": true,
+    "price": "Free",
+    "description": "A small, free council camping spot beside the stream at Rai Valley, on State Highway 6 between Pelorus Bridge and Nelson. There are only five spaces, for certified self-contained vehicles, with a limit of one night.\n\nIt's grassy, quiet at night and a short walk from the Rai Valley shops. There's a long drop toilet but no water.\nLocal tip: Arrive before lunch to get one of the five spaces, and bring insect repellent.",
+    "hoursNote": "Certified self-contained only; 5 spaces; max 1 night; long drop; no water",
+    "sourceUrl": "https://www.marlborough.govt.nz/recreation/responsible-camping/camping-in-marlborough",
+    "confidence": "high"
+  }
+]

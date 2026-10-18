@@ -1,0 +1,348 @@
+[
+  {
+    "name": "Franz Josef Glacier Valley Walk",
+    "slug": "franz-josef-glacier-valley-walk",
+    "lat": -43.422023,
+    "lng": 170.1693,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "area": "franz-josef",
+    "active": true,
+    "price": "Free",
+    "description": "An easy walk up the Waiho River valley from the glacier car park to a viewpoint of Franz Josef Glacier, Kā Roimata o Hine Hukatere. The valley is lined with waterfalls and bare rock scraped smooth by the ice, and the river has cut off access further up, so you see the glacier from well back. The scale of the valley is the real show. Allow about 30 to 60 minutes return.\n\nTwo short extras start from the same car park. Sentinel Rock is a 20 minute return climb, with signs and old photos showing how far the glacier has retreated, and Peters Pool is a flat, fully accessible 25 minute return path to a small kettle lake that reflects the valley on a still day. The car park is about 4km from the township, across the Waiho River bridge and at the end of the Glacier Access Road.\nLocal tip: Parking is $2.50 per half hour or $20 a day, card only, so walk or cycle the flat 4km from town to save the fee. Check the daily glacier access update first, since floods and rockfall can close the road and track.",
+    "recommendedDurationSlots": 3,
+    "featured": 2,
+    "hoursNote": "Open daily when conditions allow; road and track close in floods or rockfall; parking $2.50 per 30 min or $20 per day, cards only",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/westland-tai-poutini-national-park/things-to-do/tracks/franz-josef-glacierka--roimata-o-hine-hukatere-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Fox Glacier South Side Walk",
+    "slug": "fox-glacier-south-side-walk",
+    "lat": -43.478728,
+    "lng": 170.007303,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "area": "fox-glacier",
+    "active": true,
+    "price": "Free",
+    "description": "The main way to see Fox Glacier, Te Moeka o Tuawe, on foot since the old access road on the north side closed. The walkway and cycleway climb gently through podocarp rainforest on the south bank of the Fox River, with the first glacier view after about 40 minutes and a final 10 minute descent to the viewpoint. It's about 2 hours return.\n\nTo get there, drive 2km south of Fox Glacier township, cross the Fox River bridge and park on the left. You can cycle as far as the old car park, then it's on foot only.\nLocal tip: Check the daily glacier access update before you go, since the track closes after heavy rain or rockfall. Never go past the final viewpoint, where DOC warns of extreme flood hazard.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open daily when conditions allow; closes for rockfall or flooding; about 2 hr return; free parking",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/westland-tai-poutini-national-park/things-to-do/tracks/fox-glacier-south-side-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Matheson Walk",
+    "slug": "lake-matheson-walk",
+    "lat": -43.439048,
+    "lng": 169.964506,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "area": "fox-glacier",
+    "active": true,
+    "price": "Free",
+    "description": "The famous mirror lake near Fox Glacier. On a calm, clear day the dark water reflects Aoraki Mount Cook and Mount Tasman, and the 4.4km loop through native forest takes about 1.5 hours. The Jetty Viewpoint is a 1km, 40 minute return walk from the car park and suits assisted wheelchairs, and the View of Views and Reflection Island are further round.\n\nFrom Fox Glacier township, turn onto Cook Flat Road, drive about 5km and turn right to Lake Matheson. There are toilets at the car park, and no boats or kayaks are allowed on the lake.\nLocal tip: Go at dawn or dusk, when the wind usually drops and the reflections are at their best. Do the full loop, because the best views are past the first jetty.",
+    "recommendedDurationSlots": 3,
+    "featured": 1,
+    "hoursNote": "Open all the time; best reflections at dawn and dusk on still days; no dogs; no watercraft on the lake",
+    "sourceUrl": "https://www.glaciercountry.co.nz/gct_walks/lake-matheson-te-ara-kairaumati-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Matheson Cafe",
+    "slug": "matheson-cafe",
+    "lat": -43.447568,
+    "lng": 169.969712,
+    "category": [
+      "Food",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "area": "fox-glacier",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.lakematheson.com/matheson-cafe/",
+    "description": "The café at the start of the Lake Matheson walk, with a deck looking straight at Aoraki Mount Cook and Mount Tasman on a clear day. It's one of the best regarded places to eat around Fox Glacier, and the coffee gets good reviews.\n\nBreakfast runs from 8am to 11.30am and lunch from 11.30am to 2.30pm, seven days. A toasted bagel is $16.50 and eggs your way are $18.50, and the lunch menu runs from seafood chowder to a venison burger. You pay a bit extra for the view.\nLocal tip: Walk the lake loop at sunrise, then come back for breakfast when the café opens at 8am.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open 7 days from 8am; breakfast 8am to 11.30am, lunch 11.30am to 2.30pm",
+    "sourceUrl": "https://www.lakematheson.com/matheson-cafe/",
+    "confidence": "high"
+  },
+  {
+    "name": "Gillespies Beach",
+    "slug": "gillespies-beach",
+    "lat": -43.415458,
+    "lng": 169.818767,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "west-coast",
+    "area": "fox-glacier",
+    "active": true,
+    "price": "Free",
+    "description": "A wild black sand beach 21km from Fox Glacier, with views back to the Southern Alps and the relics of an old gold mining settlement. About half the road in is narrow gravel, so keep left and drive slowly, and it isn't suitable for towing vehicles.\n\nThe Miners Tunnel Track is 3.6km, about 1 hour 40 minutes return, along the beach and over old glacial moraine to a tunnel and a viewpoint, past a 1930s gold dredge. The Galway Beach Track branches off just before the tunnel, 6.8km and about 3.5 hours return through rimu forest to a remote beach where seals haul out in winter. There's a small DOC campsite by the car park that must be booked online.\nLocal tip: Bring sandfly repellent, and at Galway Beach keep well back from the seals, never get between them and the sea, and return by the track rather than walking through the colony.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Open all the time; gravel road, no campervans or caravans; seals mostly in winter; DOC campsite bookings required",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/gillespies-beach/things-to-do/tracks/gillespies-beach-walking-tracks/",
+    "confidence": "high"
+  },
+  {
+    "name": "Franz Josef Glacier Heli Hike",
+    "slug": "franz-josef-glacier-heli-hike",
+    "lat": -43.38441,
+    "lng": 170.184456,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "area": "franz-josef",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.franzjosefglacier.com/",
+    "description": "The glacier has retreated too far to walk onto from the valley, so a helicopter is now the only way to stand on Franz Josef Glacier. Franz Josef Glacier Guides fly you over the rainforest to the ice, where a guide leads you through ice formations for up to 2.5 hours, and the whole trip takes up to 4 hours.\n\nIt's $899 per person. Crampons, boots, a harness, waterproof jacket and overtrousers, a helmet, poles, a hat and gloves are provided, with one guide for every 11 guests. You need to be at least 10 years old, 137cm tall and between 35 and 115kg, and comfortable walking for about 2 hours, with some uphill sections.\nLocal tip: Book early in your stay so there's time to reschedule, since flights are often cancelled for cloud or rain on the Coast.",
+    "recommendedDurationSlots": 8,
+    "featured": 3,
+    "hoursNote": "Office 7am to 4pm daily; summer departures 7.30am, 10am and 12.30pm; weather dependent; $899 per person",
+    "sourceUrl": "https://www.franzjosefglacier.com/choose-your-experience/glacier-heli-hike/",
+    "confidence": "high"
+  },
+  {
+    "name": "Mountain Helicopters Scenic Flights",
+    "slug": "mountain-helicopters-scenic-flights",
+    "lat": -43.466203,
+    "lng": 170.017527,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "area": "fox-glacier",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.mountainhelicopters.co.nz/",
+    "description": "A small, family owned helicopter company in Fox Glacier that has run glacier scenic flights since 1998, and one of the better value options. Flights look down on the Fox and Franz Josef glaciers and, on the longer trips, Aoraki Mount Cook.\n\nFlights start from $179 for a 10 minute glacier flight. A 20 minute twin glacier overflight is from $349, a 20 minute flight with a glacier landing from $360, and the 30 minute Mt Cook and Fox Glacier flight with a snow landing from $460. Flights leave from Fox Glacier year round, and from Franz Josef in season.\nLocal tip: If the morning is clear, walk in and ask. Clear weather windows are short here, and same day seats often come up.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open 9am to 5pm daily; weather dependent; flights from $159",
+    "sourceUrl": "https://mountainhelicopters27.rezdy.com/catalog/560247/helicopter-flights",
+    "confidence": "high"
+  },
+  {
+    "name": "Glacier Country Scenic Flights",
+    "slug": "glacier-country-scenic-flights",
+    "lat": -43.293709,
+    "lng": 170.412272,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "area": "franz-josef",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://glacieradventures.co.nz/",
+    "description": "A small, family run helicopter company, the scenic flight side of Glacier Adventures, and a quieter alternative to the big operators. Flights head up into the Southern Alps over rainforest, glaciers and snowfields, and every flight includes a snow landing and pilot commentary.\n\nA 25 minute Franz Josef or Fox Glacier flight is $395, the 35 minute twin glacier and Fox Glacier to Aoraki/Mount Cook flights are $495, and the 40 minute Aoraki/Mount Cook flight is $695. Most flights leave from either Franz Josef or Fox Glacier village. Reviewers praise the personal service and say the longer flights are good value for the scenery.\nLocal tip: Book direct with Kevin by phone, confirm which village you'll leave from, and keep a spare day free in case the weather closes in.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily, weather permitting; book by phone (021 074 1382); confirm departure point when booking",
+    "sourceUrl": "https://glacieradventures.co.nz/scenic-flights/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Glacier Hot Pools",
+    "slug": "glacier-hot-pools",
+    "lat": -43.384156,
+    "lng": 170.184562,
+    "category": [
+      "Water"
+    ],
+    "region": "west-coast",
+    "area": "franz-josef",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.glacierhotpools.co.nz/",
+    "description": "Three public hot pools of different temperatures set in rainforest at 63 Cron Street, in the middle of Franz Josef township, plus three private pools, massage and a licensed café. It's small compared with Hanmer Springs and there are no children's pools, but it's shaded, tidy and a good way to warm up after a wet walk.\n\nMain pool entry is $29 for adults and $25 for children 5 to 16, with under 5s free, and children must be actively supervised. Private pools are booked in 45 minute sessions and include your own shower and changing room.\nLocal tip: The public pools can get busy in the late afternoon after the heli trips finish, so go earlier in the day or book a private pool.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open daily; 63 Cron Street; book private pools ahead; children must be supervised",
+    "sourceUrl": "https://www.bookme.co.nz/things-to-do/west-coast-glacier-country/activity/franz-josef-glacier-hot-pools-main-pool-entry/814",
+    "confidence": "medium"
+  },
+  {
+    "name": "West Coast Wildlife Centre",
+    "slug": "west-coast-wildlife-centre",
+    "lat": -43.38751,
+    "lng": 170.182936,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "west-coast",
+    "area": "franz-josef",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.wildkiwi.co.nz/",
+    "description": "A kiwi breeding and conservation centre in Franz Josef, and one of the few places to see rowi and Haast tokoeka, the rarest kiwi. Fewer than 650 rowi and 400 Haast tokoeka are left in the wild. You walk through a dark nocturnal house where the young kiwi are active, and there are also rescued little blue penguins and tuatara.\n\nEntry is $69 for adults, $45 for children 5 to 15 and $219 for a family of two adults and up to three children, and the pass lasts 48 hours. The VIP Backstage Pass adds a 40 minute guided tour of the incubation and hatching rooms. It's open every day from 8.30am to 6pm, and there's a café on site.\nLocal tip: Time your visit for penguin feeding, usually at 11am and 3pm, and give your eyes a few minutes to adjust in the kiwi house. No photos are allowed inside.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open daily 8.30am to 5pm including public holidays; penguin feeding 11am and 3pm; backstage tours 10am, 12pm, 2pm, 4pm",
+    "sourceUrl": "https://www.wildkiwi.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ōkārito Kayaks",
+    "slug": "okarito-kayaks",
+    "lat": -43.221658,
+    "lng": 170.166065,
+    "category": [
+      "Water",
+      "Adventure"
+    ],
+    "region": "west-coast",
+    "area": "franz-josef",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://okarito.co.nz/",
+    "description": "Freedom kayak hire on Ōkārito Lagoon, a large tidal lagoon about 25 minutes north of Franz Josef. The lagoon is shallow and sheltered, and on a still morning you paddle over a mirror with the Southern Alps behind and plenty of birdlife in the side channels.\n\nHire is $85 per person for 2 hours, $95 for a half day and $110 for a full day, and under 18s are half price. Each booking includes a 30 minute briefing on routes, tides and safety, with a route map of the lagoon markers, and hire times are set around the best tides each day. Guided trips are also available.\nLocal tip: Book an early slot for the calmest water, arrive 10 to 15 minutes early, and bring sandfly repellent and a warm layer.",
+    "recommendedDurationSlots": 5,
+    "featured": 4,
+    "hoursNote": "Open daily 8am to 5pm; hire from $80 per person for 2 hours; bookings recommended",
+    "sourceUrl": "https://okarito.co.nz/kayak-tours/freedom-kayak-rental/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ōkārito Trig Walk",
+    "slug": "okarito-trig-walk",
+    "lat": -43.224212,
+    "lng": 170.162458,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "area": "franz-josef",
+    "active": true,
+    "price": "Free",
+    "description": "A well graded track that climbs steadily through rainforest to a lookout over Ōkārito Lagoon, the coast and, on a clear day, the snow-capped Southern Alps. It takes about 1.5 hours return and is rated easy, though it's uphill most of the way to the trig.\n\nThe walk starts at the car park beside the old Ōkārito School House on The Strand, and shares the first 10 to 15 minutes with the Ōkārito Wetland Walk and the Three Mile Pack Track. Ōkārito is 15km north of Franz Josef on SH6, then 13km on a sealed road.\nLocal tip: Pair it with a lagoon paddle. The trig shows you the whole wetland you'll be kayaking.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open all the time; about 1.5 hr return; toilets and water tap at the car park",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/okarito-area/things-to-do/tracks/okarito-trig-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "SnakeBite Brewery",
+    "slug": "snakebite-brewery",
+    "lat": -43.387807,
+    "lng": 170.181974,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "area": "franz-josef",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.snakebite.co.nz/",
+    "description": "A busy, casual spot on Franz Josef's main road serving Southeast Asian dishes such as noodle soups and curries, plus burgers, with at least 15 craft beers in stock. Portions are generous, and it's one of the better value dinners in town, with gluten free and vegetarian options.\n\nBreakfast is served from 7.30am and the main menu from 11am. You order at the counter, and the outdoor tables have heaters and blankets.\nLocal tip: Kitchens in Franz Josef close early, especially in winter, so eat before 8pm.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily about 8am to 8.30pm; main menu from 11am",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJQYcdquDVK20RWtZsG4tu6bs",
+    "confidence": "medium"
+  },
+  {
+    "name": "Cafe Nevé",
+    "slug": "cafe-neve",
+    "lat": -43.465163,
+    "lng": 170.017822,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "area": "fox-glacier",
+    "active": true,
+    "price": "Moderate",
+    "description": "A friendly café on the main street of Fox Glacier village, serving coffee, pies, pasta, burgers, salads and thin crust homemade pizzas. Reviewers rate the pizzas as good value, and a large one is enough for two.\n\nIt's a handy lunch stop between the South Side walk and Lake Matheson, and it serves beer and wine as well as coffee.\nLocal tip: It closes at 3pm, so plan ahead for dinner in Fox.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 7.30am to 3pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJJ6eiDi4sKm0RcQzTEZ91sg0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Otto/MacDonalds Campsite",
+    "slug": "otto-macdonalds-campsite",
+    "lat": -43.296447,
+    "lng": 170.224529,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "west-coast",
+    "area": "franz-josef",
+    "active": true,
+    "price": "Cheap",
+    "description": "A DOC campsite at the northern end of Lake Mapourika, about 15km north of Franz Josef, reached from SH6 by a short gravel driveway. It's split into two areas, Otto and MacDonalds, with flush toilets, sinks and a grassy tent area, and the lake is good for swimming, boating and trout fishing.\n\nIt's $18 a night for adults and $9 for children 5 to 17, with under 5s free. You must book online before you arrive, since DOC holds no spaces for walk-ins and staff do check. Mobile coverage is limited, so book before you lose signal.\nLocal tip: The tap water is untreated, so boil it before drinking, and watch your gear, since kea sometimes visit in the morning.",
+    "hoursNote": "Bookings required year round; $18 adult, $9 child per night; flush toilets; untreated water",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/westland-tai-poutini-national-park/things-to-do/campsites/otto-macdonalds-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ōkārito Campground",
+    "slug": "okarito-campground",
+    "lat": -43.222561,
+    "lng": 170.162678,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "area": "franz-josef",
+    "active": true,
+    "price": "Cheap",
+    "website": "http://okaritocampground.co.nz/",
+    "description": "A community run campground in the tiny settlement of Ōkārito, a short walk from the beach, the lagoon and the start of the Trig walk. It has hot showers, barbecues and friendly hosts, and reviews describe it as clean and well kept.\n\nIt's $18 a night for adults, and children 16 and under are free. There are no bookings. You self-register on arrival and pay cash into the honesty box, or by EFTPOS with the host, and check-out is at noon. Dogs are allowed if kept under control.\nLocal tip: From Christmas to 15 January, arrive by mid-afternoon to get a site. Native birds nest on Ōkārito beach from September to February, so keep dogs well away from it.",
+    "hoursNote": "No bookings, self register; $18 adult, kids 16 and under free; check out 12pm; no campfires Dec to Mar",
+    "sourceUrl": "http://okaritocampground.co.nz/camping-fees-and-registration/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Glow Worm Accommodation",
+    "slug": "glow-worm-accommodation",
+    "lat": -43.387765,
+    "lng": 170.183191,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "area": "franz-josef",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small, family run hostel on Cron Street in Franz Josef, a short walk from the shops, the Wildlife Centre and the hot pools. It has dorms and private rooms, a well equipped kitchen, a lounge with a fire, and a free spa pool.\n\nReviewers consistently rate it among the friendliest hostels on the Coast, with free vegetable soup every evening at 6pm and popcorn in the lounge. Parking is free.\nLocal tip: Book ahead in summer, since it's one of the best reviewed cheap beds in town and fills quickly.",
+    "hoursNote": "Check in 3pm to midnight; check out by 10am; free soup nightly at 6pm; free parking",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJPTCtoeDVK20RN_hukbhOjWo",
+    "confidence": "medium"
+  },
+  {
+    "name": "Lake Ianthe Matahi Campsite",
+    "slug": "lake-ianthe-matahi-campsite",
+    "lat": -43.058351,
+    "lng": 170.635299,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "west-coast",
+    "area": "franz-josef",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small DOC campsite on the shore of Lake Ianthe, right beside State Highway 6, 15km north of Harihari. It's a handy overnight stop on the long drive between Hokitika and Franz Josef, with lake views, a small grassy area and a few parking spaces.\n\nIt's $10 a night for adults and $5 for children 5 to 17, with under 5s free. You must book online, since DOC holds no spaces for walk-ins, though same-day bookings stay open until 8pm. There are flush toilets and sinks, and the lake is good for swimming, kayaking and trout fishing.\nLocal tip: Boil the tap water before drinking it, and bring insect repellent for the evenings by the lake.",
+    "hoursNote": "$10 adult, $5 child per night; book online, same day until 8pm; flush toilets; boil water",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/harihari-area/things-to-do/campsites/lake-ianthe-matahi-campsite/",
+    "confidence": "high"
+  }
+]

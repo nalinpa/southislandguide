@@ -1,0 +1,240 @@
+[
+  {
+    "name": "Bruce Bay",
+    "slug": "bruce-bay",
+    "lat": -43.595608,
+    "lng": 169.602742,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "description": "A wild stretch of beach right beside State Highway 6, about 40km south of Fox Glacier, where the rimu forest runs almost down to the Tasman Sea. It makes a good leg stretch on the long drive between the glaciers and Haast, with plenty of roadside parking and public toilets nearby.\n\nThe beach is known for its white stones, many of them written on by passing travellers. Plenty of people see the writing as graffiti, so enjoy reading them rather than adding your own. The surf is big and the rips are strong, so it isn't safe for swimming, and a coffee caravan is sometimes parked up here.\nLocal tip: The sandflies are fierce, so keep your car doors and windows shut and put on repellent before you get out.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; roadside parking on SH6; not safe for swimming; sandflies",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJa_8__OISKm0RQjfJX7MH7Hw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Ship Creek Tauparikākā Walks",
+    "slug": "ship-creek-tauparikaka-walks",
+    "lat": -43.758597,
+    "lng": 169.147868,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/haast-paringa-and-moeraki-rivers-area/things-to-do/tracks/ship-creek-tauparikaka-walks/",
+    "description": "Two short DOC walks leave from the same car park beside State Highway 6, about 20km north of Haast. The Dune Lake Walk is a 1km loop of about 30 minutes over pīngao-covered dunes to a small lake, with platforms looking down the wild beach to Jackson Head. The Kahikatea Swamp Forest Walk is 800m return, about 20 minutes, through ancient kahikatea, New Zealand's tallest native tree.\n\nThe swamp forest walk and the first stretch of the dune walk are wheelchair suitable, and there are toilets and picnic tables at the car park. The name comes from the wreck of the clipper Schomberg, and it's one of the best free leg stretches on the whole Haast coast.\nLocal tip: Do both walks, since they take under an hour together, and put insect repellent on before you get out of the car, because the sandflies and mosquitoes meet you at the door.",
+    "recommendedDurationSlots": 2,
+    "featured": 2,
+    "hoursNote": "Open all the time; free; toilets at car park; 20 km north of Haast on SH6",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/haast-paringa-and-moeraki-rivers-area/things-to-do/tracks/ship-creek-tauparikaka-walks/",
+    "confidence": "high"
+  },
+  {
+    "name": "Knights Point Lookout",
+    "slug": "knights-point-lookout",
+    "lat": -43.715625,
+    "lng": 169.225447,
+    "category": [
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "description": "A roadside viewing platform high above the Tasman Sea on State Highway 6 between Haast and Lake Moeraki, with wide views over rugged headlands, sea stacks and bush running down to the water. This is where the two road crews met when the Haast highway was finished, and the last section opened on 6 November 1965. Oddly, the point is named after a dog called Knight.\n\nThe car park is big enough for campervans, and there are basic toilets but no rubbish bins. Fur seals, and occasionally elephant seals, rest on the rocks below. You can't get down to the shore from here, so it's purely a lookout.\nLocal tip: It's a short stop, but a good one at sunset if you're camping nearby. Bring repellent, as the sandflies are keen here too.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open all the time; free; toilets; no rubbish bins",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJJ-jw2L6P1WwR89OUXDfduU4",
+    "confidence": "medium"
+  },
+  {
+    "name": "Monro Beach Track",
+    "slug": "monro-beach-track",
+    "lat": -43.71567,
+    "lng": 169.269631,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/haast-paringa-and-moeraki-rivers-area/things-to-do/tracks/monro-beach-track/",
+    "description": "An easy walk of about 1 hour 20 minutes return through lush coastal forest to Monro Beach, a wild, rocky bay near Lake Moeraki. The car park is on State Highway 6, 35km north of Haast, and you return the same way. Tūī, bellbirds and kererū are common in the forest.\n\nFrom September to November you may see tawaki, the Fiordland crested penguin and one of the rarest penguins in the world, coming ashore to nest. DOC asks you to stay at least 20m away, and warns that a single dog could wipe out a colony, so leave dogs at home.\nLocal tip: Early morning or late afternoon gives you the best chance of penguins. Sit quietly at the edge of the bush rather than walking up to them.",
+    "recommendedDurationSlots": 4,
+    "featured": 3,
+    "hoursNote": "Open all the time; free; tawaki season Sept to Nov, keep 20 m away; no dogs",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/haast-paringa-and-moeraki-rivers-area/things-to-do/tracks/monro-beach-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "The Craypot, Jackson Bay",
+    "slug": "the-craypot-jackson-bay",
+    "lat": -43.973237,
+    "lng": 168.613876,
+    "category": [
+      "Food",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.thecraypotnz.com/",
+    "description": "A tiny, fully licensed seafood eatery in an old pie cart caravan beside the fishing wharf at Jackson Bay, at the very end of the road, about 40 minutes south of Haast. The signature dish is blue cod and chips in a fifth-generation batter recipe, and the seafood chowder, whitebait and crayfish all get strong reviews. Fish comes off local boats wherever possible.\n\nThere's seating inside and on an outdoor terrace above the bay, where you might spot dolphins. The drive down the Jackson Bay road is part of the outing, through farmland and bush with the coast on one side.\nLocal tip: It's lunch only, 11am to 3.30pm, and hours can change outside summer, so check before you make the drive. In peak season there can be a wait, so walk out along the wharf while your order cooks.",
+    "recommendedDurationSlots": 2,
+    "featured": 4,
+    "hoursNote": "Wed to Sun 11am to 3.30pm; closed Mon and Tue; check ahead in winter",
+    "sourceUrl": "https://www.thecraypotnz.com/",
+    "confidence": "high"
+  },
+  {
+    "name": "The Hard Antler",
+    "slug": "the-hard-antler-haast",
+    "lat": -43.879189,
+    "lng": 169.042765,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Moderate",
+    "description": "The local pub on Marks Road in Haast township, with walls covered in deer antlers and trophy heads. It's the easiest spot in town for a proper feed, and reviewers rate the venison burgers, venison steak, whitebait sandwiches and fish and chips, all in generous West Coast portions.\n\nIt stays open into the evening, which matters in a town where most places close by mid-afternoon. Staff get consistently good reviews, and it has a relaxed, friendly country pub feel.\nLocal tip: For something cheaper and quicker, the Haast Eagle Tuck Shop food truck on the corner of Marks Road does well reviewed burgers and whitebait during the day.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Mon to Thu 12pm to 9.30pm; Fri to Sun 11am to 10pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJv-bA2Wd11WwRlOqA1WKCbIw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Haast Playground Freedom Camping",
+    "slug": "haast-playground-freedom-camping",
+    "lat": -43.880682,
+    "lng": 169.042535,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "description": "A free council camping area at the playground on Marks Road, in the middle of Haast township, with 10 designated spaces. Under Westland District Council's 2024 bylaw it's open to both certified self-contained vehicles and those that aren't, from 8pm to 7am only, with a maximum of two nights in any 30 days. Tents aren't allowed.\n\nThe public toilets across the road are clean, there's drinking water, and the council dump station is right beside them. The pub, café and store are all a short walk away.\nLocal tip: Freedom camping is banned in Jackson Bay township, so don't plan to stay the night down there. Come back to Haast after your Craypot lunch.",
+    "hoursNote": "Certified self-contained only; 10 spaces; 8pm to 7am; max 2 nights in 30 days; toilets, water and dump station nearby",
+    "sourceUrl": "https://www.westlanddc.govt.nz/media/duib0fpm/westland-district-council-responsible-freedom-camping-bylaw-2024.pdf",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Paringa Campsite",
+    "slug": "lake-paringa-campsite",
+    "lat": -43.72195,
+    "lng": 169.411535,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/haast-paringa-and-moeraki-rivers-area/things-to-do/campsites/lake-paringa-campsite/",
+    "description": "A DOC campsite on the shore of Lake Paringa, about 40km north of Haast off State Highway 6 on a short gravel road. It has numbered vehicle and campervan sites, including four for large vehicles, plus a big grassy tent area, all non-powered. Reviewers mention flush toilets, dish washing sinks and a covered picnic shelter.\n\nIt's $18 a night for adults and $9 for children 5 to 17, and under 5s are free. You can swim, fish and boat on the lake, and there's mobile coverage.\nLocal tip: Bookings are required all year, and DOC holds no spaces for walk-ins. Same-day online bookings close at 8pm, so book before you lose signal on the coast road.",
+    "hoursNote": "Bookings required year round; $18 adult, $9 child; non powered; same day online booking until 8pm",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/haast-paringa-and-moeraki-rivers-area/things-to-do/campsites/lake-paringa-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Roaring Billy Falls Walk",
+    "slug": "roaring-billy-falls-walk",
+    "lat": -43.939316,
+    "lng": 169.285268,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/tracks/roaring-billy-falls-walk/",
+    "description": "A flat 25 minute return walk through podocarp and silver beech forest full of tree ferns, 30km from Haast on the Haast Pass highway. It comes out on the wide stony bed of the Haast River, looking across to the falls tumbling over big boulders on the far side.\n\nThe track is wheelchair and buggy accessible to the viewpoint. Many visitors say the forest and the clear blue river are the real highlight, more than the falls themselves.\nLocal tip: There are no toilets here. The nearest are 30km back at Haast Junction or 20km on at Pleasant Flat. Take care if you wander out onto the riverbed past the end of the track.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open all the time; free; no toilets; 30 km from Haast on SH6",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/tracks/roaring-billy-falls-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Pleasant Flat Campsite",
+    "slug": "pleasant-flat-campsite",
+    "lat": -44.011583,
+    "lng": 169.381818,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/campsites/pleasant-flat-campsite/",
+    "description": "A DOC campsite beside State Highway 6, about 45km from Haast on the way up to the pass, with sealed access and views of Mt Hooker. There's a picnic area, a short bush walk along a mountain stream, and fishing in the Haast River nearby. Reviewers mention clean toilets, a cooking shelter and a non-drinking water tap.\n\nIt's $15 a night for adults and $7.50 for children 5 to 17, and under 5s are free. Thunder Creek Falls is 5km up the road.\nLocal tip: DOC holds no spaces for walk-ins, so book online first, and for safety, DOC says don't camp under the trees. The sandflies here are some of the worst on the pass, so bring screens and repellent.",
+    "hoursNote": "Booking required, no walk in spaces; $15 adult, $7.50 child; don't camp under trees",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/campsites/pleasant-flat-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Thunder Creek and Fantail Falls",
+    "slug": "thunder-creek-and-fantail-falls",
+    "lat": -44.037663,
+    "lng": 169.365886,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "west-coast",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/tracks/thunder-creek-falls/",
+    "description": "Two of the best waterfall stops on the Haast Pass highway, a few kilometres apart. Thunder Creek Falls, about 50km from Haast, is a 5 minute return walk on a sealed path through kāmahi and silver beech to a platform facing a 28m single drop into the Haast River.\n\nFantail Falls is a little further towards the pass, again only 5 minutes return, down to the riverbed to see the falls fanning out over the rock at the foot of Fantail Creek. Both are free and neither has toilets. The nearest are at Pleasant Flat campsite.\nLocal tip: If you only stop once, pick Thunder Creek. Fantail's car park is small, so go early or late in the day in summer.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open all the time; free; no toilets, nearest at Pleasant Flat; drones need a permit",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/tracks/fantail-falls-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Blue Pools Track",
+    "slug": "blue-pools-track",
+    "lat": -44.160563,
+    "lng": 169.287437,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/tracks/blue-pools-track/",
+    "description": "The standout stop on the Haast Pass, about 10km north of Makarora. An easy gravel track of about 1 hour 30 minutes return runs through silver beech forest and over two swing bridges to where the Blue River meets the Makarora River, forming clear, deep turquoise pools. The free car park takes cars and campervans and has toilets.\n\nSwimming is popular if you're brave enough for the cold water, but DOC says no jumping off the swing bridges and no soap in the water. There are no bins, so take your rubbish with you. The pools look best on a sunny day when it hasn't rained recently, and after heavy rain they turn brown.\nLocal tip: The car park gets very busy from November to April, so go early in the morning. Cameron Flat DOC campsite, $15 a night for adults and bookable online, is right across the road if you want to be first on the track.",
+    "recommendedDurationSlots": 3,
+    "featured": 1,
+    "hoursNote": "Open all the time; free; toilets at car park; no drinking water; no jumping off bridges",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/tracks/blue-pools-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Makarora Country Café",
+    "slug": "makarora-country-cafe",
+    "lat": -44.264766,
+    "lng": 169.203179,
+    "category": [
+      "Food"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Cheap",
+    "description": "A cosy roadside café in an old service station at Makarora, about an hour north of Wānaka, with a fire in winter and views up the valley. It does coffee, pies, cakes and simple café food, and it's the only real food stop between Wānaka and Haast.\n\nThere's also a small campground behind it, with showers, toilets, a kitchenette, a laundry and free wifi, which is handy if you're breaking the drive. Reviewers love the friendly staff and Tuck the dog.\nLocal tip: It's open from 9am and closes mid-afternoon, so if you're crossing the pass late in the day, eat in Wānaka or Haast instead.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Daily from 9am, closing 2pm to 3pm depending on season",
+    "sourceUrl": "https://www.wanaka.co.nz/explore/makarora-country-cafe-and-camp/",
+    "confidence": "medium"
+  }
+]

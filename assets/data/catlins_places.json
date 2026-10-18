@@ -1,0 +1,318 @@
+[
+  {
+    "name": "Nugget Point Lighthouse",
+    "slug": "nugget-point-lighthouse",
+    "lat": -46.448139,
+    "lng": 169.816925,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "dunedin-otago",
+    "area": "catlins",
+    "active": true,
+    "price": "Free",
+    "description": "A stone lighthouse, first lit in 1870, at the end of a narrow ridge on the northern edge of the Catlins, looking out over the Nuggets, a string of jagged rock islets in the sea. The track from the car park at the end of The Nuggets Road is about 20 minutes return, downhill on the way out and uphill on the way back, ending at a viewing platform beside the lighthouse.\n\nA big fur seal colony lies on the rocks below, so bring binoculars, and in summer elephant seals sometimes haul out on the Nuggets too. There are steep, unfenced drops beside parts of the track. It's a short drive past Kaka Point, with the last stretch on gravel, and there are toilets at the car park.\nLocal tip: Come at sunrise for the best light on the Nuggets. In the late afternoon, stop at the Roaring Bay hide, 800m before the main car park, where hoiho (yellow-eyed penguins) come ashore.",
+    "recommendedDurationSlots": 2,
+    "featured": 1,
+    "hoursNote": "Open any time; toilets at the car park; gravel access road; steep drops beside the track",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJM6QM6AHKLagRSoloGIP778s",
+    "confidence": "medium"
+  },
+  {
+    "name": "Surat Bay Beach Walk",
+    "slug": "surat-bay-beach-walk",
+    "lat": -46.473685,
+    "lng": 169.716857,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "dunedin-otago",
+    "area": "catlins",
+    "active": true,
+    "price": "Free",
+    "description": "A short DOC walk through the sand dunes from the end of Surat Bay Road at Newhaven, near Owaka, onto a long beach where New Zealand sea lions often sleep on the sand or in the dunes. The marked track is about 20 minutes return, and you can keep walking along the beach for as long as you like.\n\nYou can only reach the beach at low tide, so check the tide times before you go. Sea lions sometimes lie in the dunes right beside the track, so look carefully as you walk. DOC asks you to stay at least 10m away, and to back off further if one starts taking an interest in you.\nLocal tip: Go early in the morning, when the beach is quiet and the sea lions are most likely to be resting on the sand.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; low tide access only; keep 20m from sea lions; car park at the end of Surat Bay Road, Newhaven",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/catlins-coastal-area/things-to-do/surat-bay-beach-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Purakaunui Falls",
+    "slug": "purakaunui-falls",
+    "lat": -46.516038,
+    "lng": 169.559138,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "dunedin-otago",
+    "area": "catlins",
+    "active": true,
+    "price": "Free",
+    "description": "A 20m, three tiered waterfall in native forest, and probably the most photographed in the Catlins. It even appeared on a New Zealand postage stamp in 1976. The walk from the car park is about 10 minutes each way on a well kept gravel track through beech and podocarp forest, with steps down at the end to the lower viewing platform.\n\nThe track is suitable for wheelchairs as far as the top viewing platform, but not down the steps to the lower one. The car park, signposted off the main road about 6km south of Owaka, has toilets and picnic tables.\nLocal tip: Come after rain, when the falls are at their fullest, and late in the afternoon if you want the platform to yourself.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; 20 minutes return; toilets and picnic area at the car park; water not drinkable",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJd021i26lLagRYnFwNPLIPTU",
+    "confidence": "medium"
+  },
+  {
+    "name": "Florence Hill Lookout",
+    "slug": "florence-hill-lookout",
+    "lat": -46.574383,
+    "lng": 169.459364,
+    "category": [
+      "Scenic"
+    ],
+    "region": "dunedin-otago",
+    "area": "catlins",
+    "active": true,
+    "price": "Free",
+    "description": "A roadside lookout on the Chaslands Highway just south of Papatowai, looking down over the long white curve of Tautuku Bay and the forest behind it. The car park is right beside the road, so you get one of the best views in the Catlins without walking anywhere.\n\nA long information board beside the car park explains the area. Reviewers mention seals occasionally resting near the car park, so look before you step out.\nLocal tip: Stop on a clear morning if you can, when the sun lights up the sand and the surf rolling into the bay.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; roadside car park on SH92; free",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJpylZfFKhLagRXacpEtXq8XY",
+    "confidence": "medium"
+  },
+  {
+    "name": "McLean Falls",
+    "slug": "mclean-falls",
+    "lat": -46.569681,
+    "lng": 169.352533,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "dunedin-otago",
+    "area": "catlins",
+    "active": true,
+    "price": "Free",
+    "description": "Often rated the best of the Catlins waterfalls, a 22m drop on the Tautuku River in dense forest near Chaslands. Turn off the Chaslands Highway onto Rewcastle Road, 11.6km south of Papatowai, and the car park is 3km along.\n\nThe track is about 40 minutes return, gently uphill through tree ferns and mossy boulders, with some stairs and wet, uneven footing near the top. The falls reveal themselves in stages as you climb the last section. The car park isn't suitable for large buses.\nLocal tip: Come early in the morning or in the evening for the best light and fewer people in your photos. On the final section, don't stop between the rockfall signs.",
+    "recommendedDurationSlots": 2,
+    "featured": 2,
+    "hoursNote": "Open any time; 40 minutes return; toilet at the car park; part sealed, part gravel access road",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJsx1vjQwELagR0FpcZYfvAA8",
+    "confidence": "medium"
+  },
+  {
+    "name": "Cathedral Caves",
+    "slug": "cathedral-caves",
+    "lat": -46.608056,
+    "lng": 169.380308,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "dunedin-otago",
+    "area": "catlins",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.cathedralcaves.co.nz/",
+    "description": "Huge sea caves in the cliffs at the end of Waipati Beach, reached by a 20 minute walk down through forest and then 10 minutes along the sand. You can only get into the caves around low tide, so opening hours change every day, and the caves only open from about late October to April.\n\nAdults are $15, children 5 to 14 are $2 and under 5s are free, paid by card only, which covers the staffed car park, toilets and track. The walk back up is steep in places, and expect wet feet in the caves. Dogs aren't allowed, and keep at least 10m from any sea lions on the beach.\nLocal tip: Check the website on the morning you plan to go for that day's opening times, and bring a torch and insect repellent.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Seasonal, about late October to April; hours vary daily with the tide; card only; no dogs; no towing vehicles",
+    "sourceUrl": "https://www.cathedralcaves.co.nz/faq",
+    "confidence": "high"
+  },
+  {
+    "name": "Curio Bay Petrified Forest",
+    "slug": "curio-bay-petrified-forest",
+    "lat": -46.661611,
+    "lng": 169.098049,
+    "category": [
+      "Nature"
+    ],
+    "region": "southland-catlins",
+    "area": "catlins",
+    "active": true,
+    "price": "Free",
+    "description": "A 180 million year old Jurassic forest turned to stone on the rock platform at Curio Bay, one of the most extensive and least disturbed of its kind in the world. At low tide you can walk among the fossilised logs and stumps, and there's a viewing platform above. Taking fossils is illegal, and drones aren't allowed.\n\nThe bay is also home to a few nesting hoiho (yellow-eyed penguins), which leave for the sea early in the morning and come back in the late afternoon or evening. The heritage centre by the car park explains both. Much of the road in from Otara is gravel.\nLocal tip: Come at low tide to explore the forest, then wait on the viewing area at dusk for the penguins, and stay off the rock platform in the evening so they can come ashore.",
+    "recommendedDurationSlots": 3,
+    "featured": 3,
+    "hoursNote": "Open any time; forest visible at low tide; penguins at dawn and dusk; no drones",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/southland/places/curio-bay-porpoise-bay/",
+    "confidence": "high"
+  },
+  {
+    "name": "Porpoise Bay",
+    "slug": "porpoise-bay",
+    "lat": -46.649147,
+    "lng": 169.117179,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "southland-catlins",
+    "area": "catlins",
+    "active": true,
+    "price": "Free",
+    "description": "A long, curving sandy beach next to Curio Bay where Hector's dolphins, among the smallest and rarest dolphins in the world, often play in the surf close to shore. It's a safe swimming beach and a good place to learn to surf.\n\nThe water is cold all year. The dolphins are most often seen in summer, but can turn up any time.\nLocal tip: If you swim, enter the water at least 50m from any dolphins and let them come to you. Never touch or feed them, since their skin is sensitive.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; dolphins most common in summer; keep 50m when entering the water",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/southland/places/curio-bay-porpoise-bay/",
+    "confidence": "high"
+  },
+  {
+    "name": "Waipapa Point Lighthouse",
+    "slug": "waipapa-point-lighthouse",
+    "lat": -46.659948,
+    "lng": 168.847056,
+    "category": [
+      "Nature",
+      "Scenic"
+    ],
+    "region": "southland-catlins",
+    "area": "catlins",
+    "active": true,
+    "price": "Free",
+    "description": "A wooden lighthouse on a low, windswept point at the western end of the Catlins, first lit in 1884 and one of the last two wooden lighthouses built in New Zealand. It went up after the SS Tararua hit the reef here in April 1881, one of the country's worst shipwrecks, with 131 lives lost. A short, wheelchair accessible path leads from the car park to the lighthouse.\n\nSea lions often sleep in the dunes and on the beach, and they're easy to walk right past, so look carefully. There are toilets and information panels at the car park.\nLocal tip: Keep at least 10m from the sea lions and never walk between one and the sea. It's an easy stop on the way to or from Invercargill.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; free parking and toilets; often windy",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJK_qCA1JBLagRA8K_N-qyqdQ",
+    "confidence": "medium"
+  },
+  {
+    "name": "Slope Point Walk",
+    "slug": "slope-point-walk",
+    "lat": -46.668212,
+    "lng": 169.000396,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "southland-catlins",
+    "area": "catlins",
+    "active": true,
+    "price": "Free",
+    "description": "The true southernmost point of the South Island, marked by a yellow AA signpost showing the distances to the Equator and the South Pole. From the car park on Slope Point Road it's about a 20 minute walk each way across private farmland, past trees bent almost flat by the wind, to the cliffs at the point.\n\nThe car park has toilets and an information board. The track crosses working paddocks with sheep and cattle, so expect mud and droppings, and the cliffs at the end are steep and unfenced. Dogs aren't allowed.\nLocal tip: There's no public access during lambing, from September to November, when sheep are in the paddock, so check the signs at the car park before you set out, and bring a windproof jacket whatever the forecast.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Closed for lambing Sept to Nov when sheep are present; 20 min each way; toilets at the car park; no dogs",
+    "sourceUrl": "https://southlandnz.com/listing/slope-point/629/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Catlins Cafe",
+    "slug": "catlins-cafe-owaka",
+    "lat": -46.450362,
+    "lng": 169.660995,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "catlins",
+    "active": true,
+    "price": "Cheap",
+    "description": "A spacious, rustic café on the main road through Owaka, the Catlins' main village, with books, games and paintings on the walls. Expect warm scones, pasties, cakes and slices, plus a dine-in menu with Thai dishes and made from scratch curries and noodle soups.\n\nThe café is open daily from 8am, or 9am on Sundays, to 5pm, and the BakeHouse takeaway side keeps going until 7pm with sushi, curries, burgers and fish and chips. That makes it one of the most reliable places in the Catlins for food in the early evening.\nLocal tip: Stop here on the way to or from Nugget Point, and allow a little time for the curries, which are made to order.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Listed daily from 8am (9am Sun) to about 7pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJD_YujZ6xLagRlFiJEVVs0iI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Peake's Kitchen, Papatowai",
+    "slug": "peakes-kitchen-papatowai",
+    "lat": -46.557653,
+    "lng": 169.468912,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "catlins",
+    "active": true,
+    "price": "Cheap",
+    "description": "A food truck and country store in Papatowai, run by Nicole and Tom Peake, whose Peake Beef Burger was voted the supreme winner of Burger Nation in 2025. It comes with hand-ground Hereford patties, beetroot pickled in pinot noir, house relish and garlic aioli, and the chicken and cranberry pie gets plenty of mentions too.\n\nThe store does coffee, sandwiches, cinnamon scrolls and ice cream, and sells basic groceries for campers at the DOC site behind it.\nLocal tip: The food truck opens from 11am to 3pm, Thursday to Sunday, and closes over the winter months, so plan your lunch around it.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Food truck listed Thu to Sun 11am to 3pm; store Wed to Sun 10.30am to 4pm; closed over winter",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJZyAgD7OnLagRlhdUiz5Q83E",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Lost Gypsy Gallery",
+    "slug": "the-lost-gypsy-gallery",
+    "lat": -46.56068,
+    "lng": 169.468238,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "dunedin-otago",
+    "area": "catlins",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://thelostgypsy.com/",
+    "description": "A quirky roadside gallery in Papatowai, built by artist Blair Somerville around a 1951 Leyland house bus packed with hand-built automata and curios that you're invited to wind, press and play with. The bus is free to enter.\n\nBehind it, the Winding Thoughts Theatre holds the bigger inventions, with $10 tickets sold in the bus. The Little Rocket coffee cart in the mosaic courtyard sells coffee and home baking, and there's a toilet.\nLocal tip: It only opens in the warmer months, from about late October to late April, 10am to 5pm, and it's closed on Wednesdays, so plan your Papatowai stop around it.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Summer season only, about late Oct to late Apr, 10am to 5pm; closed Wednesdays; bus free, theatre about $10",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJwapUtKWmLagRdHW5ZbnSops",
+    "confidence": "medium"
+  },
+  {
+    "name": "Owaka Freedom Camping",
+    "slug": "owaka-freedom-camping",
+    "lat": -46.448613,
+    "lng": 169.661257,
+    "category": [
+      "Stay"
+    ],
+    "region": "dunedin-otago",
+    "area": "catlins",
+    "active": true,
+    "price": "Free",
+    "description": "The council's designated free camping spot in Owaka, on Inn Street behind the Catlins Inn. There are about eight marked parks, a dump station with drinking water and rubbish bins, and public toilets a couple of minutes' walk away.\n\nIt's for certified self-contained vehicles only, and council officers do check. Freedom camping is restricted across the Clutha side of the Catlins, including at Florence Hill Lookout and along the foreshore from Kaka Point to Nugget Point, so this is one of the few reliable free options.\nLocal tip: The Catlins Inn next door sells hot showers and serves meals, and Owaka's shops and café are a short walk away.",
+    "hoursNote": "Certified self-contained only; about 8 parks; dump station and potable water; officers check certificates",
+    "sourceUrl": "https://www.cluthanz.com/explore/plan-your-stay/camping-in-clutha",
+    "confidence": "medium"
+  },
+  {
+    "name": "Papatowai DOC Campsite",
+    "slug": "papatowai-doc-campsite",
+    "lat": -46.557696,
+    "lng": 169.469362,
+    "category": [
+      "Stay"
+    ],
+    "region": "dunedin-otago",
+    "area": "catlins",
+    "active": true,
+    "price": "Cheap",
+    "description": "A DOC campsite in coastal forest at Papatowai, in the middle of the Catlins and within easy reach of the waterfalls and Cathedral Caves. It's $15 a night for adults and $7.50 for children 5 to 17, with under 5s free, and it takes cars, campervans and caravans, so it works if you're not self-contained.\n\nThere are flush toilets, a kitchen shelter with cold water for dishes, and tracks down to the beach. Sites aren't numbered, so you find a space for your group when you arrive. Peake's Kitchen and the country store are at the entrance.\nLocal tip: Book online before you arrive, since phone signal is patchy and DOC holds no spaces for walk-ins, and bring sandfly repellent.",
+    "hoursNote": "Book online; $15 adult, $7.50 child per night; flush toilets; kitchen shelter; unpowered",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/catlins-coastal-area/things-to-do/papatowai-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Waikawa Freedom Camping",
+    "slug": "waikawa-freedom-camping",
+    "lat": -46.622281,
+    "lng": 169.133895,
+    "category": [
+      "Stay"
+    ],
+    "region": "southland-catlins",
+    "area": "catlins",
+    "active": true,
+    "price": "Free",
+    "description": "A free camping area at the Waikawa Recreation Reserve in the small village of Waikawa, a few minutes from Curio Bay and Porpoise Bay. It has room for 10 or more vans on flat, firm ground, flush toilets, a rubbish bin and good phone reception.\n\nIt's for certified self-contained vehicles only, and there's no sink or drinking water. The small Waikawa museum is across the road.\nLocal tip: Use it as a base for Curio Bay, which is about 10 minutes away, so you can be there for the penguins at dusk without a long drive back in the dark.",
+    "hoursNote": "Certified self-contained only; flush toilets; no water; rubbish bin",
+    "sourceUrl": "https://www.southlanddc.govt.nz/services/freedom-camping/freedom-camping-locations/waikawa/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Slope Point Freedom Camping (Weir Road)",
+    "slug": "slope-point-freedom-camping",
+    "lat": -46.655761,
+    "lng": 169.030447,
+    "category": [
+      "Stay"
+    ],
+    "region": "southland-catlins",
+    "area": "catlins",
+    "active": true,
+    "price": "Free",
+    "description": "A large, flat, grassy camping area at 195 Weir Road, beside a tidal estuary near Slope Point, the southernmost point of the South Island. It holds around 60 vehicles and is usually quiet, with good sunrises and sunsets over the water.\n\nThere's a long drop toilet and an outdoor sink for dishes, but the water isn't drinkable and there are no showers. It's for certified self-contained vehicles only, it can be very windy, and the ground can get boggy after heavy rain.\nLocal tip: Come in on Weir Road, not School Road, which is 4WD only, and bring everything you need, since there are no shops nearby.",
+    "hoursNote": "Certified self-contained only; long drop and sink; no drinking water; access via Weir Road",
+    "sourceUrl": "https://www.rankers.co.nz/experiences/11838-Slope_Point_Freedom_Camping",
+    "confidence": "medium"
+  }
+]

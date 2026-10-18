@@ -1,0 +1,364 @@
+[
+  {
+    "name": "That Wānaka Tree",
+    "slug": "that-wanaka-tree",
+    "lat": -44.698348,
+    "lng": 169.11755,
+    "category": [
+      "Scenic",
+      "Nature"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Free",
+    "description": "A lone crack willow growing out of the water at the western end of Roys Bay, a short, flat walk along the lakefront path from Wānaka town. It started life around 1939 as a fence post that took root, and it's now one of the most photographed trees in the country.\n\nIt's free and open all the time, with parking, toilets and a playground at the Wānaka watersports facility car park nearby. Expect a crowd of photographers at sunrise and sunset, but there's plenty of shoreline to spread out along.\nLocal tip: Don't climb it or wade out to touch it. Climbers have broken branches and vandals have sawn some off in the past, so it's enjoyed from the shore.",
+    "recommendedDurationSlots": 1,
+    "featured": 1,
+    "hoursNote": "Open 24 hours; free; parking and toilets at the watersports facility carpark on Wānaka Mount Aspiring Road",
+    "sourceUrl": "https://en.wikipedia.org/wiki/That_W%C4%81naka_Tree",
+    "confidence": "medium"
+  },
+  {
+    "name": "Roys Peak Track",
+    "slug": "roys-peak-track",
+    "lat": -44.673138,
+    "lng": 169.071815,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/wanaka-area/things-to-do/roys-peak-track/",
+    "description": "The famous zigzag climb above Lake Wānaka, starting 6km west of town on Wānaka Mount Aspiring Road. It gains over 1,200m to the 1,578m summit and takes 5 to 6 hours return, and the ridge viewpoint with the classic photo is about 30 minutes below the top.\n\nThe track crosses farmland and is closed every year from 1 October to 10 November for lambing. There's no shade and no water on the way, so carry plenty, and there are toilets at the car park and near the photo viewpoint. Parking is free but fills early, and you can't park on the roadside. In winter and early spring, snow and ice can make it much harder, and there's avalanche terrain above 1,000m.\nLocal tip: Start at first light to beat the heat and the queue at the viewpoint, then cool off with a swim at Glendhu Bay, a few minutes further along the road.",
+    "recommendedDurationSlots": 12,
+    "featured": 2,
+    "hoursNote": "Closed 1 Oct to 10 Nov (lambing); 5 to 6 hr return; free car park fills early; snow and ice in winter and early spring",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/wanaka-area/things-to-do/roys-peak-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Mount Iron Track",
+    "slug": "mount-iron-track",
+    "lat": -44.693527,
+    "lng": 169.154891,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/wanaka-area/things-to-do/mount-iron-track/",
+    "description": "A popular loop up the rocky knob just 2km from town, rising nearly 250m through kānuka shrubland to a summit with 360 degree views over Lake Wānaka, the Clutha River and the mountains. Most people take about 1.5 hours for the loop.\n\nThe track has loose rock and some eroded sections, so wear decent shoes, and it can get icy and muddy in winter. Dogs are welcome on a lead, since the landowners allow them on the private land it crosses, and the trailhead car park is off State Highway 84. It may close in summer when the fire risk is high.\nLocal tip: DOC suggests going up the western side and down the eastern side, which many walkers find the easier direction. It's a good option while Roys Peak is closed for lambing.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "About 1.5 hr loop; dogs on lead; may close in summer for fire risk; icy and muddy in winter",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/wanaka-area/things-to-do/mount-iron-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Rob Roy Glacier Track",
+    "slug": "rob-roy-glacier-track",
+    "lat": -44.47831,
+    "lng": 168.728178,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/tracks/rob-roy-track/",
+    "description": "A walk in Mount Aspiring National Park that crosses a swing bridge over the Matukituki River, then climbs through beech forest beside Rob Roy Stream to views of a hanging glacier and waterfalls. Allow 3 to 4 hours return.\n\nIt starts at Raspberry Creek car park, 54km from Wānaka and about 1 hour 20 minutes' drive, and the last 30km is gravel. The fords in the final 10km are usually fine for 2WD cars and campervans after 24 hours of little or no rain, but heavy rain can make them impassable and wash out the road. You can park before the last two fords and walk the rest. No dogs are allowed in the national park.\nLocal tip: From May to November, DOC strongly recommends not going past the lower lookout because of avalanche risk. Check road and track conditions with the Tititea Mount Aspiring visitor centre before you drive out.",
+    "recommendedDurationSlots": 10,
+    "featured": 3,
+    "hoursNote": "3 to 4 hr return; do not go past lower lookout May to Nov (avalanche risk); gravel road with fords, impassable after heavy rain; no dogs",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/tracks/rob-roy-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Diamond Lake and Rocky Mountain Track",
+    "slug": "diamond-lake-rocky-mountain-track",
+    "lat": -44.650995,
+    "lng": 168.959446,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Free",
+    "description": "A good alternative to Roys Peak, 18.5km west of Wānaka on the Wānaka Mount Aspiring Road. An old dirt road leads to little Diamond Lake, then the track climbs steeply up the bluffs to a viewing platform and on to the 775m Rocky Mountain summit, with views over Lake Wānaka to the Southern Alps and Mount Aspiring.\n\nThe full circuit takes about 3 hours from the sealed car park, where there's a toilet, the only one on the walk. Some sections are steep and slippery even in summer, with drop-offs on the eastern side and a rocky scramble on the western side, and ice can make it unsafe in winter.\nLocal tip: If you're short on time or legs, the platform above Diamond Lake gives much of the view for a fraction of the effort.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "About 3 hr circuit; toilet at car park only; slippery in wet or icy conditions",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/diamond-lake-and-hospital-flat/things-to-do/rocky-mountain-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Isthmus Peak Track",
+    "slug": "isthmus-peak-track",
+    "lat": -44.466417,
+    "lng": 169.247667,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Free",
+    "description": "A big day hike from State Highway 6 north of Lake Hāwea, about 30 minutes' drive from Wānaka, climbing about 1,000m over 8km on a farm track to a summit that looks down on both Lake Hāwea and Lake Wānaka. It's a quieter alternative to Roys Peak, and the views open up for most of the climb. Allow 5 to 7 hours return.\n\nIt's steep and hard going, with no water along the way, so carry plenty. DOC warns of avalanche risk, usually from May to November, and of whiteouts in snow or low cloud. The track crosses private land, so stay on the marked route and leave gates as you find them. Dogs need written permission from the station, and DOC lists no lambing closure, but obey any signs on the day.\nLocal tip: Start early, since the roadside car park fills up, and take care crossing the highway to the start. Storm repairs on SH6 north of Hāwea were still under way in October 2026, so check NZTA before you drive.",
+    "recommendedDurationSlots": 12,
+    "hoursNote": "5 to 7 hr return; no water or shade; avalanche risk May to Nov; no lambing closure listed by DOC; SH6 north toward Makarora has slip restrictions (Sept 2026), check NZTA",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/wanaka-area/things-to-do/isthmus-peak-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Puzzling World",
+    "slug": "puzzling-world",
+    "lat": -44.696708,
+    "lng": 169.161577,
+    "category": [
+      "Attractions"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.puzzlingworld.co.nz/",
+    "description": "Wānaka's quirky landmark on the edge of town, with illusion rooms, odd sculptures and a big outdoor maze. It suits kids and adults, and it's a handy plan for a wet day.\n\nA combo ticket for the illusion rooms and the Great Maze is $32.50 for adults and $23.50 for children 5 to 15, and a family combo for two adults and two children is $99. Under 5s are free. It's open daily from 9am, with last admission at 4.30pm, and there's a café with puzzles on the tables.\nLocal tip: Allow at least 45 minutes for the maze, and try the harder version if you finish quickly.",
+    "recommendedDurationSlots": 4,
+    "featured": 4,
+    "hoursNote": "Open daily from 9am, last admission 4.30pm; closed Christmas Day",
+    "sourceUrl": "https://www.puzzlingworld.co.nz/prices-and-deals/",
+    "confidence": "high"
+  },
+  {
+    "name": "National Transport and Toy Museum",
+    "slug": "national-transport-and-toy-museum",
+    "lat": -44.722868,
+    "lng": 169.239622,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.nttmuseumwanaka.co.nz/",
+    "description": "A huge private collection in several big sheds at 891 Wānaka-Luggate Highway, beside Wānaka Airport, covering vintage cars, fire engines, heavy machinery, aircraft you can climb into, and thousands of toys from Lego and Star Wars to Barbies.\n\nAdults are $23, seniors $20, under 18s $6, under 5s free, and a family pass is $54. Walk-ins are welcome, it's open daily from 8.30am to 5pm, and most visitors spend 2 to 3 hours.\nLocal tip: It's a good wet weather stop on your way in or out of Wānaka, about 8 minutes' drive from town on the highway towards Luggate.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open daily 8.30am to 5pm; closed Christmas Day",
+    "sourceUrl": "https://www.nttmuseumwanaka.co.nz/contact",
+    "confidence": "high"
+  },
+  {
+    "name": "Cardrona Hotel",
+    "slug": "cardrona-hotel",
+    "lat": -44.881483,
+    "lng": 169.0036,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.cardronahotel.co.nz/",
+    "description": "One of New Zealand's oldest hotels, established in 1863 during the Cardrona Valley gold rush and one of only two buildings left from that era. It sits on the Crown Range road between Wānaka and Queenstown, and the old facade with vintage cars out front is a classic photo stop. It was restored in the 1980s after years of decay.\n\nThe pub serves meals and drinks by the fire inside or out in the grounds, and there's a 14 room accommodation block if you want to stay. The restaurant is busy and usually needs a booking, but the bar menu is much the same.\nLocal tip: It works well as a lunch stop on the Crown Range drive between Wānaka and Queenstown, and in winter it's known for its after-ski high tea.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 8am to 10pm; book for the restaurant at busy times",
+    "sourceUrl": "https://www.cardronahotel.co.nz/history/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Hāwea Esplanade Reserve",
+    "slug": "lake-hawea-esplanade-reserve",
+    "lat": -44.609601,
+    "lng": 169.27275,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Free",
+    "description": "The lakefront reserve at Lake Hāwea township, about 15 minutes north of Wānaka. It's much quieter than Wānaka's lakefront, with clear water, a stony beach, mountain views, toilets, a public barbecue and parking right by the shore.\n\nIt's a good spot for a swim on a hot day or a calm sunset. The Hāwea River Track starts nearby on Domain Road and follows the river about 10km to Albert Town, shared by walkers and cyclists.\nLocal tip: The water is cold even in summer, so ease in slowly. It's also the last lake stop before the Haast Pass, so check State Highway 6 conditions on NZTA here if you're heading north.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Free; toilets, barbecue and parking; SH6 north of Hāwea has storm restrictions, check NZTA before driving on",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJARVCKW9T1akRkkHjMX5lNDE",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Neck Lookout",
+    "slug": "the-neck-lookout",
+    "lat": -44.436875,
+    "lng": 169.193164,
+    "category": [
+      "Scenic"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Free",
+    "description": "A roadside lookout on State Highway 6 at The Neck, the narrow strip of land between Lake Hāwea and Lake Wānaka, with a view over a deep blue bay of Lake Hāwea and the mountains beyond. There are several pull-offs along this stretch, and a Lake Wānaka lookout is only a minute or two further north.\n\nSlips in late August 2026 closed SH6 north of here towards Makarora. It reopened around the clock on 9 October, but with weekday daytime convoys on a 9km section and temporary speed limits while repairs continue, so check the NZTA Journey Planner before heading on to Haast.\nLocal tip: Come on a calm, sunny evening, when Lake Hāwea can turn into a mirror.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; roadside pull-off on SH6; SH6 toward Makarora has slip restrictions and weekday convoys (Sept 2026), check NZTA",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ89TSvxhT1WwRneRTgeqpK8I",
+    "confidence": "medium"
+  },
+  {
+    "name": "Paddle Wānaka",
+    "slug": "paddle-wanaka",
+    "lat": -44.695515,
+    "lng": 169.132801,
+    "category": [
+      "Water",
+      "Adventure"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://paddlewanaka.co.nz/",
+    "description": "Kayak and stand up paddleboard hire from a beachfront van on Roys Bay, at 151 Ardmore Street, right in town. It's the easiest way to get out on Lake Wānaka without a tour, and you can paddle to That Wānaka Tree or across to Ruby Island.\n\nHire is $35 per person for 1 hour, $60 for 2 hours and $85 for 3 hours, with life jackets included. Walk-ups are fine, though booking is wise in peak season. It's open 9am to 5pm from October to March, 10am to 4pm in April and September, and closed from May to August.\nLocal tip: Take 2 hours if you want to reach Ruby Island, which has a short loop walk, picnic tables and a toilet, and pick a calm day.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Reopens 1 Oct 2026; summer (Oct to Mar) 9am to 5pm daily; April and September 10am to 4pm; closed May to August",
+    "sourceUrl": "https://paddlewanaka.co.nz/rentals",
+    "confidence": "high"
+  },
+  {
+    "name": "Big Fig",
+    "slug": "big-fig-wanaka",
+    "lat": -44.69498,
+    "lng": 169.135077,
+    "category": [
+      "Food"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.bigfig.co.nz/",
+    "description": "A busy lakefront eatery at 105 Ardmore Street where you pick a plate size and fill it from a changing spread of hot dishes and salads, with plenty of vegetarian choice alongside slow cooked meats.\n\nPlates are $17 small, $25 medium and $32 big, at breakfast, lunch or dinner, and the menu changes daily with the seasons. Seating is shared and fills up at meal times, but takeaway is quick.\nLocal tip: Get it to go and eat on the lakefront across the road. A small plate is plenty for lunch.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 8am to 8.30pm",
+    "sourceUrl": "https://www.bigfig.co.nz/big-fig-menu",
+    "confidence": "high"
+  },
+  {
+    "name": "Red Star Burger Bar",
+    "slug": "red-star-burger-bar",
+    "lat": -44.694034,
+    "lng": 169.139848,
+    "category": [
+      "Food"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.redstarburgers.co.nz/",
+    "description": "A Wānaka burger institution that has been running for more than 20 years on Ardmore Street, close to the lake. Burgers are generous, with rotating specials alongside the regulars, good fries and local craft beer.\n\nYou can eat in, take away or order online, and reviewers rate the vegetarian burgers highly too.\nLocal tip: It's the local answer to the Queenstown burger queues, and in the quieter middle of the afternoon you rarely wait long.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 12pm to 8.30pm",
+    "sourceUrl": "https://www.redstarburgers.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Pembroke Pâtisserie",
+    "slug": "pembroke-patisserie",
+    "lat": -44.682947,
+    "lng": 169.188927,
+    "category": [
+      "Food"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.pembrokepatisserie.co.nz/",
+    "description": "An artisan bakery in Albert Town, about 10 minutes from central Wānaka, known for flaky croissants, almond croissants, pies and good coffee. Locals and visitors queue here most mornings.\n\nIt's a short walk from the Albert Town campground and the historic Albert Town bridge over the Clutha River, with bike parking and outdoor seating.\nLocal tip: Go early if you want the daily special, as it often sells out by mid-morning.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 7.30am to 2pm; Sat and Sun 8am to 2pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJX3RMf29P1akREW0CmgYahm0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Albert Town Campground",
+    "slug": "albert-town-campground",
+    "lat": -44.678541,
+    "lng": 169.190863,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://hampshireholidayparks.co.nz/park/albert-town-campground/",
+    "description": "A big, basic campground on a council reserve beside the Clutha and Hāwea rivers at Albert Town, 10 minutes from Wānaka. Tents and vans are both welcome, and many sites sit right by the river with swimming spots close by.\n\nThere are no bookings. You pay at the EFTPOS machine at the entrance, then pick a spot, and recent visitors report about $12 per person per night. There are flush toilets on the Clutha side and long drops on the Hāwea side, but no showers, kitchen, laundry, power or drinking water, so come self-sufficient. Dogs are allowed on a lead, and special rules apply from 20 December to 3 January.\nLocal tip: The Clutha is cold and fast-flowing, so only swim at the calmer edges. For a shower, head to the Wānaka Recreation Centre.",
+    "hoursNote": "No bookings; pay at EFTPOS at entrance; about $12pp per night (per recent reviews); non potable water; no showers; special rules over Christmas and New Year",
+    "sourceUrl": "https://hampshireholidayparks.co.nz/park/albert-town-campground/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Red Bridge Reserve Freedom Camping",
+    "slug": "red-bridge-reserve-freedom-camping",
+    "lat": -44.72867,
+    "lng": 169.282594,
+    "category": [
+      "Stay"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Free",
+    "description": "A free camping area beside the Clutha River at the historic Red Bridge near Luggate, about 15 minutes east of Wānaka. It's one of the few places in the Queenstown Lakes district where freedom camping is still allowed, for certified self-contained vehicles.\n\nThere are about 50 spaces and long drop toilets, but no water and no lighting. The conditions are set out on signs at the reserve, and listings show check-in from 5pm and check-out by 10am. It fills quickly in summer.\nLocal tip: Read the signs and stick to them, since breaking the conditions here can bring an $800 fine under the Reserves Act. If it's full, the other free option is the designated carpark at the Wānaka Recreation Centre.",
+    "hoursNote": "Certified self-contained only; about 50 spaces; check in from 5pm, out by 10am; long drops; no water; follow signage",
+    "sourceUrl": "https://www.qldc.govt.nz/recreation/responsible-camping/responsible-camping-faqs",
+    "confidence": "medium"
+  },
+  {
+    "name": "Wānaka Recreation Centre Freedom Camping",
+    "slug": "wanaka-recreation-centre-freedom-camping",
+    "lat": -44.701456,
+    "lng": 169.155011,
+    "category": [
+      "Stay"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Free",
+    "description": "A council freedom camping area in the carpark of the Wānaka Recreation Centre on Sir Tim Wallis Drive, a few minutes' drive from the town centre. There are around 18 designated spaces, first come first served, for certified self-contained vehicles with a valid warrant displayed, and it's one of the few free places to stay in Wānaka itself.\n\nYou check in by scanning the QR code on the signs. The spaces fill early in summer, and council officers patrol at night and issue $400 fines. The rec centre has a pool, a hot spa and paid showers during opening hours.\nLocal tip: Park only in a clearly marked camping space and check the signed hours when you arrive. If it's full, Red Bridge near Luggate is the bigger free option.",
+    "hoursNote": "Certified self-contained only; 18 marked spaces; overnight hours set by signage (reviewers report roughly 8pm to 7am); fines enforced; rules under review by QLDC",
+    "sourceUrl": "https://wanakaapp.nz/NewsStory/portaloos-installed-for-self-contained-freedom-campers/69882d21f95c90002debb077",
+    "confidence": "medium"
+  },
+  {
+    "name": "Wānaka Bakpaka",
+    "slug": "wanaka-bakpaka",
+    "lat": -44.689514,
+    "lng": 169.132109,
+    "category": [
+      "Stay"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.wanakabakpaka.co.nz/",
+    "description": "A small, independently run hostel on Lakeside Road, with lake views from the lounge and about a 10 minute walk from the town centre. Reviewers praise the clean kitchen, the homely feel and the friendly owners.\n\nShared rooms of 3 to 4 beds start from $50 a night, twin rooms from $120 and en suite doubles from $160, and there's plenty of parking on site.\nLocal tip: The marina and the lakefront path to Eely Point are just across the road, which makes for a good evening stroll.",
+    "hoursNote": "Reception 8.30am to 7pm; dorms from $50 per night",
+    "sourceUrl": "https://www.wanakabakpaka.co.nz/category/rooms-prices/",
+    "confidence": "high"
+  },
+  {
+    "name": "Luggate Campground",
+    "slug": "luggate-campground",
+    "lat": -44.747933,
+    "lng": 169.268379,
+    "category": [
+      "Stay"
+    ],
+    "region": "otago",
+    "active": true,
+    "price": "Cheap",
+    "description": "A simple community campground around the cricket ground in Luggate, about 15 minutes from Wānaka on the road to Cromwell. At around $10 per adult per night, it's one of the cheapest places to stay near Wānaka, and it takes tents, cars and campervans.\n\nThere's a newer toilet and shower block, with hot showers at $2 for five minutes, free hot water for dishes, a laundry, and a tap and bench at many sites. Quite a few long-term residents live here, so it can look a bit rough around the edges, but reviewers say it feels safe and friendly.\nLocal tip: Bring $2 coins for the showers, avoid parking near the pitch on cricket days, and walk to the Luggate pub and general store for a pie.",
+    "hoursNote": "Around $10 per adult per night (per reviews); hot showers $2; laundry; limited sites as many are taken by permanent residents",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ549G_t1L1akRB_uVYBItFGU",
+    "confidence": "medium"
+  }
+]

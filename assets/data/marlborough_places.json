@@ -1,0 +1,188 @@
+[
+  {
+    "name": "Omaka Aviation Heritage Centre",
+    "slug": "omaka-aviation-heritage-centre",
+    "lat": -41.537913,
+    "lng": 173.929983,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "marlborough",
+    "area": "blenheim",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.omaka.org.nz/",
+    "description": "An aviation museum at Omaka airfield on the edge of Blenheim, with two separate exhibitions. Knights of the Sky is built around Sir Peter Jackson's collection of World War One aircraft, rare originals and replicas set in lifelike, film-quality scenes with mannequins. Dangerous Skies covers World War Two, with an immersive film.\n\nKnights of the Sky is $32 for adults and $13 for children 5 to 14, Dangerous Skies is $26 and $11, and a ticket for both is $52 and $17. Under 5s are free, and family passes for two adults and up to four children are $78, $68 or $125. Allow at least two hours for both, and ask the volunteers, who know their aircraft.\nLocal tip: If you only have time for one, pick Knights of the Sky. Reviewers rate it among the best World War One aviation displays in the world.",
+    "recommendedDurationSlots": 5,
+    "featured": 1,
+    "hoursNote": "Daily 9am to 4pm; separate or combined tickets",
+    "sourceUrl": "https://www.omaka.org.nz/admissions",
+    "confidence": "high"
+  },
+  {
+    "name": "Wine Tours by Bike",
+    "slug": "wine-tours-by-bike",
+    "lat": -41.504078,
+    "lng": 173.823754,
+    "category": [
+      "Adventure",
+      "Food"
+    ],
+    "region": "marlborough",
+    "area": "blenheim",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.winetoursbybike.co.nz/",
+    "description": "Self-guided bike hire from Renwick, the village at the heart of the Marlborough vineyards, with more than 14 cellar doors within 5km of the base. Full day hire is from $70 a person, with a free shuttle from anywhere within 15km, which covers Blenheim, and you get a bike, a high-vis helmet, a winery map and backup if something goes wrong.\n\nHire runs from 10am to 4pm or 11am to 5pm. Tastings at the cellar doors are extra, usually from about $15, and if you buy more wine than you can carry, they'll collect it for you.\nLocal tip: Book ahead from Christmas to the end of February, when bikes sell out, and plan a lunch stop at a winery in the middle of the day.",
+    "recommendedDurationSlots": 12,
+    "featured": 2,
+    "hoursNote": "Hire 10am to 4pm or 11am to 5pm, with shuttle pickup 30 minutes before; short hire after noon $15 per hour, 3 hour minimum",
+    "sourceUrl": "https://www.winetoursbybike.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "The Original Marlborough Wine Tours",
+    "slug": "original-marlborough-wine-tours",
+    "lat": -41.509623,
+    "lng": 173.92655,
+    "category": [
+      "Attractions",
+      "Food"
+    ],
+    "region": "marlborough",
+    "area": "blenheim",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://marlboroughwinetours.co.nz/",
+    "description": "Guided minibus wine tours around the Wairau Valley, for anyone who would rather not drive or cycle. The full day tour visits five wineries over about six and a half hours, with a lunch stop at a winery, and the half day tours visit three or four wineries in about four and a half hours. Tasting fees are included.\n\nTours pick up from central accommodation in Blenheim or Picton, with a small surcharge outside the centre, and are for over 18s only. The guides choose the wineries on the day, mixing big names with small family producers, and reviewers praise how much they know.\nLocal tip: Tell your guide what styles you like, or which winery you're keen on, when you're picked up, since they'll try to fit it in. Check whether lunch is included when you book.",
+    "recommendedDurationSlots": 13,
+    "hoursNote": "Full day and half day tours daily; closed Christmas Day, Good Friday and Anzac Day; 18+ only; book ahead",
+    "sourceUrl": "https://marlboroughwinetours.co.nz/tours/",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Burleigh",
+    "slug": "the-burleigh-blenheim",
+    "lat": -41.528791,
+    "lng": 173.938399,
+    "category": [
+      "Food"
+    ],
+    "region": "marlborough",
+    "area": "blenheim",
+    "active": true,
+    "price": "Cheap",
+    "description": "A tiny pie shop in the suburb of Burleigh, on New Renwick Road, with a reputation for some of the best pies in New Zealand. The pastry is flaky and the fillings generous, and the favourites are steak and French blue cheese, pork belly, and jerk chicken.\n\nThere are sausage rolls and filled rolls too, plus a deli shelf of salami, sausages and cheese. There's plenty of parking, and it's on the way out of town towards the wineries.\nLocal tip: Go early, especially on Saturday, when it closes at 1.30pm, since the popular flavours sell out. It's closed on Sundays and Mondays.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Tue to Fri 7.30am to 3pm, Sat 7.30am to 1.30pm; closed Sun and Mon",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJxw7q5FITOW0RKsd3mbhTIUE",
+    "confidence": "medium"
+  },
+  {
+    "name": "Pukatea / Whites Bay",
+    "slug": "pukatea-whites-bay",
+    "lat": -41.387496,
+    "lng": 174.058369,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "marlborough",
+    "area": "blenheim",
+    "active": true,
+    "price": "Free",
+    "description": "A sheltered sandy bay over the hill from Rārangi, 15km from State Highway 1 at Tuamarina and about 25 minutes' drive from Blenheim. It's one of the best swimming beaches in Marlborough, with bush running down to the sand, rocks at each end, and a natural arch at the northern end that you can reach around the rocks at low tide.\n\nThe bay is named after Black Jack White, an American sailor who jumped ship in 1828, and in 1866 the telegraph cable linking the North and South Islands came ashore here. There's parking at the end of the road, toilets at the DOC campsite, and walks including the 90 minute Black Jack Track loop and a one hour track over the hill to Rārangi.\nLocal tip: Council has flagged construction closures on Port Underwood Road between Whites Bay and Robin Hood Bay from mid-October to early December 2026, so come in from the Rārangi side rather than over from Picton.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open any time; lifeguards in summer; Port Underwood Road works north of the bay mid Oct to early Dec 2026",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJTypVDmA8OW0RYABlq4bvACo",
+    "confidence": "medium"
+  },
+  {
+    "name": "Monkey Bay Walk, Rārangi",
+    "slug": "monkey-bay-walk-rarangi",
+    "lat": -41.391803,
+    "lng": 174.048962,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "marlborough",
+    "area": "blenheim",
+    "active": true,
+    "price": "Free",
+    "description": "A short, easy walk from the northern end of Rārangi Beach, around a rocky point and into Monkey Bay, a tiny cove with a small beach. Near the start is a lookout with signs explaining how sea currents built up Rārangi Beach over thousands of years.\n\nIt takes about 20 minutes, and Whites Bay is about 8km further along Port Underwood Road, so the two make an easy half day. DOC warns that hot, dry conditions and strong, cold winds are both common here.\nLocal tip: Keep to the formed track and watch children closely, since DOC warns of steep, unfenced drops right beside the path. Watch for wasps in late summer and autumn.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time; 20 min walk from the north end of Rārangi Beach; unfenced drop offs; no fires",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/blenheim-area/things-to-do/tracks/monkey-bay-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Taylor Dam Reserve Freedom Camping",
+    "slug": "taylor-dam-reserve-freedom-camping",
+    "lat": -41.571928,
+    "lng": 173.932649,
+    "category": [
+      "Stay"
+    ],
+    "region": "marlborough",
+    "area": "blenheim",
+    "active": true,
+    "price": "Free",
+    "description": "A free council camping area beside the lake at Taylor Dam, about 7km south of central Blenheim on Taylor Pass Road. There are 10 spaces for certified self-contained vehicles at the top of the access road, with a limit of two nights, and toilets in the north-west corner of the reserve.\n\nThe lake formed behind a flood protection dam finished in 1965, and it's quiet, with black swans, pūkeko and other water birds, and good sunsets. A 1.9km loop takes about 25 minutes, and the Taylor River Trail runs from here into town.\nLocal tip: It fills up in summer, so arrive by late afternoon. Give the black swans a wide berth in spring, when they can get aggressive.",
+    "hoursNote": "Certified self-contained only; 10 spaces; max 2 nights; toilets a short walk away",
+    "sourceUrl": "https://www.marlborough.govt.nz/recreation/responsible-camping/camping-in-marlborough",
+    "confidence": "high"
+  },
+  {
+    "name": "Renwick Domain Freedom Camping",
+    "slug": "renwick-domain-freedom-camping",
+    "lat": -41.50594,
+    "lng": 173.826671,
+    "category": [
+      "Stay"
+    ],
+    "region": "marlborough",
+    "area": "blenheim",
+    "active": true,
+    "price": "Free",
+    "description": "A council car park at the Renwick sports grounds, in the middle of the wine country village of Renwick, with 20 free overnight spaces for certified self-contained vehicles. You can only stay from 6pm to 9am, with a limit of two nights.\n\nThe spaces are numbered and fairly tight, so it suits vans better than big motorhomes. There are toilets at the sports centre and a playground, and shops and cellar doors are within walking distance.\nLocal tip: You can't park up before 6pm, so spend the afternoon on a hire bike from Wine Tours by Bike, a couple of streets away, then roll in at 6pm for a space.",
+    "hoursNote": "Certified self-contained only; numbered spaces; 6pm to 9am; max 2 nights; toilets at the sports centre",
+    "sourceUrl": "https://www.marlborough.govt.nz/recreation/responsible-camping/camping-in-marlborough",
+    "confidence": "high"
+  },
+  {
+    "name": "Wairau Diversion Freedom Camping",
+    "slug": "wairau-diversion-freedom-camping",
+    "lat": -41.439377,
+    "lng": 174.019796,
+    "category": [
+      "Stay"
+    ],
+    "region": "marlborough",
+    "area": "blenheim",
+    "active": true,
+    "price": "Free",
+    "description": "A temporary free camping area on the Wairau Diversion floodway north of Blenheim, on open rural land near the river mouth. It's for certified self-contained vehicles only, with no tents and a limit of two nights in any four weeks. The main camping area and the day stay area are closed for flood repairs and construction, and the council says the temporary site will stay open until further notice.\n\nThe last couple of kilometres are bumpy gravel, facilities are basic, and when the river is in a good state, people fish from the banks.\nLocal tip: Drive in slowly, especially after dark, and check the council's camping page before you go, since the site is temporary and may change.",
+    "hoursNote": "Certified self-contained only; max 2 nights in 4 weeks; temporary site; gravel access; basic toilets",
+    "sourceUrl": "https://exploreblenheim.co.nz/wairau-diversion-reserve-freedom-camping-by-the-river-near-blenheim/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Whites Bay Campsite",
+    "slug": "whites-bay-campsite",
+    "lat": -41.38477,
+    "lng": 174.057372,
+    "category": [
+      "Stay"
+    ],
+    "region": "marlborough",
+    "area": "blenheim",
+    "active": true,
+    "price": "Cheap",
+    "description": "A popular DOC campsite just behind the beach at Pukatea / Whites Bay, with sheltered sites among the trees, clean flush toilets, cold showers and resident hosts in summer.\n\nIt's $15 a night for adults and $7.50 for children 5 to 17, and under 5s stay free. Book online, since DOC holds no spaces for walk-ins, and book early for December to February and public holiday weekends. Same-day online bookings stay open until 8pm if there's space.\nLocal tip: From Labour Weekend to Easter the gate is locked overnight, so if you're coming off a Picton ferry after 8pm or leaving before 7am, DOC suggests Whatamango Bay campsite, about 15 minutes from the ferry terminal, instead.",
+    "hoursNote": "$15 adult, $7.50 child per night; book online, essential 1 Dec to 28 Feb; gate locked overnight in peak season",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/blenheim-area/things-to-do/campsites/whites-bay-campsite/",
+    "confidence": "high"
+  }
+]

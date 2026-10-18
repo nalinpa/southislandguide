@@ -1,0 +1,399 @@
+[
+  {
+    "name": "Hooker Valley Track",
+    "slug": "hooker-valley-track",
+    "lat": -43.718126,
+    "lng": 170.093968,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/hooker-valley-track",
+    "description": "The most popular walk in Aoraki/Mount Cook National Park, an easy 10km return track from the White Horse Hill car park up the Hooker Valley to Hooker Lake, with Aoraki/Mount Cook straight ahead. Allow about 3 hours return. It's mostly flat, on gravel and boardwalk, with three swing bridges.\n\nThe new second bridge, 189m long and the longest suspension bridge in New Zealand, opened in July 2026. On the first bridge the limit is 20 people at a time, and DOC plans to fit self-closing gates because crowds of 40 or more have been crossing at once, so wait your turn. Parking at White Horse Hill is $2.50 per half hour or $25 a day, card only, and free if you're in and out within 20 minutes.\nLocal tip: Start at first light for calm air, soft light on the mountain and far fewer people on the bridges. Snow can close SH80, so check the NZTA road report before driving in.",
+    "recommendedDurationSlots": 7,
+    "featured": 1,
+    "hoursNote": "Open all year; about 3 hours return; paid parking $2.50 per 30 min or $25/day (card only); 20 person limit on bridge 1",
+    "sourceUrl": "https://www.doc.govt.nz/hooker-valley-track",
+    "confidence": "high"
+  },
+  {
+    "name": "Tasman Glacier View and Blue Lakes",
+    "slug": "tasman-glacier-view-blue-lakes",
+    "lat": -43.69601,
+    "lng": 170.168373,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A short, steep climb up 300-plus steps to a viewpoint over the Tasman Glacier terminal lake, often dotted with icebergs, and the moraine walls of New Zealand's longest glacier. It's about 30 minutes return from the Tasman Valley car park, a 10 minute drive from Aoraki/Mount Cook Village.\n\nA five minute side trip leads to the first of the Blue Lakes, which these days look more green than blue because they're fed by rainwater rather than glacial melt. Parking is free. If the steps don't suit, the flat Tasman Lake and River Track, about 50 minutes return, takes you down to the lake shore instead. There's no drinking water, and the toilets close in winter.\nLocal tip: Come here after the Hooker Valley for free parking and a quieter walk. The late afternoon light on the glacier and peaks is lovely.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open all year; 30 min return; free parking; busy with tour groups Nov to Apr",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/tracks/tasman-glacier-view-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kea Point Track",
+    "slug": "kea-point-track",
+    "lat": -43.710199,
+    "lng": 170.083551,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "An easy 3km return walk through subalpine scrub to a viewing deck above the Mueller Glacier lake, with views of Mount Sefton, The Footstool, the Hooker Valley and Aoraki/Mount Cook. It takes about an hour return from the White Horse Hill car park, or about 2 hours if you walk from the village on Terrace Road.\n\nIt's a quieter alternative, or add-on, to the Hooker Valley and suits families. Starting in the village avoids the White Horse Hill parking fee.\nLocal tip: Walk from the village and back for a free, easy half day. If you want a much harder climb with bigger views, the Sealy Tarns Track branches off this one.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open all year; 1 to 2 hours return depending on start; no drones",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/tracks/kea-point-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Sealy Tarns Track",
+    "slug": "sealy-tarns-track",
+    "lat": -43.713042,
+    "lng": 170.074372,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/tracks/sealy-tarns-track/",
+    "description": "A steep climb of about 2,200 steps and 600m up the Sealy Range to a group of small alpine tarns, with big views over the Hooker Valley, the Mueller Glacier lake and Aoraki/Mount Cook. Allow 3 to 4 hours return from the village visitor centre or the White Horse Hill car park, and the track branches off the Kea Point Track.\n\nIt's hard work on the legs, and it gets narrower and steeper near the top, where it's easy to slip, especially in snow. In winter and spring the track can be extremely icy and may need an ice axe and crampons, with possible avalanche risk, so check conditions at the visitor centre before you go. There's no shelter, so turn back if bad weather comes in from the northwest.\nLocal tip: Start early to avoid the crowds on the steps, and carry plenty of water. Beyond the tarns, the Mueller Hut Route is an alpine route for experienced mountaineers only.",
+    "recommendedDurationSlots": 7,
+    "hoursNote": "Open all year; 3 to 4 hours return; about 2,200 steps; icy with possible avalanche risk in winter and spring; check at the visitor centre",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/tracks/sealy-tarns-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Glacier Explorers",
+    "slug": "glacier-explorers",
+    "lat": -43.732972,
+    "lng": 170.093673,
+    "category": [
+      "Water",
+      "Adventure"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.hermitage.co.nz/experience/glacier-explorers",
+    "description": "A guided boat trip among the icebergs on the Tasman Glacier terminal lake, run from the Hermitage Hotel. After a bus ride up the Tasman Valley and a 1.5km walk to the lake, you spend about an hour on the water, getting close to the glacier face and floating ice, and you may get to handle ancient glacier ice.\n\nThe whole trip takes about 2 hours 45 minutes. Adults are from $219, children 4 to 14 from $99, and a family pass for two adults and two children from $576. You need to be fit enough to walk the 1.5km to the lake in 25 minutes, and you check in at the Activities Desk in the Hermitage 30 minutes before departure.\nLocal tip: Book ahead and keep your plans flexible. Trips are cancelled in bad weather, so pick an early day of your stay in case you need to rebook.",
+    "recommendedDurationSlots": 6,
+    "featured": 4,
+    "hoursNote": "Bookings essential; departures around 8.45am, 10.45am and 2.15pm; check in at the Hermitage Activities Centre; weather dependent",
+    "sourceUrl": "https://www.hermitage.co.nz/experience/glacier-explorers",
+    "confidence": "high"
+  },
+  {
+    "name": "White Horse Hill Campsite",
+    "slug": "white-horse-hill-campsite",
+    "lat": -43.719256,
+    "lng": 170.093418,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "description": "The DOC campsite at the start of the Hooker Valley and Kea Point tracks, with Mount Sefton and the Hooker Valley right above you. It's $20 a night for adults and $10 for children 5 to 17, and under 5s are free.\n\nThere's treated drinking water, a cooking shelter and toilets, but no power or showers, and coin and card showers are in the village, 2.5km away. From June to August there are pit toilets and no running water. Booked campers who park in the campsite area don't pay the car park fee. Fires, dogs and drones are all banned in the national park, and quiet hours run from 10pm to 7am.\nLocal tip: It's often full all year, so book online in advance, and bring a torch, since the kitchen and toilets are dark after sunset.",
+    "hoursNote": "Book in advance on the DOC website; $20 adult, $10 child per night; no power or showers; fire ban; no dogs or drones",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/white-horse-hill-campground/",
+    "confidence": "high"
+  },
+  {
+    "name": "Church of the Good Shepherd",
+    "slug": "church-of-the-good-shepherd",
+    "lat": -44.003364,
+    "lng": 170.482462,
+    "category": [
+      "Culture",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.churchofthegoodshepherd.org.nz/",
+    "description": "The small stone church on the shore of Lake Tekapo, with the altar window framing the lake and mountains. It's the best known photo spot in the Mackenzie and a short walk from the village.\n\nA $5 donation is suggested, paid at the tap-to-donate station inside the gate, since the church is cared for by a small group of local parishioners. Photos aren't allowed inside, and drones are banned over the whole village. The grounds are open 9am to 8pm in summer and 9am to 5pm in winter, and the building itself is usually open roughly 10am to 3pm, Wednesday to Sunday, when a volunteer is on duty. There are no toilets on site. The nearest are about 400m away by the footbridge.\nLocal tip: Park in the village, or in the car park across State Highway 8 by the Godley Hotel, and walk over the footbridge, since parking on Pioneer Drive is very limited.",
+    "recommendedDurationSlots": 1,
+    "featured": 2,
+    "hoursNote": "Grounds 9am to 8pm in summer, 9am to 5pm in winter; no night access inside the fence; $5 donation; no photos inside",
+    "sourceUrl": "https://www.churchofthegoodshepherd.org.nz/visit",
+    "confidence": "high"
+  },
+  {
+    "name": "Mt John Summit and Astro Café",
+    "slug": "mt-john-summit-astro-cafe",
+    "lat": -43.985681,
+    "lng": 170.465039,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "description": "The summit of Mt John, above Lake Tekapo, is home to the University of Canterbury observatory and gives a 360 degree view over Lake Tekapo, Lake Alexandrina and the Mackenzie Basin to the Southern Alps. The glass-walled Astro Café at the top serves coffee, sandwiches, cakes and soup, from 9am to 2pm, with last orders at 1.30pm.\n\nThe road up costs $14 per vehicle and is open 9am to 4pm. Up top, the Summit Circuit Track takes 30 to 45 minutes. You can also walk up for free on the Mt John Walkway from beside Tekapo Springs, about 1.5 hours return.\nLocal tip: Walk up the track from Tekapo Springs to skip the road fee, then treat yourself to a coffee in the café before it closes at 2pm.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Summit road 9am to 4pm, $14 per vehicle; café open daytime only; walking track free",
+    "sourceUrl": "https://www.mackenzienz.com/visit/astro-cafe/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Dark Sky Project Summit Experience",
+    "slug": "dark-sky-project-summit-experience",
+    "lat": -44.003321,
+    "lng": 170.477237,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.darkskyproject.co.nz/",
+    "description": "A night stargazing tour to the Mt John Observatory, in the Aoraki Mackenzie International Dark Sky Reserve. You leave from the Dark Sky Project base at 1 Motuariki Lane in Tekapo village, get a warm jacket, and spend time with guides using telescopes, including the 16 inch telescope inside a private observatory dome, and learning the Māori stories of the night sky.\n\nThe tour takes 1 hour 45 minutes and costs $239 per person, adult or child, and it's for ages 10 and over. Start times move with the sunset. If it's too cloudy, you can join an indoor virtual stargazing session instead, rebook, or take a refund.\nLocal tip: Check the moon phase before you book, since the Milky Way is far brighter on nights around a new moon, and arrive 20 minutes early to check in.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Night tours, times vary by season; check in 15 to 20 min early at 1 Motuariki Lane; ages 10 and over",
+    "sourceUrl": "https://www.darkskyproject.co.nz/experiences/the-summit-experience/",
+    "confidence": "high"
+  },
+  {
+    "name": "Tekapo Springs",
+    "slug": "tekapo-springs",
+    "lat": -43.994785,
+    "lng": 170.460895,
+    "category": [
+      "Water",
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://tekaposprings.co.nz/",
+    "description": "Three outdoor hot pools at the foot of Mt John, looking out towards Lake Tekapo. An all-day pass is $42 for adults, $25 for children 3 to 15 and $112 for a family of two adults and two children, under 3s are free, and you can come and go on the day.\n\nA steam, sauna and cold plunge upgrade is $15 extra. In winter there's also ice skating and snow tubing, both weather dependent, and stargazing tours with a soak run on some nights.\nLocal tip: Come for a late soak after walking up Mt John, since the walkway starts right next door.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Hot pools open daily from mid morning into the evening; check the website for current hours",
+    "sourceUrl": "https://tekaposprings.co.nz/our-prices/",
+    "confidence": "high"
+  },
+  {
+    "name": "The Better Batter",
+    "slug": "the-better-batter-tekapo",
+    "lat": -44.001754,
+    "lng": 170.472974,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small vintage food trailer on Lakeside Drive doing fish and chips, blue cod, squid, seafood chowder and fish burgers, with vegetarian options such as potato fritters and onion rings. Reviewers rate the light, crispy batter highly, and it's one of the best rated takeaways in Tekapo.\n\nGrab your box and eat at the picnic tables by the lake. It's popular, and waits of 30 to 45 minutes are common at busy times.\nLocal tip: Order early in the afternoon to beat the dinner rush, and walk along the lake while you wait.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Afternoons, roughly 1pm to 6pm, closed Sundays (from Google listing); expect queues",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJeRcb1bF1K20RUneFoAI06ss",
+    "confidence": "medium"
+  },
+  {
+    "name": "Mt Cook Alpine Salmon Shop",
+    "slug": "mt-cook-alpine-salmon-shop",
+    "lat": -44.19022,
+    "lng": 170.139896,
+    "category": [
+      "Food",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://alpinesalmon.co.nz/visit-us/",
+    "description": "The salmon shop at the Lake Pukaki visitor centre on State Highway 8, about 10km north of Twizel. It sells fresh salmon sashimi from fish raised in glacier-fed water, plus frozen salmon to cook later, with soy sauce and wasabi free on the side.\n\nThe car park doubles as a lookout over Lake Pukaki's blue water to Aoraki/Mount Cook, and there are benches outside where you can eat with the view. It's open daily from 9am to 5pm, weather permitting.\nLocal tip: Buy a pot of sashimi and eat it on the lakeside benches. It's the classic Pukaki stop and cheaper than a sit-down lunch.",
+    "recommendedDurationSlots": 1,
+    "featured": 3,
+    "hoursNote": "Open daily 9am to 5pm (weather permitting)",
+    "sourceUrl": "https://alpinesalmon.co.nz/visit-us/",
+    "confidence": "high"
+  },
+  {
+    "name": "Peters Lookout",
+    "slug": "peters-lookout",
+    "lat": -44.08903,
+    "lng": 170.135785,
+    "category": [
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A roadside lookout on State Highway 80, the road to Mount Cook, with the classic view along Lake Pukaki to Aoraki/Mount Cook and the road curving away towards the mountains. There's plenty of parking and a toilet.\n\nA short walk takes you down towards the lake shore. It's worth a stop on the way in or out of the national park, especially at sunset.\nLocal tip: Plenty of people step onto the highway for the famous road photo. Stay on the verge and watch for traffic, as it's a fast road.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open all the time; free parking; basic toilet",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJhbK3F_kCK20RItinQVazLiM",
+    "confidence": "medium"
+  },
+  {
+    "name": "Lake Pukaki Overnight Campervan Parking",
+    "slug": "lake-pukaki-overnight-campervan-parking",
+    "lat": -44.18446,
+    "lng": 170.150964,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A free camping area at the southern end of Lake Pukaki, near the power station, with lake and mountain views towards Aoraki/Mount Cook. It's the only legal freedom camping spot on Lake Pukaki, since the old spots along Hayman Road are now closed to camping.\n\nIt's for certified self-contained vehicles only, and since 7 June 2026 that means a current green warrant. There are long drop toilets and bins, but no water or lighting. Spaces are first come, first served, and it can get very busy.\nLocal tip: Arrive by mid-afternoon in summer to get a flat spot with a lake view, and follow the signs on site for stay limits.",
+    "hoursNote": "Certified self-contained only (green warrant); free; long drops; no water; illegal camping fines $400",
+    "sourceUrl": "https://www.rankers.co.nz/experiences/6068-Lake_Pukaki_Overnight_Campervan_Parking_Southern_end_of_lake",
+    "confidence": "medium"
+  },
+  {
+    "name": "Lake Middleton Campsite",
+    "slug": "lake-middleton-campsite",
+    "lat": -44.27386,
+    "lng": 169.850897,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "description": "A low cost lakeside camping ground on Lake Ōhau Road, a short drive west of Twizel, beside small Lake Middleton and just across the road from the much larger Lake Ōhau. There's plenty of space to spread out, and the small lake is good for swimming and kayaking, with a walking track around most of it.\n\nFacilities are basic: a flush toilet block, and water that must be boiled before drinking. Reviewers report fees of about $10 per adult per night, paid with a registration slip at the box by the road as you drive in. Many of the shelter trees were lost in a fire some years ago, so it can be exposed when the wind blows up the lake.\nLocal tip: Pick a spot near the remaining trees for shelter from the wind, and bring a camp stove to boil your drinking water.",
+    "hoursNote": "About $10 per adult per night (per reviews), pay at the honesty box; flush toilets; boil water before drinking; often windy",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJX7n-xDXCKm0R4tSMSv-KmX0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Foodelicious",
+    "slug": "foodelicious-twizel",
+    "lat": -44.261482,
+    "lng": 170.098138,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "description": "A pink food truck on MacKenzie Drive in Twizel's town centre, doing bacon butties, burgers, pulled beef buns and fried fish at fair prices. The elephant fish gets plenty of mentions.\n\nIt's a quick, friendly stop for breakfast or lunch on the road between Mount Cook and Queenstown, and it has a very high Google rating. The Bids Coffee truck parks right beside it.\nLocal tip: Check the days before you go, since it's usually only open weekday mornings to early afternoon.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Tue to Fri 7.30am to 2pm (from Google listing); closed weekends and Mondays",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ9aRUZgDhKm0RlzIHid8mUxc",
+    "confidence": "medium"
+  },
+  {
+    "name": "Clay Cliffs Omarama",
+    "slug": "clay-cliffs-omarama",
+    "lat": -44.488957,
+    "lng": 169.867002,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.claycliffsnz.com/",
+    "description": "Tall eroded pinnacles and narrow gullies of gravel and silt on private farmland near Omarama. A short track leads from the car park into the formations, and you should allow about an hour return.\n\nEntry is $10 per car or $20 per campervan or minivan, paid by bank transfer before you go, since reception is patchy, or as cash in the box on site. Access is along a gravel road, and there are no toilets. Drones and camping aren't allowed, dogs must be on a lead, and stay on the tracks rather than climbing the rocks.\nLocal tip: Go early or late in the day, when the low light brings out the colours, and wear sturdy shoes, since the scree is loose.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daylight hours; $10 car, $20 campervan; gravel road; no toilets; no drones",
+    "sourceUrl": "https://www.claycliffsnz.com/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lindis Pass Summit Lookout",
+    "slug": "lindis-pass-summit-lookout",
+    "lat": -44.588923,
+    "lng": 169.643078,
+    "category": [
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "The top of the Lindis Pass on State Highway 8, the main road between the Mackenzie Basin and Wānaka, Cromwell and Queenstown, where rolling tussock hills fold away on every side. There's a small car park just off the highway, and a short dirt track of about 200m, 10 minutes, climbs to a higher viewpoint.\n\nThere are no toilets or other facilities. In winter the pass can have snow and ice, so check road conditions before crossing.\nLocal tip: The view from the car park is almost as good as from the top, so if you're short of time, just stretch your legs and take your photos there.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; small car park; no toilets; snow and ice possible in winter",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJwzeFuUChKqgRbx7HwP-BygY",
+    "confidence": "medium"
+  },
+  {
+    "name": "Hot Tubs Omarama",
+    "slug": "hot-tubs-omarama",
+    "lat": -44.484024,
+    "lng": 169.970134,
+    "category": [
+      "Water",
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.hottubsomarama.co.nz/",
+    "description": "Private cedar hot tubs set beside a pond in Omarama, with views over to the hills, each with its own changing room. The temperature is adjustable, and towels and drinking water are provided.\n\nA 90 minute session is $100 for one adult or $120 for two, plus $50 per extra adult and $25 per child under 15. A two hour tub and sauna package starts at $140 for one or $180 for two. It's open daily from 10am until 7.30pm, or 8pm from Thursday to Saturday.\nLocal tip: Book ahead and go on a cold, clear evening. It's a good way to finish a day of walking at Mount Cook or the Clay Cliffs.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open daily from midday, until 6.30pm or 7.30pm depending on the day; bookings recommended",
+    "sourceUrl": "https://www.hottubsomarama.co.nz/pricing",
+    "confidence": "high"
+  },
+  {
+    "name": "Fairlie Bakehouse",
+    "slug": "fairlie-bakehouse",
+    "lat": -44.098619,
+    "lng": 170.829478,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.fairliebakehouse.co.nz/",
+    "description": "An award winning bakery at 74 Main Street, Fairlie, on State Highway 8 at the gateway to the Mackenzie. It's known for hand-filled pies, and reviewers rave about the pork belly and apple sauce and the salmon and bacon.\n\nIt's busy all day, so expect a queue, but service is quick. There are also cakes, slices and coffee, with a big outdoor area, and it's open seven days from 6am to 4.30pm.\nLocal tip: Stop here on the drive in from Christchurch and buy an extra pie for dinner later in Tekapo.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open 7 days, 6am to 4.30pm; closed 25 and 26 December",
+    "sourceUrl": "https://www.fairliebakehouse.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Round Bush Campsite",
+    "slug": "round-bush-campsite",
+    "lat": -44.208459,
+    "lng": 169.817964,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Free",
+    "description": "A free DOC campsite on the shore of Lake Ōhau, among beech forest that grows right to the water's edge. It's about 25km up Lake Ōhau Road from Clearburn, south of Twizel, and the last stretch is rough gravel.\n\nFacilities are basic, with long drop toilets and a small boat ramp, and the only water is the lake, so bring your own. Stays are limited to four nights.\nLocal tip: Bring plenty of insect repellent, since the sandflies here are fierce, especially at dusk.",
+    "hoursNote": "Free; basic DOC campsite; max 4 nights; long drops; no drinking water",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/ruataniwha-conservation-park/things-to-do/campsites/round-bush-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Tailor Made Tekapo Accommodation",
+    "slug": "tailor-made-tekapo-accommodation",
+    "lat": -44.006683,
+    "lng": 170.475739,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.tekapohostelnz.com/",
+    "description": "An independent guesthouse and hostel at 11 Aorangi Crescent, on a quiet street about five minutes' walk from the lakefront, shops and InterCity bus stop. It has private rooms, some with ensuites, and a bunk-free six bed mixed dorm.\n\nThere's a well equipped guest kitchen, a lounge with a log fire, free wifi and parking, a laundry and drying room, and barbecues. The shared bathrooms are individual lockable units, and guinea pigs, chickens and rabbits live in the garden.\nLocal tip: It's handy for late night stargazing tours, since you can walk back from the village afterwards, and there are hammocks in the backyard for stargazing at home.",
+    "hoursNote": "Self check in; free parking; dorm and private rooms",
+    "sourceUrl": "https://www.tekapohostelnz.com/",
+    "confidence": "medium"
+  }
+]

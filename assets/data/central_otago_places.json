@@ -1,0 +1,343 @@
+[
+  {
+    "name": "Cromwell Heritage Precinct",
+    "slug": "cromwell-heritage-precinct",
+    "lat": -45.049152,
+    "lng": 169.206401,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.cromwellheritageprecinct.co.nz/",
+    "description": "Old Cromwell is a lakeside street of gold rush era buildings from the 1860s, saved and rebuilt on higher ground when Lake Dunstan, formed by the Clyde Dam, flooded the town's original main street in the early 1990s. It's free to wander, and the old stone and timber shops now hold galleries, cafés, craft stores and a hotel, right on the edge of the lake.\n\nIn the warmer months, the Cromwell Farmers and Artisans Market fills the precinct every Sunday from 9am to 1pm, with local fruit, cheese, smoked salmon, crafts and live music from 10am to noon. It runs from Labour Weekend to Anzac Weekend.\nLocal tip: Walk out to the lakefront for photos back towards the buildings, then grab an e-bike or a coffee here before heading out on the Lake Dunstan Trail.",
+    "recommendedDurationSlots": 3,
+    "featured": 3,
+    "hoursNote": "Open daily, free entry; shop and cafe hours vary; Sunday market 9am to 1pm, Labour Weekend to April",
+    "sourceUrl": "https://www.cromwellheritageprecinct.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Jones Family Fruit Stall",
+    "slug": "jones-family-fruit-stall",
+    "lat": -45.058395,
+    "lng": 169.14586,
+    "category": [
+      "Food"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://suncrestorchard.co.nz/mrs-jones-fruit-stall/",
+    "description": "A big orchard shop on State Highway 6 just west of Cromwell, which Mrs Jones started in 1983 in a garage beside the highway. Cherries are the star, along with apricots, peaches, nectarines, plums, pears and apples, and the shop also sells dried fruit, nuts, honey, vegetables and fruit ports.\n\nThe real fruit ice creams, made to order, are the reason most people stop, and you can eat them in Mrs Jones' English-style rose garden, which has hundreds of roses. There are customer toilets in the car park, which makes it a handy break on the drive through the Kawarau Gorge.\nLocal tip: Summer is peak season for cherries and stone fruit, but the stall stays open year round, from 8.30am to 5.30pm, so it's a good winter stop for apples and dried fruit too.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open every day 8.30am to 5.30pm, longer hours in summer",
+    "sourceUrl": "https://suncrestorchard.co.nz/mrs-jones-fruit-stall/",
+    "confidence": "high"
+  },
+  {
+    "name": "Sanga's Pies",
+    "slug": "sangas-pies",
+    "lat": -45.052958,
+    "lng": 169.179364,
+    "category": [
+      "Food"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small pie bakery at 4 Chardonnay Street, in Cromwell's light industrial area, started in 2021 by Cromwell-born brothers Chris and Rob Sangster with chef Miro Kollar. They bake around 15 flavours a day using meat from local farmers, including The Baby Boomer (classic mince), Holy Smoke (steak and smoked cheese) and Hey Dahl!, a vegetarian dahl pie.\n\nIt's a takeaway window with barrel and picnic table seating outside, plus coffee and sandwiches. Reviewers regularly call these the best pies they've had in New Zealand.\nLocal tip: It's only open on weekdays, 7am to 3pm, so plan your pie run for Monday to Friday and get there before lunch for the full range.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 7am to 3pm; closed weekends; 4 Chardonnay Street, Cromwell",
+    "sourceUrl": "https://neatplaces.co.nz/places/central-otago/eat-drink/sangas-pies",
+    "confidence": "medium"
+  },
+  {
+    "name": "Bannockburn Sluicings",
+    "slug": "bannockburn-sluicings",
+    "lat": -45.076951,
+    "lng": 169.146221,
+    "category": [
+      "Walks",
+      "Culture"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Free",
+    "description": "A DOC historic reserve off Felton Road, about 6km southwest of Cromwell, where 19th century miners blasted the hillsides apart with high-pressure water to get at the gold. The tracks wind through the eroded gullies past dams, water races, tunnels, a stone cottage ruin, an old orchard and Menzies Dam at the Stewart Town site.\n\nThe walks are rated easy and take anywhere from 1 to 4 hours, with 10 minute walks from the viewpoints you can drive to, and views across Cromwell and the Bannockburn vineyards. It's a free, strange, otherworldly landscape.\nLocal tip: There's no water on the tracks and it gets very hot in summer, so take plenty and go early. Keep children close, since old mine shafts are scattered through the area.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open any time, free; 1 to 4 hour tracks; no water, no camping; watch for old mine shafts",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/bannockburn-area/things-to-do/bannockburn-sluicings-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Dunstan Trail with CHP Bike Rentals",
+    "slug": "lake-dunstan-trail-chp-bike-rentals",
+    "lat": -45.049378,
+    "lng": 169.207846,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.chpbikerentals.co.nz/",
+    "description": "The Lake Dunstan Trail is a 55km cycle trail to Clyde, and its best known stretch runs through the Cromwell Gorge on cantilevered boardwalks bolted onto the cliffs above the lake. The first 30km from Cromwell to Cornish Point is easy grade 1 to 2, and the 25km from Cornish Point to Clyde is grade 2 to 3, with big switchback climbs and narrow sections. Floating coffee and burger boats moor along the way.\n\nCHP Bike Rentals works out of the Heritage Precinct at 71 Melmore Terrace and specialises in the 42km ride from Cromwell to Clyde, picking you up in Clyde and shuttling you back. Hire includes a helmet and pannier bag for every bike and an emergency kit per group, with e-mountain bikes and standard mountain bikes available, and it's open 9am to 5pm, seven days.\nLocal tip: The gorge section is much more relaxed on an e-bike, which is what CHP recommends. Book ahead in summer, and take water and sun protection.",
+    "recommendedDurationSlots": 10,
+    "featured": 1,
+    "hoursNote": "Open 7 days 9am to 5pm; bookings essential; return shuttle from Clyde; trail open year round",
+    "sourceUrl": "https://www.centralotagonz.com/explore/listing/cromwell-heritage-precinct-bike-rentals/",
+    "confidence": "high"
+  },
+  {
+    "name": "Goldfields Mining Centre",
+    "slug": "goldfields-mining-centre",
+    "lat": -45.040375,
+    "lng": 169.121906,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.goldfieldsmining.co.nz/",
+    "description": "A 25 hectare historic mining site in the Kawarau Gorge on State Highway 6, reached by a swing bridge over the river and about 40 minutes from Queenstown. The guided Pure Gold Experience takes you through a Chinese miners' village, old shafts and tunnels, and shows a working California sluice gun and stamper battery before you try gold panning yourself.\n\nThe tour is $45 for adults and $25 for children, under 5s are free, and a family of two adults and two children is $120. Allow 2 to 3 hours. It's open 9am to 5pm from September to April, and 10am to 4pm from May to August.\nLocal tip: Reviewers rate the guides highly, so time your visit for a guided tour rather than just wandering. The swing bridge and river views are worth a look even on a quick stop.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Sep to Apr 9am to 5pm; May to Aug 10am to 4pm; adults $45, children $25",
+    "sourceUrl": "https://www.bookme.co.nz/things-to-do/new-zealand/spike/activity/pure-gold-experience-tour-goldfields-mining-centre/1726",
+    "confidence": "high"
+  },
+  {
+    "name": "Clyde Dam Lookout and Historic Clyde",
+    "slug": "clyde-dam-lookout-historic-clyde",
+    "lat": -45.179775,
+    "lng": 169.309884,
+    "category": [
+      "Scenic",
+      "Culture"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Free",
+    "description": "The lookout on State Highway 8 above Clyde gives a clear view of the Clyde Dam, one of New Zealand's largest hydro dams, holding back Lake Dunstan on the Clutha River. Information boards explain how it was built and the fault line found beneath it. There's a decent car park but no toilets.\n\nDown the hill, Clyde is one of the best kept gold rush towns in Central Otago. A 1km heritage walk of about an hour loops six town blocks of stone cottages, shops and public buildings, with plaques set into the pavement, starting at the miners' memorial at the dam end of town.\nLocal tip: Pick up the Walk Around Historic Clyde brochure in town, then finish at a café on Sunderland Street. Clyde is also the end of both the Lake Dunstan Trail and the Rail Trail.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Lookout open any time, free; no toilets at lookout; heritage walk 1km, about 1 hour",
+    "sourceUrl": "https://www.centralotagonz.com/explore/listing/walk-around-historic-clyde/",
+    "confidence": "high"
+  },
+  {
+    "name": "Mr & Mrs Potato",
+    "slug": "mr-and-mrs-potato-clyde",
+    "lat": -45.185969,
+    "lng": 169.315518,
+    "category": [
+      "Food"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small fish and chip shop at 18 Sunderland Street, Clyde's main street, that has quickly become a favourite with trail riders. Reviewers praise the light batter on the blue cod, the fish burgers and the garlic butter chips, and there are dips like mushy peas and curry sauce.\n\nPrices are reasonable and service is quick, which makes it an easy dinner after finishing the Rail Trail or the Lake Dunstan Trail in Clyde.\nLocal tip: Try the battered Whittaker's chocolate for dessert, and note that it's closed on Mondays.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Tue to Thu and Sat 2pm to 8pm; Fri and Sun 11am to 8pm; closed Mon; 18 Sunderland Street",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJYS-xysMlK6gRNgQbECXbJtw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Otago Central Rail Trail Day Ride",
+    "slug": "otago-central-rail-trail-day-ride",
+    "lat": -45.1868,
+    "lng": 169.316233,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.centralcycletrail.co.nz/",
+    "description": "The Otago Central Rail Trail runs 152km from Clyde to Middlemarch along an old railway line, and it's easy grade 1 riding all the way. If you only have one day, the stretch through the Poolburn Gorge is the highlight, with hand-built tunnels, tall viaducts and schist bluffs.\n\nCentral Cycle Trail Co., at 33 Sunderland Street in Clyde, runs a Rail Trail in a Day option. They shuttle you to Auripo Road and you ride 52km back through the Poolburn Gorge, the Ida Valley, Tiger Hill, Lauder, Omakau and Ophir to Clyde. The shuttle, bike and trail support are included, and you can check current prices on their site.\nLocal tip: Take your sunglasses off before the tunnels, which are dark inside, and save room for a late stop at the Chatto Creek Tavern before Clyde.",
+    "recommendedDurationSlots": 14,
+    "featured": 4,
+    "hoursNote": "Trail open year round; depot open daily 9am to 4pm; bookings needed for shuttles; very hot in summer",
+    "sourceUrl": "https://www.centralcycletrail.co.nz/rail-trail-in-a-day-central-cycle-trail-co",
+    "confidence": "high"
+  },
+  {
+    "name": "Shaky Bridge and Alexandra Clock on the Hill",
+    "slug": "shaky-bridge-alexandra-clock",
+    "lat": -45.253828,
+    "lng": 169.401368,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Free",
+    "description": "Alexandra's giant clock, 11 metres across, has sat on the hillside above town since 1968, when the local Jaycees built it, and it's lit up at night. The walk up starts in town and crosses the Shaky Bridge, an old wooden suspension bridge on Kerry Street over the Manuherikia River that once carried vehicles and is now foot traffic only.\n\nFrom the bridge, the track passes a vineyard, then climbs steeply over rocky, uneven ground to the clock. At the top you can see every range around, from the Old Man Range to the Hawkdun Range. Allow about an hour return from the town centre.\nLocal tip: The last stretch is rough and steeper than the sign suggests, so wear proper shoes. If you drive up Graveyard Gully Road, it's only a 10 to 15 minute walk.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time, free; steep, rough final section",
+    "sourceUrl": "https://www.centralotagonz.com/explore/listing/the-clock-on-the-hill/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ophir Post Office and Daniel O'Connell Bridge",
+    "slug": "ophir-post-office-bridge",
+    "lat": -45.110272,
+    "lng": 169.602484,
+    "category": [
+      "Culture"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Free",
+    "description": "Ophir is a tiny gold rush village 2km from Omakau and the Rail Trail. Its 1886 post office is New Zealand's oldest continuously operating post office, still open on weekday mornings, and your postcards get its unique pick-and-shovel postmark.\n\nAt the edge of the village, the Daniel O'Connell Bridge is a single lane suspension bridge with schist towers, opened in 1880 over the Manuherikia River and still in use. Behind the post office is the old lockup, and the main street also has the 1926 Peace Memorial Hall and Pitches Store, now a restaurant with rooms.\nLocal tip: Arrive before noon on a weekday so the post office is open, and bring a postcard to send home.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Post office Mon to Fri 9am to 12pm; closed weekends; village and bridge open any time",
+    "sourceUrl": "https://www.otagocentralrailtrail.co.nz/plan/news-and-stories/ophir/",
+    "confidence": "high"
+  },
+  {
+    "name": "St Bathans Blue Lake",
+    "slug": "st-bathans-blue-lake",
+    "lat": -44.869718,
+    "lng": 169.811955,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Free",
+    "description": "Miners sluiced away Kildare Hill at St Bathans until 1934, leaving a pit 168 metres deep that filled with water to form the Blue Lake. Its colour comes from minerals in the surrounding rock, set against white quartz cliffs and tailings.\n\nAn easy 2km DOC loop circles the lake in about 50 minutes, past old sluicings and mining relics. People swim, kayak and paddleboard here on warm days, and there are toilets at the top car park and by the lake. To get there, turn off SH85 between Alexandra and Ranfurly onto the St Bathans Loop Road.\nLocal tip: The best view is from the lookout by the top car park, so start there, and keep back from the cliff edges, which are signposted as unsafe.",
+    "recommendedDurationSlots": 3,
+    "featured": 2,
+    "hoursNote": "Open any time, free; 2km loop about 50 min; toilets on site; off SH85 via St Bathans Loop Road",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/st-bathans-area/things-to-do/blue-lake-loop-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Vulcan Hotel",
+    "slug": "vulcan-hotel-st-bathans",
+    "lat": -44.870962,
+    "lng": 169.810905,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Moderate",
+    "description": "A mud brick pub built in 1882 in the almost unchanged gold rush village of St Bathans, a few steps from the Blue Lake. It serves pub meals, coffee and drinks, with garden tables across the road, and it's famous for its resident ghost.\n\nRecent reviewers mention friendly staff and good, fairly priced food, and the loaded wedges are big enough for two. The hotel also has rooms if you want to stay in the village.\nLocal tip: Combine it with the Blue Lake walk for lunch, and have a look at the 1909 post office and old church along the same street.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 11am to 7.30pm; 1670 Loop Road, St Bathans",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJRW1ivZzyKqgR1Bq9Q6r7N78",
+    "confidence": "medium"
+  },
+  {
+    "name": "Maniototo Curling International",
+    "slug": "maniototo-curling-naseby",
+    "lat": -45.034927,
+    "lng": 170.142639,
+    "category": [
+      "Adventure",
+      "Attractions"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.maniototoadventurepark.co.nz/",
+    "description": "Naseby is home to the only dedicated indoor curling rink in the southern hemisphere, part of the Maniototo Adventure Park. A 90 minute session includes all the gear and as much coaching as you need, so complete beginners are sliding stones within minutes.\n\nIndoor curling is $45 for adults and $20 for children 5 to 15, or $100 for a family of two adults and two children. The park also runs ice skating and an ice luge in winter, and the Gold Rush Luge on weekends from October to April.\nLocal tip: Book ahead, especially at weekends and in the school holidays, and bring a warm layer for the rink.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Hours vary by season, roughly 10am to 5.30pm in winter and longer in summer; bookings essential",
+    "sourceUrl": "https://www.bookme.co.nz/things-to-do/queenstown/activity/indoor-curling--naseby/72447",
+    "confidence": "medium"
+  },
+  {
+    "name": "Black Forest Cafe",
+    "slug": "black-forest-cafe-naseby",
+    "lat": -45.024191,
+    "lng": 170.146585,
+    "category": [
+      "Food"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Moderate",
+    "description": "A cosy country café at 7 Derwent Street, in the middle of Naseby, a small gold rush town surrounded by forest. It has a fire going on cold mornings, a sunny spot outside and a cabinet of cakes and savouries.\n\nRecent reviewers rate the coffee, breakfasts, toasted sandwiches and nachos, and it's a handy stop before curling or riding the forest tracks.\nLocal tip: It closes at 4pm, so come for breakfast or lunch rather than dinner.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 8.30am to 4pm; 7 Derwent Street, Naseby",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJybBHYvVPKqgRozNlyQ_xMCw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Bendigo Freedom Camping",
+    "slug": "bendigo-freedom-camping",
+    "lat": -44.937521,
+    "lng": 169.291597,
+    "category": [
+      "Stay"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Free",
+    "description": "A free LINZ camping area on the shore of Lake Dunstan at Bendigo, off State Highway 8 north of Cromwell. It's one of the few free sites in the area that allows tents as well as self-contained vehicles, with a stay of up to three nights per calendar month.\n\nThere are toilets and picnic tables, and the lake views are excellent, though trucks on the highway make some noise until late evening. There's no drinking water, and fires aren't allowed.\nLocal tip: Arrive early for a lakeside spot, bring your own toilet paper and water, and keep clear of the boat ramp parking.",
+    "hoursNote": "Free; tents and self-contained vehicles; max 3 nights per calendar month; toilets; no fires; no drinking water",
+    "sourceUrl": "https://www.linz.govt.nz/products-services/camping-areas/camping-areas-central-otago-and-south-canterbury",
+    "confidence": "high"
+  },
+  {
+    "name": "Lowburn Harbour Freedom Camping",
+    "slug": "lowburn-harbour-freedom-camping",
+    "lat": -45.008465,
+    "lng": 169.213897,
+    "category": [
+      "Stay"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Free",
+    "description": "A large free LINZ camping area at Lowburn Harbour on Lake Dunstan, just north of Cromwell. It's for self-contained vehicles only, with no tents, and you can stay up to three nights per calendar month.\n\nThere are toilets and rubbish bins, and you can swim off the boat ramp area. Sites are first come, first served, and fires aren't allowed.\nLocal tip: Get in early for a spot at the water's edge, and take your rubbish with you if the bins are full.",
+    "hoursNote": "Free; self-contained vehicles only, no tents; max 3 nights per calendar month; toilets; no fires",
+    "sourceUrl": "https://www.linz.govt.nz/products-services/camping-areas/camping-areas-central-otago-and-south-canterbury",
+    "confidence": "high"
+  },
+  {
+    "name": "Champagne Gully Freedom Camping",
+    "slug": "champagne-gully-freedom-camping",
+    "lat": -45.12957,
+    "lng": 169.317101,
+    "category": [
+      "Stay"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "central-otago",
+    "active": true,
+    "price": "Free",
+    "description": "A free LINZ camping area beside Lake Dunstan in the Cromwell Gorge, on State Highway 8 between Cromwell and Clyde. Tents and self-contained vehicles are allowed, but only for one night per calendar month, and number plates are recorded each evening.\n\nThere are toilets, a sink and rubbish bins, and the level gravel and grass sites suit big vehicles. Fires aren't allowed.\nLocal tip: The toilets have no lights, so bring a torch. It's a handy last night before riding the Lake Dunstan Trail from Clyde.",
+    "hoursNote": "Free; tents and self-contained vehicles; max 1 night per calendar month; toilets; no fires",
+    "sourceUrl": "https://www.linz.govt.nz/products-services/camping-areas/camping-areas-central-otago-and-south-canterbury",
+    "confidence": "high"
+  }
+]

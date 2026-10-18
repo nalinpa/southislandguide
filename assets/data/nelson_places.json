@@ -1,0 +1,347 @@
+[
+  {
+    "name": "Centre of New Zealand Walk",
+    "slug": "centre-of-new-zealand-walk",
+    "lat": -41.272834,
+    "lng": 173.299357,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.nelson.govt.nz/5community/2recreation/parks-and-open-spaces/2parks-and-reserves/see-nelson-city-parks-and-reserves/centre-of-new-zealand-walkcentre-of-new-zealand",
+    "description": "Nelson's most popular short walk climbs Botanical Hill from the Botanical Reserve, reached by the footbridge at the end of Hardy Street, or from the Maitai Walkway. It takes 20 to 60 minutes to the top depending on your pace, and the main track is wide and steady, steep in places, but fine for sturdy pushchairs.\n\nThe monument marks the hilltop that Chief Surveyor John Spence Browning used in the 1870s as the central point for New Zealand's first geodetic survey. It isn't the true geographic centre, which a 1962 survey placed in the Spooners Range, but the 360 degree view over the city, port and Tasman Bay is the real reward, with a seat and panels at the top to help you pick out the landmarks.\nLocal tip: On a hot day, go down the eastern side to Branford Park and cool off in the Maitai River at the Black Hole, then walk back into town along the Maitai Track.",
+    "recommendedDurationSlots": 3,
+    "featured": 1,
+    "hoursNote": "Open all the time; free; start from the Botanical Reserve on Milton St or the end of Hardy St",
+    "sourceUrl": "https://www.nelson.govt.nz/5community/2recreation/parks-and-open-spaces/2parks-and-reserves/see-nelson-city-parks-and-reserves/centre-of-new-zealand-walkcentre-of-new-zealand",
+    "confidence": "high"
+  },
+  {
+    "name": "Nelson Saturday Market",
+    "slug": "nelson-saturday-market",
+    "lat": -41.273435,
+    "lng": 173.282497,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.nelsonmarket.co.nz/",
+    "description": "Running since 1981, the Saturday market fills Montgomery Square in the middle of town every week from 8am to 1pm, rain or shine. Stalls sell fresh and organic produce, local food, crafts, clothing, jewellery, ceramics, plants and art, and there's plenty of hot food to eat as you wander.\n\nRecent visitors mention hāngī, whitebait fritters, bratwurst rolls, fry bread, pastries and good coffee. Seating is limited, so be ready to eat on the move or find a spot nearby.\nLocal tip: Parking fills fast because the market takes over the Montgomery carpark, so walk in if you can, and come early for the best produce.",
+    "recommendedDurationSlots": 4,
+    "featured": 2,
+    "hoursNote": "Every Saturday 8am to 1pm, rain or shine; Montgomery Square",
+    "sourceUrl": "https://www.nelsonmarket.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Moturoa / Rabbit Island",
+    "slug": "moturoa-rabbit-island",
+    "lat": -41.272619,
+    "lng": 173.148819,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Free",
+    "description": "A long, sandy beach backed by pine forest at the mouth of the Waimea Inlet, west of Richmond. The water is shallow and calm on a good day, and behind the dunes there are picnic tables, barbecues, shade, toilets and changing sheds, which makes it a favourite for a family beach day.\n\nIt's open in daylight hours only, dogs aren't allowed, and you can't collect firewood. The Great Taste Trail runs through the island to the ferry landing opposite Māpua Wharf, so it's also an easy bike ride. Logging trucks use the forest roads, so take care at intersections.\nLocal tip: Check the gate locking time on the big signs at the entrance. As of October 2026 it's 7.30pm, and if you get locked in, your car stays until the gate opens the next day.",
+    "recommendedDurationSlots": 8,
+    "featured": 3,
+    "hoursNote": "Daylight hours only; gates currently close 6pm; no dogs, no overnight stays, no firewood collection",
+    "sourceUrl": "https://www.tasman.govt.nz/my-council/about-us/media-centre/news-and-notices/moturoa-rabbit-island-access-and-updates",
+    "confidence": "high"
+  },
+  {
+    "name": "Tāhunanui Beach",
+    "slug": "tahunanui-beach",
+    "lat": -41.278593,
+    "lng": 173.239225,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Free",
+    "description": "Nelson's town beach is a wide stretch of golden sand on the western edge of the city, with free parking, mountain views and planes landing at the airport next door. The swimming zone is marked by three black buoys, and motorised craft aren't allowed inside it.\n\nThe reserve behind the beach has playgrounds, beach volleyball courts, a BMX track, a commercial fun park with mini golf, bumper boats and go-karts, plus Natureland and the roller rink. Dogs are banned on the main beach but allowed off leash in other parts of the reserve.\nLocal tip: Stay for sunset over Tasman Bay, then grab takeaways from the Tāhunanui shops nearby.",
+    "recommendedDurationSlots": 6,
+    "featured": 4,
+    "hoursNote": "Open all the time; free parking; swim between the black buoys; no dogs on the main beach",
+    "sourceUrl": "https://www.nelson.govt.nz/5community/2recreation/parks-and-open-spaces/2parks-and-reserves/see-tahunanui-open-spaces/tahunanui-beach-foreshore-and-tahunanui-recreation-reserve",
+    "confidence": "high"
+  },
+  {
+    "name": "The Suter Art Gallery",
+    "slug": "the-suter-art-gallery",
+    "lat": -41.272889,
+    "lng": 173.289833,
+    "category": [
+      "Culture"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Free",
+    "website": "https://thesuter.org.nz/",
+    "description": "The public art gallery for Nelson Tasman, at 208 Bridge Street beside Queens Gardens and a short walk from the city centre. Entry is free, with koha appreciated, and there are several galleries of changing contemporary and historical exhibitions, drawing on The Suter's own collection, plus the 150 seat Pastorius Waller Theatre.\n\nThe Suter Store sells handmade work by regional artists, and it's good for a gift that isn't a souvenir magnet. The gallery is open daily from 9.30am to 4.30pm.\nLocal tip: Pair it with a wander through Queens Gardens right behind, and allow about 45 minutes for the gallery itself.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 9.30am to 4.30pm; free entry, koha welcome; cafe currently closed",
+    "sourceUrl": "https://thesuter.org.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Nelson Provincial Museum",
+    "slug": "nelson-provincial-museum",
+    "lat": -41.274464,
+    "lng": 173.283501,
+    "category": [
+      "Culture"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.nelsonmuseum.co.nz/",
+    "description": "Pupuri Taonga o Te Tai Ao, on the corner of Trafalgar and Hardy Streets, tells the story of the region from its geology and Māori history through to European settlement. Upstairs has changing exhibitions and hands-on displays that keep kids busy.\n\nAdults are $7, children and NZ tertiary students $3, Gold Card holders $5, and under 5s are free, and Nelson Tasman residents get in free. Temporary exhibitions can cost extra. It's open 10am to 5pm on weekdays and 10am to 4.30pm at weekends.\nLocal tip: It's right in the centre of town and only a few minutes' walk from The Suter, so the two make an easy pairing on a wet day.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Weekdays 10am to 5pm; weekends and public holidays 10am to 4.30pm; closed Good Friday and Christmas Day",
+    "sourceUrl": "https://www.nelsonmuseum.co.nz/plan-your-visit",
+    "confidence": "high"
+  },
+  {
+    "name": "Founders Heritage Park",
+    "slug": "founders-heritage-park",
+    "lat": -41.261892,
+    "lng": 173.297877,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.founderspark.co.nz/",
+    "description": "A recreated street of Nelson's past on Atawhai Drive, with heritage buildings, a windmill, a train ride, and displays on bicycles, aviation, coaches, hops, maritime history and miniatures, including a Bristol freighter plane. Resident artisans and small businesses work from some of the buildings, and there's a pump track for kids with bikes.\n\nAdults are $12.10, children 5 to 16 are $5.20, a family pass is $30, and locals with ID get in free. The Book Vault sells cheap secondhand books and records, and the café opens Wednesday to Sunday.\nLocal tip: Allow a couple of hours, and check the website for weekend craft markets and events before you go.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Daily 10am to 4.30pm except Good Friday and Christmas Day; cafe Wed to Sun",
+    "sourceUrl": "https://www.founderspark.co.nz/planning-visit/getting-here-and-getting-in/",
+    "confidence": "high"
+  },
+  {
+    "name": "Nelson Classic Car Museum",
+    "slug": "nelson-classic-car-museum",
+    "lat": -41.298459,
+    "lng": 173.239522,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.nelsonclassiccarmuseum.nz/",
+    "description": "More than 150 cars covering over a century of motoring fill two big halls at 1 Cadillac Way in Annesbrook, near Tāhunanui. This was once home to the World of WearableArt museum as well, but the wearable art side closed in 2020, and the building now focuses on the car collection.\n\nAdults are $20, children 5 to 15 are $8, and seniors and NZ students $15, and a family pass for two adults and two children is $50. The Little Engine Eatery on site does food and coffee, and there's plenty of free parking. It's open daily from 10am to 4pm.\nLocal tip: Look out for the cars you're allowed to sit in for photos. Visitors say the sign is easy to miss near the end of the last row.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Daily 10am to 4pm; closed Christmas Day; 1 Cadillac Way, Annesbrook",
+    "sourceUrl": "https://www.nelsonclassiccarmuseum.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Pic's Peanut Butter World",
+    "slug": "pics-peanut-butter-world",
+    "lat": -41.322997,
+    "lng": 173.214279,
+    "category": [
+      "Attractions",
+      "Food"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.picspeanutbutter.com/tours/",
+    "description": "The Pic's factory at 49 Saxton Road in Stoke runs one hour tours behind the scenes of the roasting, grinding and jarring, with tastings of every spread and the story of how the brand started. Kids love it, and there's a café on site that closes at 2.30pm.\n\nAdults are $25 and students and seniors $20, each including a free 380g jar. Children 18 and under and Nelson Tasman residents with proof of address go free, without the jar. Bookings are essential.\nLocal tip: It's not suitable for anyone with a peanut allergy, and it's closed at weekends and on public holidays, so plan it for a weekday.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Mon to Fri only; 8.30am to 4pm Oct to Apr, 8.30am to 3pm May to Sep; closed weekends and public holidays; book ahead",
+    "sourceUrl": "https://www.picspeanutbutter.com/tours/",
+    "confidence": "high"
+  },
+  {
+    "name": "Māpua Wharf",
+    "slug": "mapua-wharf",
+    "lat": -41.256306,
+    "lng": 173.101045,
+    "category": [
+      "Food",
+      "Water"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small working wharf on the Waimea Inlet, west of Richmond, lined with cafés, restaurants, bars and shops selling local art, gifts and homewares. It's a relaxed spot for fish and chips or a coffee in the sun, watching the boats come and go.\n\nThe Māpua Ferry crosses to Rabbit Island every hour, on the hour, from 10am, linking the two halves of the Great Taste Trail. Adults are $15 one way or $18 return, and children under 12 are $6 or $8. It runs daily from late September to May, and in winter at weekends, school holidays and public holidays only.\nLocal tip: Signage around Māpua is patchy, so put Aranui Road in your GPS. The wharf is at the end of it.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Shops and cafes open daily with varied hours; ferry hourly 10am to 5pm daily late Sep to May, weekends and holidays in winter",
+    "sourceUrl": "http://www.mapuaferry.co.nz/ferry-times--prices.html",
+    "confidence": "medium"
+  },
+  {
+    "name": "Cycle Nelson Bike Hire",
+    "slug": "cycle-nelson-bike-hire",
+    "lat": -41.283965,
+    "lng": 173.239809,
+    "category": [
+      "Adventure",
+      "Nature"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.cyclenelson.co.nz/",
+    "description": "Cycle Nelson hires e-bikes, mountain bikes, touring and kids' bikes from Tāhunanui, with more pick-up points at Nelson Airport and Kaiteriteri, and it's handy for the flat Great Taste Trail. Every hire includes a helmet, lock and repair kit, and they also run shuttles and self-guided tours.\n\nThe classic day out is Nelson to Māpua, 35km of easy grade 2 riding past the Waimea Inlet, across Rabbit Island and over on the little ferry to Māpua Wharf, with about 2 to 3 hours in the saddle. Their Māpua Cycle and Shuttle Tour is $160 per person, plus $50 for an e-bike.\nLocal tip: Book ahead in summer, and check the Māpua ferry times before you go, since it runs hourly and only at weekends and holidays in winter.",
+    "recommendedDurationSlots": 12,
+    "hoursNote": "Daily 9am to 5pm at Tāhuna Beach Holiday Park; book online; hire prices on the booking site",
+    "sourceUrl": "https://www.nzcycletrail.com/find-your-ride/23-great-rides/tasmans-great-taste-trail",
+    "confidence": "medium"
+  },
+  {
+    "name": "Black Hole, Maitai River",
+    "slug": "black-hole-maitai-river",
+    "lat": -41.274353,
+    "lng": 173.307089,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Free",
+    "description": "The best known of the swimming holes on the Maitai River, in the Maitai Valley on the edge of the city, with the Maitai Walkway leading there from town. The water is clear and cool, and there's a rope swing that kids and adults both queue for.\n\nAcross the river is a big lawn with public barbecues, toilets and a playground, and Dennes Hole and Sunday Hole are close by if it's busy. It's quiet in winter and packed on hot summer afternoons.\nLocal tip: River water quality can drop after heavy rain, so check the LAWA \"Can I swim here?\" site before you jump in.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; toilets and barbecues nearby; best in summer",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJC65GKaXtO20RnzquYy--KZ0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Jay's Dumpling Cafe",
+    "slug": "jays-dumpling-cafe",
+    "lat": -41.274569,
+    "lng": 173.287486,
+    "category": [
+      "Food"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small, friendly dumpling café on Hardy Street, and a popular, well priced meal in central Nelson. The pan-fried dumplings, especially the kung pao chicken, get the most praise, along with the steamed pork and prawn dumplings and the dan dan noodles.\n\nFood comes out quickly, and you can usually walk in without a booking at lunchtime.\nLocal tip: It closes between lunch and dinner, and all day on Sundays and Mondays, so check the hours before you head over.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Tue to Sat 11.30am to 2.30pm and 5pm to 8.30pm; closed Sun and Mon",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ_XB0yaPtO20R_bqIlCVBrCI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Fishy Business on Roto",
+    "slug": "fishy-business-on-roto",
+    "lat": -41.289035,
+    "lng": 173.240055,
+    "category": [
+      "Food"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Cheap",
+    "description": "A fish and chip shop on Roto Street in Tāhunanui, a few minutes from the beach, and one of the best rated in Nelson. The batter is light and crispy, the fish fresh, and the scoops of chips generous. The fish burgers get special praise, and they also do burgers, fritters and donuts.\n\nPrices are reasonable, and the open kitchen is busy with a big team, so expect a wait at peak times.\nLocal tip: Phone your order through ahead, then take it down to Tāhunanui Beach to eat on the sand at sunset.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Tue to Fri 11.30am to 1.30pm and 4.30pm to about 8pm; Sat and Sun evenings only from 4.30pm; closed Mondays",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJZeXGotOTO20RHOwgJXdvCEw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Cable Bay Walkway and Beach",
+    "slug": "cable-bay-walkway-and-beach",
+    "lat": -41.16061,
+    "lng": 173.413518,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Free",
+    "description": "A farmland and forest walk over the coastal hills between Cable Bay and The Glen, about 15 minutes' drive from Nelson off State Highway 6. From the Cable Bay end, at 821 Cable Bay Road, it's a steep climb through paddocks to a hilltop with big views over Tasman Bay, about 1 hour return, or 2 hours return to the edge of the native forest. The full walk to The Glen takes about 3.5 hours one way, so you'll need transport at the other end.\n\nThe start is right beside Cable Bay beach, a pebble bank backed by a sheltered bay that's good for a swim after the climb, and there's a café at the holiday park up the road.\nLocal tip: The walkway crosses private farmland and closes every year for lambing from 1 August to 10 October. No dogs are allowed, and expect cattle in the paddocks.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Closed for lambing 1 Aug to 10 Oct each year; no dogs; steep; park at the Cable Bay end, 821 Cable Bay Road",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/nelson-area/things-to-do/tracks/cable-bay-walkway/",
+    "confidence": "high"
+  },
+  {
+    "name": "Buxton Carpark Freedom Camping",
+    "slug": "buxton-carpark-freedom-camping",
+    "lat": -41.273467,
+    "lng": 173.285473,
+    "category": [
+      "Stay"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Free",
+    "description": "A central city carpark at Buxton Square where Nelson City Council allows free overnight camping under its 2025 responsible camping bylaw. There are 20 spaces for certified self-contained vehicles and 10 for vehicles that aren't, first come first served, with a limit of two nights in a row and no more than two stays a month.\n\nThe 24 hour public toilets are right there, and hot showers are available nearby. Normal paid parking rules apply during the day, and tents aren't allowed.\nLocal tip: It's right in town, so expect some late night noise at weekends, and bring earplugs.",
+    "hoursNote": "20 self-contained and 10 non-self-contained spaces; max 2 consecutive nights, twice a month; paid parking 8am to 5pm weekdays and 9am to 1pm Sat; no tents",
+    "sourceUrl": "https://shape.nelson.govt.nz/responsible-camping-bylaw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Fittal Street Freedom Camping",
+    "slug": "fittal-street-freedom-camping",
+    "lat": -41.329237,
+    "lng": 173.190086,
+    "category": [
+      "Stay"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Free",
+    "description": "A free Tasman District Council camping area next to 14 Fittal Street in Richmond, with 12 spaces open to both self-contained vehicles and those that aren't. The limit is two nights in a row, on no more than two occasions a month, and you must leave by 8am.\n\nIt's in an industrial area, so it's noisy on weekday mornings, but it has toilets, a free council dump station by the resource recovery centre, a water tap and sea views, and the Great Taste Trail runs right past.\nLocal tip: It fills quickly after 5pm, so arrive early. The council fines overstayers $400.",
+    "hoursNote": "12 spaces, self-contained and non-self-contained; max 2 consecutive nights, twice a month; leave by 8am; toilets and dump station",
+    "sourceUrl": "https://www.tasman.govt.nz/my-region/recreation/responsible-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Tasman Bay Backpackers",
+    "slug": "tasman-bay-backpackers",
+    "lat": -41.266584,
+    "lng": 173.288715,
+    "category": [
+      "Stay"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.tasmanbaybackpackers.co.nz/",
+    "description": "An independent, sociable hostel at 10 Weka Street, a reasonable walk from the city centre and the bus station. It has dorms and private rooms, a big lounge with musical instruments and board games, and a garden with hammocks and some off-street parking.\n\nEvery night at 8pm they serve free hot chocolate pudding and ice cream, sometimes a fruit crumble, which gets everyone off their phones and talking. In winter there are log fires, heat pumps, hot water bottles and extra blankets, and there's fast free wifi and a space for remote workers.\nLocal tip: Weekly rates are available if you're staying on to find work in Nelson.",
+    "hoursNote": "Dorms and private rooms; reception 8am to 9.30pm; free pudding nightly at 8pm",
+    "sourceUrl": "https://www.tasmanbaybackpackers.co.nz/",
+    "confidence": "high"
+  }
+]

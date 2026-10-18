@@ -1,15 +1,18 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRef } from "react";
 import { ApiError } from "@blacksands/client";
 import * as Sentry from "@sentry/react-native";
 
 import { itineraryService } from "@/lib/services/itineraryService";
 import { useSession } from "@/lib/providers/SessionProvider";
+import { hooksBag } from "@/lib/hooksBag";
 import type { Itinerary } from "@/lib/models";
 
 export function useItineraries() {
   const { session } = useSession();
   const uid = session.status === "authed" ? session.uid : null;
   const queryClient = useQueryClient();
+  const { requestReview } = hooksBag.useReviewPrompt();
   const queryKey = ["southislandguide", "itineraries", uid];
 
   // Must never fetch while offline: Firebase's getIdToken() needs a network
@@ -31,6 +34,12 @@ export function useItineraries() {
     enabled: !!uid,
   });
 
+  // The trip count at the time of the last render. Kept in a ref so the mutation's
+  // onSuccess always sees the latest value, not the one captured when the mutation
+  // was created. Used to fire the review prompt on the first trip.
+  const tripCountRef = useRef(itineraries.length);
+  tripCountRef.current = itineraries.length;
+
   // Offline, itinerary writes pause and send on reconnect (instead of the app-wide
   // "always" default) — otherwise an offline edit throws unhandled and is silently lost.
   // One shared scope makes queued writes go out strictly in order: each save sends the
@@ -40,7 +49,10 @@ export function useItineraries() {
   const saveMutation = useMutation({
     ...offlineQueue,
     mutationFn: (data: Partial<Itinerary>) => itineraryService.saveItinerary(data),
-    onSuccess: async () => {
+    onSuccess: async (_data, variables) => {
+      // Ask for a review on the very first trip creation, before the refetch
+      // so the prompt isn't held up by network I/O.
+      if (!variables.id && tripCountRef.current === 0) requestReview();
       await queryClient.invalidateQueries({ queryKey });
     },
   });

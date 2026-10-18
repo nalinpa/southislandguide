@@ -11,6 +11,8 @@ import { tokens } from "@/lib/ui/tokens";
 
 import { AppProviders } from "@/lib/providers/AppProviders";
 import { OfflineBanner } from "@/lib/uiKit";
+import { hooksBag } from "@/lib/hooksBag";
+import { useAppOpenCount } from "@/lib/hooks/useAppOpenCount";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -28,12 +30,21 @@ SplashScreen.preventAutoHideAsync();
 
 function RootLayout() {
   const ref = useNavigationContainerRef();
+  const openCount = useAppOpenCount();
+  const { requestReview } = hooksBag.useReviewPrompt();
 
   useEffect(() => {
     if (ref) {
       navigationIntegration.registerNavigationContainer(ref);
     }
   }, [ref]);
+
+  // Ask for a review on the fifth app start-up. The fifth exactly, not "five or
+  // more": the system decides about later times, and the app shouldn't ask on
+  // every launch after.
+  useEffect(() => {
+    if (openCount === 5) requestReview();
+  }, [openCount, requestReview]);
 
   return (
     <GestureHandlerRootView style={styles.flexStyle}>

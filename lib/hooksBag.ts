@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createHooks } from "@blacksands/hooks";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
+import * as StoreReview from "expo-store-review";
 import NetInfo from "@react-native-community/netinfo";
 import { client } from "@/lib/api";
 import type { Site } from "@/lib/models";
@@ -42,6 +43,10 @@ export const hooksBag = createHooks(client, {
       NetInfo.addEventListener((state) =>
         cb({ isConnected: state.isConnected, isInternetReachable: state.isInternetReachable }),
       ),
+  },
+  storeReview: {
+    isAvailable: () => StoreReview.isAvailableAsync(),
+    requestReview: () => StoreReview.requestReview(),
   },
 });
 
@@ -113,4 +118,5 @@ export const {
   useSyncManager,
   useMyReview,
   useLocationReviewsSummary,
+  useReviewPrompt,
 } = hooksBag;

@@ -9,6 +9,7 @@
       "Nature"
     ],
     "region": "canterbury",
+    "area": "aoraki-mount-cook",
     "active": true,
     "price": "Free",
     "website": "https://www.doc.govt.nz/hooker-valley-track",
@@ -29,6 +30,7 @@
       "Scenic"
     ],
     "region": "canterbury",
+    "area": "aoraki-mount-cook",
     "active": true,
     "price": "Free",
     "description": "A short, steep climb up 300-plus steps to a viewpoint over the Tasman Glacier terminal lake, often dotted with icebergs, and the moraine walls of New Zealand's longest glacier. It's about 30 minutes return from the Tasman Valley car park, a 10 minute drive from Aoraki/Mount Cook Village.\n\nA five minute side trip leads to the first of the Blue Lakes, which these days look more green than blue because they're fed by rainwater rather than glacial melt. Parking is free. If the steps don't suit, the flat Tasman Lake and River Track, about 50 minutes return, takes you down to the lake shore instead. There's no drinking water, and the toilets close in winter.\nLocal tip: Come here after the Hooker Valley for free parking and a quieter walk. The late afternoon light on the glacier and peaks is lovely.",
@@ -47,6 +49,7 @@
       "Scenic"
     ],
     "region": "canterbury",
+    "area": "aoraki-mount-cook",
     "active": true,
     "price": "Free",
     "description": "An easy 3km return walk through subalpine scrub to a viewing deck above the Mueller Glacier lake, with views of Mount Sefton, The Footstool, the Hooker Valley and Aoraki/Mount Cook. It takes about an hour return from the White Horse Hill car park, or about 2 hours if you walk from the village on Terrace Road.\n\nIt's a quieter alternative, or add-on, to the Hooker Valley and suits families. Starting in the village avoids the White Horse Hill parking fee.\nLocal tip: Walk from the village and back for a free, easy half day. If you want a much harder climb with bigger views, the Sealy Tarns Track branches off this one.",
@@ -65,6 +68,7 @@
       "Scenic"
     ],
     "region": "canterbury",
+    "area": "aoraki-mount-cook",
     "active": true,
     "price": "Free",
     "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/tracks/sealy-tarns-track/",
@@ -84,6 +88,7 @@
       "Adventure"
     ],
     "region": "canterbury",
+    "area": "aoraki-mount-cook",
     "active": true,
     "price": "Expensive",
     "website": "https://www.hermitage.co.nz/experience/glacier-explorers",
@@ -103,6 +108,7 @@
       "Stay"
     ],
     "region": "canterbury",
+    "area": "aoraki-mount-cook",
     "active": true,
     "price": "Cheap",
     "description": "The DOC campsite at the start of the Hooker Valley and Kea Point tracks, with Mount Sefton and the Hooker Valley right above you. It's $20 a night for adults and $10 for children 5 to 17, and under 5s are free.\n\nThere's treated drinking water, a cooking shelter and toilets, but no power or showers, and coin and card showers are in the village, 2.5km away. From June to August there are pit toilets and no running water. Booked campers who park in the campsite area don't pay the car park fee. Fires, dogs and drones are all banned in the national park, and quiet hours run from 10pm to 7am.\nLocal tip: It's often full all year, so book online in advance, and bring a torch, since the kitchen and toilets are dark after sunset.",
@@ -120,6 +126,7 @@
       "Scenic"
     ],
     "region": "canterbury",
+    "area": "tekapo",
     "active": true,
     "price": "Free",
     "website": "https://www.churchofthegoodshepherd.org.nz/",
@@ -140,6 +147,7 @@
       "Walks"
     ],
     "region": "canterbury",
+    "area": "tekapo",
     "active": true,
     "price": "Cheap",
     "description": "The summit of Mt John, above Lake Tekapo, is home to the University of Canterbury observatory and gives a 360 degree view over Lake Tekapo, Lake Alexandrina and the Mackenzie Basin to the Southern Alps. The glass-walled Astro Café at the top serves coffee, sandwiches, cakes and soup, from 9am to 2pm, with last orders at 1.30pm.\n\nThe road up costs $14 per vehicle and is open 9am to 4pm. Up top, the Summit Circuit Track takes 30 to 45 minutes. You can also walk up for free on the Mt John Walkway from beside Tekapo Springs, about 1.5 hours return.\nLocal tip: Walk up the track from Tekapo Springs to skip the road fee, then treat yourself to a coffee in the café before it closes at 2pm.",
@@ -158,6 +166,7 @@
       "Nature"
     ],
     "region": "canterbury",
+    "area": "tekapo",
     "active": true,
     "price": "Expensive",
     "website": "https://www.darkskyproject.co.nz/",
@@ -177,6 +186,7 @@
       "Attractions"
     ],
     "region": "canterbury",
+    "area": "tekapo",
     "active": true,
     "price": "Moderate",
     "website": "https://tekaposprings.co.nz/",
@@ -195,6 +205,7 @@
       "Food"
     ],
     "region": "canterbury",
+    "area": "tekapo",
     "active": true,
     "price": "Cheap",
     "description": "A small vintage food trailer on Lakeside Drive doing fish and chips, blue cod, squid, seafood chowder and fish burgers, with vegetarian options such as potato fritters and onion rings. Reviewers rate the light, crispy batter highly, and it's one of the best rated takeaways in Tekapo.\n\nGrab your box and eat at the picnic tables by the lake. It's popular, and waits of 30 to 45 minutes are common at busy times.\nLocal tip: Order early in the afternoon to beat the dinner rush, and walk along the lake while you wait.",
@@ -213,6 +224,7 @@
       "Scenic"
     ],
     "region": "canterbury",
+    "area": "twizel",
     "active": true,
     "price": "Cheap",
     "website": "https://alpinesalmon.co.nz/visit-us/",
@@ -232,6 +244,7 @@
       "Scenic"
     ],
     "region": "canterbury",
+    "area": "twizel",
     "active": true,
     "price": "Free",
     "description": "A roadside lookout on State Highway 80, the road to Mount Cook, with the classic view along Lake Pukaki to Aoraki/Mount Cook and the road curving away towards the mountains. There's plenty of parking and a toilet.\n\nA short walk takes you down towards the lake shore. It's worth a stop on the way in or out of the national park, especially at sunset.\nLocal tip: Plenty of people step onto the highway for the famous road photo. Stay on the verge and watch for traffic, as it's a fast road.",
@@ -249,6 +262,7 @@
       "Stay"
     ],
     "region": "canterbury",
+    "area": "twizel",
     "active": true,
     "price": "Free",
     "description": "A free camping area at the southern end of Lake Pukaki, near the power station, with lake and mountain views towards Aoraki/Mount Cook. It's the only legal freedom camping spot on Lake Pukaki, since the old spots along Hayman Road are now closed to camping.\n\nIt's for certified self-contained vehicles only, and since 7 June 2026 that means a current green warrant. There are long drop toilets and bins, but no water or lighting. Spaces are first come, first served, and it can get very busy.\nLocal tip: Arrive by mid-afternoon in summer to get a flat spot with a lake view, and follow the signs on site for stay limits.",
@@ -266,6 +280,7 @@
       "Water"
     ],
     "region": "canterbury",
+    "area": "twizel",
     "active": true,
     "price": "Cheap",
     "description": "A low cost lakeside camping ground on Lake Ōhau Road, a short drive west of Twizel, beside small Lake Middleton and just across the road from the much larger Lake Ōhau. There's plenty of space to spread out, and the small lake is good for swimming and kayaking, with a walking track around most of it.\n\nFacilities are basic: a flush toilet block, and water that must be boiled before drinking. Reviewers report fees of about $10 per adult per night, paid with a registration slip at the box by the road as you drive in. Many of the shelter trees were lost in a fire some years ago, so it can be exposed when the wind blows up the lake.\nLocal tip: Pick a spot near the remaining trees for shelter from the wind, and bring a camp stove to boil your drinking water.",
@@ -282,6 +297,7 @@
       "Food"
     ],
     "region": "canterbury",
+    "area": "twizel",
     "active": true,
     "price": "Cheap",
     "description": "A pink food truck on MacKenzie Drive in Twizel's town centre, doing bacon butties, burgers, pulled beef buns and fried fish at fair prices. The elephant fish gets plenty of mentions.\n\nIt's a quick, friendly stop for breakfast or lunch on the road between Mount Cook and Queenstown, and it has a very high Google rating. The Bids Coffee truck parks right beside it.\nLocal tip: Check the days before you go, since it's usually only open weekday mornings to early afternoon.",
@@ -300,6 +316,7 @@
       "Walks"
     ],
     "region": "canterbury",
+    "area": "twizel",
     "active": true,
     "price": "Cheap",
     "website": "https://www.claycliffsnz.com/",
@@ -318,6 +335,7 @@
       "Scenic"
     ],
     "region": "canterbury",
+    "area": "twizel",
     "active": true,
     "price": "Free",
     "description": "The top of the Lindis Pass on State Highway 8, the main road between the Mackenzie Basin and Wānaka, Cromwell and Queenstown, where rolling tussock hills fold away on every side. There's a small car park just off the highway, and a short dirt track of about 200m, 10 minutes, climbs to a higher viewpoint.\n\nThere are no toilets or other facilities. In winter the pass can have snow and ice, so check road conditions before crossing.\nLocal tip: The view from the car park is almost as good as from the top, so if you're short of time, just stretch your legs and take your photos there.",
@@ -336,6 +354,7 @@
       "Attractions"
     ],
     "region": "canterbury",
+    "area": "twizel",
     "active": true,
     "price": "Expensive",
     "website": "https://www.hottubsomarama.co.nz/",
@@ -354,6 +373,7 @@
       "Food"
     ],
     "region": "canterbury",
+    "area": "tekapo",
     "active": true,
     "price": "Cheap",
     "website": "https://www.fairliebakehouse.co.nz/",
@@ -372,6 +392,7 @@
       "Stay"
     ],
     "region": "canterbury",
+    "area": "twizel",
     "active": true,
     "price": "Free",
     "description": "A free DOC campsite on the shore of Lake Ōhau, among beech forest that grows right to the water's edge. It's about 25km up Lake Ōhau Road from Clearburn, south of Twizel, and the last stretch is rough gravel.\n\nFacilities are basic, with long drop toilets and a small boat ramp, and the only water is the lake, so bring your own. Stays are limited to four nights.\nLocal tip: Bring plenty of insect repellent, since the sandflies here are fierce, especially at dusk.",
@@ -388,6 +409,7 @@
       "Stay"
     ],
     "region": "canterbury",
+    "area": "tekapo",
     "active": true,
     "price": "Cheap",
     "website": "https://www.tekapohostelnz.com/",

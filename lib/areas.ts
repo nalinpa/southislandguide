@@ -11,6 +11,7 @@ export const AREAS = [
   { id: "dunedin", label: "Dunedin" },
   { id: "oamaru", label: "Ōamaru" },
   { id: "kaikoura", label: "Kaikōura" },
+  { id: "wanaka", label: "Wānaka" },
 ] as const;
 
 export type AreaId = (typeof AREAS)[number]["id"];

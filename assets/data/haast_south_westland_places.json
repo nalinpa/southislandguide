@@ -9,6 +9,7 @@
       "Scenic"
     ],
     "region": "west-coast",
+    "area": "haast",
     "active": true,
     "price": "Free",
     "description": "A wild stretch of beach right beside State Highway 6, about 40km south of Fox Glacier, where the rimu forest runs almost down to the Tasman Sea. It makes a good leg stretch on the long drive between the glaciers and Haast, with plenty of roadside parking and public toilets nearby.\n\nThe beach is known for its white stones, many of them written on by passing travellers. Plenty of people see the writing as graffiti, so enjoy reading them rather than adding your own. The surf is big and the rips are strong, so it isn't safe for swimming, and a coffee caravan is sometimes parked up here.\nLocal tip: The sandflies are fierce, so keep your car doors and windows shut and put on repellent before you get out.",
@@ -27,6 +28,7 @@
       "Nature"
     ],
     "region": "west-coast",
+    "area": "haast",
     "active": true,
     "price": "Free",
     "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/haast-paringa-and-moeraki-rivers-area/things-to-do/tracks/ship-creek-tauparikaka-walks/",
@@ -46,6 +48,7 @@
       "Scenic"
     ],
     "region": "west-coast",
+    "area": "haast",
     "active": true,
     "price": "Free",
     "description": "A roadside viewing platform high above the Tasman Sea on State Highway 6 between Haast and Lake Moeraki, with wide views over rugged headlands, sea stacks and bush running down to the water. This is where the two road crews met when the Haast highway was finished, and the last section opened on 6 November 1965. Oddly, the point is named after a dog called Knight.\n\nThe car park is big enough for campervans, and there are basic toilets but no rubbish bins. Fur seals, and occasionally elephant seals, rest on the rocks below. You can't get down to the shore from here, so it's purely a lookout.\nLocal tip: It's a short stop, but a good one at sunset if you're camping nearby. Bring repellent, as the sandflies are keen here too.",
@@ -64,6 +67,7 @@
       "Nature"
     ],
     "region": "west-coast",
+    "area": "haast",
     "active": true,
     "price": "Free",
     "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/haast-paringa-and-moeraki-rivers-area/things-to-do/tracks/monro-beach-track/",
@@ -84,6 +88,7 @@
       "Scenic"
     ],
     "region": "west-coast",
+    "area": "haast",
     "active": true,
     "price": "Moderate",
     "website": "https://www.thecraypotnz.com/",
@@ -103,6 +108,7 @@
       "Food"
     ],
     "region": "west-coast",
+    "area": "haast",
     "active": true,
     "price": "Moderate",
     "description": "The local pub on Marks Road in Haast township, with walls covered in deer antlers and trophy heads. It's the easiest spot in town for a proper feed, and reviewers rate the venison burgers, venison steak, whitebait sandwiches and fish and chips, all in generous West Coast portions.\n\nIt stays open into the evening, which matters in a town where most places close by mid-afternoon. Staff get consistently good reviews, and it has a relaxed, friendly country pub feel.\nLocal tip: For something cheaper and quicker, the Haast Eagle Tuck Shop food truck on the corner of Marks Road does well reviewed burgers and whitebait during the day.",
@@ -120,6 +126,7 @@
       "Stay"
     ],
     "region": "west-coast",
+    "area": "haast",
     "active": true,
     "price": "Free",
     "description": "A free council camping area at the playground on Marks Road, in the middle of Haast township, with 10 designated spaces. Under Westland District Council's 2024 bylaw it's open to both certified self-contained vehicles and those that aren't, from 8pm to 7am only, with a maximum of two nights in any 30 days. Tents aren't allowed.\n\nThe public toilets across the road are clean, there's drinking water, and the council dump station is right beside them. The pub, café and store are all a short walk away.\nLocal tip: Freedom camping is banned in Jackson Bay township, so don't plan to stay the night down there. Come back to Haast after your Craypot lunch.",
@@ -137,6 +144,7 @@
       "Water"
     ],
     "region": "west-coast",
+    "area": "haast",
     "active": true,
     "price": "Cheap",
     "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/haast-paringa-and-moeraki-rivers-area/things-to-do/campsites/lake-paringa-campsite/",
@@ -155,6 +163,7 @@
       "Scenic"
     ],
     "region": "west-coast",
+    "area": "haast",
     "active": true,
     "price": "Free",
     "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/tracks/roaring-billy-falls-walk/",
@@ -173,6 +182,7 @@
       "Stay"
     ],
     "region": "west-coast",
+    "area": "haast",
     "active": true,
     "price": "Cheap",
     "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/campsites/pleasant-flat-campsite/",
@@ -191,6 +201,7 @@
       "Walks"
     ],
     "region": "west-coast",
+    "area": "haast",
     "active": true,
     "price": "Free",
     "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/tracks/thunder-creek-falls/",
@@ -209,7 +220,8 @@
       "Walks",
       "Water"
     ],
-    "region": "otago",
+    "region": "queenstown-wanaka",
+    "area": "haast",
     "active": true,
     "price": "Free",
     "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/tracks/blue-pools-track/",
@@ -228,7 +240,8 @@
     "category": [
       "Food"
     ],
-    "region": "otago",
+    "region": "queenstown-wanaka",
+    "area": "haast",
     "active": true,
     "price": "Cheap",
     "description": "A cosy roadside café in an old service station at Makarora, about an hour north of Wānaka, with a fire in winter and views up the valley. It does coffee, pies, cakes and simple café food, and it's the only real food stop between Wānaka and Haast.\n\nThere's also a small campground behind it, with showers, toilets, a kitchenette, a laundry and free wifi, which is handy if you're breaking the drive. Reviewers love the friendly staff and Tuck the dog.\nLocal tip: It's open from 9am and closes mid-afternoon, so if you're crossing the pass late in the day, eat in Wānaka or Haast instead.",

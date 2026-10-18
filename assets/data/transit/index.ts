@@ -4,6 +4,7 @@
 type Transit = Record<string, Record<string, Record<string, number>>>;
 
 export const TRANSIT: Transit = {
+  "aoraki-mount-cook": require("./aoraki-mount-cook.json"),
   "banks-peninsula": require("./banks-peninsula.json"),
   "blenheim": require("./blenheim.json"),
   "catlins": require("./catlins.json"),
@@ -14,6 +15,7 @@ export const TRANSIT: Transit = {
   "franz-josef": require("./franz-josef.json"),
   "golden-bay": require("./golden-bay.json"),
   "greymouth": require("./greymouth.json"),
+  "haast": require("./haast.json"),
   "hanmer-springs": require("./hanmer-springs.json"),
   "kaikoura": require("./kaikoura.json"),
   "marlborough-sounds": require("./marlborough-sounds.json"),
@@ -22,7 +24,10 @@ export const TRANSIT: Transit = {
   "oamaru": require("./oamaru.json"),
   "picton": require("./picton.json"),
   "punakaiki": require("./punakaiki.json"),
+  "tekapo": require("./tekapo.json"),
   "timaru": require("./timaru.json"),
+  "twizel": require("./twizel.json"),
   "waitaki-valley": require("./waitaki-valley.json"),
+  "wanaka": require("./wanaka.json"),
   "westport": require("./westport.json"),
 };

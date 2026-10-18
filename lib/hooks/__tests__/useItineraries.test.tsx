@@ -243,4 +243,34 @@ describe("useItineraries", () => {
 
     expect(mockRequestReview).not.toHaveBeenCalled();
   });
+
+  it("does not ask for a review when creating the first trip fails", async () => {
+    signedIn();
+    mockGetMyItineraries.mockResolvedValue([]);
+    mockSaveItinerary.mockRejectedValue(new Error("nope"));
+
+    const { result } = await renderHook(() => useItineraries(), { wrapper });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    await act(async () => {
+      await result.current.saveItinerary({ title: "First trip" }).catch(() => {});
+    });
+
+    expect(mockRequestReview).not.toHaveBeenCalled();
+  });
+
+  it("does not ask for a review when a trip is deleted", async () => {
+    signedIn();
+    mockGetMyItineraries.mockResolvedValue([itin()]);
+    mockDeleteItinerary.mockResolvedValue(undefined);
+
+    const { result } = await renderHook(() => useItineraries(), { wrapper });
+    await waitFor(() => expect(result.current.itineraries).toHaveLength(1));
+
+    await act(async () => {
+      await result.current.deleteItinerary("itin-1");
+    });
+
+    expect(mockRequestReview).not.toHaveBeenCalled();
+  });
 });

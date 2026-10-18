@@ -515,12 +515,13 @@ describe("towns", () => {
 
     // An area added in the admin panel before the app has a label for it.
     it("offers a town it has no label for under its id, with capitals", async () => {
-      mockBag.locations.push(makeSite("o1", "Steampunk HQ", ["Attractions"], { area: "oamaru" }));
+      // An id with no entry in AREAS (Oamaru was the example until it got its macron label).
+      mockBag.locations.push(makeSite("t2", "Church of the Good Shepherd", ["Culture"], { area: "lake-tekapo" }));
       const view = await render(<SiteListPage />);
 
       await fireEvent.press(view.getByLabelText("Christchurch, choose a town"));
 
-      expect(menuRows(view)).toContain("Oamaru, 1 place");
+      expect(menuRows(view)).toContain("Lake Tekapo, 1 place");
     });
 
     // The admin panel doesn't require an area, and a place in no town would otherwise

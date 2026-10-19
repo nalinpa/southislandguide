@@ -8,16 +8,18 @@ The first time someone reaches the app's main screens, the screen dims and a sho
 
 The machinery comes from Rotorua (`rotorua-guide/lib/tour/`, about 600 lines with its test), copied into this repo and changed where this app differs. The steps and the wording are new.
 
-## Questions for the owner
+## Decisions (owner, 2026-10-19)
 
-Each blocks the build; each has my recommended answer. The steps and their wording (the table below) are the main thing to react to.
+| Question | Decision |
+|---|---|
+| 1. Who sees it | **Everyone, guests included.** Guests see the trip preview in the card, as in Rotorua, not a step on the sign-in card. |
+| 2. The steps and wording | **As in the table.** |
+| 3. Mention the unlock | **No.** Nothing in the tour about the unlock, or about anything being free. |
+| 4. The card's look | **White card, burnt-orange Next, dark teal dim.** |
+| 5. Run it again | **Yes, "Show me around" on Profile.** |
+| 6. When it starts | **First time on the main tabs, signed in or guest, after the location prompt is answered.** |
 
-1. **Who sees it?** Recommended: **everyone, guests included**, with steps that fit them. A guest skips the place-action step and sees the sign-in card on Plans instead of a trip.
-2. **The steps and wording:** the table below. Seven steps for a free or paid user, six for a guest. Change freely.
-3. **Does any step mention the unlock?** Recommended: **once, in words only, on the trip step for free users** ("Start from a suggested trip. Build your own with the full guide."). No button, no paywall, no price. The tour never opens the paywall.
-4. **The card's look.** Rotorua's is a dark brown card with a teal edge. Recommended: **a white card with a burnt-orange Next button**, as this app's cards and main actions look, on a dark teal dim. Sketches below.
-5. **Can it be run again?** Recommended: **yes, from a "Show me around" row on Profile.**
-6. **When does it start?** Recommended: **the first time a signed-in user or a guest reaches the main tabs, after they have answered the location prompt.** Not on an app-open count (see the design).
+With decisions 1 and 3, step 6 has one wording for everyone, and there is no guest step on Plans (the `tripGuest` row and its target are gone).
 
 ## The steps
 
@@ -31,9 +33,7 @@ Each blocks the build; each has my recommended answer. The steps and their wordi
 | 4 | `place` | Explore | the first place in the list | Tap a Place | Photos, hours, directions and reviews, all in one place. | all |
 | 5a | `placeAdd` | that place | "+ Add to Itinerary" | Add It to a Trip | Drop it into any day. We work out the drive. | paid |
 | 5b | `placeSave` | that place | the heart (save) | Save It for Later | Tap the heart to keep it on your list. | free |
-| 6a | `trip` | Plans | a preview card (below), no spotlight | Your Trip, Day by Day | Each day's towns and drives at a glance. Tap a day for its timeline. | paid |
-| 6b | `trip` | Plans | the same preview | Your Trip, Day by Day | Start from a suggested trip. Build your own with the full guide. | free |
-| 6c | `tripGuest` | Plans | the "Sign In to Plan a Trip" card | Plan a Trip | Sign in to build a trip, with drive times worked out. | guest |
+| 6 | `trip` | Plans | a preview card (below), no spotlight | Your Trip, Day by Day | Each day's towns and the drives between, worked out for you. | all |
 | 7 | `map` | Map | the whole map, lightly dimmed | See It on the Map | Every place around you. Tap a pin for details. | all |
 
 **What a new user has no trip for.** Step 6 can't point at a real trip, because a new user has none. Recommended: a **preview inside the card**. It is the real trip view (`TripOverview`) showing a fixed two-day sample, a Christchurch day, then a Dunedin day that opens with the drive, so it shows exactly what they'll get. That is Rotorua's approach (its `ItineraryMockPreview`), using this app's own component instead of a mock. The alternatives were worse: making a sample trip in their account leaves something to delete, and a card with no picture says little.
@@ -70,7 +70,7 @@ Step 1, `town`, on Explore:
 └───────────────────────────────────────────┘
 ```
 
-Step 6, `trip`, on Plans, with the preview in the card (free wording):
+Step 6, `trip`, on Plans, with the preview in the card:
 
 ```
 ┌───────────────────────────────────────────┐
@@ -87,8 +87,8 @@ Step 6, `trip`, on Plans, with the preview in the card (free wording):
 │░░│ │   from Christchurch             │ │░░│
 │░░│ └─────────────────────────────────┘ │░░│
 │░░│ Your Trip, Day by Day               │░░│
-│░░│ Start from a suggested trip. Build  │░░│
-│░░│ your own with the full guide.       │░░│
+│░░│ Each day's towns and the drives     │░░│
+│░░│ between, worked out for you.        │░░│
 │░░│ ━ ━ ━ ━ ━ ● ●           [  Next  ]  │░░│
 │░░└─────────────────────────────────────┘░░│
 ├───────────────────────────────────────────┤
@@ -107,15 +107,14 @@ Step 7, `map`: lighter dim, card near the bottom, button reads **Done**, no Skip
   - `useTourStepRoute` (a screen hands the tour a route for a step on a non-tab screen: here, the first place in Explore's list);
   - the core of `TourContext`: steps, start / next / skip, moving to a tab with `router.navigate`, or pushing a registered route.
 - **Changed:**
-  - **Steps depend on who is looking.** Each step lists who sees it, and may have different words per audience. `TourProvider` takes the audience (guest, free, paid) and walks only that person's steps.
+  - **Steps depend on who is looking.** Each step lists who sees it: step 5 is the add button for paid, the heart for free, and nothing for a guest. `TourProvider` takes the audience (guest, free, paid) and walks only that person's steps.
   - **The "seen" flag** is `southislandguide:tourSeen`, set when the tour starts, as Rotorua does: someone who kills the app mid-tour isn't shown it again.
   - **How it starts** (below).
   - **The overlay's look and its screen-reader behaviour** (below).
 - **New:**
   - the steps and wording;
   - the trip preview (the real `TripOverview` with a fixed sample trip, taking no place list from the network);
-  - the "Show me around" row on Profile;
-  - the guest step on Plans.
+  - the "Show me around" row on Profile.
 
 **When it starts.** Rotorua starts the tour when the user is signed in **and** it is the first app start-up (`openCount === 1`). That misses anyone who opens the app once, leaves at the login screen, and signs in on a later start-up: they never get the tour. Here the "seen" flag alone decides, and the tour starts when all of these hold:
 
@@ -146,7 +145,6 @@ Step 7, `map`: lighter dim, card near the bottom, button reads **Done**, no Skip
 | `browse` | Explore | a `View` around `TopBarTabs` |
 | `place` | Explore, through `ListView` | the first row only: `ListView` takes a `firstRowTarget` and passes it to that row |
 | `placeAdd`, `placeSave` | the place screen | a `View` around "+ Add to Itinerary", and one around the heart in `QuickActions` |
-| `tripGuest` | Plans (guest branch) | a `View` around the sign-in card |
 | `trip`, `map` | nobody | the card is the content; no cut-out (`trip`), or a light dim over the whole map (`map`, `dim: 0.4`) |
 
 Explore registers the route for steps 4 and 5 with `useTourStepRoute("place", ...)`: the first place in the list of the town being shown.
@@ -196,11 +194,10 @@ Each step leaves `npm test` and `npx tsc --noEmit` passing.
      - `TopBar` spreads `titleTarget` onto the title button;
      - `ListView` gives `firstRowTarget` to the first row only;
      - Explore registers `town`, `guide`, `browse` and `place`, and the route of the first place.
-6. **Targets on the place screen and Plans** (small).
-   - **Files:** `app/(app)/(tabs)/sites/[siteId]/index.tsx`, `components/sites/detail/ActionsBar.tsx`, `app/(app)/(tabs)/itinerary/index.tsx`, and their tests.
+6. **Targets on the place screen** (small).
+   - **Files:** `app/(app)/(tabs)/sites/[siteId]/index.tsx`, `components/sites/detail/ActionsBar.tsx`, and their tests.
    - **Tests first:**
-     - the place screen registers `placeAdd` when "+ Add to Itinerary" shows, and `placeSave` on the heart;
-     - Plans' guest card registers `tripGuest`.
+     - the place screen registers `placeAdd` when "+ Add to Itinerary" shows, and `placeSave` on the heart.
 7. **Starting it** (small).
    - **Files:** `app/_layout.tsx` (mount `TourProvider` and `SpotlightOverlay` inside `AppProviders`, so it can read the session and the unlock), a new `lib/tour/TourAutoStart.tsx` and its test.
    - **Tests first:**

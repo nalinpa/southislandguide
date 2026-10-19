@@ -45,8 +45,11 @@ describe("areasOf", () => {
 });
 
 describe("centreOf", () => {
-  it("is the middle of the area's places", () => {
-    expect(centreOf([place("a", "x", -43, 172), place("b", "x", -44, 174)])).toEqual({ lat: -43.5, lng: 173 });
+  // The middle itself can land in bush with no road (Haast's did), and the maps service
+  // can't route to that, so it is the place nearest the middle.
+  it("is the area's place nearest the middle of its places", () => {
+    const places = [place("a", "x", -43, 172), place("b", "x", -44, 174), place("c", "x", -43.6, 172.9)];
+    expect(centreOf(places)).toEqual({ lat: -43.6, lng: 172.9 });
   });
 });
 

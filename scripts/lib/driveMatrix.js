@@ -27,12 +27,16 @@ function areasOf(places) {
   return groups;
 }
 
-// The middle of an area's places. Good enough for a town-to-town drive: the maps service
-// snaps it to the nearest road.
+// The area's place nearest the middle of its places. Not the middle itself: the maps
+// service snaps a point to a road only if one is near, and Haast's middle was in bush it
+// couldn't route to. A place is somewhere people get to. ponytail: flat lat/lng distance,
+// fine at town scale.
 function centreOf(places) {
   const lat = places.reduce((sum, p) => sum + p.lat, 0) / places.length;
   const lng = places.reduce((sum, p) => sum + p.lng, 0) / places.length;
-  return { lat, lng };
+  const off = (p) => (p.lat - lat) ** 2 + (p.lng - lng) ** 2;
+  const nearest = places.reduce((best, p) => (off(p) < off(best) ? p : best));
+  return { lat: nearest.lat, lng: nearest.lng };
 }
 
 function pairKey(a, b) {

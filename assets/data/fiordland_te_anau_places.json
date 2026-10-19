@@ -1,0 +1,398 @@
+[
+  {
+    "name": "Milford Sound Cruise with Cruise Milford",
+    "slug": "cruise-milford-small-boat-cruise",
+    "lat": -44.668158,
+    "lng": 167.927106,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "fiordland",
+    "area": "milford-sound",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.cruisemilfordnz.com/",
+    "description": "Piopiotahi Milford Sound is the reason most people drive the Milford Road, and a boat is the only real way to see it. Cruise Milford is a family owned operator running a 1 hour 45 minute cruise out towards the Tasman Sea and back, past Stirling Falls, Fairy Falls and the Hanging Gardens, with fur seals often on the rocks, dolphins some days and Fiordland crested penguins in spring and early summer.\n\nAdults are $189, children 5 to 14 are $89, and under 5s are free. The boats are certified for 150 but numbers are capped at 75, so there's room on the outside decks, and tea, coffee and biscuits are included. Several other companies run similar trips from the same terminal. There's no national park entry fee yet, and a proposed charge for international visitors isn't expected before summer 2027.\nLocal tip: Parking near the terminal is $10 an hour if you arrive before 3pm and $5 after, card only. The free car park at the top of Deepwater Basin Road is a 20 to 30 minute walk away, so allow up to 45 minutes before your sailing.",
+    "recommendedDurationSlots": 4,
+    "featured": 1,
+    "hoursNote": "Daily sailings from Milford Sound Visitor Terminal, booking advised; allow 2 hr 30 min drive from Te Anau with no fuel on the way; road closes at times in winter",
+    "sourceUrl": "https://www.cruisemilfordnz.com/cruises/milford-sound-boutique-small-boat-cruise/",
+    "confidence": "high"
+  },
+  {
+    "name": "Doubtful Sound Wilderness Cruise",
+    "slug": "doubtful-sound-wilderness-cruise",
+    "lat": -45.569093,
+    "lng": 167.610865,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.realnz.com/en/experiences/cruises/doubtful-sound-wilderness-cruise/",
+    "description": "Doubtful Sound Patea is bigger, quieter and harder to reach than Milford, and getting there is half the trip. RealNZ runs the day cruise from Manapōuri: a 45 minute boat across Lake Manapōuri, a coach over the 671m Wilmot Pass through the rainforest, then about two and a half hours cruising the fiord on a catamaran with a nature guide.\n\nThe whole day takes 6 hours 45 minutes, and prices start from $399. Lunch isn't included, so bring your own or pre-order a picnic lunch by 8pm the night before, and snacks and drinks are sold on board. Parking at the Manapōuri Visitor Centre, about 30 minutes from Te Anau, is free.\nLocal tip: Pack a beanie, gloves and a rain jacket even in summer. The best views are from the open decks, and it gets cold out on the fiord.",
+    "recommendedDurationSlots": 14,
+    "featured": 2,
+    "hoursNote": "Departs daily from RealNZ Manapōuri Visitor Centre, 64 Waiau Street; 6 hr 45 min trip; book ahead; 20 min drive from Te Anau",
+    "sourceUrl": "https://www.realnz.com/en/experiences/cruises/doubtful-sound-wilderness-cruise/",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Anau Glowworm Caves",
+    "slug": "te-anau-glowworm-caves",
+    "lat": -45.41767,
+    "lng": 167.712053,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.realnz.com/en/experiences/glowworm-caves/te-anau-glowworm-caves/",
+    "description": "A trip across Lake Te Anau to a limestone cave system on the far shore. RealNZ guides take small groups along paths past an underground waterfall, then by small boat into a silent grotto where the roof is covered in glowworms.\n\nIt leaves from the RealNZ Visitor Centre at 85 Lakefront Drive, with a scenic cruise each way and tea and coffee included, and prices start from $154. There's a lot of bending and plenty of steps, and cameras and phones aren't allowed inside the cave. Check in 30 minutes before departure.\nLocal tip: An evening departure fits nicely after a day on the Milford Road. Bring a warm layer and non-slip shoes, since the cave sits at 8 to 12°C all year.",
+    "recommendedDurationSlots": 5,
+    "featured": 3,
+    "hoursNote": "Several departures daily from 85 Lakefront Drive, Te Anau; arrive 30 min early; no photos in the cave",
+    "sourceUrl": "https://www.realnz.com/en/experiences/glowworm-caves/te-anau-glowworm-caves/",
+    "confidence": "high"
+  },
+  {
+    "name": "Key Summit Track",
+    "slug": "key-summit-track",
+    "lat": -44.813144,
+    "lng": 168.129429,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "fiordland",
+    "area": "milford-sound",
+    "active": true,
+    "price": "Free",
+    "description": "The best short climb on the Milford Road. From The Divide car park, 85km from Te Anau, you follow the Routeburn Track uphill through beech forest for about an hour, then take a 20 minute side track up to Key Summit.\n\nAt the top, an alpine wetland of tarns and bog pines looks out over the Darran Mountains, the Hollyford Valley and down to Lake Marian. DOC rates it intermediate and allows about 3 hours return. It's free, with toilets at The Divide.\nLocal tip: Save it for a clear day, since the views are the whole point. From May to October, snow and avalanche risk on the Routeburn mean it's only for people with alpine experience.",
+    "recommendedDurationSlots": 7,
+    "featured": 4,
+    "hoursNote": "Starts at The Divide shelter on SH94; about 3 hr return; best November to April; winter snow and avalanche risk",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/tracks/routeburn-track-key-summit-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Mirror Lakes",
+    "slug": "mirror-lakes",
+    "lat": -45.028565,
+    "lng": 168.010981,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "fiordland",
+    "area": "milford-sound",
+    "active": true,
+    "price": "Free",
+    "description": "A row of small lakes beside the Milford Road, 56km north of Te Anau, where on a still morning the Earl Mountains are reflected upside down in the water. A wheelchair friendly boardwalk from the roadside car park takes about 10 minutes.\n\nThere are water birds and wetland plants along the edge, with beech forest behind. It's free and easy to fit into any drive to Milford.\nLocal tip: Stop on the way in rather than on the way back, since the reflections are best early, before the wind picks up.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Roadside on SH94, 56 km from Te Anau; 10 min boardwalk; wheelchair accessible",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/tracks/mirror-lakes-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Gunn Nature Walk",
+    "slug": "lake-gunn-nature-walk",
+    "lat": -44.89449,
+    "lng": 168.08253,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "fiordland",
+    "area": "milford-sound",
+    "active": true,
+    "price": "Free",
+    "description": "A flat 45 minute loop through red beech forest where almost every trunk and rock is covered in moss, with a short side path to a stony beach on Lake Gunn. Panels along the way explain the forest, and you may see robins, tomtits, riflemen or kākā.\n\nIt starts beside Cascade Creek, 78km from Te Anau, and there are wheelchair accessible toilets at the car park. It's a good leg stretch for kids halfway to Milford.\nLocal tip: Take insect repellent. The sandflies are keen here, but they ease off once you're moving under the trees.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "45 min flat loop; 78 km from Te Anau on SH94; toilets at car park",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/tracks/lake-gunn-nature-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Marian Track",
+    "slug": "lake-marian-track",
+    "lat": -44.808188,
+    "lng": 168.103065,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "fiordland",
+    "area": "milford-sound",
+    "active": true,
+    "price": "Free",
+    "description": "Two walks in one. A swing bridge over the Hollyford River and 10 minutes of boardwalk take you to a set of roaring waterfalls, which anyone can do. Beyond that the track climbs steeply over roots and rocks for about an hour and a half to Lake Marian, an alpine lake in a hanging valley ringed by peaks.\n\nThe car park is 1km down the gravel Hollyford Road from Marian Corner, with a long drop toilet. DOC rates the upper section advanced, so allow about 3 hours return, wear proper footwear, and avoid it after heavy rain or snow.\nLocal tip: Wear long trousers, since DOC warns there's a lot of ongaonga, the native stinging nettle, along the track.",
+    "recommendedDurationSlots": 7,
+    "hoursNote": "Falls 10 min; lake about 1 hr 30 min further, advanced track; car park 1 km down Hollyford Road; avoid after heavy rain or snow",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/tracks/lake-marian-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Humboldt Falls Track, Hollyford Road",
+    "slug": "humboldt-falls-hollyford-road",
+    "lat": -44.692828,
+    "lng": 168.126012,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "fiordland",
+    "area": "milford-sound",
+    "active": true,
+    "price": "Free",
+    "description": "A side trip off the Milford Road at Marian Corner, about 87km from Te Anau, down the quiet, unsealed Hollyford Road into the Hollyford Valley. At the end of the road, an easy, well graded track climbs gently through rainforest to a lookout over Humboldt Falls, a tall waterfall pouring off the valley wall, and it takes about 30 minutes return.\n\nAllow about 2 hours to drive from Te Anau to the end of the road, and take the gravel slowly.\nLocal tip: Combine it with the Lake Marian Track, which starts 1km down the same road, and bring insect repellent for the sandflies.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open any time; about 30 min return; Hollyford Road is unsealed; turn off SH94 at Marian Corner; allow 2 hr drive from Te Anau",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/tracks/humboldt-falls-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Milford Foreshore Walk",
+    "slug": "milford-foreshore-walk",
+    "lat": -44.671601,
+    "lng": 167.92621,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "fiordland",
+    "area": "milford-sound",
+    "active": true,
+    "price": "Free",
+    "description": "An easy 30 minute loop from the main Milford Sound car park, through beech forest and along the sandy foreshore. It has the classic view of Mitre Peak across the water, plus views of Bowen Falls and the boats coming and going.\n\nIt's flat and wheelchair accessible, with information panels along the way, and it's the best free thing to do at Milford if you have time before or after a cruise.\nLocal tip: Go at low tide for more beach to walk on, and cover up, since DOC warns there can be a lot of sandflies here.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "30 min loop from the Milford Sound car park; wheelchair accessible; sandflies",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/tracks/milford-foreshore-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kepler Track: Control Gates to Brod Bay",
+    "slug": "kepler-track-brod-bay",
+    "lat": -45.442345,
+    "lng": 167.688735,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Free",
+    "description": "The first section of the Kepler Track is a flat, easy walk along the shore of Lake Te Anau through red and mountain beech forest. From the Kepler Track car park, 5km from town, it's about an hour return to Dock Bay, or 5.6km and 1 hour 30 minutes each way to Brod Bay, with beaches for a picnic or a cold swim.\n\nIt's free, and you can also walk there along the lakefront from the Fiordland National Park Visitor Centre in about 50 minutes. In the Great Walk season, from 27 October 2026 to 30 April 2027, a scheduled boat runs to Brod Bay, so you can walk one way.\nLocal tip: Dock Bay is the pick for families, with a beach and picnic spot only half an hour in. Take insect repellent for the sandflies.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Starts at Kepler Track car park by the control gates; Dock Bay 1 hr return, Brod Bay 3 hr return; Great Walk season 27 Oct 2026 to 30 Apr 2027",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/tracks/kepler-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Punanga Manu o Te Anau Bird Sanctuary",
+    "slug": "punanga-manu-o-te-anau-bird-sanctuary",
+    "lat": -45.43364,
+    "lng": 167.714239,
+    "category": [
+      "Nature",
+      "Attractions"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Free",
+    "description": "A free lakeside sanctuary on the edge of Te Anau, and the easiest place in the country to see takahē, the big blue flightless birds once thought extinct. Resident pairs raise chicks for the recovery programme, and Antipodes Island parakeets and pāteke are also on show, with tūī, kererū and bellbirds in the trees.\n\nIt's about a 20 minute walk from the Fiordland National Park Visitor Centre along the lakefront, open during daylight hours, with toilets, picnic tables and a spring water tap. There's a ranger scavenger hunt and photo props for kids, and donations help keep it going.\nLocal tip: Walk the takahē enclosure slowly twice. The birds often hide in the tussock on the first pass and come out to the fence later.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daylight hours; free, donations welcome; 20 min walk from the DOC visitor centre",
+    "sourceUrl": "https://www.doc.govt.nz/teanaubirdsanctuary",
+    "confidence": "high"
+  },
+  {
+    "name": "Fiordland Cinema: Ata Whenua",
+    "slug": "fiordland-cinema-ata-whenua",
+    "lat": -45.414514,
+    "lng": 167.715722,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.fiordlandcinema.co.nz/",
+    "description": "A small cinema in the middle of Te Anau, built to show Ata Whenua, Shadowland, a 32 minute film of aerial footage over Fiordland National Park. It covers places you can't reach by road or on foot, with no narration getting in the way.\n\nTickets are $14, and it screens daily at 3pm, 5pm and 6pm, while the rest of the time the cinema shows new release films. There's a bar with local beer and wine.\nLocal tip: Keep it for a wet afternoon, when the Milford Road or the lake is off the cards, and call ahead on 03 249 8844 to check times.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Ata Whenua daily at 3pm, 5pm and 6pm; $14; 7 The Lane, Te Anau",
+    "sourceUrl": "https://www.fiordlandcinema.co.nz/ata-whenua-shadowland/",
+    "confidence": "high"
+  },
+  {
+    "name": "Frasers Beach, Lake Manapōuri",
+    "slug": "frasers-beach-manapouri",
+    "lat": -45.561826,
+    "lng": 167.612343,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Free",
+    "description": "A sheltered beach on Lake Manapōuri just north of Manapōuri township, with a view across the water to the peaks of Fiordland National Park. There are picnic tables and toilets, and it's a popular swimming spot with locals on warm days.\n\nAn easy 30 minute track follows the lake shore from Pearl Harbour, where the Doubtful Sound boats leave, to Frasers Beach. It's about 20 minutes' drive from Te Anau.\nLocal tip: Come back for sunset after a Doubtful Sound day. The light on the mountains across the lake is lovely, and the beach is usually quiet.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Always open; picnic tables and toilets; car park off View Street, Manapōuri",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/tracks/frasers-beach-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Miles Better Pies",
+    "slug": "miles-better-pies",
+    "lat": -45.416755,
+    "lng": 167.712387,
+    "category": [
+      "Food"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Cheap",
+    "description": "A no-frills pie shop at 1 Lakefront Drive, at the lake end of the main street. The venison pie is the one people talk about, but reviewers also rate the chicken, the lamb and mint, the Thai chicken curry and a chickpea vegetarian pie, plus sweet pies such as apple and blueberry.\n\nIt opens at 7am, so it's a good breakfast stop before the Milford Road, and there's coffee too. Expect a queue at peak times.\nLocal tip: Take your pie across the road to the lakefront. It's only a minute's walk, and the view is better than the shop's.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Daily 7am to 3pm; 1 Lakefront Drive, Te Anau",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJl0OefLMP1KkRmdd1Fs1BTrM",
+    "confidence": "medium"
+  },
+  {
+    "name": "Sandfly Cafe",
+    "slug": "sandfly-cafe-te-anau",
+    "lat": -45.41444,
+    "lng": 167.715668,
+    "category": [
+      "Food"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Moderate",
+    "description": "One of the busiest cafés in Te Anau, at 9 The Lane, just off the main street. It does full breakfasts, pancakes, bagels and a pasta of the day, with a cabinet of sandwiches, slices and cakes if you're in a hurry.\n\nIt opens at 7am every day, which suits an early start to Milford. There's indoor and outdoor seating, but it fills up fast.\nLocal tip: If there's no table, order from the cabinet to take away. It's quicker, and the cabinet food makes a good packed lunch for the road.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 7am to 4.30pm; 9 The Lane, Te Anau",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ1Y2K99EP1KkRZhTKc8HdXPw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Blak Shak",
+    "slug": "blak-shak-te-anau",
+    "lat": -45.415987,
+    "lng": 167.714947,
+    "category": [
+      "Food"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small takeaway on the Te Anau main street, best known for its lamb and chicken souvlaki, which reviewers rate as some of the best food of their trip. It also does coffee, pastries and cabinet food, and you order at a self-service kiosk.\n\nThe souvlaki are big, and there are kids' sizes. There's some outdoor seating on the street.\nLocal tip: It stays open until 6.30pm from Wednesday to Sunday, which makes it a handy cheap dinner after a long day on the Milford Road.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon and Tue 8am to 3pm; Wed to Sun 8am to 6.30pm; 72 Town Centre, Te Anau",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJTTJLP2gP1KkRS6u0njLRnzs",
+    "confidence": "medium"
+  },
+  {
+    "name": "Cascade Creek Campsite",
+    "slug": "cascade-creek-campsite",
+    "lat": -44.893889,
+    "lng": 168.075556,
+    "category": [
+      "Stay"
+    ],
+    "region": "fiordland",
+    "area": "milford-sound",
+    "active": true,
+    "price": "Cheap",
+    "description": "The closest campsite to Milford Sound, a big DOC site at the lower end of Lake Gunn, 71km north of Te Anau, surrounded by mountains and two rivers. It suits larger vans and caravans as well as tents, with long drop toilets spread around the site and fly fishing on the Eglinton and Cascade rivers.\n\nIt's $18 a night for adults and $9 for children 5 to 17, and under 5s are free. You must book online, since DOC keeps no spaces for walk-ins, though same-day bookings stay open until 8pm. Freedom camping isn't allowed anywhere on the Milford Road. The Lake Gunn Nature Walk starts right beside the campsite.\nLocal tip: Staying here puts you about an hour from Milford, so you can be on an early cruise before the day coaches from Queenstown arrive.",
+    "hoursNote": "Book online only; $18 adult, $9 child; same day online booking until 8pm; gravel access; no freedom camping on the Milford Road",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/campsites/cascade-creek-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Henry Creek Campsite",
+    "slug": "henry-creek-campsite",
+    "lat": -45.231607,
+    "lng": 167.811845,
+    "category": [
+      "Stay"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Cheap",
+    "description": "A DOC campsite right on the shore of Lake Te Anau, 23km up the Milford Road from town. Small private sites are tucked into regenerating beech forest, and it takes campervans as well as tents.\n\nIt's $18 a night for adults and $9 for children 5 to 17, and you must book online in advance. It's the nearest cheap camping to Te Anau, since there's no freedom camping in or around the township.\nLocal tip: Pack insect repellent and a warm layer. It's a lovely spot for an early swim or sunrise over the lake before heading on to Milford.",
+    "hoursNote": "Book online only; $18 adult, $9 child; gravel access; 23 km from Te Anau on SH94",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/campsites/henry-creek-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Mavora Lakes Campsite",
+    "slug": "mavora-lakes-campsite",
+    "lat": -45.272602,
+    "lng": 168.173088,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Cheap",
+    "description": "A large DOC campsite spread along the shores of the North and South Mavora lakes, in open tussock country edged with native forest and mountains, about 1 hour 30 minutes from Te Anau. There are plenty of sites right on the water, with walks, swimming and fishing close by, and a swing bridge near the South Lake.\n\nIt's $10 a night for adults and $5 for children, and you must book, since DOC holds no spaces for walk-ins, though same-day bookings can be made online until 8pm. Access is on 39km of gravel road off SH94. There are wheelchair accessible toilets and fire drums, but no rubbish bins, so take everything out with you. Motorised boats are allowed on North Mavora Lake only.\nLocal tip: Avoid the Christmas and New Year rush if you want peace and quiet, and bring plenty of insect repellent for the sandflies.",
+    "hoursNote": "Book online, no walk in spaces; adult $10, child $5, under 5 free; toilets; no rubbish bins; 39km gravel from SH94",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/southland/places/mavora-lakes-conservation-park/things-to-do/mavora-lakes-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lumsden Freedom Camping",
+    "slug": "lumsden-freedom-camping",
+    "lat": -45.738971,
+    "lng": 168.442361,
+    "category": [
+      "Stay"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Free",
+    "description": "A well set up free camping area in the middle of Lumsden, beside the old railway station, on the route between Queenstown, Invercargill and Te Anau. Bays are marked on the ground in blue for certified self-contained vehicles and green for those that aren't, so check the lines before you park. Tents aren't allowed.\n\nThere are clean public toilets, drinking water, a dishwashing sink, picnic tables and a dump station, with a Four Square supermarket next door and a café nearby.\nLocal tip: Fill up with water and empty your tanks here before heading on to Te Anau and the Milford Road, and check the signs for the current maximum stay.",
+    "hoursNote": "Free; marked bays for self-contained (blue) and non self-contained (green) vehicles; no tents; check signs for max stay; toilets, water, dump station",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ2_mx3V9m06kR0PReLsI-ejw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Te Anau Central Backpackers",
+    "slug": "te-anau-central-backpackers",
+    "lat": -45.414891,
+    "lng": 167.710452,
+    "category": [
+      "Stay"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.teanaucentralbackpackers.co.nz/",
+    "description": "An independent backpackers at 29 Mokonui Street, a short walk from the lake and the main street, and popular with trampers. Dorm beds start from $60 a night and private rooms with a shared bathroom from $135, with linen included.\n\nThere's a big shared kitchen, a lounge with a fire, a courtyard with a barbecue, a laundry, luggage storage and free off-street parking. Reviewers praise the staff's local tramping knowledge and the drying room for wet gear. Check-in is from 2pm, and the office is open from 9am to 6pm.\nLocal tip: It's only open from October to May and closes for winter on 1 June, so book early for summer, when Great Walk trampers fill the town.",
+    "hoursNote": "Closed for winter from 1 June 2026, reopening October 2026; check in 2pm, office 9am to 6pm; 29 Mokonui Street",
+    "sourceUrl": "https://www.teanaucentralbackpackers.co.nz/teanau-backpacker-accommodation/overview",
+    "confidence": "high"
+  }
+]

@@ -1,0 +1,226 @@
+[
+  {
+    "name": "Lake Rotoiti Jetty, Kerr Bay",
+    "slug": "lake-rotoiti-jetty-kerr-bay",
+    "lat": -41.806656,
+    "lng": 172.843894,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson-lakes",
+    "active": true,
+    "price": "Free",
+    "description": "The wooden jetty at Kerr Bay in St Arnaud is the classic Nelson Lakes view: clear alpine water, beech forest and the St Arnaud Range rising straight out of the lake. Look down and you'll usually see big longfin eels and trout gliding under the boards.\n\nIt's a short walk from the Nelson Lakes Visitor Centre, with toilets and picnic spots along the shore. Keen swimmers jump off the jetty in summer, but the water is cold all year. The eels are protected and signs ask you not to feed them, and they can nip if you dangle hands or feet in the water.\nLocal tip: Bring insect repellent, because the sandflies at Kerr Bay are fierce, and come early in the morning, when the lake is often glassy for photos.",
+    "recommendedDurationSlots": 2,
+    "featured": 1,
+    "hoursNote": "Open any time; do not feed the eels; heavy sandflies in summer; visitor centre nearby open 9am to 4pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJlQzFhrf5Om0RdqKzgRdENp8",
+    "confidence": "medium"
+  },
+  {
+    "name": "Mount Robert Circuit",
+    "slug": "mount-robert-circuit",
+    "lat": -41.82207,
+    "lng": 172.811634,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson-lakes",
+    "active": true,
+    "price": "Free",
+    "description": "The best day walk in Nelson Lakes National Park, a loop up Mount Robert on the western side of Lake Rotoiti. DOC allows about 5 hours and grades it advanced. You go up one track and down the other: Pinchgut Track zigzags steeply up the bare face, about 1.5 hours to the bush edge, then crosses the open ridge, while Paddy's Track crosses scree gullies to Bushline Hut, a good lunch stop with big views over the lake.\n\nTo get there, head 2km west of St Arnaud on SH63, then 4.9km up Mount Robert Road to the car park at the end. Paddy's Track starts 500m before the car park. The top is exposed and freezing weather can arrive at any time of year, so take warm and waterproof layers, and wasps are common from December to April.\nLocal tip: Car break-ins happen at this isolated car park, so leave your valuables in the free bag storage at the visitor centre. The gate at the bottom of Mount Robert Road is locked when the road is icy.",
+    "recommendedDurationSlots": 10,
+    "featured": 2,
+    "hoursNote": "About 5 hr loop; advanced; exposed alpine ridge; Mount Robert Road gate locked when icy; wasps Dec to Apr",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/nelson-lakes-national-park/things-to-do/tracks/mount-robert-circuit/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kerr Bay Short Walks (Bellbird, Honeydew, Brunner Peninsula)",
+    "slug": "kerr-bay-short-walks",
+    "lat": -41.807209,
+    "lng": 172.8481,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson-lakes",
+    "active": true,
+    "price": "Free",
+    "description": "A cluster of easy forest walks right beside Kerr Bay in St Arnaud. The Bellbird Walk is a 15 minute, wheelchair standard loop through red beech where tūī and bellbirds feed. The Honeydew Walk extends it to 45 minutes, past beech trunks blackened by scale insects whose sweet honeydew feeds the birds.\n\nIf you want more, the Loop Track combines both and climbs the terraces in about 1.5 hours, though it gets muddy after rain. The Brunner Peninsula Nature Walk, about 1 hour, circles the peninsula from the western side of Kerr Bay into West Bay and crosses the Alpine Fault twice.\nLocal tip: These walks sit inside the Rotoiti Nature Recovery Project, where pest trapping keeps the birdlife high. Go early in the day to hear the bellbirds at their loudest, and look out for kākā.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Bellbird 15 min, Honeydew 45 min, Brunner Peninsula 1 hr; easy; Loop Track muddy after rain",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/nelson-lakes-national-park/things-to-do/tracks/lake-rotoiti-kerr-bay-walks/",
+    "confidence": "high"
+  },
+  {
+    "name": "Maruia Falls",
+    "slug": "maruia-falls",
+    "lat": -41.860042,
+    "lng": 172.252183,
+    "category": [
+      "Nature",
+      "Scenic"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson-lakes",
+    "active": true,
+    "price": "Free",
+    "description": "A wide, powerful waterfall about 10m high on the Maruia River, created by the 1929 Murchison earthquake. It's right beside SH65, 23km south of Murchison on the way to Lewis Pass.\n\nFrom the car park, a 10 minute return track drops to the riverbank for a good view of the falls. It isn't safe to swim here, above or below the falls, since the current is strong and people have drowned. Sandflies are common in summer, and wasps from December to April.\nLocal tip: Stay behind the barriers above the falls, since lives have been lost there. If you're lucky, you may see kayakers running the drop.",
+    "recommendedDurationSlots": 1,
+    "featured": 3,
+    "hoursNote": "Open any time; 10 min return walk; no swimming; sandflies in summer, wasps Dec to Apr",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/murchison-area/things-to-do/tracks/maruia-falls-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Rotoroa",
+    "slug": "lake-rotoroa",
+    "lat": -41.793935,
+    "lng": 172.598204,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson-lakes",
+    "active": true,
+    "price": "Free",
+    "description": "The bigger, quieter sister of Lake Rotoiti, at the end of Gowan Valley Road off SH6, about 40 minutes from St Arnaud. There's a jetty, a boat ramp and a small sandy shore at the northern end, and a water taxi runs up the lake for trampers. Eels hang around the jetty here too.\n\nThe Braeburn Walk is an easy 2 hour loop starting 400m west of the Gowan River bridge, through beech and tall podocarp forest up to a mossy waterfall. The small DOC campsite beside the lake costs $15 a night for adults and $7.50 for children, paid to the camp hosts in summer or at the iron ranger. Water skiing isn't allowed on the lake.\nLocal tip: DOC warns of ferocious sandflies, and it isn't exaggerating, so cover up and put repellent on before you get out of the car. The jetty usually has fewer of them.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open any time; Braeburn Walk 2 hr loop; campsite $15 adult; Rotoroa Route on the eastern shore permanently closed; no water skiing",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/nelson-lakes-national-park/things-to-do/campsites/lake-rotoroa-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kawatiri Historic Railway Walk",
+    "slug": "kawatiri-historic-railway-walk",
+    "lat": -41.693059,
+    "lng": 172.617609,
+    "category": [
+      "Walks",
+      "Culture"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson-lakes",
+    "active": true,
+    "price": "Free",
+    "description": "A short leg stretcher at Kawatiri Junction, where SH6 and SH63 meet, 35km northeast of Murchison. The easy 20 minute walk follows a stretch of the old Nelson railway line, over an old rail bridge and through a curved train tunnel built in 1923, then loops back through beech forest above the Hope River.\n\nThe car park has information panels on the history of the line, and it makes a good break on the drive between Nelson and the West Coast.\nLocal tip: The tunnel is dark in the middle, so a phone torch helps, and bring repellent for the sandflies and summer wasps.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; 20 min easy walk; torch handy for the tunnel; sandflies and summer wasps",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/kawatiri-area/things-to-do/tracks/kawatiri-historic-railway-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Murchison District Museum",
+    "slug": "murchison-district-museum",
+    "lat": -41.801388,
+    "lng": 172.325333,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson-lakes",
+    "active": true,
+    "price": "Free",
+    "description": "A small volunteer run museum at 60 Fairfax Street that tells the story of the 1929 Murchison earthquake, with photographs and first-hand accounts of the damage across the district. Other displays cover goldmining, sawmilling and farming, and a barn-style building next door holds vintage farm machinery.\n\nEntry is by donation, and 20 to 30 minutes is enough for most visitors. It's open all year and doubles as an information point for the Murchison area.\nLocal tip: Pair it with a pie from Tutaki Bakery right next door, which opens a few days a week, then look for the earthquake's handiwork at Maruia Falls on the drive south.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open all year; Google lists 11am to 3pm, closed Saturday; entry by donation",
+    "sourceUrl": "https://www.visitmurchison.nz/murchison-museum.html",
+    "confidence": "medium"
+  },
+  {
+    "name": "Rivers Cafe",
+    "slug": "rivers-cafe-murchison",
+    "lat": -41.801047,
+    "lng": 172.325749,
+    "category": [
+      "Food"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson-lakes",
+    "active": true,
+    "price": "Cheap",
+    "description": "The main road stop in Murchison, in a converted old petrol station on Fairfax Street, opposite the museum. The cabinet has pies, quiches, muffins and sandwiches made in-house, and there's a full cooked breakfast and lunch menu too.\n\nInside it's warm and wooden with lots of seating, and there are outdoor tables where dogs are welcome. It gets busy at lunch with people driving between Nelson, Christchurch and the West Coast.\nLocal tip: If the kitchen queue is long, grab something from the cabinet, then eat at the picnic tables by the museum across the road.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 8am to 3pm (Google listing)",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ0T7smL_ROm0RMVHfJa33aMk",
+    "confidence": "medium"
+  },
+  {
+    "name": "Alpine Lodge Restaurant",
+    "slug": "alpine-lodge-restaurant-st-arnaud",
+    "lat": -41.802026,
+    "lng": 172.847212,
+    "category": [
+      "Food"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson-lakes",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.alpinelodge.co.nz/eat",
+    "description": "The only restaurant in St Arnaud, on the main road a few minutes' walk from Lake Rotoiti. It serves breakfast, lunch and dinner, with a warm dining room and outdoor seating looking at the mountains.\n\nPizzas are the cheapest filling option, from $16 for a small to about $30 for a large, with gluten free and vegan bases. Breakfasts run from $13 to $31, and mains such as the smash burger and slow braised lamb are around $38 to $40. There's a children's menu too. From November to April it's open daily for breakfast, lunch and dinner, and in winter you should phone ahead.\nLocal tip: Book ahead for dinner in summer, since it's the only sit-down option in the village. Otherwise, the village store nearby sells pies and basic groceries.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Nov to Apr daily: breakfast 8 to 10am, lunch 12 to 2pm, dinner 5.30 to 9pm; winter hours vary, phone ahead",
+    "sourceUrl": "https://www.alpinelodge.co.nz/eat",
+    "confidence": "high"
+  },
+  {
+    "name": "Kerr Bay Campsite",
+    "slug": "kerr-bay-campsite",
+    "lat": -41.806486,
+    "lng": 172.8463,
+    "category": [
+      "Stay"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson-lakes",
+    "active": true,
+    "price": "Moderate",
+    "description": "DOC's serviced campsite right on the shore of Lake Rotoiti at St Arnaud, a short walk from the jetty, the visitor centre and the village shop. It has a kitchen shelter with cooking facilities, flush toilets, token hot showers, a washing machine and dryer, and a dump station, with powered and non-powered sites.\n\nFrom 19 October to 30 April it's $27 a night for adults non-powered or $30 powered, with children half price, and $25 or $27 the rest of the year. Bookings are required all year, with same-day online bookings until 8pm if there's space. There are no rubbish bins, so take everything out with you. No pets, and sites don't suit vehicles over 7m.\nLocal tip: Buy your shower tokens from the camp host or the visitor centre during opening hours, and bring plenty of sandfly repellent. Book early for Christmas, Easter and the boat show and regatta weekends.",
+    "hoursNote": "Open all year; must book; $27 to $30 adult in summer; token showers; no pets; pack in, pack out",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/nelson-lakes-national-park/things-to-do/campsites/kerr-bay-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "West Bay Campsite",
+    "slug": "west-bay-campsite",
+    "lat": -41.798019,
+    "lng": 172.827095,
+    "category": [
+      "Stay"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson-lakes",
+    "active": true,
+    "price": "Cheap",
+    "description": "A quieter, summer-only DOC campsite on the western side of Lake Rotoiti, about 3km from St Arnaud off Mount Robert Road, or a 30 minute walk. It's split into two zones: the Jetty zone in kānuka and mānuka forest beside the lake, and the Buller zone set back in the trees a short walk from the water.\n\nBoth cost $20 a night for adults and $10 for children, with no power. The Jetty zone is open from 27 November to 30 April, and the Buller zone from 11 December. Bookings are required and DOC holds no spaces for walk-ins. No pets, no fires and no jet skis.\nLocal tip: It's handy for an early start on the Mount Robert Circuit. There are no rubbish bins, so plan to take all your rubbish and recycling with you.",
+    "hoursNote": "Jetty zone 27 Nov to 30 Apr, Buller zone from 11 Dec; must book; $20 adult; cold showers; no power; no pets",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/nelson-lakes-national-park/things-to-do/campsites/west-bay-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Teetotal Campsite",
+    "slug": "teetotal-campsite",
+    "lat": -41.793844,
+    "lng": 172.83336,
+    "category": [
+      "Stay"
+    ],
+    "region": "nelson-tasman",
+    "area": "nelson-lakes",
+    "active": true,
+    "price": "Cheap",
+    "description": "The cheapest place to stay near St Arnaud, a basic DOC campsite on flat, open ground 1km west of the village off SH63, reached by a short gravel road. It's $15 a night for adults and $7.50 for children, and a 1.2km walking and biking track links it to St Arnaud.\n\nFacilities are two vault toilets and untreated tap water, so boil it or bring your own. It suits campervans, cars and tents, and it's the one campsite in the area where dogs are allowed, though they can't go into the national park. There are mountain bike trails, and Duck Pond is used for ice skating in hard winters. Fires are never allowed, and a firing range lies about 1.5km away.\nLocal tip: Fill your water tanks and empty your waste at the Kerr Bay dump station in St Arnaud before you set up here.",
+    "hoursNote": "Open all year; $15 adult; book online; vault toilets; untreated water; year round fire ban",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/st-arnaud-area/things-to-do/teetotal-campsite/",
+    "confidence": "high"
+  }
+]

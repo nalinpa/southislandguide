@@ -1,0 +1,209 @@
+[
+  {
+    "name": "Waiuta Ghost Town",
+    "slug": "waiuta-ghost-town",
+    "lat": -42.293789,
+    "lng": 171.824254,
+    "category": [
+      "Culture",
+      "Walks"
+    ],
+    "region": "west-coast",
+    "area": "reefton",
+    "active": true,
+    "price": "Free",
+    "description": "Waiuta was once a busy gold mining town with its own school, churches and shops. Today it's one of the West Coast's best known ghost towns, looked after by DOC, with eight surviving buildings, foundations and signs with historic photos scattered through the regenerating bush. The Prohibition mine produced nearly 750,000 ounces of gold, and its 879m shaft was the deepest in the country. A collapse in 1951 closed the mine, and the town emptied.\n\nThe easy town walk is about 2km return and takes around 1.5 hours, with a 15 minute side trip to the old swimming pool. You can also head up Pro Road to the Prohibition mine site and ball mill at 580m for wide views. Access is signposted off SH7, 21km south of Reefton, then about 16km on sealed and gravel roads. There are toilets and picnic tables but no shops or fuel, the water isn't drinkable, and DOC's 30 bunk Waiuta Lodge is the only place to stay.\nLocal tip: The Snowy Battery Track and stamper battery site are closed because of arsenic, mercury and cyanide contamination, so don't plan on the walk down to the river. Kea are about too, so don't leave anything loose on the car.",
+    "recommendedDurationSlots": 6,
+    "featured": 1,
+    "hoursNote": "Open any time; last stretch is gravel; no services; Snowy Battery Track closed (contamination)",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/waiuta-area/",
+    "confidence": "high"
+  },
+  {
+    "name": "Reefton Heritage Walk and Visitor Centre",
+    "slug": "reefton-heritage-walk-and-visitor-centre",
+    "lat": -42.1197,
+    "lng": 171.864377,
+    "category": [
+      "Culture",
+      "Walks"
+    ],
+    "region": "west-coast",
+    "area": "reefton",
+    "active": true,
+    "price": "Free",
+    "description": "Reefton calls itself the Town of Light. In 1888 a hydro plant on the Inangahua River made it the first town in the southern hemisphere lit by electricity, ahead of London and New York. Broadway, the main street, still has plenty of its gold rush era buildings, now full of galleries, cafés, pubs and secondhand shops, and it's lit at night by heritage-style lamps.\n\nStart at the Visitor Centre at 67 to 69 Broadway, which also houses the library, a post shop and a small mining history display with working exhibits. From there, a self-guided history walk takes in the old School of Mines, banks, churches, the Oddfellows Hall and the courthouse.\nLocal tip: Pick up a walks map at the Visitor Centre, since the staff know which of the bush tracks around town are open and in good shape.",
+    "recommendedDurationSlots": 3,
+    "featured": 2,
+    "hoursNote": "Visitor Centre Mon to Fri 9am to 4.30pm, Sat 10am to 2pm, closed Sun; street walk any time",
+    "sourceUrl": "https://tohuwhenua.nz/regions/te-tai-poutini-west-coast/historic-reefton/",
+    "website": "https://reefton.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Bottled Lightning Powerhouse Walk",
+    "slug": "bottled-lightning-powerhouse-walk",
+    "lat": -42.121581,
+    "lng": 171.870802,
+    "category": [
+      "Walks",
+      "Culture"
+    ],
+    "region": "west-coast",
+    "area": "reefton",
+    "active": true,
+    "price": "Free",
+    "description": "An easy 40 minute loop from the Visitor Centre that crosses the Inangahua River to the site of the 1888 hydro power station that lit Reefton's streets. A community trust has restored the station, and it's generating power again, with signs along the way telling the story of the scheme.\n\nThe path follows the river and returns over a swing bridge at the east end of town, so it's a good short leg stretch after the drive over the Lewis Pass.\nLocal tip: Locals swim in the river near the powerhouse on hot summer days. Check the flow first, since the Inangahua rises quickly after rain.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time; easy 40 min loop from the Visitor Centre",
+    "sourceUrl": "https://westcoast.co.nz/visit/see-do/outdoors-and-adventure/walks-and-hikes/reefton-walks/",
+    "confidence": "high"
+  },
+  {
+    "name": "The Bearded Miners",
+    "slug": "the-bearded-miners",
+    "lat": -42.119579,
+    "lng": 171.866643,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "west-coast",
+    "area": "reefton",
+    "active": true,
+    "price": "Free",
+    "description": "A replica 1860s miners' hut at 46 Broadway, built from native cedar slabs and run by volunteer miners in period dress. There's usually a fire going and billy tea on, and the miners are happy to yarn about how prospectors lived and worked during the gold rush.\n\nEntry is free. You can also try gold panning, where flakes of gold are guaranteed, and sometimes watch the blacksmith shaping iron at the forge.\nLocal tip: Go in the morning, since they close in the early afternoon, and ask about panning prices when you arrive.",
+    "recommendedDurationSlots": 1,
+    "featured": 4,
+    "hoursNote": "Daily 9am to 2pm (Google listing); free entry, gold panning extra",
+    "sourceUrl": "https://www.reefton.co.nz/see-and-do/gold-panning/the-bearded-miners",
+    "confidence": "medium"
+  },
+  {
+    "name": "Blacks Point Museum",
+    "slug": "blacks-point-museum",
+    "lat": -42.131546,
+    "lng": 171.881964,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "west-coast",
+    "area": "reefton",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small, packed local museum in an 1876 Methodist church at Blacks Point, 2km east of Reefton on SH7. It's full of mining gear, photographs, school and cemetery records, family trees and household items from the goldfields era.\n\nThe highlight is the working water-powered quartz stamper battery out the back, which the volunteer guides often start up so you can hear the noise the town once lived with day and night. Entry is $10 for adults, $5 for children and $25 for a family. It's open 10am to 4pm in summer, and on request in winter.\nLocal tip: Combine it with the Murray Creek Track, which starts just up the road from the museum.",
+    "recommendedDurationSlots": 2,
+    "featured": 3,
+    "hoursNote": "Summer 10am to 4pm (Google lists Wed to Sun); winter by request; adults $10, children $5, family $25",
+    "sourceUrl": "https://reefton.co.nz/directory/blacks-point-museum/",
+    "confidence": "high"
+  },
+  {
+    "name": "Murray Creek Track",
+    "slug": "murray-creek-track",
+    "lat": -42.130313,
+    "lng": 171.88284,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "west-coast",
+    "area": "reefton",
+    "active": true,
+    "price": "Free",
+    "description": "The classic Reefton goldfield walk, a 9.7km loop through beech forest in Victoria Forest Park from the Murray Creek car park at Blacks Point, 2km east of town. It passes the Inglewood and Ajax gold mines, Chandlers open-cast coal pit and the site of Cementown, with shafts, a steam winch, boilers and a stamping battery along the way.\n\nThe full loop takes about 5 hours. For a shorter outing, walk up Murray Creek to the Energetic Mine and come back the same way. Mountain bikers ride the loop too, but the section between the Ajax Mine and Blacks Point is for advanced riders only.\nLocal tip: If you're riding, DOC suggests going up Murray Creek Road, since the final 2km back to the car park is a steep, technical descent.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Open any time; full loop 9.7 km, about 5 hr; starts 2 km east of Reefton on SH7",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/victoria-forest-park/things-to-do/tracks/murray-creek-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "The Broadway Tearooms and Bakery",
+    "slug": "broadway-tearooms-and-bakery",
+    "lat": -42.119807,
+    "lng": 171.867401,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "area": "reefton",
+    "active": true,
+    "price": "Cheap",
+    "description": "Reefton's go-to stop for pies, filled rolls, sandwiches, cakes and slices, in an old shop on Broadway with plenty of seating. It has more than a thousand Google reviews, and travellers regularly call it the best stop between the Coast and Nelson.\n\nThere's a self-service area with hot food and a big cabinet of sweet things, plus good coffee, and prices are reasonable.\nLocal tip: It opens at 6am on weekdays, so it's handy for an early breakfast before driving the Lewis Pass or heading out to Waiuta.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 6am to 3pm; Sat and Sun 7am to 3pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJLVeqt1hdJW0Rzfvq0ysPZAc",
+    "confidence": "medium"
+  },
+  {
+    "name": "Nourish Reefton at Wilson's Hotel",
+    "slug": "nourish-reefton-wilsons-hotel",
+    "lat": -42.119574,
+    "lng": 171.867283,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "area": "reefton",
+    "active": true,
+    "price": "Moderate",
+    "description": "The dinner option in town, in the historic Wilson's Hotel on Broadway. Recent reviewers praise the friendly owner, the big portions and the homemade dishes, such as lasagne and focaccia toasties.\n\nIt's a relaxed, family friendly place with high chairs, and it's open from late afternoon every day.\nLocal tip: Most Reefton cafés close by mid-afternoon, so if you're staying overnight, this is the easiest sit-down meal.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily from 4pm (Google listing)",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJj-IiffZnJW0R7OtbGGrkBc4",
+    "confidence": "medium"
+  },
+  {
+    "name": "Slab Hut Creek Campsite",
+    "slug": "slab-hut-creek-campsite",
+    "lat": -42.156546,
+    "lng": 171.792648,
+    "category": [
+      "Stay",
+      "Nature"
+    ],
+    "region": "west-coast",
+    "area": "reefton",
+    "active": true,
+    "price": "Cheap",
+    "description": "A popular DOC campsite beside a creek in Victoria Forest Park, 10km south of Reefton, off SH7 along gravel Slab Hut Creek Road. It suits tents, campervans and caravans, and has flush toilets, fireplaces and even a pizza oven.\n\nIt's $15 a night for adults and $7.50 for children 5 to 17, and under 5s are free. You must book online, since DOC holds no sites for walk-ins, though same-day bookings stay open until 8pm. You can fossick for gold in the creek, and the road is good for mountain biking.\nLocal tip: The creek water is brown, so bring drinking water, and expect wasps in late summer. The bridge on the access road has a 3.5 tonne axle limit.",
+    "hoursNote": "Book online; adults $15, children $7.50 per night; DOC Campsite Pass accepted; bridge on access road has 3.5 t axle limit",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/victoria-forest-park/things-to-do/campsites/slab-hut-creek-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "The Strand Freedom Camping, Reefton",
+    "slug": "the-strand-freedom-camping-reefton",
+    "lat": -42.120296,
+    "lng": 171.862991,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "area": "reefton",
+    "active": true,
+    "price": "Free",
+    "description": "A free riverside parking area on The Strand, a short walk from Broadway's cafés and pubs, with around 10 spaces. Buller District Council only allows freedom camping in certified self-contained vehicles, for no more than two nights in one place and nine nights a month, and fines are $200.\n\nThere are public toilets, drinking water and a dump station nearby, and a hard gravel surface that copes well with rain.\nLocal tip: Arrive by mid-afternoon in summer, since it fills up. Freedom camping is banned on Bridge Street, so don't overflow there.",
+    "hoursNote": "Certified self-contained only; max 2 nights; about 10 spaces; toilets, water and dump station nearby",
+    "sourceUrl": "https://bullerdc.govt.nz/recreation/freedom-camping/",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Old Breadshop Backpackers",
+    "slug": "old-breadshop-backpackers",
+    "lat": -42.115892,
+    "lng": 171.864492,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "area": "reefton",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small, homely backpackers in a former bakery on Buller Road, about five minutes' walk from the shops on Broadway. Reviewers consistently praise the welcoming host, the comfortable beds and the good value.\n\nThere's a full kitchen, and guests mention free laundry and movies. It's simple rather than fancy, but it's one of the cheapest beds on this stretch of highway.\nLocal tip: It has only a few rooms, so book ahead by phone on 03 732 8420 in summer.",
+    "hoursNote": "Small hostel; book ahead in summer; phone 03 732 8420",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJz7sbkPdnJW0RGE6kUWAWc-U",
+    "confidence": "medium"
+  }
+]

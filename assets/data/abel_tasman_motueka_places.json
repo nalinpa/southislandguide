@@ -1,0 +1,267 @@
+[
+  {
+    "name": "Abel Tasman AquaTaxi and Coast Track Day Walk",
+    "slug": "abel-tasman-aquataxi-coast-track-day-walk",
+    "lat": -41.001953,
+    "lng": 173.006046,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://aquataxi.co.nz/",
+    "description": "The classic way to see the Abel Tasman Coast Track in a day: take a water taxi from Mārahau up the coast, then walk back along the track past golden beaches and through coastal bush. Mārahau to Anchorage is 12.4km and about 4 hours on foot, and there's no fee to walk the track or enter the national park.\n\nAbel Tasman AquaTaxi, which has merged with Marahau Water Taxis, runs scheduled sailings daily from its base near the track entrance on Sandy Bay-Marahau Road, stopping at Anchorage, Bark Bay, Onetahuti, Awaroa and Tōtaranui, and it sells walk and kayak packages too. From Anchorage you can detour to Cleopatra's Pool, a clear rock pool swimming hole on the all-tide track around the Torrent Bay estuary.\nLocal tip: Book ahead in summer, and carry 1 to 2 litres of water, since the water at the huts and campsites is untreated. Keep your lunch zipped away from the weka at Anchorage.",
+    "recommendedDurationSlots": 14,
+    "featured": 1,
+    "hoursNote": "Scheduled sailings daily; summer timetable 1 Oct to 30 Apr; Torrent Bay bookings by phone 0800 278 282",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/abel-tasman-national-park/things-to-do/tracks/abel-tasman-coast-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Marahau Sea Kayaks",
+    "slug": "marahau-sea-kayaks",
+    "lat": -41.004909,
+    "lng": 173.008953,
+    "category": [
+      "Water",
+      "Adventure"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.msk.co.nz/",
+    "description": "Paddling the Abel Tasman coastline is one of the best ways to see its islands, sea caves and seals. Marahau Sea Kayaks is based in Mārahau, a short walk from the start of the Coast Track, and runs both freedom hire and guided trips.\n\nA full day of freedom hire starts from $126 for the Islands trip around the Astrolabe Roadstead and $154 to paddle to Anchorage and walk back, with multi-day rentals from $177. An instructor runs a safety briefing before you set off, and freedom rentals are double kayaks only, so you need a paddling partner. Guided full day trips through the Tonga Island Marine Reserve start from $354.\nLocal tip: Paddle in the morning, since the wind often picks up in the afternoon and makes the trip home much harder work.",
+    "recommendedDurationSlots": 14,
+    "featured": 2,
+    "hoursNote": "Office 8am to 5pm daily; bookings essential; double kayaks only for freedom hire",
+    "sourceUrl": "https://www.msk.co.nz/freedom-kayak-rentals/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kaiteriteri Beach",
+    "slug": "kaiteriteri-beach",
+    "lat": -41.036826,
+    "lng": 173.017758,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "A curve of golden sand and calm, clear water at the southern gateway to Abel Tasman National Park. It's one of the most popular swimming beaches in the region, and boats and water taxis into the park leave straight from the sand.\n\nShort walks start from the beach. Kaka Pah Point, at the northern end, is an easy wander through pōhutukawa to a bench overlooking the bay, on land of significance to Ngāti Rārua and Te Ātiawa. From the southern end, a track goes around the headland and down a wooden staircase to quieter Little Kaiteriteri. Withell's Walk, which starts behind the campground, is a moderately steep 45 minute climb through native bush to a viewpoint over the whole bay, and it isn't suitable for strollers. There's a store with an ATM across the road.\nLocal tip: In December and January the car park fills by mid-morning, so arrive early or try Little Kaiteriteri next door.",
+    "recommendedDurationSlots": 6,
+    "featured": 3,
+    "hoursNote": "Open any time; very busy in summer school holidays",
+    "sourceUrl": "https://www.nelsontasman.nz/activities-day-trips/kaiteriteri-short-walks/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Split Apple Rock",
+    "slug": "split-apple-rock",
+    "lat": -41.018289,
+    "lng": 173.020219,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "A huge granite boulder split neatly in two, sitting just off a small sandy beach between Kaiteriteri and Mārahau. Its Māori name is Toka Ngawhā, and scientists think water freezing in its cracks during an ice age split it apart. It's one of the most photographed spots on the Abel Tasman coast.\n\nThe walk is an easy 20 to 30 minutes return from the car park at the end of Moonraker Way, off Tokongawa Drive, but the track down is steep in places, so the climb back takes a little effort. At low tide you can wade out to the rock and explore the small caves at the northern end of the beach. In very dry summers, Tasman District Council can close the track because of fire risk.\nLocal tip: Go at low tide, since when the tide is in, the beach almost disappears and there's little room to move.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time; small car park that fills in summer; best at low tide",
+    "sourceUrl": "https://www.nelson360.co.nz/things-to-do-and-see/walking-and-hiking/split-apple-rock",
+    "confidence": "medium"
+  },
+  {
+    "name": "Te Puna Wai o Riuwaka / Riuwaka Resurgence",
+    "slug": "riuwaka-resurgence",
+    "lat": -41.033786,
+    "lng": 172.9011,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "Here the north branch of the Riuwaka River bursts out of the marble of Tākaka Hill after flowing underground, into clear, cold pools in damp, mossy forest. The path takes about 10 minutes one way, and the first 5 minutes, to Crystal Pool, are wheelchair accessible with some help.\n\nThe spring is wāhi tapu, a sacred place, to Te Ātiawa, Ngāti Rārua and Ngāti Tama, so treat it with respect. The rocks in the riverbed are very slippery and the steps can be underwater in floods, so keep a close eye on children. From State Highway 60, take the signposted left turn just before the Tākaka Hill climb and follow the flat road for 7km. It's about 16km from Motueka, and there are picnic spots beside the car park.\nLocal tip: If you're carrying on over the hill, stop at Hawkes Lookout on SH60, 10km from Riwaka, for a 5 minute walk through marble outcrops to a view over the resurgence.",
+    "recommendedDurationSlots": 2,
+    "featured": 4,
+    "hoursNote": "Open any time; no dogs or camping",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/kahurangi-national-park/things-to-do/tracks/te-puna-wai-o-riuwaka-resurgence/",
+    "confidence": "high"
+  },
+  {
+    "name": "Motueka Saltwater Baths",
+    "slug": "motueka-saltwater-baths",
+    "lat": -41.134694,
+    "lng": 173.023933,
+    "category": [
+      "Water",
+      "Attractions"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "The region's only saltwater baths, a tidal pool on the Motueka foreshore that fills and empties with the sea. The first enclosure went up in the early 1920s after a shark sighting, when a local fundraiser paid for galvanised wire to fence off part of the foreshore.\n\nToday it's a free, family-friendly swimming spot with a playground, picnic area and barbecues beside it, and a deck that's good for watching the sunset in winter. A cycle trail runs right past.\nLocal tip: Check the tide before you go. Around high tide you can swim from the sand as well as in the pool.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; free; best around high tide",
+    "sourceUrl": "https://www.nelsontasman.nz/scenic-attractions/motueka-saltwater-baths/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Motueka Sunday Market",
+    "slug": "motueka-sunday-market",
+    "lat": -41.111172,
+    "lng": 173.012149,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.motuekasundaymarket.co.nz/",
+    "description": "A weekly market in the Decks Reserve car park off Wallace Street, behind Motueka's main street, with more than 60 stalls. Judy Roper has run it since 1986, and you'll find fresh fruit and vegetables, sourdough, cheese, honey, crafts, secondhand books and clothes, buskers, and a good line-up of street food, from Argentine barbecue to Indonesian.\n\nIt runs every Sunday from 8am to 1pm, except Easter Sunday and Christmas Day. It's an easy, cheap spot for breakfast and coffee, and a handy place to stock up on local produce before heading into the park.\nLocal tip: Go before 10am for the best produce, and leave the dog at home, since dogs aren't allowed in the market area.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Sundays 8am to 1pm; closed Easter Sunday and Christmas Day; no dogs",
+    "sourceUrl": "https://www.motuekasundaymarket.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "TOAD Hall",
+    "slug": "toad-hall-motueka",
+    "lat": -41.132407,
+    "lng": 173.009244,
+    "category": [
+      "Food"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.toadhallmotueka.co.nz/",
+    "description": "A café, bakery, juicery, ice creamery and farm shop on High Street South, at the southern edge of Motueka, with its own market garden, grown organically and biodynamically since 1998. There's a big garden seating area and a playground, so it suits families well.\n\nThe bakery counter is generous, the cold-pressed juices are popular, and you can buy ready-made meals and local produce in the shop on the way out. It's open daily from 8am to 4pm, and in summer it hosts music nights with local and touring artists.\nLocal tip: Pick up a picnic lunch here on your way to Kaiteriteri or Mārahau.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open 7 days, 8am to 4pm",
+    "sourceUrl": "https://www.toadhallmotueka.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "The Fat Tui",
+    "slug": "the-fat-tui",
+    "lat": -40.997999,
+    "lng": 173.003443,
+    "category": [
+      "Food"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Cheap",
+    "description": "A burger caravan in Mārahau, a short walk from the start of the Abel Tasman Coast Track, and a favourite with walkers coming off the track. The burgers are huge, with plenty of choice, including vegetarian and vegan options, plus fish and chips, wedges and kūmara fries.\n\nSeating is outdoors in a relaxed garden beside a small creek, where weka wander about looking for scraps.\nLocal tip: Hours change with the seasons, so check before you walk over, especially outside summer, and come hungry, since the portions are big.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Seasonal hours; typically lunch to early evening in summer; check before visiting",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJDagIvMF5PG0Rn-wNOSf62oc",
+    "confidence": "medium"
+  },
+  {
+    "name": "Park Café Mārahau",
+    "slug": "park-cafe-marahau",
+    "lat": -40.996219,
+    "lng": 173.005278,
+    "category": [
+      "Food"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://parkcafe.co.nz/",
+    "description": "The café right at the entrance to Abel Tasman National Park, on Sandy Bay-Marahau Road, serving breakfast, lunch and dinner. Everything from the muffins and cakes to the burger buns and bread is baked in-house, and wood-fired pizzas come out from 4pm.\n\nIt's a busy spot for a coffee before the track and a cold drink after it, with outdoor tables that catch the sunset. It's open from 8.30am to 8pm, closed on Tuesdays and Wednesdays, and Thursday is open mic night.\nLocal tip: Pizzas can take a while on busy summer evenings, so order early or book a table.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Reopens 2 Oct 2026; 8.30am to 8pm; pizza from 4pm; closed Tue and Wed",
+    "sourceUrl": "https://parkcafe.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Anchorage Campsite",
+    "slug": "anchorage-campsite-abel-tasman",
+    "lat": -40.956848,
+    "lng": 173.058581,
+    "category": [
+      "Stay"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Cheap",
+    "description": "A Great Walk campsite on the golden sand of Anchorage Bay, reached only on foot, 12.4km and about 4 hours from Mārahau, or by water taxi. There's no road access.\n\nFacilities include a fireplace and sinks, and the bay gets good winter sun. NZ adults pay $21 a night all year, and international adults pay $31 from October to April and $21 from May to September. Children are $10 for New Zealanders, and $15 for international visitors from October to April. Bookings are required through DOC, and the DOC Campsite Pass isn't accepted.\nLocal tip: It's popular with school groups, especially Monday to Thursday nights in November and from mid-February to April. Keep food and boots inside your tent, since the weka here are bold thieves.",
+    "hoursNote": "Must be booked with DOC; NZ adult $21, international $31 Oct to Apr; walk or boat access only",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/abel-tasman-national-park/things-to-do/campsites/anchorage-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kaiteriteri Recreation Reserve Campground",
+    "slug": "kaiteriteri-recreation-reserve-campground",
+    "lat": -41.036644,
+    "lng": 173.017375,
+    "category": [
+      "Stay"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Moderate",
+    "description": "A large campground right across the road from Kaiteriteri Beach, with more than 400 powered sites plus cabins, and room for tents and campervans. Four amenity blocks have kitchens, showers, toilets and laundries, and there's a store with an ATM, a restaurant, a playground, barbecues, EV charging and a dump station.\n\nPrices start at around $29.50 a night, and boats into Abel Tasman leave from the beach opposite. It's open all year and has a Qualmark Four Star Plus rating.\nLocal tip: Book well ahead for the summer holidays, and if your plans might change, cancel at least 14 days out to get a full refund.",
+    "hoursNote": "Office 8am to 5pm; sites from about $29.50 per night; book ahead in summer",
+    "sourceUrl": "https://www.nelsontasman.nz/accommodation/kaiteriteri-recreation-reserve-campground-and-cabins/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Port Motueka Beach Reserve Freedom Camping",
+    "slug": "port-motueka-beach-reserve-freedom-camping",
+    "lat": -41.135558,
+    "lng": 173.023281,
+    "category": [
+      "Stay"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Free",
+    "description": "A free council freedom camping area at 10 Everett Street on the Motueka waterfront, next to the Saltwater Baths. There are 19 spaces for certified self-contained vehicles and 3 for vehicles that aren't, all first come, first served.\n\nYou can stay two nights in a row, on no more than two occasions a calendar month, and you must leave by 8am. There are flushing toilets, sinks and a cold outdoor shower. Tent camping on public land isn't allowed anywhere in Tasman District, and breaking the rules can mean a $400 fine.\nLocal tip: Arrive by mid-afternoon in summer, since the spaces fill quickly. The nearest free dump station is at 28 Marchwood Park Road in Motueka.",
+    "hoursNote": "19 self-contained plus 3 non self-contained spaces; max 2 nights, twice a month; depart by 8am; no tents",
+    "sourceUrl": "https://www.tasman.govt.nz/my-region/recreation/responsible-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Adventure Inn Mārahau",
+    "slug": "adventure-inn-marahau",
+    "lat": -41.003341,
+    "lng": 173.006663,
+    "category": [
+      "Stay"
+    ],
+    "region": "nelson-tasman",
+    "area": "abel-tasman",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.adventureinn.co.nz/",
+    "description": "Mārahau's only dedicated backpackers, right beside the water taxi and kayak bases and a short walk from the start of the Coast Track. Dorms have 6 or 8 beds in converted shipping containers, air-conditioned in summer and heated in winter, and every bed has a reading lamp and USB charger.\n\nThere's a fully equipped kitchen, a barbecue area, a cinema room, a games area with pool and foosball, barista coffee and a sunny courtyard. It's family run, with a friendly, social feel, but the focus is on rest rather than parties.\nLocal tip: The AquaTaxi base is next door, so you can be on the first boat of the morning without needing a car.",
+    "hoursNote": "Dorms only (6 and 8 bed); book via website or 0800 713 000",
+    "sourceUrl": "https://www.adventureinn.co.nz/",
+    "confidence": "high"
+  }
+]

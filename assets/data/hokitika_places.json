@@ -1,0 +1,305 @@
+[
+  {
+    "name": "Hokitika Gorge",
+    "slug": "hokitika-gorge",
+    "lat": -42.955582,
+    "lng": 171.016708,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Free",
+    "description": "The Hokitika River squeezes through a granite gorge here, and after a spell of dry, sunny weather the water turns a milky turquoise from glacial rock flour. It's about a 30 minute drive inland from Hokitika, signposted from the SH6 and Stafford Street junction, through farmland towards the Southern Alps.\n\nThe DOC loop takes about 1.5 hours. It's 150m to the first viewing platform, which is wheelchair accessible, and a further 300m to the swing bridge, then you head back through rainforest over the 90m upper suspension bridge, one of the longest in the country. Parking and toilets are free, but there's no drinking water, rubbish bins or mobile coverage past the car park, and food and fuel are back in Hokitika. The river is swift, cold and dangerous, and people have drowned here, so DOC advises against swimming.\nLocal tip: Go after a few dry days for the brightest colour, since the water turns grey after heavy rain, and bring insect repellent for the sandflies by the river.",
+    "recommendedDurationSlots": 4,
+    "featured": 1,
+    "hoursNote": "Open any time; free parking and toilets; no drinking water; car park very busy Nov to Apr; drones need a permit",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/hokitika-gorge-scenic-reserve/things-to-do/tracks/hokitika-gorge-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Hokitika Beach and Driftwood Sign",
+    "slug": "hokitika-beach-driftwood-sign",
+    "lat": -42.716737,
+    "lng": 170.960468,
+    "category": [
+      "Scenic",
+      "Water"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Free",
+    "description": "The big HOKITIKA letters built from driftwood sit on the black sand beach at the end of Beach Street, a short walk from the town centre shops and cafés. The beach is strewn with driftwood and faces straight out to the Tasman Sea, which makes it the town's main sunset spot.\n\nWalk south along the sand or the path to Sunset Point on Gibson Quay at the river mouth, which has picnic tables, toilets and free parking. Each January the Driftwood and Sand festival fills the south end of the beach with sculptures, and the 2027 event runs from 20 to 24 January. The surf is rough with strong rips, so this is a beach for walking, not swimming.\nLocal tip: Look for small pieces of pounamu and interesting stones along the tideline, especially after a storm.",
+    "recommendedDurationSlots": 2,
+    "featured": 2,
+    "hoursNote": "Open any time; free; no swimming, strong rips; Driftwood and Sand festival 20 to 24 Jan 2027",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ-Vs7axQvL20ReN7Igj-faqY",
+    "confidence": "medium"
+  },
+  {
+    "name": "Glow Worm Dell",
+    "slug": "glow-worm-dell",
+    "lat": -42.708285,
+    "lng": 170.974752,
+    "category": [
+      "Nature"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Free",
+    "description": "A small, free glowworm grotto in a patch of bush beside State Highway 6 at the northern edge of Hokitika. It's only about a minute's walk from the roadside parking, and after dark the banks are covered in glowworms.\n\nIt's a short dell rather than a cave, so a visit takes 10 or 15 minutes. There's parking on both sides of the road and an information board at the entrance. Don't touch the glowworms or use a flash.\nLocal tip: Use a torch to walk in, then switch it off and wait a couple of minutes for your eyes to adjust. The later you go, the quieter it is.",
+    "recommendedDurationSlots": 1,
+    "featured": 4,
+    "hoursNote": "Best after dark; free; roadside parking on both sides of SH6",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJo5tvv3AvL20RAuHt6DQfEwY",
+    "confidence": "medium"
+  },
+  {
+    "name": "Lake Kaniere and Canoe Cove",
+    "slug": "lake-kaniere-canoe-cove",
+    "lat": -42.799666,
+    "lng": 171.14098,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Free",
+    "description": "A large, clear lake in native forest, 19km east of Hokitika on Lake Kaniere Road. Canoe Cove is a sheltered sandy beach reached by a 650m walk through rimu and kahikatea forest, about 15 minutes each way, and it's good for picnics and swimming. The lake warms up on sunny summer afternoons.\n\nFrom the Sunny Bight picnic area, the 10 minute Kahikatea Forest Walk follows a creek through tall kahikatea and returns on a boardwalk over a flax swamp. For a longer outing, the Kaniere Water Race Walkway follows a historic water race from the Landing to Kennedy Creek in about 4 hours. The first section, to Wards Road, is a flat Grade 2 bike ride on the West Coast Wilderness Trail, but the second is an advanced to expert mountain bike track.\nLocal tip: Combine it with Dorothy Falls and Hans Bay, on the gravel road around the east side of the lake, for a half day out.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open any time; free; Kahikatea walk can flood after extended heavy rain",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/lake-kaniere-scenic-reserve/things-to-do/tracks/lake-kaniere-short-walks/",
+    "confidence": "high"
+  },
+  {
+    "name": "Dorothy Falls",
+    "slug": "dorothy-falls",
+    "lat": -42.842527,
+    "lng": 171.167367,
+    "category": [
+      "Nature",
+      "Water"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Free",
+    "description": "A tall waterfall tumbling out of the bush right beside Dorothy Falls Road, about 3.5km past Hans Bay on the eastern side of Lake Kaniere. It's only a 2 minute walk from the car park to the base of the falls, where you can swim, though DOC warns the water is a little chilly.\n\nThe road is gravel but easy driving. There are no toilets or taps at the falls, and the nearest are at Hans Bay.\nLocal tip: Go after rain for the biggest flow, but check the forecast first, since the short track can flood during extended heavy rain.",
+    "recommendedDurationSlots": 1,
+    "featured": 3,
+    "hoursNote": "Open any time; free; no toilets; track can flood in heavy rain",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/lake-kaniere-scenic-reserve/things-to-do/tracks/lake-kaniere-short-walks/",
+    "confidence": "high"
+  },
+  {
+    "name": "West Coast Treetop Walk",
+    "slug": "west-coast-treetop-walk",
+    "lat": -42.80923,
+    "lng": 170.920917,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://treetopsnz.com/",
+    "description": "A 1.2km loop of steel walkway through the canopy of old rimu forest in the Māhinapua Scenic Reserve, with a 47m tower giving views over Lake Māhinapua, the Southern Alps and the coast. It's self-guided and wheelchair accessible, about 15 minutes south of Hokitika on Woodstock-Rimu Road.\n\nThe walk is $39 for adults, $35 for students and seniors over 60, $21 for children aged 5 to 18 and $105 for a family of four, and under 5s are free. A tower zipline and walk combo is $120 for adults, with ziplines running on the hour from 10am. It's open 9am to 5pm in summer, with last entry at 4.15pm, and 9am to 4pm in winter, and there's a café on site.\nLocal tip: It works well in the rain, since the forest is at its best when it's wet. Book a package of experiences online for 10% off.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily 9am to 4pm in winter (last entry 3.15pm); 9am to 5pm from 29 Oct 2026 to 29 Mar 2027; café 9am to 3pm",
+    "sourceUrl": "https://treetopsnz.com/",
+    "confidence": "high"
+  },
+  {
+    "name": "Bonz 'N' Stonz Carving Studio",
+    "slug": "bonz-n-stonz-carving-studio",
+    "lat": -42.718142,
+    "lng": 170.961312,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.bonznstonz.co.nz/",
+    "description": "A carving studio on Hamilton Street where you design and carve your own pendant from pounamu (greenstone), bone or pāua, with a carver guiding you through each step. Hokitika is the home of pounamu carving, and this is one of the best-reviewed ways to take home a piece you made yourself.\n\nAllow at least 3 hours, and many people stay longer. The price depends on the material and the size of the piece, so ask when you book. The shop also sells finished taonga and does commissions, stone identification and restringing.\nLocal tip: Book ahead in summer, since sessions fill up, and sketch a design idea before you arrive.",
+    "recommendedDurationSlots": 7,
+    "hoursNote": "Daily 9am to 4.30pm; booking recommended",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJsSuGTBQvL20R71PyHsol4fE",
+    "confidence": "medium"
+  },
+  {
+    "name": "Hokitika Museum",
+    "slug": "hokitika-museum",
+    "lat": -42.718558,
+    "lng": 170.961182,
+    "category": [
+      "Culture"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.hokitikamuseum.nz/",
+    "description": "A small museum in the historic Carnegie Building on Hamilton Street, covering the West Coast gold rush, pounamu, and the stories of local hapū Ngāti Waewae and Ngāti Māhaki ki Makaawhio, including the Arahura Land Deed. There's also a West Coast history gallery, a children's gallery and a changing exhibition space.\n\nEntry is $10 for adults, and free for children and local residents. Until November 2026, the temporary gallery shows teapots and ceramics by Hokitika potter Chris Weaver.\nLocal tip: It's a few minutes' walk from the driftwood sign, so pair it with a beach walk.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Winter: Tue to Fri 10am to 4pm, Sat 10am to 2pm, closed Sun and Mon; adults $10",
+    "sourceUrl": "https://www.hokitikamuseum.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Hokitika Cycles and Sports Bike Hire",
+    "slug": "hokitika-cycles-bike-hire",
+    "lat": -42.717935,
+    "lng": 170.962016,
+    "category": [
+      "Adventure"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://hokitikasportsworld.co.nz/",
+    "description": "A friendly local bike shop in the town centre that hires bikes for the West Coast Wilderness Trail, the easy Grade 2 cycle trail that passes through Hokitika. Standard bikes are $60 for one day or $55 a day for multi-day hire, and e-bikes are $120 a day.\n\nPanniers are $10 a set per day and a gel seat cover is $5 a day. Helmets must be worn at all times, and since the bikes have no lights, you can only ride between sunrise and sunset. Get in touch with your plans and they'll suggest routes and costs.\nLocal tip: For an easy half day, ride the trail south out of town towards Lake Māhinapua and back.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Mon to Fri 9am to 5pm; Sat 9am to 1pm (to noon Jun to Aug); closed Sun; daylight riding only",
+    "sourceUrl": "https://hokitikasportsworld.co.nz/bike-hire/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ross Goldfields Heritage Centre and Water Race Walk",
+    "slug": "ross-goldfields-water-race-walk",
+    "lat": -42.900674,
+    "lng": 170.815337,
+    "category": [
+      "Walks",
+      "Culture"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Free",
+    "website": "https://rossgoldtown.org/",
+    "description": "Ross is a small gold rush town about 30km south of Hokitika on State Highway 6, where gold was first found at Jones Creek in 1865. The Ross Goldfields Information and Heritage Centre, at the end of Aylmer Street, has a small museum with models, photographs and a replica of the Honourable Roddy, New Zealand's largest gold nugget, found at Ross in 1909.\n\nDOC's Ross Goldfield Water Race Walkway starts from the centre's car park and takes about an hour, following Mt Greenland Road before heading into regenerating forest past tunnels, old dam sites, a replica miner's hut and the original Ross Cemetery. It's easy and suits children. You can hire or buy a gold pan at the centre and try your luck at the Jones Creek fossicking area, or pan under cover at the centre if it's raining.\nLocal tip: Fossick only in the signposted area at Jones Creek, using hand tools, and ask at the centre about current track conditions before you set off.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Centre daily 10am to 3pm; walk open any time; gold pan hire extra",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/ross-area/things-to-do/ross-historic-goldfields-walks/",
+    "confidence": "high"
+  },
+  {
+    "name": "The Hokitika Sandwich Company",
+    "slug": "hokitika-sandwich-company",
+    "lat": -42.717359,
+    "lng": 170.961111,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small sandwich shop on Revell Street that's one of the best-reviewed places to eat in town. Sandwiches are made to order on fresh bread, with fillings such as smoked fish with cream cheese and lemon, chicken, and a generous vegetarian option.\n\nThey travel well, so they're ideal to take up to the Gorge or down to the beach.\nLocal tip: It's open only until 2pm and closed on Sundays, so grab lunch on your way out of town.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Sat 10am to 2pm; closed Sun",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJicVGQRQvL20REIkS0x7P73Y",
+    "confidence": "medium"
+  },
+  {
+    "name": "Fat Pipi Pizza",
+    "slug": "fat-pipi-pizza",
+    "lat": -42.717245,
+    "lng": 170.96136,
+    "category": [
+      "Food"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Moderate",
+    "description": "A popular pizza place on Revell Street, known for its West Coast whitebait pizza and a good range of gluten-free options. There's a garden seating area out the back, local beers and a seafood chowder.\n\nIt's dinner only, from 5pm to 8pm, closed on Tuesdays and Wednesdays, and busy in summer.\nLocal tip: Order a half and half pizza to try two flavours, and take it to the beach for sunset.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Dinner only, 5pm to 8pm; closed Tue and Wed",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJeaezQxQvL20RUQ58n7Kew04",
+    "confidence": "medium"
+  },
+  {
+    "name": "Hans Bay Campsite, Lake Kaniere",
+    "slug": "hans-bay-campsite-lake-kaniere",
+    "lat": -42.808368,
+    "lng": 171.156062,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Cheap",
+    "description": "A large, grassy DOC campsite on the lakefront at Hans Bay, Lake Kaniere, 19km southeast of Hokitika, with a jetty for fishing, picnic tables, toilets and a swing for kids. It's about 3.5km from Dorothy Falls.\n\nIt's $15 a night for adults and $7.50 for children aged 5 to 17, and under 5s are free. Bookings are required, with no spaces held for walk-ins, and same-day online bookings close at 8pm. The DOC Campsite Pass is accepted, but you still need to book. Boil the tap water for 3 minutes before using it, and fires aren't allowed.\nLocal tip: There are no rubbish or recycling bins, so take everything out with you.",
+    "hoursNote": "Adults $15, children $7.50 per night; book online; boil water; no fires; pack in, pack out",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/lake-kaniere-scenic-reserve/things-to-do/campsites/hans-bay-lake-kaniere-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Mahinapua Campsite",
+    "slug": "lake-mahinapua-campsite",
+    "lat": -42.79519,
+    "lng": 170.901205,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Cheap",
+    "description": "A large DOC campsite in native bush beside Lake Māhinapua, about 10km south of Hokitika, at the end of a short access road off SH6 opposite the Lake Mahinapua Hotel. Sites are separated by low hedges, and there are toilets, a sheltered washing-up area and cold showers.\n\nThe lake is good for swimming, kayaking and jumping off the jetty in summer, and it warms up nicely. It's $18 a night for adults and $9 for children aged 5 to 17, and under 5s are free. You must book online before you arrive, since no spaces are held for walk-ins, and same-day bookings close at 8pm. The DOC Campsite Pass is accepted.\nLocal tip: Dogs aren't allowed in the reserve, and there are no rubbish bins, so pack everything out.",
+    "hoursNote": "Adults $18, children $9 per night; online booking required; no dogs; pack in, pack out",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/mahinapua-scenic-reserve/things-to-do/campsites/lake-mahinapua-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Woodstock Domain Camping",
+    "slug": "woodstock-domain-camping",
+    "lat": -42.768363,
+    "lng": 171.003069,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Cheap",
+    "description": "A community-run camping spot on the Woodstock Domain sports field at 47 Back Creek Road, about 10 minutes from Hokitika on the way to the Gorge. It's one of only three responsible camping sites in Westland District, and the local community runs it for a donation.\n\nRecent reviewers report paying $5 per person a night, cash only, into an honesty box. There are clean flush toilets, a washing-up sink and picnic tables, but no showers or kitchen, and parking along the fence is limited. Council rules say freedom camping in Westland is only for certified self-contained vehicles, and camping on council reserves around Hokitika isn't allowed.\nLocal tip: Carry cash for the honesty box, and check the sign on the building for the current rules before you set up.",
+    "hoursNote": "Community donation, about $5 per person, cash; toilets, no showers; check signage for self-contained rules",
+    "sourceUrl": "https://www.westlanddc.govt.nz/recreation/campgrounds-and-responsible-camping/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Lake Mahinapua Hotel",
+    "slug": "lake-mahinapua-hotel",
+    "lat": -42.790323,
+    "lng": 170.896381,
+    "category": [
+      "Stay"
+    ],
+    "region": "west-coast",
+    "area": "hokitika",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://mahinapua.nz/",
+    "description": "A historic country pub between the beach and Lake Māhinapua, about 10km south of Hokitika, with an on-site bar and eating house and accommodation out the back. Options range from flashpacker-style 4 bed shared dorms in the Miners Quarters to a private double with ensuite, a renovated two-bedroom apartment and a three-bedroom homestead.\n\nGuests share a spa pool, and reviewers praise the friendly, social atmosphere and good value. There's direct access to the beach, and the lake is a short walk away.\nLocal tip: It closes over winter, so check it has reopened for the season before you plan around it.",
+    "hoursNote": "Closed over winter; website says reopening spring 2026; confirm before booking",
+    "sourceUrl": "https://mahinapua.nz/lodging/",
+    "confidence": "medium"
+  }
+]

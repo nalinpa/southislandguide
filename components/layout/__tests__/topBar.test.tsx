@@ -55,6 +55,19 @@ describe("TopBar", () => {
     expect(view.getByText("Queenstown & Wānaka")).toHaveStyle({ fontSize: 24 });
   });
 
+  // The opening tour points at the town and its chevron (lib/tour), not the button's
+  // spare width up to the bar's buttons.
+  it("hands the tour the town and its chevron", async () => {
+    const target = { ref: React.createRef<any>(), onLayout: jest.fn() };
+    const view = await render(<TopBar title="Christchurch" onTitlePress={jest.fn()} titleTarget={target} />);
+
+    await fireEvent(view.getByText("Christchurch"), "layout", { nativeEvent: { layout: {} } });
+
+    expect(target.onLayout).toHaveBeenCalled();
+    expect(target.ref.current).toBeTruthy();
+    expect(within(view.getByRole("button", { name: "Christchurch" })).getByText("Christchurch")).toBeTruthy();
+  });
+
   // For a screen whose controls are its top row (the trip screen's Trip | Days switch).
   it("draws no title row without a title, only what it is given", async () => {
     const { Text } = require("react-native");

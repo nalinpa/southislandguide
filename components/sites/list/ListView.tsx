@@ -7,6 +7,7 @@ import { ListItem } from "@/components/sites/list/ListItem";
 import { tokens } from "@/lib/ui/tokens";
 import type { SortedRow } from "@blacksands/hooks";
 import type { SiteCategory } from "@/lib/models";
+import type { TourTarget } from "@/lib/tour/useTourTarget";
 
 type ListRow = SortedRow<{
   id: string;
@@ -26,23 +27,28 @@ type ListViewProps = {
   ListEmptyComponent?: React.ReactElement | null;
   /** A RefreshControl for pull to refresh. Leave out to disable. */
   refreshControl?: React.ReactElement<RefreshControlProps>;
+  /** The opening tour's target (useTourTarget), on the first row only. */
+  firstRowTarget?: TourTarget;
 };
 
-export function ListView({ rows, header, onPressItem, ListEmptyComponent, refreshControl }: ListViewProps) {
+export function ListView({ rows, header, onPressItem, ListEmptyComponent, refreshControl, firstRowTarget }: ListViewProps) {
   const renderItem = useCallback(
-    ({ item, index }: { item: ListRow; index: number }) => (
-      <ListItem
-        id={item.location.id}
-        name={item.location.name}
-        description={item.location.description}
-        imageUrl={item.location.imageThumbnailUrl ?? item.location.imageUrl}
-        category={item.location.category[0]}
-        distanceMeters={item.distanceMeters}
-        onPress={onPressItem}
-        index={index}
-      />
-    ),
-    [onPressItem],
+    ({ item, index }: { item: ListRow; index: number }) => {
+      const row = (
+        <ListItem
+          id={item.location.id}
+          name={item.location.name}
+          description={item.location.description}
+          imageUrl={item.location.imageThumbnailUrl ?? item.location.imageUrl}
+          category={item.location.category[0]}
+          distanceMeters={item.distanceMeters}
+          onPress={onPressItem}
+          index={index}
+        />
+      );
+      return index === 0 && firstRowTarget ? <View {...firstRowTarget}>{row}</View> : row;
+    },
+    [onPressItem, firstRowTarget],
   );
 
   return (

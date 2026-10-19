@@ -13,6 +13,9 @@ import { AppProviders } from "@/lib/providers/AppProviders";
 import { OfflineBanner } from "@/lib/uiKit";
 import { hooksBag } from "@/lib/hooksBag";
 import { useAppOpenCount } from "@/lib/hooks/useAppOpenCount";
+import { TourProvider } from "@/lib/tour/TourContext";
+import { TourAutoStart } from "@/lib/tour/TourAutoStart";
+import { SpotlightOverlay } from "@/lib/tour/SpotlightOverlay";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -49,18 +52,24 @@ function RootLayout() {
   return (
     <GestureHandlerRootView style={styles.flexStyle}>
       <AppProviders>
-        <OfflineBanner />
+        {/* Inside AppProviders, so the tour can read the session and the unlock. The
+            overlay comes last, to sit over every screen. */}
+        <TourProvider>
+          <OfflineBanner />
 
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen
-            name="share-frame"
-            options={{
-              presentation: "modal",
-              headerShown: true,
-              title: "Share",
-            }}
-          />
-        </Stack>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen
+              name="share-frame"
+              options={{
+                presentation: "modal",
+                headerShown: true,
+                title: "Share",
+              }}
+            />
+          </Stack>
+          <TourAutoStart />
+          <SpotlightOverlay />
+        </TourProvider>
       </AppProviders>
     </GestureHandlerRootView>
   );

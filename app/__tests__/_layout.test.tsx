@@ -38,12 +38,22 @@ jest.mock("@/lib/uiKit", () => ({
 jest.mock("lucide-react-native", () => ({
   AlertTriangle: () => null,
 }));
+// The opening tour has its own tests (lib/tour); here it only has to be mounted.
+jest.mock("@/lib/tour/TourContext", () => ({
+  TourProvider: ({ children }: any) => children,
+}));
+jest.mock("@/lib/tour/TourAutoStart", () => ({
+  TourAutoStart: () => require("react").createElement(require("react-native").Text, null, "tour auto start"),
+}));
+jest.mock("@/lib/tour/SpotlightOverlay", () => ({
+  SpotlightOverlay: () => require("react").createElement(require("react-native").Text, null, "tour overlay"),
+}));
 
 const mockRequestReview = jest.fn();
 let mockOpenCount: number | null = null;
 
 import React from "react";
-import { render, act } from "@testing-library/react-native";
+import { render, act, screen } from "@testing-library/react-native";
 
 // Import after mocks are set up.
 import RootLayout from "../_layout";
@@ -76,5 +86,15 @@ describe("RootLayout review prompt", () => {
       render(<RootLayout />);
     });
     expect(mockRequestReview).not.toHaveBeenCalled();
+  });
+});
+
+describe("RootLayout opening tour", () => {
+  it("mounts the tour and its overlay", async () => {
+    await act(async () => {
+      render(<RootLayout />);
+    });
+    expect(screen.getByText("tour auto start")).toBeTruthy();
+    expect(screen.getByText("tour overlay")).toBeTruthy();
   });
 });

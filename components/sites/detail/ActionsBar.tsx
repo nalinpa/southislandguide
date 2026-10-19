@@ -4,6 +4,7 @@ import { MapPin, MessageSquarePlus, Camera, Heart, Navigation, Share2 } from "lu
 
 import { AppText, AppButton, RatingStars, Row, Stack } from "@/lib/uiKit";
 import { cardLift, tokens } from "@/lib/ui/tokens";
+import type { TourTarget } from "@/lib/tour/useTourTarget";
 
 type ActionsBarProps = {
   hasReview: boolean;
@@ -25,6 +26,7 @@ function QuickAction({
   active,
   divided,
   fillWhenActive,
+  tourTarget,
 }: {
   icon: typeof MapPin;
   label: string;
@@ -35,10 +37,13 @@ function QuickAction({
   divided?: boolean;
   /** Only for outline icons that read as "on" when filled, like the heart. */
   fillWhenActive?: boolean;
+  /** The opening tour's target (useTourTarget), when a step points at this cell. */
+  tourTarget?: TourTarget;
 }) {
   const color = active ? tokens.colors.highlight : tokens.colors.accent;
   return (
     <Pressable
+      {...tourTarget}
       style={[styles.quickAction, divided && styles.quickActionDivided]}
       onPress={onPress}
       disabled={disabled}
@@ -58,6 +63,7 @@ export function QuickActions({
   shareBonus,
   isSaved,
   onToggleSave,
+  saveTarget,
 }: {
   onDirections: () => void;
   onOpenReview: () => void;
@@ -66,6 +72,8 @@ export function QuickActions({
   shareBonus: boolean;
   isSaved: boolean;
   onToggleSave: () => void;
+  /** The opening tour's target (useTourTarget) for the heart. */
+  saveTarget?: TourTarget;
 }) {
   return (
     <View style={styles.quickRow} accessibilityRole="toolbar">
@@ -92,6 +100,7 @@ export function QuickActions({
         active={isSaved}
         divided
         fillWhenActive
+        tourTarget={saveTarget}
       />
     </View>
   );

@@ -23,6 +23,7 @@ import { LightStatusBar } from "@/components/layout/LightStatusBar";
 // save and share controls. ReviewsSummaryCard covers the review summary.
 import { QuickActions } from "@/components/sites/detail/ActionsBar";
 import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
+import { useTourTarget } from "@/lib/tour/useTourTarget";
 
 // This route is a TAB screen, not a stack screen: app/(app)/(tabs) has the only
 // layout, so sites/[siteId] is registered straight on the Tabs navigator. React
@@ -67,6 +68,11 @@ function SiteDetail({ id }: { id: string }) {
   const isSaved = savedSiteIds.has(id);
 
   const [reviewOpen, setReviewOpen] = useState(false);
+
+  // The opening tour's step on this screen (lib/tour/tourSteps.ts): the add button for
+  // someone with the unlock, the heart for someone without.
+  const addTarget = useTourTarget("placeAdd");
+  const saveTarget = useTourTarget("placeSave");
 
   // Add-to-itinerary flow, as rotorua-guide's detail screen does it: no trips
   // yet -> create one; under the trip limit -> ask existing or new; at the
@@ -194,6 +200,7 @@ function SiteDetail({ id }: { id: string }) {
               }
               isSaved={isSaved}
               onToggleSave={handleToggleSave}
+              saveTarget={saveTarget}
             />
 
             {/* Primary text colour, not status="hint": this is the page's main
@@ -254,6 +261,7 @@ function SiteDetail({ id }: { id: string }) {
       {session.status === "authed" && canAddToItinerary(site) && (
         <SafeAreaView edges={["bottom"]} style={styles.itineraryFloatingWrap} pointerEvents="box-none">
           <Pressable
+            {...addTarget}
             style={[styles.itineraryButton, isOffline && styles.itineraryButtonDisabled]}
             disabled={isOffline}
             onPress={startAddToItinerary}

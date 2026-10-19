@@ -2,7 +2,7 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
-import { ArrowRight } from "lucide-react-native";
+import { ArrowRight, ChevronRight } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -15,12 +15,16 @@ import { UserInfoCard } from "@/components/account/UserInfoCard";
 import { ItinerariesCard } from "@/components/account/ItinerariesCard";
 import { SavedItemsCard } from "@/components/account/SavedItemsCard";
 import { DangerZoneCard } from "@/components/account/DangerZoneCard";
+import { useTour } from "@/lib/tour/TourContext";
+import { useTourAudience } from "@/lib/tour/TourAutoStart";
 
 export default function AccountScreen() {
   const { session } = useSession();
   const insets = useSafeAreaInsets();
   const { itineraries, loading: itinerariesLoading } = useItineraries();
   const { savedSiteIds, loading: savedLoading } = useSavedSites();
+  const { start: startTour } = useTour();
+  const tourAudience = useTourAudience();
 
   const statsLoading = itinerariesLoading || savedLoading;
 
@@ -78,6 +82,23 @@ export default function AccountScreen() {
               alone at the top of the sheet. */}
           {isAuthed && <View style={styles.divider} />}
           <UserInfoCard />
+
+          {/* The opening tour again, from its first step (lib/tour). Guests too: they get
+              it on first open like everyone else. */}
+          {tourAudience && (
+            <>
+              <View style={styles.divider} />
+              <TouchableOpacity
+                style={styles.tourRow}
+                onPress={() => startTour(tourAudience)}
+                activeOpacity={0.6}
+                accessibilityRole="button"
+              >
+                <Text style={styles.tourRowText}>Show me around</Text>
+                <ChevronRight size={16} color={tokens.colors.textMuted} strokeWidth={2} />
+              </TouchableOpacity>
+            </>
+          )}
 
           {isAuthed && (
             <>
@@ -142,4 +163,14 @@ const styles = StyleSheet.create({
   statLabel: { fontSize: 10, fontWeight: "700", color: tokens.colors.text2, letterSpacing: 1, textTransform: "uppercase" },
   statDivider: { width: 1, height: 36, backgroundColor: tokens.colors.border },
   divider: { height: StyleSheet.hairlineWidth, backgroundColor: tokens.colors.border, marginHorizontal: tokens.space.md },
+  // As a row in the cards below (SavedItemsCard), at the cards' side padding.
+  tourRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    minHeight: 48,
+    paddingHorizontal: tokens.space.md,
+    paddingVertical: 14,
+  },
+  tourRowText: { fontSize: 15, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1 },
 });

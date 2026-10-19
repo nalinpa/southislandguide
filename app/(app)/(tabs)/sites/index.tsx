@@ -14,6 +14,8 @@ import { AreaSheet, type AreaOption } from "@/components/sites/AreaSheet";
 import { nearestArea } from "@/components/map/MapRegion";
 import { AREAS, DEFAULT_AREA, areaName } from "@/lib/areas";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, type SiteCategory } from "@/lib/models";
+import { useTourTarget } from "@/lib/tour/useTourTarget";
+import { useTourStepRoute } from "@/lib/tour/useTourStepRoute";
 
 // ponytail: the generator's GAP list, resolved for this app.
 // - saved-places shortcut: DONE, routes to app/(app)/saved-sites.tsx
@@ -142,6 +144,15 @@ export default function SiteListPage() {
 
   const rows = hooksBag.useSortedRows(sortableLocations, lockedLoc);
 
+  // The opening tour's steps on this screen (lib/tour/tourSteps.ts), and the place its
+  // next steps open: the first one listed.
+  const townTarget = useTourTarget("town");
+  const guideTarget = useTourTarget("guide");
+  const browseTarget = useTourTarget("browse");
+  const placeTarget = useTourTarget("place");
+  const firstId = rows[0]?.location.id;
+  useTourStepRoute("place", firstId ? `/(app)/(tabs)/sites/${firstId}` : undefined);
+
   if (entitiesLoading || session.status === "loading") {
     return (
       <Screen>
@@ -167,18 +178,22 @@ export default function SiteListPage() {
       title={areaLabel ?? "Locations"}
       onTitlePress={areaOptions.length > 1 ? () => setAreaMenuOpen(true) : undefined}
       titleLabel={`${areaLabel}, choose a town`}
+      titleTarget={townTarget}
       // The smaller title size, on the buttons' row, so the bar stays short. Beside the
       // three buttons an iPhone SE leaves it about 150pt: "Christchurch" shrinks a little.
       compactTitle
       flushBottom={categoriesWithPlaces.length > 1}
       actions={
         <>
-          <AppIconButton
-            icon={BookOpen}
-            variant="control"
-            onPress={() => router.push("/(app)/(tabs)/guide")}
-            accessibilityLabel="Travel guide"
-          />
+          {/* The kit's button takes no ref, so the tour measures this instead. */}
+          <View {...guideTarget}>
+            <AppIconButton
+              icon={BookOpen}
+              variant="control"
+              onPress={() => router.push("/(app)/(tabs)/guide")}
+              accessibilityLabel="Travel guide"
+            />
+          </View>
           <AppIconButton
             icon={searchOpen ? X : Search}
             variant="control"
@@ -214,14 +229,16 @@ export default function SiteListPage() {
       )}
 
       {categoriesWithPlaces.length > 1 && (
-        <TopBarTabs<SiteCategory | null>
-          tabs={[
-            { key: null, label: "All" },
-            ...categoriesWithPlaces.map((c) => ({ key: c, label: SITE_CATEGORY_LABELS[c] })),
-          ]}
-          selected={activeCategory}
-          onSelect={setCategory}
-        />
+        <View {...browseTarget}>
+          <TopBarTabs<SiteCategory | null>
+            tabs={[
+              { key: null, label: "All" },
+              ...categoriesWithPlaces.map((c) => ({ key: c, label: SITE_CATEGORY_LABELS[c] })),
+            ]}
+            selected={activeCategory}
+            onSelect={setCategory}
+          />
+        </View>
       )}
     </TopBar>
   );
@@ -274,6 +291,7 @@ export default function SiteListPage() {
         rows={rows}
         header={header}
         onPressItem={(id) => router.push(`/(app)/(tabs)/sites/${id}`)}
+        firstRowTarget={placeTarget}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

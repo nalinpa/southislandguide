@@ -67,6 +67,12 @@ jest.mock("@/lib/hooksBag", () => ({
   },
 }));
 
+// The opening tour's hook (lib/tour). A target carries a testID naming its step, so a test
+// can see what the tour would point at.
+jest.mock("@/lib/tour/useTourTarget", () => ({
+  useTourTarget: (id: string) => ({ ref: { current: null }, onLayout: () => {}, testID: "tour-target-" + id }),
+}));
+
 const mockNet = { isConnected: true as boolean | null };
 jest.mock("@react-native-community/netinfo", () => ({ useNetInfo: () => mockNet }));
 
@@ -380,5 +386,32 @@ describe("saving and reviews", () => {
     await fireEvent.press(screen.getByText("View All"));
 
     expect(route.getPathname()).toBe("/sites/site-1/reviews");
+  });
+});
+
+// The opening tour's step on a place (lib/tour/tourSteps.ts): the add button for someone
+// with the unlock, the heart for someone without.
+describe("the tour", () => {
+  const target = (id: string) => screen.queryByTestId("tour-target-" + id);
+
+  it("points at + Add to Itinerary", async () => {
+    await openDetail();
+
+    expect(target("placeAdd")).toHaveTextContent("+ Add to Itinerary");
+  });
+
+  it("points at the heart", async () => {
+    await openDetail();
+
+    expect(target("placeSave")).toHaveTextContent("Save");
+  });
+
+  it("has no add button to point at for a guest", async () => {
+    mockSession.status = "guest";
+    mockSession.uid = undefined;
+    await openDetail();
+
+    expect(target("placeAdd")).toBeNull();
+    expect(target("placeSave")).toBeTruthy();
   });
 });

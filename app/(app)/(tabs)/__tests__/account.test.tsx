@@ -30,6 +30,12 @@ jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips
 const mockSavedSites = { savedSiteIds: new Set<string>(), loading: false };
 jest.mock("@/lib/hooks/useSavedSites", () => ({ useSavedSites: () => mockSavedSites }));
 
+// The opening tour (lib/tour), run again from here.
+const mockStartTour = jest.fn();
+jest.mock("@/lib/tour/TourContext", () => ({ useTour: () => ({ start: mockStartTour }) }));
+let mockAudience: string | null = "paid";
+jest.mock("@/lib/tour/TourAutoStart", () => ({ useTourAudience: () => mockAudience }));
+
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
 jest.mock("expo-router", () => ({
   get router() {
@@ -56,6 +62,7 @@ beforeEach(() => {
   mockTrips.loading = false;
   mockSavedSites.savedSiteIds = new Set();
   mockSavedSites.loading = false;
+  mockAudience = "paid";
 });
 
 it("waits for the session rather than guessing the tier", async () => {
@@ -172,5 +179,34 @@ describe("signed in", () => {
 
     expect(view.getAllByText("–")).toHaveLength(2);
     expect(view.queryByText("0")).toBeNull();
+  });
+});
+
+// The opening tour, from its first step, for whoever is looking.
+describe("Show me around", () => {
+  it("runs the tour again for a signed-in user", async () => {
+    const view = await render(<AccountScreen />);
+
+    await fireEvent.press(view.getByRole("button", { name: "Show me around" }));
+
+    expect(mockStartTour).toHaveBeenCalledWith("paid");
+  });
+
+  it("runs the guest's tour for a guest", async () => {
+    mockSession.status = "guest";
+    mockSession.uid = undefined;
+    mockAudience = "guest";
+    const view = await render(<AccountScreen />);
+
+    await fireEvent.press(view.getByRole("button", { name: "Show me around" }));
+
+    expect(mockStartTour).toHaveBeenCalledWith("guest");
+  });
+
+  it("isn't offered until it's known who the tour is for", async () => {
+    mockAudience = null;
+    const view = await render(<AccountScreen />);
+
+    expect(view.queryByText("Show me around")).toBeNull();
   });
 });

@@ -6,6 +6,7 @@ import { ChevronDown, ChevronLeft } from "lucide-react-native";
 import { AppIconButton, AppText, Row } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
 import { LightStatusBar } from "@/components/layout/LightStatusBar";
+import type { TourTarget } from "@/lib/tour/useTourTarget";
 
 type TopBarProps = {
   /** Left out, the bar has no title row: for a screen whose own controls are its top row. */
@@ -24,6 +25,8 @@ type TopBarProps = {
   onTitlePress?: () => void;
   /** What a screen reader calls the title when it is a dropdown. Defaults to the title. */
   titleLabel?: string;
+  /** The opening tour's target (useTourTarget), on a dropdown title's word and chevron. */
+  titleTarget?: TourTarget;
 };
 
 // The brand bar at the top of a screen: deep teal (the login screen's colour)
@@ -39,6 +42,7 @@ export function TopBar({
   compactTitle,
   onTitlePress,
   titleLabel,
+  titleTarget,
 }: TopBarProps) {
   const insets = useSafeAreaInsets();
   return (
@@ -57,18 +61,22 @@ export function TopBar({
               accessibilityRole="button"
               accessibilityLabel={titleLabel ?? title}
             >
-              {/* Shrinks to fit rather than cutting off: a dropdown's title (Explore's town)
-                  shares the row with the buttons, and some names are long. */}
-              <AppText
-                variant="h1"
-                style={[styles.titleInButton, compactTitle && styles.titleCompact]}
-                numberOfLines={1}
-                adjustsFontSizeToFit
-                minimumFontScale={0.6}
-              >
-                {title}
-              </AppText>
-              <ChevronDown color="#FFFFFF" size={compactTitle ? 22 : 26} strokeWidth={2.5} />
+              {/* The word and chevron, for the tour to point at: the button itself
+                  stretches to the bar's buttons. */}
+              <View style={styles.titleInner} {...titleTarget}>
+                {/* Shrinks to fit rather than cutting off: a dropdown's title (Explore's town)
+                    shares the row with the buttons, and some names are long. */}
+                <AppText
+                  variant="h1"
+                  style={[styles.titleInButton, compactTitle && styles.titleCompact]}
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.6}
+                >
+                  {title}
+                </AppText>
+                <ChevronDown color="#FFFFFF" size={compactTitle ? 22 : 26} strokeWidth={2.5} />
+              </View>
             </TouchableOpacity>
           ) : (
             <AppText
@@ -111,7 +119,8 @@ const styles = StyleSheet.create({
   title: { flex: 1, color: "#FFFFFF" },
   // The button takes the row's spare width (pushing any actions right); the word inside
   // only its own, shrinking before it pushes the chevron out.
-  titleButton: { flex: 1, flexDirection: "row", alignItems: "center", gap: 4 },
+  titleButton: { flex: 1, flexDirection: "row", alignItems: "center" },
+  titleInner: { flexShrink: 1, flexDirection: "row", alignItems: "center", gap: 4 },
   titleInButton: { flexShrink: 1, color: "#FFFFFF" },
   titleCompact: { fontSize: 24, lineHeight: 29 },
   back: {

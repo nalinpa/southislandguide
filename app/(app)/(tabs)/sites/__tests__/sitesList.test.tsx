@@ -12,7 +12,7 @@ jest.mock("@/components/sites/list/ListView", () => {
   const React = require("react");
   const { Text, TouchableOpacity, View } = require("react-native");
   return {
-    ListView: ({ rows, header, onPressItem, ListEmptyComponent }: any) =>
+    ListView: ({ rows, header, onPressItem, ListEmptyComponent, firstRowTarget }: any) =>
       React.createElement(
         View,
         null,
@@ -21,11 +21,15 @@ jest.mock("@/components/sites/list/ListView", () => {
         React.createElement(View, { testID: "list-header" }, header),
         rows.length === 0
           ? ListEmptyComponent
-          : rows.map((r: any) =>
+          : rows.map((r: any, i: number) =>
               React.createElement(
-                TouchableOpacity,
-                { key: r.location.id, onPress: () => onPressItem(r.location.id), accessibilityRole: "button" },
-                React.createElement(Text, null, "Row " + r.location.name),
+                View,
+                { key: r.location.id, ...(i === 0 ? firstRowTarget : null) },
+                React.createElement(
+                  TouchableOpacity,
+                  { onPress: () => onPressItem(r.location.id), accessibilityRole: "button" },
+                  React.createElement(Text, null, "Row " + r.location.name),
+                ),
               ),
             ),
       ),
@@ -64,6 +68,18 @@ jest.mock("@/lib/hooksBag", () => ({
   },
   // Pull to refresh; the real one invalidates the locations query.
   useRefreshLocations: () => jest.fn().mockResolvedValue(undefined),
+}));
+
+// The opening tour's hooks (lib/tour). A target carries a testID naming its step, so a
+// test can see what the tour would point at; a step's route is recorded.
+jest.mock("@/lib/tour/useTourTarget", () => ({
+  useTourTarget: (id: string) => ({ ref: { current: null }, onLayout: () => {}, testID: "tour-target-" + id }),
+}));
+const mockStepRoutes: Record<string, string | undefined> = {};
+jest.mock("@/lib/tour/useTourStepRoute", () => ({
+  useTourStepRoute: (key: string, route: string | undefined) => {
+    mockStepRoutes[key] = route;
+  },
 }));
 
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
@@ -590,5 +606,53 @@ describe("towns", () => {
 
       expect(view.getByText("No Locations in Christchurch match your search.")).toBeTruthy();
     });
+  });
+});
+
+// The opening tour points at the town, the guide button, the category tabs and the first
+// place, and opens that place for the steps that follow (lib/tour/tourSteps.ts).
+describe("the tour", () => {
+  const target = (view: any, id: string) => within(view.getByTestId("tour-target-" + id));
+
+  it("points at the town in the title", async () => {
+    mockBag.locations.push(makeSite("d1", "Otago Museum", ["Culture"], { area: "dunedin" }));
+    const view = await render(<SiteListPage />);
+
+    expect(target(view, "town").getByText("Christchurch")).toBeTruthy();
+  });
+
+  it("points at the guide button", async () => {
+    const view = await render(<SiteListPage />);
+
+    expect(target(view, "guide").getByLabelText("Travel guide")).toBeTruthy();
+  });
+
+  it("points at the category tabs", async () => {
+    const view = await render(<SiteListPage />);
+
+    expect(target(view, "browse").getAllByRole("tab")).toHaveLength(4);
+  });
+
+  it("points at the first place, and opens it for the next step", async () => {
+    const view = await render(<SiteListPage />);
+
+    expect(target(view, "place").getByText("Row Sumner Beach")).toBeTruthy();
+    expect(mockStepRoutes.place).toBe("/(app)/(tabs)/sites/s1");
+  });
+
+  it("follows the list as it is filtered", async () => {
+    const view = await render(<SiteListPage />);
+
+    await fireEvent.press(view.getByText("Food & Drink"));
+
+    expect(target(view, "place").getByText("Row Riverside Market")).toBeTruthy();
+    expect(mockStepRoutes.place).toBe("/(app)/(tabs)/sites/s3");
+  });
+
+  it("has no place to open when the list is empty", async () => {
+    mockBag.locations = [];
+    await render(<SiteListPage />);
+
+    expect(mockStepRoutes.place).toBeUndefined();
   });
 });

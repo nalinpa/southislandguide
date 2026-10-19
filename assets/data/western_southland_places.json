@@ -1,0 +1,268 @@
+[
+  {
+    "name": "Te Hikoi Museum",
+    "slug": "te-hikoi-museum-riverton",
+    "lat": -46.35218,
+    "lng": 168.013028,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "fiordland",
+    "area": "riverton",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.tehikoi.co.nz/",
+    "description": "Riverton's heritage museum and visitor information centre, on the main street beside the Aparima River. A visit starts with a 15 minute film, then you walk through life-size displays on how Māori and European settlers survived here, from whaling and early settlement to logging, farming and Chinese gold miners, with a geology room and audio guides in several languages, including te reo Māori.\n\nAdults are $10, including the film, and children 14 and under are free. It's open daily from 10am to 5pm between Labour Weekend and Easter, and until 4pm the rest of the year. Most people spend about 45 minutes, and the shop stocks local books and gifts.\nLocal tip: Watch the film first, since it makes the displays far more interesting, and ask the staff for advice on the rest of the Southern Scenic Route.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open 7 days, 10am to 4pm; small entry fee",
+    "sourceUrl": "https://southlandnz.com/listing/te-hikoi-museum-&-information-centre/548/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Howells Point Reserve",
+    "slug": "howells-point-reserve",
+    "lat": -46.383653,
+    "lng": 168.031946,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "fiordland",
+    "area": "riverton",
+    "active": true,
+    "price": "Free",
+    "description": "A rocky headland at Riverton Rocks, a few minutes' drive from town along the Rocks Highway. Short bush tracks lead up to a lookout with views across Foveaux Strait to Stewart Island, and a walk around the point takes you past rock platforms, seabirds and a popular surf break.\n\nThe beach below is sheltered on a fine day and wild when a southerly swell is running, and both are worth seeing. It's free and open all the time, though some of the tracks are uneven.\nLocal tip: Stop at the small pebble beach on the way out. People fossick for colourful stones here too, and dolphins are sometimes seen close in.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open 24 hours; free; short tracks, some uneven",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJdefMol7x0qkRB6IWNkkh4uM",
+    "confidence": "medium"
+  },
+  {
+    "name": "Taramea Bay Store",
+    "slug": "taramea-bay-store",
+    "lat": -46.366547,
+    "lng": 168.019601,
+    "category": [
+      "Food"
+    ],
+    "region": "fiordland",
+    "area": "riverton",
+    "active": true,
+    "price": "Cheap",
+    "description": "A local takeaway and dairy at Riverton Rocks, a short walk from Taramea Bay beach. It's known for fresh blue cod and chips in crisp batter, and it does ice cream too.\n\nReviews are consistently good for the fish, the chips and the friendly service. Take your order down to the foreshore and eat it looking out over the bay.\nLocal tip: Order the blue cod, since it's the reason most people stop here, and note it only opens from 5pm on Tuesdays.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Usually noon to 8pm; Tuesdays from 5pm only",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJAzktvmjw0qkR0YCWAqnl9hw",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Crib Cafe",
+    "slug": "the-crib-cafe-riverton",
+    "lat": -46.351084,
+    "lng": 168.015461,
+    "category": [
+      "Food"
+    ],
+    "region": "fiordland",
+    "area": "riverton",
+    "active": true,
+    "price": "Cheap",
+    "description": "A friendly, arty café on Riverton's main street, with good coffee, home baking and a full cabinet of sweet and savoury food. Local artwork hangs on the walls, and the service gets warm reviews.\n\nIt's an easy coffee and lunch stop before you head west along the coast, with homemade sausage rolls, frittata and brownies among the regular favourites.\nLocal tip: It shuts at 3pm, so plan lunch here and dinner elsewhere.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open 7 days, 8am to 3pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ94QI2oH60qkR3TlXT78Jdxg",
+    "confidence": "medium"
+  },
+  {
+    "name": "Colac Bay / Ōraka",
+    "slug": "colac-bay-oraka",
+    "lat": -46.363579,
+    "lng": 167.912024,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "fiordland",
+    "area": "riverton",
+    "active": true,
+    "price": "Free",
+    "description": "A wide, open bay about 10 minutes west of Riverton, known as one of the best surf spots in the south. The road runs right beside the beach, so you can park facing the water, and it's a good place to learn to surf when the swell is small.\n\nOn a calm day it's a lovely spot for a barbecue or a walk along the sand. There are toilets by the beach, and the settlement has the Colac Bay Bakehouse and Bar, reopened under new owners with good reviews for its burgers and baking, closed on Mondays and Tuesdays.\nLocal tip: Self-contained campers can stay at the council freedom camping area on the foreshore, so check the signs for the current rules.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open access; free; Bakehouse and Bar closed Mon and Tue",
+    "sourceUrl": "https://southlandnz.com/western-southland",
+    "confidence": "medium"
+  },
+  {
+    "name": "Gemstone Beach",
+    "slug": "gemstone-beach-orepuki",
+    "lat": -46.276565,
+    "lng": 167.729898,
+    "category": [
+      "Nature",
+      "Water"
+    ],
+    "region": "fiordland",
+    "area": "tuatapere",
+    "active": true,
+    "price": "Free",
+    "description": "A long beach near Orepuki where the Southern Ocean washes up colourful stones. With some patience you can find banded jasper, red garnet pieces, quartz and the odd bit of nephrite, and the sand and stones shift with every storm.\n\nThe beach is free, with a small gravel car park behind the dunes and no facilities, so the nearest toilets are in Orepuki. Collecting stones by hand is allowed.\nLocal tip: Go at low tide after a storm or rain, when the stones are easier to spot, wet and newly uncovered.",
+    "recommendedDurationSlots": 3,
+    "featured": 3,
+    "hoursNote": "Open access; free; best at low tide; no facilities",
+    "sourceUrl": "https://exploreinvercargill.co.nz/gemstone-beach-hunt-for-unique-stones-on-a-stunning-southland-coastline/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Monkey Island (Te Puka o Takitimu)",
+    "slug": "monkey-island-orepuki",
+    "lat": -46.300658,
+    "lng": 167.728257,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "fiordland",
+    "area": "tuatapere",
+    "active": true,
+    "price": "Free",
+    "description": "A small tidal island just off the beach at Orepuki. To Ngāi Tahu it's Te Puka o Takitimu, the anchor stone of the Takitimu waka. At low tide you can walk across the sand and climb the stairs to a viewing platform on top, with views along Te Waewae Bay to the Fiordland mountains.\n\nThe beach is popular for swimming, surfing and rock pooling on warm days, and the sheltered water behind the island is good for snorkelling. It's free, with long drop toilets and rubbish bins by the car park.\nLocal tip: Check the tide times before you cross, and head back before the water covers the sand.",
+    "recommendedDurationSlots": 3,
+    "featured": 1,
+    "hoursNote": "Open access; free; island reachable on foot at low tide only",
+    "sourceUrl": "https://exploreinvercargill.co.nz/monkey-island-swim-and-explore-a-unique-tidal-island-near-invercargill/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Monkey Island Freedom Camping",
+    "slug": "monkey-island-freedom-camping",
+    "lat": -46.30094,
+    "lng": 167.729526,
+    "category": [
+      "Stay"
+    ],
+    "region": "fiordland",
+    "area": "tuatapere",
+    "active": true,
+    "price": "Free",
+    "description": "A free Southland District Council camping area along the beach road at Monkey Island, Orepuki, with sea views and the island right in front of you. It's one of the most popular free spots on the south coast.\n\nThere are long drop toilets and rubbish bins, but no drinking water, so fill up before you arrive. The site currently accepts vehicles that aren't self-contained as well as certified ones, and the council limit is 28 days per calendar year. Dogs must be on a lead, and fires aren't allowed.\nLocal tip: Arrive by mid-afternoon in summer, since it fills quickly. The Orepuki tavern nearby has a coin laundry and showers.",
+    "hoursNote": "Free; max 28 days per calendar year; long drops; no drinking water; no fires; dogs on leash",
+    "sourceUrl": "https://www.southlanddc.govt.nz/services/freedom-camping/freedom-camping-locations/orepuki-monkey-island/",
+    "confidence": "high"
+  },
+  {
+    "name": "McCracken's Rest",
+    "slug": "mccrackens-rest",
+    "lat": -46.228149,
+    "lng": 167.66918,
+    "category": [
+      "Scenic",
+      "Nature"
+    ],
+    "region": "fiordland",
+    "area": "tuatapere",
+    "active": true,
+    "price": "Free",
+    "description": "A clifftop lookout and rest area on State Highway 99, about 11km south of Tuatapere, named after the landowners and looking out over Te Waewae Bay. On a clear day you can see the Solander Islands, the Hump Ridge, Pahia Point and Stewart Island.\n\nTe Waewae Bay is home to New Zealand's largest pod of Hector's dolphins, and you may spot them from the platform in good conditions. There's parking, a viewing platform, picnic tables and the classic signpost, but no toilets.\nLocal tip: Bring binoculars and pack lunch, since it's one of the best picnic stops on the whole route.",
+    "recommendedDurationSlots": 1,
+    "featured": 4,
+    "hoursNote": "Open 24 hours; free; no toilets",
+    "sourceUrl": "https://southlandnz.com/western-southland/natural-attraction/mccrackens-rest",
+    "confidence": "high"
+  },
+  {
+    "name": "Tui Base Camp",
+    "slug": "tui-base-camp-tuatapere",
+    "lat": -46.135004,
+    "lng": 167.689793,
+    "category": [
+      "Food",
+      "Stay"
+    ],
+    "region": "fiordland",
+    "area": "tuatapere",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://tuibasecamp.co.nz/",
+    "description": "Tuatapere calls itself the sausage capital of New Zealand, and this is where the award winning Tuatapere Sausages are made on site. The restaurant and bar serves them as bangers and mash or a sausage breakfast, alongside blue cod, chowder and pub meals, and you can buy pre-packed sausages to take away.\n\nIt's a relaxed, all-in-one stop with coffee, a bar and a wood burner, open daily from 8am. The same business runs motel units, a lodge and powered and tent sites next door, handy before or after the Hump Ridge Track.\nLocal tip: Ask about a sausage making tour, but contact them ahead to check sausages are being made on the day you visit.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Restaurant and bar open daily from 8am; sausages sold to take away",
+    "sourceUrl": "https://tuibasecamp.co.nz/world-famous-tuatapere-sausages/",
+    "confidence": "high"
+  },
+  {
+    "name": "Clifden Suspension Bridge",
+    "slug": "clifden-suspension-bridge",
+    "lat": -46.029874,
+    "lng": 167.715099,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "fiordland",
+    "area": "tuatapere",
+    "active": true,
+    "price": "Free",
+    "description": "A 111.5m suspension bridge over the Waiau River, 16km north of Tuatapere on State Highway 99. Sir Joseph Ward opened it in 1899 to replace a punt, and it carried horses, carts and then cars until a new bridge was built 130m downstream in 1978 for traffic to the Manapōuri power project. It's a Category I historic place and still has its original tōtara decking.\n\nYou can walk across it for free, and dogs are welcome on a lead. There are picnic spots and toilets at the car park, and an easy path down to the river.\nLocal tip: Combine it with the Clifden Caves, just up the road.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open 24 hours; free; pedestrians only; dogs on leash",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/southland/places/clifden-area/clifden-suspension-bridge/",
+    "confidence": "high"
+  },
+  {
+    "name": "Clifden Caves",
+    "slug": "clifden-caves",
+    "lat": -46.018244,
+    "lng": 167.740492,
+    "category": [
+      "Adventure",
+      "Nature"
+    ],
+    "region": "fiordland",
+    "area": "tuatapere",
+    "active": true,
+    "price": "Free",
+    "description": "A free, self-guided limestone cave system near Clifden, with stalactites and glowworms. The marked route through is about 1km and takes around 1.5 to 2 hours, including the walk back along the road. Expect narrow passages, crawling on hands and knees, three 4m ladders, and wading through very cold pools.\n\nDOC says it suits fit, agile people aged 12 and over. Each person needs a helmet, two torches, spare batteries, warm clothing that isn't cotton and grippy footwear, and you should go in groups of two to six, follow the reflective markers and never touch the formations. At the junction after the pool, keep left, since the right-hand route is for experienced cavers with ropes.\nLocal tip: Don't go in if rain is forecast, falling or has fallen in the past 24 hours, since the cave can flash flood. There's no phone signal inside, so tell someone your plans.",
+    "recommendedDurationSlots": 4,
+    "featured": 2,
+    "hoursNote": "Open access; free; no entry during or within 24 hours of rain; age 12+",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/southland/places/clifden-area/things-to-do/caving-at-clifden-caves/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Hauroko Lookout Track",
+    "slug": "lake-hauroko-lookout-track",
+    "lat": -45.977916,
+    "lng": 167.363437,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "fiordland",
+    "area": "tuatapere",
+    "active": true,
+    "price": "Free",
+    "description": "Lake Hauroko is New Zealand's deepest lake, at 462m, set in the bush of southern Fiordland National Park. It's 36km from Tuatapere via Clifden and Lillburn Valley Road, and 20km of that is unsealed.\n\nThe lookout track starts at the lake car park, follows the shore near the jetty and then climbs steeply to a viewpoint over the lake, Foveaux Strait and the Takitimu Mountains. It takes about 3 hours return, and DOC rates it an advanced tramping track that's steep and rough, needing good fitness and backcountry experience.\nLocal tip: Pick a clear day, and bring insect repellent, since the sandflies at the lake edge are fierce.",
+    "recommendedDurationSlots": 7,
+    "hoursNote": "Open access; free; 3 hours return; steep and rough; 20km gravel road",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/tracks/lake-hauroko-lookout-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Thicket Burn Campsite",
+    "slug": "thicket-burn-campsite",
+    "lat": -46.007793,
+    "lng": 167.454903,
+    "category": [
+      "Stay"
+    ],
+    "region": "fiordland",
+    "area": "tuatapere",
+    "active": true,
+    "price": "Free",
+    "description": "A free DOC basic campsite on Lillburn Valley Road, about 5km before Lake Hauroko and 25km west of Clifden. It's an open, grassy area surrounded by forest, reached by gravel road and suitable for cars, campervans and caravans.\n\nFacilities are simple: a long drop toilet, a rainwater tank (boil before drinking), picnic tables and fire sites. Sites are first come, first served, and there's no phone coverage.\nLocal tip: Camp here rather than at the lake shore, since there are far fewer sandflies, and it's a short drive to the lookout track in the morning.",
+    "hoursNote": "Free DOC basic campsite; first come, first served; long drop; rainwater (boil); no phone signal",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/campsites/thicket-burn-campsite/",
+    "confidence": "high"
+  }
+]

@@ -1,0 +1,236 @@
+[
+  {
+    "name": "Kura Tāwhiti Castle Hill",
+    "slug": "kura-tawhiti-castle-hill",
+    "lat": -43.233627,
+    "lng": 171.722599,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "canterbury",
+    "area": "arthurs-pass",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/kura-tawhiti-castle-hill/",
+    "description": "A hillside of giant grey limestone boulders in the Castle Hill basin, about 1.5 hours from Christchurch on State Highway 73, with views across to the Torlesse and Craigieburn ranges. Kura Tāwhiti has Tōpuni status for Ngāi Tahu and Ngāi Tūāhuriri, and the carved pou whenua at the entrance represent three ancestors: Tūrākautahi, Tāne Tiki and Tāwhitinui.\n\nThe DOC access track takes about 40 minutes. It's easy, but it's gravel, steep in places, and has some steps and drops. Parking is free, and there are toilets, including an accessible one, and a shelter with picnic tables, but no drinking water or rubbish bins. Stay on the track and away from the bases of the rock faces, where critically endangered plants grow, eat only at the shelter or car park, and don't mark the rocks. Drones need a DOC permit, and DOC warns that thieves target parked cars, so take your valuables with you.\nLocal tip: Driving from Christchurch, the car park is on your left, 3km before the Castle Hill Village turnoff. If it's full, don't park on the highway. Do the Cave Stream loop, 5 minutes up the road, and try again on the way back.",
+    "recommendedDurationSlots": 3,
+    "featured": 1,
+    "hoursNote": "Open all the time; free; no drinking water; no drones without a DOC permit; icy after snow",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/kura-tawhiti-castle-hill/kura-tawhiti-access-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Cave Stream Scenic Reserve",
+    "slug": "cave-stream-scenic-reserve",
+    "lat": -43.1975,
+    "lng": 171.741389,
+    "category": [
+      "Adventure",
+      "Walks"
+    ],
+    "region": "canterbury",
+    "area": "arthurs-pass",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/cave-stream-scenic-reserve/",
+    "description": "Cave Stream runs 594m underground through a limestone hill before spilling into the Broken River, 5 minutes' drive past Kura Tāwhiti on State Highway 73. Most people do the easy 35 minute loop walk, with a lookout over the stream pouring out of the hill and a short side track through the karst to one of the cave mouths. There are toilets at the car park.\n\nWalking through the cave is rated Expert by DOC, which doesn't recommend it for children. Since floods in early 2022, the water is chest high at normal flow, there's a 3m waterfall with a rung ladder and a chain along a narrow ledge at the exit, and people have died here from drowning and hypothermia. Heavy rain in the Craigieburn Range can flood the cave in about 30 minutes. Never go alone, bring two reliable lights each, a helmet and a wetsuit or wool layers, and don't go if rain is forecast or the stream is high, discoloured or loud.\nLocal tip: Camping isn't allowed in the reserve, even in self-contained vehicles, so head to DOC's Mistletoe Flats Campsite nearby for the night.",
+    "recommendedDurationSlots": 2,
+    "featured": 3,
+    "hoursNote": "Loop walk open all the time; cave trip Expert only, not for children; no camping in the reserve",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/cave-stream-scenic-reserve/things-to-do/caving-at-cave-stream/",
+    "confidence": "high"
+  },
+  {
+    "name": "Devils Punchbowl Falls",
+    "slug": "devils-punchbowl-falls",
+    "lat": -42.933718,
+    "lng": 171.563436,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "canterbury",
+    "area": "arthurs-pass",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/arthurs-pass-national-park/things-to-do/tracks/devils-punchbowl-walking-track/",
+    "description": "A 131m waterfall at the northern end of Arthur's Pass village, and one of the most popular short walks in the national park. The signposted track starts at the Devils Punchbowl Falls car park off State Highway 73 and takes about an hour return.\n\nDOC grades it easy, but it climbs more than 400 steps through beech forest to a viewing platform near the base of the falls. If you'd rather skip the climb, the second footbridge, over Devils Punchbowl Creek a few minutes in, has a good view of the falls. Before the bridges you cross Wardens Creek, which isn't bridged, so don't cross if it's running fast or muddy after heavy rain. The track gets icy in winter, and beyond the Bealey River bridge it's exposed to avalanches.\nLocal tip: Take your valuables with you, since DOC warns that thieves target cars in this car park.",
+    "recommendedDurationSlots": 2,
+    "featured": 2,
+    "hoursNote": "About 1 hour return; 400+ steps; icy after snow; no dogs in the national park",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/arthurs-pass-national-park/things-to-do/tracks/devils-punchbowl-walking-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Arthur's Pass Walking Track and Bridal Veil",
+    "slug": "arthurs-pass-walking-track-bridal-veil",
+    "lat": -42.933495,
+    "lng": 171.560292,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "canterbury",
+    "area": "arthurs-pass",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/arthurs-pass-national-park/things-to-do/tracks/arthurs-pass-walking-track/",
+    "description": "An easy track up the valley from the village towards the top of the pass, through subalpine mountain beech forest and Dracophyllum, whose leaves turn an intense red in spring and summer. You can start at the Punchbowl, Bealey Chasm (Jacks Hut) or Temple Basin car parks and walk all or part of it, returning the same way. DOC puts the whole track at about 2 hours 40 minutes.\n\nThe short option is the 20 minute walk from the Punchbowl car park to the Bridal Veil Falls lookout, a small clearing with a picnic table and views of the falls, the peaks and the village. Further on there are some steep steps either side of Bridal Veil Creek, and the track passes Jacks Hut, a restored roadman's cottage.\nLocal tip: Combine it with Devils Punchbowl Falls from the same car park, and walk back the way you came, since DOC says the highway is unsafe on foot.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Easy; 20 min one way to Bridal Veil lookout; mountain weather changes quickly",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/arthurs-pass-national-park/things-to-do/tracks/arthurs-pass-walking-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Otira Viaduct Lookout",
+    "slug": "otira-viaduct-lookout",
+    "lat": -42.888168,
+    "lng": 171.556146,
+    "category": [
+      "Scenic",
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "area": "arthurs-pass",
+    "active": true,
+    "price": "Free",
+    "description": "A roadside lookout on the West Coast side of Arthur's Pass, looking down on the 440m Otira Viaduct and the Otira Gorge. The viaduct opened in 1999 and replaced a narrow zigzag road built along a scree slope, which was regularly hit by slips, avalanches and closures.\n\nThe turnoff is a short, steep drive up from the highway, and the car park is small, so it fills up in busy months. An unfenced track carries on up the ridge above the viaduct, with steep drops, so keep children close. Kea often hang around here.\nLocal tip: Don't feed the kea, and keep an eye on your car, since they'll chew rubber seals, wipers and anything left outside.",
+    "recommendedDurationSlots": 1,
+    "featured": 4,
+    "hoursNote": "Open all the time; free; small car park; SH73 over the pass can close for snow",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJHcSLOhxVLm0RnscP2gywLfw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Lake Pearson (Moana Rua)",
+    "slug": "lake-pearson-moana-rua",
+    "lat": -43.094101,
+    "lng": 171.779246,
+    "category": [
+      "Water",
+      "Stay"
+    ],
+    "region": "canterbury",
+    "area": "arthurs-pass",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/craigieburn-forest-park/things-to-do/campsites/lake-pearson-moana-rua-campsite/",
+    "description": "A clear high country lake right beside State Highway 73, 35km south of Arthur's Pass village. It's a wildlife refuge, so motorised boats are banned, which keeps it calm, and on a still morning the hills reflect in the water. It's a popular picnic stop, a good spot for birdwatching and a place for a cold swim in summer.\n\nThe DOC Standard campsite on the shore, reached by a gravel road, costs $15 a night for adults and $7.50 for children aged 5 to 17, and under 5s are free. Bookings are required, with no spaces held for walk-ins, and same-day online bookings close at 8pm. The DOC Campsite Pass is accepted, but you still need to book. Some campers find the road noisy and the ground hard for tent pegs.\nLocal tip: Bring your own shade in summer, since many of the lakeside trees have been removed.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Campsite $15 adult, $7.50 child per night, book online; no motor boats; gravel access road",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/craigieburn-forest-park/things-to-do/campsites/lake-pearson-moana-rua-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Springfield Doughnut",
+    "slug": "springfield-doughnut",
+    "lat": -43.337206,
+    "lng": 171.927966,
+    "category": [
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "area": "arthurs-pass",
+    "active": true,
+    "price": "Free",
+    "description": "A giant pink iced doughnut with sprinkles, 3.5m across and weighing 6 tonnes, in a small park on the highway through Springfield. 20th Century Fox gave the first one to the town in 2007 to promote The Simpsons Movie, since the Simpsons live in a town called Springfield.\n\nAn arsonist burned the original fibreglass doughnut in 2009, on the same day as hearings into whether it could stay, and the current fireproof concrete version was unveiled in 2012. There are steps behind it so you can pose with your head through the hole, plus a picnic table and a playground nearby.\nLocal tip: Springfield is the last town with fuel and food before the climb over Porters Pass, so fill up here if you're heading west.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open all the time; free; on the north side of SH73 at the west end of Springfield",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Springfield_Doughnut",
+    "confidence": "medium"
+  },
+  {
+    "name": "Taste of Kiwi Springfield",
+    "slug": "taste-of-kiwi-springfield",
+    "lat": -43.33743,
+    "lng": 171.928847,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "area": "arthurs-pass",
+    "active": true,
+    "price": "Moderate",
+    "description": "A friendly café on the main road through Springfield, right by the doughnut, and a handy stop before or after the alpine stretch of the highway. Recent reviewers praise the coffee, and the menu runs from cabinet food and sausage rolls to cooked breakfasts, loaded wedges, nachos and gelato.\n\nThere are clean public toilets in front of the shop, and a small souvenir and gift section inside.\nLocal tip: It's closed on Tuesdays, so on that day, stop at Sheffield Pies, just down the road, instead.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "8am to 3.30pm; closed Tuesday",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJE2U6lvUTLm0RPIdxIcs9q6c",
+    "confidence": "medium"
+  },
+  {
+    "name": "Sheffield Pies",
+    "slug": "sheffield-pies",
+    "lat": -43.389525,
+    "lng": 172.020289,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "area": "arthurs-pass",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.sheffieldpies.co.nz/",
+    "description": "A pie shop on the Great Alpine Highway in Sheffield, the small town just before Springfield, and a local institution for more than 40 years with people heading to and from the mountains. There are more than 20 pies in the range, from mince and cheese and the Sheffield Supreme to venison and whiskey, and a limited edition smoked brisket, jalapeño and cheese, plus sweet treats.\n\nThere's seating inside and out, and parking on the street or behind the shop.\nLocal tip: It opens at 6.30am on weekdays and 7am at weekends, so it's a good breakfast stop if you're setting off for Arthur's Pass at dawn.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 6.30am to 4pm; Sat and Sun 7am to 4pm",
+    "sourceUrl": "https://www.sheffieldpies.co.nz/pages/contact",
+    "confidence": "high"
+  },
+  {
+    "name": "Arthur's Pass National Park Visitor Centre",
+    "slug": "arthurs-pass-national-park-visitor-centre",
+    "lat": -42.941247,
+    "lng": 171.562771,
+    "category": [
+      "Nature",
+      "Culture"
+    ],
+    "region": "canterbury",
+    "area": "arthurs-pass",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/footer-links/contact-us/visitor-centres/arthurs-pass-national-park-visitor-centre/",
+    "description": "The DOC visitor centre in Arthur's Pass village is the place to check track, river and mountain conditions, the forecast and the avalanche advisory before you head out. It sells hut tickets, topo maps, gas canisters, dehydrated meals and warm gear, hires out personal locator beacons, stores gear and has displays on kea and kiwi.\n\nThe old building is closed for renovation, so the centre is working from a temporary portacom opposite, at 104 West Coast Road. It's open from 8.30am to 4.30pm every day except Christmas Day, and kea are often about outside.\nLocal tip: Tracks in this park are less developed than in most national parks, so drop in before anything longer than the short walks, and the staff will tell you what's safe that day.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "8.30am to 4.30pm daily; closed Christmas Day; operating from a temporary building",
+    "sourceUrl": "https://www.doc.govt.nz/footer-links/contact-us/visitor-centres/arthurs-pass-national-park-visitor-centre/",
+    "confidence": "high"
+  },
+  {
+    "name": "Klondyke Corner Campsite",
+    "slug": "klondyke-corner-campsite",
+    "lat": -43.002058,
+    "lng": 171.589419,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "area": "arthurs-pass",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/arthurs-pass-national-park/things-to-do/campsites/klondyke-corner-campsite/",
+    "description": "A large, open DOC campsite near where the Bealey and Waimakariri rivers meet, 8km south of Arthur's Pass village on State Highway 73. It's popular in summer, spreads over both sides of the road, and takes tents, cars, campervans and caravans.\n\nIt's $15 a night for adults and $7.50 for children aged 5 to 17, and under 5s are free. Bookings are required, no spaces are held for walk-ins, and same-day online bookings stay open until 8pm if there's room. The DOC Campsite Pass is accepted, but you still need to book. Facilities are simple, and reviewers suggest boiling the tank water.\nLocal tip: It can be windy and the sandflies are fierce, so look for a sheltered spot and bring repellent.",
+    "hoursNote": "$15 adult, $7.50 child per night; must book online; basic facilities; boil water",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/arthurs-pass-national-park/things-to-do/campsites/klondyke-corner-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Andrews Shelter Campsite",
+    "slug": "andrews-shelter-campsite",
+    "lat": -42.994104,
+    "lng": 171.793007,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "area": "arthurs-pass",
+    "active": true,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/arthurs-pass-national-park/things-to-do/campsites/andrews-shelter-campsite/",
+    "description": "A free, basic DOC campsite in Arthur's Pass National Park, 5km along the gravel Mount White Road from State Highway 73. It suits cars, campervans and caravans, and an old shelter from the 1960s, with doors and benches, gives you somewhere to cook out of the weather.\n\nFacilities are a long drop toilet, and water comes from Andrews Stream, about 60m away, so bring your own or boil it. There's no booking, and sites are first come, first served.\nLocal tip: DOC warns that wasps are bad from January to March, so wear light-coloured clothing and carry antihistamine. The best tent sites are back over the bridge and upstream.",
+    "hoursNote": "Free; basic; no booking; gravel road access; no tap water; wasps Jan to Mar",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/arthurs-pass-national-park/things-to-do/campsites/andrews-shelter-campsite/",
+    "confidence": "high"
+  }
+]

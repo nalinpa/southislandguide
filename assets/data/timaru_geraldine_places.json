@@ -1,0 +1,276 @@
+[
+  {
+    "name": "Caroline Bay",
+    "slug": "caroline-bay",
+    "lat": -44.388782,
+    "lng": 171.246524,
+    "category": [
+      "Water",
+      "Attractions"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Free",
+    "description": "Timaru's town beach, a wide sandy bay right below the main street, with lawns, a rose garden, a boardwalk, mini golf and volleyball nets along the back. CPlay, the award-winning playground that opened in December 2023, cost more than $3 million to build, with equipment themed on shipwrecks, sea creatures and Ngāi Tahu stories, and there are barbecues nearby.\n\nIt's an easy stop to break up the drive between Christchurch and Dunedin, and a footbridge and underpass link it straight to Stafford Street for food and coffee. There are toilets on site, and paid overnight campervan parking at the southern end.\nLocal tip: Stay into the evening, since little blue penguins come ashore at the southern end of the bay after sunset, a short walk from the playground.",
+    "recommendedDurationSlots": 3,
+    "featured": 2,
+    "hoursNote": "Open any time; playground and toilets on site; paid overnight campervan parking at the southern end",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJqTQJSgDBLG0Rd56mS5H14VE",
+    "confidence": "medium"
+  },
+  {
+    "name": "Caroline Bay Penguins",
+    "slug": "caroline-bay-penguins",
+    "lat": -44.387565,
+    "lng": 171.255047,
+    "category": [
+      "Nature"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Free",
+    "description": "Little blue penguins nest in the rocks of the breakwater at the southern end of Caroline Bay, off Marine Parade, and come ashore after dark. Watching is free, and the area is lit by the port's security lights, so you can see them without a torch.\n\nArrive around dusk and expect to wait until about 30 minutes after sunset. Numbers vary from night to night and some visitors see none, but it's a free alternative to the paid colony in Oamaru. Stay on the footpath or sand behind the barriers, keep quiet, and never touch or feed a penguin. Dogs aren't allowed on the beach from 1 October to 31 March.\nLocal tip: Come between September and March, bring warm layers, and turn off flash, torches and screen light, since the penguins won't come up if they're disturbed. If you can't make it, the council's Penguin Cam streams them live.",
+    "recommendedDurationSlots": 2,
+    "featured": 1,
+    "hoursNote": "After sunset; best September to March; no flash, torches or video lights; no dogs in the penguin area in peak season",
+    "sourceUrl": "https://www.wuhootimaru.co.nz/free-fun-inspiration/penguins/906-meet-the-little-blue-penguins",
+    "confidence": "high"
+  },
+  {
+    "name": "Timaru Botanic Gardens",
+    "slug": "timaru-botanic-gardens",
+    "lat": -44.410146,
+    "lng": 171.254989,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Free",
+    "description": "Victorian gardens on the south side of town, planted from 1868 and recognised as a Garden of National Significance. There are rose gardens, ornamental ponds, a 1912 band rotunda, a conservatory and fernery, an aviary, a marble statue of Robert Burns and a children's playground, and entry is free.\n\nIt's quieter than Caroline Bay, and you can drive in through the Queen Street gates and park inside. The gates open at 8am and close at dusk, from 5pm in winter to 9pm in midsummer. Allow an hour or so for a wander.\nLocal tip: Come in late spring or early summer for the roses, then drive five minutes to Patiti Point for a clifftop walk where seals often lie on the beach.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Listed daily 8am to 8pm; free; parking inside the gardens",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ030MM5_BLG0R0e-AWrwcaKA",
+    "confidence": "medium"
+  },
+  {
+    "name": "Te Ana Māori Rock Art Centre",
+    "slug": "te-ana-maori-rock-art-centre",
+    "lat": -44.397143,
+    "lng": 171.256142,
+    "category": [
+      "Culture"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.teana.co.nz/",
+    "description": "A Ngāi Tahu-run centre in the Landing Services Building on George Street near the waterfront, telling the story of the rock art drawn in limestone shelters across South Canterbury and North Otago. There are original drawings preserved behind glass and multimedia displays, and you can hold a moa bone and try making your own rock art.\n\nYou can go self-guided or book a guided centre tour. In the warmer months there are also guided trips to the Ōpihi rock art site on farmland, which take about 3.5 hours and include some walking over uneven ground. The centre is open Tuesday to Saturday, and it's best to book online ahead.\nLocal tip: Book the guided centre tour rather than going self-guided, since reviewers who went without a guide found the exhibition small for the price.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Listed Tue to Fri 10am to 3.30pm, Sat 9am to 2pm; closed Sun and Mon; site tours October to April",
+    "sourceUrl": "https://www.teana.co.nz/wp-content/uploads/2024/09/2025-26-Product-Sheet-1.pdf",
+    "confidence": "medium"
+  },
+  {
+    "name": "South Canterbury Museum",
+    "slug": "south-canterbury-museum",
+    "lat": -44.397094,
+    "lng": 171.250937,
+    "category": [
+      "Culture"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Free",
+    "description": "South Canterbury's regional museum covers the natural history of the area, Māori and European settlement, and local collections. It closed its Perth Street building on 19 July 2026 to move into a brand new facility on Barnard Street, which is due to open in April 2027.\n\nUntil then, the exhibitions and research services are closed, so check the museum's website for the opening date before you plan a visit. Entry at the old building was free, with donations welcome.\nLocal tip: While it's closed, the free Aigantighe Art Gallery and the Te Ana Māori Rock Art Centre are the best indoor stops in town.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Listed Tue to Fri 10am to 4.30pm, Sat and Sun 1pm to 4.30pm; closed Mondays; free entry",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJkSuHXofBLG0RVzLMKZJy1RE",
+    "confidence": "medium"
+  },
+  {
+    "name": "Aigantighe Art Gallery",
+    "slug": "aigantighe-art-gallery",
+    "lat": -44.390576,
+    "lng": 171.239673,
+    "category": [
+      "Culture"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": false,
+    "price": "Free",
+    "description": "Timaru's public art gallery, in a 1905 house built for Alexander and Helen Grant, Scottish settlers who farmed in the Mackenzie Country. The name is Scottish Gaelic for \"home of welcome\", and their children gave the house to the people of Timaru in 1955. It reopened in December 2024 after seven years of earthquake strengthening, with its rooms, fireplaces and old kitchen kept as they were.\n\nA modern wing added in 1978 holds more of the collection, which runs from historic paintings to contemporary work, and there's a sculpture garden in the grounds. Entry is free, and it's open Tuesday to Friday from 10am to 4pm, and from noon to 4pm at weekends. Allow about an hour.\nLocal tip: In winter, look up at the pine trees in the grounds, where clusters of monarch butterflies roost.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Listed Tue to Fri 10am to 4pm, Sat and Sun noon to 4pm; closed Mondays; free entry",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJEbXuNZDBLG0R1cKtft_Ggnk",
+    "confidence": "medium"
+  },
+  {
+    "name": "Curbside Deli",
+    "slug": "curbside-deli-timaru",
+    "lat": -44.396464,
+    "lng": 171.25423,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small sandwich and bagel shop on Stafford Street that bakes its own focaccia, bagels and brioche. The fried chicken sandwiches are the thing to get, especially the chipotle honey, and the toasties and cinnamon scrolls get a lot of love too.\n\nThe coffee is good, there are vegetarian options, and it's one of the best-rated places to eat in Timaru.\nLocal tip: It's closed on Mondays and Tuesdays and shuts mid-afternoon, so plan it as a lunch stop from Wednesday to Sunday.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Wed to Sat 8.30am to 3pm, Sun 8.30am to 2.30pm; closed Mon and Tue",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJc4n3sWnDLG0RylaH9Xhoj9I",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Grindhouse Cafe",
+    "slug": "the-grindhouse-cafe-timaru",
+    "lat": -44.39307,
+    "lng": 171.24999,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small, no-fuss coffee spot at the north end of Stafford Street, run by a real coffee enthusiast, with old grindhouse film posters on the walls and seats outside. Locals regularly call it the best coffee in Timaru.\n\nThe food is limited to a small cabinet, so treat it as a coffee stop. It's a short walk from Caroline Bay, and it's closed on Sundays.\nLocal tip: It opens at 7.15am on weekdays, so it's a good first stop before you head off down the highway.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 7.15am to 2.30pm, Sat 9am to 2pm; closed Sundays",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ6yVmd4jBLG0Rz0RF4CHakxY",
+    "confidence": "medium"
+  },
+  {
+    "name": "Barker's Foodstore & Eatery",
+    "slug": "barkers-foodstore-geraldine",
+    "lat": -44.092166,
+    "lng": 171.245458,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Cheap",
+    "description": "The shop and café of Barker's of Geraldine, the family company that has made fruit syrups, jams and chutneys since 1969, when it started in a converted cowshed on the family farm. It's on Talbot Street, the main street, with free tasting stations for the syrups, sauces and jams, and you can try the chutneys with your food in the café.\n\nThe all-day café does toasties, cakes and good coffee, and the shop is handy for gifts. It's open daily from 8.30am to 4.30pm, and Geraldine is about 35 minutes north of Timaru, on the way to Tekapo and Mount Cook.\nLocal tip: Try the syrups with sparkling water before you buy, then cross the road to the Geraldine Cheese Company.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 8.30am to 4.30pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ1yZOltD1LG0RDHYGkt-iPN0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Geraldine Cheese Company",
+    "slug": "geraldine-cheese-company",
+    "lat": -44.092825,
+    "lng": 171.244739,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small cheesemaker on Talbot Street, Geraldine's main street, where big windows let you watch the cheesemakers at work while you browse. The range runs from soft cheeses, mozzarella and haloumi to cheddars, Havarti, blues and cheeses made from sheep and deer milk, and you can taste before you buy.\n\nThey also scoop ice cream, which makes it a popular road trip stop in summer, and the shop stocks local deli products. It's open daily from 9am to 5pm.\nLocal tip: Stock up for a picnic or a campsite dinner here, since prices are reasonable and there are deals if you buy a few.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Daily 9am to 5pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJc9MHltD1LG0RVnnIkBiailY",
+    "confidence": "medium"
+  },
+  {
+    "name": "Talbot Forest Scenic Reserve",
+    "slug": "talbot-forest-scenic-reserve",
+    "lat": -44.08313,
+    "lng": 171.238707,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Free",
+    "description": "A rare remnant of lowland podocarp forest on the edge of Geraldine, a few minutes' walk from the main street, with four short, easy, shady tracks. Big kahikatea, mataī and tōtara form the canopy, including a tōtara thought to be about 800 years old, and you'll hear kererū, fantails and tomtits.\n\nThe Kahikatea and Mataī tracks take about 20 minutes each, and the shorter Tōtara and Reservoir tracks link them, so you can walk the lot in under an hour. There are picnic areas at Tripp Street and Totara Street, and toilets.\nLocal tip: Walk it after lunch at Barker's. Start from the Tripp Street picnic area and you'll be back on the main street in under an hour.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time; short easy tracks; toilets at the entrance",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJD8kzq7z1LG0RVgPNGysIzM0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Caroline Bay Overnight Parking",
+    "slug": "caroline-bay-overnight-parking",
+    "lat": -44.390263,
+    "lng": 171.253088,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Cheap",
+    "description": "Council overnight parking for certified self-contained campervans right on Caroline Bay, off Marine Parade. It hasn't been free since 20 December 2024, and it's now $20 a night per vehicle, paid through the PayMyPark app or website, with no bookings.\n\nThere are flush toilets, drinking water, a cold outdoor shower and a dump station, and the penguin viewing area is a short walk away. There's a total fire ban, and the port is busy through the night, so the council suggests earplugs.\nLocal tip: Set up a PayMyPark account before you arrive, since casual users pay a fee on every transaction. The paid period runs 9pm to 9am and council staff move people on after that, so be packed up in the morning.",
+    "hoursNote": "Certified self-contained only; $20 a night via PayMyPark; 9pm to 9am; max 3 nights; no tents; total fire ban",
+    "sourceUrl": "https://www.timaru.govt.nz/community/facilities/camping/caroline-bay-camp-ground",
+    "confidence": "high"
+  },
+  {
+    "name": "Winchester Bridge Freedom Camping",
+    "slug": "winchester-bridge-freedom-camping",
+    "lat": -44.182909,
+    "lng": 171.274919,
+    "category": [
+      "Stay"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Free",
+    "description": "A free council camping area beside the bridge at Winchester, on the Winchester-Geraldine Road just off State Highway 1 between Timaru and Geraldine. It's flat and grassy, sheltered from the wind, and open to tents as well as campervans.\n\nThere are non-flush toilets, picnic tables and a water supply. The maximum stay is three nights, sites are first come, first served, and road noise is light overnight.\nLocal tip: It suits a night between Christchurch and Tekapo, since Geraldine and the turn-off to the Mackenzie Country are about 15 minutes away. The ground can get soft after rain.",
+    "hoursNote": "Free; tents and campervans; max 3 nights; non-flush toilets, picnic tables, water; first come, first served",
+    "sourceUrl": "https://www.timaru.govt.nz/community/facilities/camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Moana Gorge Camping Area",
+    "slug": "te-moana-gorge-camping",
+    "lat": -44.041168,
+    "lng": 171.090613,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Free",
+    "description": "A free council camping area beside the Te Moana River on Te Moana Road, in the foothills west of Geraldine, open to tents and campervans. There are swimming holes along the river, and further up, a pool and a small waterfall that locals jump from.\n\nFacilities are basic: non-flush toilets, picnic tables and walking tracks, and the council lists no water supply, so bring your own. There's little or no phone signal. It gets busy over the summer holidays and New Year, but it's often quiet the rest of the year.\nLocal tip: Save it for summer, since the gravel road and riverside spots get muddy and potholed in winter. Check conditions before you drive down to the river.",
+    "hoursNote": "Free; tents and campervans; non-flush toilets, picnic tables; no water listed; little phone signal; muddy in winter",
+    "sourceUrl": "https://www.timaru.govt.nz/community/facilities/camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Waitohi Bush Domain",
+    "slug": "waitohi-bush-domain",
+    "lat": -44.178522,
+    "lng": 171.117473,
+    "category": [
+      "Stay",
+      "Walks"
+    ],
+    "region": "canterbury",
+    "area": "timaru",
+    "active": true,
+    "price": "Free",
+    "description": "A free council camping area on Galbraith Road, on a hilltop in the countryside west of Temuka, with wide views over Timaru, Pleasant Point and the plains. It's open to tents and campervans, with toilets, a barbecue, picnic tables and a water supply, and short bush walks lead off the site.\n\nIt's quiet and roomy, but exposed to wind and weather on top of the hill. Access is by gravel road, phone signal drops out on the way in, and sites are first come, first served.\nLocal tip: Download directions before you leave town, bring your own toilet paper, and boil the tank water before drinking it.",
+    "hoursNote": "Free; tents and campervans; toilets, BBQ, water; gravel road; exposed in wind",
+    "sourceUrl": "https://www.timaru.govt.nz/community/facilities/camping",
+    "confidence": "high"
+  }
+]

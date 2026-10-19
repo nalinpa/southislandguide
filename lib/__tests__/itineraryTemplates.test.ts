@@ -9,7 +9,7 @@
 // overnight) fails here until its slots allow for the drive.
 import christchurch from "@/assets/data/christchurch_places_all.json";
 import dunedin from "@/assets/data/dunedin_places.json";
-import timaru from "@/assets/data/timaru_places.json";
+import timaru from "@/assets/data/timaru_geraldine_places.json";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { ITINERARY_TEMPLATES, defaultTemplateKey } from "@/lib/itineraryTemplates";
 import { canAddToItinerary, type ItineraryDay, type SiteCategory } from "@/lib/models";

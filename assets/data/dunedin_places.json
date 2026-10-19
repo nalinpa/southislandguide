@@ -2,155 +2,278 @@
   {
     "name": "Otago Farmers Market",
     "slug": "otago-farmers-market",
-    "lat": -45.873815, "lng": 170.510715,
-    "category": ["Food"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Cheap",
+    "lat": -45.873815,
+    "lng": 170.510715,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Cheap",
     "website": "https://otagofarmersmarket.org.nz/",
-    "description": "One of the oldest farmers markets in the country, running every Saturday morning since 2003 in the car park beside the grand Dunedin Railway Station. Stallholders are all Otago food producers, selling bread, cheese, meat, fruit and veg, plus hot food and good coffee to eat as you wander.\n\nIt is busy and bustling, and makes an easy start to a Saturday before a walk around the railway station and city.\nLocal tip: Try a cheese roll, the southern classic of cheese rolled in white bread and toasted, which several stalls sell.",
+    "description": "One of the country's best-known farmers markets, running every Saturday morning since March 2003 in the northern car park of the grand Dunedin Railway Station. It's a food-only market, with stallholders from around Otago selling bread, cheese, meat, fruit and vegetables, plus hot food and good coffee to eat as you wander.\n\nIt's busy and bustling from 8am to 12.30pm, and it makes an easy start to a Saturday before a walk around the station and the city.\nLocal tip: Try a cheese roll, the southern classic of cheese rolled up in white bread and toasted, which several stalls sell.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Saturdays only, 8am to 12.30pm; northern car park at the Railway Station",
-    "sourceUrl": "https://otagofarmersmarket.org.nz/", "confidence": "high"
+    "sourceUrl": "https://otagofarmersmarket.org.nz/",
+    "confidence": "high"
   },
   {
     "name": "Beam Me Up Bagels",
     "slug": "beam-me-up-bagels",
-    "lat": -45.871434, "lng": 170.506607,
-    "category": ["Food"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Cheap",
-    "description": "A small, friendly bagel café with sci-fi names on everything, from the Men in Black to the Red Dwarf. The bagels are soft and chewy, fillings are generous, and one is enough to keep you going until dinner. The coffee is good too.\n\nThis is the city shop on Great King Street North; the original is in North East Valley near Baldwin Street. Both get busy at lunchtime.\nLocal tip: Stop at the North East Valley shop on North Road before or after walking up Baldwin Street, since it is just around the corner.",
+    "lat": -45.871434,
+    "lng": 170.506607,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Cheap",
+    "description": "A small, friendly bagel café with sci-fi names on everything, from the Men in Black to the Red Dwarf. The bagels are soft and chewy, the fillings are generous, and one is enough to keep you going until dinner. The coffee is good too.\n\nThis is the city shop on Great King Street North, and the original is in North East Valley near Baldwin Street. Both get busy at lunchtime.\nLocal tip: Stop at the North East Valley shop on North Road before or after you walk up Baldwin Street, since it's just around the corner.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Daily 8.30am to 2.30pm (both shops)",
-    "sourceUrl": "https://seethesouthisland.com/best-cafes-in-dunedin-new-zealand/", "confidence": "high"
+    "sourceUrl": "https://seethesouthisland.com/best-cafes-in-dunedin-new-zealand/",
+    "confidence": "high"
   },
   {
     "name": "Hungry Hobos",
     "slug": "hungry-hobos",
-    "lat": -45.871804, "lng": 170.504709,
-    "category": ["Food"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Cheap",
-    "description": "A toasted sandwich shop on George Street, with a long menu of crispy, cheese-heavy toasties in half and full sizes, plus soup. Most half sizes are under $10, and the full sizes are big enough to take half home.\n\nStaff are consistently friendly, and there are comics to read while you wait. It is one of the best cheap lunches in the city.\nLocal tip: Order the mac and cheese with bacon toastie, and add a cheese roll if you haven't tried one yet.",
+    "lat": -45.871804,
+    "lng": 170.504709,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Cheap",
+    "description": "A toasted sandwich shop on George Street, with a long menu of crispy, cheese-heavy toasties in half and full sizes, plus soup. Most half sizes are under $10, and the full sizes are big enough to take half home.\n\nThe staff are consistently friendly, and there are comics to read while you wait. It's one of the best cheap lunches in the city.\nLocal tip: Order the mac and cheese with bacon toastie, and add a cheese roll if you haven't tried one yet.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Opening hours not listed online; check before going, lunch is the safe bet",
-    "sourceUrl": "https://nzpocketguide.com/the-top-cheap-eats-in-dunedin/", "confidence": "medium"
+    "sourceUrl": "https://nzpocketguide.com/the-top-cheap-eats-in-dunedin/",
+    "confidence": "medium"
   },
   {
     "name": "Bacon Buttie Station",
     "slug": "bacon-buttie-station",
-    "lat": -45.875378, "lng": 170.510898,
-    "category": ["Food"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Cheap",
-    "description": "A no-frills breakfast and lunch spot on Ward Street, near the Railway Station, doing bacon sandwiches, burgers and cheap all-day breakfasts. It is busy with locals, and regulars rate it as some of the best value food in the city.\n\nIt is simple food done properly rather than a sit-down brunch café.\nLocal tip: The bacon and mushroom burger is the one to get, and it is handy before or after the Saturday farmers market.",
+    "lat": -45.875378,
+    "lng": 170.510898,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Cheap",
+    "description": "A no-frills breakfast and lunch spot on Ward Street, near the Railway Station, doing bacon sandwiches, burgers and cheap all-day breakfasts. It's busy with locals, and regulars rate it as some of the best-value food in the city.\n\nIt's simple food done properly rather than a sit-down brunch café, open from 7.30am on weekdays and 9am at weekends until 3pm.\nLocal tip: The bacon and mushroom burger is the one to get, and it's handy before or after the Saturday farmers market.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Mon to Fri 7.30am to 3pm; Sat and Sun 9am to 3pm",
-    "sourceUrl": "https://nzpocketguide.com/the-top-cheap-eats-in-dunedin/", "confidence": "high"
+    "sourceUrl": "https://nzpocketguide.com/the-top-cheap-eats-in-dunedin/",
+    "confidence": "high"
   },
   {
     "name": "Vogel St Kitchen",
     "slug": "vogel-st-kitchen",
-    "lat": -45.879674, "lng": 170.502972,
-    "category": ["Food"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Moderate",
-    "description": "A big, warm café in a restored warehouse in the Warehouse Precinct, with seating downstairs, upstairs and outside. Brunch runs through the morning, and wood-fired pizza and burgers start after 11am. The cabinet of cakes and savouries is good for takeaway too.\n\nIt is right in the middle of the street art area, so it is an easy base for a mural walk.\nLocal tip: Come after 11am if you want the wood-fired pizza, and expect a wait for tables at weekend brunch.",
+    "lat": -45.879674,
+    "lng": 170.502972,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Moderate",
+    "description": "A big, warm café in a restored warehouse in the Warehouse Precinct, with seating downstairs, upstairs and outside. Brunch runs through the morning, and wood-fired pizza and burgers start after 11am. The cabinet of cakes and savouries is good for takeaway too.\n\nIt's right in the middle of the street art area, so it's an easy base for a mural walk.\nLocal tip: Come after 11am if you want the wood-fired pizza, and expect a wait for a table at weekend brunch.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Mon to Fri 7.30am to 2.30pm; Sat and Sun 8.30am to 3pm; pizza from 11am",
-    "sourceUrl": "https://seethesouthisland.com/best-cafes-in-dunedin-new-zealand/", "confidence": "high"
+    "sourceUrl": "https://seethesouthisland.com/best-cafes-in-dunedin-new-zealand/",
+    "confidence": "high"
   },
   {
     "name": "Starfish Cafe & Bar",
     "slug": "starfish-cafe-st-clair",
-    "lat": -45.911319, "lng": 170.490079,
-    "category": ["Food"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Moderate",
-    "description": "A busy café a block back from St Clair beach, open early every day. It does a solid brunch menu, a full cabinet and good coffee, and it is a go-to after a swim or surf.\n\nIt gets crowded and service can be stretched at peak times, but the food is consistently rated. The upstairs seating gets a lot of sun.\nLocal tip: It opens at 6.30am, so it is ideal for coffee before a dawn walk along the beach or a surf.",
+    "lat": -45.911319,
+    "lng": 170.490079,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Moderate",
+    "description": "A busy café a block back from St Clair beach, open early every day. It does a solid brunch menu, a full cabinet and good coffee, and it's a go-to after a swim or a surf.\n\nIt gets crowded and service can be stretched at peak times, but the food is consistently well rated, and the upstairs seating gets a lot of sun.\nLocal tip: It opens at 6.30am, so it's ideal for coffee before a dawn walk along the beach or a surf.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Daily 6.30am to 3pm",
-    "sourceUrl": "https://seethesouthisland.com/best-cafes-in-dunedin-new-zealand/", "confidence": "high"
+    "sourceUrl": "https://seethesouthisland.com/best-cafes-in-dunedin-new-zealand/",
+    "confidence": "high"
   },
   {
     "name": "Ric's Galley Fish & Chips, Portobello",
     "slug": "rics-galley-fish-and-chips",
-    "lat": -45.839415, "lng": 170.651284,
-    "category": ["Food"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Cheap",
-    "description": "A takeaway fish and chip shop in Portobello, about halfway out along the Otago Peninsula, known locally for fresh fish at good prices. People drive out from town for it, and the burgers get praise too.\n\nIt is takeaway only and can have a queue when busy.\nLocal tip: Pick up dinner here on the way back from the Royal Albatross Centre, and eat it on the harbour edge in Portobello.",
+    "lat": -45.839415,
+    "lng": 170.651284,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Cheap",
+    "description": "A takeaway fish and chip shop in Portobello, about halfway out along the Otago Peninsula, known locally for fresh fish at good prices. People drive out from town for it, and the burgers get praise too.\n\nIt's takeaway only and can have a queue when it's busy.\nLocal tip: Pick up dinner here on the way back from the Royal Albatross Centre, and eat it on the harbour edge in Portobello.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Opening hours not listed online; call ahead, especially in winter",
-    "sourceUrl": "https://nzpocketguide.com/the-top-cheap-eats-in-dunedin/", "confidence": "medium"
+    "sourceUrl": "https://nzpocketguide.com/the-top-cheap-eats-in-dunedin/",
+    "confidence": "medium"
   },
   {
     "name": "Emerson's Brewery",
     "slug": "emersons-brewery",
-    "lat": -45.870360, "lng": 170.516727,
-    "category": ["Food"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Moderate",
-    "description": "The taproom and restaurant of one of New Zealand's best-known craft breweries, in a big modern industrial space on Anzac Avenue. Tasting flights let you try several beers, and the food menu runs from fries and fried mushrooms to burgers and mains.\n\nIt is lively in the evenings and there is a gift shop for merch and takeaway beer. Some reviewers find mains small for the price, so the snacks and flights are the better value.\nLocal tip: Book a guided tasting flight if you want the story behind the beers; it is closed on Mondays.",
+    "lat": -45.87036,
+    "lng": 170.516727,
+    "category": [
+      "Food"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Moderate",
+    "description": "The taproom and restaurant of one of New Zealand's best-known craft breweries, in a big, modern industrial space at 70 Anzac Avenue. Tasting flights let you try several beers, and the food menu runs from fries and fried mushrooms to burgers and mains.\n\nIt's lively in the evenings, and there's a shop for merchandise and takeaway beer. Some reviewers find the mains small for the price, so the snacks and flights are the better value.\nLocal tip: Book a guided tasting if you want the story behind the beers, and note it's closed on Mondays.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Closed Mon; Tue to Sun 11am to 10pm",
-    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/", "confidence": "high"
+    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/",
+    "confidence": "high"
   },
   {
     "name": "Larnach Castle",
     "slug": "larnach-castle",
-    "lat": -45.861569, "lng": 170.627252,
-    "category": ["Attractions"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Moderate",
-    "description": "New Zealand's only castle, built in 1871 on the ridge of the Otago Peninsula and restored by its private owners. You can wander the furnished rooms, climb to the tower for views over the harbour and peninsula, and explore the gardens, which are rated of international significance. A March 2026 guide lists entry with audio at around $45.\n\nThe Ballroom café does lunches and high tea. The drive out along Highcliff Road has big views of its own.\nLocal tip: Go up to the roof first on a clear day, before the cloud rolls in, then do the gardens and café.",
+    "lat": -45.861569,
+    "lng": 170.627252,
+    "category": [
+      "Attractions"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Moderate",
+    "description": "New Zealand's only castle, built in 1871 on the ridge of the Otago Peninsula and derelict until the Barker family bought it in 1967 and began restoring it. You can wander the furnished rooms, climb the tower for views over the harbour and peninsula, and explore the gardens, which are rated a Garden of International Significance.\n\nCastle and gardens entry is $50 for adults, $17 for children aged 5 to 14 and $117 for a family, and gardens only is $25 for adults. The Ballroom Café does lunches and high tea, and the drive out along Highcliff Road has big views of its own.\nLocal tip: Go up to the tower first on a clear day, before the cloud rolls in, then do the gardens and the café.",
     "recommendedDurationSlots": 4,
     "featured": 3,
     "hoursNote": "Listed daily 9am to 5pm; some rooms may be closed for restoration",
-    "sourceUrl": "https://www.larnachcastle.co.nz/", "confidence": "medium"
+    "sourceUrl": "https://www.larnachcastle.co.nz/",
+    "confidence": "medium"
   },
   {
     "name": "Tūhura Otago Museum",
     "slug": "tuhura-otago-museum",
-    "lat": -45.865661, "lng": 170.510827,
-    "category": ["Attractions", "Culture"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "A big, free museum next to the university, with three levels covering Māori culture, Pacific voyaging, European settlement, natural history and a mummy in the world collections. Paid extras include a tropical butterfly house, a planetarium and a hands-on science centre that is great for kids.\n\nThere is a café and gift shop on the ground floor. Families find two hours goes very quickly.\nLocal tip: Make time for the butterfly house, where the butterflies land on you, and allow half a day if you have children.",
+    "lat": -45.865661,
+    "lng": 170.510827,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Free",
+    "description": "A big museum next to the university, with galleries covering Māori culture, Pacific voyaging, natural history and world cultures, including a huge moa display, a Haast's eagle skeleton, a plesiosaur fossil and an Egyptian mummy. Entry is free for New Zealand residents, and international visitors pay for a gallery pass, about $20 for adults.\n\nThe hands-on science centre (from $13) and the planetarium (from $9) cost extra, or from $15 for both. The Tropical Forest butterfly house is closed for maintenance until early December 2026. There's a café and gift shop, and it's open daily from 10am to 5pm.\nLocal tip: Families find two hours goes very quickly, so allow half a day if you have children, and check the Tropical Forest has reopened before you promise it to them.",
     "recommendedDurationSlots": 4,
     "hoursNote": "Daily 10am to 5pm; general entry free, butterfly house, planetarium and science centre extra",
-    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/", "confidence": "high"
+    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/",
+    "confidence": "high"
   },
   {
     "name": "Toitū Otago Settlers Museum",
     "slug": "toitu-otago-settlers-museum",
-    "lat": -45.876642, "lng": 170.506332,
-    "category": ["Attractions", "Culture"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "A free museum telling the story of Otago, from Kāi Tahu and the first Māori settlement to the Scottish settlers, the gold rush and modern Dunedin. It is large and well laid out, with more than a dozen galleries, old vehicles and a play area for kids.\n\nMost visitors are surprised by how much there is, and three hours still isn't enough to see all of it. Donations are welcome.\nLocal tip: Pair it with the Chinese Garden next door, and the Railway Station and farmers market are a two minute walk away.",
+    "lat": -45.876642,
+    "lng": 170.506332,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Free",
+    "description": "A free museum telling the story of Otago, from Kāi Tahu and the first Māori settlement to the Scottish settlers, the gold rush and modern Dunedin. It's large and well laid out, with more than a dozen galleries, old vehicles and a play area for kids.\n\nMost visitors are surprised by how much there is, and three hours still isn't enough to see all of it. It's open daily from 10am to 5pm, and donations are welcome.\nLocal tip: Pair it with the Chinese Garden next door, and the Railway Station and farmers market are a two minute walk away.",
     "recommendedDurationSlots": 4,
     "hoursNote": "Daily 10am to 5pm; free entry, donations welcome",
-    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/", "confidence": "high"
+    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/",
+    "confidence": "high"
   },
   {
     "name": "Dunedin Botanic Garden",
     "slug": "dunedin-botanic-garden",
-    "lat": -45.856853, "lng": 170.518083,
-    "category": ["Attractions"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "New Zealand's first botanic garden, free to visit, spread over a flat lower garden and a much hillier upper garden with bush tracks. Highlights include the rose garden, the Winter Garden glasshouse and an aviary with native and exotic parrots, one of which talks.\n\nThe lower garden is flat and wheelchair friendly, while the upper paths are steep. Allow a couple of hours or more.\nLocal tip: Park at the upper (east) entrance if you mainly want the aviary, and bring a picnic for the lawns.",
+    "lat": -45.856853,
+    "lng": 170.518083,
+    "category": [
+      "Attractions"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Free",
+    "description": "New Zealand's first botanic garden, founded in 1863 and free to visit, spread over 28 hectares with more than 6,800 plant species. The flat lower garden has the Edwardian Winter Garden glasshouse, a Japanese garden, formal rose and camellia gardens, a duck pond and a playground, while the hilly upper garden has a huge rhododendron forest, daffodils in spring and an aviary with native and exotic parrots, one of which talks.\n\nThe lower garden is flat and wheelchair friendly, but the upper paths are steep. Allow a couple of hours or more.\nLocal tip: Park at the upper (east) entrance if you mainly want the aviary, and bring a picnic for the lawns.",
     "recommendedDurationSlots": 4,
     "hoursNote": "Open daily; visitor centre from 10am; lower garden flat, upper garden hilly",
-    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/", "confidence": "medium"
+    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/",
+    "confidence": "medium"
   },
   {
     "name": "Lan Yuan, Dunedin Chinese Garden",
     "slug": "dunedin-chinese-garden",
-    "lat": -45.878353, "lng": 170.505315,
-    "category": ["Attractions", "Culture"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Cheap",
+    "lat": -45.878353,
+    "lng": 170.505315,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Cheap",
     "website": "https://www.dunedinchinesegarden.com/",
-    "description": "A traditional Chinese scholar's garden built with Shanghai, Dunedin's sister city, to honour the Chinese gold miners who came to Otago in the 1860s. It has ponds, bridges, rockeries and pavilions, plus a tea house where you can sit over a pot of Chinese tea.\n\nAdults are $13.50, students $10, and children under 13 are free with an adult. It is small and calm, and takes under an hour.\nLocal tip: Stop in the tea house, and read the story of how the garden was built in Shanghai and shipped over.",
+    "description": "A traditional Chinese scholar's garden built with Shanghai, Dunedin's sister city, to honour the Chinese gold miners who came to Otago in the 1860s. It has ponds, bridges, rockeries and pavilions, plus a tea house where you can sit over a pot of Chinese tea.\n\nAdults are $13.50, students and beneficiaries $10, and children under 13 are free with an adult. It's open daily from 10am to 5pm, there's a free car park, and it's small and calm, taking under an hour.\nLocal tip: Stop in the tea house, and read the story of how the garden was made in Shanghai and shipped over.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Daily 10am to 5pm; closed 25 Dec; free parking on site",
-    "sourceUrl": "https://www.dunedinchinesegarden.com/visit/opening-hours", "confidence": "high"
+    "sourceUrl": "https://www.dunedinchinesegarden.com/visit/opening-hours",
+    "confidence": "high"
   },
   {
     "name": "Baldwin Street",
     "slug": "baldwin-street",
-    "lat": -45.849141, "lng": 170.534162,
-    "category": ["Attractions"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "A short residential street in North East Valley, listed by Guinness as the steepest street in the world. Walking up it is a proper workout, and there is a view over the valley and a water tap at the top.\n\nIt is a quick, free stop that takes about 20 minutes up and down. People live here, so keep noise down and don't block driveways.\nLocal tip: Walk it rather than driving, park on North Road at the bottom, and reward yourself with a bagel at Beam Me Up around the corner.",
+    "lat": -45.849141,
+    "lng": 170.534162,
+    "category": [
+      "Attractions"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Free",
+    "description": "A short residential street in North East Valley, listed by Guinness as the steepest street in the world. Walking up it is a proper workout, and there's a view over the valley and a water tap at the top.\n\nIt's a quick, free stop that takes about 20 minutes up and down. People live here, so keep the noise down and don't block driveways.\nLocal tip: Walk it rather than drive it, park on North Road at the bottom, and reward yourself with a bagel at Beam Me Up around the corner.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Open any time; residential street, be considerate; steep",
-    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/", "confidence": "high"
+    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/",
+    "confidence": "high"
   },
   {
     "name": "Dunedin Railway Station",
     "slug": "dunedin-railway-station",
-    "lat": -45.875279, "lng": 170.508723,
-    "category": ["Culture"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "Dunedin's best-known building, an ornate Flemish Renaissance style station built in the early 1900s, with a mosaic floor and stained glass inside and gardens out front. It is free to walk in, and it is one of the most photographed buildings in New Zealand.\n\nIt is still the base for Dunedin Railways excursion trains and hosts the Saturday farmers market. The stained glass looks best in low afternoon light.\nLocal tip: Come on a Saturday morning and combine it with the farmers market in the car park next door.",
+    "lat": -45.875279,
+    "lng": 170.508723,
+    "category": [
+      "Culture"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Free",
+    "description": "Dunedin's best-known building, an ornate Flemish Renaissance style station from the early 1900s, with a mosaic floor and stained glass inside and gardens out front. It's free to walk in, and it's one of the most photographed buildings in New Zealand.\n\nIt's still the base for the Taieri Gorge excursion trains, and it hosts the Saturday farmers market in its northern car park. The stained glass looks best in low afternoon light.\nLocal tip: Come on a Saturday morning and combine it with the farmers market next door.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Building open to walk through during the day; farmers market Saturdays",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJW8UpVCKtLqgRxnjFXTR50is", "confidence": "medium"
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJW8UpVCKtLqgRxnjFXTR50is",
+    "confidence": "medium"
   },
   {
     "name": "Taieri Gorge Railway",
@@ -161,11 +284,12 @@
       "Attractions",
       "Scenic"
     ],
-    "region": "dunedin-otago", "area": "dunedin",
+    "region": "dunedin-otago",
+    "area": "dunedin",
     "active": true,
     "price": "Expensive",
     "website": "https://dunedinrailways.co.nz/",
-    "description": "Dunedin's signature train trip, leaving from the historic Dunedin Railway Station and heading inland through the deep, rocky Taieri Gorge, over viaducts and through tunnels, to Pukerangi on the edge of Central Otago. The return trip takes about 5 hours, with commentary along the way.\n\nIt departs at 9.30am Thursday to Monday; adults are $169 return and children $59. Weather permitting, the train stops so you can walk out along the Deep Stream Bridge, and food and drinks are sold on board. One way tickets to Pukerangi connect with the Otago Central Rail Trail.\nLocal tip: Arrive early to look around the railway station building before you board, and bring a warm layer for the viewing platform.",
+    "description": "Dunedin's signature train trip, leaving from the historic Dunedin Railway Station at 9.30am and heading inland through the deep, rocky Taieri Gorge, over viaducts and through tunnels, to Pukerangi on the edge of Central Otago. The return trip takes about 5 hours, getting back around 2.15pm, with commentary along the way.\n\nAdults are $169 return and children $59, and infants travel free. Depending on the day and the weather, the train may stop at Hindon or Deep Stream so you can get out, and food and drinks are sold on board. One-way tickets to Pukerangi connect with cycle hire on the Otago Central Rail Trail.\nLocal tip: Check-in closes at 9.15am, so arrive early to look around the station building before you board, and bring a warm layer for the viewing platform.",
     "recommendedDurationSlots": 10,
     "hoursNote": "Thu to Mon, departs 9.30am from Dunedin Railway Station; about 5 hours return; adult $169, child $59",
     "sourceUrl": "https://dunedinrailways.co.nz/taieri-gorge",
@@ -174,54 +298,97 @@
   {
     "name": "Dunedin Public Art Gallery",
     "slug": "dunedin-public-art-gallery",
-    "lat": -45.874291, "lng": 170.502898,
-    "category": ["Culture"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "A free public gallery on the Octagon with a mix of New Zealand and European art, from historic paintings to contemporary work, photography and sculpture. A rainbow light installation is a favourite photo spot.\n\nThere is a children's area, toilets and a café, so it is a good rainy day stop in the centre of town.\nLocal tip: Start the street art trail from here, since it begins at the Octagon right outside.",
+    "lat": -45.874291,
+    "lng": 170.502898,
+    "category": [
+      "Culture"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Free",
+    "description": "A free public gallery on the Octagon with a mix of New Zealand and European art, from historic paintings to contemporary work, photography and sculpture. A rainbow light installation is a favourite photo spot.\n\nThere's a children's area, toilets and a café, so it's a good rainy day stop in the centre of town. It's open daily from 10am to 5pm.\nLocal tip: Start the street art trail from here, since the ROA tuatara on Bath Street is just off the Octagon.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Daily 10am to 5pm; free entry, donations welcome",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJNdbVpA2sLqgREjb15ZjWtlc", "confidence": "medium"
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJNdbVpA2sLqgREjb15ZjWtlc",
+    "confidence": "medium"
   },
   {
     "name": "Olveston Historic Home",
     "slug": "olveston-historic-home",
-    "lat": -45.866355, "lng": 170.502633,
-    "category": ["Culture"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Moderate",
+    "lat": -45.866355,
+    "lng": 170.502633,
+    "category": [
+      "Culture"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Moderate",
     "website": "https://www.olveston.co.nz/",
-    "description": "An Edwardian family mansion left exactly as it was when the last family member died and gifted it to the city, full of original furniture, art and the family's vintage chauffeur-driven Fiat. You can only see inside on a guided tour of about an hour, in small groups; a recent visitor paid $27.50.\n\nThe guides are consistently praised for their stories about the family and early Dunedin. The ground floor is accessible, but upstairs is by stairs only.\nLocal tip: Book ahead, since tours are small and fill up, and allow time for the garden afterwards.",
+    "description": "A 35-room Edwardian mansion built in 1904 for the businessman and collector David Theomin, and left as it was when his daughter died and gave it to the city. It opened to the public in 1966, full of original furniture, art from around the world and the family's vintage Fiat.\n\nYou can only see inside on a guided tour of about an hour, which costs $26.50 for adults and $15.50 for children aged 6 to 16, with several tours a day. The guides are consistently praised for their stories about the family and early Dunedin. The gardens are free to wander, and upstairs is by stairs only.\nLocal tip: Book ahead, since tours are small and fill up, and park on the street, since there's no on-site parking.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Guided tours only, several a day; booking recommended; upstairs not wheelchair accessible",
-    "sourceUrl": "https://www.olveston.co.nz/visiting-olveston/guided-tours", "confidence": "medium"
+    "sourceUrl": "https://www.olveston.co.nz/visiting-olveston/guided-tours",
+    "confidence": "medium"
   },
   {
     "name": "Dunedin Street Art Trail",
     "slug": "dunedin-street-art-trail",
-    "lat": -45.873818, "lng": 170.503188,
-    "category": ["Culture", "Walks"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "More than 50 commissioned murals across central Dunedin, by local and international artists, starting from the Octagon. Highlights include ROA's giant tuatara and an Ed Sheeran portrait on Bath Street, Pixel Pancho's steampunk jockey on Jetty Street, and a Haast eagle by DALeast on Stafford Street.\n\nIt is free, self-guided and easy to fit around other sightseeing, with plenty of cafés in the Warehouse Precinct along the way.\nLocal tip: Pick up the free printed trail map from the Dunedin i-SITE on the Octagon, or use the online map on the DunedinNZ site.",
+    "lat": -45.873818,
+    "lng": 170.503188,
+    "category": [
+      "Culture",
+      "Walks"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": false,
+    "price": "Free",
+    "description": "More than 50 commissioned murals across central Dunedin, by local and international artists. Highlights include ROA's giant tuatara and Tyler Kennedy Stent's Ed Sheeran portrait on Bath Street, just off the Octagon, Pixel Pancho's steampunk jockey on Jetty Street, and DALeast's Haast eagle on Stafford Street.\n\nIt's free and self-guided, and you can walk it as a loop or pick out favourites, with plenty of cafés in the Warehouse Precinct along the way.\nLocal tip: Pick up the Dunedin Street Art Trail Guide from the i-SITE on the Octagon, or use the interactive map on the DunedinNZ website.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Outdoors, any time; best in daylight",
-    "sourceUrl": "https://www.dunedinnz.com/insiders/the-insiders-guide-to-the-dunedin-street-art-trail", "confidence": "high"
+    "sourceUrl": "https://www.dunedinnz.com/insiders/the-insiders-guide-to-the-dunedin-street-art-trail",
+    "confidence": "high"
   },
   {
     "name": "Tunnel Beach Track",
     "slug": "tunnel-beach-track",
-    "lat": -45.918877, "lng": 170.452925,
-    "category": ["Walks", "Water"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "A short, steep walk down farmland to sandstone cliffs and arches on the coast south of the city, finishing at a hand-carved 1870s tunnel through the rock to a small hidden beach. About 2km return and an hour, easy but steep on the way back up.\n\nThe track reopened in November 2025 after being closed for a year by storm damage. The beach is tidal with rogue waves and isn't safe for swimming, and the cliffs can be slippery after rain.\nLocal tip: Check the tides before you go and only go down to the beach around low tide, and don't leave valuables in the car.",
+    "lat": -45.918877,
+    "lng": 170.452925,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Free",
+    "description": "A short, steep walk down through farmland to sandstone cliffs and arches on the coast south of the city, finishing at a hand-carved 1870s tunnel through the rock to a small hidden beach. It's 2km return and takes about an hour, easy but steep on the way back up.\n\nThe track reopened on 14 November 2025, after slips closed it for a year. The beach is tidal, with rogue waves, and isn't safe for swimming, and the cliffs can be slippery and unstable after rain. Dogs aren't allowed, and parking is limited.\nLocal tip: Check the tides and only go down to the beach around low tide, bring a torch for the caves, and don't leave valuables in the car.",
     "recommendedDurationSlots": 2,
     "featured": 2,
     "hoursNote": "No dogs; tidal beach, go near low tide; car park gate reported locked from about 5pm, check signs; limited parking",
-    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/dunedin-area/things-to-do/tunnel-beach-track/", "confidence": "high"
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/dunedin-area/things-to-do/tunnel-beach-track/",
+    "confidence": "high"
   },
   {
     "name": "Sandfly Bay Track",
     "slug": "sandfly-bay-track",
-    "lat": -45.892265, "lng": 170.637335,
-    "category": ["Walks", "Nature"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "A walk down huge sand dunes to a wild beach on the Otago Peninsula, where sea lions often haul out on the sand. It is about 15 minutes to the viewing platform, and the rest of the way down is steep and sandy, so the climb back is hard work. Allow about an hour.\n\nYellow-eyed penguins sometimes come ashore in the evening, and a hide overlooks their landing area. Keep at least 20m from sea lions and 50m from penguins.\nLocal tip: Don't leave anything in the car, since there have been break-ins at the car park, and stay well back from sea lions, which can move surprisingly fast.",
+    "lat": -45.892265,
+    "lng": 170.637335,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Free",
+    "description": "A walk down huge sand dunes to a wild beach on the Otago Peninsula, where sea lions often haul out on the sand. It's about 15 minutes across farmland to a viewing platform, and the rest of the way down is a steep sandhill, so the climb back is hard work. Allow about an hour.\n\nYellow-eyed penguins sometimes come ashore in the evening. Keep at least 20m from sea lions and 50m from penguins, never block a penguin's path to the sea, and stay on the marked track, since the dunes are eroding.\nLocal tip: Don't leave anything in the car, since there have been break-ins at the car park, and stay well back from sea lions, which can move surprisingly fast.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Open any time; steep sand climb back; keep 20m from sea lions, 50m from penguins; no drones near wildlife",
-    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/otago-peninsula-area/things-to-do/sandfly-bay-track/", "confidence": "high"
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/otago-peninsula-area/things-to-do/sandfly-bay-track/",
+    "confidence": "high"
   },
   {
     "name": "Allans Beach",
@@ -232,10 +399,11 @@
       "Nature",
       "Water"
     ],
-    "region": "dunedin-otago", "area": "dunedin",
+    "region": "dunedin-otago",
+    "area": "dunedin",
     "active": true,
     "price": "Free",
-    "description": "A wild white sand beach on the Otago Peninsula, reached by a five minute walk through the dunes from the car park at the end of Allans Beach Road. It is one of the best places near Dunedin to see New Zealand sea lions, which haul out on the sand and sometimes sleep in the dunes, and fur seals are also seen here.\n\nFrom where it meets Hoopers Inlet the road is gravel and needs care, so drive slowly, as sea lions sometimes cross it. There are no toilets at the beach; the nearest are in Portobello. Swimming can be dangerous in strong wind and currents.\nLocal tip: Keep at least 20m from sea lions and seals and 50m from penguins, and look carefully as you walk through the dunes, since sea lions like to rest there.",
+    "description": "A wild, white sand beach on the Otago Peninsula, reached by a 5 minute walk over farmland and through the dunes from the car park at the end of Allans Beach Road. It's one of the best places near Dunedin to see New Zealand sea lions, which haul out on the sand and sometimes sleep in the dunes, and fur seals are also common here.\n\nFrom Hoopers Inlet, where sea lions raise their young, the road is gravel and needs care, so drive slowly, since sea lions sometimes cross it. There are no toilets at the beach, and the nearest are in Portobello. Swimming can be dangerous in strong wind and currents.\nLocal tip: Keep at least 20m from sea lions and seals and 50m from penguins, and look carefully as you walk through the dunes, since sea lions like to rest there.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Open any time; 5 min walk from the car park; gravel road past Hoopers Inlet; nearest toilets in Portobello; dogs on lead on the track",
     "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/otago-peninsula-area/things-to-do/allans-beach-walking-track/",
@@ -244,86 +412,151 @@
   {
     "name": "Pineapple Track",
     "slug": "pineapple-track",
-    "lat": -45.840607, "lng": 170.492703,
-    "category": ["Walks"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "A popular skyline walk from Booth Road in Glenleith up through bush and open tussock towards Flagstaff, with views over the city, harbour and Taieri Plains. About 2 hours return and moderate, with most of it uphill on the way out.\n\nIt starts in forest with streams and tūī, then opens out with no shade near the top. It links to other tracks, but it is not a loop, so most people come back the same way.\nLocal tip: Take a layer and water for the exposed upper section, and turn around at the top for the view back over Dunedin.",
+    "lat": -45.840607,
+    "lng": 170.492703,
+    "category": [
+      "Walks"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Free",
+    "description": "A popular skyline walk from Booth Road in Glenleith, up through bush and open tussock towards Flagstaff, with views over the city, the harbour and the Taieri Plains. It takes about 2 hours return and is moderate, with most of it uphill on the way out.\n\nIt starts in forest with streams and tūī, then opens out with no shade near the top. It links to other tracks, but it isn't a loop, so most people come back the same way.\nLocal tip: Take a layer and water for the exposed upper section, and turn around at the top for the view back over Dunedin.",
     "recommendedDurationSlots": 4,
     "hoursNote": "Open any time; exposed with no shade near the top; not a loop, return the same way",
-    "sourceUrl": "https://www.dunedinnz.com/visit/see-and-do/outdoor-activities/walking", "confidence": "medium"
+    "sourceUrl": "https://www.dunedinnz.com/visit/see-and-do/outdoor-activities/walking",
+    "confidence": "medium"
   },
   {
     "name": "Ross Creek Reservoir",
     "slug": "ross-creek-reservoir",
-    "lat": -45.847518, "lng": 170.498909,
-    "category": ["Walks"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "A sheltered native bush reserve just above the city, around one of the oldest reservoirs in the country, built in the 1860s gold rush. The flat loop around the water takes 10 to 15 minutes, and short side tracks lead to School Creek Falls, a tall, narrow waterfall with a viewing deck.\n\nThere are several entrances and linked tracks, so you can make it as long as you like. It is a good choice on a windy day when the hills and coast are too exposed.\nLocal tip: Use the Burma Road entrance for the easiest, pram friendly route to the reservoir, and the Cannington Road entrance for the waterfall.",
+    "lat": -45.847518,
+    "lng": 170.498909,
+    "category": [
+      "Walks"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Free",
+    "description": "A sheltered native bush reserve just above the city, around one of the oldest reservoirs in the country, built during the 1860s gold rush. The flat loop around the water takes 10 to 15 minutes, and short side tracks lead to School Creek Falls, a tall, narrow waterfall with a viewing deck.\n\nThere are several entrances and linked tracks, so you can make the walk as long as you like. It's a good choice on a windy day, when the hills and coast are too exposed.\nLocal tip: Use the Burma Road entrance for the easiest, pram-friendly route to the reservoir, and the Cannington Road entrance for the waterfall.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Open any time; flat reservoir loop, steeper to the waterfall; can be muddy",
-    "sourceUrl": "https://seethesouthisland.com/ross-creek-reserve-dunedin-new-zealand/", "confidence": "medium"
+    "sourceUrl": "https://seethesouthisland.com/ross-creek-reserve-dunedin-new-zealand/",
+    "confidence": "medium"
   },
   {
     "name": "Royal Albatross Centre",
     "slug": "royal-albatross-centre",
-    "lat": -45.776181, "lng": 170.728433,
-    "category": ["Nature"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Expensive",
+    "lat": -45.776181,
+    "lng": 170.728433,
+    "category": [
+      "Nature"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Expensive",
     "website": "https://albatross.org.nz/",
-    "description": "The only mainland breeding colony of royal albatross in the world, at Taiaroa Head on the tip of the Otago Peninsula. The one-hour Albatross Classic tour (from about $68) includes a talk, a film and time in a glassed observatory watching the nesting birds. Other tours add the historic Fort Taiaroa tunnels, and evening tours watch little blue penguins come ashore.\n\nThe drive out along the harbour takes about 45 minutes from the city. Seeing the birds in flight depends on wind and time of year.\nLocal tip: Book ahead in summer, since tours sell out, and on the way back stop for fish and chips at Portobello.",
+    "description": "The only mainland breeding colony of royal albatross in the world, at Pukekura / Taiaroa Head on the tip of the Otago Peninsula. The one-hour Albatross Classic tour, from $71.55, includes a presentation, a short film and about 30 minutes in a glassed observatory watching the nesting birds.\n\nThe 90 minute Unique Taiaroa tour, from $82.07, adds the underground Fort Taiaroa, built in the 1880s, and combos add a harbour wildlife cruise or yellow-eyed penguin viewing. The drive out along the harbour takes about 45 minutes from the city, and seeing the birds in flight depends on the wind and the time of year.\nLocal tip: Book ahead in summer, since tours sell out, and stop for fish and chips in Portobello on the way back.",
     "recommendedDurationSlots": 3,
     "featured": 1,
     "hoursNote": "Listed daily from 10.15am; tours by booking; evening penguin tours at dusk",
-    "sourceUrl": "https://albatross.org.nz/tours/", "confidence": "high"
+    "sourceUrl": "https://albatross.org.nz/tours/",
+    "confidence": "high"
   },
   {
     "name": "Orokonui Ecosanctuary",
     "slug": "orokonui-ecosanctuary",
-    "lat": -45.776918, "lng": 170.603625,
-    "category": ["Nature"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Moderate",
+    "lat": -45.776918,
+    "lng": 170.603625,
+    "category": [
+      "Nature"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Moderate",
     "website": "https://orokonui.nz/",
-    "description": "A 307 hectare predator-fenced forest sanctuary about 20 minutes north of the city, where native birds like kākā, takahē, kererū, bellbirds and South Island robins live wild and come close at the feeding stations. You can also see tuatara and skinks. Self-guided entry is $27 for adults and $13 for children.\n\nThere are tracks of different lengths through the forest and a visitor centre with a café. Guided 1.5 hour tours are $65 and are worth it for spotting things you'd otherwise miss.\nLocal tip: It is closed on Tuesdays and Wednesdays, and you need your own transport, so plan it as a morning on the way to or from the coast north of Dunedin.",
+    "description": "A 307 hectare predator-fenced forest sanctuary about 20 minutes north of the city, where native birds such as kākā, takahē, kererū, bellbirds and South Island robins live wild and come close at the feeding stations. You can also see tuatara and skinks.\n\nSelf-guided entry is $27 for adults, $13 for children and $65 for a family, and the 1.5 hour guided tours are $65 for adults and worth it for spotting things you'd otherwise miss. There are tracks of different lengths through the forest, and the visitor centre has a café.\nLocal tip: It's closed on Tuesdays and Wednesdays, and you need your own transport, so plan it as a morning on the way to or from the coast north of Dunedin.",
     "recommendedDurationSlots": 4,
     "hoursNote": "Closed Tue and Wed; Thu to Mon 9.30am to 4.30pm; café 10am to 3pm",
-    "sourceUrl": "https://orokonui.nz/visit/", "confidence": "high"
+    "sourceUrl": "https://orokonui.nz/visit/",
+    "confidence": "high"
   },
   {
     "name": "St Clair Beach",
     "slug": "st-clair-beach",
-    "lat": -45.909716, "lng": 170.500848,
-    "category": ["Water"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "The city's main beach, a long stretch of golden sand joining St Kilda, with a cluster of cafés and bars along the Esplanade at the St Clair end. It is a consistent surf break, and there are surfers in the water most days.\n\nThe water is cold year round. The Esplanade is good for a walk and a coffee even when it is too cold to swim.\nLocal tip: Park at the St Clair end for the cafés and the hot salt water pool, or walk the whole beach to St Kilda and back for an easy flat hour.",
+    "lat": -45.909716,
+    "lng": 170.500848,
+    "category": [
+      "Water"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Free",
+    "description": "The city's main beach, a long stretch of golden sand joining St Kilda, with a cluster of cafés and bars along the Esplanade at the St Clair end. It's a consistent surf break, and there are surfers in the water most days.\n\nThe water is cold all year, but the Esplanade is good for a walk and a coffee even when it's too cold to swim. Parking is free.\nLocal tip: Park at the St Clair end for the cafés and the hot salt water pool, or walk the whole beach to St Kilda and back for an easy, flat hour.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Open any time; cold water year round; free parking",
-    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/", "confidence": "high"
+    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/",
+    "confidence": "high"
   },
   {
     "name": "St Clair Hot Salt Water Pool",
     "slug": "st-clair-hot-salt-water-pool",
-    "lat": -45.913963, "lng": 170.488097,
-    "category": ["Water"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Cheap",
-    "description": "An outdoor seawater pool heated to about 28 degrees, built into the rocks at the south end of St Clair beach, and the last survivor of several saltwater pools Dunedin had in the late 1800s. Adults are about $9 and children about $4.\n\nThere is a toddler pool, modern changing rooms and a café overlooking the surf. It is open only in the warmer months.\nLocal tip: Swim laps while watching the surfers on the point right next to the pool, then warm up in the café.",
+    "lat": -45.913963,
+    "lng": 170.488097,
+    "category": [
+      "Water"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Cheap",
+    "description": "An outdoor seawater pool heated to 28 degrees, built into the rocks at the south end of St Clair beach, and the only survivor of several saltwater pools Dunedin built in the late 1800s. It has six lanes, and adults pay about $9 and children about $4.\n\nThere's a toddler pool, modern changing rooms and a café overlooking the surf. The pool is open only in the warmer months, roughly October to March.\nLocal tip: Swim laps while you watch the surfers on the point right next to the pool, then warm up in the café.",
     "recommendedDurationSlots": 3,
     "featured": 4,
     "hoursNote": "Seasonal, roughly October to March; 7.30am to 4pm; closed in winter",
-    "sourceUrl": "https://www.newzealand.com/us/plan/business/st-clair-hot-salt-water-pool--1/", "confidence": "medium"
+    "sourceUrl": "https://www.newzealand.com/us/plan/business/st-clair-hot-salt-water-pool--1/",
+    "confidence": "medium"
   },
   {
     "name": "Signal Hill Lookout",
     "slug": "signal-hill-lookout",
-    "lat": -45.858583, "lng": 170.547037,
-    "category": ["Scenic"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "A hilltop lookout above the city with a 360 degree view over Dunedin, Otago Harbour, the peninsula and the ocean. It is about 10 minutes' drive from the centre, and there is a monument at the top.\n\nThe road up is narrow and parking is limited. It is very exposed, so it is often windy and cold even on a sunny day.\nLocal tip: Go at sunrise rather than sunset, since the hill faces east over the harbour, and take a warm jacket whatever the weather looks like below.",
+    "lat": -45.858583,
+    "lng": 170.547037,
+    "category": [
+      "Scenic"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Free",
+    "description": "A hilltop lookout above the city with a 360 degree view over Dunedin, Otago Harbour, the peninsula and the ocean. It's about 10 minutes' drive from the centre, and there's a monument at the top.\n\nThe road up is narrow and parking is limited. It's very exposed, so it's often windy and cold even on a sunny day.\nLocal tip: Go at sunrise rather than sunset, since the hill looks east over the harbour, and take a warm jacket whatever the weather looks like below.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Open any time; narrow road, limited parking; very windy",
-    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/", "confidence": "high"
+    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/",
+    "confidence": "high"
   },
   {
     "name": "Moeraki Boulders",
     "slug": "moeraki-boulders",
-    "lat": -45.345269, "lng": 170.826281,
-    "category": ["Scenic", "Water"], "region": "dunedin-otago", "active": false, "price": "Free",
-    "description": "A beach about an hour north of Dunedin scattered with huge, almost perfectly round boulders, some up to 2m across and a few cracked open. It is one of the most photographed spots on the east coast and an easy stop on the drive between Dunedin and Oamaru or Christchurch.\n\nThere are two car parks: one by the Māori-owned café, where a small fee applies to use the boardwalk down, and a free one further along with a 10 minute beach walk. The café does good seafood chowder.\nLocal tip: Go at low tide, when more boulders are exposed, and at sunrise or sunset for the best photos.",
+    "lat": -45.345269,
+    "lng": 170.826281,
+    "category": [
+      "Scenic",
+      "Water"
+    ],
+    "region": "dunedin-otago",
+    "area": "oamaru",
+    "active": false,
+    "price": "Free",
+    "description": "Te Kaihinaki, a beach about an hour north of Dunedin scattered with huge, almost perfectly round boulders, some up to 2m across and a few cracked open. They formed in mudstone laid down around 60 million years ago and were exposed as the cliffs eroded, and they're signposted on SH1, 3km south of Hampden.\n\nThere are two ways in. From the café at the end of a private road, a small fee gets you a track straight down to the beach and a 150m loop with a view from above, and the café does good seafood chowder. From DOC's free car park at Waiwherowhero Creek, it's a 10 minute walk along the beach, but there are no toilets there.\nLocal tip: Go at low tide, when more boulders are exposed, and at sunrise or sunset for the best photos. Watch for rogue waves on this exposed coast.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Beach open any time; best at low tide; café 8.30am to 4pm",
-    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/", "confidence": "high"
+    "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/",
+    "confidence": "high"
   },
   {
     "name": "Sutton Salt Lake",
@@ -334,10 +567,11 @@
       "Nature",
       "Walks"
     ],
-    "region": "dunedin-otago", "area": "dunedin",
+    "region": "dunedin-otago",
+    "area": "dunedin",
     "active": true,
     "price": "Free",
-    "description": "New Zealand's only inland salt lake, in a dry basin of schist tors near Middlemarch. The lake has no outlet, so salts from the surrounding soils have built up in it over time. An easy 3.5km self-guided loop, 45 minutes to an hour, runs from the reserve entrance to the lake and back.\n\nTo get there, drive south from Middlemarch on SH87, and just after crossing the railway line for the second time turn right onto the unsealed Kidds Road; the entrance is about 2.5km along on the left. The lake is shallow and can dry out in summer.\nLocal tip: There is no shade on the loop, so take a hat and water, and pair it with a day on the Otago Central Rail Trail from Middlemarch.",
+    "description": "New Zealand's only inland salt lake, in a dry basin of schist tors near Middlemarch. The lake has no outlet, so salts from the surrounding soils have built up over time. An easy 3.5km self-guided loop, 45 minutes to an hour, runs from the reserve entrance to the lake and back.\n\nTo get there, drive south from Middlemarch on SH87, and just after crossing the railway line for the second time, turn right onto unsealed Kidds Road. The entrance is about 2.5km along on the left. The lake is shallow and can dry out in summer, and the track isn't wheelchair accessible.\nLocal tip: There's no shade on the loop, so take a hat and water, and pair it with a day on the Otago Central Rail Trail from Middlemarch.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Open any time; 3.5km easy loop, 45 min to 1 hr; unsealed Kidds Road off SH87, about 9.5km from Middlemarch; not wheelchair accessible",
     "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/sutton-salt-lake-scenic-reserve/things-to-do/sutton-salt-lake-walk/",
@@ -346,48 +580,89 @@
   {
     "name": "Esplanade Surf School",
     "slug": "esplanade-surf-school",
-    "lat": -45.911297, "lng": 170.491226,
-    "category": ["Adventure", "Water"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Moderate",
+    "lat": -45.911297,
+    "lng": 170.491226,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Moderate",
     "website": "https://www.espsurfschool.co.nz/",
-    "description": "A surf school on the Esplanade at St Clair, running group and private lessons for beginners through to more advanced surfers, plus board and wetsuit hire. It operates through the warmer months.\n\nIt is now under new management, and recent reviews praise the instructors, though earlier reviews mention a cancelled lesson that was slow to be refunded. Prices are not listed online.\nLocal tip: Book by phone on 0800 484 141 and confirm the day before, since lessons depend on the surf.",
+    "description": "A surf school on the Esplanade at St Clair, running group and private lessons for beginners through to more advanced surfers, plus board and wetsuit hire. A 1.5 hour group lesson is $60 for adults and $45 for children aged 7 to 16, with the board and wetsuit included.\n\nIt's now under new management, and recent reviews praise the instructors. Lessons run through the warmer months and can be rescheduled if the surf or weather isn't right.\nLocal tip: Book ahead, by phone on 0800 484 141 or online, and confirm the day before, since lessons depend on the surf.",
     "recommendedDurationSlots": 4,
     "hoursNote": "Operates roughly October to April; lessons by booking; prices on request",
-    "sourceUrl": "https://www.espsurfschool.co.nz/", "confidence": "medium"
+    "sourceUrl": "https://www.espsurfschool.co.nz/",
+    "confidence": "medium"
   },
   {
     "name": "Warrington Domain Freedom Camping",
     "slug": "warrington-domain-freedom-camping",
-    "lat": -45.715569, "lng": 170.596669,
-    "category": ["Stay"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Free",
-    "description": "A free freedom camping area on a big grassed field by the beach at Warrington, about 25 minutes north of Dunedin. You can hear the waves from your van, there are portaloos and a dump station on site, and flush toilets and a sink a minute's walk away by the playground.\n\nCampers report that you don't need to be self-contained to stay here, but check the current signs. Stays are limited to two nights and fires aren't allowed.\nLocal tip: The beach here is a good surf and walking spot, and Orokonui Ecosanctuary is just up the road for the morning.",
+    "lat": -45.715569,
+    "lng": 170.596669,
+    "category": [
+      "Stay"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Free",
+    "description": "A free freedom camping area on a big grassed field by the beach at Warrington, about 25 minutes north of Dunedin. You can hear the waves from your van, there are portaloos and a dump station on site, and flush toilets and a sink are a minute's walk away by the playground.\n\nCampers report that you don't need to be self-contained to stay here, but check the current signs. Stays are limited to two nights, and fires aren't allowed.\nLocal tip: The beach is a good surf and walking spot, and Orokonui Ecosanctuary is just up the road for the morning.",
     "hoursNote": "Free; max 2 nights; no fires; toilets and dump station; check signs for current rules",
-    "sourceUrl": "https://exploredunedin.nz/warrington-domain-a-scenic-coastal-freedom-camping-spot-near-dunedin/", "confidence": "medium"
+    "sourceUrl": "https://exploredunedin.nz/warrington-domain-a-scenic-coastal-freedom-camping-spot-near-dunedin/",
+    "confidence": "medium"
   },
   {
     "name": "Hogwartz Backpackers",
     "slug": "hogwartz-backpackers",
-    "lat": -45.875024, "lng": 170.497984,
-    "category": ["Stay"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Cheap",
-    "description": "An independent backpackers in a restored old home on Rattray Street, a short uphill walk from the Octagon. It has single beds rather than bunks, cosy rooms, a fire in the lounge, a piano and a big, well stocked kitchen.\n\nIt is quieter than most hostels, and guests like the character of the building. Reception closes in the early evening, and hot water pressure can vary when the place is full.\nLocal tip: Arrive before reception closes around 7pm if you can, and don't be put off by the hill; it is only a few minutes from town.",
+    "lat": -45.875024,
+    "lng": 170.497984,
+    "category": [
+      "Stay"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Cheap",
+    "description": "An independent backpackers in a restored old home on Rattray Street, a short uphill walk from the Octagon. It has single beds rather than bunks, cosy rooms, a fire in the lounge, a piano and a big, well-stocked kitchen.\n\nIt's quieter than most hostels, and guests like the character of the building. Reception closes in the early evening, and hot water pressure can vary when the place is full.\nLocal tip: Arrive before reception closes, around 7pm, if you can, and don't be put off by the hill, since it's only a few minutes from town.",
     "hoursNote": "Reception closes early evening; check-in times on booking",
-    "sourceUrl": "https://www.yelp.com/biz/hogwartz-backpacker-hostel-dunedin", "confidence": "medium"
+    "sourceUrl": "https://www.yelp.com/biz/hogwartz-backpacker-hostel-dunedin",
+    "confidence": "medium"
   },
   {
     "name": "George Street Motel Apartments",
     "slug": "george-street-motel-apartments",
-    "lat": -45.864679, "lng": 170.508600,
-    "category": ["Stay"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Moderate",
-    "description": "A motel on upper George Street with spacious one-bedroom apartments that have full kitchens, big TVs and on-site parking. A recent guest paid about $150 a night, which is good value for a full apartment within walking distance of the centre and the museum.\n\nGuests consistently mention how clean and warm the units are and the friendly owners.\nLocal tip: It is an easy walk to the Otago Museum, Botanic Garden and George Street cafés, so you can leave the car parked.",
+    "lat": -45.864679,
+    "lng": 170.5086,
+    "category": [
+      "Stay"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Moderate",
+    "description": "A motel on upper George Street with spacious one-bedroom apartments that have full kitchens, big TVs and on-site parking. It's good value for a full apartment within walking distance of the centre and the museum.\n\nGuests consistently mention how clean and warm the units are, and the friendly owners.\nLocal tip: It's an easy walk to the Otago Museum, the Botanic Garden and the George Street cafés, so you can leave the car parked.",
     "hoursNote": "On-site parking; rates vary by season",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJo-Pw1G-sLqgRTbyA8gomNE4", "confidence": "medium"
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJo-Pw1G-sLqgRTbyA8gomNE4",
+    "confidence": "medium"
   },
   {
     "name": "97 Motel Moray",
     "slug": "97-motel-moray",
-    "lat": -45.874024, "lng": 170.501060,
-    "category": ["Stay"], "region": "dunedin-otago", "area": "dunedin", "active": true, "price": "Moderate",
-    "description": "A central motel on Moray Place, a couple of minutes' walk from the Octagon, with spacious studios and apartments with kitchenettes. The decor is a little dated, but rooms are clean, comfortable and surprisingly quiet for the location.\n\nStaff are helpful with local tips, and restaurants, bars and shops are all within walking distance.\nLocal tip: It is the easiest base for doing the city on foot, including the street art trail, which starts at the Octagon around the corner.",
+    "lat": -45.874024,
+    "lng": 170.50106,
+    "category": [
+      "Stay"
+    ],
+    "region": "dunedin-otago",
+    "area": "dunedin",
+    "active": true,
+    "price": "Moderate",
+    "description": "A central motel on Moray Place, a couple of minutes' walk from the Octagon, with spacious studios and apartments with kitchenettes. The decor is a little dated, but the rooms are clean, comfortable and surprisingly quiet for the location.\n\nThe staff are helpful with local tips, and restaurants, bars and shops are all within walking distance.\nLocal tip: It's the easiest base for doing the city on foot, including the street art trail, which starts just around the corner off the Octagon.",
     "hoursNote": "Reception Mon to Fri 7am to 8pm, Sat and Sun 8am to 6pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ-_GuXgysLqgR9-jmh5TKqcA", "confidence": "medium"
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ-_GuXgysLqgR9-jmh5TKqcA",
+    "confidence": "medium"
   }
 ]

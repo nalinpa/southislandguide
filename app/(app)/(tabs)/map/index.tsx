@@ -17,7 +17,7 @@ import { useSession } from "@/lib/providers/SessionProvider";
 import { usePurchaseContext } from "@/lib/iap/PurchaseProvider";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
 import { PLANNER } from "@/lib/constants/gameplay";
-import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, canAddToItinerary, type SiteCategory } from "@/lib/models";
+import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, canAddToItinerary, matchesSearch, type SiteCategory } from "@/lib/models";
 import { distanceMeters, nearestSite, NEAR_PLACES_METERS } from "@/lib/utils/geoDistance";
 import { SitesMapView, initialRegionFrom } from "@/components/map/SitesMapView";
 import type { SitesMapViewHandle } from "@/components/map/SitesMapView";
@@ -102,9 +102,9 @@ export default function MapScreen() {
   }, [itineraries.length, entitledProductIds]);
 
   const mapSites = useMemo(() => {
-    const q = debouncedSearchQuery.trim().toLowerCase();
+    // The same search as Explore's: name, description or category.
     return visibleSites
-      .filter((s) => (!q || s.name.toLowerCase().includes(q)) && (!categoryFilter || s.category.includes(categoryFilter)))
+      .filter((s) => matchesSearch(s, debouncedSearchQuery) && (!categoryFilter || s.category.includes(categoryFilter)))
       .map((s) => ({
         id: s.id,
         name: s.name,
@@ -320,7 +320,7 @@ export default function MapScreen() {
               </View>
               <View style={styles.premiumBannerTextWrap}>
                 <Text style={styles.premiumBannerTitle}>
-                  {lockedSites.length} Premium {lockedSites.length === 1 ? "Location" : "Locations"} Nearby
+                  {lockedSites.length} Premium {lockedSites.length === 1 ? "Place" : "Places"} Nearby
                 </Text>
                 <Text style={styles.premiumBannerSubtitle}>Unlock the full guide to explore</Text>
               </View>
@@ -425,6 +425,10 @@ export default function MapScreen() {
 
       <components.TripChoiceSheet
         visible={showTripChoice}
+        // The kit's defaults say "itinerary"; this app says "trip".
+        title="Add to Trip"
+        addExistingSublabel="Choose a day in one of your trips"
+        createNewSublabel="Pick dates and add this place"
         onClose={() => setShowTripChoice(false)}
         onAddToExisting={() => {
           setShowTripChoice(false);
@@ -462,7 +466,7 @@ export default function MapScreen() {
       <PremiumFeatureModal
         visible={showPremiumAdd}
         onClose={() => setShowPremiumAdd(false)}
-        title="Building itineraries is a Premium feature"
+        title="Planning trips is a Premium feature"
         message="Unlock the full guide to add places and plan your trip."
         unverified={entitlementsUnknown}
         onRetry={recheckEntitlements}

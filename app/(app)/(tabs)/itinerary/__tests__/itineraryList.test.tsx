@@ -1,6 +1,6 @@
-// The Plans tab. In 1.0 there's no paid unlock: the real useEntitlementGate stub treats every
+// The Trips tab. In 1.0 there's no paid unlock: the real useEntitlementGate stub treats every
 // user as entitled, so it's used unmocked here and these tests pin what 1.0 users get — a
-// guest sees a sign-in card, a signed-in user always sees the "My Trips" list (never
+// guest sees a sign-in card, a signed-in user always sees the trip list (never
 // rotorua-guide's inline single-trip view, which is the free tier's), and "Create new trip"
 // stays until the PLANNER.MAX_ITINERARIES cap. The CreateItineraryModal is never locked.
 
@@ -97,7 +97,7 @@ describe("guest", () => {
     const view = await render(<ItineraryListPage />);
 
     expect(view.getByText("Sign In to Plan a Trip")).toBeTruthy();
-    expect(view.queryByText("My Trips")).toBeNull();
+    expect(view.queryByText("Create new trip")).toBeNull();
   });
 
   it("points a guest at the login screen", async () => {
@@ -111,7 +111,7 @@ describe("guest", () => {
   it("titles the screen in white on the brand bar", async () => {
     const view = await render(<ItineraryListPage />);
 
-    expect(view.getByText("Plans")).toHaveStyle({ color: "#FFFFFF" });
+    expect(view.getByText("Trips")).toHaveStyle({ color: "#FFFFFF" });
   });
 });
 
@@ -142,7 +142,7 @@ describe("loading and failure", () => {
     mockTrips.itineraries = [makeTrip("t1"), makeTrip("t2")];
     const view = await render(<ItineraryListPage />);
 
-    expect(view.getByText("My Trips")).toBeTruthy();
+    expect(view.getByText("Trips")).toBeTruthy();
     expect(view.queryByText("Try Again")).toBeNull();
   });
 });
@@ -172,7 +172,7 @@ describe("with trips", () => {
     mockTrips.itineraries = [makeTrip("t1")];
     const view = await render(<ItineraryListPage />);
 
-    expect(view.getByText("My Trips")).toBeTruthy();
+    expect(view.getByText("Trips")).toBeTruthy();
     expect(view.getByText("Christchurch Trip t1")).toBeTruthy();
     expect(view.queryByText("Detail view for t1")).toBeNull();
   });
@@ -223,7 +223,7 @@ describe("with trips", () => {
     mockTrips.itineraries = [makeTrip("t1")];
     const view = await render(<ItineraryListPage />);
 
-    expect(view.getByText("My Trips")).toHaveStyle({ color: "#FFFFFF" });
+    expect(view.getByText("Trips")).toHaveStyle({ color: "#FFFFFF" });
   });
 
   // Starting another trip is the screen's main action, so it takes the highlight.

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { View, StyleSheet, TextInput, Linking, Pressable, RefreshControl } from "react-native";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Bookmark, BookOpen, ChevronRight, Search, X } from "lucide-react-native";
 
 import { Screen, LoadingState, ErrorCard, CardShell, Stack, AppText, AppIconButton } from "@/lib/uiKit";
@@ -13,7 +13,7 @@ import { ListView } from "@/components/sites/list/ListView";
 import { AreaSheet, type AreaOption } from "@/components/sites/AreaSheet";
 import { nearestArea } from "@/components/map/MapRegion";
 import { AREAS, DEFAULT_AREA, areaName } from "@/lib/areas";
-import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, type SiteCategory } from "@/lib/models";
+import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, matchesSearch, type SiteCategory } from "@/lib/models";
 import { useTourTarget } from "@/lib/tour/useTourTarget";
 import { useTourStepRoute } from "@/lib/tour/useTourStepRoute";
 
@@ -120,17 +120,8 @@ export default function SiteListPage() {
   const filteredLocations = useMemo(() => {
     let list = areaLocations;
     if (activeCategory) list = list.filter((l) => l.category[0] === activeCategory);
-    // Name, description, or a category's label as shown on the tabs: someone
-    // typing "beach" or "food" should find places whose names don't say so.
-    if (searchQuery.trim()) {
-      const q = searchQuery.trim().toLowerCase();
-      list = list.filter(
-        (l) =>
-          l.name.toLowerCase().includes(q) ||
-          !!l.description?.toLowerCase().includes(q) ||
-          l.category.some((cat) => SITE_CATEGORY_LABELS[cat]?.toLowerCase().includes(q)),
-      );
-    }
+    // Someone typing "beach" or "food" should find places whose names don't say so.
+    list = list.filter((l) => matchesSearch(l, searchQuery));
     return list;
   }, [areaLocations, activeCategory, searchQuery]);
 
@@ -153,10 +144,34 @@ export default function SiteListPage() {
   const firstId = rows[0]?.location.id;
   useTourStepRoute("place", firstId ? `/(app)/(tabs)/sites/${firstId}` : undefined);
 
+  // A town chosen in the sheet, or handed over by a trip's "Find more things to do". A
+  // category chosen in one town isn't carried to a town that has nothing in it, to come
+  // back unasked when the user returns.
+  const chooseArea = (id: string) => {
+    setChosenArea(id);
+    if (!activeLocations.some((l) => (l.area ?? "") === id && category && l.category[0] === category)) {
+      setCategory(null);
+    }
+  };
+
+  // Handed over by another screen: taken once, then cleared. This tab screen keeps its
+  // params, and the same town sent again later must still count as new. It opens on the
+  // town's whole list: a category or search left on from before is cleared.
+  const { area: areaParam } = useLocalSearchParams<{ area?: string }>();
+  useEffect(() => {
+    if (!areaParam) return;
+    setChosenArea(areaParam);
+    setCategory(null);
+    setSearchQuery("");
+    setSearchOpen(false);
+    router.setParams({ area: undefined });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [areaParam]);
+
   if (entitiesLoading || session.status === "loading") {
     return (
       <Screen>
-        <LoadingState label="Finding Locations..." />
+        <LoadingState label="Finding places..." />
       </Screen>
     );
   }
@@ -175,7 +190,7 @@ export default function SiteListPage() {
   const topBar = (
     <TopBar
       // The town being shown, and the way to change it when there is another to change to.
-      title={areaLabel ?? "Locations"}
+      title={areaLabel ?? "Places"}
       onTitlePress={areaOptions.length > 1 ? () => setAreaMenuOpen(true) : undefined}
       titleLabel={`${areaLabel}, choose a town`}
       titleTarget={townTarget}
@@ -201,7 +216,7 @@ export default function SiteListPage() {
               setSearchOpen((open) => !open);
               if (searchOpen) setSearchQuery("");
             }}
-            accessibilityLabel="Search Locations"
+            accessibilityLabel={searchOpen ? "Close search" : "Search places"}
           />
           <AppIconButton
             icon={Bookmark}
@@ -219,7 +234,7 @@ export default function SiteListPage() {
             <TextInput
               value={searchQuery}
               onChangeText={setSearchQuery}
-              placeholder="Search Locations"
+              placeholder="Search places"
               placeholderTextColor={tokens.colors.textMuted}
               style={styles.searchInput}
               autoFocus
@@ -251,7 +266,7 @@ export default function SiteListPage() {
         <ErrorCard
           status="warning"
           title="Location Disabled"
-          message="Enable location to see distances to nearby Locations."
+          message="Enable location to see distances to nearby places."
           action={{ label: "Open Settings", onPress: handleRefreshGPS }}
         />
       )}
@@ -265,7 +280,7 @@ export default function SiteListPage() {
           <View style={styles.signInText}>
             <AppText variant="sectionTitle">Sign In for More</AppText>
             <AppText variant="body" style={styles.signInHint}>
-              Sign in to save Locations and leave reviews.
+              Sign in to save places and leave reviews.
             </AppText>
           </View>
           <ChevronRight size={22} color={tokens.colors.highlight} strokeWidth={2.5} />
@@ -275,8 +290,8 @@ export default function SiteListPage() {
       {activeLocations.length > 0 && rows.length === 0 && (
         <AppText variant="body" status="hint" style={styles.centerText}>
           {searchQuery.trim()
-            ? `No Locations${areaLabel ? ` in ${areaLabel}` : ""} match your search.`
-            : `No ${activeCategory ? SITE_CATEGORY_LABELS[activeCategory] : "Locations"} to show.`}
+            ? `No places${areaLabel ? ` in ${areaLabel}` : ""} match your search.`
+            : `No ${activeCategory ? SITE_CATEGORY_LABELS[activeCategory] : "places"} to show.`}
         </AppText>
       )}
     </Stack>
@@ -304,7 +319,7 @@ export default function SiteListPage() {
           activeLocations.length === 0 ? (
             <CardShell style={styles.emptyCard}>
               <Stack gap="sm" align="center">
-                <AppText variant="h3">No Locations Found</AppText>
+                <AppText variant="h3">No Places Found</AppText>
                 <AppText variant="body" status="hint" style={styles.centerText}>
                   Check back soon.
                 </AppText>
@@ -318,12 +333,7 @@ export default function SiteListPage() {
         options={areaOptions}
         selected={area}
         onSelect={(id) => {
-          setChosenArea(id);
-          // Not carried to the next town as a filter it has nothing in, to come back
-          // unasked when the user returns to this one.
-          if (!activeLocations.some((l) => (l.area ?? "") === id && category && l.category[0] === category)) {
-            setCategory(null);
-          }
+          chooseArea(id);
           setAreaMenuOpen(false);
         }}
         onClose={() => setAreaMenuOpen(false)}

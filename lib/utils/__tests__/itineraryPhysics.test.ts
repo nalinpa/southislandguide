@@ -9,6 +9,7 @@ import {
   moveItemToDay,
   tryEdit,
   tripSummary,
+  redateTrip,
 } from "@/lib/utils/itineraryPhysics";
 import type { PlaceLookup } from "@/lib/utils/transitMatrix";
 import type { ItineraryDay, ItineraryItem } from "@/lib/models";
@@ -22,8 +23,9 @@ describe("slotsToDurationLabel", () => {
     expect(slotsToDurationLabel(2)).toBe("1 Hour");
   });
 
-  it("handles half-hour durations", () => {
-    expect(slotsToDurationLabel(1)).toBe("0.5 Hours");
+  it("says half an hour in minutes, and the rest in hours", () => {
+    expect(slotsToDurationLabel(1)).toBe("30 min");
+    expect(slotsToDurationLabel(3)).toBe("1.5 Hours");
   });
 });
 
@@ -74,6 +76,16 @@ const slots = (items: ItineraryItem[]) => items.map((i) => i.slotIndex);
 describe("runPhysicsEngine", () => {
   it("returns an empty array unchanged", () => {
     expect(runPhysicsEngine([], places)).toEqual([]);
+  });
+
+  // The one place a stop's labels are set, so a stored one can't disagree with its slots.
+  it("labels each stop's time and length from its slots, whatever was stored", () => {
+    const [stop] = runPhysicsEngine(
+      [makeItem({ id: "a", siteId: "site-a", slotIndex: 2, durationSlots: 1, timeLabel: "", durationLabel: "0.5 Hours" })],
+      places,
+    );
+
+    expect({ time: stop.timeLabel, length: stop.durationLabel }).toEqual({ time: "9:00 AM", length: "30 min" });
   });
 
   it("pushes a colliding item forward past the required transit gap", () => {
@@ -506,5 +518,49 @@ describe("tripSummary", () => {
 
     expect(fits.overflows).toBe(false);
     expect(over.overflows).toBe(true);
+  });
+});
+
+describe("redateTrip", () => {
+  const stop = (id: string) => ({ id, siteId: "chc-a", siteName: "A", slotIndex: 2, durationSlots: 2, timeLabel: "", durationLabel: "" });
+  const trip: ItineraryDay[] = [
+    { id: "d1", date: "2026-11-02", items: [stop("a")] },
+    { id: "d2", date: "2026-11-03", items: [] },
+    { id: "d3", date: "2026-11-04", items: [stop("b")] },
+  ];
+  let n = 0;
+  const newId = () => `new_${++n}`;
+  beforeEach(() => {
+    n = 0;
+  });
+
+  it("moves every day with a new start, keeping its id and places", () => {
+    const days = redateTrip(trip, "2026-12-10", 3, newId);
+
+    expect(days.map((d) => d.date)).toEqual(["2026-12-10", "2026-12-11", "2026-12-12"]);
+    expect(days.map((d) => d.id)).toEqual(["d1", "d2", "d3"]);
+    expect(days[2].items).toBe(trip[2].items);
+  });
+
+  it("adds empty days at the end for a longer trip", () => {
+    const days = redateTrip(trip, "2026-11-02", 5, newId);
+
+    expect(days.slice(3)).toEqual([
+      { id: "new_1", date: "2026-11-05", items: [] },
+      { id: "new_2", date: "2026-11-06", items: [] },
+    ]);
+  });
+
+  it("drops days from the end for a shorter trip", () => {
+    expect(redateTrip(trip, "2026-11-02", 2, newId).map((d) => d.id)).toEqual(["d1", "d2"]);
+  });
+
+  it("dates across a month's end", () => {
+    expect(redateTrip(trip, "2026-10-30", 4, newId).map((d) => d.date)).toEqual([
+      "2026-10-30",
+      "2026-10-31",
+      "2026-11-01",
+      "2026-11-02",
+    ]);
   });
 });

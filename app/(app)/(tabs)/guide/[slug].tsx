@@ -7,10 +7,12 @@ import { tokens } from "@/lib/ui/tokens";
 import { GUIDE_CATEGORIES } from "@/lib/guideContent";
 import { TopBar, TopBarBack } from "@/components/layout/TopBar";
 
-// Back goes to the guide list explicitly. This is a tab screen, and the Tabs
-// navigator's default back behaviour returns to the FIRST tab (Explore), not to
-// the screen you came from.
-const backToGuideList = () => router.navigate("/(app)/(tabs)/guide");
+// Back pops the tab history (app/(app)/(tabs)/_layout.tsx) to the guide list this was
+// opened from. Not router.navigate to the list: that would move the list after this
+// article in the history, and the list's own back button would come back here.
+// Opened cold, from a link, the list.
+const backToGuideList = () =>
+  router.canGoBack() ? router.back() : router.navigate("/(app)/(tabs)/guide");
 
 // This route lives under (tabs) so the tab bar shows, which makes it a TAB
 // screen: React Navigation keeps one instance and only swaps the `slug` param.

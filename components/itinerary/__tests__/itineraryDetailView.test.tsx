@@ -100,6 +100,15 @@ const mockLookup = {
   refresh: jest.fn(),
 };
 jest.mock("@/lib/hooks/usePlaceLookup", () => ({ usePlaceLookup: () => mockLookup }));
+// The trip editor (Edit Trip in the menu) has its own tests; here only what it's handed.
+jest.mock("@/components/itinerary/CreateItineraryModal", () => {
+  const React = require("react");
+  const { Text } = require("react-native");
+  return {
+    CreateItineraryModal: ({ visible, trip }: any) =>
+      visible ? React.createElement(Text, null, `Editing ${trip.title}, ${trip.days.length} days`) : null,
+  };
+});
 jest.mock("@/components/itinerary/PremiumFeatureModal", () => {
   const React = require("react");
   const { Text } = require("react-native");
@@ -452,6 +461,25 @@ describe("deleting a day", () => {
     expect(payload.days.map((d: any) => d.date)).toEqual(["2026-10-01", "2026-10-02"]);
     expect(payload.endDate).toBe("2026-10-02");
   });
+
+  // It used to be the one day that couldn't go. Arriving a day later means the trip
+  // starts a day later: the other days keep their dates.
+  it("deletes the first day too, starting the trip a day later", async () => {
+    const view = await openTrip();
+
+    await waitFor(() => expect(view.getByText("Day 1")).toBeTruthy());
+    await fireEvent.press(iconButtonBesideText(view, "Day 1", 2));
+    takeAlertButton("Delete");
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    const payload = mockTrips.saveItinerary.mock.calls[0][0];
+    expect(payload.days.map((d: any) => [d.id, d.date])).toEqual([
+      ["day_2", "2026-10-02"],
+      ["day_3", "2026-10-03"],
+    ]);
+    expect(payload.startDate).toBe("2026-10-02");
+    expect(payload.endDate).toBe("2026-10-03");
+  });
 });
 
 describe("the trip menu", () => {
@@ -461,6 +489,15 @@ describe("the trip menu", () => {
     await fireEvent.press(view.getByLabelText("Trip options"));
 
     expect(view.getByText("Delete Trip")).toBeTruthy();
+  });
+
+  it("opens the trip editor on the trip as it stands", async () => {
+    const view = await openTrip();
+    await fireEvent.press(view.getByLabelText("Trip options"));
+
+    await fireEvent.press(view.getByText("Edit Trip"));
+
+    expect(view.getByText("Editing Hot Pools Weekend, 3 days")).toBeTruthy();
   });
 
   it("offers Switch Trip only when there is another trip to switch to", async () => {
@@ -551,6 +588,41 @@ describe("the drive between areas", () => {
     await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
     const day1 = mockTrips.saveItinerary.mock.calls[0][0].days[0];
     expect(day1.items.map((i: any) => i.slotIndex)).toEqual([2, 13]);
+  });
+
+  // "Find more things to do" opens Explore on the town the traveller is in at that gap:
+  // before the drive, Christchurch; after it, Dunedin. It used to open the user's own town.
+  it("opens Explore on the town each free gap is in", async () => {
+    mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2 }), museum({ slotIndex: 20 })])];
+    const view = await openTrip();
+
+    const gaps = view.getAllByTestId("free-gap");
+    await fireEvent.press(within(gaps[0]).getByText("+ Find more things to do"));
+    await fireEvent.press(within(gaps[gaps.length - 1]).getByText("+ Find more things to do"));
+
+    expect(mockRouter.push).toHaveBeenNthCalledWith(1, { pathname: "/(app)/(tabs)/sites", params: { area: "christchurch" } });
+    expect(mockRouter.push).toHaveBeenNthCalledWith(2, { pathname: "/(app)/(tabs)/sites", params: { area: "dunedin" } });
+  });
+
+  // A trip's first day has no day before it: a gap before its first place is in the
+  // town that place is in.
+  it("opens Explore on the first place's town for a gap before it on the first day", async () => {
+    mockTrips.itineraries = [tripOf([museum({ slotIndex: 20 })])];
+    const view = await openTrip();
+
+    await fireEvent.press(within(view.getAllByTestId("free-gap")[0]).getByText("+ Find more things to do"));
+
+    expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/(app)/(tabs)/sites", params: { area: "dunedin" } });
+  });
+
+  it("opens Explore on the town the day before ended in, for an empty day", async () => {
+    mockTrips.itineraries = [tripOf([museum()], [])];
+    const view = await openTrip({ jumpToDay: "day_2" });
+
+    await waitFor(() => expect(view.queryAllByText("Nothing here yet").length).toBeGreaterThan(0));
+    await fireEvent.press(view.getAllByText("Nothing here yet")[0]);
+
+    expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/(app)/(tabs)/sites", params: { area: "dunedin" } });
   });
 
   // Gardens 9 to 10, then free until the drive leaves at 1:30 for a 6:00 PM arrival.

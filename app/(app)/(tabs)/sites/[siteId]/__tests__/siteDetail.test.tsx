@@ -47,21 +47,20 @@ const mockBag = {
   siteLoading: false,
   siteErr: null as string | null,
   myRating: null as number | null,
-  sharedIds: new Set<string>(),
   avgRating: 4.5,
   ratingCount: 12,
+  saveReview: jest.fn(),
 };
 jest.mock("@/lib/hooksBag", () => ({
   hooksBag: {
     useLocation: () => ({ location: mockBag.site, loading: mockBag.siteLoading, err: mockBag.siteErr }),
-    useMyCompletions: () => ({ sharedLocationIds: mockBag.sharedIds }),
     useLocationReviewsSummary: () => ({
       avgRating: mockBag.avgRating,
       ratingCount: mockBag.ratingCount,
       myRating: mockBag.myRating,
       myText: "",
       saving: false,
-      saveReview: jest.fn(),
+      saveReview: mockBag.saveReview,
     }),
     useDraftsStore: () => ({ drafts: {}, setDraft: jest.fn(), clearDraft: jest.fn() }),
   },
@@ -132,9 +131,9 @@ beforeEach(() => {
   mockBag.siteLoading = false;
   mockBag.siteErr = null;
   mockBag.myRating = null;
-  mockBag.sharedIds = new Set();
   mockBag.avgRating = 4.5;
   mockBag.ratingCount = 12;
+  mockBag.saveReview = jest.fn().mockResolvedValue({ ok: true });
   mockNet.isConnected = true;
 });
 
@@ -148,7 +147,7 @@ describe("what it shows", () => {
   it("says the place wasn't found rather than rendering an empty page", async () => {
     mockBag.site = null;
     await openDetail();
-    expect(screen.getByText("Location Not Found")).toBeTruthy();
+    expect(screen.getByText("Place Not Found")).toBeTruthy();
   });
 
   it("shows the name, the category and the description, with the local tip pulled out", async () => {
@@ -221,7 +220,7 @@ describe("highlight", () => {
 
   it("draws the add-to-itinerary button in the highlight colour", async () => {
     await openDetail();
-    expect(screen.getByRole("button", { name: "+ Add to Itinerary" })).toHaveStyle({
+    expect(screen.getByRole("button", { name: "+ Add to Trip" })).toHaveStyle({
       backgroundColor: tokens.colors.highlight,
     });
   });
@@ -258,25 +257,25 @@ describe("adding to an itinerary", () => {
     mockSession.status = "guest";
     mockSession.uid = undefined;
     await openDetail();
-    expect(screen.queryByText("+ Add to Itinerary")).toBeNull();
+    expect(screen.queryByText("+ Add to Trip")).toBeNull();
   });
 
   it("is not offered for a Stay", async () => {
     mockBag.site = makeSite({ category: ["Stay"] });
     await openDetail();
-    expect(screen.queryByText("+ Add to Itinerary")).toBeNull();
+    expect(screen.queryByText("+ Add to Trip")).toBeNull();
   });
 
   it("is not offered for a place with Stay among its categories", async () => {
     mockBag.site = makeSite({ category: ["Food", "Stay"] });
     await openDetail();
-    expect(screen.queryByText("+ Add to Itinerary")).toBeNull();
+    expect(screen.queryByText("+ Add to Trip")).toBeNull();
   });
 
   it("goes straight to creating a trip when the user has none, then adds the place to it", async () => {
     await openDetail();
 
-    await fireEvent.press(screen.getByText("+ Add to Itinerary"));
+    await fireEvent.press(screen.getByText("+ Add to Trip"));
     expect(screen.getByText("Create Trip Modal")).toBeTruthy();
 
     await fireEvent.press(screen.getByText("Create Trip Modal"));
@@ -287,7 +286,7 @@ describe("adding to an itinerary", () => {
     mockTrips.itineraries = [{ id: "t1" }];
     await openDetail();
 
-    await fireEvent.press(screen.getByText("+ Add to Itinerary"));
+    await fireEvent.press(screen.getByText("+ Add to Trip"));
     await fireEvent.press(screen.getByText("Add to Existing"));
 
     expect(screen.getByText("Add Riccarton Bush to a trip")).toBeTruthy();
@@ -297,7 +296,7 @@ describe("adding to an itinerary", () => {
     mockTrips.itineraries = [{ id: "t1" }];
     await openDetail();
 
-    await fireEvent.press(screen.getByText("+ Add to Itinerary"));
+    await fireEvent.press(screen.getByText("+ Add to Trip"));
     await fireEvent.press(screen.getByText("Create New"));
 
     expect(screen.getByText("Create Trip Modal")).toBeTruthy();
@@ -307,7 +306,7 @@ describe("adding to an itinerary", () => {
     mockTrips.itineraries = [{ id: "t1" }, { id: "t2" }, { id: "t3" }];
     await openDetail();
 
-    await fireEvent.press(screen.getByText("+ Add to Itinerary"));
+    await fireEvent.press(screen.getByText("+ Add to Trip"));
 
     expect(screen.queryByText("Add to Existing")).toBeNull();
     expect(screen.getByText("Add Riccarton Bush to a trip")).toBeTruthy();
@@ -317,7 +316,7 @@ describe("adding to an itinerary", () => {
     mockNet.isConnected = false;
     await openDetail();
 
-    await fireEvent.press(screen.getByText("Reconnect to Add to Itinerary"));
+    await fireEvent.press(screen.getByText("Reconnect to Add to Trip"));
 
     expect(screen.queryByText("Create Trip Modal")).toBeNull();
   });
@@ -334,13 +333,14 @@ describe("sharing", () => {
     expect(screen.getByText("Share Route")).toBeTruthy();
   });
 
-  it("marks a place already shared, and doesn't open the share screen again", async () => {
-    mockBag.sharedIds = new Set(["site-1"]);
+  // It used to lock to a highlighted "Shared" after the first share.
+  it("opens the share screen again for a place already shared", async () => {
     await openDetail();
 
-    await fireEvent.press(screen.getByText("Shared"));
+    await fireEvent.press(screen.getByText("Share"));
 
-    expect(route.getPathname()).toBe("/sites/site-1");
+    expect(route.getPathname()).toBe("/share-frame");
+    expect(screen.queryByText("Shared")).toBeNull();
   });
 });
 
@@ -387,6 +387,33 @@ describe("saving and reviews", () => {
 
     expect(route.getPathname()).toBe("/sites/site-1/reviews");
   });
+
+  // A guest could write a whole review, tap Save, and get only an error buzz: the hook
+  // refuses a guest's review, and the screen said nothing.
+  it("asks a guest to sign in before reviewing", async () => {
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    mockSession.status = "guest";
+    mockSession.uid = undefined;
+    await openDetail();
+
+    await fireEvent.press(screen.getByText("Review"));
+
+    expect(alertSpy).toHaveBeenCalledWith("Sign In Required", "Sign in to leave a review.", expect.any(Array));
+    expect(screen.queryByText("Review Modal")).toBeNull();
+    alertSpy.mockRestore();
+  });
+
+  it("says why a review didn't save", async () => {
+    mockBag.saveReview = jest.fn().mockResolvedValue({ ok: false, err: "Failed to save review." });
+    await openDetail();
+
+    await fireEvent.press(screen.getByText("Review"));
+    await fireEvent.press(screen.getByText("Save Review"));
+
+    // In plain words, not the hook's own message.
+    expect(await screen.findByText("Couldn't save your review. Check your connection and try again.")).toBeTruthy();
+    expect(screen.getByText("Review Modal")).toBeTruthy();
+  });
 });
 
 // The opening tour's step on a place (lib/tour/tourSteps.ts): the add button for someone
@@ -394,10 +421,10 @@ describe("saving and reviews", () => {
 describe("the tour", () => {
   const target = (id: string) => screen.queryByTestId("tour-target-" + id);
 
-  it("points at + Add to Itinerary", async () => {
+  it("points at + Add to Trip", async () => {
     await openDetail();
 
-    expect(target("placeAdd")).toHaveTextContent("+ Add to Itinerary");
+    expect(target("placeAdd")).toHaveTextContent("+ Add to Trip");
   });
 
   it("points at the heart", async () => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ScrollView } from "react-native";
 import { Image } from "expo-image";
 import { router } from "expo-router";
@@ -9,7 +9,8 @@ import { CardShell, AppButton } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { usePlaceLookup } from "@/lib/hooks/usePlaceLookup";
-import { tryEdit } from "@/lib/utils/itineraryPhysics";
+import { slotsToDurationLabel, tripSummary, tryEdit } from "@/lib/utils/itineraryPhysics";
+import { areaName } from "@/lib/areas";
 import { PLANNER } from "@/lib/constants/gameplay";
 import type { ItineraryItem } from "@/lib/models";
 
@@ -19,6 +20,13 @@ const TIME_OF_DAY = [
   { key: "afternoon", label: "Afternoon", startSlot: 12 },
   { key: "evening", label: "Evening", startSlot: 18 },
 ] as const;
+
+const dayDate = (iso: string) =>
+  new Date(iso + "T00:00:00").toLocaleDateString("en-NZ", { weekday: "short", day: "numeric", month: "short" });
+
+// What was just added, for the done state. Its own copy: the form's trip and day are reset
+// whenever the trip list changes, and the save itself changes it.
+type Added = { tripId: string; tripTitle: string; dayId: string; dayLabel: string; slot: number };
 
 type AddToTripModalProps = {
   site: { id: string; name: string; imageUrl?: string } | null;
@@ -37,6 +45,13 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   const [timeOfDay, setTimeOfDay] = useState<(typeof TIME_OF_DAY)[number]["key"]>("morning");
   const [durationSlots, setDurationSlots] = useState(2);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  // Set once the place is saved: the modal then says so, and the user stays where they
+  // were (Done) or opens the trip (View Trip). It used to jump to the trip every time.
+  const [added, setAdded] = useState<Added | null>(null);
+  // By the place's id, not the object: both callers build `site` afresh on every render,
+  // and the save itself makes them re-render, which wiped the confirmation (and the form)
+  // a moment after it appeared.
+  useEffect(() => setAdded(null), [site?.id]);
 
   useEffect(() => {
     if (!site) return;
@@ -47,11 +62,18 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     setTimeOfDay("morning");
     setDurationSlots(2);
     setErrorMsg(null);
-  }, [site, initialItineraryId, itineraries]);
-
-  if (!site) return null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [site?.id, initialItineraryId, itineraries]);
 
   const selectedTrip = itineraries.find((i) => i.id === itineraryId);
+  // Each day's towns, as the trip overview shows them, so a day can be told apart by more
+  // than its number.
+  const summary = useMemo(
+    () => (selectedTrip && placesReady ? tripSummary(selectedTrip.days, places) : []),
+    [selectedTrip, placesReady, places],
+  );
+
+  if (!site) return null;
 
   const handleAdd = async () => {
     setErrorMsg(null);
@@ -68,6 +90,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
       siteId: site.id,
       siteName: site.name,
       slotIndex: startSlot,
+      // Both labels are filled in when the day is packed (runPhysicsEngine).
       timeLabel: "",
       durationLabel: "",
       durationSlots,
@@ -99,10 +122,21 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
       setErrorMsg("Couldn't add to your trip. Try again.");
       return;
     }
+    const dayIndex = selectedTrip.days.findIndex((d) => d.id === dayId);
+    setAdded({
+      tripId: selectedTrip.id,
+      tripTitle: selectedTrip.title,
+      dayId,
+      dayLabel: `Day ${dayIndex + 1} · ${dayDate(day.date)}`,
+      slot: placedItem.slotIndex ?? 0,
+    });
+  };
+
+  const viewTrip = (done: Added) => {
     onClose();
     router.push({
       pathname: "/(app)/(tabs)/itinerary/[itineraryId]",
-      params: { itineraryId: selectedTrip.id, jumpToDay: dayId, jumpToSlot: String(placedItem.slotIndex) },
+      params: { itineraryId: done.tripId, jumpToDay: done.dayId, jumpToSlot: String(done.slot) },
     });
   };
 
@@ -112,12 +146,32 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
         <View style={styles.wrapper}>
           <CardShell status="basic" style={styles.card}>
             <View style={styles.header}>
-              <Text style={styles.title}>Add to Itinerary</Text>
-              <TouchableOpacity onPress={onClose} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+              <Text style={styles.title}>Add to Trip</Text>
+              <TouchableOpacity
+                onPress={onClose}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                accessibilityRole="button"
+                accessibilityLabel="Close"
+              >
                 <X color={tokens.colors.text2} size={24} />
               </TouchableOpacity>
             </View>
 
+            {added ? (
+              <View style={styles.done}>
+                <Text style={styles.doneTitle}>Added</Text>
+                <Text style={styles.doneBody}>
+                  {site.name} is on {added.dayLabel}
+                  {itineraries.length > 1 ? ` of ${added.tripTitle}` : ""}.
+                </Text>
+                <AppButton variant="primary" fullWidth onPress={onClose}>
+                  Done
+                </AppButton>
+                <TouchableOpacity style={styles.viewTrip} accessibilityRole="button" onPress={() => viewTrip(added)}>
+                  <Text style={styles.viewTripText}>View Trip</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
             <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
               <View style={styles.siteRow}>
                 {site.imageUrl ? (
@@ -165,6 +219,10 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                         onPress={() => setDayId(day.id)}
                       >
                         <Text style={[styles.pillText, dayId === day.id && styles.pillTextActive]}>Day {idx + 1}</Text>
+                        <Text style={[styles.pillSub, dayId === day.id && styles.pillTextActive]} numberOfLines={1}>
+                          {dayDate(day.date)}
+                          {summary[idx]?.areas.length ? ` · ${summary[idx].areas.map(areaName).join(" → ")}` : ""}
+                        </Text>
                       </TouchableOpacity>
                     ))}
                   </ScrollView>
@@ -186,19 +244,23 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
 
               <Text style={styles.label}>Duration</Text>
               <View style={styles.stepperRow}>
-                <TouchableOpacity style={styles.stepBtn} onPress={() => setDurationSlots((n) => Math.max(1, n - 1))}>
+                <TouchableOpacity
+                  style={styles.stepBtn}
+                  onPress={() => setDurationSlots((n) => Math.max(1, n - 1))}
+                  accessibilityRole="button"
+                  accessibilityLabel="Shorter"
+                >
                   <Minus color={tokens.colors.accent} size={20} />
                 </TouchableOpacity>
                 <View style={styles.stepCenter}>
-                  <Text style={styles.durationText}>
-                    {durationSlots === 1
-                      ? "30 min"
-                      : durationSlots === 2
-                        ? "1 Hour"
-                        : `${durationSlots / 2} Hours`}
-                  </Text>
+                  <Text style={styles.durationText}>{slotsToDurationLabel(durationSlots)}</Text>
                 </View>
-                <TouchableOpacity style={styles.stepBtn} onPress={() => setDurationSlots((n) => Math.min(PLANNER.MAX_GRID_SLOTS, n + 1))}>
+                <TouchableOpacity
+                  style={styles.stepBtn}
+                  onPress={() => setDurationSlots((n) => Math.min(PLANNER.MAX_GRID_SLOTS, n + 1))}
+                  accessibilityRole="button"
+                  accessibilityLabel="Longer"
+                >
                   <Plus color={tokens.colors.accent} size={20} />
                 </TouchableOpacity>
               </View>
@@ -217,10 +279,12 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                   disabled={isOffline || !placesReady}
                   fullWidth
                 >
-                  {isOffline ? "Reconnect to Add" : placesReady ? "Add to Trip" : "Loading Places..."}
+                  {/* "Add", not "Add to Trip": that's the sheet's title, just above. */}
+                  {isOffline ? "Reconnect to Add" : placesReady ? "Add" : "Loading Places..."}
                 </AppButton>
               </View>
             </ScrollView>
+            )}
           </CardShell>
         </View>
       </View>
@@ -258,6 +322,12 @@ const styles = StyleSheet.create({
   pillActive: { backgroundColor: tokens.colors.accent, borderColor: tokens.colors.accent },
   pillText: { fontSize: 13, fontWeight: "600", color: tokens.colors.text2 },
   pillTextActive: { color: "#FFFFFF" },
+  pillSub: { fontSize: 11, fontWeight: "500", color: tokens.colors.text2, marginTop: 2 },
+  done: { gap: tokens.space.sm, paddingTop: tokens.space.xs },
+  doneTitle: { fontSize: 18, fontWeight: "800", color: tokens.colors.text },
+  doneBody: { fontSize: 15, lineHeight: 22, color: tokens.colors.text2, marginBottom: tokens.space.sm },
+  viewTrip: { alignSelf: "center", paddingVertical: 12, paddingHorizontal: tokens.space.md },
+  viewTripText: { fontSize: 15, fontWeight: "700", color: tokens.colors.accent },
   stepperRow: {
     flexDirection: "row",
     alignItems: "center",

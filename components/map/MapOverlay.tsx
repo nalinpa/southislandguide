@@ -20,7 +20,8 @@ import { formatDistanceMeters } from "@blacksands/hooks";
 import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
 import { tokens } from "@/lib/ui/tokens";
 import { siteImage } from "@/lib/categoryImages";
-import type { Site, SiteCategory } from "@/lib/models";
+import { SITE_CATEGORY_LABELS, type Site, type SiteCategory } from "@/lib/models";
+import { areaName } from "@/lib/areas";
 
 export type NearbySite = {
   id: string;
@@ -150,14 +151,14 @@ export function MapOverlayCard({
               <ActivityIndicator color="rgba(255,255,255,0.7)" size="small" />
               <Text style={styles.loadingLabel}>CALIBRATING GPS</Text>
             </View>
-            <Pressable onPress={onFocusSite}>
+            <Pressable onPress={onFocusSite} accessibilityRole="button" accessibilityLabel={`Show ${site.name} on the map`}>
               <Text style={styles.siteName} numberOfLines={2}>
                 {site.name}
               </Text>
             </Pressable>
           </View>
           <View style={styles.actions}>
-            <Pressable onPress={onOpen} style={styles.btnDetails}>
+            <Pressable onPress={onOpen} style={styles.btnDetails} accessibilityRole="button">
               <Text style={styles.btnDetailsText}>View Details</Text>
             </Pressable>
           </View>
@@ -165,7 +166,10 @@ export function MapOverlayCard({
       );
     }
 
-    const metaLine = [site.category[0], site.region]
+    // The category's label (as on Explore's tabs) and the town, by name. They used to be
+    // the raw ids: "FOOD · WEST-COAST".
+    const category = site.category[0];
+    const metaLine = [category && (SITE_CATEGORY_LABELS[category] ?? category), site.area && areaName(site.area)]
       .filter(Boolean)
       .join(" · ")
       .toUpperCase();
@@ -175,7 +179,12 @@ export function MapOverlayCard({
       <>
         <View style={styles.header}>
           <View style={styles.headerRow}>
-            <Pressable style={styles.headerLeft} onPress={onFocusSite}>
+            <Pressable
+              style={styles.headerLeft}
+              onPress={onFocusSite}
+              accessibilityRole="button"
+              accessibilityLabel={`Show ${site.name} on the map`}
+            >
               <Text style={styles.siteName} numberOfLines={2}>
                 {site.name}
               </Text>
@@ -216,7 +225,7 @@ export function MapOverlayCard({
               style={[styles.btnAddToTrip, isOffline && styles.btnAddToTripDisabled]}
             >
               <CalendarPlus size={16} color={tokens.colors.accent} strokeWidth={2.25} />
-              <Text style={styles.btnAddToTripText}>{isOffline ? "Reconnect to Add" : "Add to Itinerary"}</Text>
+              <Text style={styles.btnAddToTripText}>{isOffline ? "Reconnect to Add" : "Add to Trip"}</Text>
             </Pressable>
           </View>
         )}
@@ -265,6 +274,8 @@ export function MapOverlayCard({
                     key={item.id}
                     onPress={() => onSelectSite(item.siteId)}
                     style={styles.carouselCard}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${item.timeLabel}, ${item.siteName}`}
                   >
                     {cardImage ? (
                       <ImageBackground
@@ -312,6 +323,8 @@ export function MapOverlayCard({
                 key={nearby.id}
                 onPress={() => onSelectSite(nearby.id)}
                 style={styles.nearbyRow}
+                accessibilityRole="button"
+                accessibilityLabel={`${nearby.name}, ${formatDistanceMeters(nearby.distanceMeters)}`}
               >
                 <View
                   style={[

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Modal, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import { Alert, View, StyleSheet, Modal, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import { ApiError } from "@blacksands/client";
 import { useNetInfo } from "@react-native-community/netinfo";
 import { X, Minus, Plus, ChevronDown, Check, CalendarDays, Lock } from "lucide-react-native";
@@ -11,7 +11,8 @@ import { CardShell, AppButton, AppText, Row } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { ITINERARY_TEMPLATES, defaultTemplateKey } from "@/lib/itineraryTemplates";
-import { slotIndexToTimeLabel, slotsToDurationLabel } from "@/lib/utils/itineraryPhysics";
+import { redateTrip, slotIndexToTimeLabel, slotsToDurationLabel } from "@/lib/utils/itineraryPhysics";
+import type { Itinerary } from "@/lib/models";
 import { PLANNER } from "@/lib/constants/gameplay";
 
 type CreateItineraryModalProps = {
@@ -20,6 +21,8 @@ type CreateItineraryModalProps = {
   onClose: () => void;
   onCreated: (id: string) => void;
   showTemplateOption?: boolean;
+  /** Set: edits this trip (name, start date, length) instead of creating one. */
+  trip?: Itinerary;
 };
 
 function tomorrow(): Date {
@@ -55,6 +58,7 @@ export function CreateItineraryModal({
   onClose,
   onCreated,
   showTemplateOption = false,
+  trip,
 }: CreateItineraryModalProps) {
   const { itineraries, saveItinerary, isSaving } = useItineraries();
   const netInfo = useNetInfo();
@@ -68,22 +72,78 @@ export function CreateItineraryModal({
   const [showCalendar, setShowCalendar] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const templatesEnabled = showTemplateOption;
+  // Editing starts from the trip as it is; a template only makes sense for a new one.
+  const templatesEnabled = showTemplateOption && !trip;
 
   useEffect(() => {
     if (visible) {
-      setTitle("");
-      setStartDate(tomorrow());
-      setNumDays(locked ? 1 : 3);
-      setSelectedTemplate(defaultTemplateKey(locked));
+      setTitle(trip ? trip.title : "");
+      setStartDate(trip ? new Date(trip.startDate + "T00:00:00") : tomorrow());
+      setNumDays(trip ? trip.days.length : locked ? 1 : 3);
+      setSelectedTemplate(trip ? null : defaultTemplateKey(locked));
       setTemplateOpen(false);
       setShowCalendar(false);
       setErrorMsg(null);
     }
-  }, [visible, locked]);
+  }, [visible, locked, trip]);
+
+  // Every day moves with a new start and keeps its places; a longer trip gets empty days
+  // at the end, a shorter one loses its last days, after asking if they hold places.
+  const handleSave = async (editing: Itinerary) => {
+    const newStart = isoDate(startDate);
+    const days = redateTrip(editing.days, newStart, numDays, () => `day_${randomUUID()}`);
+    const newEnd = days[days.length - 1].date;
+    const conflict = itineraries.find(
+      (itin) => itin.id !== editing.id && newStart <= itin.endDate && newEnd >= itin.startDate,
+    );
+    if (conflict) {
+      setErrorMsg(`Dates overlap with "${conflict.title}". Choose different dates.`);
+      return;
+    }
+
+    const save = async () => {
+      try {
+        await saveItinerary({
+          id: editing.id,
+          title: title.trim() || "South Island Trip",
+          startDate: newStart,
+          endDate: newEnd,
+          days,
+        });
+        onCreated(editing.id);
+        onClose();
+      } catch (err) {
+        setErrorMsg(
+          err instanceof ApiError && err.status === 409
+            ? "Those dates overlap an existing trip. Pick a different range."
+            : "Couldn't save the trip. Try again.",
+        );
+      }
+    };
+
+    // Only the dropped days that hold places are named: "Day 6 has 1 place", not "Day 4
+    // and Day 5 and Day 6 have 1 place".
+    const losing = editing.days
+      .map((d, i) => ({ name: `Day ${i + 1}`, places: d.items?.length ?? 0 }))
+      .slice(numDays)
+      .filter((d) => d.places > 0);
+    const droppedPlaces = losing.reduce((n, d) => n + d.places, 0);
+    if (droppedPlaces === 0) return save();
+    const names = losing.map((d) => d.name);
+    const list = names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}` : names[0];
+    Alert.alert(
+      "Shorten the Trip?",
+      `${list} ${names.length === 1 ? "has" : "have"} ${droppedPlaces} ${droppedPlaces === 1 ? "place" : "places"}. Shorten the trip and remove ${droppedPlaces === 1 ? "it" : "them"}?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Remove Places", style: "destructive", onPress: () => void save() },
+      ],
+    );
+  };
 
   const handleCreate = async () => {
     setErrorMsg(null);
+    if (trip) return handleSave(trip);
 
     const resolvedTitle = title.trim() || "South Island Trip";
     const template = templatesEnabled
@@ -146,8 +206,13 @@ export function CreateItineraryModal({
         <View style={styles.wrapper}>
           <CardShell status="basic" style={styles.card}>
             <View style={styles.header}>
-              <AppText style={styles.title}>New Trip</AppText>
-              <TouchableOpacity onPress={onClose} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+              <AppText style={styles.title}>{trip ? "Edit Trip" : "New Trip"}</AppText>
+              <TouchableOpacity
+                onPress={onClose}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                accessibilityRole="button"
+                accessibilityLabel="Close"
+              >
                 <X color={tokens.colors.text2} size={24} />
               </TouchableOpacity>
             </View>
@@ -281,7 +346,7 @@ export function CreateItineraryModal({
 
               {templatesEnabled && (
                 <>
-                  <AppText style={styles.label}>Suggested Itinerary</AppText>
+                  <AppText style={styles.label}>Suggested Trip</AppText>
                   <TouchableOpacity
                     style={styles.dropdownTrigger}
                     onPress={() => setTemplateOpen((o) => !o)}
@@ -390,12 +455,14 @@ export function CreateItineraryModal({
                 variant="primary"
                 onPress={handleCreate}
                 loading={isSaving}
-                loadingLabel="Creating..."
+                loadingLabel={trip ? "Saving..." : "Creating..."}
                 disabled={isOffline}
                 fullWidth
                 style={styles.createBtn}
               >
-                {isOffline ? "Reconnect to Create Trip" : "Create Trip"}
+                {trip
+                  ? isOffline ? "Reconnect to Save" : "Save Changes"
+                  : isOffline ? "Reconnect to Create Trip" : "Create Trip"}
               </AppButton>
             </ScrollView>
           </CardShell>

@@ -20,6 +20,7 @@ import { TopBar } from "@/components/layout/TopBar";
 import { EditItemModal } from "@/components/itinerary/EditItemModal";
 import { PremiumFeatureModal } from "@/components/itinerary/PremiumFeatureModal";
 import { DeleteTripModal } from "@/components/itinerary/DeleteTripModal";
+import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { NoteCard } from "@/components/itinerary/NoteCard";
 import { DriveBlock } from "@/components/itinerary/DriveBlock";
 import { TripOverview } from "@/components/itinerary/TripOverview";
@@ -36,7 +37,7 @@ import {
   dayStartSiteId,
   moveItemToDay,
   packTrip,
-  slotsToDurationLabel,
+  redateTrip,
   timelineOffsetForMinutes,
   tryEdit,
   type DayLeg,
@@ -378,6 +379,9 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showTripMenu, setShowTripMenu] = useState(false);
+  // The trip being edited (name, start date, length), as it stood on screen when the
+  // editor opened.
+  const [editingTrip, setEditingTrip] = useState<Itinerary | null>(null);
 
   const handleConfirmDeleteItinerary = async () => {
     if (!localTrip) return;
@@ -403,22 +407,21 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
           );
           if (!remainingDays) return;
 
-          // Re-date sequentially from startDate so the trip's date range never
-          // has a gap where a deleted middle day used to be — a 3-day trip
-          // loses a day and becomes a 2-day trip, it doesn't keep spanning 3
-          // calendar days with only 2 day entries.
-          const start = new Date(localTrip.startDate + "T00:00:00");
-          const updatedDays = remainingDays.map((d, i) => {
-            const date = new Date(start);
-            date.setDate(date.getDate() + i);
-            return { ...d, date: localIsoDate(date) };
-          });
+          // Re-date sequentially so the trip's date range never has a gap where a
+          // deleted middle day used to be — a 3-day trip loses a day and becomes a
+          // 2-day trip, it doesn't keep spanning 3 calendar days with only 2 day
+          // entries. Deleting the first day starts the trip a day later instead: the
+          // rest keep their dates.
+          // (An old day may have no date: then the trip keeps its start.)
+          const startDate =
+            (dayId === localTrip.days[0].id ? remainingDays[0]?.date : undefined) || localTrip.startDate;
+          const updatedDays = redateTrip(remainingDays, startDate, remainingDays.length, () => `day_${randomUUID()}`);
           const newEndDate = updatedDays[updatedDays.length - 1]?.date ?? localTrip.startDate;
-          const nextTrip = { ...localTrip, days: updatedDays, endDate: newEndDate };
+          const nextTrip = { ...localTrip, days: updatedDays, startDate, endDate: newEndDate };
           setLocalTrip(nextTrip);
           if (dayId === activeDayId) setActiveDayId(updatedDays[0]?.id ?? null);
           hasUnsavedChanges.current = false;
-          saveTrip({ id: nextTrip.id, days: nextTrip.days, endDate: nextTrip.endDate });
+          saveTrip({ id: nextTrip.id, days: nextTrip.days, startDate: nextTrip.startDate, endDate: nextTrip.endDate });
         },
       },
     ]);
@@ -553,7 +556,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
       withOpenDayItems(
         latestItemsRef.current.map((item) =>
           item.id === itemId
-            ? { ...item, durationSlots, durationLabel: slotsToDurationLabel(durationSlots), note: note || undefined }
+            ? { ...item, durationSlots, note: note || undefined }
             : item,
         ),
       );
@@ -655,6 +658,28 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     );
   }
 
+  // The town someone is in at a slot of the open day: where the last place or drive to
+  // start before it left them; with nothing before it, where the day starts from (the day
+  // before's last place), else where the day is heading (its first place, on a trip's
+  // first day). Explore opens on it from the day's "Find more things to do".
+  const townAt = (slot: number): string | undefined => {
+    const events = [
+      ...localItems.map((item) => ({ start: item.slotIndex ?? 0, area: places(item.siteId)?.area })),
+      ...legs.flatMap((leg) => (leg.drive ? [{ start: leg.startSlot, area: leg.drive.toArea }] : [])),
+    ]
+      .filter((e) => e.area)
+      .sort((a, b) => a.start - b.start);
+    const before = events.filter((e) => e.start < slot).pop();
+    if (before) return before.area;
+    const dayIndex = localTrip.days.findIndex((d) => d.id === activeDay?.id);
+    const startId = dayStartSiteId(localTrip.days, dayIndex);
+    return (startId ? places(startId)?.area : undefined) ?? events[0]?.area;
+  };
+  const browseFrom = (slot: number) => {
+    const area = townAt(slot);
+    router.push(area ? { pathname: "/(app)/(tabs)/sites", params: { area } } : "/(app)/(tabs)/sites");
+  };
+
   const renderLeg = (leg: DayLeg) =>
     leg.drive ? (
       <DriveBlock
@@ -716,13 +741,19 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
             contentContainerStyle={styles.tabScroll}
           >
             {localTrip.days.map((day, index) => {
-              const isActive = day.id === activeDayId;
-              const canDelete = isActive && index > 0;
+              // The day shown, which is the first when the open one has gone (the trip was
+              // shortened under it, or a refetch hasn't caught up with a new day yet).
+              // activeDayId is kept, so the screen goes back to that day once it's there.
+              const isActive = day.id === activeDay?.id;
+              const canDelete = isActive && localTrip.days.length > 1;
               return (
                 <TouchableOpacity
                   key={day.id}
                   testID={`day-tab-${day.id}`}
                   onPress={() => handleSwitchDay(day.id)}
+                  accessibilityRole="tab"
+                  accessibilityState={{ selected: isActive }}
+                  accessibilityLabel={`Day ${index + 1}, ${formatDayDate(day.date)}`}
                   onLayout={(e) => {
                     dayTabFrames.current[day.id] = { x: e.nativeEvent.layout.x, width: e.nativeEvent.layout.width };
                     if (isActive) scrollStripTo(day.id, false);
@@ -739,6 +770,8 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                     {canDelete && (
                       <TouchableOpacity
                         onPress={() => handleDeleteDay(day.id)}
+                        accessibilityRole="button"
+                        accessibilityLabel={`Delete Day ${index + 1}`}
                         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                         style={styles.dayDeleteBtn}
                       >
@@ -751,7 +784,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
               );
             })}
             {isEntitled && localTrip.days.length < PLANNER.MAX_TRIP_DAYS && (
-              <TouchableOpacity onPress={handleAddDay} style={styles.addDayBtn}>
+              <TouchableOpacity onPress={handleAddDay} style={styles.addDayBtn} accessibilityRole="button">
                 <Plus color="#FFFFFF" size={16} strokeWidth={2.5} />
                 <AppText style={styles.addDayText}>Add Day</AppText>
               </TouchableOpacity>
@@ -833,14 +866,14 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                   >
                     <TouchableOpacity
                       style={styles.emptyDayCard}
-                      onPress={() => router.push("/(app)/(tabs)/sites")}
+                      onPress={() => browseFrom(MAX_GRID_SLOTS)}
                       activeOpacity={0.7}
                     >
                       <AppText variant="body" style={styles.emptyDayTitle}>
                         Nothing here yet
                       </AppText>
                       <AppText variant="label" status="hint" style={styles.emptyDayBody}>
-                        Browse places and tap "+ Add to Itinerary" to build this day.
+                        Browse places and tap "+ Add to Trip" to build this day.
                       </AppText>
                     </TouchableOpacity>
                   </View>
@@ -853,7 +886,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                   testID="free-gap"
                   style={[styles.gapContainer, { top: gap.start * SLOT_HEIGHT, height: (gap.end - gap.start) * SLOT_HEIGHT }]}
                 >
-                  <TouchableOpacity style={styles.gapCard} onPress={() => router.push("/(app)/(tabs)/sites")} activeOpacity={0.7}>
+                  <TouchableOpacity style={styles.gapCard} onPress={() => browseFrom(gap.start)} activeOpacity={0.7}>
                     <AppText style={styles.gapCardText}>+ Find more things to do</AppText>
                   </TouchableOpacity>
                 </View>
@@ -865,7 +898,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
 
       <EditItemModal
         item={editingItem}
-        currentDayId={activeDayId || ""}
+        currentDayId={activeDay?.id ?? ""}
         availableDays={localTrip.days.map((d, idx) => ({
           id: d.id,
           label: `Day ${idx + 1}`,
@@ -891,6 +924,18 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
 
       <NoteCard item={viewingNote} onClose={() => setViewingNote(null)} />
 
+      {/* The saved trip arrives through useItineraries' refetch, like any other save. Only
+          while editing: kept mounted, it flipped to "New Trip" as it slid closed, and its
+          hooks ran on every redraw of this screen. */}
+      {editingTrip && (
+        <CreateItineraryModal
+          visible
+          trip={editingTrip}
+          onClose={() => setEditingTrip(null)}
+          onCreated={() => setEditingTrip(null)}
+        />
+      )}
+
       <DeleteTripModal
         visible={showDeleteConfirm}
         tripTitle={localTrip.title || "My Trip"}
@@ -902,10 +947,24 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
         <TouchableOpacity style={styles.menuOverlay} activeOpacity={1} onPress={() => setShowTripMenu(false)}>
           <SafeAreaView edges={["top"]} style={styles.menuSafeArea} pointerEvents="box-none">
             <View style={styles.menuCard}>
+              <TouchableOpacity
+                style={[styles.menuRow, styles.menuRowDivider]}
+                activeOpacity={0.6}
+                accessibilityRole="button"
+                onPress={() => {
+                  setShowTripMenu(false);
+                  // The trip as it stands on screen, with the open day's edits saved first.
+                  flushSave();
+                  if (tripRef.current) setEditingTrip({ ...tripRef.current, days: currentDays() });
+                }}
+              >
+                <Text style={styles.menuRowText}>Edit Trip</Text>
+              </TouchableOpacity>
               {itineraries.length > 1 && (
                 <TouchableOpacity
                   style={[styles.menuRow, styles.menuRowDivider]}
                   activeOpacity={0.6}
+                  accessibilityRole="button"
                   onPress={() => {
                     setShowTripMenu(false);
                     router.push("/(app)/(tabs)/itinerary");
@@ -917,6 +976,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
               <TouchableOpacity
                 style={styles.menuRow}
                 activeOpacity={0.6}
+                accessibilityRole="button"
                 onPress={() => {
                   setShowTripMenu(false);
                   setShowDeleteConfirm(true);

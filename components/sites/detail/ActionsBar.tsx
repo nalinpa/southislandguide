@@ -59,8 +59,7 @@ export function QuickActions({
   onDirections,
   onOpenReview,
   hasReview,
-  onShareBonus,
-  shareBonus,
+  onShare,
   isSaved,
   onToggleSave,
   saveTarget,
@@ -68,8 +67,7 @@ export function QuickActions({
   onDirections: () => void;
   onOpenReview: () => void;
   hasReview: boolean;
-  onShareBonus: () => void;
-  shareBonus: boolean;
+  onShare: () => void;
   isSaved: boolean;
   onToggleSave: () => void;
   /** The opening tour's target (useTourTarget) for the heart. */
@@ -85,14 +83,9 @@ export function QuickActions({
         active={hasReview}
         divided
       />
-      <QuickAction
-        icon={Share2}
-        label={shareBonus ? "Shared" : "Share"}
-        onPress={onShareBonus}
-        disabled={shareBonus}
-        active={shareBonus}
-        divided
-      />
+      {/* Any time, as often as they like (owner, 2026-10-20). It used to lock to a
+          highlighted "Shared" after the first share, the template's share-bonus mechanic. */}
+      <QuickAction icon={Share2} label="Share" onPress={onShare} divided />
       <QuickAction
         icon={Heart}
         label={isSaved ? "Saved" : "Save"}

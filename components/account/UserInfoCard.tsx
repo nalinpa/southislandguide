@@ -33,8 +33,16 @@ export function UserInfoCard() {
   };
 
   if (isAuthed) {
+    // Which account this is: the session carries only the uid. Sign-in is email-only
+    // for 1.0, so there's always an address.
+    const email = auth.currentUser?.email;
     return (
       <View style={styles.section}>
+        {email ? (
+          <Text style={styles.signedInAs} numberOfLines={1}>
+            Signed in as <Text style={styles.signedInEmail}>{email}</Text>
+          </Text>
+        ) : null}
         <TouchableOpacity style={styles.logoutRow} onPress={handleLogout} activeOpacity={0.6}>
           <LogOut size={14} color={tokens.colors.text2} strokeWidth={2} />
           <Text style={styles.logoutText}>Sign Out</Text>
@@ -80,6 +88,8 @@ const styles = StyleSheet.create({
     color: tokens.colors.text2,
     marginBottom: 12,
   },
+  signedInAs: { fontSize: 14, color: tokens.colors.text2, marginBottom: 10 },
+  signedInEmail: { fontWeight: "600", color: tokens.colors.text },
   logoutRow: {
     flexDirection: "row",
     alignItems: "center",

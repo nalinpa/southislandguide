@@ -113,8 +113,8 @@ describe("duration", () => {
     const view = await open({ item: { ...item, durationSlots: 1 } });
 
     // The minus button, pressed twice, must not take it under one slot.
-    await fireEvent.press(stepper(view, "0.5 Hours").minus);
-    await fireEvent.press(stepper(view, "0.5 Hours").minus);
+    await fireEvent.press(stepper(view, "30 min").minus);
+    await fireEvent.press(stepper(view, "30 min").minus);
     await fireEvent.press(view.getByText("Save Changes"));
 
     expect(handlers.onSave).toHaveBeenCalledWith("item-1", 1, "");
@@ -196,7 +196,7 @@ describe("removing", () => {
 
     expect(alertSpy).toHaveBeenCalledWith(
       "Remove from Trip",
-      "Remove Wai-O-Tapu from your itinerary?",
+      "Remove Wai-O-Tapu from your trip?",
       expect.any(Array),
     );
     expect(handlers.onRemove).not.toHaveBeenCalled();

@@ -12,6 +12,13 @@ export const AREAS = [
   { id: "oamaru", label: "Ōamaru" },
   { id: "kaikoura", label: "Kaikōura" },
   { id: "wanaka", label: "Wānaka" },
+  // Names capitals can't make from the id. In this order so the town picker's order
+  // doesn't change: within a region it lists these first, then the rest by id.
+  // ponytail: "arthurs-pass" → "Arthur's Pass" waits for the town-to-town drive times
+  // (generate-drive-times areas --apply, run once the last town is in): every town listed
+  // here must have a time to every other (lib/__tests__/areas.test.ts). Add it then.
+  { id: "aoraki-mount-cook", label: "Aoraki / Mount Cook" },
+  { id: "catlins", label: "The Catlins" },
 ] as const;
 
 export type AreaId = (typeof AREAS)[number]["id"];

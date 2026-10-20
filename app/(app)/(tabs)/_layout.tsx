@@ -14,26 +14,38 @@ const ALL_TABS: Array<{
   activeIcon: keyof typeof Ionicons.glyphMap;
 }> = [
   { key: "sites", title: "Explore", icon: "compass-outline", activeIcon: "compass" },
-  { key: "itinerary", title: "Plans", icon: "calendar-outline", activeIcon: "calendar" },
+  { key: "itinerary", title: "Trips", icon: "calendar-outline", activeIcon: "calendar" },
   { key: "map", title: "Map", icon: "map-outline", activeIcon: "map" },
   { key: "account", title: "Profile", icon: "person-outline", activeIcon: "person" },
 ];
 
 const normalizeRouteName = (name: string) => name.replace(/\/index$/, "");
 
-// Which tab button to highlight for a route. Detail routes (sites/[siteId],
-// itinerary/[itineraryId], guide/[slug]) are extra tab screens with no button
-// of their own, so match on the route's first segment; the guide's own back
-// button goes to Profile, so it highlights Profile.
+// Which tab button a route belongs to: its first segment (sites/[siteId] → sites). The
+// guide has no button; on its own (a cold deep link) it counts as Profile, where its
+// "Open Guide" hero is.
 const TAB_FOR_SECTION: Record<string, string> = { guide: "account" };
-const highlightedTab = (routeName: string) => {
+const sectionTab = (routeName: string) => {
   const section = routeName.split("/")[0];
   return TAB_FOR_SECTION[section] ?? section;
 };
 
+// A place, its reviews and the guide are opened from any tab, and light the tab they were
+// opened from: the newest route in the tab history that isn't one of them. A trip
+// (itinerary/[itineraryId]) is the Trips tab's own screen and always lights Trips.
+const isShared = (routeName: string) => routeName.startsWith("sites/[siteId]") || routeName.startsWith("guide/");
+const highlightedTab = (state: any) => {
+  const nameOf = new Map<string, string>(state.routes.map((r: any) => [r.key, r.name]));
+  for (const entry of [...(state.history ?? [])].reverse()) {
+    const name = nameOf.get(entry.key);
+    if (name && !isShared(name)) return sectionTab(name);
+  }
+  return sectionTab(state.routes[state.index]?.name ?? "sites");
+};
+
 function TabBar({ state, navigation }: any) {
   const insets = useSafeAreaInsets();
-  const activeRouteName = highlightedTab(state.routes[state.index]?.name ?? "sites");
+  const activeRouteName = highlightedTab(state);
 
   const onSelect = (tabKey: string) => {
     const targetRoute = state.routes.find((r: any) => normalizeRouteName(r.name) === tabKey);
@@ -46,6 +58,7 @@ function TabBar({ state, navigation }: any) {
 
   return (
     <View
+      accessibilityRole="tablist"
       style={[
         styles.bottomNav,
         {
@@ -65,6 +78,9 @@ function TabBar({ state, navigation }: any) {
           <Pressable
             key={t.key}
             onPress={() => onSelect(t.key)}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: isActive }}
+            accessibilityLabel={t.title}
             // The highlight marks "you are here" on every screen.
             style={({ pressed }) => [
               styles.tab,
@@ -92,7 +108,10 @@ function TabBar({ state, navigation }: any) {
 
 export default function TabsLayout() {
   return (
-    <Tabs screenOptions={{ headerShown: false }} tabBar={(props) => <TabBar {...props} />}>
+    // "history": back goes to the screen you came from. The default, "firstRoute", sent
+    // every back to Explore, which is wrong for the detail screens: they're tab screens
+    // here, opened from every tab.
+    <Tabs backBehavior="history" screenOptions={{ headerShown: false }} tabBar={(props) => <TabBar {...props} />}>
       <Tabs.Screen name="sites" />
       <Tabs.Screen name="itinerary" />
       <Tabs.Screen name="map" />

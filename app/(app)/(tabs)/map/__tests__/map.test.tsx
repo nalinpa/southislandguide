@@ -1,5 +1,5 @@
 // The Map tab. What south-island changes over rotorua-guide: the category chips are "All" plus
-// every category (all nine, whether or not a place has it yet), "Add to Itinerary" is hidden
+// every category (all nine, whether or not a place has it yet), "Add to Trip" is hidden
 // for Stay via canAddToItinerary, the map opens on the user when a place is near them, and 1.0
 // has no paid unlock — the real useEntitlementGate stub is used, so nothing is ever locked,
 // there's no premium banner and no paywall before adding to a trip.
@@ -50,7 +50,7 @@ jest.mock("@/components/map/MapOverlay", () => {
           ? React.createElement(
               TouchableOpacity,
               { onPress: onAddToItinerary, accessibilityRole: "button" },
-              React.createElement(Text, null, "Add to Itinerary"),
+              React.createElement(Text, null, "Add to Trip"),
             )
           : null,
       ),
@@ -315,6 +315,21 @@ describe("search", () => {
     expect(markers(view)).toEqual(["Riccarton Bush"]);
   });
 
+  // The same search as Explore's. It used to match names only, so "beach" or "food" found
+  // places on Explore and nothing here.
+  it("finds a place by its description or its category, not just its name", async () => {
+    mockBag.locations[1] = { ...mockBag.locations[1], description: "Old-growth kahikatea forest." };
+    const view = await render(<MapScreen />);
+
+    await fireEvent.changeText(view.getByPlaceholderText("Search places..."), "kahikatea");
+    await settleSearch();
+    expect(markers(view)).toEqual(["Riccarton Bush"]);
+
+    await fireEvent.changeText(view.getByPlaceholderText("Search places..."), "drink");
+    await settleSearch();
+    expect(markers(view)).toEqual(["Riverside Market"]);
+  });
+
   it("selects the place when the search leaves exactly one", async () => {
     const view = await render(<MapScreen />);
 
@@ -396,7 +411,7 @@ describe("adding to an itinerary", () => {
     const view = await render(<MapScreen />);
 
     expect(view.getByText("Overlay: Riverside Market")).toBeTruthy();
-    expect(view.queryByText("Add to Itinerary")).toBeNull();
+    expect(view.queryByText("Add to Trip")).toBeNull();
   });
 
   it("isn't offered for a Stay", async () => {
@@ -404,14 +419,14 @@ describe("adding to an itinerary", () => {
     const view = await render(<MapScreen />);
 
     expect(view.getByText("Overlay: The George")).toBeTruthy();
-    expect(view.queryByText("Add to Itinerary")).toBeNull();
+    expect(view.queryByText("Add to Trip")).toBeNull();
   });
 
   it("goes straight to creating a trip, with no paywall, when the user has none", async () => {
     mockMapStore.selectedLocationId = "s3";
     const view = await render(<MapScreen />);
 
-    await fireEvent.press(view.getByText("Add to Itinerary"));
+    await fireEvent.press(view.getByText("Add to Trip"));
 
     expect(view.queryByText("Premium Modal")).toBeNull();
     expect(view.getByText("Create Trip Modal")).toBeTruthy();
@@ -422,7 +437,7 @@ describe("adding to an itinerary", () => {
     mockTrips.itineraries = [{ id: "t1", days: [] }];
     const view = await render(<MapScreen />);
 
-    await fireEvent.press(view.getByText("Add to Itinerary"));
+    await fireEvent.press(view.getByText("Add to Trip"));
     await fireEvent.press(view.getByText("Add to Existing"));
 
     expect(view.getByText("Add To Trip Modal")).toBeTruthy();
@@ -433,7 +448,7 @@ describe("adding to an itinerary", () => {
     mockTrips.itineraries = Array.from({ length: PLANNER.MAX_ITINERARIES }, (_, i) => ({ id: "t" + i, days: [] }));
     const view = await render(<MapScreen />);
 
-    await fireEvent.press(view.getByText("Add to Itinerary"));
+    await fireEvent.press(view.getByText("Add to Trip"));
 
     expect(view.queryByText("Add to Existing")).toBeNull();
     expect(view.getByText("Add To Trip Modal")).toBeTruthy();

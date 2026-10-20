@@ -80,15 +80,19 @@ const tripWithDays = (...days: ReturnType<typeof makeStop>[][]) => ({
 const christchurchPlace = { id: "chc-a", name: "Botanic Gardens" };
 const dunedinPlace = { id: "dun-a", name: "Otago Museum" };
 
+// The day buttons' date line, made the way the modal makes it, so the weekday isn't hard-coded.
+const dayLabel = (iso: string) =>
+  new Date(iso + "T00:00:00").toLocaleDateString("en-NZ", { weekday: "short", day: "numeric", month: "short" });
+
 describe("what is shown", () => {
   it("renders nothing until a site is handed in", async () => {
     const view = await render(<AddToTripModal site={null} onClose={onClose} />);
-    expect(view.queryByText("Add to Itinerary")).toBeNull();
+    expect(view.queryByText("Add to Trip")).toBeNull();
   });
 
   it("names the site being added", async () => {
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
-    expect(view.getByText("Add to Itinerary")).toBeTruthy();
+    expect(view.getByText("Add to Trip")).toBeTruthy();
     expect(view.getByText("Wai-O-Tapu")).toBeTruthy();
   });
 
@@ -118,7 +122,7 @@ describe("adding", () => {
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
 
     await fireEvent.press(view.getByText("Day 2"));
-    await fireEvent.press(view.getByText("Add to Trip"));
+    await fireEvent.press(view.getByText("Add"));
 
     await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
     const payload = mockTrips.saveItinerary.mock.calls[0][0];
@@ -132,7 +136,7 @@ describe("adding", () => {
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
 
     await fireEvent.press(view.getByText("Evening"));
-    await fireEvent.press(view.getByText("Add to Trip"));
+    await fireEvent.press(view.getByText("Add"));
 
     await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
     const item = mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0];
@@ -143,7 +147,7 @@ describe("adding", () => {
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
     expect(view.getByText("1 Hour")).toBeTruthy();
 
-    await fireEvent.press(view.getByText("Add to Trip"));
+    await fireEvent.press(view.getByText("Add"));
 
     await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
     expect(mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0].durationSlots).toBe(2);
@@ -155,27 +159,67 @@ describe("adding", () => {
     const view = await render(<AddToTripModal site={dunedinPlace} onClose={onClose} />);
 
     await fireEvent.press(view.getByText("Day 2"));
-    await fireEvent.press(view.getByText("Add to Trip"));
+    await fireEvent.press(view.getByText("Add"));
 
     await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
     const day2 = mockTrips.saveItinerary.mock.calls[0][0].days[1];
     expect(day2.items[0]).toMatchObject({ siteId: "dun-a", slotIndex: 9, timeLabel: "12:30 PM" });
+    await fireEvent.press(await view.findByText("View Trip"));
     expect(mockRouter.push).toHaveBeenCalledWith(
       expect.objectContaining({ params: expect.objectContaining({ jumpToDay: "day_2", jumpToSlot: "9" }) }),
     );
   });
 
-  it("opens the trip at the slot the stop actually landed in", async () => {
+  // Adding used to jump to the trip every time, which sent someone adding five places to
+  // the trip screen five times.
+  it("stays put once the place is added, and says where it went", async () => {
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
 
-    await fireEvent.press(view.getByText("Add to Trip"));
+    await fireEvent.press(view.getByText("Add"));
 
-    await waitFor(() => expect(mockRouter.push).toHaveBeenCalled());
+    expect(await view.findByText("Added")).toBeTruthy();
+    expect(view.getByText(new RegExp(`is on Day 1 · ${dayLabel("2026-10-01")}`))).toBeTruthy();
+    expect(mockRouter.push).not.toHaveBeenCalled();
+    expect(onClose).not.toHaveBeenCalled();
+
+    await fireEvent.press(view.getByText("Done"));
+    expect(onClose).toHaveBeenCalled();
+    expect(mockRouter.push).not.toHaveBeenCalled();
+  });
+
+  // Both callers build `site` afresh on every render, and the save makes them re-render.
+  it("keeps saying Added when the caller re-renders with the same place", async () => {
+    const view = await render(<AddToTripModal site={{ ...site }} onClose={onClose} />);
+
+    await fireEvent.press(view.getByText("Add"));
+    expect(await view.findByText("Added")).toBeTruthy();
+
+    await view.rerender(<AddToTripModal site={{ ...site }} onClose={onClose} />);
+
+    expect(view.getByText("Added")).toBeTruthy();
+    expect(view.queryByText("Add")).toBeNull();
+  });
+
+  it("opens the trip at the slot the stop actually landed in, from View Trip", async () => {
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+
+    await fireEvent.press(view.getByText("Add"));
+    await fireEvent.press(await view.findByText("View Trip"));
+
     expect(mockRouter.push).toHaveBeenCalledWith({
       pathname: "/(app)/(tabs)/itinerary/[itineraryId]",
       params: { itineraryId: "t1", jumpToDay: "day_1", jumpToSlot: expect.any(String) },
     });
     expect(onClose).toHaveBeenCalled();
+  });
+});
+
+describe("the day buttons", () => {
+  it("date each day, as well as numbering it", async () => {
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+
+    expect(view.getByText("Day 1")).toBeTruthy();
+    expect(view.getByText(dayLabel("2026-10-01"))).toBeTruthy();
   });
 });
 
@@ -206,7 +250,7 @@ describe("refusals", () => {
     ];
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
 
-    await fireEvent.press(view.getByText("Add to Trip"));
+    await fireEvent.press(view.getByText("Add"));
 
     await waitFor(() => expect(view.getByText("This day is full. Try a different day or shorten the visit.")).toBeTruthy());
     expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
@@ -218,7 +262,7 @@ describe("refusals", () => {
     const view = await render(<AddToTripModal site={dunedinPlace} onClose={onClose} />);
 
     await fireEvent.press(view.getByText("Evening"));
-    await fireEvent.press(view.getByText("Add to Trip"));
+    await fireEvent.press(view.getByText("Add"));
 
     await waitFor(() =>
       expect(
@@ -234,7 +278,7 @@ describe("refusals", () => {
     const view = await render(<AddToTripModal site={christchurchPlace} onClose={onClose} />);
 
     await fireEvent.press(view.getByText("Evening"));
-    await fireEvent.press(view.getByText("Add to Trip"));
+    await fireEvent.press(view.getByText("Add"));
 
     await waitFor(() =>
       expect(
@@ -248,7 +292,7 @@ describe("refusals", () => {
     mockLookup.ready = false;
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
 
-    expect(view.queryByText("Add to Trip")).toBeNull();
+    expect(view.queryByText("Add")).toBeNull();
     await fireEvent.press(view.getByText("Loading Places..."));
 
     expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
@@ -258,7 +302,7 @@ describe("refusals", () => {
     mockTrips.itineraries = [];
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
 
-    await fireEvent.press(view.getByText("Add to Trip"));
+    await fireEvent.press(view.getByText("Add"));
 
     await waitFor(() => expect(view.getByText("Choose a trip and a day.")).toBeTruthy());
     expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
@@ -268,7 +312,7 @@ describe("refusals", () => {
     mockTrips.saveItinerary = jest.fn().mockRejectedValue(new Error("offline-ish"));
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
 
-    await fireEvent.press(view.getByText("Add to Trip"));
+    await fireEvent.press(view.getByText("Add"));
 
     await waitFor(() => expect(view.getByText("Couldn't add to your trip. Try again.")).toBeTruthy());
     expect(onClose).not.toHaveBeenCalled();

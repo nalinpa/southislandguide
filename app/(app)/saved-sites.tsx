@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { Swipeable } from "react-native-gesture-handler";
 import { router } from "expo-router";
-import { Bookmark, Trash2 } from "lucide-react-native";
+import { Heart, Trash2 } from "lucide-react-native";
 
 import { AppText, LoadingState, ErrorCard, Screen } from "@/lib/uiKit";
 import { TopBar, TopBarBack } from "@/components/layout/TopBar";
@@ -171,7 +171,7 @@ export default function SavedSitesPage() {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <View style={styles.emptyState}>
-            <Bookmark color={tokens.colors.borderStrong} size={48} />
+            <Heart color={tokens.colors.borderStrong} size={48} />
             <AppText variant="h3" style={styles.centerText}>
               {savedLocations.length > 0 && category
                 ? `No saved ${SITE_CATEGORY_LABELS[category]} places`
@@ -180,7 +180,7 @@ export default function SavedSitesPage() {
             <AppText variant="body" status="hint" style={styles.centerText}>
               {savedLocations.length > 0 && category
                 ? "Try a different category."
-                : "Tap the bookmark icon on any place to save it here."}
+                : "Tap the heart on any place to save it here."}
             </AppText>
           </View>
         }

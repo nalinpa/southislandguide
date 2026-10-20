@@ -148,6 +148,13 @@ describe("the selected site", () => {
     expect(view.getByText("Directions")).toBeTruthy();
   });
 
+  // It used to print the raw ids: "FOOD · WEST-COAST".
+  it("names its category and town in words", async () => {
+    const view = await openSheet({ site: { ...site, category: ["Food"], area: "wanaka", region: "queenstown-wanaka" } });
+
+    expect(view.getByText("FOOD & DRINK · WĀNAKA")).toBeTruthy();
+  });
+
   it("opens the site", async () => {
     const view = await openSheet();
 
@@ -205,7 +212,7 @@ describe("the selected site", () => {
 describe("add to itinerary", () => {
   it("is absent when the screen supplies no handler", async () => {
     const view = await openSheet();
-    expect(view.queryByText("Add to Itinerary")).toBeNull();
+    expect(view.queryByText("Add to Trip")).toBeNull();
   });
 
   // Solid white, not an outline: on the teal sheet the outline was the faintest thing
@@ -213,15 +220,15 @@ describe("add to itinerary", () => {
   it("is a solid white button", async () => {
     const view = await openSheet({ onAddToItinerary: jest.fn() });
 
-    expect(view.getByRole("button", { name: "Add to Itinerary" })).toHaveStyle({ backgroundColor: "#FFFFFF" });
-    expect(view.getByText("Add to Itinerary")).toHaveStyle({ color: tokens.colors.text });
+    expect(view.getByRole("button", { name: "Add to Trip" })).toHaveStyle({ backgroundColor: "#FFFFFF" });
+    expect(view.getByText("Add to Trip")).toHaveStyle({ color: tokens.colors.text });
   });
 
   it("is offered when it is supplied", async () => {
     const onAddToItinerary = jest.fn();
     const view = await openSheet({ onAddToItinerary });
 
-    await fireEvent.press(view.getByText("Add to Itinerary"));
+    await fireEvent.press(view.getByText("Add to Trip"));
 
     expect(onAddToItinerary).toHaveBeenCalled();
   });

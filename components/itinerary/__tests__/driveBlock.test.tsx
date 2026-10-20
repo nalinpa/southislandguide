@@ -23,7 +23,7 @@ describe("DriveBlock", () => {
 
     expect(view.getByText("Drive to Dunedin")).toBeTruthy();
     expect(view.queryByText("Christchurch to Dunedin")).toBeNull();
-    expect(view.getByText("10:00 AM · About 0.5 Hours")).toBeTruthy();
+    expect(view.getByText("10:00 AM · About 30 min")).toBeTruthy();
   });
 
   it("sits on the timeline where the drive starts, as tall as it is long", async () => {

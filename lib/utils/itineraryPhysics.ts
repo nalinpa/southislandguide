@@ -7,6 +7,7 @@ const { MAX_GRID_SLOTS } = PLANNER;
 
 // Grid starts at 8:00 AM; each slot is 30 minutes
 export function slotsToDurationLabel(durationSlots: number): string {
+  if (durationSlots === 1) return "30 min";
   const hours = durationSlots / 2;
   return `${hours} Hour${hours !== 1 ? "s" : ""}`;
 }
@@ -91,6 +92,9 @@ export function runPhysicsEngine(items: ItineraryItem[], places: PlaceLookup, st
   return packed.map((item) => ({
     ...item,
     timeLabel: slotIndexToTimeLabel(item.slotIndex || 0),
+    // The length's label too, so nothing stored can disagree with it: stops added from a
+    // place used to store none, and older trips stored "0.5 Hours".
+    durationLabel: slotsToDurationLabel(item.durationSlots || 2),
   }));
 }
 
@@ -208,6 +212,25 @@ export function moveItemToDay(days: ItineraryDay[], itemId: string, toDayId: str
     const rest = (day.items ?? []).filter((i) => i.id !== itemId);
     if (day.id !== toDayId) return { ...day, items: rest };
     return { ...day, items: [...rest, item].sort((a, b) => (a.slotIndex || 0) - (b.slotIndex || 0)) };
+  });
+}
+
+// A trip's days re-dated from a new start and cut or padded to `count`: each day keeps
+// its places and moves with the start; days past `count` are dropped, and new ones are
+// empty. Dates only label the days; how a day is timed doesn't depend on them, so
+// nothing needs re-packing.
+export function redateTrip(
+  days: ItineraryDay[],
+  startDate: string,
+  count: number,
+  newDayId: () => string,
+): ItineraryDay[] {
+  const start = new Date(startDate + "T00:00:00");
+  return Array.from({ length: count }, (_, i) => {
+    const date = new Date(start);
+    date.setDate(date.getDate() + i);
+    const iso = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+    return days[i] ? { ...days[i], date: iso } : { id: newDayId(), date: iso, items: [] };
   });
 }
 

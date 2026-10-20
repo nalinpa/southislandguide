@@ -50,9 +50,6 @@ function SiteDetail({ id }: { id: string }) {
   const { session } = useSession();
   const uid = session.status === "authed" ? session.uid : null;
 
-  const { sharedLocationIds } = hooksBag.useMyCompletions(uid);
-  const hasShareBonus = sharedLocationIds.has(id);
-
   const { location: site, loading: entityLoading, err: entityErr } = hooksBag.useLocation(id);
 
   const {
@@ -68,6 +65,8 @@ function SiteDetail({ id }: { id: string }) {
   const isSaved = savedSiteIds.has(id);
 
   const [reviewOpen, setReviewOpen] = useState(false);
+  // Why the last review save failed, shown in the review modal. Cleared on each open.
+  const [reviewError, setReviewError] = useState<string | null>(null);
 
   // The opening tour's step on this screen (lib/tour/tourSteps.ts): the add button for
   // someone with the unlock, the heart for someone without.
@@ -119,22 +118,27 @@ function SiteDetail({ id }: { id: string }) {
     extrapolate: "clamp",
   });
 
-  // GAP: no premium/entitlement lock here -- RTR's original alerts before
-  // letting guests save past a limit (see useEntitlementGate +
-  // FULL_GUIDE_PRODUCT_ID in rotorua-guide's [siteId]/index.tsx). Add your
-  // own gate here if your app sells tiered access.
-  // A guest has no account to save to, so they're asked to sign in — the same
-  // prompt as reporting or blocking on the reviews screen. (useSavedSites also
-  // refuses the save itself.)
+  // A guest has no account to save or review with, so they're asked to sign in — the same
+  // prompt as reporting or blocking on the reviews screen. (useSavedSites and the review
+  // hook also refuse the write itself.)
+  const signedIn = (message: string) => {
+    if (session.status === "authed") return true;
+    Alert.alert("Sign In Required", message, [
+      { text: "Cancel", style: "cancel" },
+      { text: "Sign In", onPress: () => router.push("/(auth)/login") },
+    ]);
+    return false;
+  };
+
   const handleToggleSave = () => {
-    if (session.status !== "authed") {
-      Alert.alert("Sign In Required", "Sign in to save places.", [
-        { text: "Cancel", style: "cancel" },
-        { text: "Sign In", onPress: () => router.push("/(auth)/login") },
-      ]);
-      return;
-    }
+    if (!signedIn("Sign in to save places.")) return;
     toggleSavedSite({ siteId: id, isSaving: !isSaved });
+  };
+
+  const openReview = () => {
+    if (!signedIn("Sign in to leave a review.")) return;
+    setReviewError(null);
+    setReviewOpen(true);
   };
 
   if (entityLoading || session.status === "loading") {
@@ -149,8 +153,8 @@ function SiteDetail({ id }: { id: string }) {
     return (
       <View style={styles.container}>
         <ErrorCard
-          title="Location Not Found"
-          message={entityErr || "Could not find this Location."}
+          title="Place Not Found"
+          message={entityErr || "Couldn't find this place."}
           action={{ label: "Go Back", onPress: () => router.replace("/(app)/(tabs)/sites") }}
         />
       </View>
@@ -192,10 +196,9 @@ function SiteDetail({ id }: { id: string }) {
 
             <QuickActions
               onDirections={handleDirections}
-              onOpenReview={() => setReviewOpen(true)}
+              onOpenReview={openReview}
               hasReview={!!myRating}
-              shareBonus={hasShareBonus}
-              onShareBonus={() =>
+              onShare={() =>
                 router.push({ pathname: "/share-frame", params: { entityId: id, entityName: site.name } })
               }
               isSaved={isSaved}
@@ -224,7 +227,7 @@ function SiteDetail({ id }: { id: string }) {
               onViewAll={() => router.push(`/(app)/(tabs)/sites/${id}/reviews`)}
               isCompleted={true}
               hasUserReviewed={!!myRating}
-              onAddReview={() => setReviewOpen(true)}
+              onAddReview={openReview}
             />
           </Stack>
         </View>
@@ -245,7 +248,11 @@ function SiteDetail({ id }: { id: string }) {
       <SafeAreaView style={styles.backButtonWrap} pointerEvents="box-none">
         <Pressable
           style={styles.backButton}
-          onPress={() => router.back()}
+          accessibilityRole="button"
+          accessibilityLabel="Back"
+          // The screen it was opened from (tab history, app/(app)/(tabs)/_layout.tsx). A
+          // place opened cold, from a link, has nowhere to go back to: the list then.
+          onPress={() => (router.canGoBack() ? router.back() : router.navigate("/(app)/(tabs)/sites"))}
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
         >
           <ArrowLeft color={tokens.colors.text} size={22} strokeWidth={2.25} />
@@ -268,7 +275,7 @@ function SiteDetail({ id }: { id: string }) {
             accessibilityRole="button"
           >
             <AppText style={styles.itineraryButtonText}>
-              {isOffline ? "Reconnect to Add to Itinerary" : "+ Add to Itinerary"}
+              {isOffline ? "Reconnect to Add to Trip" : "+ Add to Trip"}
             </AppText>
           </Pressable>
         </SafeAreaView>
@@ -276,6 +283,10 @@ function SiteDetail({ id }: { id: string }) {
 
       <components.TripChoiceSheet
         visible={showTripChoice}
+        // The kit's defaults say "itinerary"; this app says "trip".
+        title="Add to Trip"
+        addExistingSublabel="Choose a day in one of your trips"
+        createNewSublabel="Pick dates and add this place"
         onClose={() => setShowTripChoice(false)}
         onAddToExisting={() => {
           setShowTripChoice(false);
@@ -315,10 +326,15 @@ function SiteDetail({ id }: { id: string }) {
         saving={reviewsSaving}
         draftRating={currentDraft.rating}
         draftText={currentDraft.text}
+        error={reviewError}
         onChangeRating={(val) => setDraft(id, val, currentDraft.text)}
         onChangeText={(text) => setDraft(id, currentDraft.rating, text)}
-        onClose={() => setReviewOpen(false)}
+        onClose={() => {
+          setReviewError(null);
+          setReviewOpen(false);
+        }}
         onSave={async () => {
+          setReviewError(null);
           const res = await saveReviewToDb({
             locationId: id,
             reviewRating: currentDraft.rating!,
@@ -329,6 +345,10 @@ function SiteDetail({ id }: { id: string }) {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
             setReviewOpen(false);
           } else {
+            // Not res.err: the hook hands back the transport's own words ("Network request
+            // failed"). A guest can't get this far (openReview), and the modal itself asks
+            // for a missing rating, so what's left is a failed save.
+            setReviewError("Couldn't save your review. Check your connection and try again.");
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
           }
         }}

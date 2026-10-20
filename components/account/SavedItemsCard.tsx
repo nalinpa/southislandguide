@@ -21,7 +21,7 @@ export function SavedItemsCard() {
   return (
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionLabel}>Saved Locations</Text>
+        <Text style={styles.sectionLabel}>Saved Places</Text>
         {savedSiteIds.size > 0 && (
           <View style={styles.countBadge}>
             <Text style={styles.countText}>{savedSiteIds.size}</Text>
@@ -30,7 +30,7 @@ export function SavedItemsCard() {
       </View>
 
       {recentSaved.length === 0 ? (
-        <Text style={styles.emptyText}>No saved Locations yet.</Text>
+        <Text style={styles.emptyText}>No saved places yet.</Text>
       ) : (
         <>
           <View style={styles.list}>

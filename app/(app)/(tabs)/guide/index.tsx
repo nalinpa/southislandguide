@@ -30,11 +30,10 @@ export default function GuideIndexPage() {
         flushBottom={hasRegions}
         leading={
           <TopBarBack
-            // Explicit target, not router.back(): the Tabs navigator's default back
-            // behaviour returns to the first tab (Explore), not the Profile tab this
-            // screen is opened from.
-            onPress={() => router.navigate("/(app)/(tabs)/account")}
-            label="Back to Profile"
+            // The tab it was opened from: Explore's book button or Profile's Open Guide.
+            // Opened cold, Profile, where its hero is.
+            onPress={() => (router.canGoBack() ? router.back() : router.navigate("/(app)/(tabs)/account"))}
+            label="Back"
           />
         }
       >

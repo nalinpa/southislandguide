@@ -26,6 +26,7 @@ const mockTrips = {
 jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
 
 import React from "react";
+import { Alert } from "react-native";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import { ApiError } from "@blacksands/client";
 
@@ -228,6 +229,103 @@ describe("offline", () => {
 
     expect(view.getByText("Reconnect to Create Trip")).toBeTruthy();
     await fireEvent.press(view.getByText("Reconnect to Create Trip"));
+    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+  });
+});
+
+// Editing a trip (the trip menu's Edit Trip): the same sheet, opened on the trip as it is.
+describe("editing a trip", () => {
+  const stop = (id: string) => ({ id, siteId: "s", siteName: "S", slotIndex: 2, durationSlots: 2, timeLabel: "", durationLabel: "" });
+  const trip = {
+    id: "trip-1",
+    title: "Coast Trip",
+    startDate: "2027-03-01",
+    endDate: "2027-03-03",
+    days: [
+      { id: "d1", date: "2027-03-01", items: [stop("a")] },
+      { id: "d2", date: "2027-03-02", items: [stop("b"), stop("c")] },
+      { id: "d3", date: "2027-03-03", items: [stop("d")] },
+    ],
+  };
+  const openEdit = () => openModal({ trip, showTemplateOption: true });
+
+  beforeEach(() => {
+    mockTrips.itineraries = [trip];
+  });
+
+  it("opens on the trip as it is, with no template picker", async () => {
+    const view = await openEdit();
+
+    expect(view.getByText("Edit Trip")).toBeTruthy();
+    expect(view.getByDisplayValue("Coast Trip")).toBeTruthy();
+    expect(view.getByText("3 days")).toBeTruthy();
+    expect(view.queryByText("Suggested Trip")).toBeNull();
+    expect(view.getByText("Save Changes")).toBeTruthy();
+  });
+
+  it("saves the same trip, its days keeping their ids and places", async () => {
+    const view = await openEdit();
+
+    await fireEvent.press(view.getByLabelText("More days"));
+    await fireEvent.press(view.getByText("Save Changes"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    const payload = mockTrips.saveItinerary.mock.calls[0][0];
+    expect(payload).toMatchObject({ id: "trip-1", title: "Coast Trip", startDate: "2027-03-01", endDate: "2027-03-04" });
+    expect(payload.days.map((d: any) => d.id)).toEqual(["d1", "d2", "d3", "day_uuid-fixed"]);
+    expect(payload.days[1].items).toHaveLength(2);
+    expect(props.onCreated).toHaveBeenCalledWith("trip-1");
+  });
+
+  it("asks before shortening it past days that hold places, and saves only on yes", async () => {
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    const view = await openEdit();
+
+    await fireEvent.press(view.getByLabelText("Fewer days"));
+    await fireEvent.press(view.getByLabelText("Fewer days"));
+    await fireEvent.press(view.getByText("Save Changes"));
+
+    expect(alertSpy).toHaveBeenCalledWith(
+      "Shorten the Trip?",
+      "Day 2 and Day 3 have 3 places. Shorten the trip and remove them?",
+      expect.any(Array),
+    );
+    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+
+    const buttons = alertSpy.mock.calls[0][2] as { text: string; onPress?: () => void }[];
+    await buttons.find((b) => b.text === "Remove Places")!.onPress!();
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    expect(mockTrips.saveItinerary.mock.calls[0][0].days.map((d: any) => d.id)).toEqual(["d1"]);
+    alertSpy.mockRestore();
+  });
+
+  it("names only the dropped days that hold places", async () => {
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    const quiet = { ...trip, days: [trip.days[0], { ...trip.days[1], items: [] }, trip.days[2]] };
+    mockTrips.itineraries = [quiet];
+    const view = await openModal({ trip: quiet });
+
+    await fireEvent.press(view.getByLabelText("Fewer days"));
+    await fireEvent.press(view.getByLabelText("Fewer days"));
+    await fireEvent.press(view.getByText("Save Changes"));
+
+    expect(alertSpy).toHaveBeenCalledWith(
+      "Shorten the Trip?",
+      "Day 3 has 1 place. Shorten the trip and remove it?",
+      expect.any(Array),
+    );
+    alertSpy.mockRestore();
+  });
+
+  it("refuses dates that run into another trip, but not into itself", async () => {
+    mockTrips.itineraries = [trip, { id: "trip-2", title: "Wine Weekend", startDate: "2027-03-04", endDate: "2027-03-05" }];
+    const view = await openEdit();
+
+    await fireEvent.press(view.getByLabelText("More days"));
+    await fireEvent.press(view.getByText("Save Changes"));
+
+    await waitFor(() => expect(view.getByText('Dates overlap with "Wine Weekend". Choose different dates.')).toBeTruthy());
     expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
   });
 });

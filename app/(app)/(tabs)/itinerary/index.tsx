@@ -38,7 +38,7 @@ export default function ItineraryListPage() {
   if (session.status === "guest") {
     return (
       <Screen padded={false} style={styles.screen}>
-        <TopBar title="Plans" />
+        <TopBar title="Trips" />
         <View style={styles.body}>
           {/* A white card with one job. The heading is h2: the page title is in
               the bar, and a second h1 here used to shout over it. The button is
@@ -46,7 +46,7 @@ export default function ItineraryListPage() {
           <View style={styles.signInCard}>
             <AppText variant="h2">Sign In to Plan a Trip</AppText>
             <AppText variant="body" style={styles.signInHint}>
-              Create an account to build and save an itinerary.
+              Create an account to plan and save a trip.
             </AppText>
             <AppButton variant="hero" size="lg" fullWidth onPress={() => router.push("/(auth)/login")}>
               Sign In
@@ -88,11 +88,11 @@ export default function ItineraryListPage() {
   if (itineraries.length === 0) {
     return (
       <View style={styles.container}>
-        <TopBar title="Plans" />
+        <TopBar title="Trips" />
         <components.EmptyItineraryState
           onCreateNew={() => setIsCreating(true)}
           onBrowse={() => router.push("/(app)/(tabs)/sites")}
-          description="Create a trip and start adding places to build your perfect itinerary."
+          description="Create a trip and start adding the places you want to see."
           createLabel="Create a Trip"
           browseLabel="Explore Places to Visit"
         />
@@ -114,7 +114,7 @@ export default function ItineraryListPage() {
   // here even with just 1 trip, so "+ New Itinerary" stays reachable.
   return (
     <View style={styles.container}>
-      <TopBar title="My Trips" />
+      <TopBar title="Trips" />
       <ScrollView
         contentContainerStyle={styles.body}
         showsVerticalScrollIndicator={false}

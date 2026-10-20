@@ -112,12 +112,13 @@ export const components = {
       pressable("View All", onViewAll),
       pressable("Add Review", onAddReview),
     ),
-  ReviewModal: ({ visible, saving, onSave, onClose }: Any) =>
+  ReviewModal: ({ visible, saving, error, onSave, onClose }: Any) =>
     visible
       ? React.createElement(
           View,
           null,
           React.createElement(Text, null, saving ? "Saving Review" : "Review Modal"),
+          error ? React.createElement(Text, null, error) : null,
           pressable("Save Review", onSave),
           pressable("Close Review", onClose),
         )

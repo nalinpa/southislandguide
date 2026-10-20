@@ -1,10 +1,10 @@
 // Both guide screens, rendering lib/guideContent.ts. south-island's index adds a scope row —
 // "South Island" (island-wide sections) plus each region that has sections written — and
 // its category page promotes a punctuation-free line to a subheading. A removed slug has to
-// land on "Guide Not Found" with a working way back rather than a blank page. Back from the
-// index goes to the Profile (account) tab and back from a section goes to the index, both by
-// explicit route: these are tab screens, and router.back() resets the Tabs navigator to
-// Explore.
+// land on "Guide Not Found" with a working way back rather than a blank page. Back pops the
+// tab history (the Tabs navigator keeps one, app/(app)/(tabs)/_layout.tsx), so it returns to
+// wherever the screen was opened from. Opened cold, with nothing to go back to, the index
+// goes to Profile and a section to the index.
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
 
@@ -17,7 +17,13 @@ jest.mock("react-native-safe-area-context", () => {
   };
 });
 
-const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn(), navigate: jest.fn() };
+const mockRouter = {
+  push: jest.fn(),
+  replace: jest.fn(),
+  back: jest.fn(),
+  navigate: jest.fn(),
+  canGoBack: jest.fn(() => true),
+};
 const mockParams = { slug: "" as string | undefined };
 jest.mock("expo-router", () => ({
   get router() {
@@ -44,6 +50,7 @@ const isHeading = (p: string) => !/[.!?]$/.test(p.trim());
 
 beforeEach(() => {
   jest.clearAllMocks();
+  mockRouter.canGoBack.mockReturnValue(true);
   mockParams.slug = first.slug;
 });
 
@@ -132,10 +139,20 @@ describe("the guide index", () => {
     expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/guide/" + first.slug);
   });
 
-  it("goes back to the Profile tab, not to Explore", async () => {
+  it("goes back to the screen it was opened from", async () => {
     const view = await render(<GuideIndexPage />);
 
-    await fireEvent.press(view.getByLabelText("Back to Profile"));
+    await fireEvent.press(view.getByLabelText("Back"));
+
+    expect(mockRouter.back).toHaveBeenCalled();
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
+  });
+
+  it("goes to the Profile tab when it was opened cold, with nothing to go back to", async () => {
+    mockRouter.canGoBack.mockReturnValue(false);
+    const view = await render(<GuideIndexPage />);
+
+    await fireEvent.press(view.getByLabelText("Back"));
 
     expect(mockRouter.navigate).toHaveBeenCalledWith("/(app)/(tabs)/account");
     expect(mockRouter.back).not.toHaveBeenCalled();
@@ -171,13 +188,24 @@ describe("a section page", () => {
     expect(view.queryByText("Guide")).toBeNull();
   });
 
-  it("goes back to the guide index, not to Explore", async () => {
+  // router.back(), not navigate: navigating to the index would put it after this section in
+  // the tab history, and the index's own back would then return here.
+  it("goes back to the guide index it was opened from", async () => {
+    const view = await render(<GuideCategoryPage />);
+
+    await fireEvent.press(view.getByLabelText("Back to the guide"));
+
+    expect(mockRouter.back).toHaveBeenCalled();
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
+  });
+
+  it("goes to the guide index when it was opened cold", async () => {
+    mockRouter.canGoBack.mockReturnValue(false);
     const view = await render(<GuideCategoryPage />);
 
     await fireEvent.press(view.getByLabelText("Back to the guide"));
 
     expect(mockRouter.navigate).toHaveBeenCalledWith("/(app)/(tabs)/guide");
-    expect(mockRouter.back).not.toHaveBeenCalled();
   });
 
   it("says a removed slug is gone instead of rendering a blank page", async () => {
@@ -190,6 +218,7 @@ describe("a section page", () => {
 
   it("leaves a working way back off the not-found page", async () => {
     mockParams.slug = "no-such-guide";
+    mockRouter.canGoBack.mockReturnValue(false);
     const view = await render(<GuideCategoryPage />);
 
     await fireEvent.press(view.getByText("Go Back"));

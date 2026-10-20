@@ -22,6 +22,7 @@ import { PLANNER } from "@/lib/constants/gameplay";
 import { PURCHASE_CHECK_MESSAGE_SHORT, FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
 import { usePurchaseContext } from "@/lib/iap/PurchaseProvider";
 import { hooksBag } from "@/lib/hooksBag";
+import { slotsToDurationLabel } from "@/lib/utils/itineraryPhysics";
 import type { ItineraryItem } from "@/lib/models";
 
 const MAX_NOTE_LEN = 280;
@@ -98,7 +99,7 @@ export function EditItemModal({
 
   const handleRemove = () => {
     if (!item) return;
-    Alert.alert("Remove from Trip", `Remove ${item.siteName} from your itinerary?`, [
+    Alert.alert("Remove from Trip", `Remove ${item.siteName} from your trip?`, [
       { text: "Cancel", style: "cancel" },
       { text: "Remove", style: "destructive", onPress: () => onRemove(item.id) },
     ]);
@@ -131,7 +132,7 @@ export function EditItemModal({
             <CardShell status="basic" style={styles.modalContent}>
               <View style={styles.imageContainer}>
                 <ItemImage imageUrl={item.imageUrl} siteId={item.siteId} />
-                <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+                <TouchableOpacity style={styles.closeButton} onPress={onClose} accessibilityRole="button" accessibilityLabel="Close">
                   <X color="#FFFFFF" size={20} />
                 </TouchableOpacity>
               </View>
@@ -141,7 +142,12 @@ export function EditItemModal({
                   <Text style={styles.modalTitle} numberOfLines={2}>
                     {item.siteName}
                   </Text>
-                  <TouchableOpacity style={styles.detailLink} onPress={handleViewDetails}>
+                  <TouchableOpacity
+                    style={styles.detailLink}
+                    onPress={handleViewDetails}
+                    accessibilityRole="button"
+                    accessibilityLabel="View place details"
+                  >
                     <Text style={styles.detailText}>Details</Text>
                     <ExternalLink color={tokens.colors.accent} size={14} />
                   </TouchableOpacity>
@@ -151,13 +157,21 @@ export function EditItemModal({
               <View style={styles.controlSection}>
                 <Text style={styles.modalLabel}>Planned Duration</Text>
                 <View style={styles.durationControl}>
-                  <TouchableOpacity style={styles.durationBtn} onPress={() => adjustDuration(-1)}>
+                  <TouchableOpacity
+                    style={styles.durationBtn}
+                    onPress={() => adjustDuration(-1)}
+                    accessibilityRole="button"
+                    accessibilityLabel="Shorter"
+                  >
                     <Minus color={tokens.colors.accent} size={24} />
                   </TouchableOpacity>
-                  <Text style={styles.durationValue}>
-                    {draftDuration / 2} {draftDuration === 2 ? "Hour" : "Hours"}
-                  </Text>
-                  <TouchableOpacity style={styles.durationBtn} onPress={() => adjustDuration(1)}>
+                  <Text style={styles.durationValue}>{slotsToDurationLabel(draftDuration)}</Text>
+                  <TouchableOpacity
+                    style={styles.durationBtn}
+                    onPress={() => adjustDuration(1)}
+                    accessibilityRole="button"
+                    accessibilityLabel="Longer"
+                  >
                     <Plus color={tokens.colors.accent} size={24} />
                   </TouchableOpacity>
                 </View>

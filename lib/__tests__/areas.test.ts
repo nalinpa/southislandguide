@@ -1,15 +1,25 @@
 import { AREAS, AREA_LABELS, DEFAULT_AREA, areaLabel, areaName, areaDriveMinutes } from "@/lib/areas";
 
 describe("areas", () => {
-  it("has six areas with ids and labels", () => {
-    expect(AREAS).toHaveLength(6);
-    expect(AREAS.map((a) => a.id).sort()).toEqual(["christchurch", "dunedin", "kaikoura", "oamaru", "timaru", "wanaka"]);
+  it("labels the areas whose names capitals can't make", () => {
+    expect(AREAS.map((a) => a.id).sort()).toEqual([
+      "aoraki-mount-cook",
+      "catlins",
+      "christchurch",
+      "dunedin",
+      "kaikoura",
+      "oamaru",
+      "timaru",
+      "wanaka",
+    ]);
     expect(AREA_LABELS.christchurch).toBe("Christchurch");
     expect(AREA_LABELS.dunedin).toBe("Dunedin");
     expect(AREA_LABELS.timaru).toBe("Timaru");
     expect(AREA_LABELS.oamaru).toBe("Ōamaru");
     expect(AREA_LABELS.kaikoura).toBe("Kaikōura");
     expect(AREA_LABELS.wanaka).toBe("Wānaka");
+    expect(AREA_LABELS["aoraki-mount-cook"]).toBe("Aoraki / Mount Cook");
+    expect(AREA_LABELS.catlins).toBe("The Catlins");
   });
 
   // The planner estimates a pair with no time and draws no drive block for it, so a new

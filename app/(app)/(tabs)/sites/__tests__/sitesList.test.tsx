@@ -82,11 +82,14 @@ jest.mock("@/lib/tour/useTourStepRoute", () => ({
   },
 }));
 
-const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
+const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn(), setParams: jest.fn() };
+// A town handed over by another screen (a trip's "Find more things to do").
+const mockParams: { area?: string } = {};
 jest.mock("expo-router", () => ({
   get router() {
     return mockRouter;
   },
+  useLocalSearchParams: () => mockParams,
   // The top bar uses it to own the status bar while its screen is in front. Here the
   // screen is always "focused".
   useFocusEffect: (effect: () => void) => require("react").useEffect(effect, []),
@@ -138,6 +141,7 @@ beforeEach(() => {
   mockBag.locStatus = "granted";
   mockBag.loc = null;
   mockBag.storedLoc = null;
+  delete mockParams.area;
   openSettings = jest.spyOn(Linking, "openSettings").mockResolvedValue(undefined as never);
 });
 
@@ -147,13 +151,13 @@ describe("loading and failure", () => {
   it("waits for the places", async () => {
     mockBag.loading = true;
     const view = await render(<SiteListPage />);
-    expect(view.getByText("Finding Locations...")).toBeTruthy();
+    expect(view.getByText("Finding places...")).toBeTruthy();
   });
 
   it("waits for the session", async () => {
     mockSession.status = "loading";
     const view = await render(<SiteListPage />);
-    expect(view.getByText("Finding Locations...")).toBeTruthy();
+    expect(view.getByText("Finding places...")).toBeTruthy();
   });
 
   it("says when the places couldn't be fetched", async () => {
@@ -165,7 +169,7 @@ describe("loading and failure", () => {
   it("says so when there are no places at all", async () => {
     mockBag.locations = [];
     const view = await render(<SiteListPage />);
-    expect(view.getByText("No Locations Found")).toBeTruthy();
+    expect(view.getByText("No Places Found")).toBeTruthy();
   });
 });
 
@@ -285,19 +289,19 @@ describe("search", () => {
       makeSite("s2", "Riccarton Bush", ["Walks"], { description: "Old-growth forest." }),
     ];
     const view = await render(<SiteListPage />);
-    await fireEvent.press(view.getByLabelText("Search Locations"));
+    await fireEvent.press(view.getByLabelText("Search places"));
 
-    await fireEvent.changeText(view.getByPlaceholderText("Search Locations"), "surf");
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "surf");
 
     expect(rowNames(view)).toEqual(["Sumner Beach"]);
   });
 
   it("also matches a category by the label on its tab", async () => {
     const view = await render(<SiteListPage />);
-    await fireEvent.press(view.getByLabelText("Search Locations"));
+    await fireEvent.press(view.getByLabelText("Search places"));
 
     // "drink" is in no name; it is in the Food category's label, "Food & Drink".
-    await fireEvent.changeText(view.getByPlaceholderText("Search Locations"), "drink");
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "drink");
 
     expect(rowNames(view)).toEqual(["Riverside Market"]);
   });
@@ -305,8 +309,8 @@ describe("search", () => {
   it("opens a search box and matches names case-insensitively", async () => {
     const view = await render(<SiteListPage />);
 
-    await fireEvent.press(view.getByLabelText("Search Locations"));
-    await fireEvent.changeText(view.getByPlaceholderText("Search Locations"), "  RIC ");
+    await fireEvent.press(view.getByLabelText("Search places"));
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "  RIC ");
 
     expect(rowNames(view)).toEqual(["Riccarton Bush"]);
   });
@@ -315,8 +319,8 @@ describe("search", () => {
     const view = await render(<SiteListPage />);
 
     await fireEvent.press(view.getByText("Walks"));
-    await fireEvent.press(view.getByLabelText("Search Locations"));
-    await fireEvent.changeText(view.getByPlaceholderText("Search Locations"), "port");
+    await fireEvent.press(view.getByLabelText("Search places"));
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "port");
 
     expect(rowNames(view)).toEqual(["Port Hills Walk"]);
   });
@@ -324,21 +328,22 @@ describe("search", () => {
   it("says nothing matched rather than showing an empty page", async () => {
     const view = await render(<SiteListPage />);
 
-    await fireEvent.press(view.getByLabelText("Search Locations"));
-    await fireEvent.changeText(view.getByPlaceholderText("Search Locations"), "zzz");
+    await fireEvent.press(view.getByLabelText("Search places"));
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "zzz");
 
     expect(rowNames(view)).toEqual([]);
-    expect(view.getByText("No Locations in Christchurch match your search.")).toBeTruthy();
+    expect(view.getByText("No places in Christchurch match your search.")).toBeTruthy();
   });
 
   it("clears the query when the search box is closed", async () => {
     const view = await render(<SiteListPage />);
 
-    await fireEvent.press(view.getByLabelText("Search Locations"));
-    await fireEvent.changeText(view.getByPlaceholderText("Search Locations"), "ric");
-    await fireEvent.press(view.getByLabelText("Search Locations"));
+    await fireEvent.press(view.getByLabelText("Search places"));
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "ric");
+    // Open, the toggle is an X, and VoiceOver says so.
+    await fireEvent.press(view.getByLabelText("Close search"));
 
-    expect(view.queryByPlaceholderText("Search Locations")).toBeNull();
+    expect(view.queryByPlaceholderText("Search places")).toBeNull();
     expect(rowNames(view)).toHaveLength(4);
   });
 });
@@ -435,6 +440,31 @@ describe("towns", () => {
       expect(rowNames(view)).toEqual(["Otago Museum", "Tunnel Beach"]);
     });
 
+    // A trip's "Find more things to do" for a day in another town. Taken once, then
+    // cleared, so the same town sent again later still counts.
+    it("opens on a town another screen hands over, wherever the user is", async () => {
+      mockBag.storedLoc = OCTAGON;
+      mockParams.area = "timaru";
+      const view = await render(<SiteListPage />);
+
+      expect(rowNames(view)).toEqual(["Caroline Bay"]);
+      expect(view.getByLabelText("Timaru, choose a town")).toBeTruthy();
+      expect(mockRouter.setParams).toHaveBeenCalledWith({ area: undefined });
+    });
+
+    // "Find more things to do" means the town's whole list, even where a filter left on from
+    // before would still have matches.
+    it("drops a category left on from before when a town is handed over", async () => {
+      const view = await render(<SiteListPage />);
+      await fireEvent.press(view.getByText("Walks"));
+      expect(rowNames(view)).toEqual(["Riccarton Bush", "Port Hills Walk"]);
+
+      mockParams.area = "christchurch";
+      await view.rerender(<SiteListPage />);
+
+      expect(rowNames(view)).toEqual(["Sumner Beach", "Riccarton Bush", "Riverside Market", "Port Hills Walk"]);
+    });
+
     it("starts on Christchurch for someone off the island", async () => {
       mockBag.storedLoc = AUCKLAND;
       const view = await render(<SiteListPage />);
@@ -485,7 +515,7 @@ describe("towns", () => {
       const view = await render(<SiteListPage />);
 
       const titleRow = view.getByLabelText("Christchurch, choose a town").parent!;
-      expect(within(titleRow).getByLabelText("Search Locations")).toBeTruthy();
+      expect(within(titleRow).getByLabelText("Search places")).toBeTruthy();
       expect(view.getByText("Christchurch")).toHaveStyle({ fontSize: 24 });
       expect(view.getByText("Christchurch").props.adjustsFontSizeToFit).toBe(true);
     });
@@ -591,20 +621,20 @@ describe("towns", () => {
 
     it("searches inside the chosen town", async () => {
       const view = await render(<SiteListPage />);
-      await fireEvent.press(view.getByLabelText("Search Locations"));
+      await fireEvent.press(view.getByLabelText("Search places"));
 
-      await fireEvent.changeText(view.getByPlaceholderText("Search Locations"), "beach");
+      await fireEvent.changeText(view.getByPlaceholderText("Search places"), "beach");
 
       expect(rowNames(view)).toEqual(["Sumner Beach"]);
     });
 
     it("names the town when a search finds nothing in it", async () => {
       const view = await render(<SiteListPage />);
-      await fireEvent.press(view.getByLabelText("Search Locations"));
+      await fireEvent.press(view.getByLabelText("Search places"));
 
-      await fireEvent.changeText(view.getByPlaceholderText("Search Locations"), "museum");
+      await fireEvent.changeText(view.getByPlaceholderText("Search places"), "museum");
 
-      expect(view.getByText("No Locations in Christchurch match your search.")).toBeTruthy();
+      expect(view.getByText("No places in Christchurch match your search.")).toBeTruthy();
     });
   });
 });

@@ -38,6 +38,19 @@ export function canAddToItinerary(site: Pick<Site, "category">): boolean {
   return !site.category.some((c) => NON_ITINERARY_CATEGORIES.includes(c));
 }
 
+// Whether a place answers a search: its name, its description, or one of its categories'
+// labels as shown on the tabs ("food" finds "Food & Drink"). Explore and the map both
+// search with this. A blank query matches everything.
+export function matchesSearch(site: Pick<Site, "name" | "description" | "category">, query: string): boolean {
+  const q = query.trim().toLowerCase();
+  if (!q) return true;
+  return (
+    site.name.toLowerCase().includes(q) ||
+    !!site.description?.toLowerCase().includes(q) ||
+    site.category.some((cat) => SITE_CATEGORY_LABELS[cat]?.toLowerCase().includes(q))
+  );
+}
+
 export type Site = {
   id: string;
   name: string;

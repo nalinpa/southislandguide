@@ -20,7 +20,7 @@ export function ItinerariesCard() {
     <>
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionLabel}>My Itineraries</Text>
+        <Text style={styles.sectionLabel}>My Trips</Text>
         {itineraries.length > 0 && (
           <View style={styles.countBadge}>
             <Text style={styles.countText}>{itineraries.length}</Text>
@@ -29,7 +29,7 @@ export function ItinerariesCard() {
       </View>
 
       {itineraries.length === 0 ? (
-        <Text style={styles.emptyText}>No itineraries yet.</Text>
+        <Text style={styles.emptyText}>No trips yet.</Text>
       ) : (
         <View style={styles.list}>
           {itineraries.map((itinerary, index) => (
@@ -59,11 +59,11 @@ export function ItinerariesCard() {
       )}
 
       {atLimit ? (
-        <Text style={styles.limitText}>Up to {PLANNER.MAX_ITINERARIES} itineraries allowed.</Text>
+        <Text style={styles.limitText}>Up to {PLANNER.MAX_ITINERARIES} trips at a time.</Text>
       ) : (
         <TouchableOpacity style={styles.createBtn} onPress={() => setIsCreating(true)} activeOpacity={0.6}>
           <Plus size={13} color={tokens.colors.accent} strokeWidth={2.5} />
-          <Text style={styles.createBtnText}>New Itinerary</Text>
+          <Text style={styles.createBtnText}>New Trip</Text>
         </TouchableOpacity>
       )}
     </View>

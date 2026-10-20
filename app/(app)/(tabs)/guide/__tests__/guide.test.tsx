@@ -40,7 +40,7 @@ import { fireEvent, render } from "@testing-library/react-native";
 
 import GuideIndexPage from "@/app/(app)/(tabs)/guide/index";
 import GuideCategoryPage from "@/app/(app)/(tabs)/guide/[slug]";
-import { GUIDE_CATEGORIES, ISLAND_CATEGORIES, REGIONS_WITH_CONTENT } from "@/lib/guideContent";
+import { GUIDE_CATEGORIES, ISLAND_CATEGORIES, REGIONS, REGIONS_WITH_CONTENT } from "@/lib/guideContent";
 import { tokens } from "@/lib/ui/tokens";
 
 const first = ISLAND_CATEGORIES[0];
@@ -60,6 +60,14 @@ describe("the content", () => {
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 
+  it("gives every region with sections the same five slots, in order", () => {
+    const slots = ["why", "getting-around", "when", "hazards", "book-ahead"];
+    for (const r of REGIONS_WITH_CONTENT) {
+      const slugs = GUIDE_CATEGORIES.filter((c) => c.region === r.id).map((c) => c.slug);
+      expect(slugs).toEqual(slots.map((s) => `${r.id}-${s}`));
+    }
+  });
+
   it("has a title and a body for every section", () => {
     for (const c of GUIDE_CATEGORIES) {
       expect(c.title.trim()).toBeTruthy();
@@ -71,7 +79,7 @@ describe("the content", () => {
     // A long unpunctuated paragraph would render in the subheading style. Headings are short.
     for (const c of GUIDE_CATEGORIES) {
       for (const p of paragraphs(c.body).filter(isHeading)) {
-        expect({ slug: c.slug, heading: p, short: p.length <= 60 }).toEqual({ slug: c.slug, heading: p, short: true });
+        expect({ slug: c.slug, heading: p, short: p.length < 40 }).toEqual({ slug: c.slug, heading: p, short: true });
       }
     }
   });
@@ -92,7 +100,9 @@ describe("the guide index", () => {
     expect(view.getByText("South Island")).toBeTruthy();
     for (const r of REGIONS_WITH_CONTENT) expect(view.getByText(r.label)).toBeTruthy();
     // A region with nothing written yet gets no pill.
-    expect(view.queryByText("Fiordland")).toBeNull();
+    for (const r of REGIONS.filter((r) => !REGIONS_WITH_CONTENT.includes(r))) {
+      expect(view.queryByText(r.label)).toBeNull();
+    }
   });
 
   it("switches to a region's own sections, and back", async () => {

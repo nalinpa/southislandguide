@@ -4,6 +4,7 @@ describe("areas", () => {
   it("labels the areas whose names capitals can't make", () => {
     expect(AREAS.map((a) => a.id).sort()).toEqual([
       "aoraki-mount-cook",
+      "arthurs-pass",
       "catlins",
       "christchurch",
       "dunedin",
@@ -20,6 +21,7 @@ describe("areas", () => {
     expect(AREA_LABELS.wanaka).toBe("Wānaka");
     expect(AREA_LABELS["aoraki-mount-cook"]).toBe("Aoraki / Mount Cook");
     expect(AREA_LABELS.catlins).toBe("The Catlins");
+    expect(AREA_LABELS["arthurs-pass"]).toBe("Arthur's Pass");
   });
 
   // The planner estimates a pair with no time and draws no drive block for it, so a new

@@ -33,8 +33,8 @@ export const tokens = {
   tap: { min: 48, primary: 56 },
   colors: {
     // Pages are near-white and cards pure white so text stands out; the brand
-    // mint (#D3ECE5, still the splash and icon background) is now only the fill
-    // for chips and search bars. lib/ui/__tests__/tokens.test.ts holds the
+    // mint (#D3ECE5) is now only the fill for chips and search bars. The app
+    // icon and splash sit on the scrim colour below. lib/ui/__tests__/tokens.test.ts holds the
     // contrast floors.
     bgBase: "#EEF6F3",
     bgSurface: "#E2F0EB",

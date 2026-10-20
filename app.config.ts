@@ -37,7 +37,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     versionCode: 1,
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
-      backgroundColor: "#D3ECE5",
+      backgroundColor: "#03262B",
     },
     permissions: ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
   },
@@ -68,7 +68,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         // canvas — at the default the icon renders far too small on device.
         imageWidth: 300,
         resizeMode: "contain",
-        backgroundColor: "#D3ECE5",
+        // The icon's tile colour: the mark's white snow disappears on mint.
+        backgroundColor: "#03262B",
       },
     ],
     [

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<rect width="1024" height="1024" fill="#03262B"/>
+<!-- Round 21 base: r19 fit (flat base) with one slope tone #6FAAAE (shaded face removed) and the r20 sun #F2683C -->
+<!-- r22 ridge: Middle top softened into one straight shoulder (face bend ~(520,380), shoulder corner ~(758,458)); sun moved to (690,338) so only the shoulder crosses it -->
+
+<!-- BEGIN sun -->
+<circle fill="#F2683C" cx="690" cy="338" r="150"/>
+<!-- END sun -->
+<!-- BEGIN peak -->
+<path fill="#6FAAAE" d="M208 846Q168 846 182.2 808.6L415.9 195.8Q428 164 441.4 195.3L498.3 328Q520 380 566 392L716 443.5Q758 458 768.2 498L840.8 807.1Q850 846 810 846Z"/>
+<clipPath id="mtn"><path fill="#6FAAAE" d="M208 846Q168 846 182.2 808.6L415.9 195.8Q428 164 441.4 195.3L498.3 328Q520 380 566 392L716 443.5Q758 458 768.2 498L840.8 807.1Q850 846 810 846Z"/></clipPath>
+<!-- END peak -->
+<!-- ravine drawn under the snow -->
+<!-- BEGIN map -->
+<!-- ravine: South Island, Natural Earth outline (island.mjs detail 20, Fiordland fiord serrations dropped, Bluff from detail 32), north up, rot 0, never mirrored, no taper, width x1.14, height 276, top 557, centre x 508, corners rounded r8 (Banks Peninsula r30), fill #095C65 chosen over #2E7D85 #4A9198 #AED6C9 #063F45 #2C4A36 for 40 px -->
+<path fill="#095C65" clip-path="url(#mtn)" d="M606.2 584.6Q607.6 592.5 615.3 590.4L643.8 582.8Q651.6 580.8 651.4 588.8L651.0 605.2Q650.8 613.2 645.5 619.2L594.8 676.1Q589.4 682.1 593.6 688.9L597.6 695.6Q605.8 709.1 586.7 705.2L581.4 704.1Q567.7 701.3 557.0 710.5L544.3 721.4Q538.2 726.6 536.4 734.4L522.9 791.1Q521.1 798.9 514.3 803.1L474.7 828.2Q468.0 832.5 460.0 832.4L440.4 832.0Q432.4 831.9 424.8 829.6L379.0 815.8Q371.4 813.5 373.7 805.9L386.1 765.7Q388.5 758.1 395.1 753.6L524.1 668.0Q530.7 663.6 534.2 656.4L573.0 576.3Q576.4 569.1 583.8 565.9L593.9 561.5Q601.3 558.3 602.7 566.2Z"/>
+<!-- END map -->
+<!-- BEGIN snow -->
+<!-- snow = everything above ONE edge, clipped to the mountain: one quadratic from (120,480) via (520,590) to (900,565). Refit: keep it clipped by #mtn and move yL/yR so the edge meets each flank below the lowest ridge point it must cover. -->
+<path fill="#F4FBF8" clip-path="url(#mtn)" d="M120 60L900 60L900 565Q520 590 120 480Z"/>
+<!-- END snow -->
+
+</svg>

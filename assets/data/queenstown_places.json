@@ -1,0 +1,706 @@
+[
+  {
+    "name": "Skyline Queenstown Gondola and Luge",
+    "slug": "skyline-queenstown-gondola-and-luge",
+    "lat": -45.028501,
+    "lng": 168.656194,
+    "category": [
+      "Attractions",
+      "Scenic"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://queenstown.skyline.co.nz/",
+    "description": "The gondola climbs from Brecon Street, just above the town centre, to Bob's Peak, where the viewing deck looks straight down over Queenstown, Lake Wakatipu and across to The Remarkables. At the top you can ride the luge, a gravity kart track that twists back down the hill, and watch paragliders launching off the slope.\n\nA return gondola ticket is $69 for adults and $48 for children aged 6 to 14, and luge combos cost more depending on how many rides you want. The gondola runs from 9.30am to 9pm and the luge from 10am. To save the fare, take the free Tiki Trail, which starts beside the bottom station and zigzags steeply up through the forest to the top in about an hour.\nLocal tip: Go up an hour before sunset for the best light over the lake, and wear shoes with good grip if you walk the Tiki Trail, since the lower section is steep and slippery after rain.",
+    "recommendedDurationSlots": 5,
+    "featured": 1,
+    "hoursNote": "Gondola daily 9.30am to 9pm, luge from 10am; adult return $69, child $48; Tiki Trail walk up is free",
+    "sourceUrl": "https://queenstown.skyline.co.nz/pricing-and-packages/gondola-pricing-and-packages/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kiwi Park Queenstown",
+    "slug": "kiwi-park-queenstown",
+    "lat": -45.028362,
+    "lng": 168.656571,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.kiwibird.co.nz/",
+    "description": "A conservation park at the bottom of the Skyline gondola, home to more than 20 native species, where you're guaranteed to see live kiwi in a darkened kiwi house, along with kea, kererū, tuatara and ruru. Entry includes a self-guided audio tour, the Kiwi Encounter and the 30 minute Conservation Show, and there's a see-through honeybee hive too.\n\nAdults are $64, children aged 6 to 15 are $32, and under 6s are free, with cheaper early-entry tickets on some mornings. Most people spend two to three hours here.\nLocal tip: Check the Kiwi Encounter and Conservation Show times when you arrive and plan your loop around them. Give your eyes a couple of minutes to adjust in the kiwi house, and keep phone lights off.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Summer (Sep to Apr) 9.30am to 6.30pm, last entry 5.45pm; winter (May to Aug) 9.30am to 5pm, last entry 4.15pm; adult $64, child $32",
+    "sourceUrl": "https://www.kiwibird.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Shotover Jet",
+    "slug": "shotover-jet",
+    "lat": -44.987079,
+    "lng": 168.671331,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.shotoverjet.com/",
+    "description": "The original Queenstown jet boat ride, blasting through the narrow Shotover River canyons at Arthurs Point, just north of town. The drivers skim past the rock walls with centimetres to spare and throw in full 360 degree spins.\n\nThe ride lasts 25 minutes, with departures every 30 minutes from 9.30am to 4pm, seven days a week. Adults are $199, children $109, and a family pass for two adults and two children is $507. Check in 30 minutes before your trip.\nLocal tip: Sit at the back if you want to stay a little drier, and bring a warm layer for the ride home, since the spray off the river is cold all year.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily 9am to 5pm; first trip 9.30am, last 4pm; departures every 30 min; adult $199, child $109",
+    "sourceUrl": "https://www.shotoverjet.com/prices/individual/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kawarau Bridge Bungy",
+    "slug": "kawarau-bridge-bungy",
+    "lat": -45.009472,
+    "lng": 168.900145,
+    "category": [
+      "Adventure",
+      "Attractions"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "arrowtown",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.bungy.co.nz/queenstown/kawarau-bungy-centre/",
+    "description": "The historic Kawarau Gorge Suspension Bridge is where AJ Hackett and Henry van Asch launched the world's first commercial bungy jump on 12 April 1988, and people still leap 43m towards the turquoise Kawarau River here every day. It's about 23km from Queenstown on State Highway 6, a 25 to 35 minute drive towards Gibbston.\n\nA jump costs $320, and the zipride alongside the bridge is $50. You don't have to jump to enjoy it, since the viewing deck above the jump zone is free, parking is free, and there's a licensed café on site.\nLocal tip: Stand on the deck at the end of the bridge to watch jumpers dunk into the river, then carry on to the Gibbston vineyards on the way back.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Summer (Oct to Apr) 8.30am to 5pm; winter (May to Sep) 9am to 4.30pm; last jump 30 min before close; free viewing",
+    "sourceUrl": "https://www.bungy.co.nz/queenstown/kawarau-bungy-centre/",
+    "confidence": "high"
+  },
+  {
+    "name": "TSS Earnslaw Cruise",
+    "slug": "tss-earnslaw-cruise",
+    "lat": -45.033529,
+    "lng": 168.658112,
+    "category": [
+      "Water",
+      "Attractions"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.realnz.com/en/experiences/day-cruises/tss-earnslaw-lake-cruises/",
+    "description": "The TSS Earnslaw, a coal-fired steamship that first sailed in 1912, leaves Queenstown's Steamer Wharf for the 90 minute return cruise across Lake Wakatipu to Walter Peak High Country Farm, with views of The Remarkables and Cecil Peak. It's one of the classic Queenstown outings.\n\nOn board you can wander the decks and look down into the engine room to watch the giant steam engines working. The cruise alone is from $129, with farm tour packages from $139 and BBQ dining at Walter Peak from $175, and the cash-free Promenade Café sells snacks and drinks. Each winter the ship goes in for maintenance for about six weeks, and a modern catamaran takes over.\nLocal tip: Head below deck to the engine room early in the trip. It's warm down there on a cold day, and seeing the engines at work is half the fun.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily cruises all year; 90 min return; from $115; departs Steamer Wharf, 88 Beach St; annual maintenance mid May to late June, when a catamaran replaces it",
+    "sourceUrl": "https://www.realnz.com/en/experiences/day-cruises/tss-earnslaw-lake-cruises/",
+    "confidence": "high"
+  },
+  {
+    "name": "Onsen Hot Pools",
+    "slug": "onsen-hot-pools",
+    "lat": -44.981199,
+    "lng": 168.686251,
+    "category": [
+      "Water",
+      "Attractions"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.onsen.co.nz/",
+    "description": "Private cedar hot tubs perched on the cliffs above the Shotover River canyon at Arthurs Point, each with a retractable roof that opens to the mountain view. The water comes from the surrounding mountains and is filtered, UV treated and heated to about 38.5°C, so it's not a natural hot spring.\n\nA 60 minute private soak starts from about $117 per adult, and bookings are essential. Under 5s aren't allowed, children aged 5 to 11 can soak only before 5pm, and evening sessions are for ages 12 and over. Togs are compulsory.\nLocal tip: Book a slot around sunset, or after dark in winter, for the best experience, and arrive 15 minutes early, as they ask.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 9am to 11pm, last booking 10pm; bookings essential; from about $117 per adult for 60 min; no under 5s; kids 5 to 11 before 5pm only",
+    "sourceUrl": "https://southernscope.nz/tech/onsen-hot-pools-queenstown-guide/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Skippers Canyon",
+    "slug": "skippers-canyon",
+    "lat": -44.8454,
+    "lng": 168.684233,
+    "category": [
+      "Scenic",
+      "Culture"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Expensive",
+    "description": "Skippers Road was built between 1883 and 1890 for the gold rush and clings to the canyon wall high above the Shotover River, with sections cut through solid rock. It's narrow, unsealed and off limits to rental vehicles, so most visitors see it on a guided 4WD or jet boat tour.\n\nThe historic Skippers suspension bridge has been closed to all vehicles, cyclists and pedestrians since October 2025, after inspectors found failures in the wires of its support cables. The council is still weighing whether to repair it, replace the cables or build a new bridge, with no timeframe, so you can't cross to the old Skippers schoolhouse and cemetery. Tours still run into the canyon with other stops, such as Lighthouse Rock and gold panning at Deep Creek.\nLocal tip: Book a tour rather than driving yourself, and ask the operator what you'll see while the bridge is closed before you pay, since some online listings still show the crossing.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Skippers Bridge closed to everyone until further notice (QLDC, Jan 2026); no rental cars on Skippers Road; guided tours still operating",
+    "sourceUrl": "https://www.qldc.govt.nz/2026/january/26-01-12-closure-to-skippers-bridge-to-remain-in-place-until-future-notice/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Deer Park Heights",
+    "slug": "deer-park-heights",
+    "lat": -45.038087,
+    "lng": 168.698308,
+    "category": [
+      "Scenic",
+      "Nature"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.deerparkheights.co.nz/",
+    "description": "A private high country farm park on the Kelvin Peninsula that you drive around in your own car, with some of the best views over Lake Wakatipu, The Remarkables and Queenstown. Deer, goats and other farm animals roam freely, and several Lord of the Rings filming spots are signposted.\n\nEntry is $75 per vehicle, up to 8 seats, and must be booked online with your registration number, since a camera at the gate reads your plate. Bookings open 7 days ahead, with a limit of 80 cars a day. Tours, buses, taxis, Ubers, bikes, walkers and pets aren't allowed, animal feed is $2 in coins, and there's an automatic $100 fee if you stay after closing. It closes on snow days.\nLocal tip: Book for early morning or evening for the quietest roads and the best light, and stay in your car in the Hard Antler Block, as the rules require.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Currently 8am to 6pm daily (summer 7am to 9pm); online booking required, $75 per vehicle; private cars only; closes in snow; $100 fee for overstaying",
+    "sourceUrl": "https://www.deerparkheights.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Around the Basin Bike Hire",
+    "slug": "around-the-basin-bike-hire",
+    "lat": -45.032254,
+    "lng": 168.661855,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.aroundthebasin.co.nz/",
+    "description": "A well-reviewed local bike hire and shuttle company for the Queenstown Trail, based in central Queenstown with hubs at Gibbston and Cromwell. They drop you at a trailhead and pick you up at the end, and helmets and maps are included.\n\nThe classic ride is Arrowtown to Gibbston, 14.3km along the Arrow River Bridges Trail, finishing among the Gibbston vineyards. Arrowtown to Queenstown is 24 to 35km, depending on the route. Hardtail mountain bikes start from $40 and e-bikes from $80, and ride packages with transport start from $105.\nLocal tip: Get an e-bike unless you ride regularly, since the Arrow River Bridges section has some short, steep climbs.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Daily 9am to 5pm; bikes from $40 half day, e-bikes from $80; shuttle packages from $105",
+    "sourceUrl": "https://www.aroundthebasin.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Fergburger",
+    "slug": "fergburger",
+    "lat": -45.031735,
+    "lng": 168.659477,
+    "category": [
+      "Food"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.fergburger.com/",
+    "description": "Queenstown's famous burger joint on Shotover Street, open from 7am until 2.30am and busy at almost every hour of it. The burgers are huge, and the classic Fergburger, with NZ beef, aioli and tomato relish, is $17.20.\n\nNext door, Fergbaker sells handmade pies for $8.50 to $8.90, plus pastries and bread, and it's open from 6am to 2am.\nLocal tip: Phone your order through and pick it up to skip most of the queue, then take it down to the lakefront beach, two minutes away.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 7am to 2.30am; Fergbaker next door 6am to 2am",
+    "sourceUrl": "https://www.fergburger.com/",
+    "confidence": "high"
+  },
+  {
+    "name": "Taco Medic",
+    "slug": "taco-medic",
+    "lat": -45.032786,
+    "lng": 168.661081,
+    "category": [
+      "Food"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Cheap",
+    "description": "A tiny taco bar on Searle Lane that started life as a food truck and is now one of the most popular cheap eats in town. The tacos are loaded, with fish, prawn, pork and beef fillings, and the menu is gluten-free.\n\nThere's seating for only about ten people inside, plus a few benches outside, so it works best as a quick meal. Reviewers say about three tacos each makes a filling feed.\nLocal tip: Go just before the lunch or dinner rush to get a seat, or take your tacos to the lakefront, five minutes away.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Hours vary; check before visiting; very small, limited seating",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJGf3EeYEd1akR2byDYllpvl4",
+    "confidence": "medium"
+  },
+  {
+    "name": "Erik's Fish and Chips",
+    "slug": "eriks-fish-and-chips",
+    "lat": -45.033266,
+    "lng": 168.662114,
+    "category": [
+      "Food"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.eriks.nz/",
+    "description": "A fish and chip truck at 13 Earl Street, a block from the lakefront, frying blue cod, hoki, monkfish and calamari in a light, crunchy batter. A fish and chips meal deal is $15, blue cod is $17, a kids' meal is $8.50 and a family deal is $45.\n\nThe whole menu is gluten-free, and for something different there's deep-fried kiwifruit. It's open daily from 11.30am to 8.30pm, with picnic benches and a small indoor area.\nLocal tip: Order the blue cod and carry it down to Queenstown Bay Beach to eat on the sand.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Daily 11.30am to 8.30pm; 13 Earl St",
+    "sourceUrl": "https://www.eriks.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Bespoke Kitchen",
+    "slug": "bespoke-kitchen",
+    "lat": -45.030266,
+    "lng": 168.657791,
+    "category": [
+      "Food"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.bespokekitchen.nz/",
+    "description": "A bright café at 9 Isle Street, a short walk from the Skyline gondola, serving fresh, mostly vegetarian food with plenty of vegan and gluten-free options. It was named New Zealand Café of the Year in 2016 and still gets consistently strong reviews.\n\nBreakfast and lunch are served all day, from 7.30am to 3.30pm, and favourites include the Turkish eggs, the sticky date porridge, the vegan Benedict and the winter hash. The coffee is organic Allpress.\nLocal tip: Stop here for breakfast before walking the Tiki Trail or catching the gondola, since it's only a couple of minutes away.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 7.30am to 3.30pm; 9 Isle St",
+    "sourceUrl": "https://www.bespokekitchen.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Yonder",
+    "slug": "yonder",
+    "lat": -45.032998,
+    "lng": 168.661691,
+    "category": [
+      "Food"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Moderate",
+    "description": "A relaxed café and bar on Church Street that runs from coffee and brunch through to dinner and late drinks. Breads, pastries and sauces are made in-house, and there's a strong focus on vegan and gluten-free options.\n\nThere are booths, nooks, a fireplace and a sunny courtyard, and reviewers praise the generous portions and friendly service. It opens at 8am daily and stays open late, until 2.30am on Fridays and Saturdays.\nLocal tip: The courtyard is a good sun trap for a late breakfast on a clear winter morning.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily from 8am; open late, to 2.30am Fri and Sat",
+    "sourceUrl": "https://www.queenstownnz.co.nz/listing/yonder/1520/",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Cow",
+    "slug": "the-cow",
+    "lat": -45.032264,
+    "lng": 168.660323,
+    "category": [
+      "Food"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.thecowrestaurant.co.nz/",
+    "description": "A cosy pizza and spaghetti house tucked down a lane in central Queenstown, serving the same simple menu of hand-rolled pizzas, spaghetti, soup, homemade bread and salad since 1976. It's dark, rustic and warm, with an open fire in winter.\n\nThe whole garlic loaf with butter is the dish everyone talks about, and portions are generous. It doesn't take bookings, so expect a short wait at busy times.\nLocal tip: Go for a late lunch or an early dinner to avoid the queue, and order the garlic loaf to share.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily from noon to 10.30pm; no bookings; Cow Lane, central Queenstown",
+    "sourceUrl": "https://www.thecowrestaurant.co.nz/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Queenstown Hill Time Walk",
+    "slug": "queenstown-hill-time-walk",
+    "lat": -45.027417,
+    "lng": 168.666705,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Free",
+    "description": "A steady 500m climb from the edge of town through pine forest to the Basket of Dreams sculpture, with views over the Whakatipu basin to Cecil Peak, the Frankton Arm and Queenstown Bay. Panels along the lower track tell the story of the area's past, present and future.\n\nThe loop is 5.4km and takes 2 to 3 hours return from the small car park off Belfast Terrace. Allow another 30 minutes if you carry on past the sculpture to the open summit, Te Tapunui, which has the best views.\nLocal tip: Parking at the start is very limited, so walk up from town or park on nearby streets, and keep going to the summit if you have the energy.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Open all year; about 2 hr return to Basket of Dreams, plus 30 min to summit; very limited parking at start",
+    "sourceUrl": "https://www.queenstownnz.co.nz/stories/post/queenstown-hill-time-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ben Lomond Track",
+    "slug": "ben-lomond-track",
+    "lat": -45.001932,
+    "lng": 168.628144,
+    "category": [
+      "Walks",
+      "Adventure"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Free",
+    "description": "The big day walk above Queenstown, climbing from the top of the Skyline gondola through forest and alpine tussock to Ben Lomond Saddle and on to the 1,748m summit, with views over the whole Whakatipu basin. DOC rates it advanced: from town via the Tiki Trail it's 1,438m of climbing, and there are steep drop-offs near the summit.\n\nAllow 6 to 8 hours return to the summit from town, or about 5 hours to the saddle. Riding the gondola up cuts the saddle trip to 3 to 4 hours return. There's no water after the Skyline complex, fast downhill mountain bike tracks cross the path, and beyond the saddle the track is unmaintained and crosses private land.\nLocal tip: In winter and spring there's snow and ice on the upper track, and you need alpine gear and experience. Check the forecast and DOC before you go, since the weather changes quickly and hypothermia is a risk even in summer.",
+    "recommendedDurationSlots": 14,
+    "hoursNote": "6 to 8 hr return to summit from town, 3 to 4 hr from gondola top; snow and ice in winter and spring; no water past Skyline; year round fire ban",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/queenstown-area/things-to-do/ben-lomond-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Bob's Cove Track",
+    "slug": "bobs-cove-track",
+    "lat": -45.070021,
+    "lng": 168.508908,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Free",
+    "description": "An easy walk through native bush to Punatapu / Bobs Cove, a sheltered cove of clear blue water on Lake Wakatipu, 14km from Queenstown on the Glenorchy Road. It takes about 20 minutes to reach the cove, where there's a jetty and good swimming on a warm day.\n\nAdd the 30 minute loop to Picnic Point for views up and down the lake, and look out for the old lime kiln from the 1800s and the gum trees planted to fuel it. It's a great walk for kids, and it links to the longer track to Twelve Mile Delta.\nLocal tip: Parking fills quickly in summer, so come in the morning or early evening, and don't park on the roadside. Big campervans may struggle to turn around.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open all the time; free; 20 min to the cove, under 1 hr with Picnic Point loop; small car park",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/queenstown-area/things-to-do/bobs-cove-track-and-nature-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Queenstown Gardens",
+    "slug": "queenstown-gardens",
+    "lat": -45.037187,
+    "lng": 168.660735,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Free",
+    "description": "A leafy peninsula park right beside the town centre, with lakeside paths, a rose garden, a duck pond, sculptures and a memorial to Scott's Antarctic expedition. A lap of the gardens takes about 30 to 40 minutes.\n\nThe free disc golf course winds through the trees, with lake views on almost every hole. If you haven't brought your own, discs can be hired from the Queenstown Ice Arena in the gardens for $7 each, plus $4.50 for a scorecard and map for up to six players, and you'll need to leave ID.\nLocal tip: Walk the path around the outer edge of the peninsula for the best views back to town and across to The Remarkables.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open 24 hours; disc golf free; disc hire $7 at the Ice Arena during its opening hours (ID deposit required)",
+    "sourceUrl": "https://www.queenstownicearena.co.nz/frisbee-golf",
+    "confidence": "high"
+  },
+  {
+    "name": "Queenstown Bay Beach",
+    "slug": "queenstown-bay-beach",
+    "lat": -45.03429,
+    "lng": 168.661862,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Free",
+    "description": "A short stretch of sand right in the middle of town on the edge of Lake Wakatipu, looking straight across the water to the mountains. It's Queenstown's natural gathering spot, with people swimming on hot days and plenty of takeaway options within a few minutes' walk.\n\nThe water is clear but cold even in summer, so a swim here is usually a quick one, and there are no lifeguards.\nLocal tip: Grab takeaways from town and eat them on the sand at sunset. It's one of the cheapest good evenings in Queenstown.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open all the time; no lifeguards; lake water is cold year round",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJs6Z-Jocd1akR5FsWWQ_YO38",
+    "confidence": "medium"
+  },
+  {
+    "name": "Frankton Track and Frankton Beach",
+    "slug": "frankton-track-and-frankton-beach",
+    "lat": -45.018299,
+    "lng": 168.72631,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Free",
+    "description": "The flat lakeside Frankton Track follows the Frankton Arm of Lake Wakatipu between Queenstown and Frankton, and Frankton Beach at the eastern end is a calmer, quieter swimming spot than the town beach, with toilets, picnic tables and jetties. You can often watch planes coming in to land at the airport nearby.\n\nThe Queenstown end of the track, from Park Street to opposite Middleton Road, has been closed since January 2026 for wastewater pipe works, with walkers and cyclists detoured onto Frankton Road. The council plans to reopen it for Queenstown Marathon weekend in early November 2026 and, weather permitting, keep it open after that.\nLocal tip: Until it reopens, start at Frankton and walk or ride the open lakeside section from the beach, then come back the same way.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Track section Park St to Middleton Rd closed until about end of 2026 (brief reopening Marathon weekend, Nov); detour via Frankton Rd; Frankton end and beach open",
+    "sourceUrl": "https://www.qldc.govt.nz/your-council/council-projects/frankton-track-wastewater-upgrades",
+    "confidence": "medium"
+  },
+  {
+    "name": "Arrowtown Chinese Settlement",
+    "slug": "arrowtown-chinese-settlement",
+    "lat": -44.937467,
+    "lng": 168.827964,
+    "category": [
+      "Culture",
+      "Walks"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "arrowtown",
+    "active": true,
+    "price": "Free",
+    "description": "The partly restored settlement of Chinese gold miners on the banks of Bush Creek, at the top of Buckingham Street. By 1885 there were about 10 huts, a social hall and at least two stores here. Five huts have been rebuilt to show how cramped and hard the miners' lives were, and Ah Lum's restored store sits on a terrace just down the hill.\n\nPanels in English and Chinese tell the story of the Chinese miners, who faced heavy discrimination during the gold rush. The main path follows an old dray track and is wheelchair and buggy accessible, though the side tracks aren't. It's free and takes under an hour.\nLocal tip: Visit the Lakes District Museum first, since it gives you the background that makes the huts far more meaningful.",
+    "recommendedDurationSlots": 2,
+    "featured": 3,
+    "hoursNote": "Open all the time; free; main path wheelchair and buggy accessible",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/arrowtown-area/things-to-do/arrowtown-chinese-settlement/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lakes District Museum and Gold Panning",
+    "slug": "lakes-district-museum-and-gold-panning",
+    "lat": -44.938521,
+    "lng": 168.833281,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "arrowtown",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.lakesdistrictmuseum.nz/",
+    "description": "A small museum on Arrowtown's main street that goes on much further inside than it looks, covering the gold rush, early settler life and the Chinese miners. Entry is $14 for adults, $6 for school-age children and $30 for a family, and it's open daily from 9am to 5pm.\n\nThe museum also hires gold pans and trowels for $5, so you can try your luck in the Arrow River, a short walk away. You leave ID or a refundable deposit, and there are instructions on how to pan. Gold isn't guaranteed.\nLocal tip: The last pan hire is an hour before closing, so go panning first and do the museum afterwards if you arrive in the afternoon.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily 9am to 5pm except Christmas Day; adult $14; pan hire $5, last hire 4pm",
+    "sourceUrl": "https://www.lakesdistrictmuseum.nz/info-centre-and-retail-shop/gold-panning-arrowtown/",
+    "confidence": "high"
+  },
+  {
+    "name": "Arrowtown Bakery",
+    "slug": "arrowtown-bakery",
+    "lat": -44.938426,
+    "lng": 168.830819,
+    "category": [
+      "Food"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "arrowtown",
+    "active": true,
+    "price": "Cheap",
+    "description": "A busy bakery on Buckingham Street known for its pies, with fillings such as steak, jalapeño and cheese, Thai green chicken and butter chicken alongside the classic mince and cheese. The pastry is flaky and the pies come out hot.\n\nThere are also sandwiches, doughnuts, slices and cakes, which makes it an easy lunch stop while you explore Arrowtown.\nLocal tip: Take your pie down to the Arrow River or the tree-lined green on Buckingham Street to eat.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Daily 7am to 3pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ9wijc34Y1akRyQNjkbXiufQ",
+    "confidence": "medium"
+  },
+  {
+    "name": "Provisions of Arrowtown",
+    "slug": "provisions-of-arrowtown",
+    "lat": -44.938963,
+    "lng": 168.834643,
+    "category": [
+      "Food"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "arrowtown",
+    "active": true,
+    "price": "Moderate",
+    "description": "A café in a historic miners' cottage at 65 Buckingham Street, with a leafy garden full of outdoor tables, heaters and blankets. It's known for its sticky buns and is one of Arrowtown's favourite breakfast spots.\n\nThe menu is fresh and seasonal, with house baking, Allpress coffee and a Miners Burger made with Ōhau Wagyu beef, and the bar pours Central Otago wine from 9am. It's open daily from 8am to 4pm, with food until 3pm.\nLocal tip: Grab a sticky bun to take away if the garden is full, and eat it by the Arrow River.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 8am to 4pm; food until 3pm; 65 Buckingham St",
+    "sourceUrl": "https://www.provisionsofarrowtown.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Crown Range Summit Lookout",
+    "slug": "crown-range-summit-lookout",
+    "lat": -44.99248,
+    "lng": 168.938904,
+    "category": [
+      "Scenic"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "arrowtown",
+    "active": true,
+    "price": "Free",
+    "description": "The Crown Range Road between Arrowtown and Wānaka is the highest main road in New Zealand, and the pull-off at the summit looks back over the Whakatipu basin, Arrowtown and Queenstown airport. You can often watch planes coming in to land far below.\n\nA short track leads up from the car park for a wider view. It gets very windy and cold up here, even on sunny days.\nLocal tip: From May to September you must carry snow chains and know how to fit them, and the road can close in snow, so check NZTA road conditions before you go.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open all the time; carry chains May to September; road can close in snow, check NZTA before driving",
+    "sourceUrl": "https://www.newzealand.com/us/feature/the-crown-range/",
+    "confidence": "high"
+  },
+  {
+    "name": "Devil's Staircase Lookout",
+    "slug": "devils-staircase-lookout",
+    "lat": -45.245974,
+    "lng": 168.742944,
+    "category": [
+      "Scenic"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Free",
+    "description": "A roadside lookout on the Kingston Road (State Highway 6) along the southern arm of Lake Wakatipu, where the highway winds along the steep lake edge below the mountains. It's one of the best views on the main approach to Queenstown from Southland.\n\nThe pull-off is small and fills quickly, but there's a second one just beyond it. Reviewers say it's easiest to reach when you're heading towards Queenstown, because of the road markings.\nLocal tip: It's a good sunrise spot. If both pull-offs are full, keep driving rather than stopping on the road edge.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; small roadside pull-off on SH6, second one just beyond",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJg92ioEPC1KkR39NpSfOJ2zI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Glenorchy Wharf and Red Shed",
+    "slug": "glenorchy-wharf-and-red-shed",
+    "lat": -44.85162,
+    "lng": 168.381013,
+    "category": [
+      "Scenic",
+      "Water"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "glenorchy",
+    "active": true,
+    "price": "Free",
+    "description": "The little wharf at the head of Lake Wakatipu, at the end of a scenic lakeside drive from Queenstown. The historic red shed beside it once stored and sorted goods from the lake steamers, and it's now the classic Glenorchy photo.\n\nThe water is very clear, and the mountains around the head of the lake rise steeply on every side. It's free, and there are cafés a short walk away.\nLocal tip: Come early in the morning, when the lake is often still, and walk straight on to the lagoon boardwalk from here.",
+    "recommendedDurationSlots": 1,
+    "featured": 2,
+    "hoursNote": "Open all the time; free; Glenorchy Road is winding, so drive with care",
+    "sourceUrl": "https://www.queenstownnz.co.nz/stories/post/six-hidden-glenorchy-gems/",
+    "confidence": "high"
+  },
+  {
+    "name": "Dart River Wilderness Jet",
+    "slug": "dart-river-wilderness-jet",
+    "lat": -44.849321,
+    "lng": 168.385871,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "glenorchy",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.dartriver.co.nz/choose-your-experience/wilderness-jet/",
+    "description": "A long jet boat trip from Glenorchy up the braided Dart River into Mount Aspiring National Park, run by Ngāi Tahu Tourism's Dart River Adventures. The ride lasts about 2 hours, the longest in the region, with guides sharing Māori legends and the story of the area's greenstone trail.\n\nIt departs from the Dart Visitor Centre in Glenorchy, with free coach transfers from Queenstown on some departures. From 1 October 2026 to 30 April 2027, adults are $399, children aged 5 to 15 are $299, and a family of four is $1,097. Off-peak prices from May to September are lower.\nLocal tip: Self-drive to Glenorchy and combine the jet with the wharf, the lagoon walkway and lunch in town. Bring warm layers and sunglasses for the wind on the river.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Morning and afternoon departures from Glenorchy; about 2 hr on the river, 2.5 hr return from Glenorchy or 5 hr from Queenstown; off peak adult $299, child $205, summer higher",
+    "sourceUrl": "https://www.bookme.co.nz/things-to-do/queenstown/activity/dart-river-wilderness-jet-half-day-adventure-ex-queenstown-or-glenorchy/859",
+    "confidence": "medium"
+  },
+  {
+    "name": "Glenorchy Lagoon Walkway",
+    "slug": "glenorchy-lagoon-walkway",
+    "lat": -44.849868,
+    "lng": 168.382125,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "glenorchy",
+    "active": true,
+    "price": "Free",
+    "description": "An easy walkway with boardwalks over the wetlands and lagoons on the edge of Glenorchy, with reflections of the mountains on still days and views up to Mt Earnslaw/Pikirakatahi. There's a short southern loop and a longer northern circuit, so you can take anywhere from one to a few hours.\n\nIt's flat and good for kids, with benches along the way, though some sections have little shade. Look out for pied stilts, oystercatchers, the rare Australasian bittern and New Zealand falcons hunting overhead.\nLocal tip: Start from the signs near the lake on Mull Street, not from Glenorchy Paradise Road, and skip the lagoon section after heavy rain, since it floods.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open all the time; easy; 1 to 4 hr depending on loop; lagoon section floods in heavy rain",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/glenorchy-area/things-to-do/glenorchy-walkway/",
+    "confidence": "high"
+  },
+  {
+    "name": "Mrs Woolly's General Store",
+    "slug": "mrs-woollys-general-store",
+    "lat": -44.850863,
+    "lng": 168.388709,
+    "category": [
+      "Food"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "glenorchy",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://mrswoollysgeneralstore.nz/",
+    "description": "Glenorchy's general store and café at 64 Oban Street, selling coffee, pies, scones and cabinet food alongside NZ-made gifts, woollen blankets, ceramics and local art. The baking gets consistently strong reviews, especially the pies and the heated cheese scones.\n\nBehind the shop is a small secret garden where you can sit with your coffee, looking towards the mountains. In summer it's open from 8.30am until 5.30pm, or 6pm on Fridays and Saturdays.\nLocal tip: Stock up on food here before heading up to the Routeburn or Paradise, since there are few or no food options further up the valley.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Winter (May to Sep) daily 9am to 4.30pm; summer (Oct to Apr) 8.30am to 5.30pm, to 6pm Fri and Sat",
+    "sourceUrl": "https://mrswoollysgeneralstore.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Routeburn Track Day Walk",
+    "slug": "routeburn-track-day-walk",
+    "lat": -44.71854,
+    "lng": 168.27851,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "glenorchy",
+    "active": true,
+    "price": "Free",
+    "description": "You don't need a Great Walk booking to walk the first part of the Routeburn as a day trip. From the Routeburn Shelter, 25km past Glenorchy on a partly unsealed road, the track crosses a swingbridge and follows the clear, blue-green Routeburn River through beech forest to Routeburn Flats, 7.5km and 1.5 to 2.5 hours one way.\n\nFit walkers can carry on uphill for another 2.3km to Routeburn Falls Hut, for views down the valley, allowing about 2.5 to 4 hours one way in total. For something short, the Routeburn Nature Walk is an easy loop of under an hour from the car park.\nLocal tip: From May to late October, avalanches are frequent above the Flats and some bridges are removed, so outside the Great Walks season stick to the Flats unless you have alpine experience. The last section of the road is gravel and narrow for big campervans.",
+    "recommendedDurationSlots": 10,
+    "featured": 4,
+    "hoursNote": "Open all year; Great Walks season 1 Nov 2026 to 30 Apr 2027; avalanche risk above the Flats in winter and spring; toilets at shelter",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/tracks/routeburn-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Sylvan Track and Campsite",
+    "slug": "lake-sylvan-track-and-campsite",
+    "lat": -44.724993,
+    "lng": 168.314528,
+    "category": [
+      "Walks",
+      "Stay"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "glenorchy",
+    "active": true,
+    "price": "Free",
+    "description": "An easy walk through tall red beech forest and old river terraces to a quiet lake with views towards Mt Earnslaw/Pikirakatahi, near the head of Lake Wakatipu, about 30 minutes past Glenorchy. DOC gives 40 minutes one way to the viewing platform, or 1 hour 40 minutes as a loop along an old tramline.\n\nAccess was cut after storms destroyed the old bridge over the Routeburn River. A new 42m suspension bridge, higher and about 600m upriver, opened in October 2025, with 1.5km of new track linking it to the campsite, so the route differs from older guides and may take a little longer. The DOC Sylvan Campsite is $18 per adult and $9 per child per night, and must be booked, especially from December to February.\nLocal tip: The campsite can flood in heavy rain, and DOC advises not pitching under the trees. The last part of the road is rough gravel.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Walk free; new bridge open since 1 Oct 2025; campsite $18 adult, $9 child, bookings required; campsite may flood in heavy rain",
+    "sourceUrl": "https://www.doc.govt.nz/news/media-releases/2025-media-releases/new-bridge-reconnects-popular-glenorchy-trail/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Boundary Street Freedom Camping",
+    "slug": "boundary-street-freedom-camping",
+    "lat": -45.027816,
+    "lng": 168.660816,
+    "category": [
+      "Stay"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Free",
+    "description": "One of the council's designated freedom camping car parks, a few minutes' walk from central Queenstown. There are 15 marked spaces for certified self-contained vehicles only, available from 6pm to 8am, and you can't camp before 6pm.\n\nUnder the district's freedom camping bylaw, in force since 1 December 2025, you can stay a maximum of 2 nights in any 30 day period, you must check in with the QR code when you arrive, and everything must fit inside your marked space. It's first come, first served, with no bookings.\nLocal tip: Check the council's live availability dashboard before you drive in, and read the signs carefully, since some spaces in this car park are tow-away or paid during the day.",
+    "hoursNote": "Certified self-contained only; 15 spaces; 6pm to 8am; max 2 nights in 30 days; QR check-in",
+    "sourceUrl": "https://www.qldc.govt.nz/recreation/responsible-camping/responsible-camping-map",
+    "confidence": "high"
+  },
+  {
+    "name": "Twelve Mile Delta Campground",
+    "slug": "twelve-mile-delta-campground",
+    "lat": -45.067151,
+    "lng": 168.545867,
+    "category": [
+      "Stay"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.queenstowncamping.co.nz/",
+    "description": "A big, basic lakeside campground west of Queenstown off the Glenorchy Road, with plenty of room for tents and vans among the trees. It has toilets, picnic tables and running water, which needs boiling before drinking, but no kitchen, laundry or power.\n\nIt's $15 per adult and $7.50 for ages 5 to 17 per night, and dogs are $2. It's first come, first served with no bookings, and DOC Campsite Passes haven't been valid here since December 2024.\nLocal tip: Arrive by late afternoon in summer to get a good spot near the lake, and bring your own drinking water.",
+    "hoursNote": "No bookings; adult $15, youth $7.50 per night; non-powered; toilets and non-potable water",
+    "sourceUrl": "https://www.queenstowncamping.co.nz/facilities-rates",
+    "confidence": "high"
+  },
+  {
+    "name": "Moke Lake Campsite",
+    "slug": "moke-lake-campsite",
+    "lat": -44.999326,
+    "lng": 168.574253,
+    "category": [
+      "Stay"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Cheap",
+    "description": "A DOC campsite beside a quiet mountain lake, reached by 7km of gravel road off the Glenorchy Road, about 6km west of Queenstown. There are mountain views all round, and you can swim, fish, kayak (with a 5km/h boat speed limit) or walk or bike to Lake Dispute, about 2 hours away.\n\nIt's $18 per adult and $9 per child aged 5 to 17 per night, and bookings are essential, since no spaces are held for people who turn up without one. DOC Campsite Passes are accepted, and a camp manager is on site in summer.\nLocal tip: If it's full, Twelve Mile Delta takes campers without bookings. In winter the road can be 4WD only and the water is turned off when it freezes, so check conditions and bring water.",
+    "hoursNote": "Bookings required; adult $18, child $9; gravel access road, 4WD may be needed in winter; water off when freezing",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/queenstown-area/things-to-do/moke-lake-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Adventure Queenstown Hostel",
+    "slug": "adventure-queenstown-hostel",
+    "lat": -45.031264,
+    "lng": 168.660775,
+    "category": [
+      "Stay"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Cheap",
+    "description": "An independent, sociable hostel on Camp Street in the middle of town, a minute's walk from the buses to the ski fields. The bunks are custom-built timber with privacy curtains, reading lights and USB charging, and there's a big kitchen and balconies with lake views.\n\nIt runs regular events such as quiz and movie nights and gets very strong guest reviews. There's no guest parking, but the staff can point you to nearby options.\nLocal tip: Book ahead for ski season and summer, since central beds in Queenstown fill up fast.",
+    "hoursNote": "Reception 8.30am to 7.30pm; no guest parking; lockers and luggage storage",
+    "sourceUrl": "https://www.hostelworld.com/hostels/p/46937/adventure-queenstown-hostel/",
+    "confidence": "medium"
+  }
+]

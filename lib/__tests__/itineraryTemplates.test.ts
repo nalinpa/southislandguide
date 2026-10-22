@@ -8,6 +8,12 @@
 // place files for every town a template visits (add a town's file when a template first
 // goes there), so a template that crosses towns (within a day or overnight) fails here
 // until its slots allow for the drive.
+//
+// The trips ship with the real drive times, so they are packed against those: jest.config.js
+// points the app at fixed sample times, which leave nearly every pair of towns out.
+jest.mock("@/assets/data/area-drive-minutes.json", () => jest.requireActual("../../assets/data/area-drive-minutes.json"));
+jest.mock("@/assets/data/area-hubs.json", () => jest.requireActual("../../assets/data/area-hubs.json"));
+jest.mock("@/assets/data/far-place-minutes.json", () => jest.requireActual("../../assets/data/far-place-minutes.json"));
 import christchurch from "@/assets/data/christchurch_places_all.json";
 import dunedin from "@/assets/data/dunedin_places.json";
 import queenstown from "@/assets/data/queenstown_places.json";

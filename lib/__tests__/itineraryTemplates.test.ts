@@ -5,18 +5,20 @@
 // or the transit matrix change.
 //
 // Packed the way the app packs a trip: the whole template at once, against the bundled
-// place files for all three areas, so a template that crosses areas (within a day or
-// overnight) fails here until its slots allow for the drive.
+// place files for every town a template visits (add a town's file when a template first
+// goes there), so a template that crosses towns (within a day or overnight) fails here
+// until its slots allow for the drive.
 import christchurch from "@/assets/data/christchurch_places_all.json";
 import dunedin from "@/assets/data/dunedin_places.json";
+import queenstown from "@/assets/data/queenstown_places.json";
 import timaru from "@/assets/data/timaru_geraldine_places.json";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { ITINERARY_TEMPLATES, defaultTemplateKey } from "@/lib/itineraryTemplates";
 import { canAddToItinerary, type ItineraryDay, type SiteCategory } from "@/lib/models";
 import { packTrip } from "@/lib/utils/itineraryPhysics";
 
-type Place = { slug: string; name: string; category: string[]; area?: string };
-const bySlug = new Map(([...christchurch, ...timaru, ...dunedin] as Place[]).map((p) => [p.slug, p]));
+type Place = { slug: string; name: string; category: string[]; area?: string; active?: boolean };
+const bySlug = new Map(([...christchurch, ...timaru, ...dunedin, ...queenstown] as Place[]).map((p) => [p.slug, p]));
 
 const packed = new Map(
   ITINERARY_TEMPLATES.map((t) => [t.key, packTrip(t.days as unknown as ItineraryDay[], (siteId) => bySlug.get(siteId))]),
@@ -27,16 +29,22 @@ const days = ITINERARY_TEMPLATES.flatMap((t) =>
 );
 
 describe("the suggested itineraries", () => {
-  it("offers a one-day and a two-day trip, both free, with unique keys", () => {
-    expect(ITINERARY_TEMPLATES.map((t) => t.days.length)).toEqual([1, 2]);
+  it("offers trips of at least a day, all free, with unique keys", () => {
+    expect(ITINERARY_TEMPLATES.every((t) => t.days.length >= 1)).toBe(true);
     expect(ITINERARY_TEMPLATES.every((t) => t.free)).toBe(true);
     expect(new Set(ITINERARY_TEMPLATES.map((t) => t.key)).size).toBe(ITINERARY_TEMPLATES.length);
   });
 
-  it.each(days)("%s: every stop is a real place by its own name, and never a Stay", (_label, day) => {
+  // The bundled files can lag the live list, so a place switched off only in the admin panel
+  // still passes here: check new stops against the api too (lib/itineraryTemplates.ts).
+  it.each(days)("%s: every stop is a real, switched-on place by its own name, and never a Stay", (_label, day) => {
     for (const item of day.items) {
       const place = bySlug.get(item.siteId);
-      expect({ siteId: item.siteId, name: place?.name }).toEqual({ siteId: item.siteId, name: item.siteName });
+      expect({ siteId: item.siteId, name: place?.name, active: place?.active !== false }).toEqual({
+        siteId: item.siteId,
+        name: item.siteName,
+        active: true,
+      });
       expect(canAddToItinerary({ category: place!.category as SiteCategory[] })).toBe(true);
     }
   });

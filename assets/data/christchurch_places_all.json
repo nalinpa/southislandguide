@@ -37,7 +37,7 @@
     "premium": true
   },
   {
-    "name": "Grizzly Baked Goods (The Welder)",
+    "name": "The Welder",
     "slug": "grizzly-baked-goods-the-welder",
     "lat": -43.537025,
     "lng": 172.637794,
@@ -73,7 +73,7 @@
     "premium": true
   },
   {
-    "name": "Christchurch Farmers' Market",
+    "name": "Christchurch Farmers Market",
     "slug": "christchurch-farmers-market",
     "lat": -43.526322,
     "lng": 172.599172,
@@ -394,7 +394,7 @@
     "premium": true
   },
   {
-    "name": "Harry Ell Walkway (Victoria Park)",
+    "name": "Harry Ell Walkway",
     "slug": "harry-ell-walkway-victoria-park",
     "lat": -43.590081,
     "lng": 172.643837,
@@ -411,7 +411,7 @@
     "premium": true
   },
   {
-    "name": "Awaroa/Godley Head Loop",
+    "name": "Godley Head Loop",
     "slug": "awaroa-godley-head-loop",
     "lat": -43.58488,
     "lng": 172.774618,
@@ -466,7 +466,7 @@
     "premium": true
   },
   {
-    "name": "Christchurch Art Gallery Te Puna o Waiwhetū",
+    "name": "Christchurch Art Gallery",
     "slug": "christchurch-art-gallery",
     "lat": -43.53075,
     "lng": 172.631036,
@@ -484,7 +484,7 @@
     "premium": true
   },
   {
-    "name": "The Arts Centre Te Matatiki Toi Ora",
+    "name": "The Arts Centre",
     "slug": "the-arts-centre",
     "lat": -43.531159,
     "lng": 172.627957,
@@ -715,7 +715,7 @@
     "premium": true
   },
   {
-    "name": "Awaroa/Godley Head Campsite",
+    "name": "Godley Head Campsite",
     "slug": "awaroa-godley-head-campsite",
     "lat": -43.588358,
     "lng": 172.803994,
@@ -907,7 +907,7 @@
     "premium": true
   },
   {
-    "name": "Antigua Boatsheds Kayak and Canoe Hire",
+    "name": "Antigua Boatsheds",
     "slug": "antigua-boatsheds-kayak-canoe-hire",
     "lat": -43.533903,
     "lng": 172.627978,

@@ -14,11 +14,13 @@
 jest.mock("@/assets/data/area-drive-minutes.json", () => jest.requireActual("../../assets/data/area-drive-minutes.json"));
 jest.mock("@/assets/data/area-hubs.json", () => jest.requireActual("../../assets/data/area-hubs.json"));
 jest.mock("@/assets/data/far-place-minutes.json", () => jest.requireActual("../../assets/data/far-place-minutes.json"));
+import catlins from "@/assets/data/catlins_places.json";
 import centralOtago from "@/assets/data/central_otago_places.json";
 import christchurch from "@/assets/data/christchurch_places_all.json";
 import dunedin from "@/assets/data/dunedin_places.json";
 import fiordland from "@/assets/data/fiordland_te_anau_places.json";
 import hanmer from "@/assets/data/hanmer_springs_places.json";
+import invercargill from "@/assets/data/invercargill_bluff_gore_places.json";
 import kaikoura from "@/assets/data/kaikoura_places.json";
 import mackenzie from "@/assets/data/mackenzie_mount_cook_places.json";
 import marlboroughSounds from "@/assets/data/marlborough_sounds_places.json";
@@ -26,13 +28,14 @@ import midCanterbury from "@/assets/data/mid_canterbury_places.json";
 import queenstown from "@/assets/data/queenstown_places.json";
 import timaru from "@/assets/data/timaru_geraldine_places.json";
 import wanaka from "@/assets/data/wanaka_places.json";
+import westernSouthland from "@/assets/data/western_southland_places.json";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { ITINERARY_TEMPLATES, defaultTemplateKey } from "@/lib/itineraryTemplates";
 import { canAddToItinerary, type ItineraryDay, type SiteCategory } from "@/lib/models";
 import { packTrip } from "@/lib/utils/itineraryPhysics";
 
 type Place = { slug: string; name: string; category: string[]; area?: string; active?: boolean };
-const bySlug = new Map(([...christchurch, ...timaru, ...dunedin, ...queenstown, ...fiordland, ...wanaka, ...centralOtago, ...mackenzie, ...midCanterbury, ...marlboroughSounds, ...kaikoura, ...hanmer] as Place[]).map((p) => [p.slug, p]));
+const bySlug = new Map(([...christchurch, ...timaru, ...dunedin, ...queenstown, ...fiordland, ...wanaka, ...centralOtago, ...mackenzie, ...midCanterbury, ...marlboroughSounds, ...kaikoura, ...hanmer, ...westernSouthland, ...invercargill, ...catlins] as Place[]).map((p) => [p.slug, p]));
 
 const packed = new Map(
   ITINERARY_TEMPLATES.map((t) => [t.key, packTrip(t.days as unknown as ItineraryDay[], (siteId) => bySlug.get(siteId))]),

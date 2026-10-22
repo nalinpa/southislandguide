@@ -309,6 +309,62 @@ const KAIKOURA_TO_CHRISTCHURCH_DAY: ItineraryTemplateDay = {
   ],
 };
 
+// Te Anau along the south coast through Tuatapere and Riverton to Invercargill: 9:30 AM to
+// 6:30 PM.
+const TE_ANAU_TO_INVERCARGILL_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "clifden-suspension-bridge", siteName: "Clifden Suspension Bridge", slotIndex: 3, durationSlots: 1 },
+    { siteId: "mccrackens-rest", siteName: "McCracken's Rest", slotIndex: 5, durationSlots: 1 },
+    { siteId: "the-crib-cafe-riverton", siteName: "The Crib Cafe", slotIndex: 8, durationSlots: 2 },
+    // Open 10am to 4pm.
+    { siteId: "te-hikoi-museum-riverton", siteName: "Te Hikoi Museum", slotIndex: 11, durationSlots: 2 },
+    // Closes 5pm.
+    { siteId: "classic-motorcycle-mecca", siteName: "Classic Motorcycle Mecca", slotIndex: 15, durationSlots: 3 },
+    { siteId: "balibu-invercargill", siteName: "Balibu", slotIndex: 19, durationSlots: 2 },
+  ],
+};
+
+// Bluff, then the southern Catlins: 9:00 AM to 6:30 PM. Slope Point (closed for lambing
+// September to November), Cathedral Caves (late October to April, by the tide) and Peakes
+// Kitchen (closed over winter) are left out.
+const BLUFF_AND_CATLINS_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "bluff-hill-lookout", siteName: "Bluff Hill Lookout (Motupōhue)", slotIndex: 2, durationSlots: 1 },
+    { siteId: "stirling-point-bluff", siteName: "Stirling Point and Foveaux Walkway, Bluff", slotIndex: 4, durationSlots: 1 },
+    // An early lunch: nothing in the southern Catlins is open for one every day.
+    { siteId: "the-batch-cafe-invercargill", siteName: "The Batch Cafe", slotIndex: 6, durationSlots: 2 },
+    { siteId: "waipapa-point-lighthouse", siteName: "Waipapa Point Lighthouse", slotIndex: 11, durationSlots: 1 },
+    // The forest shows at low tide.
+    { siteId: "curio-bay-petrified-forest", siteName: "Curio Bay Petrified Forest", slotIndex: 13, durationSlots: 2 },
+    { siteId: "porpoise-bay", siteName: "Porpoise Bay", slotIndex: 16, durationSlots: 1 },
+    { siteId: "mclean-falls", siteName: "McLean Falls", slotIndex: 19, durationSlots: 2 },
+  ],
+};
+
+// The northern Catlins to Dunedin: 9:00 AM to 5:30 PM.
+const CATLINS_TO_DUNEDIN_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "purakaunui-falls", siteName: "Purakaunui Falls", slotIndex: 2, durationSlots: 1 },
+    { siteId: "nugget-point-lighthouse", siteName: "Nugget Point Lighthouse", slotIndex: 5, durationSlots: 2 },
+    { siteId: "catlins-cafe-owaka", siteName: "Catlins Cafe", slotIndex: 8, durationSlots: 2 },
+    // Tidal; the car park gate is reported locked from about 5pm.
+    { siteId: "tunnel-beach-track", siteName: "Tunnel Beach Track", slotIndex: 14, durationSlots: 2 },
+    { siteId: "st-clair-beach", siteName: "St Clair Beach", slotIndex: 17, durationSlots: 2 },
+  ],
+};
+
+// Dunedin and the Otago Peninsula: 9:00 AM to 5:30 PM.
+const DUNEDIN_AND_PENINSULA_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "baldwin-street", siteName: "Baldwin Street", slotIndex: 2, durationSlots: 1 },
+    { siteId: "tuhura-otago-museum", siteName: "Tūhura Otago Museum", slotIndex: 4, durationSlots: 4 },
+    { siteId: "vogel-st-kitchen", siteName: "Vogel St Kitchen", slotIndex: 9, durationSlots: 2 },
+    // Open until 5pm.
+    { siteId: "larnach-castle", siteName: "Larnach Castle", slotIndex: 12, durationSlots: 3 },
+    { siteId: "sandfly-bay-track", siteName: "Sandfly Bay Track", slotIndex: 16, durationSlots: 3 },
+  ],
+};
+
 // A Kepler Track morning, then back to Queenstown: 9:00 AM to 7:00 PM.
 const TE_ANAU_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
   items: [
@@ -399,6 +455,21 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       "Day one off the ferry: the Edwin Fox and the Snout Track in Picton, then down the coast past the seals to Kaikōura. Day two whale watching, crayfish for lunch and the peninsula walk. Day three inland to the hot pools at Hanmer Springs, then on to Christchurch.",
     free: true,
     days: [PICTON_TO_KAIKOURA_DAY, KAIKOURA_DAY, KAIKOURA_TO_CHRISTCHURCH_DAY],
+  },
+  {
+    key: "southern-scenic-route-queenstown-to-dunedin",
+    label: "Southern Scenic Route: Queenstown to Dunedin",
+    description:
+      "Days one and two in Fiordland: the glowworm caves and Milford Sound. Day three along the south coast through Tuatapere and Riverton to Invercargill. Day four out to Bluff, then the Catlins: Waipapa Point, Curio Bay and McLean Falls. Day five past Nugget Point to Dunedin's Tunnel Beach and St Clair. Day six in Dunedin and on the Otago Peninsula.",
+    free: true,
+    days: [
+      QUEENSTOWN_TO_TE_ANAU_DAY,
+      MILFORD_SOUND_DAY,
+      TE_ANAU_TO_INVERCARGILL_DAY,
+      BLUFF_AND_CATLINS_DAY,
+      CATLINS_TO_DUNEDIN_DAY,
+      DUNEDIN_AND_PENINSULA_DAY,
+    ],
   },
 ];
 

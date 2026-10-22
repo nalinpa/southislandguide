@@ -367,17 +367,19 @@ const DUNEDIN_AND_PENINSULA_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Christchurch over Arthur's Pass to Greymouth: 9:00 AM to 6:30 PM.
+// Christchurch over Arthur's Pass to Greymouth: 9:30 AM (the drive out of the city, which
+// the app counts when the day follows a night in Christchurch, as in the loop from
+// Queenstown) to 7:00 PM.
 const CHRISTCHURCH_TO_GREYMOUTH_DAY: ItineraryTemplateDay = {
   items: [
     // Pies for the road: nothing in the pass is open for lunch every day.
-    { siteId: "sheffield-pies", siteName: "Sheffield Pies", slotIndex: 2, durationSlots: 1 },
-    { siteId: "kura-tawhiti-castle-hill", siteName: "Kura Tāwhiti Castle Hill", slotIndex: 5, durationSlots: 2 },
-    { siteId: "arthurs-pass-national-park-visitor-centre", siteName: "Arthur's Pass National Park Visitor Centre", slotIndex: 9, durationSlots: 1 },
-    { siteId: "devils-punchbowl-falls", siteName: "Devils Punchbowl Falls", slotIndex: 11, durationSlots: 2 },
-    { siteId: "otira-viaduct-lookout", siteName: "Otira Viaduct Lookout", slotIndex: 14, durationSlots: 1 },
+    { siteId: "sheffield-pies", siteName: "Sheffield Pies", slotIndex: 3, durationSlots: 1 },
+    { siteId: "kura-tawhiti-castle-hill", siteName: "Kura Tāwhiti Castle Hill", slotIndex: 6, durationSlots: 2 },
+    { siteId: "arthurs-pass-national-park-visitor-centre", siteName: "Arthur's Pass National Park Visitor Centre", slotIndex: 10, durationSlots: 1 },
+    { siteId: "devils-punchbowl-falls", siteName: "Devils Punchbowl Falls", slotIndex: 12, durationSlots: 2 },
+    { siteId: "otira-viaduct-lookout", siteName: "Otira Viaduct Lookout", slotIndex: 15, durationSlots: 1 },
     // Dinner; the brewery tour is at 4pm, before the drive gets here.
-    { siteId: "monteiths-brewery", siteName: "Monteith's Brewery", slotIndex: 18, durationSlots: 3 },
+    { siteId: "monteiths-brewery", siteName: "Monteith's Brewery", slotIndex: 19, durationSlots: 3 },
   ],
 };
 
@@ -691,6 +693,26 @@ const WHOLE_ISLAND_DAYS: ItineraryTemplateDay[] = [
   TEKAPO_TO_CHRISTCHURCH_DAY,
 ];
 
+// The West Coast and the south in 15 days, clockwise from Christchurch: the whole island
+// without the top of the south (the Picton trips cover that). Every day is built already.
+const WEST_AND_SOUTH_LOOP_DAYS: ItineraryTemplateDay[] = [
+  CHRISTCHURCH_TO_GREYMOUTH_DAY,
+  PUNAKAIKI_TO_HOKITIKA_DAY,
+  HOKITIKA_TO_FRANZ_JOSEF_DAY,
+  FRANZ_JOSEF_TO_FOX_DAY,
+  FOX_TO_HAAST_DAY,
+  HAAST_TO_WANAKA_DAY,
+  WANAKA_TO_QUEENSTOWN_DAY,
+  QUEENSTOWN_TO_TE_ANAU_DAY,
+  MILFORD_SOUND_DAY,
+  TE_ANAU_TO_INVERCARGILL_DAY,
+  BLUFF_AND_CATLINS_DAY,
+  CATLINS_TO_DUNEDIN_DAY,
+  DUNEDIN_TO_MOUNT_COOK_DAY,
+  MOUNT_COOK_TO_TEKAPO_DAY,
+  TEKAPO_TO_CHRISTCHURCH_DAY,
+];
+
 // A loop's days begun at `start` and wrapped round to the day before it.
 function loopFrom(days: ItineraryTemplateDay[], start: ItineraryTemplateDay): ItineraryTemplateDay[] {
   const i = days.indexOf(start);
@@ -913,6 +935,22 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       GOLDEN_BAY_DAY,
       GOLDEN_BAY_TO_PICTON_DAY,
     ],
+  },
+  {
+    key: "west-coast-and-the-south-from-christchurch",
+    label: "The West Coast and the South from Christchurch",
+    description:
+      "Fifteen days round the West Coast and the south: Arthur's Pass, Punakaiki and the glaciers, the Haast Pass to Wānaka and Queenstown, Milford Sound, the south coast and the Catlins, Dunedin, the Waitaki and Mount Cook, and back through Tekapo.",
+    free: true,
+    days: WEST_AND_SOUTH_LOOP_DAYS,
+  },
+  {
+    key: "west-coast-and-the-south-from-queenstown",
+    label: "The West Coast and the South from Queenstown",
+    description:
+      "Fifteen days round the south and the West Coast: Milford Sound, the south coast and the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo and Christchurch, then over Arthur's Pass to Punakaiki and the glaciers, and the Haast Pass to Wānaka and back to Queenstown.",
+    free: true,
+    days: loopFrom(WEST_AND_SOUTH_LOOP_DAYS, QUEENSTOWN_TO_TE_ANAU_DAY),
   },
 ];
 

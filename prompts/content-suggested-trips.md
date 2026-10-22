@@ -60,7 +60,7 @@ Christchurch-only templates in a whole-island app undersell it. The owner's set 
 | Southern Scenic Route: Queenstown to Dunedin | 6 | Fiordland, Riverton, Bluff, the Catlins |
 | West Coast: Christchurch to Queenstown | 7 | Arthur's Pass, Punakaiki, Hokitika, the glaciers, Haast, Wānaka |
 
-**Long: the owner wants all of them (2026-10-22). Build in this order, cheapest first:**
+**Long (all built 2026-10-22; the whole island is 23 days, and the 14-day loop became the 15-day West Coast and the South, which skips the top of the south):**
 
 | Template | Days | Route |
 |---|---|---|

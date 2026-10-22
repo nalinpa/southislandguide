@@ -28,6 +28,7 @@ export const TRANSIT: Transit = {
   "marlborough-sounds": require("./marlborough-sounds.json"),
   "mid-canterbury": require("./mid-canterbury.json"),
   "milford-sound": require("./milford-sound.json"),
+  "murchison": require("./murchison.json"),
   "nelson": require("./nelson.json"),
   "nelson-lakes": require("./nelson-lakes.json"),
   "oamaru": require("./oamaru.json"),

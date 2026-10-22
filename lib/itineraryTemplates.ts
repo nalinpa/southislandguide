@@ -473,6 +473,63 @@ const DUNEDIN_TO_CHRISTCHURCH_DAY: ItineraryTemplateDay = {
   ],
 };
 
+// Off the ferry, Picton by the Sounds road to Nelson: 9:00 AM to 7:30 PM.
+const PICTON_TO_NELSON_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "edwin-fox-maritime-museum", siteName: "Edwin Fox Maritime Museum", slotIndex: 2, durationSlots: 2 },
+    // Toasties to take away: nothing on the Sounds road is open for lunch every day.
+    { siteId: "toastie-lords-picton", siteName: "Toastie Lords", slotIndex: 5, durationSlots: 1 },
+    { siteId: "queen-charlotte-drive-cullen-point", siteName: "Queen Charlotte Drive and Cullen Point Lookout", slotIndex: 8, durationSlots: 1 },
+    // A picnic by the river.
+    { siteId: "pelorus-bridge-scenic-reserve", siteName: "Pelorus Bridge Scenic Reserve", slotIndex: 10, durationSlots: 2 },
+    { siteId: "centre-of-new-zealand-walk", siteName: "Centre of New Zealand Walk", slotIndex: 15, durationSlots: 2 },
+    { siteId: "tahunanui-beach", siteName: "Tāhunanui Beach", slotIndex: 18, durationSlots: 2 },
+    // Closed Mondays: kept anyway (owner, 2026-10-22).
+    { siteId: "fishy-business-on-roto", siteName: "Fishy Business on Roto", slotIndex: 21, durationSlots: 2 },
+  ],
+};
+
+// Abel Tasman: up the coast by water taxi, then the Coast Track back to Mārahau. 9:30 AM
+// to 7:00 PM.
+const ABEL_TASMAN_DAY: ItineraryTemplateDay = {
+  items: [
+    // Lunch to carry on the walk.
+    { siteId: "toad-hall-motueka", siteName: "TOAD Hall", slotIndex: 3, durationSlots: 1 },
+    // Best at low tide.
+    { siteId: "split-apple-rock", siteName: "Split Apple Rock", slotIndex: 6, durationSlots: 1 },
+    // The noon sailing north to Anchorage, the one that runs all year (summer 9, 10.30, 12
+    // and 1.30; winter 9.30, 12 and 1.30; owner, 2026-10-22), then about 4 hours on foot
+    // back to Mārahau.
+    { siteId: "abel-tasman-aquataxi-coast-track-day-walk", siteName: "Abel Tasman AquaTaxi and Coast Track Day Walk", slotIndex: 8, durationSlots: 11 },
+    // Closed Tuesdays and Wednesdays: kept anyway (owner, 2026-10-22).
+    { siteId: "park-cafe-marahau", siteName: "Park Café Mārahau", slotIndex: 20, durationSlots: 2 },
+  ],
+};
+
+// Golden Bay over Tākaka Hill: 9:00 AM to 6:00 PM.
+const GOLDEN_BAY_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "hawkes-lookout", siteName: "Hawkes Lookout", slotIndex: 2, durationSlots: 1 },
+    { siteId: "te-waikoropupu-springs", siteName: "Te Waikoropupū Springs", slotIndex: 5, durationSlots: 2 },
+    { siteId: "the-wholemeal-cafe", siteName: "The Wholemeal Café", slotIndex: 8, durationSlots: 2 },
+    { siteId: "labyrinth-rocks-park", siteName: "Labyrinth Rocks Park", slotIndex: 11, durationSlots: 1 },
+    { siteId: "wainui-falls", siteName: "Wainui Falls", slotIndex: 13, durationSlots: 2 },
+    { siteId: "the-mussel-inn", siteName: "The Mussel Inn", slotIndex: 18, durationSlots: 2 },
+  ],
+};
+
+// Golden Bay back over Tākaka Hill and down the Buller Gorge to Westport: 9:00 AM to 6:00 PM.
+const GOLDEN_BAY_TO_WESTPORT_DAY: ItineraryTemplateDay = {
+  items: [
+    // Brunch, and food for the road: nothing on the gorge road is open every day.
+    { siteId: "toad-hall-motueka", siteName: "TOAD Hall", slotIndex: 2, durationSlots: 2 },
+    { siteId: "kawatiri-historic-railway-walk", siteName: "Kawatiri Historic Railway Walk", slotIndex: 8, durationSlots: 1 },
+    { siteId: "cape-foulwind-walkway-seal-colony", siteName: "Cape Foulwind Walkway and Seal Colony", slotIndex: 14, durationSlots: 3 },
+    // Closed Tuesdays and Wednesdays: kept anyway (owner, 2026-10-22).
+    { siteId: "star-tavern-cape-foulwind", siteName: "Star Tavern", slotIndex: 18, durationSlots: 2 },
+  ],
+};
+
 // The southern loop's days in order, from Christchurch. The Queenstown start is the same
 // days begun at QUEENSTOWN_LAKE_DAY.
 const SOUTHERN_LOOP_DAYS: ItineraryTemplateDay[] = [
@@ -628,6 +685,25 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       "Twelve days round the south: Queenstown and Milford Sound, the south coast and the Catlins, Dunedin, up the coast through Ōamaru to Christchurch, then Tekapo, Mount Cook and Wānaka back to Queenstown.",
     free: true,
     days: [...SOUTHERN_LOOP_DAYS.slice(SOUTHERN_LOOP_FROM_QUEENSTOWN), ...SOUTHERN_LOOP_DAYS.slice(0, SOUTHERN_LOOP_FROM_QUEENSTOWN)],
+  },
+  {
+    key: "picton-to-queenstown-via-the-west-coast",
+    label: "Picton to Queenstown via the West Coast",
+    description:
+      "Ten days from the ferry: the Sounds road to Nelson, a water taxi and the Coast Track in Abel Tasman, a day in Golden Bay, down the Buller Gorge to Westport, then the West Coast past Punakaiki, Hokitika and the glaciers, over the Haast Pass to Wānaka and on to Queenstown.",
+    free: true,
+    days: [
+      PICTON_TO_NELSON_DAY,
+      ABEL_TASMAN_DAY,
+      GOLDEN_BAY_DAY,
+      GOLDEN_BAY_TO_WESTPORT_DAY,
+      PUNAKAIKI_TO_HOKITIKA_DAY,
+      HOKITIKA_TO_FRANZ_JOSEF_DAY,
+      FRANZ_JOSEF_TO_FOX_DAY,
+      FOX_TO_HAAST_DAY,
+      HAAST_TO_WANAKA_DAY,
+      WANAKA_TO_QUEENSTOWN_DAY,
+    ],
   },
 ];
 

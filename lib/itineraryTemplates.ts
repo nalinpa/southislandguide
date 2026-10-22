@@ -238,6 +238,40 @@ const MOUNT_COOK_TO_WANAKA_DAY: ItineraryTemplateDay = {
   ],
 };
 
+// Wānaka over the Lindis Pass to Mount Cook: 9:00 AM to 5:30 PM.
+const WANAKA_TO_MOUNT_COOK_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "pembroke-patisserie", siteName: "Pembroke Pâtisserie", slotIndex: 2, durationSlots: 1 },
+    { siteId: "lindis-pass-summit-lookout", siteName: "Lindis Pass Summit Lookout", slotIndex: 6, durationSlots: 1 },
+    { siteId: "mt-cook-alpine-salmon-shop", siteName: "Mt Cook Alpine Salmon Shop", slotIndex: 9, durationSlots: 1 },
+    { siteId: "peters-lookout", siteName: "Peters Lookout", slotIndex: 11, durationSlots: 1 },
+    { siteId: "tasman-glacier-view-blue-lakes", siteName: "Tasman Glacier View and Blue Lakes", slotIndex: 14, durationSlots: 1 },
+    { siteId: "kea-point-track", siteName: "Kea Point Track", slotIndex: 16, durationSlots: 3 },
+  ],
+};
+
+// Mount Cook to Tekapo: 9:00 AM to 6:00 PM.
+const MOUNT_COOK_TO_TEKAPO_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "hooker-valley-track", siteName: "Hooker Valley Track", slotIndex: 2, durationSlots: 6 },
+    // A late lunch; the summit road closes at 4pm.
+    { siteId: "mt-john-summit-astro-cafe", siteName: "Mt John Summit and Astro Café", slotIndex: 11, durationSlots: 3 },
+    { siteId: "tekapo-springs", siteName: "Tekapo Springs", slotIndex: 15, durationSlots: 5 },
+  ],
+};
+
+// Tekapo through Geraldine to Christchurch: 9:00 AM to 5:30 PM. Not via Fairlie: the app
+// counts Fairlie to Geraldine as two hours (two far-out places in different areas).
+const TEKAPO_TO_CHRISTCHURCH_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "church-of-the-good-shepherd", siteName: "Church of the Good Shepherd", slotIndex: 2, durationSlots: 1 },
+    { siteId: "barkers-foodstore-geraldine", siteName: "Barker's Foodstore & Eatery", slotIndex: 6, durationSlots: 2 },
+    { siteId: "geraldine-cheese-company", siteName: "Geraldine Cheese Company", slotIndex: 9, durationSlots: 1 },
+    { siteId: "rakaia-salmon-statue", siteName: "Rakaia Salmon Statue", slotIndex: 13, durationSlots: 1 },
+    { siteId: "little-high-eatery", siteName: "Little High Eatery", slotIndex: 17, durationSlots: 2 },
+  ],
+};
+
 // A Kepler Track morning, then back to Queenstown: 9:00 AM to 7:00 PM.
 const TE_ANAU_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
   items: [
@@ -312,6 +346,14 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       "Day one inland to Tekapo, with pies at Fairlie and the hot pools. Day two: the Church of the Good Shepherd and Mt John, then Mount Cook and the Hooker Valley. Day three: Kea Point, salmon at Lake Pukaki and over the Lindis Pass to Wānaka. Day four through Cromwell and the Kawarau Gorge to Queenstown.",
     free: true,
     days: [CHRISTCHURCH_TO_TEKAPO_DAY, TEKAPO_TO_MOUNT_COOK_DAY, MOUNT_COOK_TO_WANAKA_DAY, WANAKA_TO_QUEENSTOWN_DAY],
+  },
+  {
+    key: "queenstown-to-christchurch-via-mount-cook-and-tekapo",
+    label: "Queenstown to Christchurch via Mount Cook and Tekapo",
+    description:
+      "Day one over the Crown Range to Wānaka, with the Shotover Jet and Arrowtown on the way. Day two over the Lindis Pass to Mount Cook, with salmon at Lake Pukaki. Day three on the Hooker Valley Track, then Mt John and the hot pools at Tekapo. Day four past the Church of the Good Shepherd and through Geraldine to Christchurch.",
+    free: true,
+    days: [QUEENSTOWN_TO_WANAKA_DAY, WANAKA_TO_MOUNT_COOK_DAY, MOUNT_COOK_TO_TEKAPO_DAY, TEKAPO_TO_CHRISTCHURCH_DAY],
   },
 ];
 

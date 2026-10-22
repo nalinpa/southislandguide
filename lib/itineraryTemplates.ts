@@ -568,6 +568,101 @@ const DUNEDIN_TO_MOUNT_COOK_DAY: ItineraryTemplateDay = {
   ],
 };
 
+// Wānaka over the Haast Pass to Haast: 9:30 AM to 7:30 PM.
+const WANAKA_TO_HAAST_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "lake-hawea-esplanade-reserve", siteName: "Lake Hāwea Esplanade Reserve", slotIndex: 3, durationSlots: 1 },
+    { siteId: "the-neck-lookout", siteName: "The Neck Lookout", slotIndex: 5, durationSlots: 1 },
+    // Closes 2 to 3pm depending on the season.
+    { siteId: "makarora-country-cafe", siteName: "Makarora Country Café", slotIndex: 10, durationSlots: 2 },
+    { siteId: "blue-pools-track", siteName: "Blue Pools Track", slotIndex: 13, durationSlots: 2 },
+    { siteId: "thunder-creek-and-fantail-falls", siteName: "Thunder Creek and Fantail Falls", slotIndex: 16, durationSlots: 1 },
+    { siteId: "roaring-billy-falls-walk", siteName: "Roaring Billy Falls Walk", slotIndex: 18, durationSlots: 2 },
+    { siteId: "the-hard-antler-haast", siteName: "The Hard Antler", slotIndex: 21, durationSlots: 2 },
+  ],
+};
+
+// Haast up the coast to Fox: 9:00 AM to 4:30 PM. Monro Beach is left out so lunch at Lake
+// Matheson is before its lunch menu stops at 2.30.
+const HAAST_TO_FOX_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "ship-creek-tauparikaka-walks", siteName: "Ship Creek Tauparikākā Walks", slotIndex: 2, durationSlots: 2 },
+    { siteId: "knights-point-lookout", siteName: "Knights Point Lookout", slotIndex: 5, durationSlots: 1 },
+    { siteId: "bruce-bay", siteName: "Bruce Bay", slotIndex: 8, durationSlots: 1 },
+    { siteId: "matheson-cafe", siteName: "Matheson Cafe", slotIndex: 11, durationSlots: 2 },
+    { siteId: "lake-matheson-walk", siteName: "Lake Matheson Walk", slotIndex: 14, durationSlots: 3 },
+  ],
+};
+
+// Fox to Franz Josef: 9:00 AM to 7:30 PM.
+const FOX_TO_FRANZ_JOSEF_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "fox-glacier-south-side-walk", siteName: "Fox Glacier South Side Walk", slotIndex: 2, durationSlots: 4 },
+    { siteId: "cafe-neve", siteName: "Cafe Nevé", slotIndex: 7, durationSlots: 2 },
+    { siteId: "franz-josef-glacier-valley-walk", siteName: "Franz Josef Glacier Valley Walk", slotIndex: 10, durationSlots: 3 },
+    { siteId: "west-coast-wildlife-centre", siteName: "West Coast Wildlife Centre", slotIndex: 14, durationSlots: 2 },
+    { siteId: "glacier-hot-pools", siteName: "Glacier Hot Pools", slotIndex: 17, durationSlots: 3 },
+    { siteId: "snakebite-brewery", siteName: "SnakeBite Brewery", slotIndex: 21, durationSlots: 2 },
+  ],
+};
+
+// Franz Josef up the coast to Hokitika: 9:00 AM to 7:00 PM.
+const FRANZ_JOSEF_TO_HOKITIKA_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "okarito-trig-walk", siteName: "Ōkārito Trig Walk", slotIndex: 2, durationSlots: 3 },
+    // The centre is open 10am to 3pm.
+    { siteId: "ross-goldfields-water-race-walk", siteName: "Ross Goldfields Heritage Centre and Water Race Walk", slotIndex: 9, durationSlots: 2 },
+    // A late lunch at its café (9am to 3pm). Last entry 3.15pm in winter.
+    { siteId: "west-coast-treetop-walk", siteName: "West Coast Treetop Walk", slotIndex: 12, durationSlots: 3 },
+    { siteId: "hokitika-gorge", siteName: "Hokitika Gorge", slotIndex: 17, durationSlots: 2 },
+    // Dinner only, 5 to 8pm. Closed Tuesday and Wednesday: kept anyway (owner, 2026-10-22).
+    { siteId: "fat-pipi-pizza", siteName: "Fat Pipi Pizza", slotIndex: 20, durationSlots: 2 },
+  ],
+};
+
+// Hokitika up the coast through Punakaiki to Westport: 9:00 AM to 8:00 PM.
+const HOKITIKA_TO_WESTPORT_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "hokitika-beach-driftwood-sign", siteName: "Hokitika Beach and Driftwood Sign", slotIndex: 2, durationSlots: 1 },
+    // An early lunch; it closes at 3pm.
+    { siteId: "dp1-cafe", siteName: "DP1 Cafe", slotIndex: 5, durationSlots: 2 },
+    { siteId: "pancake-rocks-and-blowholes-walk", siteName: "Pancake Rocks and Blowholes Walk", slotIndex: 9, durationSlots: 1 },
+    { siteId: "pororari-river-track", siteName: "Pororari River Track", slotIndex: 11, durationSlots: 3 },
+    { siteId: "truman-track", siteName: "Truman Track", slotIndex: 15, durationSlots: 1 },
+    { siteId: "cape-foulwind-walkway-seal-colony", siteName: "Cape Foulwind Walkway and Seal Colony", slotIndex: 18, durationSlots: 3 },
+    // Closed Tuesdays and Wednesdays: kept anyway (owner, 2026-10-22).
+    { siteId: "star-tavern-cape-foulwind", siteName: "Star Tavern", slotIndex: 22, durationSlots: 2 },
+  ],
+};
+
+// Westport up the Buller Gorge to Kaiteriteri: 9:00 AM to 7:00 PM.
+const WESTPORT_TO_KAITERITERI_DAY: ItineraryTemplateDay = {
+  items: [
+    // A picnic lunch for the gorge road, where nothing is open every day. Closed Sundays:
+    // kept anyway (owner, 2026-10-22).
+    { siteId: "euro-food-store-westport", siteName: "Euro Food Store", slotIndex: 2, durationSlots: 1 },
+    { siteId: "kawatiri-historic-railway-walk", siteName: "Kawatiri Historic Railway Walk", slotIndex: 8, durationSlots: 1 },
+    // Best around high tide.
+    { siteId: "motueka-saltwater-baths", siteName: "Motueka Saltwater Baths", slotIndex: 13, durationSlots: 2 },
+    { siteId: "kaiteriteri-beach", siteName: "Kaiteriteri Beach", slotIndex: 16, durationSlots: 2 },
+    // Closed Tuesdays and Wednesdays; dinner here two nights running is fine (owner,
+    // 2026-10-22).
+    { siteId: "park-cafe-marahau", siteName: "Park Café Mārahau", slotIndex: 20, durationSlots: 2 },
+  ],
+};
+
+// Golden Bay over Tākaka Hill to Nelson, then the Sounds road to Picton: 9:00 AM to 6:30 PM.
+const GOLDEN_BAY_TO_PICTON_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "the-grove-scenic-reserve", siteName: "The Grove Scenic Reserve", slotIndex: 2, durationSlots: 2 },
+    { siteId: "toad-hall-motueka", siteName: "TOAD Hall", slotIndex: 6, durationSlots: 2 },
+    // Open 10am to 4.30pm.
+    { siteId: "founders-heritage-park", siteName: "Founders Heritage Park", slotIndex: 11, durationSlots: 3 },
+    { siteId: "pelorus-bridge-scenic-reserve", siteName: "Pelorus Bridge Scenic Reserve", slotIndex: 17, durationSlots: 2 },
+    { siteId: "queen-charlotte-drive-cullen-point", siteName: "Queen Charlotte Drive and Cullen Point Lookout", slotIndex: 20, durationSlots: 1 },
+  ],
+};
+
 // The whole island's days in order, clockwise from Christchurch. The Picton and Queenstown
 // starts are the same days begun at PICTON_TO_NELSON_DAY and QUEENSTOWN_LAKE_DAY.
 const WHOLE_ISLAND_DAYS: ItineraryTemplateDay[] = [
@@ -799,6 +894,25 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       "Twenty-three days round the whole South Island from Queenstown: Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo, Christchurch, Hanmer and Kaikōura, the Marlborough Sounds, Abel Tasman and Golden Bay, the West Coast and the glaciers, and Wānaka back to Queenstown.",
     free: true,
     days: loopFrom(WHOLE_ISLAND_DAYS, QUEENSTOWN_LAKE_DAY),
+  },
+  {
+    key: "queenstown-to-picton-via-the-west-coast",
+    label: "Queenstown to Picton via the West Coast",
+    description:
+      "Ten days to the ferry: over the Crown Range to Wānaka and the Haast Pass, up the West Coast past the glaciers, Hokitika and Punakaiki, through the Buller Gorge to Abel Tasman and a water taxi up the Coast Track, a day in Golden Bay, then Nelson and the Sounds road to Picton.",
+    free: true,
+    days: [
+      QUEENSTOWN_TO_WANAKA_DAY,
+      WANAKA_TO_HAAST_DAY,
+      HAAST_TO_FOX_DAY,
+      FOX_TO_FRANZ_JOSEF_DAY,
+      FRANZ_JOSEF_TO_HOKITIKA_DAY,
+      HOKITIKA_TO_WESTPORT_DAY,
+      WESTPORT_TO_KAITERITERI_DAY,
+      ABEL_TASMAN_DAY,
+      GOLDEN_BAY_DAY,
+      GOLDEN_BAY_TO_PICTON_DAY,
+    ],
   },
 ];
 

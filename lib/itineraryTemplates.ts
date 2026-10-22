@@ -141,6 +141,29 @@ const MILFORD_SOUND_DAY: ItineraryTemplateDay = {
   ],
 };
 
+// Doubtful Sound from Manapōuri: 9:00 AM to about 5:30 PM.
+const DOUBTFUL_SOUND_DAY: ItineraryTemplateDay = {
+  items: [
+    // Lunch isn't included on the cruise, so pies for the boat.
+    { siteId: "miles-better-pies", siteName: "Miles Better Pies", slotIndex: 2, durationSlots: 1 },
+    // The 10.30am sailing (7.30 and 10.30am; RealNZ's booking page, 30 Oct 2026), at the
+    // Manapōuri visitor centre by 10. Back about 5.15pm.
+    { siteId: "doubtful-sound-wilderness-cruise", siteName: "Doubtful Sound Wilderness Cruise", slotIndex: 5, durationSlots: 14 },
+  ],
+};
+
+// Key Summit off the Milford Road, then Manapōuri: 8:00 AM to 6:00 PM.
+const KEY_SUMMIT_DAY: ItineraryTemplateDay = {
+  items: [
+    // No food on the track, so pies for lunch.
+    { siteId: "miles-better-pies", siteName: "Miles Better Pies", slotIndex: 0, durationSlots: 1 },
+    // Best November to April; snow and avalanche risk in winter and spring.
+    { siteId: "key-summit-track", siteName: "Key Summit Track", slotIndex: 4, durationSlots: 7 },
+    { siteId: "punanga-manu-o-te-anau-bird-sanctuary", siteName: "Punanga Manu o Te Anau Bird Sanctuary", slotIndex: 14, durationSlots: 2 },
+    { siteId: "frasers-beach-manapouri", siteName: "Frasers Beach, Lake Manapōuri", slotIndex: 17, durationSlots: 3 },
+  ],
+};
+
 // A Kepler Track morning, then back to Queenstown: 9:00 AM to 7:00 PM.
 const TE_ANAU_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
   items: [
@@ -191,6 +214,14 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       "Day one: the gondola and Fergburger, then the drive to Te Anau and the glowworm caves. Day two: Milford Sound by road, with Mirror Lakes and Lake Gunn on the way, a cruise and the Ata Whenua film back in Te Anau. Day three: the Kepler Track to Brod Bay, then back to Queenstown for the gardens and dinner at The Cow.",
     free: true,
     days: [QUEENSTOWN_TO_TE_ANAU_DAY, MILFORD_SOUND_DAY, TE_ANAU_TO_QUEENSTOWN_DAY],
+  },
+  {
+    key: "queenstown-and-fiordland-in-five-days",
+    label: "Queenstown and Fiordland in Five Days",
+    description:
+      "Days one and two as in the three-day trip: the drive to Te Anau, the glowworm caves and Milford Sound. Day three on Doubtful Sound from Manapōuri. Day four up to Key Summit, then the bird sanctuary and Frasers Beach. Day five on the Kepler Track, then back to Queenstown for the gardens and dinner at The Cow.",
+    free: true,
+    days: [QUEENSTOWN_TO_TE_ANAU_DAY, MILFORD_SOUND_DAY, DOUBTFUL_SOUND_DAY, KEY_SUMMIT_DAY, TE_ANAU_TO_QUEENSTOWN_DAY],
   },
 ];
 

@@ -44,28 +44,31 @@ The response is `{ ok: true, data: { locations: [...] } }`; each place's `id` is
 
 ## Part 2 — Widen them across the island
 
-Christchurch-only templates in a whole-island app undersell it. The owner chose this set on 2026-10-21 (Kaikōura in a Day and Top of the South are struck; Glacier Country and Aoraki / Tekapo are covered by the long trips):
+Christchurch-only templates in a whole-island app undersell it. The owner's set (2026-10-21, revised 2026-10-22): no short trips (one town, one or two days); Kaikōura in a Day and Top of the South are struck; Glacier Country and Aoraki / Tekapo are covered by the longer trips. Every town is live and every town-to-town time is in (fix-32, 2026-10-22), so all of these can be built.
 
-| Template | Days | Towns (roughly) | Can be built |
-|---|---|---|---|
-| Dunedin and the Otago Peninsula | 1–2 | `dunedin` | now (one town) |
-| Queenstown in Two Days | 2 | `queenstown`, `arrowtown`, `glenorchy` | after Queenstown |
-| Queenstown in Three Days | 3 | `queenstown`, `arrowtown`, `glenorchy` | after Queenstown |
-| Queenstown and Fiordland | 3 | `queenstown`, `te-anau`, `milford-sound` | after Queenstown |
-| Queenstown and Fiordland | 5 | `queenstown`, `te-anau`, `milford-sound` | after Queenstown |
-| Christchurch to Queenstown via Tekapo and Mount Cook | 4 | `christchurch`, `tekapo`, `aoraki-mount-cook`, `wanaka`, `queenstown` | after Queenstown |
-| West Coast: Christchurch to Queenstown via the glaciers | 7 | `arthurs-pass`, `punakaiki`, `hokitika`, `franz-josef`, `fox-glacier`, `haast`, `wanaka`, `queenstown` | after Queenstown |
-| Southern Scenic Route | 6 | `queenstown`, `te-anau`, `milford-sound`, `invercargill`, `catlins`, `dunedin` | after Queenstown |
-| South Island loop | 14 | most of the above | after Queenstown |
+**Built:** Queenstown in Two Days, Queenstown in Three Days, Queenstown and Fiordland in Three Days.
 
-**"After Queenstown"** means all three of: Queenstown's places are live (`prompts/load-place-files.md`; `queenstown_places.json` is untracked and none of its places are live on 2026-10-21), its three towns have transit tables, and the owner's one town-to-town run (`generate-drive-times areas --apply`) is done. Every trip above but Dunedin crosses a pair that file is missing today (`queenstown|*`, `milford-sound|te-anau`, `franz-josef|hokitika`, …), so none can be baked before the run. Build Dunedin first; the rest in the order of the table.
+**Medium, building now in this order:**
+
+| Template | Days | Route |
+|---|---|---|
+| Queenstown and Fiordland in Five Days | 5 | the 3-day trip plus Doubtful Sound |
+| Queenstown and Wānaka | 4 | two days each, over the Crown Range |
+| Christchurch to Queenstown via Tekapo and Mount Cook | 4 | Tekapo, the Hooker Valley, Wānaka |
+| Queenstown to Christchurch via Mount Cook and Tekapo | 4 | the same, the other way round |
+| Picton to Christchurch via Kaikōura | 3 | off the ferry: Blenheim, Kaikōura, Hanmer |
+| Southern Scenic Route: Queenstown to Dunedin | 6 | Fiordland, Riverton, Bluff, the Catlins |
+| West Coast: Christchurch to Queenstown | 7 | Arthur's Pass, Punakaiki, Hokitika, the glaciers, Haast, Wānaka |
+
+**Long, after the medium ones; the owner hasn't chosen among them yet:** Picton to Queenstown via the West Coast (10), Queenstown to Picton via the West Coast (10), the southern loop from Christchurch or Queenstown (12), a South Island loop (14), the whole island from Christchurch, Picton or Queenstown (21; one closed loop offered from three starts).
 
 ### Rules for every new template
 
 - Only **live** places (the api list), never Stay, each open at its slot **every day of the week**, judged from its `hoursNote`.
 - Skip live places with a blank `area`: their legs fall back to the flat half hour. Two today, both Nelson Tasman: `adventure-inn-marahau` (a Stay anyway) and `black-hole-maitai-river`.
 - **Realistic pacing**: a meal stop at midday, nothing before about 9 AM unless it's a sunrise thing, and the day ending by about 7 PM (the grid stops at 10 PM). Use each place's `recommendedDurationSlots` where it has one.
-- **A day that crosses towns** needs the drive between them: `lib/areas.ts` reads `assets/data/area-drive-minutes.json`, which holds **300 of the 666 town pairs** today (780 once Queenstown's three towns are in), because the owner runs the town-to-town step once, after the last town is in. Check every pair a template crosses (including overnight, day to day) is in that file. If one isn't, that template waits for the run. Don't hand-enter drive times.
+- **A day that crosses towns** needs the drive between them: the town-to-town times (`assets/data/area-drive-minutes.json`, every pair), measured from each town's hub (`area-hubs.json`), with far-out places' own times (`far-place-minutes.json`), all read by `lib/utils/transitMatrix.ts`. Don't hand-enter drive times. The template test packs against these real files, so it fails if a slot leaves too little time for a drive.
+- **Set times:** a stop that runs at set times (a cruise, a tour, a pool session, a screening) must sit on a real departure. The place's `hoursNote` rarely lists them, and operators' pages often don't either; ask the owner to paste the booking page's times for a date, and note the source in the stop's comment.
 - `key` in kebab case and unique; `label` short ("Queenstown and Fiordland"); two templates with the same label (the 3- and 5-day Fiordland ones) need the days in it ("Queenstown and Fiordland in Five Days"); `description` one sentence naming the main stops, in the same plain voice as the Christchurch ones.
 - Pre-bake the slots, then let the test confirm nothing moves.
 

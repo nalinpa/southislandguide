@@ -203,6 +203,41 @@ const WANAKA_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
   ],
 };
 
+// Christchurch inland to Tekapo: 9:00 AM (about an hour out of the city) to 3:30 PM.
+const CHRISTCHURCH_TO_TEKAPO_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "rakaia-salmon-statue", siteName: "Rakaia Salmon Statue", slotIndex: 2, durationSlots: 1 },
+    { siteId: "fairlie-bakehouse", siteName: "Fairlie Bakehouse", slotIndex: 7, durationSlots: 1 },
+    // Open "mid morning into the evening" every day.
+    { siteId: "tekapo-springs", siteName: "Tekapo Springs", slotIndex: 10, durationSlots: 5 },
+  ],
+};
+
+// Tekapo to Mount Cook: 9:00 AM to 6:00 PM.
+const TEKAPO_TO_MOUNT_COOK_DAY: ItineraryTemplateDay = {
+  items: [
+    // Grounds from 9am, before the tour buses.
+    { siteId: "church-of-the-good-shepherd", siteName: "Church of the Good Shepherd", slotIndex: 2, durationSlots: 1 },
+    // Brunch; the summit road is open 9am to 4pm.
+    { siteId: "mt-john-summit-astro-cafe", siteName: "Mt John Summit and Astro Café", slotIndex: 4, durationSlots: 3 },
+    { siteId: "peters-lookout", siteName: "Peters Lookout", slotIndex: 9, durationSlots: 1 },
+    { siteId: "hooker-valley-track", siteName: "Hooker Valley Track", slotIndex: 12, durationSlots: 6 },
+    { siteId: "tasman-glacier-view-blue-lakes", siteName: "Tasman Glacier View and Blue Lakes", slotIndex: 19, durationSlots: 1 },
+  ],
+};
+
+// Mount Cook over the Lindis Pass to Wānaka: 9:00 AM to 7:00 PM.
+const MOUNT_COOK_TO_WANAKA_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "kea-point-track", siteName: "Kea Point Track", slotIndex: 2, durationSlots: 3 },
+    { siteId: "mt-cook-alpine-salmon-shop", siteName: "Mt Cook Alpine Salmon Shop", slotIndex: 7, durationSlots: 1 },
+    { siteId: "clay-cliffs-omarama", siteName: "Clay Cliffs Omarama", slotIndex: 10, durationSlots: 2 },
+    { siteId: "lindis-pass-summit-lookout", siteName: "Lindis Pass Summit Lookout", slotIndex: 14, durationSlots: 1 },
+    { siteId: "that-wanaka-tree", siteName: "That Wānaka Tree", slotIndex: 18, durationSlots: 1 },
+    { siteId: "red-star-burger-bar", siteName: "Red Star Burger Bar", slotIndex: 20, durationSlots: 2 },
+  ],
+};
+
 // A Kepler Track morning, then back to Queenstown: 9:00 AM to 7:00 PM.
 const TE_ANAU_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
   items: [
@@ -269,6 +304,14 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       "Day one in Queenstown. Day two: the Shotover Jet and Arrowtown, then over the Crown Range to Cardrona and Wānaka. Day three in Wānaka: Diamond Lake and Rocky Mountain, Puzzling World and Mount Iron. Day four: the toy museum, fruit at Cromwell and the Kawarau bungy bridge on the way back.",
     free: true,
     days: [QUEENSTOWN_TOWN_DAY, QUEENSTOWN_TO_WANAKA_DAY, WANAKA_DAY, WANAKA_TO_QUEENSTOWN_DAY],
+  },
+  {
+    key: "christchurch-to-queenstown-via-tekapo-and-mount-cook",
+    label: "Christchurch to Queenstown via Tekapo and Mount Cook",
+    description:
+      "Day one inland to Tekapo, with pies at Fairlie and the hot pools. Day two: the Church of the Good Shepherd and Mt John, then Mount Cook and the Hooker Valley. Day three: Kea Point, salmon at Lake Pukaki and over the Lindis Pass to Wānaka. Day four through Cromwell and the Kawarau Gorge to Queenstown.",
+    free: true,
+    days: [CHRISTCHURCH_TO_TEKAPO_DAY, TEKAPO_TO_MOUNT_COOK_DAY, MOUNT_COOK_TO_WANAKA_DAY, WANAKA_TO_QUEENSTOWN_DAY],
   },
 ];
 

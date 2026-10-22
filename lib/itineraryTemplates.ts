@@ -203,13 +203,15 @@ const WANAKA_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Christchurch inland to Tekapo: 9:00 AM (about an hour out of the city) to 3:30 PM.
+// Christchurch inland to Tekapo: 9:30 AM (the drive out of the city, which the app counts
+// when the day follows a night in Christchurch, as in the southern loop from Queenstown)
+// to 4:00 PM.
 const CHRISTCHURCH_TO_TEKAPO_DAY: ItineraryTemplateDay = {
   items: [
-    { siteId: "rakaia-salmon-statue", siteName: "Rakaia Salmon Statue", slotIndex: 2, durationSlots: 1 },
-    { siteId: "fairlie-bakehouse", siteName: "Fairlie Bakehouse", slotIndex: 7, durationSlots: 1 },
+    { siteId: "rakaia-salmon-statue", siteName: "Rakaia Salmon Statue", slotIndex: 3, durationSlots: 1 },
+    { siteId: "fairlie-bakehouse", siteName: "Fairlie Bakehouse", slotIndex: 8, durationSlots: 1 },
     // Open "mid morning into the evening" every day.
-    { siteId: "tekapo-springs", siteName: "Tekapo Springs", slotIndex: 10, durationSlots: 5 },
+    { siteId: "tekapo-springs", siteName: "Tekapo Springs", slotIndex: 11, durationSlots: 5 },
   ],
 };
 
@@ -444,6 +446,51 @@ const HAAST_TO_WANAKA_DAY: ItineraryTemplateDay = {
   ],
 };
 
+// Queenstown by the lake, for the southern loops: 9:00 AM to 6:30 PM. Between
+// WANAKA_TO_QUEENSTOWN_DAY and QUEENSTOWN_TO_TE_ANAU_DAY, so none of their stops: no
+// gondola, Fergburger, Kawarau bungy or Erik's.
+const QUEENSTOWN_LAKE_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "queenstown-hill-time-walk", siteName: "Queenstown Hill Time Walk", slotIndex: 2, durationSlots: 5 },
+    { siteId: "bespoke-kitchen", siteName: "Bespoke Kitchen", slotIndex: 8, durationSlots: 2 },
+    { siteId: "queenstown-gardens", siteName: "Queenstown Gardens", slotIndex: 11, durationSlots: 2 },
+    // The 3pm sailing (9am, 11am, 1pm and 3pm; RealNZ's booking page, 29 Oct 2026).
+    { siteId: "tss-earnslaw-cruise", siteName: "TSS Earnslaw Cruise", slotIndex: 14, durationSlots: 3 },
+    { siteId: "the-cow", siteName: "The Cow", slotIndex: 19, durationSlots: 2 },
+  ],
+};
+
+// Dunedin up the coast through Ōamaru to Christchurch: 9:30 AM to 6:30 PM. The Moeraki
+// Boulders aren't a place in the app yet.
+const DUNEDIN_TO_CHRISTCHURCH_DAY: ItineraryTemplateDay = {
+  items: [
+    // The reserve is open 7.30am to 5.30pm.
+    { siteId: "katiki-point-lighthouse", siteName: "Kātiki Point Lighthouse", slotIndex: 3, durationSlots: 2 },
+    // Last entry 3.30pm.
+    { siteId: "steampunk-hq", siteName: "Steampunk HQ", slotIndex: 7, durationSlots: 2 },
+    { siteId: "scotts-brewing-co", siteName: "Scotts Brewing Co", slotIndex: 10, durationSlots: 2 },
+    { siteId: "little-high-eatery", siteName: "Little High Eatery", slotIndex: 19, durationSlots: 2 },
+  ],
+};
+
+// The southern loop's days in order, from Christchurch. The Queenstown start is the same
+// days begun at QUEENSTOWN_LAKE_DAY.
+const SOUTHERN_LOOP_DAYS: ItineraryTemplateDay[] = [
+  CHRISTCHURCH_TO_TEKAPO_DAY,
+  TEKAPO_TO_MOUNT_COOK_DAY,
+  MOUNT_COOK_TO_WANAKA_DAY,
+  WANAKA_TO_QUEENSTOWN_DAY,
+  QUEENSTOWN_LAKE_DAY,
+  QUEENSTOWN_TO_TE_ANAU_DAY,
+  MILFORD_SOUND_DAY,
+  TE_ANAU_TO_INVERCARGILL_DAY,
+  BLUFF_AND_CATLINS_DAY,
+  CATLINS_TO_DUNEDIN_DAY,
+  DUNEDIN_AND_PENINSULA_DAY,
+  DUNEDIN_TO_CHRISTCHURCH_DAY,
+];
+const SOUTHERN_LOOP_FROM_QUEENSTOWN = SOUTHERN_LOOP_DAYS.indexOf(QUEENSTOWN_LAKE_DAY);
+
 // A Kepler Track morning, then back to Queenstown: 9:00 AM to 7:00 PM.
 const TE_ANAU_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
   items: [
@@ -565,6 +612,22 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       HAAST_TO_WANAKA_DAY,
       WANAKA_TO_QUEENSTOWN_DAY,
     ],
+  },
+  {
+    key: "southern-loop-from-christchurch",
+    label: "The Southern Loop from Christchurch",
+    description:
+      "Twelve days round the south: Tekapo and Mount Cook, Wānaka and Queenstown, Milford Sound, the south coast and the Catlins, Dunedin, and home up the coast through Ōamaru.",
+    free: true,
+    days: SOUTHERN_LOOP_DAYS,
+  },
+  {
+    key: "southern-loop-from-queenstown",
+    label: "The Southern Loop from Queenstown",
+    description:
+      "Twelve days round the south: Queenstown and Milford Sound, the south coast and the Catlins, Dunedin, up the coast through Ōamaru to Christchurch, then Tekapo, Mount Cook and Wānaka back to Queenstown.",
+    free: true,
+    days: [...SOUTHERN_LOOP_DAYS.slice(SOUTHERN_LOOP_FROM_QUEENSTOWN), ...SOUTHERN_LOOP_DAYS.slice(0, SOUTHERN_LOOP_FROM_QUEENSTOWN)],
   },
 ];
 

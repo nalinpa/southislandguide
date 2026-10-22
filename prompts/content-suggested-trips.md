@@ -60,7 +60,18 @@ Christchurch-only templates in a whole-island app undersell it. The owner's set 
 | Southern Scenic Route: Queenstown to Dunedin | 6 | Fiordland, Riverton, Bluff, the Catlins |
 | West Coast: Christchurch to Queenstown | 7 | Arthur's Pass, Punakaiki, Hokitika, the glaciers, Haast, Wānaka |
 
-**Long, after the medium ones; the owner hasn't chosen among them yet:** Picton to Queenstown via the West Coast (10), Queenstown to Picton via the West Coast (10), the southern loop from Christchurch or Queenstown (12), a South Island loop (14), the whole island from Christchurch, Picton or Queenstown (21; one closed loop offered from three starts).
+**Long: the owner wants all of them (2026-10-22). Build in this order, cheapest first:**
+
+| Template | Days | Route |
+|---|---|---|
+| The southern loop, from Christchurch | 12 | Tekapo, Mount Cook, Wānaka, Queenstown, Fiordland, the south coast, the Catlins, Dunedin, Ōamaru; reuses built days, one new |
+| The southern loop, from Queenstown | 12 | the same loop, starting in Queenstown |
+| Picton to Queenstown via the West Coast | 10 | Nelson, Abel Tasman, the Buller Gorge, then the West Coast trip's days |
+| The whole island, from Christchurch, Picton or Queenstown | 21 to 24 | one closed loop, offered from three starts |
+| Queenstown to Picton via the West Coast | 10 | the Picton trip the other way round |
+| A South Island loop | 14 | the main sights at pace |
+
+A loop offered from several starts is the same days in the same order, begun at a different day. Don't repeat a stop on consecutive days where two built days meet (the gondola, a dinner spot).
 
 ### Rules for every new template
 

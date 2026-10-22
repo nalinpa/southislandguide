@@ -164,6 +164,45 @@ const KEY_SUMMIT_DAY: ItineraryTemplateDay = {
   ],
 };
 
+// The Shotover Jet and Arrowtown, then over the Crown Range to Wānaka: 9:30 AM to 7:30 PM.
+const QUEENSTOWN_TO_WANAKA_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "shotover-jet", siteName: "Shotover Jet", slotIndex: 3, durationSlots: 3 },
+    { siteId: "arrowtown-chinese-settlement", siteName: "Arrowtown Chinese Settlement", slotIndex: 7, durationSlots: 2 },
+    // Food until 3pm.
+    { siteId: "provisions-of-arrowtown", siteName: "Provisions of Arrowtown", slotIndex: 10, durationSlots: 2 },
+    { siteId: "crown-range-summit-lookout", siteName: "Crown Range Summit Lookout", slotIndex: 13, durationSlots: 1 },
+    { siteId: "cardrona-hotel", siteName: "Cardrona Hotel", slotIndex: 16, durationSlots: 2 },
+    { siteId: "that-wanaka-tree", siteName: "That Wānaka Tree", slotIndex: 19, durationSlots: 1 },
+    { siteId: "red-star-burger-bar", siteName: "Red Star Burger Bar", slotIndex: 21, durationSlots: 2 },
+  ],
+};
+
+// Wānaka: 9:00 AM to 6:00 PM. Roys Peak is left out (closed 1 Oct to 10 Nov for lambing).
+const WANAKA_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "diamond-lake-rocky-mountain-track", siteName: "Diamond Lake and Rocky Mountain Track", slotIndex: 2, durationSlots: 6 },
+    { siteId: "big-fig-wanaka", siteName: "Big Fig", slotIndex: 9, durationSlots: 2 },
+    // Last admission 4.30pm.
+    { siteId: "puzzling-world", siteName: "Puzzling World", slotIndex: 12, durationSlots: 4 },
+    // May close in summer for fire risk.
+    { siteId: "mount-iron-track", siteName: "Mount Iron Track", slotIndex: 17, durationSlots: 3 },
+  ],
+};
+
+// Wānaka back to Queenstown through Cromwell and the Kawarau Gorge: 9:00 AM to 5:00 PM.
+const WANAKA_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "pembroke-patisserie", siteName: "Pembroke Pâtisserie", slotIndex: 2, durationSlots: 1 },
+    { siteId: "national-transport-and-toy-museum", siteName: "National Transport and Toy Museum", slotIndex: 4, durationSlots: 4 },
+    // A light lunch: Cromwell's heritage precinct cafes keep hours that vary.
+    { siteId: "jones-family-fruit-stall", siteName: "Jones Family Fruit Stall", slotIndex: 10, durationSlots: 2 },
+    // Closes 4.30pm in winter, so no later.
+    { siteId: "kawarau-bridge-bungy", siteName: "Kawarau Bridge Bungy", slotIndex: 14, durationSlots: 2 },
+    { siteId: "eriks-fish-and-chips", siteName: "Erik's Fish and Chips", slotIndex: 17, durationSlots: 1 },
+  ],
+};
+
 // A Kepler Track morning, then back to Queenstown: 9:00 AM to 7:00 PM.
 const TE_ANAU_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
   items: [
@@ -222,6 +261,14 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       "Days one and two as in the three-day trip: the drive to Te Anau, the glowworm caves and Milford Sound. Day three on Doubtful Sound from Manapōuri. Day four up to Key Summit, then the bird sanctuary and Frasers Beach. Day five on the Kepler Track, then back to Queenstown for the gardens and dinner at The Cow.",
     free: true,
     days: [QUEENSTOWN_TO_TE_ANAU_DAY, MILFORD_SOUND_DAY, DOUBTFUL_SOUND_DAY, KEY_SUMMIT_DAY, TE_ANAU_TO_QUEENSTOWN_DAY],
+  },
+  {
+    key: "queenstown-and-wanaka-in-four-days",
+    label: "Queenstown and Wānaka in Four Days",
+    description:
+      "Day one in Queenstown. Day two: the Shotover Jet and Arrowtown, then over the Crown Range to Cardrona and Wānaka. Day three in Wānaka: Diamond Lake and Rocky Mountain, Puzzling World and Mount Iron. Day four: the toy museum, fruit at Cromwell and the Kawarau bungy bridge on the way back.",
+    free: true,
+    days: [QUEENSTOWN_TOWN_DAY, QUEENSTOWN_TO_WANAKA_DAY, WANAKA_DAY, WANAKA_TO_QUEENSTOWN_DAY],
   },
 ];
 

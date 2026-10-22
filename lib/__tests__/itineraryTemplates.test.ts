@@ -30,6 +30,7 @@ import hokitika from "@/assets/data/hokitika_places.json";
 import invercargill from "@/assets/data/invercargill_bluff_gore_places.json";
 import kaikoura from "@/assets/data/kaikoura_places.json";
 import mackenzie from "@/assets/data/mackenzie_mount_cook_places.json";
+import marlborough from "@/assets/data/marlborough_places.json";
 import marlboroughSounds from "@/assets/data/marlborough_sounds_places.json";
 import nelson from "@/assets/data/nelson_places.json";
 import nelsonLakes from "@/assets/data/nelson_lakes_murchison_places.json";
@@ -38,6 +39,7 @@ import punakaiki from "@/assets/data/punakaiki_greymouth_places.json";
 import midCanterbury from "@/assets/data/mid_canterbury_places.json";
 import queenstown from "@/assets/data/queenstown_places.json";
 import timaru from "@/assets/data/timaru_geraldine_places.json";
+import waitaki from "@/assets/data/waitaki_valley_places.json";
 import wanaka from "@/assets/data/wanaka_places.json";
 import westernSouthland from "@/assets/data/western_southland_places.json";
 import { PLANNER } from "@/lib/constants/gameplay";
@@ -46,7 +48,7 @@ import { canAddToItinerary, type ItineraryDay, type SiteCategory } from "@/lib/m
 import { packTrip } from "@/lib/utils/itineraryPhysics";
 
 type Place = { slug: string; name: string; category: string[]; area?: string; active?: boolean };
-const bySlug = new Map(([...christchurch, ...timaru, ...dunedin, ...queenstown, ...fiordland, ...wanaka, ...centralOtago, ...mackenzie, ...midCanterbury, ...marlboroughSounds, ...kaikoura, ...hanmer, ...westernSouthland, ...invercargill, ...catlins, ...arthursPass, ...punakaiki, ...hokitika, ...glacierCountry, ...haast, ...oamaru, ...nelson, ...abelTasman, ...goldenBay, ...nelsonLakes, ...buller] as Place[]).map((p) => [p.slug, p]));
+const bySlug = new Map(([...christchurch, ...timaru, ...dunedin, ...queenstown, ...fiordland, ...wanaka, ...centralOtago, ...mackenzie, ...midCanterbury, ...marlboroughSounds, ...kaikoura, ...hanmer, ...westernSouthland, ...invercargill, ...catlins, ...arthursPass, ...punakaiki, ...hokitika, ...glacierCountry, ...haast, ...oamaru, ...nelson, ...abelTasman, ...goldenBay, ...nelsonLakes, ...buller, ...marlborough, ...waitaki] as Place[]).map((p) => [p.slug, p]));
 
 const packed = new Map(
   ITINERARY_TEMPLATES.map((t) => [t.key, packTrip(t.days as unknown as ItineraryDay[], (siteId) => bySlug.get(siteId))]),

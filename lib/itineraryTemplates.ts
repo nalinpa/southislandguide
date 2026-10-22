@@ -530,6 +530,78 @@ const GOLDEN_BAY_TO_WESTPORT_DAY: ItineraryTemplateDay = {
   ],
 };
 
+// Christchurch to Kaikōura the inland way, through Hanmer Springs: 10:00 AM to 6:00 PM. In
+// the whole-island loop it follows a night in Christchurch, so the first stop leaves room
+// for the drive.
+const CHRISTCHURCH_TO_KAIKOURA_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "conical-hill-walk", siteName: "Conical Hill Walk", slotIndex: 4, durationSlots: 2 },
+    { siteId: "pjs-pies", siteName: "PJ's Pies", slotIndex: 7, durationSlots: 1 },
+    { siteId: "hanmer-springs-thermal-pools-and-spa", siteName: "Hanmer Springs Thermal Pools & Spa", slotIndex: 9, durationSlots: 4 },
+    { siteId: "kaikoura-lookout", siteName: "Kaikōura Lookout", slotIndex: 17, durationSlots: 1 },
+    { siteId: "top-shop-kaikoura", siteName: "Top Shop Kaikōura", slotIndex: 19, durationSlots: 1 },
+  ],
+};
+
+// Kaikōura up the coast to Picton: 10:00 AM to 4:30 PM. Nothing in Picton is open for
+// dinner, so the day ends on the Snout Track.
+const KAIKOURA_TO_PICTON_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "ohau-point-seal-colony", siteName: "Ōhau Point Seal Colony", slotIndex: 4, durationSlots: 1 },
+    { siteId: "the-store-kekerengu", siteName: "The Store, Kekerengu", slotIndex: 6, durationSlots: 2 },
+    { siteId: "monkey-bay-walk-rarangi", siteName: "Monkey Bay Walk, Rārangi", slotIndex: 11, durationSlots: 2 },
+    { siteId: "snout-track-picton", siteName: "The Snout Track", slotIndex: 14, durationSlots: 3 },
+  ],
+};
+
+// Dunedin up the coast and inland up the Waitaki to Mount Cook: 9:30 AM to 5:00 PM.
+// Ends on the short Blue Lakes walk rather than Kea Point, so it's done before dark in winter.
+const DUNEDIN_TO_MOUNT_COOK_DAY: ItineraryTemplateDay = {
+  items: [
+    // The reserve is open 7.30am to 5.30pm.
+    { siteId: "katiki-point-lighthouse", siteName: "Kātiki Point Lighthouse", slotIndex: 3, durationSlots: 2 },
+    // An early lunch before the drive inland.
+    { siteId: "scotts-brewing-co", siteName: "Scotts Brewing Co", slotIndex: 7, durationSlots: 2 },
+    // Daylight hours.
+    { siteId: "elephant-rocks-anatini", siteName: "Elephant Rocks and Anatini Whale Fossil", slotIndex: 11, durationSlots: 2 },
+    { siteId: "tasman-glacier-view-blue-lakes", siteName: "Tasman Glacier View and Blue Lakes", slotIndex: 17, durationSlots: 1 },
+  ],
+};
+
+// The whole island's days in order, clockwise from Christchurch. The Picton and Queenstown
+// starts are the same days begun at PICTON_TO_NELSON_DAY and QUEENSTOWN_LAKE_DAY.
+const WHOLE_ISLAND_DAYS: ItineraryTemplateDay[] = [
+  CHRISTCHURCH_TO_KAIKOURA_DAY,
+  KAIKOURA_DAY,
+  KAIKOURA_TO_PICTON_DAY,
+  PICTON_TO_NELSON_DAY,
+  ABEL_TASMAN_DAY,
+  GOLDEN_BAY_DAY,
+  GOLDEN_BAY_TO_WESTPORT_DAY,
+  PUNAKAIKI_TO_HOKITIKA_DAY,
+  HOKITIKA_TO_FRANZ_JOSEF_DAY,
+  FRANZ_JOSEF_TO_FOX_DAY,
+  FOX_TO_HAAST_DAY,
+  HAAST_TO_WANAKA_DAY,
+  WANAKA_TO_QUEENSTOWN_DAY,
+  QUEENSTOWN_LAKE_DAY,
+  QUEENSTOWN_TO_TE_ANAU_DAY,
+  MILFORD_SOUND_DAY,
+  TE_ANAU_TO_INVERCARGILL_DAY,
+  BLUFF_AND_CATLINS_DAY,
+  CATLINS_TO_DUNEDIN_DAY,
+  DUNEDIN_AND_PENINSULA_DAY,
+  DUNEDIN_TO_MOUNT_COOK_DAY,
+  MOUNT_COOK_TO_TEKAPO_DAY,
+  TEKAPO_TO_CHRISTCHURCH_DAY,
+];
+
+// A loop's days begun at `start` and wrapped round to the day before it.
+function loopFrom(days: ItineraryTemplateDay[], start: ItineraryTemplateDay): ItineraryTemplateDay[] {
+  const i = days.indexOf(start);
+  return [...days.slice(i), ...days.slice(0, i)];
+}
+
 // The southern loop's days in order, from Christchurch. The Queenstown start is the same
 // days begun at QUEENSTOWN_LAKE_DAY.
 const SOUTHERN_LOOP_DAYS: ItineraryTemplateDay[] = [
@@ -546,7 +618,6 @@ const SOUTHERN_LOOP_DAYS: ItineraryTemplateDay[] = [
   DUNEDIN_AND_PENINSULA_DAY,
   DUNEDIN_TO_CHRISTCHURCH_DAY,
 ];
-const SOUTHERN_LOOP_FROM_QUEENSTOWN = SOUTHERN_LOOP_DAYS.indexOf(QUEENSTOWN_LAKE_DAY);
 
 // A Kepler Track morning, then back to Queenstown: 9:00 AM to 7:00 PM.
 const TE_ANAU_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
@@ -684,7 +755,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     description:
       "Twelve days round the south: Queenstown and Milford Sound, the south coast and the Catlins, Dunedin, up the coast through Ōamaru to Christchurch, then Tekapo, Mount Cook and Wānaka back to Queenstown.",
     free: true,
-    days: [...SOUTHERN_LOOP_DAYS.slice(SOUTHERN_LOOP_FROM_QUEENSTOWN), ...SOUTHERN_LOOP_DAYS.slice(0, SOUTHERN_LOOP_FROM_QUEENSTOWN)],
+    days: loopFrom(SOUTHERN_LOOP_DAYS, QUEENSTOWN_LAKE_DAY),
   },
   {
     key: "picton-to-queenstown-via-the-west-coast",
@@ -704,6 +775,30 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       HAAST_TO_WANAKA_DAY,
       WANAKA_TO_QUEENSTOWN_DAY,
     ],
+  },
+  {
+    key: "whole-island-from-christchurch",
+    label: "The Whole Island from Christchurch",
+    description:
+      "Twenty-three days round the whole South Island: Hanmer and Kaikōura, the Marlborough Sounds, Abel Tasman and Golden Bay, the West Coast and the glaciers, Wānaka and Queenstown, Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, and back through Tekapo.",
+    free: true,
+    days: WHOLE_ISLAND_DAYS,
+  },
+  {
+    key: "whole-island-from-picton",
+    label: "The Whole Island from Picton",
+    description:
+      "Twenty-three days round the whole South Island from the ferry: Abel Tasman and Golden Bay, the West Coast and the glaciers, Wānaka and Queenstown, Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo, Christchurch, then Hanmer and Kaikōura back to Picton.",
+    free: true,
+    days: loopFrom(WHOLE_ISLAND_DAYS, PICTON_TO_NELSON_DAY),
+  },
+  {
+    key: "whole-island-from-queenstown",
+    label: "The Whole Island from Queenstown",
+    description:
+      "Twenty-three days round the whole South Island from Queenstown: Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo, Christchurch, Hanmer and Kaikōura, the Marlborough Sounds, Abel Tasman and Golden Bay, the West Coast and the glaciers, and Wānaka back to Queenstown.",
+    free: true,
+    days: loopFrom(WHOLE_ISLAND_DAYS, QUEENSTOWN_LAKE_DAY),
   },
 ];
 

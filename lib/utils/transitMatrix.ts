@@ -1,7 +1,15 @@
 import { TRANSIT } from "@/assets/data/transit";
+import AREA_HUBS_JSON from "@/assets/data/area-hubs.json";
+import FAR_PLACE_MINUTES_JSON from "@/assets/data/far-place-minutes.json";
 import { areaDriveMinutes } from "@/lib/areas";
 import { distanceMeters } from "@/lib/utils/geoDistance";
 import type { Site } from "@/lib/models";
+
+// The place each area's drive times are measured from, and each far-out place's own
+// minutes to the hubs of the areas near it. Both written by scripts/generate-drive-times.js
+// (areas --apply, far --apply); empty until then, which leaves every leg hub to hub.
+const AREA_HUBS: Record<string, string> = AREA_HUBS_JSON;
+const FAR_PLACE_MINUTES: Record<string, Record<string, number>> = FAR_PLACE_MINUTES_JSON;
 
 // Trip items carry only a place id, so whoever works out travel hands in a way to look a
 // place up: the live place list (lib/hooks/usePlaceLookup.ts), never a bundled copy,
@@ -18,12 +26,47 @@ const MINUTES_PER_STRAIGHT_KM = (1.3 / 50) * 60;
 // that, not its length, is what makes the day view draw it as a drive block.
 export type Leg = { slots: number; drive: { fromArea: string; toArea: string } | null };
 
+// Minutes between a place and its area's hub, by the area's own table: the middle of the
+// half-hour slot, 0 for the hub itself. Undefined when the table doesn't have the pair.
+function viaHub(area: string, from: string, to: string): number | undefined {
+  if (from === to) return 0;
+  const slots = TRANSIT[area]?.[from]?.[to];
+  return slots === undefined ? undefined : slots * 30 - 15;
+}
+
+// Minutes for a leg from one area to another. A far-out place (far from its own area's
+// hub) with its own time to the other area's hub goes that way, and the area's own table
+// takes it on from the hub; with both ends far-out, the shorter way. A far-out place with
+// no time for that area (more than 4 hours away) adds its way to its own hub to the
+// hub-to-hub time, which errs long, never far short. Anything else is hub to hub.
+// ponytail: two far-out places in different areas take the shorter way through one hub,
+// so can still come out a little long (Lewis Pass to Lake Ianthe); place-to-place times
+// across areas would fix that, at a cost growing with the square of every place.
+function crossAreaMinutes(fromId: string, fromArea: string, toId: string, toArea: string): number | undefined {
+  const fromHub = AREA_HUBS[fromArea];
+  const toHub = AREA_HUBS[toArea];
+  const fromFar = FAR_PLACE_MINUTES[fromId];
+  const toFar = FAR_PLACE_MINUTES[toId];
+  const ways: number[] = [];
+  const ownOut = fromFar?.[toArea];
+  const onward = toHub ? viaHub(toArea, toHub, toId) : undefined;
+  if (ownOut !== undefined && onward !== undefined) ways.push(ownOut + onward);
+  const ownIn = toFar?.[fromArea];
+  const toward = fromHub ? viaHub(fromArea, fromId, fromHub) : undefined;
+  if (ownIn !== undefined && toward !== undefined) ways.push(toward + ownIn);
+  if (ways.length) return Math.min(...ways);
+
+  const hubToHub = areaDriveMinutes(fromArea, toArea);
+  if (hubToHub === undefined) return undefined;
+  return hubToHub + (fromFar ? (toward ?? 0) : 0) + (toFar ? (onward ?? 0) : 0);
+}
+
 export function getLeg(fromSiteId: string, toSiteId: string, places: PlaceLookup): Leg {
   if (fromSiteId === toSiteId) return { slots: 0, drive: null };
 
   const fromArea = places(fromSiteId)?.area;
   const toArea = places(toSiteId)?.area;
-  const minutes = fromArea && toArea ? areaDriveMinutes(fromArea, toArea) : undefined;
+  const minutes = fromArea && toArea && fromArea !== toArea ? crossAreaMinutes(fromSiteId, fromArea, toSiteId, toArea) : undefined;
   if (fromArea && toArea && minutes !== undefined) {
     return { slots: Math.max(1, Math.ceil(minutes / 30)), drive: { fromArea, toArea } };
   }

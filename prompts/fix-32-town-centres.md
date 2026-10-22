@@ -185,7 +185,7 @@ Some of today's wrong centres were covering for these by accident. Lake Pearson 
 
 9. **Run `npm test`.**
    - `lib/__tests__/areas.test.ts` checks that every town has a time to every other.
-   - `lib/__tests__/itineraryTemplates.test.ts` fails for any suggested trip whose slots no longer fit the new drives. Re-bake each one it flags, following `prompts/content-suggested-trips.md`, and show the owner the new times before baking.
+   - `lib/__tests__/itineraryTemplates.test.ts` can't see the new drives between towns: tests read fixed copies of `area-drive-minutes.json`, `area-hubs.json` and `far-place-minutes.json` (`jest.config.js`, `test/fixtures/`), so a run never changes what a test means. It flags only trips whose in-town tables changed. Check each suggested trip that crosses towns (Queenstown's, with Arrowtown and Glenorchy) against the real files with the throwaway script from step 8. Re-bake each one that no longer fits, following `prompts/content-suggested-trips.md`, and show the owner the new times before baking.
 
 ## Not in this fix
 
@@ -210,6 +210,7 @@ Some of today's wrong centres were covering for these by accident. Lake Pearson 
 - `scripts/__tests__/driveMatrix.test.js`
 - `lib/utils/transitMatrix.ts`, `lib/utils/__tests__/transitMatrix.test.ts`
 - `lib/areas.ts` (comment)
+- `jest.config.js`, `test/fixtures/area-hubs.json`, `test/fixtures/far-place-minutes.json` (empty fixtures, so runs don't change tests)
 - `assets/data/area-drive-minutes.json` (written by `areas --apply`)
 - `assets/data/area-hubs.json` (new, written by `areas --apply`)
 - `assets/data/far-place-minutes.json` (new, written by `far --apply`)

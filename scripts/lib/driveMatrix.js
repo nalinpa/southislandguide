@@ -1,9 +1,10 @@
 // The working parts of scripts/generate-drive-times.js, kept apart so they can be tested
 // against a fake maps service (scripts/__tests__/driveMatrix.test.js).
 //
-// Two levels of travel time, as the app reads them (lib/utils/transitMatrix.ts):
-// - one time per pair of areas, town centre to town centre (lib/areas.ts);
-// - one table per area of times between that area's own places.
+// Travel time as the app reads it (lib/utils/transitMatrix.ts):
+// - one time per pair of areas, hub to hub (lib/areas.ts);
+// - one table per area of times between that area's own places;
+// - for each far-out place (one far from its own hub), its own time to the hubs near it.
 // Never one table for the whole island: it would grow with the square of every place.
 //
 // `fetchMatrix(origins, destinations)` takes two lists of { lat, lng } and resolves to a
@@ -16,6 +17,9 @@ const MAX_ELEMENTS = 100;
 const MAX_SIDE = 25;
 // Google's list price for Distance Matrix, per time asked for. Check before a big run.
 const USD_PER_ELEMENT = 5 / 1000;
+// A far-out place gets its own time to the hub of every town within this of its own town.
+// Further away, a few tens of minutes either way matter little.
+const FAR_REACH_MINUTES = 240;
 
 function areasOf(places) {
   const groups = new Map();
@@ -35,8 +39,16 @@ function centreOf(places) {
   const lat = places.reduce((sum, p) => sum + p.lat, 0) / places.length;
   const lng = places.reduce((sum, p) => sum + p.lng, 0) / places.length;
   const off = (p) => (p.lat - lat) ** 2 + (p.lng - lng) ** 2;
-  const nearest = places.reduce((best, p) => (off(p) < off(best) ? p : best));
-  return { lat: nearest.lat, lng: nearest.lng };
+  return places.reduce((best, p) => (off(p) < off(best) ? p : best));
+}
+
+// The place a town's drive times are measured from: its pinned hub
+// (scripts/lib/areaCentres.js) while the town has that place (areasOf leaves out closed
+// places and ones with no position), else the place nearest the middle, as for a town
+// added since the pins were picked.
+function hubOf(places, pinnedId) {
+  const pinned = places.find((p) => p.id === pinnedId);
+  return pinned ? { place: pinned, pinned: true } : { place: centreOf(places), pinned: false };
 }
 
 function pairKey(a, b) {
@@ -115,6 +127,56 @@ async function areaTransit(places, fetchMatrix, known = {}) {
   return table;
 }
 
+// The places hub-to-hub times don't fit: more than half an hour from the hub either way
+// in the town's own table (2 slots or more), or every place but the hub in a town with no
+// centre (the Catlins: a route, not a town). Places the table doesn't have yet are listed
+// apart: run `towns` for them first.
+function farPlaces(places, hubId, table, noCentre = false) {
+  const far = [];
+  const missing = [];
+  for (const p of places) {
+    if (p.id === hubId) continue;
+    if (!(p.id in table)) missing.push(p.id);
+    else if (noCentre || Math.max(table[p.id][hubId] ?? 0, table[hubId]?.[p.id] ?? 0) >= 2) far.push(p);
+  }
+  return { far, missing };
+}
+
+// The towns a far-out place gets its own time to: every other town within
+// FAR_REACH_MINUTES of its own, by the town-to-town times.
+function nearTowns(town, towns, areaMinutes) {
+  return towns.filter((t) => t !== town && areaMinutes[pairKey(town, t)] <= FAR_REACH_MINUTES);
+}
+
+// `wanted` is [{ place, towns }]: the towns each far-out place should have a time to.
+const farTodo = (wanted, known) =>
+  wanted.map(({ place, towns }) => ({ place, towns: towns.filter((t) => !(t in (known[place.id] || {}))) }));
+
+function farLookups(wanted, known = {}) {
+  return farTodo(wanted, known).reduce((n, w) => n + w.towns.length, 0);
+}
+
+// Each far-out place's own time, in minutes, to the hub of each of its towns, one way (the
+// app uses it both ways, as it does town to town), kept with what `known` has. Only what
+// a place lacks is asked for. The result holds every place in `wanted`, even with no times
+// (the app still needs to know it is far-out), and only those: a place no longer far-out
+// drops out. Times the service has no route for are left out and listed in `failed`.
+async function farPlaceTimes(wanted, hubs, fetchMatrix, known = {}) {
+  const minutes = {};
+  const failed = [];
+  for (const { place, towns } of farTodo(wanted, known)) {
+    minutes[place.id] = { ...known[place.id] };
+    for (const batch of chunks(towns, MAX_SIDE)) {
+      const [row] = await fetchMatrix([place], batch.map((t) => hubs[t]));
+      batch.forEach((t, j) => {
+        if (row[j] == null) failed.push(`${place.id} → ${t}`);
+        else minutes[place.id][t] = row[j];
+      });
+    }
+  }
+  return { minutes, failed };
+}
+
 // Google Distance Matrix's JSON answer, as minutes.
 function parseDistanceMatrix(body) {
   if (body.status !== "OK") throw new Error(`Distance Matrix ${body.status}: ${body.error_message || "no detail"}`);
@@ -160,10 +222,15 @@ module.exports = {
   MAX_ELEMENTS,
   areasOf,
   centreOf,
+  hubOf,
   pairKey,
   areaDriveTimes,
   areaTransit,
   transitLookups,
+  farPlaces,
+  nearTowns,
+  farLookups,
+  farPlaceTimes,
   parseDistanceMatrix,
   googleFetchMatrix,
   costUSD,

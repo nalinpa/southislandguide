@@ -1,13 +1,18 @@
 // The drive time scripts' working parts, against a fake maps service: one time per pair
-// of areas (town centre to town centre), and one table per area of times between that
-// area's own places. Never a table for the whole island.
+// of areas (hub to hub), one table per area of times between that area's own places, and
+// each far-out place's own times to the hubs near it. Never a table for the whole island.
 const {
   areasOf,
   centreOf,
+  hubOf,
   pairKey,
   areaDriveTimes,
   areaTransit,
   transitLookups,
+  farPlaces,
+  nearTowns,
+  farLookups,
+  farPlaceTimes,
   parseDistanceMatrix,
   costUSD,
   transitIndex,
@@ -49,7 +54,27 @@ describe("centreOf", () => {
   // can't route to that, so it is the place nearest the middle.
   it("is the area's place nearest the middle of its places", () => {
     const places = [place("a", "x", -43, 172), place("b", "x", -44, 174), place("c", "x", -43.6, 172.9)];
-    expect(centreOf(places)).toEqual({ lat: -43.6, lng: 172.9 });
+    expect(centreOf(places)).toBe(places[2]);
+  });
+});
+
+describe("hubOf", () => {
+  // The middle of these three is nearest c.
+  const town = [place("a", "x", -43, 172), place("b", "x", -44, 174), place("c", "x", -43.6, 172.9)];
+
+  it("is the pinned place when the town has it", () => {
+    expect(hubOf(town, "a")).toEqual({ place: town[0], pinned: true });
+  });
+
+  // A pin can outlive its place: deleted, closed, or moved to another town in the admin panel.
+  it("falls back to the place nearest the middle when the pinned place is gone or closed", () => {
+    expect(hubOf(town, "gone")).toEqual({ place: town[2], pinned: false });
+    const withClosed = areasOf([...town, place("shut", "x", -43, 172, { active: false })]).get("x");
+    expect(hubOf(withClosed, "shut")).toEqual({ place: town[2], pinned: false });
+  });
+
+  it("is the place nearest the middle for a town with no pin", () => {
+    expect(hubOf(town, undefined)).toEqual({ place: town[2], pinned: false });
   });
 });
 
@@ -150,6 +175,94 @@ describe("areaTransit", () => {
     await areaTransit(town, fetchMatrix);
 
     expect(calls.every((c) => c.origins * c.destinations <= 100)).toBe(true);
+  });
+});
+
+describe("farPlaces", () => {
+  const town = ["hub", "near", "far", "back", "new"].map((id) => place(id, "x", -45, 168));
+  // Half-hour slots, as the town's own table has them. "back" is far only on the way back.
+  const table = {
+    hub: { near: 1, far: 2, back: 1 },
+    near: { hub: 1 },
+    far: { hub: 3 },
+    back: { hub: 2 },
+  };
+
+  it("picks the places more than half an hour from the hub either way, and lists those the table lacks", () => {
+    const { far, missing } = farPlaces(town, "hub", table);
+    expect(far.map((p) => p.id)).toEqual(["far", "back"]);
+    expect(missing).toEqual(["new"]);
+  });
+
+  // The Catlins is a route, not a town: no place in it is near a middle.
+  it("counts every place but the hub in a town with no centre", () => {
+    expect(farPlaces(town, "hub", table, true).far.map((p) => p.id)).toEqual(["near", "far", "back"]);
+  });
+});
+
+describe("nearTowns", () => {
+  const minutes = { "te-anau|wanaka": 240, "queenstown|te-anau": 120, "dunedin|te-anau": 241 };
+
+  it("is every other town within four hours of the place's own town", () => {
+    const towns = ["dunedin", "gore", "queenstown", "te-anau", "wanaka"];
+    expect(nearTowns("te-anau", towns, minutes)).toEqual(["queenstown", "wanaka"]);
+  });
+});
+
+describe("farPlaceTimes", () => {
+  const hubs = { queenstown: place("qt", "queenstown", -45.03, 168.66), wanaka: place("wk", "wanaka", -44.7, 169.13) };
+  const mirror = place("mirror", "milford-sound", -44.98, 168.0);
+  const asked = (calls) => calls.reduce((n, c) => n + c.origins * c.destinations, 0);
+
+  // From the fake: Mirror Lakes to Queenstown's hub is 5 minutes south plus the detour, to
+  // Wānaka's 28 minutes north.
+  it("asks once for each far-out place to each town's hub, keyed by place then town", async () => {
+    const { fetchMatrix, calls } = fakeService();
+
+    const { minutes, failed } = await farPlaceTimes([{ place: mirror, towns: ["queenstown", "wanaka"] }], hubs, fetchMatrix);
+
+    expect(minutes).toEqual({ mirror: { queenstown: 6, wanaka: 28 } });
+    expect(failed).toEqual([]);
+    expect(asked(calls)).toBe(2);
+  });
+
+  // A place that is no longer far-out (moved, or its town's hub moved) drops out of the file.
+  it("asks only for the towns a place lacks, keeps what it has, and drops places no longer far-out", async () => {
+    const { fetchMatrix, calls } = fakeService();
+    const known = { mirror: { queenstown: 99 }, gone: { wanaka: 10 } };
+    const wanted = [{ place: mirror, towns: ["queenstown", "wanaka"] }];
+
+    expect(farLookups(wanted, known)).toBe(1);
+    const { minutes } = await farPlaceTimes(wanted, hubs, fetchMatrix, known);
+
+    expect(minutes).toEqual({ mirror: { queenstown: 99, wanaka: 28 } });
+    expect(asked(calls)).toBe(1);
+  });
+
+  // The app needs to know a place is far-out even with no own times, to count its way to
+  // its own hub on legs to towns it has no time for.
+  it("keeps a far-out place with no route, or no town near it, as an empty entry, and says which had no route", async () => {
+    const fetchMatrix = async (origins, destinations) => origins.map(() => destinations.map(() => null));
+    const alone = place("alone", "haast", -43.9, 168.9);
+
+    const { minutes, failed } = await farPlaceTimes(
+      [{ place: mirror, towns: ["queenstown"] }, { place: alone, towns: [] }],
+      hubs,
+      fetchMatrix,
+    );
+
+    expect(minutes).toEqual({ mirror: {}, alone: {} });
+    expect(failed).toEqual(["mirror → queenstown"]);
+  });
+
+  it("never asks for more than 25 hubs at once, the service's limit", async () => {
+    const { fetchMatrix, calls } = fakeService();
+    const many = Object.fromEntries(Array.from({ length: 30 }, (_, i) => ["t" + i, place("h" + i, "t" + i, -44 - i * 0.01, 169)]));
+
+    const { minutes } = await farPlaceTimes([{ place: mirror, towns: Object.keys(many) }], many, fetchMatrix);
+
+    expect(Object.keys(minutes.mirror)).toHaveLength(30);
+    expect(calls.every((c) => c.destinations <= 25)).toBe(true);
   });
 });
 

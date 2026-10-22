@@ -46,8 +46,9 @@ export function areaName(id: string): string {
 
 // Minutes by road, town to town, used in both directions. One entry per pair: the two
 // ids in alphabetical order, joined with "|". Written by
-// `node scripts/generate-drive-times.js areas --apply` (a maps service, town centre to
-// town centre); the three in it until then are from memory (owner, 2026-10-14).
+// `node scripts/generate-drive-times.js areas --apply` (a maps service, from each town's
+// hub, assets/data/area-hubs.json). A place far from its own hub has its own times
+// instead (lib/utils/transitMatrix.ts).
 const AREA_DRIVE_MINUTES: Record<string, number> = AREA_DRIVE_MINUTES_JSON;
 
 export function areaDriveMinutes(a: string, b: string): number | undefined {

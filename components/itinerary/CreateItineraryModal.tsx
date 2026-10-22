@@ -10,7 +10,8 @@ import { randomUUID } from "expo-crypto";
 import { CardShell, AppButton, AppText, Row } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
 import { useItineraries } from "@/lib/hooks/useItineraries";
-import { ITINERARY_TEMPLATES, defaultTemplateKey } from "@/lib/itineraryTemplates";
+import { ITINERARY_TEMPLATES, TRIP_STARTS, defaultTemplateKey, type TripStart } from "@/lib/itineraryTemplates";
+import { areaName } from "@/lib/areas";
 import { redateTrip, slotIndexToTimeLabel, slotsToDurationLabel } from "@/lib/utils/itineraryPhysics";
 import type { Itinerary } from "@/lib/models";
 import { PLANNER } from "@/lib/constants/gameplay";
@@ -68,6 +69,7 @@ export function CreateItineraryModal({
   const [startDate, setStartDate] = useState(tomorrow());
   const [numDays, setNumDays] = useState(3);
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  const [start, setStart] = useState<TripStart>(TRIP_STARTS[0]);
   const [templateOpen, setTemplateOpen] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -80,12 +82,27 @@ export function CreateItineraryModal({
       setTitle(trip ? trip.title : "");
       setStartDate(trip ? new Date(trip.startDate + "T00:00:00") : tomorrow());
       setNumDays(trip ? trip.days.length : locked ? 1 : 3);
-      setSelectedTemplate(trip ? null : defaultTemplateKey(locked));
+      const key = trip ? null : defaultTemplateKey(locked);
+      setSelectedTemplate(key);
+      setStart(ITINERARY_TEMPLATES.find((t) => t.key === key)?.start ?? TRIP_STARTS[0]);
       setTemplateOpen(false);
       setShowCalendar(false);
       setErrorMsg(null);
     }
   }, [visible, locked, trip]);
+
+  // The picker's second step: the trips from the chosen town, shortest first.
+  const startTemplates = ITINERARY_TEMPLATES.filter((t) => t.start === start).sort((a, b) => a.days.length - b.days.length);
+  const chosenTemplate = ITINERARY_TEMPLATES.find((t) => t.key === selectedTemplate);
+
+  // A new town goes back to Blank, or, for a locked user (who can't start blank), to that
+  // town's first free trip.
+  const chooseStart = (s: TripStart) => {
+    if (s === start) return;
+    setStart(s);
+    setTemplateOpen(false);
+    setSelectedTemplate(locked ? (ITINERARY_TEMPLATES.find((t) => t.start === s && t.free)?.key ?? null) : null);
+  };
 
   // Every day moves with a new start and keeps its places; a longer trip gets empty days
   // at the end, a shorter one loses its last days, after asking if they hold places.
@@ -347,28 +364,45 @@ export function CreateItineraryModal({
               {templatesEnabled && (
                 <>
                   <AppText style={styles.label}>Suggested Trip</AppText>
+                  <AppText style={styles.subLabel}>Starting from</AppText>
+                  <View style={styles.startRow}>
+                    {TRIP_STARTS.map((s) => {
+                      const active = s === start;
+                      return (
+                        <TouchableOpacity
+                          key={s}
+                          style={[styles.startChip, active && styles.startChipActive]}
+                          onPress={() => chooseStart(s)}
+                          activeOpacity={0.7}
+                          accessibilityRole="button"
+                          accessibilityState={{ selected: active }}
+                        >
+                          <AppText style={[styles.startChipText, active && styles.startChipTextActive]}>{areaName(s)}</AppText>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
                   <TouchableOpacity
                     style={styles.dropdownTrigger}
                     onPress={() => setTemplateOpen((o) => !o)}
                     activeOpacity={0.7}
                   >
-                    <AppText style={styles.dropdownValue}>
-                      {selectedTemplate === null
-                        ? "Blank"
-                        : (ITINERARY_TEMPLATES.find((t) => t.key === selectedTemplate)?.label ?? "Blank")}
-                    </AppText>
+                    <AppText style={styles.dropdownValue}>{chosenTemplate?.label ?? "Blank"}</AppText>
                     <ChevronDown
                       size={16}
                       color={tokens.colors.text2}
                       style={{ transform: [{ rotate: templateOpen ? "180deg" : "0deg" }] }}
                     />
                   </TouchableOpacity>
+                  {!templateOpen && chosenTemplate && (
+                    <AppText style={styles.templateDescription}>{chosenTemplate.description}</AppText>
+                  )}
                   {templateOpen && (
                     <ScrollView style={styles.dropdownMenu} bounces={false} nestedScrollEnabled>
                       {(
                         [
-                          { key: null, label: "Blank", description: "Start with a blank trip", free: !locked },
-                          ...ITINERARY_TEMPLATES,
+                          { key: null, label: "Blank", dayCount: null, free: !locked },
+                          ...startTemplates.map((t) => ({ key: t.key, label: t.label, dayCount: t.days.length, free: t.free })),
                         ]
                       ).map((opt) => {
                         const active = selectedTemplate === opt.key;
@@ -394,10 +428,12 @@ export function CreateItineraryModal({
                               >
                                 {opt.label}
                               </AppText>
-                              <AppText style={[styles.dropdownOptionSub, isLockedOut && styles.dropdownOptionLabelLocked]}>
-                                {opt.description}
-                              </AppText>
                             </View>
+                            {opt.dayCount !== null && (
+                              <AppText style={[styles.dropdownOptionDays, isLockedOut && styles.dropdownOptionLabelLocked]}>
+                                {opt.dayCount} {opt.dayCount === 1 ? "day" : "days"}
+                              </AppText>
+                            )}
                             {isLockedOut ? (
                               <View style={styles.premiumBadge}>
                                 <Lock size={11} color={tokens.colors.textMuted} />
@@ -568,7 +604,22 @@ const styles = StyleSheet.create({
   dropdownOptionText: { flex: 1 },
   dropdownOptionLabel: { fontSize: 15, fontWeight: "500", color: tokens.colors.text },
   dropdownOptionLabelActive: { color: tokens.colors.accent, fontWeight: "700" },
-  dropdownOptionSub: { fontSize: 12, color: tokens.colors.text2, marginTop: 2 },
+  dropdownOptionDays: { fontSize: 13, color: tokens.colors.text2, marginLeft: tokens.space.sm },
+  subLabel: { fontSize: 13, color: tokens.colors.text2, marginTop: tokens.space.xs, marginBottom: tokens.space.xs },
+  startRow: { flexDirection: "row", gap: tokens.space.xs, marginBottom: tokens.space.sm },
+  startChip: {
+    flex: 1,
+    alignItems: "center",
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: tokens.colors.border,
+    borderRadius: tokens.radius.md,
+    backgroundColor: tokens.colors.bgCard,
+  },
+  startChipActive: { borderColor: tokens.colors.accent, backgroundColor: tokens.colors.bgElevated },
+  startChipText: { fontSize: 14, fontWeight: "600", color: tokens.colors.text2 },
+  startChipTextActive: { color: tokens.colors.accent, fontWeight: "700" },
+  templateDescription: { fontSize: 13, color: tokens.colors.text2, marginTop: tokens.space.xs, lineHeight: 18 },
   dropdownOptionLabelLocked: { color: tokens.colors.textMuted },
   premiumBadge: {
     flexDirection: "row",

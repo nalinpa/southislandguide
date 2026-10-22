@@ -32,8 +32,9 @@ import { ApiError } from "@blacksands/client";
 
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { ITINERARY_TEMPLATES, defaultTemplateKey } from "@/lib/itineraryTemplates";
+import { areaName } from "@/lib/areas";
 
-// 1.0 ships two templates and both are free, so the rotorua-guide cases that need a
+// Every template is free at launch, so the rotorua-guide cases that need a
 // PREMIUM template stay parked until paid templates exist (release 1.4).
 const freeTemplate = ITINERARY_TEMPLATES.find((t) => t.free)!;
 const PREMIUM_1_4 = "(release 1.4: needs a premium template)";
@@ -155,6 +156,7 @@ describe("creating from a template", () => {
     async (label, template) => {
       const view = await openModal({ showTemplateOption: true });
 
+      await fireEvent.press(view.getByText(areaName(template.start)));
       await fireEvent.press(view.getByText("Blank"));
       await fireEvent.press(view.getByText(label));
       await fireEvent.press(view.getByText("Create Trip"));
@@ -167,6 +169,39 @@ describe("creating from a template", () => {
       });
     },
   );
+
+  // The first step picks the town; the list then holds only that town's trips.
+  it("lists only the trips from the chosen town", async () => {
+    const view = await openModal({ showTemplateOption: true });
+
+    await fireEvent.press(view.getByText("Picton"));
+    await fireEvent.press(view.getByText("Blank"));
+
+    for (const t of ITINERARY_TEMPLATES) {
+      if (t.start === "picton") expect(view.getByText(t.label)).toBeTruthy();
+      else expect(view.queryByText(t.label)).toBeNull();
+    }
+  });
+
+  it("goes back to Blank when the town changes", async () => {
+    const view = await openModal({ showTemplateOption: true });
+
+    await fireEvent.press(view.getByText("Blank"));
+    await fireEvent.press(view.getByText(freeTemplate.label));
+    await fireEvent.press(view.getByText("Queenstown"));
+
+    expect(view.getByText("Blank")).toBeTruthy();
+    expect(view.queryByText(freeTemplate.label)).toBeNull();
+  });
+
+  it("shows the chosen trip's description under the picker", async () => {
+    const view = await openModal({ showTemplateOption: true });
+
+    await fireEvent.press(view.getByText("Blank"));
+    await fireEvent.press(view.getByText(freeTemplate.label));
+
+    expect(view.getByText(freeTemplate.description)).toBeTruthy();
+  });
 
   it("gives every copied stop a time and duration label", async () => {
     const view = await openModal({ showTemplateOption: true });

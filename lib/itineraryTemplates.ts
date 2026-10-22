@@ -30,8 +30,15 @@ export type ItineraryTemplateDay = {
   items: ItineraryTemplateItem[];
 };
 
+// The towns a suggested trip can start from: the picker's first step.
+export const TRIP_STARTS = ["christchurch", "queenstown", "picton"] as const;
+export type TripStart = (typeof TRIP_STARTS)[number];
+
 export type ItineraryTemplate = {
   key: string;
+  // Set by hand: the first stop's area doesn't say it (Christchurch to Queenstown starts at
+  // Rakaia, in mid-canterbury).
+  start: TripStart;
   label: string;
   description: string;
   days: ItineraryTemplateDay[];
@@ -749,6 +756,7 @@ const TE_ANAU_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
 export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   {
     key: "christchurch-in-a-day",
+    start: "christchurch",
     label: "Christchurch in a Day",
     description:
       "The central city on foot: the Botanic Gardens, a punt on the Avon, lunch at Little High, the Cardboard Cathedral, the Art Gallery and an evening walk by the river.",
@@ -757,6 +765,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "two-days-in-christchurch",
+    start: "christchurch",
     label: "Two Days in Christchurch",
     description:
       "Day one in the central city on foot. Day two by car: the gondola, pizza and the beach at Sumner, then fish and chips and the hot pools at New Brighton.",
@@ -765,6 +774,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "queenstown-in-two-days",
+    start: "queenstown",
     label: "Queenstown in Two Days",
     description:
       "Day one in town: the gardens, an early Fergburger, a cruise on the Earnslaw, then the gondola and luge. Day two: the Shotover Jet and the Kawarau bungy bridge, then lunch, gold panning and the Chinese settlement in Arrowtown.",
@@ -773,6 +783,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "queenstown-in-three-days",
+    start: "queenstown",
     label: "Queenstown in Three Days",
     description:
       "Day one in town and day two in Arrowtown, as in the two-day trip. Day three up the lake: Bob's Cove, the Glenorchy wharf, lunch at Mrs Woolly's and the lagoon walk, then the Onsen hot pools and fish and chips back in town.",
@@ -781,6 +792,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "queenstown-and-fiordland-in-three-days",
+    start: "queenstown",
     label: "Queenstown and Fiordland in Three Days",
     description:
       "Day one: the gondola and Fergburger, then the drive to Te Anau and the glowworm caves. Day two: Milford Sound by road, with Mirror Lakes and Lake Gunn on the way, a cruise and the Ata Whenua film back in Te Anau. Day three: the Kepler Track to Brod Bay, then back to Queenstown for the gardens and dinner at The Cow.",
@@ -789,6 +801,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "queenstown-and-fiordland-in-five-days",
+    start: "queenstown",
     label: "Queenstown and Fiordland in Five Days",
     description:
       "Days one and two as in the three-day trip: the drive to Te Anau, the glowworm caves and Milford Sound. Day three on Doubtful Sound from Manapōuri. Day four up to Key Summit, then the bird sanctuary and Frasers Beach. Day five on the Kepler Track, then back to Queenstown for the gardens and dinner at The Cow.",
@@ -797,6 +810,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "queenstown-and-wanaka-in-four-days",
+    start: "queenstown",
     label: "Queenstown and Wānaka in Four Days",
     description:
       "Day one in Queenstown. Day two: the Shotover Jet and Arrowtown, then over the Crown Range to Cardrona and Wānaka. Day three in Wānaka: Diamond Lake and Rocky Mountain, Puzzling World and Mount Iron. Day four: the toy museum, fruit at Cromwell and the Kawarau bungy bridge on the way back.",
@@ -805,6 +819,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "christchurch-to-queenstown-via-tekapo-and-mount-cook",
+    start: "christchurch",
     label: "Christchurch to Queenstown via Tekapo and Mount Cook",
     description:
       "Day one inland to Tekapo, with pies at Fairlie and the hot pools. Day two: the Church of the Good Shepherd and Mt John, then Mount Cook and the Hooker Valley. Day three: Kea Point, salmon at Lake Pukaki and over the Lindis Pass to Wānaka. Day four through Cromwell and the Kawarau Gorge to Queenstown.",
@@ -813,6 +828,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "queenstown-to-christchurch-via-mount-cook-and-tekapo",
+    start: "queenstown",
     label: "Queenstown to Christchurch via Mount Cook and Tekapo",
     description:
       "Day one over the Crown Range to Wānaka, with the Shotover Jet and Arrowtown on the way. Day two over the Lindis Pass to Mount Cook, with salmon at Lake Pukaki. Day three on the Hooker Valley Track, then Mt John and the hot pools at Tekapo. Day four past the Church of the Good Shepherd and through Geraldine to Christchurch.",
@@ -821,6 +837,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "picton-to-christchurch-via-kaikoura",
+    start: "picton",
     label: "Picton to Christchurch via Kaikōura",
     description:
       "Day one off the ferry: the Edwin Fox and the Snout Track in Picton, then down the coast past the seals to Kaikōura. Day two whale watching, crayfish for lunch and the peninsula walk. Day three inland to the hot pools at Hanmer Springs, then on to Christchurch.",
@@ -829,6 +846,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "southern-scenic-route-queenstown-to-dunedin",
+    start: "queenstown",
     label: "Southern Scenic Route: Queenstown to Dunedin",
     description:
       "Days one and two in Fiordland: the glowworm caves and Milford Sound. Day three along the south coast through Tuatapere and Riverton to Invercargill. Day four out to Bluff, then the Catlins: Waipapa Point, Curio Bay and McLean Falls. Day five past Nugget Point to Dunedin's Tunnel Beach and St Clair. Day six in Dunedin and on the Otago Peninsula.",
@@ -844,6 +862,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "west-coast-christchurch-to-queenstown",
+    start: "christchurch",
     label: "West Coast: Christchurch to Queenstown",
     description:
       "Day one over Arthur's Pass to Greymouth. Day two at Punakaiki's Pancake Rocks, then on to Hokitika. Day three: Hokitika Gorge and the treetop walk, then the hot pools at Franz Josef. Day four: the glacier valley, kiwi at the wildlife centre and Ōkārito, then Fox. Day five: Lake Matheson and down the coast to Haast. Day six over the Haast Pass to Wānaka. Day seven through Cromwell to Queenstown.",
@@ -860,6 +879,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "southern-loop-from-christchurch",
+    start: "christchurch",
     label: "The Southern Loop from Christchurch",
     description:
       "Twelve days round the south: Tekapo and Mount Cook, Wānaka and Queenstown, Milford Sound, the south coast and the Catlins, Dunedin, and home up the coast through Ōamaru.",
@@ -868,6 +888,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "southern-loop-from-queenstown",
+    start: "queenstown",
     label: "The Southern Loop from Queenstown",
     description:
       "Twelve days round the south: Queenstown and Milford Sound, the south coast and the Catlins, Dunedin, up the coast through Ōamaru to Christchurch, then Tekapo, Mount Cook and Wānaka back to Queenstown.",
@@ -876,6 +897,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "picton-to-queenstown-via-the-west-coast",
+    start: "picton",
     label: "Picton to Queenstown via the West Coast",
     description:
       "Ten days from the ferry: the Sounds road to Nelson, a water taxi and the Coast Track in Abel Tasman, a day in Golden Bay, down the Buller Gorge to Westport, then the West Coast past Punakaiki, Hokitika and the glaciers, over the Haast Pass to Wānaka and on to Queenstown.",
@@ -895,6 +917,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "whole-island-from-christchurch",
+    start: "christchurch",
     label: "The Whole Island from Christchurch",
     description:
       "Twenty-three days round the whole South Island: Hanmer and Kaikōura, the Marlborough Sounds, Abel Tasman and Golden Bay, the West Coast and the glaciers, Wānaka and Queenstown, Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, and back through Tekapo.",
@@ -903,6 +926,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "whole-island-from-picton",
+    start: "picton",
     label: "The Whole Island from Picton",
     description:
       "Twenty-three days round the whole South Island from the ferry: Abel Tasman and Golden Bay, the West Coast and the glaciers, Wānaka and Queenstown, Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo, Christchurch, then Hanmer and Kaikōura back to Picton.",
@@ -911,6 +935,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "whole-island-from-queenstown",
+    start: "queenstown",
     label: "The Whole Island from Queenstown",
     description:
       "Twenty-three days round the whole South Island from Queenstown: Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo, Christchurch, Hanmer and Kaikōura, the Marlborough Sounds, Abel Tasman and Golden Bay, the West Coast and the glaciers, and Wānaka back to Queenstown.",
@@ -919,6 +944,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "queenstown-to-picton-via-the-west-coast",
+    start: "queenstown",
     label: "Queenstown to Picton via the West Coast",
     description:
       "Ten days to the ferry: over the Crown Range to Wānaka and the Haast Pass, up the West Coast past the glaciers, Hokitika and Punakaiki, through the Buller Gorge to Abel Tasman and a water taxi up the Coast Track, a day in Golden Bay, then Nelson and the Sounds road to Picton.",
@@ -938,6 +964,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "west-coast-and-the-south-from-christchurch",
+    start: "christchurch",
     label: "The West Coast and the South from Christchurch",
     description:
       "Fifteen days round the West Coast and the south: Arthur's Pass, Punakaiki and the glaciers, the Haast Pass to Wānaka and Queenstown, Milford Sound, the south coast and the Catlins, Dunedin, the Waitaki and Mount Cook, and back through Tekapo.",
@@ -946,6 +973,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
   },
   {
     key: "west-coast-and-the-south-from-queenstown",
+    start: "queenstown",
     label: "The West Coast and the South from Queenstown",
     description:
       "Fifteen days round the south and the West Coast: Milford Sound, the south coast and the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo and Christchurch, then over Arthur's Pass to Punakaiki and the glaciers, and the Haast Pass to Wānaka and back to Queenstown.",

@@ -365,6 +365,85 @@ const DUNEDIN_AND_PENINSULA_DAY: ItineraryTemplateDay = {
   ],
 };
 
+// Christchurch over Arthur's Pass to Greymouth: 9:00 AM to 6:30 PM.
+const CHRISTCHURCH_TO_GREYMOUTH_DAY: ItineraryTemplateDay = {
+  items: [
+    // Pies for the road: nothing in the pass is open for lunch every day.
+    { siteId: "sheffield-pies", siteName: "Sheffield Pies", slotIndex: 2, durationSlots: 1 },
+    { siteId: "kura-tawhiti-castle-hill", siteName: "Kura Tāwhiti Castle Hill", slotIndex: 5, durationSlots: 2 },
+    { siteId: "arthurs-pass-national-park-visitor-centre", siteName: "Arthur's Pass National Park Visitor Centre", slotIndex: 9, durationSlots: 1 },
+    { siteId: "devils-punchbowl-falls", siteName: "Devils Punchbowl Falls", slotIndex: 11, durationSlots: 2 },
+    { siteId: "otira-viaduct-lookout", siteName: "Otira Viaduct Lookout", slotIndex: 14, durationSlots: 1 },
+    // Dinner; the brewery tour is at 4pm, before the drive gets here.
+    { siteId: "monteiths-brewery", siteName: "Monteith's Brewery", slotIndex: 18, durationSlots: 3 },
+  ],
+};
+
+// Punakaiki, then down the coast to Hokitika: 9:00 AM to 6:00 PM.
+const PUNAKAIKI_TO_HOKITIKA_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "pancake-rocks-and-blowholes-walk", siteName: "Pancake Rocks and Blowholes Walk", slotIndex: 2, durationSlots: 1 },
+    { siteId: "pororari-river-track", siteName: "Pororari River Track", slotIndex: 4, durationSlots: 3 },
+    { siteId: "truman-track", siteName: "Truman Track", slotIndex: 8, durationSlots: 1 },
+    // Closes 3pm.
+    { siteId: "dp1-cafe", siteName: "DP1 Cafe", slotIndex: 11, durationSlots: 2 },
+    { siteId: "hokitika-beach-driftwood-sign", siteName: "Hokitika Beach and Driftwood Sign", slotIndex: 15, durationSlots: 1 },
+    // Dinner only, 5 to 8pm. Closed Tuesday and Wednesday: kept anyway (owner, 2026-10-22).
+    { siteId: "fat-pipi-pizza", siteName: "Fat Pipi Pizza", slotIndex: 18, durationSlots: 2 },
+  ],
+};
+
+// Hokitika to Franz Josef: 9:00 AM to 6:00 PM.
+const HOKITIKA_TO_FRANZ_JOSEF_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "hokitika-gorge", siteName: "Hokitika Gorge", slotIndex: 2, durationSlots: 3 },
+    // Lunch at its café (9am to 3pm). Last entry 3.15pm in winter.
+    { siteId: "west-coast-treetop-walk", siteName: "West Coast Treetop Walk", slotIndex: 7, durationSlots: 3 },
+    // The centre is open 10am to 3pm.
+    { siteId: "ross-goldfields-water-race-walk", siteName: "Ross Goldfields Heritage Centre and Water Race Walk", slotIndex: 11, durationSlots: 2 },
+    { siteId: "glacier-hot-pools", siteName: "Glacier Hot Pools", slotIndex: 17, durationSlots: 3 },
+  ],
+};
+
+// Franz Josef to Fox: 9:00 AM to 6:00 PM.
+const FRANZ_JOSEF_TO_FOX_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "franz-josef-glacier-valley-walk", siteName: "Franz Josef Glacier Valley Walk", slotIndex: 2, durationSlots: 3 },
+    { siteId: "west-coast-wildlife-centre", siteName: "West Coast Wildlife Centre", slotIndex: 6, durationSlots: 2 },
+    { siteId: "snakebite-brewery", siteName: "SnakeBite Brewery", slotIndex: 9, durationSlots: 2 },
+    { siteId: "okarito-trig-walk", siteName: "Ōkārito Trig Walk", slotIndex: 12, durationSlots: 3 },
+    { siteId: "fox-glacier-south-side-walk", siteName: "Fox Glacier South Side Walk", slotIndex: 16, durationSlots: 4 },
+  ],
+};
+
+// Fox down the coast to Haast: 8:30 AM to 7:00 PM.
+const FOX_TO_HAAST_DAY: ItineraryTemplateDay = {
+  items: [
+    // Early, for the reflections on a still morning (owner chose 8.30, 2026-10-22).
+    { siteId: "lake-matheson-walk", siteName: "Lake Matheson Walk", slotIndex: 1, durationSlots: 3 },
+    { siteId: "matheson-cafe", siteName: "Matheson Cafe", slotIndex: 5, durationSlots: 1 },
+    { siteId: "bruce-bay", siteName: "Bruce Bay", slotIndex: 8, durationSlots: 1 },
+    { siteId: "monro-beach-track", siteName: "Monro Beach Track", slotIndex: 11, durationSlots: 3 },
+    { siteId: "knights-point-lookout", siteName: "Knights Point Lookout", slotIndex: 15, durationSlots: 1 },
+    { siteId: "ship-creek-tauparikaka-walks", siteName: "Ship Creek Tauparikākā Walks", slotIndex: 17, durationSlots: 2 },
+    { siteId: "the-hard-antler-haast", siteName: "The Hard Antler", slotIndex: 20, durationSlots: 2 },
+  ],
+};
+
+// Over the Haast Pass to Wānaka: 9:00 AM to 7:00 PM.
+const HAAST_TO_WANAKA_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "roaring-billy-falls-walk", siteName: "Roaring Billy Falls Walk", slotIndex: 2, durationSlots: 2 },
+    { siteId: "thunder-creek-and-fantail-falls", siteName: "Thunder Creek and Fantail Falls", slotIndex: 5, durationSlots: 1 },
+    { siteId: "blue-pools-track", siteName: "Blue Pools Track", slotIndex: 7, durationSlots: 2 },
+    // Closes 2 to 3pm depending on the season.
+    { siteId: "makarora-country-cafe", siteName: "Makarora Country Café", slotIndex: 10, durationSlots: 2 },
+    // Last admission 4.30pm.
+    { siteId: "puzzling-world", siteName: "Puzzling World", slotIndex: 15, durationSlots: 4 },
+    { siteId: "red-star-burger-bar", siteName: "Red Star Burger Bar", slotIndex: 20, durationSlots: 2 },
+  ],
+};
+
 // A Kepler Track morning, then back to Queenstown: 9:00 AM to 7:00 PM.
 const TE_ANAU_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
   items: [
@@ -469,6 +548,22 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       BLUFF_AND_CATLINS_DAY,
       CATLINS_TO_DUNEDIN_DAY,
       DUNEDIN_AND_PENINSULA_DAY,
+    ],
+  },
+  {
+    key: "west-coast-christchurch-to-queenstown",
+    label: "West Coast: Christchurch to Queenstown",
+    description:
+      "Day one over Arthur's Pass to Greymouth. Day two at Punakaiki's Pancake Rocks, then on to Hokitika. Day three: Hokitika Gorge and the treetop walk, then the hot pools at Franz Josef. Day four: the glacier valley, kiwi at the wildlife centre and Ōkārito, then Fox. Day five: Lake Matheson and down the coast to Haast. Day six over the Haast Pass to Wānaka. Day seven through Cromwell to Queenstown.",
+    free: true,
+    days: [
+      CHRISTCHURCH_TO_GREYMOUTH_DAY,
+      PUNAKAIKI_TO_HOKITIKA_DAY,
+      HOKITIKA_TO_FRANZ_JOSEF_DAY,
+      FRANZ_JOSEF_TO_FOX_DAY,
+      FOX_TO_HAAST_DAY,
+      HAAST_TO_WANAKA_DAY,
+      WANAKA_TO_QUEENSTOWN_DAY,
     ],
   },
 ];

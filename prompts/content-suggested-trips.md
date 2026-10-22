@@ -46,9 +46,9 @@ The response is `{ ok: true, data: { locations: [...] } }`; each place's `id` is
 
 Christchurch-only templates in a whole-island app undersell it. The owner's set (2026-10-21, revised 2026-10-22): no short trips (one town, one or two days); Kaikōura in a Day and Top of the South are struck; Glacier Country and Aoraki / Tekapo are covered by the longer trips. Every town is live and every town-to-town time is in (fix-32, 2026-10-22), so all of these can be built.
 
-**Built:** Queenstown in Two Days, Queenstown in Three Days, Queenstown and Fiordland in Three Days.
+**Built:** Queenstown in Two Days, Queenstown in Three Days, Queenstown and Fiordland in Three Days, and every medium trip below (2026-10-22).
 
-**Medium, building now in this order:**
+**Medium (all built 2026-10-22):**
 
 | Template | Days | Route |
 |---|---|---|

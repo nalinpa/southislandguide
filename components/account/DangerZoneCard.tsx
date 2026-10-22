@@ -9,8 +9,9 @@ import { auth } from "@/lib/firebase";
 import { userService } from "@/lib/services/userService";
 import { tokens } from "@/lib/ui/tokens";
 
-// Deletion runs server-side via userService.deleteAccount() so the api can
-// revoke the Sign in with Apple grant (App Store guideline 5.1.1(v)). The
+// Deletion runs server-side via userService.deleteAccount(): the api deletes
+// the user's trips, saved places and reviews, revokes the Sign in with Apple
+// grant, then deletes the account (App Store guideline 5.1.1(v)). The
 // currentUser check below just stops a signed-out tap from calling the api.
 
 export function DangerZoneCard() {
@@ -29,12 +30,8 @@ export function DangerZoneCard() {
       await userService.deleteAccount();
       await disableGuest();
       router.replace("/(auth)/login");
-    } catch (e: any) {
-      if (e.code === "auth/requires-recent-login") {
-        setError("Security: Please log out and back in before deleting.");
-      } else {
-        setError("Error deleting data. Please try again.");
-      }
+    } catch {
+      setError("Couldn't delete your account. Please try again.");
       setShowConfirm(false);
     } finally {
       setIsDeleting(false);
@@ -54,7 +51,7 @@ export function DangerZoneCard() {
           <View style={styles.textWrap}>
             <Text style={styles.title}>Delete Account</Text>
             <Text style={styles.description}>
-              Permanently remove your visit history and reviews. This cannot be undone.
+              Permanently delete your account, trips, saved places and reviews. This cannot be undone.
             </Text>
 
             {error && <Text style={styles.errorText}>{error}</Text>}
@@ -79,7 +76,7 @@ export function DangerZoneCard() {
             </View>
 
             <Text style={styles.modalTitle}>Are you absolutely sure?</Text>
-            <Text style={styles.modalBody}>All progress and reviews will be permanently erased.</Text>
+            <Text style={styles.modalBody}>Your trips, saved places and reviews will be permanently deleted.</Text>
 
             <TouchableOpacity
               style={[styles.confirmBtn, isDeleting && styles.deleteBtnDisabled]}

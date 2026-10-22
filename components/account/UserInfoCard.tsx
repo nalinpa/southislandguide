@@ -61,7 +61,7 @@ export function UserInfoCard() {
       <Text style={styles.sectionLabel}>Access</Text>
       <Text style={styles.guestBody}>
         {isGuest
-          ? "You're browsing as a guest. Sign in to save your progress."
+          ? "You're browsing as a guest. Sign in to save places and plan trips."
           : "Sign in to access your account."}
       </Text>
       <AppButton variant="primary" onPress={handleSignIn}>

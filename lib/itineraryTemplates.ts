@@ -272,6 +272,43 @@ const TEKAPO_TO_CHRISTCHURCH_DAY: ItineraryTemplateDay = {
   ],
 };
 
+// Off the ferry, Picton down the coast to Kaikōura: 9:00 AM to 6:30 PM.
+const PICTON_TO_KAIKOURA_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "edwin-fox-maritime-museum", siteName: "Edwin Fox Maritime Museum", slotIndex: 2, durationSlots: 2 },
+    { siteId: "snout-track-picton", siteName: "The Snout Track", slotIndex: 5, durationSlots: 3 },
+    // Lunch in Picton: with the drive the app counts, The Store at Kekerengu would be a
+    // 2pm lunch, and it closes at 4.
+    { siteId: "toastie-lords-picton", siteName: "Toastie Lords", slotIndex: 9, durationSlots: 1 },
+    { siteId: "ohau-point-seal-colony", siteName: "Ōhau Point Seal Colony", slotIndex: 15, durationSlots: 1 },
+    { siteId: "kaikoura-lookout", siteName: "Kaikōura Lookout", slotIndex: 17, durationSlots: 1 },
+    { siteId: "top-shop-kaikoura", siteName: "Top Shop Kaikōura", slotIndex: 20, durationSlots: 1 },
+  ],
+};
+
+// Kaikōura: 10:00 AM to 5:00 PM. Encounter Kaikōura is left out: its dolphin and albatross
+// trips run at set times that change with the season.
+const KAIKOURA_DAY: ItineraryTemplateDay = {
+  items: [
+    // The 10.30am sailing (7.45am, 10.30am, 1.15pm, and 4pm November to March; owner,
+    // 2026-10-22), checked in by 10.
+    { siteId: "whale-watch-kaikoura", siteName: "Whale Watch Kaikōura", slotIndex: 4, durationSlots: 7 },
+    // Closes 3pm Saturdays.
+    { siteId: "kaikoura-seafood-bbq-kiosk", siteName: "Kaikōura Seafood BBQ Kiosk", slotIndex: 12, durationSlots: 1 },
+    { siteId: "kaikoura-peninsula-walkway", siteName: "Kaikōura Peninsula Walkway and Seal Colony", slotIndex: 14, durationSlots: 4 },
+  ],
+};
+
+// Kaikōura inland through Hanmer Springs to Christchurch: 10:00 AM to 5:30 PM.
+const KAIKOURA_TO_CHRISTCHURCH_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "conical-hill-walk", siteName: "Conical Hill Walk", slotIndex: 4, durationSlots: 2 },
+    { siteId: "pjs-pies", siteName: "PJ's Pies", slotIndex: 7, durationSlots: 1 },
+    { siteId: "hanmer-springs-thermal-pools-and-spa", siteName: "Hanmer Springs Thermal Pools & Spa", slotIndex: 9, durationSlots: 4 },
+    { siteId: "little-high-eatery", siteName: "Little High Eatery", slotIndex: 17, durationSlots: 2 },
+  ],
+};
+
 // A Kepler Track morning, then back to Queenstown: 9:00 AM to 7:00 PM.
 const TE_ANAU_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
   items: [
@@ -354,6 +391,14 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       "Day one over the Crown Range to Wānaka, with the Shotover Jet and Arrowtown on the way. Day two over the Lindis Pass to Mount Cook, with salmon at Lake Pukaki. Day three on the Hooker Valley Track, then Mt John and the hot pools at Tekapo. Day four past the Church of the Good Shepherd and through Geraldine to Christchurch.",
     free: true,
     days: [QUEENSTOWN_TO_WANAKA_DAY, WANAKA_TO_MOUNT_COOK_DAY, MOUNT_COOK_TO_TEKAPO_DAY, TEKAPO_TO_CHRISTCHURCH_DAY],
+  },
+  {
+    key: "picton-to-christchurch-via-kaikoura",
+    label: "Picton to Christchurch via Kaikōura",
+    description:
+      "Day one off the ferry: the Edwin Fox and the Snout Track in Picton, then down the coast past the seals to Kaikōura. Day two whale watching, crayfish for lunch and the peninsula walk. Day three inland to the hot pools at Hanmer Springs, then on to Christchurch.",
+    free: true,
+    days: [PICTON_TO_KAIKOURA_DAY, KAIKOURA_DAY, KAIKOURA_TO_CHRISTCHURCH_DAY],
   },
 ];
 

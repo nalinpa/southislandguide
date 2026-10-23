@@ -176,10 +176,16 @@ export default function SiteListPage() {
     );
   }
 
-  if (entitiesErr) {
+  // Only when there's nothing to show: a refresh that fails keeps the places already here,
+  // as the map and Saved Places do.
+  if (entitiesErr && locations.length === 0) {
     return (
       <Screen>
-        <ErrorCard title="Connection Issue" message={entitiesErr} />
+        <ErrorCard
+          title="Connection Issue"
+          message={entitiesErr}
+          action={{ label: "Try Again", onPress: handleRefresh }}
+        />
       </Screen>
     );
   }

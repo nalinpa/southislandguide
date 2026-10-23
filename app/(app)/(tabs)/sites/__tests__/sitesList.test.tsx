@@ -162,8 +162,18 @@ describe("loading and failure", () => {
 
   it("says when the places couldn't be fetched", async () => {
     mockBag.err = "Network request failed";
+    mockBag.locations = [];
     const view = await render(<SiteListPage />);
     expect(view.getByText("Connection Issue")).toBeTruthy();
+    expect(view.getByText("Try Again")).toBeTruthy();
+  });
+
+  // The card used to replace the whole list, and the pull to refresh with it.
+  it("keeps its places when a refresh fails", async () => {
+    mockBag.err = "Network request failed";
+    const view = await render(<SiteListPage />);
+    expect(rowNames(view)).toContain("Sumner Beach");
+    expect(view.queryByText("Connection Issue")).toBeNull();
   });
 
   it("says so when there are no places at all", async () => {

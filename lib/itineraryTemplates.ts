@@ -455,9 +455,9 @@ const HAAST_TO_WANAKA_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Queenstown by the lake, for the southern loops: 9:00 AM to 6:30 PM. Between
-// WANAKA_TO_QUEENSTOWN_DAY and QUEENSTOWN_TO_TE_ANAU_DAY, so none of their stops: no
-// gondola, Fergburger, Kawarau bungy or Erik's.
+// Queenstown by the lake: 9:00 AM to 6:30 PM. It sits next to WANAKA_TO_QUEENSTOWN_DAY
+// and QUEENSTOWN_TO_TE_ANAU_DAY in the 10-day trips, so none of their stops: no gondola,
+// Fergburger, Kawarau bungy or Erik's.
 const QUEENSTOWN_LAKE_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "queenstown-hill-time-walk", siteName: "Queenstown Hill Time Walk", slotIndex: 2, durationSlots: 5 },
@@ -527,7 +527,8 @@ const GOLDEN_BAY_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Golden Bay back over Tākaka Hill and down the Buller Gorge to Westport: 9:00 AM to 6:00 PM.
+// Golden Bay back over Tākaka Hill (or from Mārahau, in the 21-day trips) and down the
+// Buller Gorge to Westport: 9:00 AM to 6:00 PM.
 const GOLDEN_BAY_TO_WESTPORT_DAY: ItineraryTemplateDay = {
   items: [
     // Brunch, and food for the road: nothing on the gorge road is open every day.
@@ -672,15 +673,56 @@ const GOLDEN_BAY_TO_PICTON_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// The whole island's days in order, clockwise from Christchurch. The Picton and Queenstown
-// starts are the same days begun at PICTON_TO_NELSON_DAY and QUEENSTOWN_LAKE_DAY.
+// Te Anau to the Catlins via Bluff, for the 14-day trips: TE_ANAU_TO_INVERCARGILL_DAY and
+// BLUFF_AND_CATLINS_DAY in one. 10:00 AM (after the drive) to 5:30 PM, overnight in the Catlins.
+const TE_ANAU_TO_CATLINS_DAY: ItineraryTemplateDay = {
+  items: [
+    // Brunch: nothing in the southern Catlins is open for lunch every day.
+    { siteId: "the-batch-cafe-invercargill", siteName: "The Batch Cafe", slotIndex: 4, durationSlots: 2 },
+    { siteId: "stirling-point-bluff", siteName: "Stirling Point and Foveaux Walkway, Bluff", slotIndex: 7, durationSlots: 1 },
+    { siteId: "waipapa-point-lighthouse", siteName: "Waipapa Point Lighthouse", slotIndex: 11, durationSlots: 1 },
+    // The forest shows at low tide.
+    { siteId: "curio-bay-petrified-forest", siteName: "Curio Bay Petrified Forest", slotIndex: 13, durationSlots: 2 },
+    { siteId: "mclean-falls", siteName: "McLean Falls", slotIndex: 17, durationSlots: 2 },
+  ],
+};
+
+// Punakaiki down to Greymouth: 9:30 AM (room for the drive from Hokitika or Westport) to
+// 6:00 PM. Shantytown is left out: its hours don't say when it closes.
+const PUNAKAIKI_TO_GREYMOUTH_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "pancake-rocks-and-blowholes-walk", siteName: "Pancake Rocks and Blowholes Walk", slotIndex: 3, durationSlots: 1 },
+    { siteId: "pororari-river-track", siteName: "Pororari River Track", slotIndex: 5, durationSlots: 3 },
+    { siteId: "truman-track", siteName: "Truman Track", slotIndex: 9, durationSlots: 1 },
+    // A late lunch; it closes at 3pm.
+    { siteId: "dp1-cafe", siteName: "DP1 Cafe", slotIndex: 12, durationSlots: 2 },
+    // The 4pm brewery tour (daily), then dinner.
+    { siteId: "monteiths-brewery", siteName: "Monteith's Brewery", slotIndex: 16, durationSlots: 4 },
+  ],
+};
+
+// Greymouth over Arthur's Pass to Christchurch: 9:30 AM to 6:00 PM.
+const GREYMOUTH_TO_CHRISTCHURCH_DAY: ItineraryTemplateDay = {
+  items: [
+    { siteId: "otira-viaduct-lookout", siteName: "Otira Viaduct Lookout", slotIndex: 3, durationSlots: 1 },
+    { siteId: "devils-punchbowl-falls", siteName: "Devils Punchbowl Falls", slotIndex: 5, durationSlots: 2 },
+    { siteId: "kura-tawhiti-castle-hill", siteName: "Kura Tāwhiti Castle Hill", slotIndex: 9, durationSlots: 2 },
+    // A late lunch: nothing in the pass is open for one every day. Closes 4pm.
+    { siteId: "sheffield-pies", siteName: "Sheffield Pies", slotIndex: 12, durationSlots: 1 },
+    { siteId: "little-high-eatery", siteName: "Little High Eatery", slotIndex: 18, durationSlots: 2 },
+  ],
+};
+
+// The whole island in 21 days, clockwise from Christchurch. The Picton and Queenstown
+// starts are the same days begun at PICTON_TO_NELSON_DAY and QUEENSTOWN_TO_TE_ANAU_DAY.
+// Golden Bay and the Queenstown lake day are left out to make 21 (owner, 2026-10-23), so
+// the gorge day runs from Mārahau and TOAD Hall comes two mornings running.
 const WHOLE_ISLAND_DAYS: ItineraryTemplateDay[] = [
   CHRISTCHURCH_TO_KAIKOURA_DAY,
   KAIKOURA_DAY,
   KAIKOURA_TO_PICTON_DAY,
   PICTON_TO_NELSON_DAY,
   ABEL_TASMAN_DAY,
-  GOLDEN_BAY_DAY,
   GOLDEN_BAY_TO_WESTPORT_DAY,
   PUNAKAIKI_TO_HOKITIKA_DAY,
   HOKITIKA_TO_FRANZ_JOSEF_DAY,
@@ -688,7 +730,6 @@ const WHOLE_ISLAND_DAYS: ItineraryTemplateDay[] = [
   FOX_TO_HAAST_DAY,
   HAAST_TO_WANAKA_DAY,
   WANAKA_TO_QUEENSTOWN_DAY,
-  QUEENSTOWN_LAKE_DAY,
   QUEENSTOWN_TO_TE_ANAU_DAY,
   MILFORD_SOUND_DAY,
   TE_ANAU_TO_INVERCARGILL_DAY,
@@ -700,8 +741,9 @@ const WHOLE_ISLAND_DAYS: ItineraryTemplateDay[] = [
   TEKAPO_TO_CHRISTCHURCH_DAY,
 ];
 
-// The West Coast and the south in 15 days, clockwise from Christchurch: the whole island
-// without the top of the south (the Picton trips cover that). Every day is built already.
+// The West Coast and the south in 14 days, clockwise from Christchurch: the whole island
+// without the top of the south (the Picton trips cover that). The Queenstown start is the
+// same days begun at QUEENSTOWN_TO_TE_ANAU_DAY.
 const WEST_AND_SOUTH_LOOP_DAYS: ItineraryTemplateDay[] = [
   CHRISTCHURCH_TO_GREYMOUTH_DAY,
   PUNAKAIKI_TO_HOKITIKA_DAY,
@@ -712,8 +754,7 @@ const WEST_AND_SOUTH_LOOP_DAYS: ItineraryTemplateDay[] = [
   WANAKA_TO_QUEENSTOWN_DAY,
   QUEENSTOWN_TO_TE_ANAU_DAY,
   MILFORD_SOUND_DAY,
-  TE_ANAU_TO_INVERCARGILL_DAY,
-  BLUFF_AND_CATLINS_DAY,
+  TE_ANAU_TO_CATLINS_DAY,
   CATLINS_TO_DUNEDIN_DAY,
   DUNEDIN_TO_MOUNT_COOK_DAY,
   MOUNT_COOK_TO_TEKAPO_DAY,
@@ -726,20 +767,19 @@ function loopFrom(days: ItineraryTemplateDay[], start: ItineraryTemplateDay): It
   return [...days.slice(i), ...days.slice(0, i)];
 }
 
-// The southern loop's days in order, from Christchurch. The Queenstown start is the same
-// days begun at QUEENSTOWN_LAKE_DAY.
+// The southern loop in 10 days, from Christchurch (trimmed from 12 without the Queenstown
+// lake day and the Dunedin day; owner, 2026-10-23). The Queenstown start is the same days
+// begun at QUEENSTOWN_TO_TE_ANAU_DAY.
 const SOUTHERN_LOOP_DAYS: ItineraryTemplateDay[] = [
   CHRISTCHURCH_TO_TEKAPO_DAY,
   TEKAPO_TO_MOUNT_COOK_DAY,
   MOUNT_COOK_TO_WANAKA_DAY,
   WANAKA_TO_QUEENSTOWN_DAY,
-  QUEENSTOWN_LAKE_DAY,
   QUEENSTOWN_TO_TE_ANAU_DAY,
   MILFORD_SOUND_DAY,
   TE_ANAU_TO_INVERCARGILL_DAY,
   BLUFF_AND_CATLINS_DAY,
   CATLINS_TO_DUNEDIN_DAY,
-  DUNEDIN_AND_PENINSULA_DAY,
   DUNEDIN_TO_CHRISTCHURCH_DAY,
 ];
 
@@ -860,12 +900,14 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       DUNEDIN_AND_PENINSULA_DAY,
     ],
   },
+  // The headline trips, named for what people search: "South Island itinerary 7, 10, 14,
+  // 21 days" (owner, 2026-10-23). On screen they're trips, never itineraries.
   {
-    key: "west-coast-christchurch-to-queenstown",
+    key: "south-island-in-7-days-from-christchurch",
     start: "christchurch",
-    label: "West Coast: Christchurch to Queenstown",
+    label: "South Island in 7 Days",
     description:
-      "Day one over Arthur's Pass to Greymouth. Day two at Punakaiki's Pancake Rocks, then on to Hokitika. Day three: Hokitika Gorge and the treetop walk, then the hot pools at Franz Josef. Day four: the glacier valley, kiwi at the wildlife centre and Ōkārito, then Fox. Day five: Lake Matheson and down the coast to Haast. Day six over the Haast Pass to Wānaka. Day seven through Cromwell to Queenstown.",
+      "Christchurch to Queenstown by the West Coast. Day one over Arthur's Pass to Greymouth. Day two at Punakaiki's Pancake Rocks, then on to Hokitika. Day three: Hokitika Gorge and the treetop walk, then the hot pools at Franz Josef. Day four: the glacier valley, kiwi at the wildlife centre and Ōkārito, then Fox. Day five: Lake Matheson and down the coast to Haast. Day six over the Haast Pass to Wānaka. Day seven through Cromwell to Queenstown.",
     free: true,
     days: [
       CHRISTCHURCH_TO_GREYMOUTH_DAY,
@@ -878,29 +920,103 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     ],
   },
   {
-    key: "southern-loop-from-christchurch",
-    start: "christchurch",
-    label: "The Southern Loop from Christchurch",
-    description:
-      "Twelve days round the south: Tekapo and Mount Cook, Wānaka and Queenstown, Milford Sound, the south coast and the Catlins, Dunedin, and home up the coast through Ōamaru.",
-    free: true,
-    days: SOUTHERN_LOOP_DAYS,
-  },
-  {
-    key: "southern-loop-from-queenstown",
+    key: "south-island-in-7-days-from-queenstown",
     start: "queenstown",
-    label: "The Southern Loop from Queenstown",
+    label: "South Island in 7 Days",
     description:
-      "Twelve days round the south: Queenstown and Milford Sound, the south coast and the Catlins, Dunedin, up the coast through Ōamaru to Christchurch, then Tekapo, Mount Cook and Wānaka back to Queenstown.",
+      "Queenstown to Christchurch by the West Coast: over the Crown Range to Wānaka, the Haast Pass, Fox and Franz Josef, Hokitika, Punakaiki's Pancake Rocks and a brewery tour in Greymouth, then over Arthur's Pass to Christchurch.",
     free: true,
-    days: loopFrom(SOUTHERN_LOOP_DAYS, QUEENSTOWN_LAKE_DAY),
+    days: [
+      QUEENSTOWN_TO_WANAKA_DAY,
+      WANAKA_TO_HAAST_DAY,
+      HAAST_TO_FOX_DAY,
+      FOX_TO_FRANZ_JOSEF_DAY,
+      FRANZ_JOSEF_TO_HOKITIKA_DAY,
+      PUNAKAIKI_TO_GREYMOUTH_DAY,
+      GREYMOUTH_TO_CHRISTCHURCH_DAY,
+    ],
   },
   {
-    key: "picton-to-queenstown-via-the-west-coast",
+    key: "south-island-in-7-days-from-picton",
     start: "picton",
-    label: "Picton to Queenstown via the West Coast",
+    label: "South Island in 7 Days",
     description:
-      "Ten days from the ferry: the Sounds road to Nelson, a water taxi and the Coast Track in Abel Tasman, a day in Golden Bay, down the Buller Gorge to Westport, then the West Coast past Punakaiki, Hokitika and the glaciers, over the Haast Pass to Wānaka and on to Queenstown.",
+      "From the ferry to Christchurch by the West Coast: Nelson, Abel Tasman and Golden Bay, the Buller Gorge, Punakaiki's Pancake Rocks and a brewery tour in Greymouth, over Arthur's Pass, and a day on Christchurch's Port Hills and coast.",
+    free: true,
+    days: [
+      PICTON_TO_NELSON_DAY,
+      ABEL_TASMAN_DAY,
+      GOLDEN_BAY_DAY,
+      GOLDEN_BAY_TO_WESTPORT_DAY,
+      PUNAKAIKI_TO_GREYMOUTH_DAY,
+      GREYMOUTH_TO_CHRISTCHURCH_DAY,
+      HILLS_AND_COAST_DAY,
+    ],
+  },
+  {
+    key: "south-island-in-14-days-from-christchurch",
+    start: "christchurch",
+    label: "South Island in 14 Days",
+    description:
+      "Fourteen days round the West Coast and the south: Arthur's Pass, Punakaiki and the glaciers, the Haast Pass to Wānaka and Queenstown, Milford Sound, Bluff and the Catlins, Dunedin, the Waitaki and Mount Cook, and back through Tekapo.",
+    free: true,
+    days: WEST_AND_SOUTH_LOOP_DAYS,
+  },
+  {
+    key: "south-island-in-14-days-from-queenstown",
+    start: "queenstown",
+    label: "South Island in 14 Days",
+    description:
+      "Fourteen days round the south and the West Coast: Milford Sound, Bluff and the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo and Christchurch, then over Arthur's Pass to Punakaiki and the glaciers, and the Haast Pass to Wānaka and back to Queenstown.",
+    free: true,
+    days: loopFrom(WEST_AND_SOUTH_LOOP_DAYS, QUEENSTOWN_TO_TE_ANAU_DAY),
+  },
+  {
+    key: "south-island-in-10-days-from-christchurch",
+    start: "christchurch",
+    label: "South Island in 10 Days",
+    description:
+      "Christchurch to Queenstown the inland way, then Fiordland: Tekapo and Mount Cook, the Lindis Pass to Wānaka, a day in Queenstown, Milford Sound, Doubtful Sound and Key Summit, and back to Queenstown.",
+    free: true,
+    days: [
+      CHRISTCHURCH_TO_TEKAPO_DAY,
+      TEKAPO_TO_MOUNT_COOK_DAY,
+      MOUNT_COOK_TO_WANAKA_DAY,
+      WANAKA_TO_QUEENSTOWN_DAY,
+      QUEENSTOWN_LAKE_DAY,
+      QUEENSTOWN_TO_TE_ANAU_DAY,
+      MILFORD_SOUND_DAY,
+      DOUBTFUL_SOUND_DAY,
+      KEY_SUMMIT_DAY,
+      TE_ANAU_TO_QUEENSTOWN_DAY,
+    ],
+  },
+  {
+    key: "south-island-in-10-days-from-queenstown",
+    start: "queenstown",
+    label: "South Island in 10 Days",
+    description:
+      "Queenstown and Fiordland, then the inland way to Christchurch: a day in Queenstown, Milford Sound, Doubtful Sound and Key Summit, over the Crown Range to Wānaka, the Lindis Pass to Mount Cook, then Tekapo and Christchurch.",
+    free: true,
+    days: [
+      QUEENSTOWN_LAKE_DAY,
+      QUEENSTOWN_TO_TE_ANAU_DAY,
+      MILFORD_SOUND_DAY,
+      DOUBTFUL_SOUND_DAY,
+      KEY_SUMMIT_DAY,
+      TE_ANAU_TO_QUEENSTOWN_DAY,
+      QUEENSTOWN_TO_WANAKA_DAY,
+      WANAKA_TO_MOUNT_COOK_DAY,
+      MOUNT_COOK_TO_TEKAPO_DAY,
+      TEKAPO_TO_CHRISTCHURCH_DAY,
+    ],
+  },
+  {
+    key: "south-island-in-10-days-from-picton",
+    start: "picton",
+    label: "South Island in 10 Days",
+    description:
+      "From the ferry to Queenstown by the West Coast: the Sounds road to Nelson, a water taxi and the Coast Track in Abel Tasman, a day in Golden Bay, down the Buller Gorge to Westport, then past Punakaiki, Hokitika and the glaciers, over the Haast Pass to Wānaka and on to Queenstown.",
     free: true,
     days: [
       PICTON_TO_NELSON_DAY,
@@ -916,31 +1032,73 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     ],
   },
   {
-    key: "whole-island-from-christchurch",
-    start: "christchurch",
-    label: "The Whole Island from Christchurch",
+    key: "south-island-in-14-days-from-picton",
+    start: "picton",
+    label: "South Island in 14 Days",
     description:
-      "Twenty-three days round the whole South Island: Hanmer and Kaikōura, the Marlborough Sounds, Abel Tasman and Golden Bay, the West Coast and the glaciers, Wānaka and Queenstown, Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, and back through Tekapo.",
+      "From the ferry to Queenstown by the West Coast, then Fiordland: Nelson, Abel Tasman and Golden Bay, the Buller Gorge, Punakaiki, Hokitika and the glaciers, the Haast Pass to Wānaka and Queenstown, then Milford Sound and Doubtful Sound, and back to Queenstown.",
+    free: true,
+    days: [
+      PICTON_TO_NELSON_DAY,
+      ABEL_TASMAN_DAY,
+      GOLDEN_BAY_DAY,
+      GOLDEN_BAY_TO_WESTPORT_DAY,
+      PUNAKAIKI_TO_HOKITIKA_DAY,
+      HOKITIKA_TO_FRANZ_JOSEF_DAY,
+      FRANZ_JOSEF_TO_FOX_DAY,
+      FOX_TO_HAAST_DAY,
+      HAAST_TO_WANAKA_DAY,
+      WANAKA_TO_QUEENSTOWN_DAY,
+      QUEENSTOWN_TO_TE_ANAU_DAY,
+      MILFORD_SOUND_DAY,
+      DOUBTFUL_SOUND_DAY,
+      TE_ANAU_TO_QUEENSTOWN_DAY,
+    ],
+  },
+  {
+    key: "south-island-in-21-days-from-christchurch",
+    start: "christchurch",
+    label: "South Island in 21 Days",
+    description:
+      "The whole South Island in a loop: Hanmer and Kaikōura, the Marlborough Sounds and Abel Tasman, the West Coast and the glaciers, Wānaka and Queenstown, Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, and back through Tekapo.",
     free: true,
     days: WHOLE_ISLAND_DAYS,
   },
   {
-    key: "whole-island-from-picton",
+    key: "south-island-in-21-days-from-picton",
     start: "picton",
-    label: "The Whole Island from Picton",
+    label: "South Island in 21 Days",
     description:
-      "Twenty-three days round the whole South Island from the ferry: Abel Tasman and Golden Bay, the West Coast and the glaciers, Wānaka and Queenstown, Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo, Christchurch, then Hanmer and Kaikōura back to Picton.",
+      "The whole South Island in a loop from the ferry: Abel Tasman, the West Coast and the glaciers, Wānaka and Queenstown, Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo, Christchurch, then Hanmer and Kaikōura back to Picton.",
     free: true,
     days: loopFrom(WHOLE_ISLAND_DAYS, PICTON_TO_NELSON_DAY),
   },
   {
-    key: "whole-island-from-queenstown",
+    key: "south-island-in-21-days-from-queenstown",
     start: "queenstown",
-    label: "The Whole Island from Queenstown",
+    label: "South Island in 21 Days",
     description:
-      "Twenty-three days round the whole South Island from Queenstown: Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo, Christchurch, Hanmer and Kaikōura, the Marlborough Sounds, Abel Tasman and Golden Bay, the West Coast and the glaciers, and Wānaka back to Queenstown.",
+      "The whole South Island in a loop from Queenstown: Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo, Christchurch, Hanmer and Kaikōura, the Marlborough Sounds and Abel Tasman, the West Coast and the glaciers, and Wānaka back to Queenstown.",
     free: true,
-    days: loopFrom(WHOLE_ISLAND_DAYS, QUEENSTOWN_LAKE_DAY),
+    days: loopFrom(WHOLE_ISLAND_DAYS, QUEENSTOWN_TO_TE_ANAU_DAY),
+  },
+  {
+    key: "southern-loop-from-christchurch",
+    start: "christchurch",
+    label: "The Southern Loop",
+    description:
+      "Ten days round the south: Tekapo and Mount Cook, Wānaka and Queenstown, Milford Sound, the south coast and the Catlins, Dunedin, and home up the coast through Ōamaru.",
+    free: true,
+    days: SOUTHERN_LOOP_DAYS,
+  },
+  {
+    key: "southern-loop-from-queenstown",
+    start: "queenstown",
+    label: "The Southern Loop",
+    description:
+      "Ten days round the south: Milford Sound, the south coast and the Catlins, Dunedin, up the coast through Ōamaru to Christchurch, then Tekapo, Mount Cook and Wānaka back to Queenstown.",
+    free: true,
+    days: loopFrom(SOUTHERN_LOOP_DAYS, QUEENSTOWN_TO_TE_ANAU_DAY),
   },
   {
     key: "queenstown-to-picton-via-the-west-coast",
@@ -961,24 +1119,6 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
       GOLDEN_BAY_DAY,
       GOLDEN_BAY_TO_PICTON_DAY,
     ],
-  },
-  {
-    key: "west-coast-and-the-south-from-christchurch",
-    start: "christchurch",
-    label: "The West Coast and the South from Christchurch",
-    description:
-      "Fifteen days round the West Coast and the south: Arthur's Pass, Punakaiki and the glaciers, the Haast Pass to Wānaka and Queenstown, Milford Sound, the south coast and the Catlins, Dunedin, the Waitaki and Mount Cook, and back through Tekapo.",
-    free: true,
-    days: WEST_AND_SOUTH_LOOP_DAYS,
-  },
-  {
-    key: "west-coast-and-the-south-from-queenstown",
-    start: "queenstown",
-    label: "The West Coast and the South from Queenstown",
-    description:
-      "Fifteen days round the south and the West Coast: Milford Sound, the south coast and the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo and Christchurch, then over Arthur's Pass to Punakaiki and the glaciers, and the Haast Pass to Wānaka and back to Queenstown.",
-    free: true,
-    days: loopFrom(WEST_AND_SOUTH_LOOP_DAYS, QUEENSTOWN_TO_TE_ANAU_DAY),
   },
 ];
 

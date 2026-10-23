@@ -60,18 +60,16 @@ Christchurch-only templates in a whole-island app undersell it. The owner's set 
 | Southern Scenic Route: Queenstown to Dunedin | 6 | Fiordland, Riverton, Bluff, the Catlins |
 | West Coast: Christchurch to Queenstown | 7 | Arthur's Pass, Punakaiki, Hokitika, the glaciers, Haast, Wānaka |
 
-**Long (all built 2026-10-22; the whole island is 23 days, and the 14-day loop became the 15-day West Coast and the South, which skips the top of the south):**
+**Headline trips (owner, 2026-10-23), named for the search "South Island itinerary 7, 10, 14, 21 days".** On screen they're "South Island in N Days", never "itinerary". The App Store listing can use the word. They replace the 15- and 23-day trips; the southern loop is trimmed to 10 days.
 
-| Template | Days | Route |
-|---|---|---|
-| The southern loop, from Christchurch | 12 | Tekapo, Mount Cook, Wānaka, Queenstown, Fiordland, the south coast, the Catlins, Dunedin, Ōamaru; reuses built days, one new |
-| The southern loop, from Queenstown | 12 | the same loop, starting in Queenstown |
-| Picton to Queenstown via the West Coast | 10 | Nelson, Abel Tasman, the Buller Gorge, then the West Coast trip's days |
-| The whole island, from Christchurch, Picton or Queenstown | 21 to 24 | one closed loop, offered from three starts |
-| Queenstown to Picton via the West Coast | 10 | the Picton trip the other way round |
-| A South Island loop | 14 | the main sights at pace |
+| | Christchurch | Queenstown | Picton |
+|---|---|---|---|
+| 7 | West Coast to Queenstown | West Coast to Christchurch | Nelson, Abel Tasman, Golden Bay, the West Coast to Christchurch |
+| 10 | Tekapo and Mount Cook to Queenstown, then Fiordland | Fiordland, then Mount Cook and Tekapo to Christchurch | Abel Tasman and Golden Bay, the West Coast to Queenstown |
+| 14 | The West Coast and the south loop | the same loop | the 10-day, then Fiordland, ending in Queenstown |
+| 21 | The whole island loop | the same loop | the same loop |
 
-A loop offered from several starts is the same days in the same order, begun at a different day. Don't repeat a stop on consecutive days where two built days meet (the gondola, a dinner spot).
+Also kept: the Southern Loop (10 days, from Christchurch and Queenstown) and Queenstown to Picton via the West Coast (10). All built 2026-10-23: 26 trips.
 
 ### Rules for every new template
 

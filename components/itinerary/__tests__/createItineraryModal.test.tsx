@@ -151,14 +151,14 @@ describe("creating a blank trip", () => {
 });
 
 describe("creating from a template", () => {
-  it.each(ITINERARY_TEMPLATES.map((t) => [t.label, t] as const))(
+  it.each(ITINERARY_TEMPLATES.map((t) => [t.key, t] as const))(
     "%s: takes its length and its stops from the template, not the stepper",
-    async (label, template) => {
+    async (_key, template) => {
       const view = await openModal({ showTemplateOption: true });
 
       await fireEvent.press(view.getByText(areaName(template.start)));
       await fireEvent.press(view.getByText("Blank"));
-      await fireEvent.press(view.getByText(label));
+      await fireEvent.press(view.getByText(template.label));
       await fireEvent.press(view.getByText("Create Trip"));
 
       await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
@@ -177,9 +177,10 @@ describe("creating from a template", () => {
     await fireEvent.press(view.getByText("Picton"));
     await fireEvent.press(view.getByText("Blank"));
 
+    // Names repeat across towns ("South Island in 10 Days"), so count each name's rows.
+    const picton = ITINERARY_TEMPLATES.filter((t) => t.start === "picton");
     for (const t of ITINERARY_TEMPLATES) {
-      if (t.start === "picton") expect(view.getByText(t.label)).toBeTruthy();
-      else expect(view.queryByText(t.label)).toBeNull();
+      expect(view.queryAllByText(t.label)).toHaveLength(picton.filter((p) => p.label === t.label).length);
     }
   });
 

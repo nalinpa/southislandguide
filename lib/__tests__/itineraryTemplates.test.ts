@@ -65,6 +65,13 @@ describe("the suggested itineraries", () => {
     expect(new Set(ITINERARY_TEMPLATES.map((t) => t.key)).size).toBe(ITINERARY_TEMPLATES.length);
   });
 
+  // The picker lists one town's trips by name, so a name can repeat across towns ("South
+  // Island in 10 Days") but not within one.
+  it("names each trip once within its starting town", () => {
+    const names = ITINERARY_TEMPLATES.map((t) => `${t.start}: ${t.label}`);
+    expect(new Set(names).size).toBe(names.length);
+  });
+
   // The bundled files can lag the live list, so a place switched off only in the admin panel
   // still passes here: check new stops against the api too (lib/itineraryTemplates.ts).
   it.each(days)("%s: every stop is a real, switched-on place by its own name, and never a Stay", (_label, day) => {

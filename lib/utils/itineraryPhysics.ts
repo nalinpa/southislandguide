@@ -23,10 +23,11 @@ export function timelineOffsetForMinutes(minutesSinceMidnight: number): number |
 
 export function slotIndexToTimeLabel(slotIndex: number): string {
   const totalMinutes = 8 * 60 + slotIndex * 30;
-  const hours = Math.floor(totalMinutes / 60);
+  // Past midnight on a day that runs over: the next morning's hours.
+  const hours = Math.floor(totalMinutes / 60) % 24;
   const minutes = totalMinutes % 60;
   const period = hours >= 12 ? "PM" : "AM";
-  const displayHour = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
+  const displayHour = hours % 12 || 12;
   return `${displayHour}:${minutes.toString().padStart(2, "0")} ${period}`;
 }
 

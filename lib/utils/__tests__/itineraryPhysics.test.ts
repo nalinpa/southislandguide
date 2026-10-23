@@ -41,6 +41,12 @@ describe("slotIndexToTimeLabel", () => {
   it("labels the 10:00 PM grid end correctly", () => {
     expect(slotIndexToTimeLabel(28)).toBe("10:00 PM");
   });
+
+  // A day too full to fit runs past the grid, and used to read "12:00 PM", then "13:00 PM".
+  it("labels times past midnight as the next morning's", () => {
+    expect(slotIndexToTimeLabel(32)).toBe("12:00 AM");
+    expect(slotIndexToTimeLabel(34)).toBe("1:00 AM");
+  });
 });
 
 function makeItem(overrides: Partial<ItineraryItem> = {}): ItineraryItem {

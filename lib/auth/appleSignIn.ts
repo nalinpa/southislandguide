@@ -40,12 +40,9 @@ export async function signInWithApple(): Promise<void> {
   // already succeeded on the Firebase side, and a storage hiccup shouldn't
   // block login.
   //
-  // ponytail: this currently always fails for this app — POST /auth/apple/link
-  // writes through getFirestoreAdmin, and enginev1/api has no service-account
-  // case for `southislandguide` yet. Harmless while account deletion is still
-  // client-side (lib/services/userService.ts), but revocation is REQUIRED
-  // before shipping Apple Sign In to the App Store. Before launch: add the api
-  // case, deploy it, then switch userService to client.auth.deleteAccount().
+  // Deleting the account (lib/services/userService.ts, then the api) revokes this token.
+  // Untested until Apple fixes Sign in with Apple for this App ID: see TASKS.md,
+  // "Apple revocation", for the check to run then.
   if (appleCredential.authorizationCode) {
     try {
       await client.auth.linkApple(appleCredential.authorizationCode);

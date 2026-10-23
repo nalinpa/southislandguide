@@ -6,6 +6,7 @@ import * as Sentry from "@sentry/react-native";
 import { itineraryService } from "@/lib/services/itineraryService";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { hooksBag } from "@/lib/hooksBag";
+import { PLANNER } from "@/lib/constants/gameplay";
 import type { Itinerary } from "@/lib/models";
 
 // The two trip writes. Offline they pause and send on reconnect, in order: one scope,
@@ -41,7 +42,7 @@ export function useItineraries() {
 
   // Offline, this pauses instead of fetching: TanStack's onlineManager follows NetInfo (see
   // AppProviders). A fetch with no signal would only fail and show "Couldn't load your trips."
-  const { data: itineraries = [], isLoading, error } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey,
     queryFn: async () => {
       try {
@@ -54,6 +55,19 @@ export function useItineraries() {
     },
     enabled: !!uid,
   });
+  const itineraries = data ?? [];
+
+  // Which step "Add to Trip" opens on: no trips yet, make one; under the limit, ask whether
+  // to use one or make one; at the limit, pick one. Null until the trips are known: an
+  // empty list before they load sent someone with three trips off to make a fourth.
+  const addFlow: "create" | "choose" | "pick" | null =
+    data === undefined
+      ? null
+      : data.length === 0
+        ? "create"
+        : data.length < PLANNER.MAX_ITINERARIES
+          ? "choose"
+          : "pick";
 
   // The trip count at the time of the last render. Kept in a ref so the mutation's
   // onSuccess always sees the latest value, not the one captured when the mutation
@@ -98,6 +112,7 @@ export function useItineraries() {
 
   return {
     itineraries,
+    addFlow,
     loading: isLoading,
     error: error
       ? error instanceof ApiError && error.status === 401

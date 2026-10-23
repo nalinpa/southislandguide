@@ -91,7 +91,7 @@ jest.mock("@/lib/providers/SessionProvider", () => ({ useSession: () => ({ sessi
 const mockIap = { requestBuy: jest.fn() };
 jest.mock("@/lib/iap/PurchaseProvider", () => ({ usePurchaseContext: () => mockIap }));
 
-const mockTrips = { itineraries: [] as any[] };
+const mockTrips = { itineraries: [] as any[], addFlow: "create" as "create" | "choose" | "pick" | null };
 jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
 
 const mockMapStore = { selectedLocationId: null as string | null, setSelectedLocationId: jest.fn() };
@@ -170,6 +170,7 @@ beforeEach(() => {
   mockSession.status = "authed";
   mockSession.uid = "uid-1";
   mockTrips.itineraries = [];
+  mockTrips.addFlow = "create";
   mockMapStore.selectedLocationId = null;
   mockBag.locations = [
     makeSite("s1", "Sumner Beach", ["Water", "Scenic"], { lat: -43.57, lng: 172.76 }),
@@ -435,6 +436,7 @@ describe("adding to an itinerary", () => {
   it("asks existing-or-new under the trip limit", async () => {
     mockMapStore.selectedLocationId = "s3";
     mockTrips.itineraries = [{ id: "t1", days: [] }];
+    mockTrips.addFlow = "choose";
     const view = await render(<MapScreen />);
 
     await fireEvent.press(view.getByText("Add to Trip"));
@@ -446,11 +448,25 @@ describe("adding to an itinerary", () => {
   it("goes straight to picking a trip at the limit", async () => {
     mockMapStore.selectedLocationId = "s3";
     mockTrips.itineraries = Array.from({ length: PLANNER.MAX_ITINERARIES }, (_, i) => ({ id: "t" + i, days: [] }));
+    mockTrips.addFlow = "pick";
     const view = await render(<MapScreen />);
 
     await fireEvent.press(view.getByText("Add to Trip"));
 
     expect(view.queryByText("Add to Existing")).toBeNull();
     expect(view.getByText("Add To Trip Modal")).toBeTruthy();
+  });
+
+  // Before the trips arrive: an empty list used to send someone with three trips off to make a fourth.
+  it("does nothing until the trips are known", async () => {
+    mockMapStore.selectedLocationId = "s3";
+    mockTrips.addFlow = null;
+    const view = await render(<MapScreen />);
+
+    await fireEvent.press(view.getByText("Add to Trip"));
+
+    expect(view.queryByText("Create Trip Modal")).toBeNull();
+    expect(view.queryByText("Add to Existing")).toBeNull();
+    expect(view.queryByText("Add To Trip Modal")).toBeNull();
   });
 });

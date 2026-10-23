@@ -86,6 +86,25 @@ describe("useItineraries", () => {
     expect(result.current.error).toBeNull();
   });
 
+  // Before the trips arrive the list is empty, which used to send someone with three trips
+  // off to make a fourth.
+  it("says which step Add to Trip opens on, once the trips are known", async () => {
+    signedIn();
+    mockGetMyItineraries.mockReturnValue(new Promise(() => {}));
+    const loading = await renderHook(() => useItineraries(), { wrapper });
+    expect(loading.result.current.addFlow).toBeNull();
+
+    for (const [count, flow] of [[0, "create"], [1, "choose"], [3, "pick"]] as const) {
+      mockGetMyItineraries.mockResolvedValue(Array.from({ length: count }, (_, i) => itin({ id: `t${i}` })));
+      const { result } = await renderHook(() => useItineraries(), { wrapper });
+      await waitFor(() => expect(result.current.addFlow).toBe(flow));
+    }
+
+    mockUseSession.mockReturnValue({ session: { status: "loggedOut" } });
+    const signedOut = await renderHook(() => useItineraries(), { wrapper });
+    expect(signedOut.result.current.addFlow).toBeNull();
+  });
+
   it("maps a 401 ApiError to a session-expired message", async () => {
     signedIn();
     mockGetMyItineraries.mockRejectedValue(new ApiError(401, "unauthorized"));

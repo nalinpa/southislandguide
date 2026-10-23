@@ -13,7 +13,6 @@ import { hooksBag } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useSavedSites } from "@/lib/hooks/useSavedSites";
 import { useItineraries } from "@/lib/hooks/useItineraries";
-import { PLANNER } from "@/lib/constants/gameplay";
 import { canAddToItinerary, SITE_CATEGORY_LABELS, type Site } from "@/lib/models";
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { AddToTripModal } from "@/components/itinerary/AddToTripModal";
@@ -73,10 +72,9 @@ function SiteDetail({ id }: { id: string }) {
   const addTarget = useTourTarget("placeAdd");
   const saveTarget = useTourTarget("placeSave");
 
-  // Add-to-itinerary flow, as rotorua-guide's detail screen does it: no trips
-  // yet -> create one; under the trip limit -> ask existing or new; at the
-  // limit -> pick an existing trip. Each step hands off to the next modal.
-  const { itineraries } = useItineraries();
+  // Add-to-itinerary flow, as rotorua-guide's detail screen does it. useItineraries
+  // decides which step it opens on (addFlow); each step hands off to the next modal.
+  const { addFlow } = useItineraries();
   const isOffline = useNetInfo().isConnected === false;
   const [showTripChoice, setShowTripChoice] = useState(false);
   const [isCreatingItinerary, setIsCreatingItinerary] = useState(false);
@@ -84,9 +82,9 @@ function SiteDetail({ id }: { id: string }) {
   const [pendingItineraryId, setPendingItineraryId] = useState<string | null>(null);
 
   const startAddToItinerary = () => {
-    if (itineraries.length === 0) setIsCreatingItinerary(true);
-    else if (itineraries.length < PLANNER.MAX_ITINERARIES) setShowTripChoice(true);
-    else setIsAddingToTrip(true);
+    if (addFlow === "create") setIsCreatingItinerary(true);
+    else if (addFlow === "choose") setShowTripChoice(true);
+    else if (addFlow === "pick") setIsAddingToTrip(true);
   };
   const { drafts, setDraft, clearDraft } = hooksBag.useDraftsStore();
   const currentDraft = drafts[id] || { rating: null, text: "" };
@@ -269,8 +267,8 @@ function SiteDetail({ id }: { id: string }) {
         <SafeAreaView edges={["bottom"]} style={styles.itineraryFloatingWrap} pointerEvents="box-none">
           <Pressable
             {...addTarget}
-            style={[styles.itineraryButton, isOffline && styles.itineraryButtonDisabled]}
-            disabled={isOffline}
+            style={[styles.itineraryButton, (isOffline || !addFlow) && styles.itineraryButtonDisabled]}
+            disabled={isOffline || !addFlow}
             onPress={startAddToItinerary}
             accessibilityRole="button"
           >

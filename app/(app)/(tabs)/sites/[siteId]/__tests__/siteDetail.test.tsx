@@ -39,7 +39,7 @@ jest.mock("@/lib/providers/SessionProvider", () => ({ useSession: () => ({ sessi
 
 const mockSavedSites = { savedSiteIds: new Set<string>(), toggleSavedSite: jest.fn() };
 jest.mock("@/lib/hooks/useSavedSites", () => ({ useSavedSites: () => mockSavedSites }));
-const mockTrips = { itineraries: [] as unknown[] };
+const mockTrips = { itineraries: [] as unknown[], addFlow: "create" as "create" | "choose" | "pick" | null };
 jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
 
 const mockBag = {
@@ -127,6 +127,7 @@ beforeEach(() => {
   mockSession.uid = "uid-1";
   mockSavedSites.savedSiteIds = new Set();
   mockTrips.itineraries = [];
+  mockTrips.addFlow = "create";
   mockBag.site = makeSite();
   mockBag.siteLoading = false;
   mockBag.siteErr = null;
@@ -283,7 +284,7 @@ describe("adding to an itinerary", () => {
   });
 
   it("asks whether to use an existing trip or a new one when under the trip limit", async () => {
-    mockTrips.itineraries = [{ id: "t1" }];
+    mockTrips.addFlow = "choose";
     await openDetail();
 
     await fireEvent.press(screen.getByText("+ Add to Trip"));
@@ -293,7 +294,7 @@ describe("adding to an itinerary", () => {
   });
 
   it("can start a new trip from that choice instead", async () => {
-    mockTrips.itineraries = [{ id: "t1" }];
+    mockTrips.addFlow = "choose";
     await openDetail();
 
     await fireEvent.press(screen.getByText("+ Add to Trip"));
@@ -303,7 +304,7 @@ describe("adding to an itinerary", () => {
   });
 
   it("goes straight to picking a trip at the trip limit", async () => {
-    mockTrips.itineraries = [{ id: "t1" }, { id: "t2" }, { id: "t3" }];
+    mockTrips.addFlow = "pick";
     await openDetail();
 
     await fireEvent.press(screen.getByText("+ Add to Trip"));
@@ -319,6 +320,18 @@ describe("adding to an itinerary", () => {
     await fireEvent.press(screen.getByText("Reconnect to Add to Trip"));
 
     expect(screen.queryByText("Create Trip Modal")).toBeNull();
+  });
+
+  // Before the trips arrive: an empty list used to send someone with three trips off to make a fourth.
+  it("does nothing until the trips are known", async () => {
+    mockTrips.addFlow = null;
+    await openDetail();
+
+    await fireEvent.press(screen.getByText("+ Add to Trip"));
+
+    expect(screen.queryByText("Create Trip Modal")).toBeNull();
+    expect(screen.queryByText("Add to Existing")).toBeNull();
+    expect(screen.queryByText("Add Riccarton Bush to a trip")).toBeNull();
   });
 });
 

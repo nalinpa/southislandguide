@@ -12,9 +12,8 @@ import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModa
 import { formatTripDates } from "@/lib/utils/formatDates";
 
 export function ItinerariesCard() {
-  const { itineraries, error } = useItineraries();
+  const { itineraries, error, addFlow } = useItineraries();
   const [isCreating, setIsCreating] = useState(false);
-  const atLimit = itineraries.length >= PLANNER.MAX_ITINERARIES;
 
   return (
     <>
@@ -58,14 +57,16 @@ export function ItinerariesCard() {
         </AppText>
       )}
 
-      {atLimit ? (
+      {/* Nothing until the trips are known: an empty list before they load, or after a failed
+          load, showed "New Trip" to someone already at the limit. */}
+      {addFlow === "pick" ? (
         <Text style={styles.limitText}>Up to {PLANNER.MAX_ITINERARIES} trips at a time.</Text>
-      ) : (
+      ) : addFlow ? (
         <TouchableOpacity style={styles.createBtn} onPress={() => setIsCreating(true)} activeOpacity={0.6}>
           <Plus size={13} color={tokens.colors.accent} strokeWidth={2.5} />
           <Text style={styles.createBtnText}>New Trip</Text>
         </TouchableOpacity>
-      )}
+      ) : null}
     </View>
     <CreateItineraryModal
       visible={isCreating}

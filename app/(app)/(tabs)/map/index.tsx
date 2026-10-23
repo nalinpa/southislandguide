@@ -16,7 +16,6 @@ import { useItineraries } from "@/lib/hooks/useItineraries";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { usePurchaseContext } from "@/lib/iap/PurchaseProvider";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
-import { PLANNER } from "@/lib/constants/gameplay";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, canAddToItinerary, matchesSearch, type SiteCategory } from "@/lib/models";
 import { distanceMeters, nearestSite, NEAR_PLACES_METERS } from "@/lib/utils/geoDistance";
 import { SitesMapView, initialRegionFrom } from "@/components/map/SitesMapView";
@@ -47,7 +46,7 @@ export default function MapScreen() {
   const isOffline = netInfo.isConnected === false || netInfo.isInternetReachable === false;
   const { loc, err: locErr, status: locStatus } = hooksBag.useUserLocation({ autoRequest: true });
   const { selectedLocationId: selectedSiteId, setSelectedLocationId: setSelectedSiteId } = hooksBag.useMapStore();
-  const { itineraries } = useItineraries();
+  const { itineraries, addFlow } = useItineraries();
 
   const [searchQuery, setSearchQuery] = useState("");
   // Debounced: mapSites rebuilds every marker on the map, which is expensive
@@ -92,14 +91,11 @@ export default function MapScreen() {
       setShowPremiumAdd(true);
       return;
     }
-    if (itineraries.length === 0) {
-      setIsCreatingItinerary(true);
-    } else if (itineraries.length < PLANNER.MAX_ITINERARIES) {
-      setShowTripChoice(true);
-    } else {
-      setIsAddingToTrip(true);
-    }
-  }, [itineraries.length, entitledProductIds]);
+    // Null until the trips are known (useItineraries): a tap before then does nothing.
+    if (addFlow === "create") setIsCreatingItinerary(true);
+    else if (addFlow === "choose") setShowTripChoice(true);
+    else if (addFlow === "pick") setIsAddingToTrip(true);
+  }, [addFlow, entitledProductIds]);
 
   const mapSites = useMemo(() => {
     // The same search as Explore's: name, description or category.

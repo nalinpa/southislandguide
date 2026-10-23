@@ -40,7 +40,8 @@ async function safeUnlink(uri: string) {
 export const shareService = {
   async shareImageUriAsync(fileUri: string): Promise<ShareResult> {
     const ok = await shareImageAsync(fileUri);
-    void safeUnlink(fileUri);
+    // Kept after a failure: the screen still offers the same file to try again.
+    if (ok) void safeUnlink(fileUri);
 
     if (ok) return { ok: true, mode: "image", shared: true };
     return { ok: false, mode: "image", error: "Share cancelled or failed." };

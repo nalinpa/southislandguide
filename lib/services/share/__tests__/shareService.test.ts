@@ -69,7 +69,17 @@ describe("shareService.shareImageUriAsync", () => {
     expect(result).toEqual({ ok: false, mode: "image", error: "Share cancelled or failed." });
   });
 
-  it("always attempts to clean up the temp file", async () => {
+  it("keeps the file when both share paths fail, for the retry", async () => {
+    mockIsAvailable.mockResolvedValue(false);
+    mockShare.mockRejectedValue(new Error("cancelled"));
+
+    await shareService.shareImageUriAsync("file:///pic.png");
+    await Promise.resolve();
+
+    expect(mockDeleteAsync).not.toHaveBeenCalled();
+  });
+
+  it("cleans up the temp file after a share", async () => {
     mockIsAvailable.mockResolvedValue(true);
     mockShareAsync.mockResolvedValue(undefined);
 

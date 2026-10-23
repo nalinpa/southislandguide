@@ -20,7 +20,7 @@ jest.mock("@/lib/hooksBag", () => ({
 
 import React from "react";
 import { renderHook, waitFor, act } from "@testing-library/react-native";
-import { QueryClient, QueryClientProvider, notifyManager, onlineManager } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, dehydrate, hydrate, notifyManager, onlineManager } from "@tanstack/react-query";
 import { ApiError } from "@blacksands/client";
 
 // react-query batches observer updates via a real setTimeout by default, which fires
@@ -28,7 +28,7 @@ import { ApiError } from "@blacksands/client";
 notifyManager.setScheduler((cb) => cb());
 import { useSession } from "@/lib/providers/SessionProvider";
 import { itineraryService } from "@/lib/services/itineraryService";
-import { useItineraries } from "@/lib/hooks/useItineraries";
+import { registerTripWrites, useItineraries } from "@/lib/hooks/useItineraries";
 import type { Itinerary } from "@/lib/models";
 
 const mockUseSession = useSession as jest.Mock;
@@ -48,11 +48,13 @@ const itin = (overrides: Partial<Itinerary> = {}): Itinerary => ({
   ...overrides,
 });
 
-function wrapper({ children }: { children: React.ReactNode }) {
-  const queryClient = new QueryClient({
+const newClient = () =>
+  new QueryClient({
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
   });
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+
+function wrapper({ children }: { children: React.ReactNode }) {
+  return <QueryClientProvider client={newClient()}>{children}</QueryClientProvider>;
 }
 
 const signedIn = () => mockUseSession.mockReturnValue({ session: { status: "authed", uid: "user-1" } });
@@ -146,6 +148,77 @@ describe("useItineraries", () => {
       expect(mockSaveItinerary.mock.calls.map(([d]) => d.title)).toEqual(["first", "second"]);
     } finally {
       onlineManager.setOnline(true);
+    }
+  });
+
+  it("shows a save in the list before the server answers", async () => {
+    signedIn();
+    mockGetMyItineraries.mockResolvedValue([itin()]);
+    mockSaveItinerary.mockReturnValue(new Promise(() => {}));
+
+    const { result } = await renderHook(() => useItineraries(), { wrapper });
+    await waitFor(() => expect(result.current.itineraries).toHaveLength(1));
+
+    await act(async () => {
+      void result.current.saveItinerary({ id: "itin-1", title: "Renamed" });
+    });
+
+    await waitFor(() => expect(result.current.itineraries[0].title).toBe("Renamed"));
+  });
+
+  // A write still waiting when the app closes is saved on the phone with the cache, and comes
+  // back without its function: registerTripWrites supplies it.
+  it("sends a write saved on the phone after a restart", async () => {
+    signedIn();
+    mockGetMyItineraries.mockResolvedValue([itin()]);
+    mockSaveItinerary.mockResolvedValue("itin-1");
+    const first = newClient();
+    const firstWrapper = ({ children }: { children: React.ReactNode }) => (
+      <QueryClientProvider client={first}>{children}</QueryClientProvider>
+    );
+
+    const { result } = await renderHook(() => useItineraries(), { wrapper: firstWrapper });
+    await waitFor(() => expect(result.current.itineraries).toHaveLength(1));
+
+    onlineManager.setOnline(false);
+    try {
+      await act(async () => {
+        void result.current.saveItinerary({ id: "itin-1", title: "Queued" });
+      });
+      const saved = dehydrate(first);
+      // So the first client doesn't send it too on reconnect.
+      first.getMutationCache().clear();
+
+      const fresh = newClient();
+      registerTripWrites(fresh);
+      hydrate(fresh, saved);
+
+      await act(async () => {
+        onlineManager.setOnline(true);
+        await fresh.resumePausedMutations();
+      });
+      expect(mockSaveItinerary).toHaveBeenCalledTimes(1);
+      expect(mockSaveItinerary).toHaveBeenCalledWith({ id: "itin-1", title: "Queued" });
+    } finally {
+      onlineManager.setOnline(true);
+    }
+  });
+
+  it("finishes a refresh with no signal instead of waiting for it", async () => {
+    signedIn();
+    mockGetMyItineraries.mockResolvedValue([itin()]);
+
+    const { result } = await renderHook(() => useItineraries(), { wrapper });
+    await waitFor(() => expect(result.current.itineraries).toHaveLength(1));
+
+    onlineManager.setOnline(false);
+    try {
+      await act(async () => {
+        await result.current.refetch();
+      });
+      expect(mockGetMyItineraries).toHaveBeenCalledTimes(1);
+    } finally {
+      await act(async () => onlineManager.setOnline(true));
     }
   });
 

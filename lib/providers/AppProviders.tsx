@@ -1,10 +1,13 @@
 import React from "react";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient, onlineManager } from "@tanstack/react-query";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import NetInfo, { type NetInfoState } from "@react-native-community/netinfo";
 
 import { SessionProvider } from "./SessionProvider";
+import { registerTripWrites } from "@/lib/hooks/useItineraries";
+import { auth } from "@/lib/firebase";
 
 // How long the saved copy of trips, places and saved places lasts on the phone, counted
 // from when the app was last open. Restoring it is what lets a traveller with no signal
@@ -25,13 +28,41 @@ export const queryClient = new QueryClient({
   },
 });
 
+// Offline as the trip screens already judge it (CreateItineraryModal, AddToTripModal).
+const isOnline = (state: NetInfoState) => state.isConnected !== false && state.isInternetReachable !== false;
+
+// React Native has no browser online/offline events, so TanStack Query took the phone to be
+// online always: queries fetched with no signal, and trip writes failed instead of waiting.
+onlineManager.setEventListener((setOnline) => NetInfo.addEventListener((state) => setOnline(isOnline(state))));
+
+// Before the cache is restored: a trip write still waiting when the app last closed comes
+// back without its function, which this supplies.
+registerTripWrites(queryClient);
+
+// Trip writes still waiting when the app last closed: sent now if there's signal, else on
+// reconnect (the client's own listener), and then the cache catches up with the server.
+// Only once sign-in is back and NetInfo has answered. Before that, a write goes out with no
+// token or no signal, fails and is dropped. Firebase's sign-in restore checks with its server,
+// so it normally finishes after the cache restore.
+// Returns nothing on purpose: the provider holds every query, and saves nothing to the phone,
+// until onSuccess settles, and offline a waiting write doesn't settle until there's signal.
+function resumeTripWrites() {
+  void Promise.all([auth.authStateReady(), NetInfo.fetch().then((state) => onlineManager.setOnline(isOnline(state)))])
+    .then(() => queryClient.resumePausedMutations())
+    .then(() => queryClient.invalidateQueries());
+}
+
 const persister = createAsyncStoragePersister({
   storage: AsyncStorage,
 });
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
-    <PersistQueryClientProvider client={queryClient} persistOptions={{ persister, maxAge: CACHE_MAX_AGE_MS }}>
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{ persister, maxAge: CACHE_MAX_AGE_MS }}
+      onSuccess={resumeTripWrites}
+    >
       <SessionProvider>{children}</SessionProvider>
     </PersistQueryClientProvider>
   );

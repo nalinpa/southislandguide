@@ -13,14 +13,15 @@ import { ListView } from "@/components/sites/list/ListView";
 import { AreaSheet, type AreaOption } from "@/components/sites/AreaSheet";
 import { FeaturedCard } from "@/components/sites/FeaturedCard";
 import { nearestArea } from "@/components/map/MapRegion";
-import { AREAS, AREA_REGIONS, DEFAULT_AREA, areaName } from "@/lib/areas";
+import { AREAS, AREA_GUIDE_REGIONS, AREA_REGIONS, DEFAULT_AREA, areaName } from "@/lib/areas";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, matchesSearch, type SiteCategory } from "@/lib/models";
 import { useTourTarget } from "@/lib/tour/useTourTarget";
 import { useTourStepRoute } from "@/lib/tour/useTourStepRoute";
 
 // ponytail: the generator's GAP list, resolved for this app.
 // - saved-places shortcut: DONE, routes to app/(app)/saved-sites.tsx
-// - guide shortcut: DONE, routes to app/(app)/(tabs)/guide from the top bar.
+// - guide shortcut: DONE, routes to app/(app)/(tabs)/guide from the top bar, open on the
+//   region of the town shown.
 //   The guide was otherwise only reachable from the Profile tab.
 // - category-filter tabs: DONE. Only categories with places get a tab, and
 //   the row hides entirely when there's just one.
@@ -106,6 +107,8 @@ export default function SiteListPage() {
     areaOptions[0]?.id ??
     "";
   const areaLabel = areaOptions.find((o) => o.id === area)?.label;
+  // The guide opens on the town's region (owner, 2026-10-25); with no town, island-wide.
+  const guideRegion = AREA_GUIDE_REGIONS[area] ?? areaOptions.find((o) => o.id === area)?.region;
 
   const areaLocations = useMemo(() => activeLocations.filter((l) => (l.area ?? "") === area), [activeLocations, area]);
 
@@ -138,15 +141,14 @@ export default function SiteListPage() {
 
   const rows = hooksBag.useSortedRows(sortableLocations, lockedLoc);
 
-  // The card at the top, as in rotorua-guide and aklguide: the place ranked highest by
-  // `featured` (higher is more featured) among those shown, and not again in the rows
-  // under it. Unlike theirs, nothing unranked is put in the card: "Featured" is a pick
-  // someone made. Off while searching, when the matches are all that's wanted.
+  // The card at the top, as in rotorua-guide and aklguide: the place with the highest
+  // `featured` value (higher is more featured; none set counts as 0) among those shown, so
+  // the chosen category's own when a tab is picked, and not again in the rows under it. A
+  // tie goes to the place listed first (owner, 2026-10-25). Off while searching, when the
+  // matches are all that's wanted.
   const featured = useMemo(() => {
-    if (searchQuery.trim()) return null;
-    const ranked = rows.filter((r) => (r.location.featured ?? 0) > 0);
-    if (!ranked.length) return null;
-    return ranked.reduce((best, r) => ((r.location.featured ?? 0) > (best.location.featured ?? 0) ? r : best));
+    if (searchQuery.trim() || !rows.length) return null;
+    return rows.reduce((best, r) => ((r.location.featured ?? 0) > (best.location.featured ?? 0) ? r : best));
   }, [rows, searchQuery]);
   const listRows = useMemo(
     () => (featured ? rows.filter((r) => r.location.id !== featured.location.id) : rows),
@@ -229,7 +231,11 @@ export default function SiteListPage() {
             <AppIconButton
               icon={BookOpen}
               variant="control"
-              onPress={() => router.push("/(app)/(tabs)/guide")}
+              onPress={() =>
+                router.push(
+                  guideRegion ? { pathname: "/(app)/(tabs)/guide", params: { region: guideRegion } } : "/(app)/(tabs)/guide",
+                )
+              }
               accessibilityLabel="Travel guide"
             />
           </View>

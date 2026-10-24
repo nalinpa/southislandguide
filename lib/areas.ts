@@ -81,6 +81,12 @@ export const AREA_REGIONS: Record<string, RegionId> = {
   blenheim: "marlborough",
 };
 
+// The guide's region for a town where it isn't the town picker's: the guide gives Kaikōura
+// sections of its own. Any other town opens the guide on its AREA_REGIONS region.
+export const AREA_GUIDE_REGIONS: Record<string, RegionId> = {
+  kaikoura: "kaikoura",
+};
+
 export const AREA_LABELS: Record<AreaId, string> = AREAS.reduce(
   (acc, a) => ({ ...acc, [a.id]: a.label }),
   {} as Record<AreaId, string>,

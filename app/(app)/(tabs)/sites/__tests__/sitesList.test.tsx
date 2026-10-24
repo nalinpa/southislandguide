@@ -123,7 +123,13 @@ const makeSite = (id: string, name: string, category: string[], over: Record<str
   ...over,
 });
 
-const rowNames = (view: any) => view.queryAllByText(/^Row /).map((n: any) => n.props.children.replace(/^Row /, ""));
+// The places shown, in order: the featured card's at the top, then the rows under it.
+const rowsOnly = (view: any): string[] =>
+  view.queryAllByText(/^Row /).map((n: any) => n.props.children.replace(/^Row /, ""));
+const rowNames = (view: any): string[] => {
+  const card = view.queryByTestId("featured-card");
+  return [...(card ? [card.props.accessibilityLabel] : []), ...rowsOnly(view)];
+};
 const textOf = (node: any): string =>
   typeof node === "string" ? node : (node?.children ?? []).map(textOf).join("");
 const tabLabels = (view: any): string[] => view.queryAllByRole("tab").map(textOf);
@@ -206,7 +212,27 @@ describe("the list", () => {
   });
 
   // The guide was only reachable from the Profile tab, where few people would find it.
-  it("links to the travel guide", async () => {
+  // Open on the guide for the town shown (owner, 2026-10-25).
+  it("opens the travel guide on the region of the town shown", async () => {
+    const view = await render(<SiteListPage />);
+
+    await fireEvent.press(view.getByLabelText("Travel guide"));
+
+    expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/(app)/(tabs)/guide", params: { region: "canterbury" } });
+  });
+
+  // The town list files Kaikōura under Canterbury, but the guide gives it sections of its own.
+  it("opens Kaikōura's own guide sections from Kaikōura", async () => {
+    mockBag.locations = [makeSite("k1", "Whale Watch", ["Water"], { area: "kaikoura", region: "canterbury" })];
+    const view = await render(<SiteListPage />);
+
+    await fireEvent.press(view.getByLabelText("Travel guide"));
+
+    expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/(app)/(tabs)/guide", params: { region: "kaikoura" } });
+  });
+
+  it("opens the island-wide guide for places with no town", async () => {
+    mockBag.locations = [makeSite("x1", "Somewhere", ["Scenic"], { area: undefined, region: undefined })];
     const view = await render(<SiteListPage />);
 
     await fireEvent.press(view.getByLabelText("Travel guide"));
@@ -695,11 +721,11 @@ describe("towns", () => {
 
 // The opening tour points at the town, the guide button, the category tabs and the first
 // place, and opens that place for the steps that follow (lib/tour/tourSteps.ts).
-// rotorua-guide's and aklguide's hero card: the place ranked highest by `featured` (higher
-// is more featured) among those shown, in a card at the top of the list and not again in
-// the rows under it.
+// rotorua-guide's and aklguide's hero card: the place with the highest `featured` value
+// (higher is more featured) among those shown, in a card at the top of the list and not
+// again in the rows under it (owner, 2026-10-25).
 describe("the featured place", () => {
-  const card = (view: any) => view.queryByLabelText(/^Featured: /);
+  const card = (view: any) => view.queryByTestId("featured-card");
   const rank = (id: string, featured: number) => {
     mockBag.locations.find((l) => l.id === id)!.featured = featured;
   };
@@ -711,10 +737,26 @@ describe("the featured place", () => {
     const view = await render(<SiteListPage />);
 
     const header = within(view.getByTestId("list-header"));
-    expect(header.getByLabelText("Featured: Riccarton Bush")).toBeTruthy();
+    expect(header.getByTestId("featured-card").props.accessibilityLabel).toBe("Riccarton Bush");
     expect(header.getByText("Riccarton Bush")).toBeTruthy();
     expect(header.getByText("Old-growth forest in the city.")).toBeTruthy();
-    expect(rowNames(view)).toEqual(["Sumner Beach", "Riverside Market", "Port Hills Walk"]);
+    expect(rowsOnly(view)).toEqual(["Sumner Beach", "Riverside Market", "Port Hills Walk"]);
+  });
+
+  // The photo and the name say enough (owner, 2026-10-25).
+  it("doesn't label the card Featured", async () => {
+    rank("s2", 3);
+    const view = await render(<SiteListPage />);
+
+    expect(view.queryByText(/featured/i)).toBeNull();
+  });
+
+  // Past the list's side padding, to the screen's edges (owner, 2026-10-25).
+  it("runs the full width of the screen", async () => {
+    rank("s2", 3);
+    const view = await render(<SiteListPage />);
+
+    expect(card(view)).toHaveStyle({ marginHorizontal: -tokens.space.md, borderRadius: 0 });
   });
 
   it("opens the featured place when its card is tapped", async () => {
@@ -731,31 +773,38 @@ describe("the featured place", () => {
     mockBag.locations.push(makeSite("d1", "Otago Museum", ["Culture"], { area: "dunedin", featured: 9 }));
     const view = await render(<SiteListPage />);
 
-    expect(card(view).props.accessibilityLabel).toBe("Featured: Riccarton Bush");
+    expect(card(view).props.accessibilityLabel).toBe("Riccarton Bush");
   });
 
   it("features the highest-ranked place in the chosen category", async () => {
     rank("s1", 5);
     rank("s2", 3);
     const view = await render(<SiteListPage />);
-    expect(card(view).props.accessibilityLabel).toBe("Featured: Sumner Beach");
+    expect(card(view).props.accessibilityLabel).toBe("Sumner Beach");
 
     await fireEvent.press(view.getByText("Walks"));
 
-    expect(card(view).props.accessibilityLabel).toBe("Featured: Riccarton Bush");
-    expect(rowNames(view)).toEqual(["Port Hills Walk"]);
+    expect(card(view).props.accessibilityLabel).toBe("Riccarton Bush");
+    expect(rowsOnly(view)).toEqual(["Port Hills Walk"]);
   });
 
-  // "Featured" is a pick someone made. With none made here, no place is passed off as one.
-  it("has no card when no place shown is ranked", async () => {
-    rank("s1", 0);
+  // Every place has a value, 0 when none is set: the highest wins, and a tie goes to the
+  // place listed first.
+  it("features the first place listed when none shown is ranked higher", async () => {
     rank("s4", 2);
     const view = await render(<SiteListPage />);
 
     await fireEvent.press(view.getByText("Food & Drink"));
 
-    expect(card(view)).toBeNull();
-    expect(rowNames(view)).toEqual(["Riverside Market"]);
+    expect(card(view).props.accessibilityLabel).toBe("Riverside Market");
+    expect(rowsOnly(view)).toEqual([]);
+  });
+
+  it("features the first place listed when nothing is ranked", async () => {
+    const view = await render(<SiteListPage />);
+
+    expect(card(view).props.accessibilityLabel).toBe("Sumner Beach");
+    expect(rowsOnly(view)).toEqual(["Riccarton Bush", "Riverside Market", "Port Hills Walk"]);
   });
 
   it("puts the featured place back among the rows while searching", async () => {
@@ -766,18 +815,18 @@ describe("the featured place", () => {
     await fireEvent.changeText(view.getByPlaceholderText("Search places"), "riccarton");
 
     expect(card(view)).toBeNull();
-    expect(rowNames(view)).toEqual(["Riccarton Bush"]);
+    expect(rowsOnly(view)).toEqual(["Riccarton Bush"]);
   });
 });
 
 describe("the tour", () => {
   const target = (view: any, id: string) => within(view.getByTestId("tour-target-" + id));
 
-  it("points at the featured place when there is one, and opens it for the next step", async () => {
+  it("points at the featured place, and opens it for the next step", async () => {
     mockBag.locations[3].featured = 2;
     const view = await render(<SiteListPage />);
 
-    expect(target(view, "place").getByLabelText("Featured: Port Hills Walk")).toBeTruthy();
+    expect(target(view, "place").getByTestId("featured-card").props.accessibilityLabel).toBe("Port Hills Walk");
     expect(mockStepRoutes.place).toBe("/(app)/(tabs)/sites/s4");
   });
 
@@ -800,10 +849,11 @@ describe("the tour", () => {
     expect(target(view, "browse").getAllByRole("tab")).toHaveLength(4);
   });
 
+  // With nothing ranked, the card holds the first place listed.
   it("points at the first place, and opens it for the next step", async () => {
     const view = await render(<SiteListPage />);
 
-    expect(target(view, "place").getByText("Row Sumner Beach")).toBeTruthy();
+    expect(target(view, "place").getByTestId("featured-card").props.accessibilityLabel).toBe("Sumner Beach");
     expect(mockStepRoutes.place).toBe("/(app)/(tabs)/sites/s1");
   });
 
@@ -812,8 +862,18 @@ describe("the tour", () => {
 
     await fireEvent.press(view.getByText("Food & Drink"));
 
-    expect(target(view, "place").getByText("Row Riverside Market")).toBeTruthy();
+    expect(target(view, "place").getByTestId("featured-card").props.accessibilityLabel).toBe("Riverside Market");
     expect(mockStepRoutes.place).toBe("/(app)/(tabs)/sites/s3");
+  });
+
+  // Searching hides the card, so the tour falls back to the first row.
+  it("points at the first row while searching", async () => {
+    const view = await render(<SiteListPage />);
+
+    await fireEvent.press(view.getByLabelText("Search places"));
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "riv");
+
+    expect(target(view, "place").getByText("Row Riverside Market")).toBeTruthy();
   });
 
   it("has no place to open when the list is empty", async () => {

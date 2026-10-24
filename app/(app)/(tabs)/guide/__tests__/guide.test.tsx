@@ -22,9 +22,11 @@ const mockRouter = {
   replace: jest.fn(),
   back: jest.fn(),
   navigate: jest.fn(),
+  setParams: jest.fn(),
   canGoBack: jest.fn(() => true),
 };
-const mockParams = { slug: "" as string | undefined };
+// slug for a section page; region, handed over by Explore, for the index.
+const mockParams = { slug: "" as string | undefined, region: undefined as string | undefined };
 jest.mock("expo-router", () => ({
   get router() {
     return mockRouter;
@@ -52,6 +54,7 @@ beforeEach(() => {
   jest.clearAllMocks();
   mockRouter.canGoBack.mockReturnValue(true);
   mockParams.slug = first.slug;
+  mockParams.region = undefined;
 });
 
 describe("the content", () => {
@@ -119,6 +122,41 @@ describe("the guide index", () => {
 
     expect(view.getByText(first.title)).toBeTruthy();
     expect(view.queryByText(regional[0].title)).toBeNull();
+  });
+
+  // Explore's guide button hands over the region of the town it shows (owner, 2026-10-25).
+  // Taken once, then cleared: this tab screen keeps its params, and the same region sent
+  // again later must still count.
+  describe("a region handed over by another screen", () => {
+    const westCoast = () => GUIDE_CATEGORIES.filter((c) => c.region === "west-coast");
+
+    it("opens on that region's sections", async () => {
+      mockParams.region = "west-coast";
+      const view = await render(<GuideIndexPage />);
+
+      for (const c of westCoast()) expect(view.getByText(c.title)).toBeTruthy();
+      expect(view.queryByText(first.title)).toBeNull();
+      expect(mockRouter.setParams).toHaveBeenCalledWith({ region: undefined });
+    });
+
+    it("opens on the island-wide sections for a region with none written", async () => {
+      mockParams.region = "not-a-region";
+      const view = await render(<GuideIndexPage />);
+
+      expect(view.getByText(first.title)).toBeTruthy();
+    });
+
+    it("moves to a new region handed over on a later visit", async () => {
+      mockParams.region = "west-coast";
+      const view = await render(<GuideIndexPage />);
+
+      mockParams.region = "fiordland";
+      await view.rerender(<GuideIndexPage />);
+
+      const fiordland = GUIDE_CATEGORIES.filter((c) => c.region === "fiordland");
+      for (const c of fiordland) expect(view.getByText(c.title)).toBeTruthy();
+      expect(view.queryByText(westCoast()[0].title)).toBeNull();
+    });
   });
 
   it("titles the screen in white on the brand bar", async () => {

@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { ChevronRight } from "lucide-react-native";
 
 import { AppText } from "@/lib/uiKit";
@@ -17,6 +17,18 @@ import {
 export default function GuideIndexPage() {
   // null = island-wide. A region id filters to that region's sections.
   const [region, setRegion] = useState<RegionId | null>(null);
+
+  // A region handed over by Explore's guide button: the region of the town it shows. Taken
+  // once, then cleared, as Explore takes a town: this tab screen keeps its params, and the
+  // same region sent again later must still count as new. One with no sections written
+  // opens the island-wide ones.
+  const { region: regionParam } = useLocalSearchParams<{ region?: string }>();
+  useEffect(() => {
+    if (!regionParam) return;
+    const known = REGIONS_WITH_CONTENT.find((r) => r.id === regionParam);
+    setRegion(known ? known.id : null);
+    router.setParams({ region: undefined });
+  }, [regionParam]);
   const visible = region
     ? GUIDE_CATEGORIES.filter((c) => c.region === region)
     : ISLAND_CATEGORIES;

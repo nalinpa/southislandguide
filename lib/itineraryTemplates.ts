@@ -52,10 +52,11 @@ const CENTRAL_CITY_DAY: ItineraryTemplateDay = {
     { siteId: "christchurch-botanic-gardens", siteName: "Christchurch Botanic Gardens", slotIndex: 2, durationSlots: 4 },
     { siteId: "punting-on-the-avon", siteName: "Punting on the Avon", slotIndex: 7, durationSlots: 2 },
     { siteId: "little-high-eatery", siteName: "Little High Eatery", slotIndex: 10, durationSlots: 2 },
-    // Closes about 4pm (3pm Sundays), so it comes straight after lunch.
-    { siteId: "transitional-cardboard-cathedral", siteName: "Transitional Cardboard Cathedral", slotIndex: 13, durationSlots: 1 },
-    // Closes 5pm (Wednesdays 9pm), so 3:30 to 5:00 PM.
-    { siteId: "christchurch-art-gallery", siteName: "Christchurch Art Gallery", slotIndex: 15, durationSlots: 3 },
+    // One loop of the city with the driver's commentary, in place of the Cardboard Cathedral
+    // (owner, 2026-10-25). Little High is on the route.
+    { siteId: "christchurch-tram", siteName: "Christchurch Tram", slotIndex: 13, durationSlots: 2 },
+    // Closes 5pm (Wednesdays 9pm), so 4:00 to 5:00 PM.
+    { siteId: "christchurch-art-gallery", siteName: "Christchurch Art Gallery", slotIndex: 16, durationSlots: 2 },
     { siteId: "avon-river-walk", siteName: "Avon River Walk", slotIndex: 19, durationSlots: 2 },
   ],
 };
@@ -65,7 +66,9 @@ const HILLS_AND_COAST_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "christchurch-gondola", siteName: "Christchurch Gondola", slotIndex: 4, durationSlots: 4 },
     { siteId: "fire-and-slice", siteName: "Fire and Slice", slotIndex: 9, durationSlots: 2 },
-    { siteId: "sumner-beach-and-cave-rock", siteName: "Sumner Beach and Cave Rock", slotIndex: 12, durationSlots: 3 },
+    // Over the cliffs from Scarborough to Taylors Mistake and back, about an hour each way,
+    // in place of Sumner Beach (owner, 2026-10-25).
+    { siteId: "taylors-mistake-track", siteName: "Taylors Mistake Track", slotIndex: 12, durationSlots: 4 },
     // Open for dinner (4.30 to 8pm) every day; lunch hours vary. Early, before the pools.
     { siteId: "bower-fish-supply", siteName: "Bower Fish Supply", slotIndex: 17, durationSlots: 1 },
     // The 5.30 to 7.30pm session: the last of four regular sessions a day (10am, 12.30pm,
@@ -187,7 +190,8 @@ const QUEENSTOWN_TO_WANAKA_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Wānaka: 9:00 AM to 6:00 PM. Roys Peak is left out (closed 1 Oct to 10 Nov for lambing).
+// Wānaka: 9:00 AM to 4:00 PM. Roys Peak is left out (closed 1 Oct to 10 Nov for lambing).
+// Mount Iron is the next morning's walk on the way out (WANAKA_TO_QUEENSTOWN_DAY), not here.
 const WANAKA_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "diamond-lake-rocky-mountain-track", siteName: "Diamond Lake and Rocky Mountain Track", slotIndex: 2, durationSlots: 6 },
@@ -195,8 +199,6 @@ const WANAKA_DAY: ItineraryTemplateDay = {
     // Kayak or paddleboard hire, in place of Puzzling World (owner, 2026-10-24). Closed May
     // to August; 10am to 4pm in April and September.
     { siteId: "paddle-wanaka", siteName: "Paddle Wānaka", slotIndex: 12, durationSlots: 4 },
-    // May close in summer for fire risk.
-    { siteId: "mount-iron-track", siteName: "Mount Iron Track", slotIndex: 17, durationSlots: 3 },
   ],
 };
 
@@ -204,7 +206,9 @@ const WANAKA_DAY: ItineraryTemplateDay = {
 const WANAKA_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "pembroke-patisserie", siteName: "Pembroke Pâtisserie", slotIndex: 2, durationSlots: 1 },
-    { siteId: "national-transport-and-toy-museum", siteName: "National Transport and Toy Museum", slotIndex: 4, durationSlots: 4 },
+    // The loop over the lake on the edge of town, in place of the toy museum (owner,
+    // 2026-10-25). May close in summer for fire risk.
+    { siteId: "mount-iron-track", siteName: "Mount Iron Track", slotIndex: 4, durationSlots: 3 },
     // A light lunch: Cromwell's heritage precinct cafes keep hours that vary.
     { siteId: "jones-family-fruit-stall", siteName: "Jones Family Fruit Stall", slotIndex: 10, durationSlots: 2 },
     // Closes 4.30pm in winter, so no later.
@@ -213,9 +217,20 @@ const WANAKA_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
   ],
 };
 
+// The Dark Sky Project's 9.30pm session (owner, 2026-10-25), the last thing on a night in
+// Tekapo. The tour runs about two hours, but the planner pulls a day that ends past 10 PM
+// back inside it, so it is shown as the half hour from 9.30; the place page gives its
+// length.
+const DARK_SKY_TOUR: ItineraryTemplateItem = {
+  siteId: "dark-sky-project-summit-experience",
+  siteName: "Dark Sky Project Summit Experience",
+  slotIndex: 27,
+  durationSlots: 1,
+};
+
 // Christchurch inland to Tekapo: 9:30 AM (the drive out of the city, which the app counts
 // when the day follows a night in Christchurch, as in the southern loop from Queenstown)
-// to 4:00 PM.
+// to 4:00 PM, and the stars at 9.30.
 const CHRISTCHURCH_TO_TEKAPO_DAY: ItineraryTemplateDay = {
   items: [
     // The drive is the morning: the Rakaia Salmon Statue is out (owner, 2026-10-24), and a
@@ -223,6 +238,7 @@ const CHRISTCHURCH_TO_TEKAPO_DAY: ItineraryTemplateDay = {
     { siteId: "fairlie-bakehouse", siteName: "Fairlie Bakehouse", slotIndex: 8, durationSlots: 1 },
     // Open "mid morning into the evening" every day.
     { siteId: "tekapo-springs", siteName: "Tekapo Springs", slotIndex: 11, durationSlots: 5 },
+    DARK_SKY_TOUR,
   ],
 };
 
@@ -234,20 +250,23 @@ const TEKAPO_TO_MOUNT_COOK_DAY: ItineraryTemplateDay = {
     // Brunch; the summit road is open 9am to 4pm.
     { siteId: "mt-john-summit-astro-cafe", siteName: "Mt John Summit and Astro Café", slotIndex: 4, durationSlots: 3 },
     { siteId: "peters-lookout", siteName: "Peters Lookout", slotIndex: 9, durationSlots: 1 },
-    { siteId: "hooker-valley-track", siteName: "Hooker Valley Track", slotIndex: 12, durationSlots: 6 },
+    // Kea Point in the afternoon; the Hooker Valley is first thing the next morning
+    // (MOUNT_COOK_TO_WANAKA_DAY), before the crowds (owner, 2026-10-25).
+    { siteId: "kea-point-track", siteName: "Kea Point Track", slotIndex: 12, durationSlots: 3 },
     { siteId: "tasman-glacier-view-blue-lakes", siteName: "Tasman Glacier View and Blue Lakes", slotIndex: 19, durationSlots: 1 },
   ],
 };
 
-// Mount Cook over the Lindis Pass to Wānaka: 9:00 AM to 7:00 PM.
+// Mount Cook over the Lindis Pass to Wānaka: 8:00 AM to 7:30 PM.
 const MOUNT_COOK_TO_WANAKA_DAY: ItineraryTemplateDay = {
   items: [
-    { siteId: "kea-point-track", siteName: "Kea Point Track", slotIndex: 2, durationSlots: 3 },
-    { siteId: "mt-cook-alpine-salmon-shop", siteName: "Mt Cook Alpine Salmon Shop", slotIndex: 7, durationSlots: 1 },
-    { siteId: "clay-cliffs-omarama", siteName: "Clay Cliffs Omarama", slotIndex: 10, durationSlots: 2 },
-    { siteId: "lindis-pass-summit-lookout", siteName: "Lindis Pass Summit Lookout", slotIndex: 14, durationSlots: 1 },
-    { siteId: "that-wanaka-tree", siteName: "That Wānaka Tree", slotIndex: 18, durationSlots: 1 },
-    { siteId: "red-star-burger-bar", siteName: "Red Star Burger Bar", slotIndex: 20, durationSlots: 2 },
+    // As early as the planner's day starts (owner, 2026-10-25).
+    { siteId: "hooker-valley-track", siteName: "Hooker Valley Track", slotIndex: 0, durationSlots: 6 },
+    { siteId: "mt-cook-alpine-salmon-shop", siteName: "Mt Cook Alpine Salmon Shop", slotIndex: 8, durationSlots: 1 },
+    { siteId: "clay-cliffs-omarama", siteName: "Clay Cliffs Omarama", slotIndex: 11, durationSlots: 2 },
+    { siteId: "lindis-pass-summit-lookout", siteName: "Lindis Pass Summit Lookout", slotIndex: 15, durationSlots: 1 },
+    { siteId: "that-wanaka-tree", siteName: "That Wānaka Tree", slotIndex: 19, durationSlots: 1 },
+    { siteId: "red-star-burger-bar", siteName: "Red Star Burger Bar", slotIndex: 21, durationSlots: 2 },
   ],
 };
 
@@ -263,13 +282,15 @@ const WANAKA_TO_MOUNT_COOK_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Mount Cook to Tekapo: 9:00 AM to 6:00 PM.
+// Mount Cook to Tekapo: 8:00 AM to 6:00 PM, and the stars at 9.30.
 const MOUNT_COOK_TO_TEKAPO_DAY: ItineraryTemplateDay = {
   items: [
-    { siteId: "hooker-valley-track", siteName: "Hooker Valley Track", slotIndex: 2, durationSlots: 6 },
+    // As early as the planner's day starts (owner, 2026-10-25).
+    { siteId: "hooker-valley-track", siteName: "Hooker Valley Track", slotIndex: 0, durationSlots: 6 },
     // A late lunch; the summit road closes at 4pm.
     { siteId: "mt-john-summit-astro-cafe", siteName: "Mt John Summit and Astro Café", slotIndex: 11, durationSlots: 3 },
     { siteId: "tekapo-springs", siteName: "Tekapo Springs", slotIndex: 15, durationSlots: 5 },
+    DARK_SKY_TOUR,
   ],
 };
 
@@ -816,7 +837,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "christchurch",
     label: "Christchurch in a Day",
     description:
-      "The central city on foot: the Botanic Gardens, a punt on the Avon, lunch at Little High, the Cardboard Cathedral, the Art Gallery and an evening walk by the river.",
+      "The central city on foot: the Botanic Gardens, a punt on the Avon, lunch at Little High, a ride on the tram, the Art Gallery and an evening walk by the river.",
     free: true,
     days: [CENTRAL_CITY_DAY],
   },
@@ -825,7 +846,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "christchurch",
     label: "Two Days in Christchurch",
     description:
-      "Day one in the central city on foot. Day two by car: the gondola, pizza and the beach at Sumner, then fish and chips and the hot pools at New Brighton.",
+      "Day one in the central city on foot. Day two by car: the gondola, pizza at Sumner and the clifftop walk to Taylors Mistake, then fish and chips and the hot pools at New Brighton.",
     free: true,
     days: [CENTRAL_CITY_DAY, HILLS_AND_COAST_DAY],
   },
@@ -870,7 +891,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "queenstown",
     label: "Queenstown and Wānaka in Four Days",
     description:
-      "Day one in Queenstown. Day two: the Shotover Jet and Arrowtown, then over the Crown Range to Cardrona and Wānaka. Day three in Wānaka: Diamond Lake and Rocky Mountain, a paddle on the lake and Mount Iron. Day four: the toy museum, fruit at Cromwell and the Kawarau bungy bridge on the way back.",
+      "Day one in Queenstown. Day two: the Shotover Jet and Arrowtown, then over the Crown Range to Cardrona and Wānaka. Day three in Wānaka: Diamond Lake and Rocky Mountain, and a paddle on the lake. Day four: Mount Iron, fruit at Cromwell and the Kawarau bungy bridge on the way back.",
     free: true,
     days: [QUEENSTOWN_TOWN_DAY, QUEENSTOWN_TO_WANAKA_DAY, WANAKA_DAY, WANAKA_TO_QUEENSTOWN_DAY],
   },
@@ -879,7 +900,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "christchurch",
     label: "Christchurch to Queenstown via Tekapo and Mount Cook",
     description:
-      "Day one inland to Tekapo, with pies at Fairlie and the hot pools. Day two: the Church of the Good Shepherd and Mt John, then Mount Cook and the Hooker Valley. Day three: Kea Point, salmon at Lake Pukaki and over the Lindis Pass to Wānaka. Day four through Cromwell and the Kawarau Gorge to Queenstown.",
+      "Day one inland to Tekapo, with pies at Fairlie, the hot pools and stargazing on Mt John. Day two: the Church of the Good Shepherd and Mt John, then Mount Cook and Kea Point. Day three: the Hooker Valley first thing, salmon at Lake Pukaki and over the Lindis Pass to Wānaka. Day four through Cromwell and the Kawarau Gorge to Queenstown.",
     free: true,
     days: [CHRISTCHURCH_TO_TEKAPO_DAY, TEKAPO_TO_MOUNT_COOK_DAY, MOUNT_COOK_TO_WANAKA_DAY, WANAKA_TO_QUEENSTOWN_DAY],
   },
@@ -888,7 +909,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "queenstown",
     label: "Queenstown to Christchurch via Mount Cook and Tekapo",
     description:
-      "Day one over the Crown Range to Wānaka, with the Shotover Jet and Arrowtown on the way. Day two over the Lindis Pass to Mount Cook, with salmon at Lake Pukaki. Day three on the Hooker Valley Track, then Mt John and the hot pools at Tekapo. Day four past the Church of the Good Shepherd and through Geraldine to Christchurch.",
+      "Day one over the Crown Range to Wānaka, with the Shotover Jet and Arrowtown on the way. Day two over the Lindis Pass to Mount Cook, with salmon at Lake Pukaki. Day three on the Hooker Valley Track first thing, then Mt John, the hot pools and stargazing at Tekapo. Day four past the Church of the Good Shepherd and through Geraldine to Christchurch.",
     free: true,
     days: [QUEENSTOWN_TO_WANAKA_DAY, WANAKA_TO_MOUNT_COOK_DAY, MOUNT_COOK_TO_TEKAPO_DAY, TEKAPO_TO_CHRISTCHURCH_DAY],
   },

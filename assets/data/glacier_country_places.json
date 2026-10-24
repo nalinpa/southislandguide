@@ -141,8 +141,8 @@
   {
     "name": "Glacier Country Scenic Flights",
     "slug": "glacier-country-scenic-flights",
-    "lat": -43.293709,
-    "lng": 170.412272,
+    "lat": -43.3887,
+    "lng": 170.1826,
     "category": [
       "Adventure",
       "Scenic"
@@ -152,9 +152,9 @@
     "active": true,
     "price": "Expensive",
     "website": "https://glacieradventures.co.nz/",
-    "description": "A small, family run helicopter company, the scenic flight side of Glacier Adventures, and a quieter alternative to the big operators. Flights head up into the Southern Alps over rainforest, glaciers and snowfields, and every flight includes a snow landing and pilot commentary.\n\nA 25 minute Franz Josef or Fox Glacier flight is $395, the 35 minute twin glacier and Fox Glacier to Aoraki/Mount Cook flights are $495, and the 40 minute Aoraki/Mount Cook flight is $695. Most flights leave from either Franz Josef or Fox Glacier village. Reviewers praise the personal service and say the longer flights are good value for the scenery.\nLocal tip: Book direct with Kevin by phone, confirm which village you'll leave from, and keep a spare day free in case the weather closes in.",
+    "description": "A small, family run helicopter company based in the Whataroa Valley, the scenic flight side of Glacier Adventures, and a quieter alternative to the big operators. Flights head up into the Southern Alps over rainforest, glaciers and snowfields, and every flight includes a snow landing and pilot commentary.\n\nA 25 minute Franz Josef or Fox Glacier flight is $395, the 35 minute twin glacier and Fox Glacier to Aoraki/Mount Cook flights are $495, and the 40 minute Aoraki/Mount Cook flight is $695. Most flights leave from either Franz Josef or Fox Glacier village. Reviewers praise the personal service and say the longer flights are good value for the scenery.\nLocal tip: Book direct with Kevin by phone, confirm which village you'll leave from, and keep a spare day free in case the weather closes in.",
     "recommendedDurationSlots": 3,
-    "hoursNote": "Daily, weather permitting; book by phone (021 074 1382); confirm departure point when booking",
+    "hoursNote": "Daily, weather permitting; book by phone (021 074 1382) or online; flights leave from Franz Josef or Fox Glacier village, confirm which when booking",
     "sourceUrl": "https://glacieradventures.co.nz/scenic-flights/",
     "confidence": "medium"
   },
@@ -344,5 +344,24 @@
     "hoursNote": "$10 adult, $5 child per night; book online, same day until 8pm; flush toilets; boil water",
     "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/harihari-area/things-to-do/campsites/lake-ianthe-matahi-campsite/",
     "confidence": "high"
+  },
+  {
+    "name": "Lake Mapourika",
+    "slug": "lake-mapourika",
+    "lat": -43.329,
+    "lng": 170.214,
+    "category": [
+      "Scenic",
+      "Water"
+    ],
+    "region": "west-coast",
+    "area": "franz-josef",
+    "active": true,
+    "price": "Free",
+    "description": "A big rainforest lake a few minutes north of Franz Josef on State Highway 6, its dark, tannin-stained water mirroring the bush and, on a still day, the mountains. The highway runs along the eastern shore, but the forest keeps most of it out of reach: the places to stop are the slipway and toilets at the southern end, and the DOC campsite at the northern end, where people swim, fish for trout and launch kayaks.\nLocal tip: Come early or late on a calm day for the reflections, and bring insect repellent for the sandflies.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; free; DOC toilets and a slipway at the southern end, off SH6 north of Franz Josef; MacDonalds DOC campsite at the northern end; shore access limited elsewhere",
+    "sourceUrl": "https://www.tripideas.nz/lake-mapourika",
+    "confidence": "medium"
   }
 ]

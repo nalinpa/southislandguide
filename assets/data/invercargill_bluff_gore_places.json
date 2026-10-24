@@ -217,5 +217,25 @@
     "hoursNote": "Certified self-contained only; max 2 nights in 30 days; long drop, shelter and skip; no water; dogs on leash; no fires",
     "sourceUrl": "https://exploreinvercargill.co.nz/colac-bay-oraka-camping-area-beachside-freedom-camping-near-invercargill/",
     "confidence": "high"
+  },
+  {
+    "name": "Stewart Island Ferry, Bluff",
+    "slug": "stewart-island-ferry-bluff",
+    "lat": -46.5984,
+    "lng": 168.3456,
+    "category": [
+      "Water",
+      "Adventure"
+    ],
+    "region": "southland-catlins",
+    "area": "invercargill",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.realnz.com/en/experiences/transport/stewart-island-ferry-services/",
+    "description": "The passenger ferry across Foveaux Strait from Bluff to Oban on Stewart Island / Rakiura, about an hour each way depending on the sea. It makes a day trip possible: over in the morning, back in the afternoon, with time for the village, its bays and the predator-free bird sanctuary on Ulva Island.\n\nFares are from $139, and Ulva Island trips, a village and bays tour and guided walks can be booked with the ferry. It carries no cars: there is paid parking at the Bluff terminal, and cars, vans and e-bikes to hire in Oban.\nLocal tip: Plan the day back from the last sailing home, and expect a lively crossing if the wind is up.",
+    "recommendedDurationSlots": 16,
+    "hoursNote": "Stewart Island Experience terminal, 21 Foreshore Road, Bluff; about 1 hr crossing; from 1 Oct 2026 leaves Bluff 9.15am and 5.30pm and Oban 7.30am and 4pm, adding Bluff 2pm and Oban 12pm from 1 Dec; check in 30 min before; times change with the season; from $139; paid parking at the terminal",
+    "sourceUrl": "https://www.realnz.com/en/experiences/transport/stewart-island-ferry-services/",
+    "confidence": "high"
   }
 ]

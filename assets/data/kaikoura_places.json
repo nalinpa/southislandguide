@@ -183,7 +183,7 @@
     ],
     "region": "canterbury",
     "area": "kaikoura",
-    "active": true,
+    "active": false,
     "price": "Cheap",
     "description": "A small Malaysian takeaway on West End, Kaikōura's main street, run single-handed by a friendly owner. The menu is long and simple: fried rice, noodles, Singapore bee hoon and beef rendang, all in generous portions.\n\nThere are a few outdoor seats with a sea view, or you can take it away. With one person doing all the cooking, expect a wait when it's busy.\nLocal tip: It's lunch only, from 10.30am to 2pm, so get there early, before the queue builds.",
     "recommendedDurationSlots": 1,
@@ -295,6 +295,44 @@
     "hoursNote": "Book with the camp manager (03 319 8010); powered and unpowered sites; hot showers; no dogs",
     "website": "https://campgorebay.com/",
     "sourceUrl": "https://www.hurunui.govt.nz/recreation/camping-grounds/gore-bay-buxton-camp-gore-bay",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Pier Hotel",
+    "slug": "the-pier-hotel-kaikoura",
+    "lat": -42.41444,
+    "lng": 173.70099,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Moderate",
+    "website": "https://www.thepierhotel.co.nz/",
+    "description": "A hotel on the waterfront by the old wharf, where the town meets the peninsula, with a bar and a restaurant open from breakfast through to dinner. Seafood is the focus, as it should be in a town whose name means a meal of crayfish, and the view runs back across the bay to the Seaward Kaikōura Range.\nLocal tip: Ask for a table with the view of the mountains, best in the evening light.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open 7 days from 8am till late, for breakfast, lunch and dinner; 1 Avoca Street, Kaikōura",
+    "sourceUrl": "https://www.thepierhotel.co.nz/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Nin's Bin",
+    "slug": "nins-bin",
+    "lat": -42.26461,
+    "lng": 173.80769,
+    "category": [
+      "Food"
+    ],
+    "region": "canterbury",
+    "area": "kaikoura",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.ninsbin.co.nz/",
+    "description": "A caravan on the side of State Highway 1 at Half Moon Bay, about 20 minutes north of Kaikōura, selling crayfish caught locally and cooked on the spot, along with other seafood. It is a roadside institution that Lonely Planet has singled out, and you eat looking straight out to sea. Crayfish is priced by size and isn't cheap.\nLocal tip: It is on the main road between Picton and Kaikōura, so it suits a late lunch on the drive down; it can be shut when the weather has kept the boats in.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Usually daily about 9am to 5 or 6pm, Wednesday to 2.30pm (listings differ; check Google or call 020 486 3474); may close when weather stops the fishing; roadside on SH1 at Half Moon Bay, north of Kaikōura",
+    "sourceUrl": "https://neatplaces.co.nz/places/kaikoura/eat-drink/nins-bin",
     "confidence": "medium"
   }
 ]

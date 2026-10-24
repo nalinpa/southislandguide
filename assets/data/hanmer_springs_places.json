@@ -301,5 +301,24 @@
     "hoursNote": "Check in 2pm to 9pm; check out by 10am; quiet after 10.30pm; dorms and private rooms",
     "sourceUrl": "https://www.hostelworld.com/hostels/p/34610/hanmer-backpackers/",
     "confidence": "medium"
+  },
+  {
+    "name": "Hanmer Springs Bungy, Waiau Ferry Bridge",
+    "slug": "hanmer-springs-bungy",
+    "lat": -42.58419,
+    "lng": 172.78287,
+    "category": [
+      "Adventure"
+    ],
+    "region": "canterbury",
+    "area": "hanmer-springs",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://hanmerspringsattractions.nz/bungy/",
+    "description": "Canterbury's only bungy: a 35m jump from the historic Waiau Ferry Bridge towards the river below, on the road into Hanmer Springs. It is run from the same base as the jet boat, rafting and quad bikes, and a combo with any of those costs less than booking each one.\n\nA solo jump is $220 and a tandem $400, and the whole thing takes about half an hour. Jumpers must be at least 10 and weigh 35kg to 140kg, and anyone 15 or under needs an adult there to sign.\nLocal tip: Photos and video are extra, so decide before you jump whether you want them.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open 7 days; book online; about 30 min; $220 solo, $400 tandem; min age 10, 35 to 140kg; at the Waiau Ferry Bridge on Hanmer Springs Road",
+    "sourceUrl": "https://hanmerspringsattractions.nz/bungy/",
+    "confidence": "medium"
   }
 ]

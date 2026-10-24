@@ -70,7 +70,7 @@
       "Attractions"
     ],
     "region": "queenstown-wanaka",
-    "area": "arrowtown",
+    "area": "queenstown",
     "active": true,
     "price": "Expensive",
     "website": "https://www.bungy.co.nz/queenstown/kawarau-bungy-centre/",
@@ -701,6 +701,45 @@
     "description": "An independent, sociable hostel on Camp Street in the middle of town, a minute's walk from the buses to the ski fields. The bunks are custom-built timber with privacy curtains, reading lights and USB charging, and there's a big kitchen and balconies with lake views.\n\nIt runs regular events such as quiz and movie nights and gets very strong guest reviews. There's no guest parking, but the staff can point you to nearby options.\nLocal tip: Book ahead for ski season and summer, since central beds in Queenstown fill up fast.",
     "hoursNote": "Reception 8.30am to 7.30pm; no guest parking; lockers and luggage storage",
     "sourceUrl": "https://www.hostelworld.com/hostels/p/46937/adventure-queenstown-hostel/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Nevis Bungy",
+    "slug": "nevis-bungy",
+    "lat": -45.0313,
+    "lng": 168.6603,
+    "category": [
+      "Adventure"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://www.bungy.co.nz/queenstown/nevis/nevis-bungy/",
+    "description": "New Zealand's highest bungy: a 134m jump from a cable car slung over the Nevis River gorge, out in the hills beyond Queenstown. The site can only be reached on AJ Hackett's 4WD bus, which leaves from the Queenstown Bungy Centre on the corner of Shotover and Camp Streets, so that is where the trip starts.\n\nA jump is from $395, and the same site runs the Nevis Swing and the Nevis Catapult. Allow four hours from check-in to being back in town. Jumpers must be at least 13 and weigh between 45kg and 127kg.\nLocal tip: Book it early in your stay, so a trip called off for the weather can be moved to another day.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Bus from the Queenstown Bungy Centre, corner of Shotover and Camp Streets; check in 30 min before; allow 4 hours in all; trip times vary through the year, see the booking page; from $395; min age 13, 45 to 127kg",
+    "sourceUrl": "https://www.bungy.co.nz/queenstown/nevis/nevis-bungy/",
+    "confidence": "high"
+  },
+  {
+    "name": "The Remarkables Road and Lake Alta Track",
+    "slug": "remarkables-road-lake-alta",
+    "lat": -45.055,
+    "lng": 168.8169,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "queenstown-wanaka",
+    "area": "queenstown",
+    "active": true,
+    "price": "Cheap",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/remarkables-conservation-area/things-to-do/lake-alta-track/",
+    "description": "The ski field road up The Remarkables, which climbs from State Highway 6 near Frankton with wide views over the Wakatipu basin, and is open to cars in summer as well as in the ski season. From the ski area buildings at the top, the Lake Alta Track follows a ski field road to the top of the Alta chairlift and on to a small alpine lake under the peaks, climbing from about 1600m to 1800m.\n\nThe road is mostly sealed, with the last 3km gravel and steep drops beside it. NZSki charges a vehicle fee in summer; in winter it is the ski field's road, free and busy with skiers.\nLocal tip: Take warm, waterproof layers even on a hot day in town: it is often very cold up there, and snow can lie on the road.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Signposted off SH6 at the Remarkables ski area junction; mostly sealed, last 3km gravel, steep drops; vehicle fee in summer, free in the ski season; snow often on the road, check conditions first; Lake Alta track is under deep snow May to November, with avalanche risk; no rubbish bins",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/remarkables-conservation-area/things-to-do/lake-alta-track/",
     "confidence": "medium"
   }
 ]

@@ -394,5 +394,24 @@
     "hoursNote": "Closed for winter from 1 June 2026, reopening October 2026; check in 2pm, office 9am to 6pm; 29 Mokonui Street",
     "sourceUrl": "https://www.teanaucentralbackpackers.co.nz/teanau-backpacker-accommodation/overview",
     "confidence": "high"
+  },
+  {
+    "name": "Redcliff Restaurant & Bar",
+    "slug": "redcliff-te-anau",
+    "lat": -45.41571,
+    "lng": 167.71246,
+    "category": [
+      "Food"
+    ],
+    "region": "fiordland",
+    "area": "te-anau",
+    "active": true,
+    "price": "Expensive",
+    "website": "https://theredcliff.co.nz/",
+    "description": "Te Anau's best-known restaurant, in a cosy old cottage just off the main street, cooking wild Fiordland venison and hare along with Southland lamb, local seafood and Central Otago wine. The menu changes with the seasons, with a vegetarian main, and mains run to about $50. The bar opens before dinner, and there's live music most weekends.\nLocal tip: Book, especially in summer; if it is full, The Cliff, the casual eatery out the back, often does platters and snacks.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "7 days from 3pm till late; dinner from 4pm; best to book, especially in summer; 12 Mokonui Street, Te Anau",
+    "sourceUrl": "https://theredcliff.co.nz/",
+    "confidence": "high"
   }
 ]

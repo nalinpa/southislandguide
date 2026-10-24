@@ -131,10 +131,9 @@ const QUEENSTOWN_TO_TE_ANAU_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Milford Sound and back from Te Anau: 8:00 AM to 5:30 PM. The day must end in Te Anau:
+// Milford Sound and back from Te Anau: 8:00 AM to 7:00 PM. The day must end in Te Anau:
 // its last stop is where the next day sets out from, and ending at Milford would put the
-// drive back on the next morning. Dinner at Redcliff goes on the end once it is a place in
-// the app (owner, 2026-10-24), in place of the Fiordland Cinema.
+// drive back on the next morning.
 const MILFORD_SOUND_DAY: ItineraryTemplateDay = {
   items: [
     // No food at Milford, so pies for the road.
@@ -144,9 +143,10 @@ const MILFORD_SOUND_DAY: ItineraryTemplateDay = {
     // The 12.45pm sailing (hourly at :45 from 9.45am to 2.45pm, Cruise Milford's booking
     // page, 31 Oct 2026): check in at 12.30, back by 2.30.
     { siteId: "cruise-milford-small-boat-cruise", siteName: "Milford Sound Cruise with Cruise Milford", slotIndex: 9, durationSlots: 4 },
-    // Back in Te Anau for the takahē, open in daylight. For now: it is also in KEY_SUMMIT_DAY,
-    // so the five-day Fiordland trip has it twice.
-    { siteId: "punanga-manu-o-te-anau-bird-sanctuary", siteName: "Punanga Manu o Te Anau Bird Sanctuary", slotIndex: 17, durationSlots: 2 },
+    // Dinner at 6pm (dinner from 4pm daily), in place of the Fiordland Cinema (owner,
+    // 2026-10-24). The 1.5 hours left free after the cruise are slack for the slow road and
+    // the Homer Tunnel lights (owner, 2026-10-22).
+    { siteId: "redcliff-te-anau", siteName: "Redcliff Restaurant & Bar", slotIndex: 20, durationSlots: 2 },
   ],
 };
 
@@ -286,7 +286,7 @@ const TEKAPO_TO_CHRISTCHURCH_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Off the ferry, Picton down the coast to Kaikōura: 9:00 AM to 6:30 PM.
+// Off the ferry, Picton down the coast to Kaikōura: 9:00 AM to 7:30 PM.
 const PICTON_TO_KAIKOURA_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "edwin-fox-maritime-museum", siteName: "Edwin Fox Maritime Museum", slotIndex: 2, durationSlots: 2 },
@@ -295,8 +295,12 @@ const PICTON_TO_KAIKOURA_DAY: ItineraryTemplateDay = {
     // 2pm lunch, and it closes at 4.
     { siteId: "toastie-lords-picton", siteName: "Toastie Lords", slotIndex: 9, durationSlots: 1 },
     { siteId: "ohau-point-seal-colony", siteName: "Ōhau Point Seal Colony", slotIndex: 15, durationSlots: 1 },
-    { siteId: "kaikoura-lookout", siteName: "Kaikōura Lookout", slotIndex: 17, durationSlots: 1 },
-    { siteId: "top-shop-kaikoura", siteName: "Top Shop Kaikōura", slotIndex: 20, durationSlots: 1 },
+    // Crayfish by the road just south of the seals (owner, 2026-10-24). Wednesdays it can
+    // close at 2.30pm.
+    { siteId: "nins-bin", siteName: "Nin's Bin", slotIndex: 17, durationSlots: 1 },
+    { siteId: "kaikoura-lookout", siteName: "Kaikōura Lookout", slotIndex: 19, durationSlots: 1 },
+    // Dinner, in place of Top Shop (owner, 2026-10-24).
+    { siteId: "the-pier-hotel-kaikoura", siteName: "The Pier Hotel", slotIndex: 21, durationSlots: 2 },
   ],
 };
 
@@ -425,8 +429,8 @@ const HOKITIKA_TO_FRANZ_JOSEF_DAY: ItineraryTemplateDay = {
 const FRANZ_JOSEF_TO_FOX_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "franz-josef-glacier-valley-walk", siteName: "Franz Josef Glacier Valley Walk", slotIndex: 2, durationSlots: 3 },
-    // The West Coast Wildlife Centre is out (owner, 2026-10-24). Lake Mapourika goes here
-    // once it is a place in the app.
+    // Ten minutes up the road, in place of the West Coast Wildlife Centre (owner, 2026-10-24).
+    { siteId: "lake-mapourika", siteName: "Lake Mapourika", slotIndex: 6, durationSlots: 1 },
     { siteId: "snakebite-brewery", siteName: "SnakeBite Brewery", slotIndex: 9, durationSlots: 2 },
     { siteId: "okarito-trig-walk", siteName: "Ōkārito Trig Walk", slotIndex: 12, durationSlots: 3 },
     { siteId: "fox-glacier-south-side-walk", siteName: "Fox Glacier South Side Walk", slotIndex: 16, durationSlots: 4 },
@@ -558,7 +562,8 @@ const CHRISTCHURCH_TO_KAIKOURA_DAY: ItineraryTemplateDay = {
     { siteId: "pjs-pies", siteName: "PJ's Pies", slotIndex: 7, durationSlots: 1 },
     { siteId: "hanmer-springs-thermal-pools-and-spa", siteName: "Hanmer Springs Thermal Pools & Spa", slotIndex: 9, durationSlots: 4 },
     { siteId: "kaikoura-lookout", siteName: "Kaikōura Lookout", slotIndex: 17, durationSlots: 1 },
-    { siteId: "top-shop-kaikoura", siteName: "Top Shop Kaikōura", slotIndex: 19, durationSlots: 1 },
+    // Dinner, in place of Top Shop (owner, 2026-10-24).
+    { siteId: "the-pier-hotel-kaikoura", siteName: "The Pier Hotel", slotIndex: 19, durationSlots: 2 },
   ],
 };
 
@@ -847,7 +852,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "queenstown",
     label: "Queenstown and Fiordland in Three Days",
     description:
-      "Day one: the gondola and Fergburger, then the drive to Te Anau and the glowworm caves. Day two: Milford Sound by road, with Mirror Lakes and Lake Gunn on the way, a cruise and the takahē back in Te Anau. Day three: the Kepler Track to Brod Bay, then back to Queenstown for the gardens and dinner at The Cow.",
+      "Day one: the gondola and Fergburger, then the drive to Te Anau and the glowworm caves. Day two: Milford Sound by road, with Mirror Lakes and Lake Gunn on the way, a cruise and dinner at Redcliff back in Te Anau. Day three: the Kepler Track to Brod Bay, then back to Queenstown for the gardens and dinner at The Cow.",
     free: true,
     days: [QUEENSTOWN_TO_TE_ANAU_DAY, MILFORD_SOUND_DAY, TE_ANAU_TO_QUEENSTOWN_DAY],
   },
@@ -892,7 +897,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "picton",
     label: "Picton to Christchurch via Kaikōura",
     description:
-      "Day one off the ferry: the Edwin Fox and the Snout Track in Picton, then down the coast past the seals to Kaikōura. Day two whale watching, crayfish for lunch and the peninsula walk. Day three inland to the hot pools at Hanmer Springs, then on to Christchurch.",
+      "Day one off the ferry: the Edwin Fox and the Snout Track in Picton, then down the coast past the seals, with crayfish at Nin's Bin, to dinner at the Pier Hotel. Day two whale watching, crayfish for lunch and the peninsula walk. Day three inland to the hot pools at Hanmer Springs, then on to Christchurch.",
     free: true,
     days: [PICTON_TO_KAIKOURA_DAY, KAIKOURA_DAY, KAIKOURA_TO_CHRISTCHURCH_DAY],
   },

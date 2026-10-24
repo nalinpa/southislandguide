@@ -114,11 +114,11 @@ const GLENORCHY_DAY: ItineraryTemplateDay = {
     { siteId: "glenorchy-wharf-and-red-shed", siteName: "Glenorchy Wharf and Red Shed", slotIndex: 7, durationSlots: 1 },
     // Closes 4.30pm in winter.
     { siteId: "mrs-woollys-general-store", siteName: "Mrs Woolly's General Store", slotIndex: 9, durationSlots: 2 },
-    // The short loop (1 to 4 hours by loop), so the drive back makes the 4pm Onsen session.
+    // The short loop (1 to 4 hours by loop), back in town by 4pm.
     { siteId: "glenorchy-lagoon-walkway", siteName: "Glenorchy Lagoon Walkway", slotIndex: 12, durationSlots: 2 },
-    // The 4pm session (sessions on the hour; owner, 2026-10-22). Bookings essential and often
-    // full; children 5 to 11 before 5pm only, which this fits.
-    { siteId: "onsen-hot-pools", siteName: "Onsen Hot Pools", slotIndex: 16, durationSlots: 2 },
+    // An easy hour on the waterfront back in town, in place of the Onsen (owner, 2026-10-25).
+    // The path carries on into the gardens, day one's first stop.
+    { siteId: "queenstown-bay-beach", siteName: "Queenstown Bay Beach", slotIndex: 16, durationSlots: 2 },
     { siteId: "eriks-fish-and-chips", siteName: "Erik's Fish and Chips", slotIndex: 19, durationSlots: 1 },
   ],
 };
@@ -872,7 +872,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "queenstown",
     label: "Queenstown in Three Days",
     description:
-      "Day one in town and day two in Arrowtown, as in the two-day trip. Day three up the lake: Bob's Cove, the Glenorchy wharf, lunch at Mrs Woolly's and the lagoon walk, then the Onsen hot pools and fish and chips back in town.",
+      "Day one in town and day two in Arrowtown, as in the two-day trip. Day three up the lake: Bob's Cove, the Glenorchy wharf, lunch at Mrs Woolly's and the lagoon walk, then the waterfront and fish and chips back in town.",
     free: true,
     days: [QUEENSTOWN_TOWN_DAY, SHOTOVER_AND_ARROWTOWN_DAY, GLENORCHY_DAY],
   },

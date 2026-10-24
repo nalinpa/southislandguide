@@ -70,7 +70,7 @@ export const GUIDE_CATEGORIES: GuideCategory[] = [
     title: "Driving the South Island",
     icon: Car,
     color: "#14607A",
-    body: `Distances on a New Zealand map tell you very little about how long a drive will take. Most highways are one lane each way and wind through hills and river gorges, and NZTA itself warns visitors that trips take longer than they look. The 120km from Te Anau to Piopiotahi Milford Sound takes about two hours without a single stop, and you will want to stop.
+    body: `Distances on a New Zealand map tell you very little about how long a drive will take. Most highways are one lane each way and wind through hills and river gorges, and NZTA itself warns visitors that trips take longer than they look. The 120km from Te Anau to Milford Sound takes about two hours without a single stop, and you will want to stop.
 
 Plan each day with the NZTA journey planner at journeys.nzta.govt.nz, which also shows road closures, then add time for stops. Keep the first day short after a long flight, and pull over somewhere safe to let a queue behind you pass.
 
@@ -88,7 +88,15 @@ Snow and ice can close or restrict alpine roads such as Arthur's Pass, Lewis Pas
 
 Fuel and paperwork
 
-On inland and West Coast routes, fill the tank whenever you pass through a town, because the gaps between fuel stops can be long. There is no fuel on the Milford Road between Te Anau and Milford Sound, so leave Te Anau with enough for the return trip. Carry your licence whenever you drive, and if it isn't in English, carry an approved English translation too. An International Driving Permit can count as one.`,
+On inland and West Coast routes, fill the tank whenever you pass through a town, because the gaps between fuel stops can be long. There is no fuel on the Milford Road between Te Anau and Milford Sound, so leave Te Anau with enough for the return trip. Carry your licence whenever you drive, and if it isn't in English, carry an approved English translation too. An International Driving Permit can count as one.
+
+Drinking and driving
+
+The limit is lower than many visitors expect. For drivers aged 20 and over it is 250 micrograms of alcohol per litre of breath, or 50 milligrams per 100 millilitres of blood. For drivers under 20 it is zero, so a single drink can put a young driver over.
+
+Freedom camping
+
+Since 7 June 2026, only vehicles with a green self-containment warrant can freedom camp where the rules ask for a self-contained vehicle; the old blue warrants no longer count, and campers without one can be fined. A green-warrant vehicle has a fixed toilet, a 24-litre wastewater tank, fresh water for three days and a rubbish bin. Each council still decides where you can stay and for how many nights, so read the signs, and use a campsite when in doubt.`,
   },
   {
     slug: "weather-and-seasons",
@@ -492,7 +500,7 @@ Spring, from September to November, brings flowering bush and quieter tracks, bu
     icon: ShieldAlert,
     color: "#8F6310",
     region: "marlborough",
-    body: `Wine country catches people out. A few tastings at each of several cellar doors adds up, and the limit is lower than many visitors expect. For drivers aged 20 and over it is 250 micrograms of alcohol per litre of breath, or 50 milligrams per 100 millilitres of blood. For drivers under 20 it is zero, so a single drink can put a young driver over.
+    body: `Wine country catches people out. A few tastings at each of several cellar doors adds up, and the drink-driving limit is lower than many visitors expect, with none at all allowed for drivers under 20. The limits are in Driving the South Island.
 
 On the water
 
@@ -646,7 +654,7 @@ At both ends of the road it gets quieter again. Karamea, in the far north, is th
     icon: Car,
     color: "#2466D6",
     region: "west-coast",
-    body: `One highway does nearly all the work. State Highway 6 runs the length of the Coast, through the Buller Gorge to Westport, down the coast road past Punakaiki to Greymouth and Hokitika, on to the glaciers and Haast, then over Haast Pass/Tioripatea to Wānaka. When a slip or a flood closes part of it, there's often no other way round.
+    body: `One highway does nearly all the work. State Highway 6 runs the length of the Coast, through the Buller Gorge to Westport, down the coast road past Punakaiki to Greymouth and Hokitika, on to the glaciers and Haast, then over the Haast Pass to Wānaka. When a slip or a flood closes part of it, there's often no other way round.
 
 Getting in
 
@@ -870,7 +878,7 @@ There are two routes. The Crown Range Road is the shorter, at about 70km, climbi
 
 Beyond the towns
 
-The road from Glenorchy to the start of the Routeburn Track is partly unsealed. The Mount Aspiring Road from Wānaka is gravel for its last 30km and crosses several fords that heavy rain can make impassable, so check DOC's updates and your rental agreement first. North of Wānaka, State Highway 6 crosses Haast Pass/Tioripatea to the West Coast. Slips and flooding close it from time to time, and there's no detour, so check NZTA before you set off.
+The road from Glenorchy to the start of the Routeburn Track is partly unsealed. The Mount Aspiring Road from Wānaka is gravel for its last 30km and crosses several fords that heavy rain can make impassable, so check DOC's updates and your rental agreement first. North of Wānaka, State Highway 6 crosses the Haast Pass to the West Coast. Slips and flooding close it from time to time, and there's no detour, so check NZTA before you set off.
 
 Ski field roads are steep and can need chains, and rental cover for them varies, so many people take the ski shuttles from town instead.`,
   },
@@ -936,7 +944,7 @@ In the ski season, buy lift passes and book ski hire, lessons and ski shuttle se
     icon: Compass,
     color: "#14607A",
     region: "fiordland",
-    body: `Most people meet Fiordland on a day trip from Queenstown, and most of that day is spent in a coach seat. Piopiotahi Milford Sound is about four hours by road from Queenstown but two from Te Anau, so the simplest way to improve a visit is to sleep in Te Anau and go from there, with time to stop for the short walks along the way.
+    body: `Most people meet Fiordland on a day trip from Queenstown, and most of that day is spent in a coach seat. Milford Sound is about four hours by road from Queenstown but two from Te Anau, so the simplest way to improve a visit is to sleep in Te Anau and go from there, with time to stop for the short walks along the way.
 
 Fiordland National Park is the largest national park in the country, and almost all of it is roadless: steep granite mountains, rainforest, and a coastline cut by fiords. Only one road from the rest of the country reaches its coast, State Highway 94 to Milford. Everywhere else is reached by boat, on foot or from the air, and that is what has kept it this way.
 
@@ -944,7 +952,7 @@ Te Anau sits on Lake Te Anau, the largest lake in the South Island. The Kepler T
 
 The Milford Road is part of the trip, not just the way there. It runs up the open Eglinton Valley past Mirror Lakes, climbs to The Divide, where the Key Summit walk and the Routeburn Track begin, and goes through the Homer Tunnel before dropping steeply to the sea. Milford Sound is best seen from the water, under Mitre Peak, and on a wet day with waterfalls pouring off every wall.
 
-About 20km south of Te Anau, Manapōuri is the way in to Patea Doubtful Sound, which is bigger and much quieter than Milford and has no road to it. Lake Manapōuri has its own place in the country's history. A public campaign around 1970 stopped plans to raise the lake for the power station at West Arm, and it was the first environmental campaign to be organised across the whole country.
+About 20km south of Te Anau, Manapōuri is the way in to Doubtful Sound, which is bigger and much quieter than Milford and has no road to it. Lake Manapōuri has its own place in the country's history. A public campaign around 1970 stopped plans to raise the lake for the power station at West Arm, and it was the first environmental campaign to be organised across the whole country.
 
 From Manapōuri the Southern Scenic Route heads south to the coast, past the old Clifden suspension bridge and limestone caves, Lake Hauroko, the deepest lake in the country, and Tuatapere, where the Hump Ridge Track starts. It then follows Te Waewae Bay, where you may see Hector's dolphins, past Monkey Island, Te Puka o Takitimu, and the surf at Colac Bay Ōraka, to Riverton, which began as a whaling station. Inland, the Mavora Lakes sit in open tussock country at the end of a long gravel road.`,
   },
@@ -970,7 +978,7 @@ The Hollyford Road, which leaves the Milford Road at Marian Corner, is unsealed.
 
 Doubtful Sound
 
-There's no road to Patea Doubtful Sound from the rest of the country, so you can't drive yourself. Trips leave from Pearl Harbour in Manapōuri, cross Lake Manapōuri by boat to West Arm, then go by coach over the 671-metre Wilmot Pass to Deep Cove, where the fiord cruise starts. Allow most of a day.
+There's no road to Doubtful Sound from the rest of the country, so you can't drive yourself. Trips leave from Pearl Harbour in Manapōuri, cross Lake Manapōuri by boat to West Arm, then go by coach over the 671-metre Wilmot Pass to Deep Cove, where the fiord cruise starts. Allow most of a day.
 
 The Southern Scenic Route
 

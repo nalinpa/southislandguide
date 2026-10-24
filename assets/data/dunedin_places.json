@@ -550,13 +550,14 @@
     ],
     "region": "dunedin-otago",
     "area": "oamaru",
-    "active": false,
+    "active": true,
     "price": "Free",
     "description": "Te Kaihinaki, a beach about an hour north of Dunedin scattered with huge, almost perfectly round boulders, some up to 2m across and a few cracked open. They formed in mudstone laid down around 60 million years ago and were exposed as the cliffs eroded, and they're signposted on SH1, 3km south of Hampden.\n\nThere are two ways in. From the café at the end of a private road, a small fee gets you a track straight down to the beach and a 150m loop with a view from above, and the café does good seafood chowder. From DOC's free car park at Waiwherowhero Creek, it's a 10 minute walk along the beach, but there are no toilets there.\nLocal tip: Go at low tide, when more boulders are exposed, and at sunrise or sunset for the best photos. Watch for rogue waves on this exposed coast.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Beach open any time; best at low tide; café 8.30am to 4pm",
     "sourceUrl": "https://myqueenstowndiary.com/things-to-do-in-dunedin-new-zealand/",
-    "confidence": "high"
+    "confidence": "high",
+    "website": ""
   },
   {
     "name": "Sutton Salt Lake",

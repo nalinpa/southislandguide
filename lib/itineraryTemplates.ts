@@ -506,16 +506,17 @@ const QUEENSTOWN_LAKE_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Dunedin up the coast through Ōamaru to Christchurch: 9:30 AM to 6:30 PM. The Moeraki
-// Boulders aren't a place in the app yet.
+// Dunedin up the coast through Ōamaru to Christchurch: 9:30 AM to 7:30 PM.
 const DUNEDIN_TO_CHRISTCHURCH_DAY: ItineraryTemplateDay = {
   items: [
     // The reserve is open 7.30am to 5.30pm.
     { siteId: "katiki-point-lighthouse", siteName: "Kātiki Point Lighthouse", slotIndex: 3, durationSlots: 2 },
+    // Just up the coast from Kātiki Point (owner, 2026-10-25). Best at low tide.
+    { siteId: "moeraki-boulders", siteName: "Moeraki Boulders", slotIndex: 6, durationSlots: 2 },
     // Last entry 3.30pm.
-    { siteId: "steampunk-hq", siteName: "Steampunk HQ", slotIndex: 7, durationSlots: 2 },
-    { siteId: "scotts-brewing-co", siteName: "Scotts Brewing Co", slotIndex: 10, durationSlots: 2 },
-    { siteId: "little-high-eatery", siteName: "Little High Eatery", slotIndex: 19, durationSlots: 2 },
+    { siteId: "steampunk-hq", siteName: "Steampunk HQ", slotIndex: 9, durationSlots: 2 },
+    { siteId: "scotts-brewing-co", siteName: "Scotts Brewing Co", slotIndex: 12, durationSlots: 2 },
+    { siteId: "little-high-eatery", siteName: "Little High Eatery", slotIndex: 21, durationSlots: 2 },
   ],
 };
 
@@ -602,17 +603,20 @@ const KAIKOURA_TO_PICTON_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Dunedin up the coast and inland up the Waitaki to Mount Cook: 9:30 AM to 5:00 PM.
-// Ends on the short Blue Lakes walk rather than Kea Point, so it's done before dark in winter.
+// Dunedin up the coast and inland up the Waitaki to Mount Cook: 9:30 AM to 6:00 PM.
+// Ends on the short Blue Lakes walk rather than Kea Point. With the Moeraki Boulders in
+// (owner, 2026-10-25) it starts at 5.30pm, which is dusk in midwinter.
 const DUNEDIN_TO_MOUNT_COOK_DAY: ItineraryTemplateDay = {
   items: [
     // The reserve is open 7.30am to 5.30pm.
     { siteId: "katiki-point-lighthouse", siteName: "Kātiki Point Lighthouse", slotIndex: 3, durationSlots: 2 },
-    // An early lunch before the drive inland.
-    { siteId: "scotts-brewing-co", siteName: "Scotts Brewing Co", slotIndex: 7, durationSlots: 2 },
+    // Just up the coast from Kātiki Point (owner, 2026-10-25). Best at low tide.
+    { siteId: "moeraki-boulders", siteName: "Moeraki Boulders", slotIndex: 6, durationSlots: 2 },
+    // Lunch before the drive inland.
+    { siteId: "scotts-brewing-co", siteName: "Scotts Brewing Co", slotIndex: 9, durationSlots: 2 },
     // Daylight hours.
-    { siteId: "elephant-rocks-anatini", siteName: "Elephant Rocks and Anatini Whale Fossil", slotIndex: 11, durationSlots: 2 },
-    { siteId: "tasman-glacier-view-blue-lakes", siteName: "Tasman Glacier View and Blue Lakes", slotIndex: 17, durationSlots: 1 },
+    { siteId: "elephant-rocks-anatini", siteName: "Elephant Rocks and Anatini Whale Fossil", slotIndex: 13, durationSlots: 2 },
+    { siteId: "tasman-glacier-view-blue-lakes", siteName: "Tasman Glacier View and Blue Lakes", slotIndex: 19, durationSlots: 1 },
   ],
 };
 

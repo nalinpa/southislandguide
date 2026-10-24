@@ -491,12 +491,15 @@ const HAAST_TO_WANAKA_DAY: ItineraryTemplateDay = {
 
 // Queenstown by the lake: 9:00 AM to 6:30 PM. It sits next to WANAKA_TO_QUEENSTOWN_DAY
 // and QUEENSTOWN_TO_TE_ANAU_DAY in the 10-day trips, so none of their stops: no gondola,
-// Fergburger, Kawarau bungy or Erik's.
+// Fergburger, Kawarau bungy or Erik's. Nor the gardens: TE_ANAU_TO_QUEENSTOWN_DAY ends the
+// same trips there.
 const QUEENSTOWN_LAKE_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "queenstown-hill-time-walk", siteName: "Queenstown Hill Time Walk", slotIndex: 2, durationSlots: 5 },
     { siteId: "bespoke-kitchen", siteName: "Bespoke Kitchen", slotIndex: 8, durationSlots: 2 },
-    { siteId: "queenstown-gardens", siteName: "Queenstown Gardens", slotIndex: 11, durationSlots: 2 },
+    // The beach and waterfront beside Steamer Wharf, where the Earnslaw leaves, in place of
+    // the gardens (owner, 2026-10-25).
+    { siteId: "queenstown-bay-beach", siteName: "Queenstown Bay Beach", slotIndex: 11, durationSlots: 2 },
     // The 3pm sailing (9am, 11am, 1pm and 3pm; RealNZ's booking page, 29 Oct 2026).
     { siteId: "tss-earnslaw-cruise", siteName: "TSS Earnslaw Cruise", slotIndex: 14, durationSlots: 3 },
     { siteId: "the-cow", siteName: "The Cow", slotIndex: 19, durationSlots: 2 },
@@ -711,17 +714,20 @@ const GOLDEN_BAY_TO_PICTON_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Te Anau to the Catlins via Bluff, for the 14-day trips: TE_ANAU_TO_INVERCARGILL_DAY and
-// BLUFF_AND_CATLINS_DAY in one. 10:00 AM (after the drive) to 5:30 PM, overnight in the Catlins.
+// Te Anau straight to the southern Catlins, not by Invercargill and Bluff (owner,
+// 2026-10-25): 8:00 AM to 4:30 PM, overnight in the Catlins. With CATLINS_TO_DUNEDIN_DAY it
+// is the quick way from Fiordland to Dunedin that still sees the Catlins. Slope Point is
+// left out (closed for lambing September to November).
 const TE_ANAU_TO_CATLINS_DAY: ItineraryTemplateDay = {
   items: [
-    // Brunch: nothing in the southern Catlins is open for lunch every day.
-    { siteId: "the-batch-cafe-invercargill", siteName: "The Batch Cafe", slotIndex: 4, durationSlots: 2 },
-    { siteId: "stirling-point-bluff", siteName: "Stirling Point and Foveaux Walkway, Bluff", slotIndex: 7, durationSlots: 1 },
-    { siteId: "waipapa-point-lighthouse", siteName: "Waipapa Point Lighthouse", slotIndex: 11, durationSlots: 1 },
+    // Pies for the road: nothing in the southern Catlins is open for lunch every day.
+    { siteId: "miles-better-pies", siteName: "Miles Better Pies", slotIndex: 0, durationSlots: 1 },
+    { siteId: "waipapa-point-lighthouse", siteName: "Waipapa Point Lighthouse", slotIndex: 7, durationSlots: 1 },
     // The forest shows at low tide.
-    { siteId: "curio-bay-petrified-forest", siteName: "Curio Bay Petrified Forest", slotIndex: 13, durationSlots: 2 },
-    { siteId: "mclean-falls", siteName: "McLean Falls", slotIndex: 17, durationSlots: 2 },
+    { siteId: "curio-bay-petrified-forest", siteName: "Curio Bay Petrified Forest", slotIndex: 9, durationSlots: 2 },
+    // Hector's dolphins, most often in summer.
+    { siteId: "porpoise-bay", siteName: "Porpoise Bay", slotIndex: 12, durationSlots: 1 },
+    { siteId: "mclean-falls", siteName: "McLean Falls", slotIndex: 15, durationSlots: 2 },
   ],
 };
 
@@ -752,9 +758,11 @@ const GREYMOUTH_TO_CHRISTCHURCH_DAY: ItineraryTemplateDay = {
 };
 
 // The whole island in 21 days, clockwise from Christchurch. The Picton and Queenstown
-// starts are the same days begun at PICTON_TO_NELSON_DAY and QUEENSTOWN_TO_TE_ANAU_DAY.
-// Golden Bay and the Queenstown lake day are left out to make 21 (owner, 2026-10-23), so
-// the gorge day runs from Mārahau and TOAD Hall comes two mornings running.
+// starts are the same days begun at PICTON_TO_NELSON_DAY and QUEENSTOWN_LAKE_DAY. Golden
+// Bay is left out to make 21 (owner, 2026-10-23), so the gorge day runs from Mārahau and
+// TOAD Hall comes two mornings running. The Queenstown lake day came back on 2026-10-25,
+// when Fiordland to Dunedin went straight to the Catlins instead of by Invercargill and
+// Bluff (owner: the lake day first, the Catlins over Golden Bay).
 const WHOLE_ISLAND_DAYS: ItineraryTemplateDay[] = [
   CHRISTCHURCH_TO_KAIKOURA_DAY,
   KAIKOURA_DAY,
@@ -768,10 +776,10 @@ const WHOLE_ISLAND_DAYS: ItineraryTemplateDay[] = [
   FOX_TO_HAAST_DAY,
   HAAST_TO_WANAKA_DAY,
   WANAKA_TO_QUEENSTOWN_DAY,
+  QUEENSTOWN_LAKE_DAY,
   QUEENSTOWN_TO_TE_ANAU_DAY,
   MILFORD_SOUND_DAY,
-  TE_ANAU_TO_INVERCARGILL_DAY,
-  BLUFF_AND_CATLINS_DAY,
+  TE_ANAU_TO_CATLINS_DAY,
   CATLINS_TO_DUNEDIN_DAY,
   DUNEDIN_AND_PENINSULA_DAY,
   DUNEDIN_TO_MOUNT_COOK_DAY,
@@ -805,18 +813,18 @@ function loopFrom(days: ItineraryTemplateDay[], start: ItineraryTemplateDay): It
   return [...days.slice(i), ...days.slice(0, i)];
 }
 
-// The southern loop in 10 days, from Christchurch (trimmed from 12 without the Queenstown
-// lake day and the Dunedin day; owner, 2026-10-23). The Queenstown start is the same days
-// begun at QUEENSTOWN_TO_TE_ANAU_DAY.
+// The southern loop in 10 days, from Christchurch (trimmed from 12 without the Dunedin day;
+// owner, 2026-10-23). The Queenstown lake day is back in place of Invercargill and Bluff
+// (owner, 2026-10-25). The Queenstown start is the same days begun at QUEENSTOWN_LAKE_DAY.
 const SOUTHERN_LOOP_DAYS: ItineraryTemplateDay[] = [
   CHRISTCHURCH_TO_TEKAPO_DAY,
   TEKAPO_TO_MOUNT_COOK_DAY,
   MOUNT_COOK_TO_WANAKA_DAY,
   WANAKA_TO_QUEENSTOWN_DAY,
+  QUEENSTOWN_LAKE_DAY,
   QUEENSTOWN_TO_TE_ANAU_DAY,
   MILFORD_SOUND_DAY,
-  TE_ANAU_TO_INVERCARGILL_DAY,
-  BLUFF_AND_CATLINS_DAY,
+  TE_ANAU_TO_CATLINS_DAY,
   CATLINS_TO_DUNEDIN_DAY,
   DUNEDIN_TO_CHRISTCHURCH_DAY,
 ];
@@ -996,7 +1004,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "christchurch",
     label: "South Island in 14 Days",
     description:
-      "Fourteen days round the West Coast and the south: Arthur's Pass, Punakaiki and the glaciers, the Haast Pass to Wānaka and Queenstown, Milford Sound, Bluff and the Catlins, Dunedin, the Waitaki and Mount Cook, and back through Tekapo.",
+      "Fourteen days round the West Coast and the south: Arthur's Pass, Punakaiki and the glaciers, the Haast Pass to Wānaka and Queenstown, Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, and back through Tekapo.",
     free: true,
     days: WEST_AND_SOUTH_LOOP_DAYS,
   },
@@ -1005,7 +1013,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "queenstown",
     label: "South Island in 14 Days",
     description:
-      "Fourteen days round the south and the West Coast: Milford Sound, Bluff and the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo and Christchurch, then over Arthur's Pass to Punakaiki and the glaciers, and the Haast Pass to Wānaka and back to Queenstown.",
+      "Fourteen days round the south and the West Coast: Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo and Christchurch, then over Arthur's Pass to Punakaiki and the glaciers, and the Haast Pass to Wānaka and back to Queenstown.",
     free: true,
     days: loopFrom(WEST_AND_SOUTH_LOOP_DAYS, QUEENSTOWN_TO_TE_ANAU_DAY),
   },
@@ -1116,16 +1124,16 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "queenstown",
     label: "South Island in 21 Days",
     description:
-      "The whole South Island in a loop from Queenstown: Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo, Christchurch, Hanmer and Kaikōura, the Marlborough Sounds and Abel Tasman, the West Coast and the glaciers, and Wānaka back to Queenstown.",
+      "The whole South Island in a loop from Queenstown: a day on the lake, Milford Sound, the Catlins, Dunedin, the Waitaki and Mount Cook, Tekapo, Christchurch, Hanmer and Kaikōura, the Marlborough Sounds and Abel Tasman, the West Coast and the glaciers, and Wānaka back to Queenstown.",
     free: true,
-    days: loopFrom(WHOLE_ISLAND_DAYS, QUEENSTOWN_TO_TE_ANAU_DAY),
+    days: loopFrom(WHOLE_ISLAND_DAYS, QUEENSTOWN_LAKE_DAY),
   },
   {
     key: "southern-loop-from-christchurch",
     start: "christchurch",
     label: "The Southern Loop",
     description:
-      "Ten days round the south: Tekapo and Mount Cook, Wānaka and Queenstown, Milford Sound, the south coast and the Catlins, Dunedin, and home up the coast through Ōamaru.",
+      "Ten days round the south: Tekapo and Mount Cook, Wānaka, a day on the lake in Queenstown, Milford Sound, the Catlins, Dunedin, and home up the coast through Ōamaru.",
     free: true,
     days: SOUTHERN_LOOP_DAYS,
   },
@@ -1134,9 +1142,9 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "queenstown",
     label: "The Southern Loop",
     description:
-      "Ten days round the south: Milford Sound, the south coast and the Catlins, Dunedin, up the coast through Ōamaru to Christchurch, then Tekapo, Mount Cook and Wānaka back to Queenstown.",
+      "Ten days round the south: a day on the lake in Queenstown, Milford Sound, the Catlins, Dunedin, up the coast through Ōamaru to Christchurch, then Tekapo, Mount Cook and Wānaka back to Queenstown.",
     free: true,
-    days: loopFrom(SOUTHERN_LOOP_DAYS, QUEENSTOWN_TO_TE_ANAU_DAY),
+    days: loopFrom(SOUTHERN_LOOP_DAYS, QUEENSTOWN_LAKE_DAY),
   },
   {
     key: "queenstown-to-picton-via-the-west-coast",

@@ -28,8 +28,8 @@ One launch, finished and ready to promote: every area of the South Island and al
 | A3 | Photos for places | You | A bulk upload-and-attach script is worth writing first (`TASKS.md`). Me, medium, if you want it. |
 | A4 | One photo per town | You | Into `C:\Users\User\Pictures\southisland\areas\`, named by area id; I wire them up (`lib/areaPhotos.ts`). |
 | A5 | Opening hours and facts checked | You | 25 of the first 51 non-Christchurch places were medium confidence. |
-| A6 | Guide: five sections per region | You | The guide screen shows a region once it has sections. Only Canterbury has them so far; the brief for the other nine is `prompts/content-guide-regions.md`. |
-| A7 | Suggested itineraries across the island | You (content), me (baking) | Fix the two Christchurch ones first: Quake City and Central City Street Art are no longer live, and both templates include them. Brief: `prompts/content-suggested-trips.md`. The drive times (B) are in, so multi-town templates can be baked. |
+| A6 | Guide: five sections per region | You | **Done 2026-10-21:** every region, 58 sections. Device check and a few open questions left (`TASKS.md`). |
+| A7 | Suggested itineraries across the island | You (content), me (baking) | **Done 2026-10-22:** 21 trips from Christchurch, Queenstown and Picton, picked by start town. Device check left (`TASKS.md`). |
 
 ### B. Drive times (me; your maps key)
 
@@ -85,12 +85,12 @@ From Rotorua's rejections and fixes (`rotorua-guide/TASKS.md`, 2026-09). These t
 
 Recommended 2026-10-16, brought up to date 2026-10-20. Content (A) is the long pole and is mostly yours, so it runs alongside everything else; the code is ordered by risk.
 
-1. **Push.** Still not done on 2026-10-20: south-island is 28 commits ahead of `origin`, and nine enginev1 repos have unpushed commits (create-app 10, client 5, templates 5, commerce-api 3, components 2, hooks 2, storefront 2, auth 1, ui 1). That work exists only on one PC.
-2. ~~**B1 to B3, drive times.**~~ Done. The remaining town-to-town pairs come with one `areas --apply` after A1.
-3. **A1 (you): import areas**, with A2 labels as names come in. Under way: 503 places in 37 towns live on 2026-10-20, Queenstown next. Then `areas --apply` once.
-4. **Account deletion (D).** The one launch blocker in code. It changes the shared api, so check the other apps first; deploy on your go.
-5. **The UX sweep prompts** (`TASKS.md`), in the order listed there, fix-24 last.
-6. **A7, suggested itineraries.** The two broken Christchurch ones first (`prompts/content-suggested-trips.md`).
+1. **Push.** south-island and enginev1/api are pushed (2026-10-23). Nine other enginev1 repos still have unpushed commits (create-app 10, client 5, templates 5, commerce-api 3, components 2, hooks 2, storefront 2, auth 1, ui 1). That work exists only on one PC.
+2. ~~**B1 to B3, drive times.**~~ Done, and since 2026-10-22 town-to-town times cover all 41 towns, from hubs you picked, with far-out places timed on their own (fix-32).
+3. ~~**A1 (you): import areas.**~~ 41 towns in by 2026-10-22, Queenstown, Arrowtown and Glenorchy last.
+4. ~~**Account deletion (D).**~~ Fixed and deployed 2026-10-23 (fix-25). Its phone check goes with step 7.
+5. ~~**The UX sweep prompts.**~~ All in (2026-10-20). Their device checks go with step 7.
+6. ~~**A7, suggested itineraries.**~~ 21 trips (2026-10-22).
 7. **One EAS build, then every device check** in `TASKS.md`, size and speed with the full list (C8), and a look at the drives: **B4 to B6** only for places that read wrong.
 8. ~~**C4 tour and C5 review prompt**~~ Done (2026-10-20 and 2026-10-19).
 9. **E, the store checklist and Rotorua's review checks, TestFlight, submit.** Screenshots after the sweep's wording (fix-24) and the photos are in. E2 depends on Apple: set a cutoff for the email-only fallback.
@@ -102,6 +102,8 @@ Recommended 2026-10-16, brought up to date 2026-10-20. Content (A) is the long p
 2026-10-19 to 20: the review prompt (C5) and the opening tour (C4).
 
 By 2026-10-20: places and in-town drive times for 36 towns; the first UX sweep (fix-1 to fix-15); the app icon and splash (E1).
+
+2026-10-20 to 22: the second UX sweep (fix-16 to fix-31); the guide for every region (A6); Queenstown, Arrowtown and Glenorchy (A1 complete at 41 towns); town hubs, town-to-town times for every pair, and far-out places' own times (fix-32); 21 suggested trips with a start-town picker (A7).
 
 ## After launch: the paid unlock
 

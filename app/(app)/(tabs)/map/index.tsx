@@ -27,6 +27,7 @@ import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModa
 import { PremiumFeatureModal } from "@/components/itinerary/PremiumFeatureModal";
 
 import { nearestArea } from "@/components/map/MapRegion";
+import { DEFAULT_AREA } from "@/lib/areas";
 
 export default function MapScreen() {
   const { session } = useSession();
@@ -133,12 +134,13 @@ export default function MapScreen() {
 
     // Here: the nearest place. Between towns: the nearest town's favourite, not the
     // nearest place, which can be a camping area an hour up the road. Off the island or
-    // with no position: the favourite of all, one fixed start for someone planning at home.
+    // with no position: the default town's favourite (the town Explore opens on for them
+    // too), one fixed start for someone planning at home; the favourite of all if it has none.
     if (nearHere) {
       setSelectedSiteId(nearHere.id);
       return;
     }
-    const town = nearestArea(loc?.coords.latitude, loc?.coords.longitude, visibleSites);
+    const town = nearestArea(loc?.coords.latitude, loc?.coords.longitude, visibleSites) ?? DEFAULT_AREA;
     const inTown = town ? visibleSites.filter((s) => s.area === town) : [];
     const featured = [...(inTown.length ? inTown : visibleSites)].sort((a, b) => (b.featured ?? 0) - (a.featured ?? 0))[0];
     if (featured) setSelectedSiteId(featured.id);

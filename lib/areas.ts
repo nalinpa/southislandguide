@@ -1,4 +1,5 @@
 import AREA_DRIVE_MINUTES_JSON from "@/assets/data/area-drive-minutes.json";
+import type { RegionId } from "@/lib/guideContent";
 
 // Areas of the South Island guide, as a visitor divides them: the base town a
 // place is visited from. One level below regions (lib/guideContent.ts).
@@ -6,6 +7,8 @@ import AREA_DRIVE_MINUTES_JSON from "@/assets/data/area-drive-minutes.json";
 // Same shape as REGIONS so the vocabulary stays consistent. TypeScript, not
 // JSON, so it ships over the air and can carry comments.
 export const AREAS = [
+  // First, so it heads its region in the town picker (owner, 2026-10-24).
+  { id: "queenstown", label: "Queenstown" },
   { id: "christchurch", label: "Christchurch" },
   { id: "timaru", label: "Timaru" },
   { id: "dunedin", label: "Dunedin" },
@@ -21,11 +24,62 @@ export const AREAS = [
 
 export type AreaId = (typeof AREAS)[number]["id"];
 
-// The town Explore opens on for someone who is off the island or has no position.
-// Anyone on the island gets the town nearest them (nearestArea, components/map/MapRegion.ts).
-// Christchurch for now (owner, 2026-10-14): where most visitors land. Revisit once the
-// whole island is in.
-export const DEFAULT_AREA: AreaId = "christchurch";
+// The town Explore and the map open on for someone who is off the island or has no
+// position, and the region the town picker lists first. Anyone on the island gets the
+// town nearest them (nearestArea, components/map/MapRegion.ts). Queenstown (owner,
+// 2026-10-24); Christchurch until then.
+export const DEFAULT_AREA: AreaId = "queenstown";
+
+// The region each town is listed under in the town picker. Set here, not worked out from
+// its places' own `region`, which can be split or wrong: most of the Catlins' places say
+// Otago. A town missing here (added in the admin panel since) goes under the region most
+// of its places are in.
+export const AREA_REGIONS: Record<string, RegionId> = {
+  queenstown: "queenstown-wanaka",
+  arrowtown: "queenstown-wanaka",
+  glenorchy: "queenstown-wanaka",
+  wanaka: "queenstown-wanaka",
+  "central-otago": "queenstown-wanaka",
+  "te-anau": "fiordland",
+  "milford-sound": "fiordland",
+  // Riverton and Tuatapere are Southland's: Fiordland only starts beyond them.
+  invercargill: "southland-catlins",
+  riverton: "southland-catlins",
+  tuatapere: "southland-catlins",
+  gore: "southland-catlins",
+  catlins: "southland-catlins",
+  dunedin: "dunedin-otago",
+  oamaru: "dunedin-otago",
+  "waitaki-valley": "dunedin-otago",
+  "aoraki-mount-cook": "aoraki-mackenzie",
+  tekapo: "aoraki-mackenzie",
+  twizel: "aoraki-mackenzie",
+  christchurch: "canterbury",
+  "banks-peninsula": "canterbury",
+  "mid-canterbury": "canterbury",
+  timaru: "canterbury",
+  "arthurs-pass": "canterbury",
+  "hanmer-springs": "canterbury",
+  // Under Canterbury, as its places are: the guide's own Kaikōura region would make a
+  // heading of one town.
+  kaikoura: "canterbury",
+  haast: "west-coast",
+  "fox-glacier": "west-coast",
+  "franz-josef": "west-coast",
+  hokitika: "west-coast",
+  greymouth: "west-coast",
+  punakaiki: "west-coast",
+  reefton: "west-coast",
+  westport: "west-coast",
+  nelson: "nelson-tasman",
+  "abel-tasman": "nelson-tasman",
+  "golden-bay": "nelson-tasman",
+  "nelson-lakes": "nelson-tasman",
+  murchison: "nelson-tasman",
+  picton: "marlborough",
+  "marlborough-sounds": "marlborough",
+  blenheim: "marlborough",
+};
 
 export const AREA_LABELS: Record<AreaId, string> = AREAS.reduce(
   (acc, a) => ({ ...acc, [a.id]: a.label }),

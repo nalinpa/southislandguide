@@ -388,6 +388,27 @@ describe("what opens selected", () => {
     expect(mockMapStore.setSelectedLocationId).toHaveBeenCalledWith("d2");
   });
 
+  // Queenstown is the town Explore opens on for them too (lib/areas.ts DEFAULT_AREA), so
+  // the map starts there, not on a higher-ranked place in another town.
+  it("picks Queenstown's featured place for a visitor off the island", async () => {
+    mockBag.locations.push(
+      makeSite("q1", "Queenstown Gardens", ["Walks"], { lat: -45.036, lng: 168.66, area: "queenstown" }),
+      makeSite("q2", "Skyline Queenstown", ["Scenic"], { lat: -45.03, lng: 168.65, area: "queenstown", featured: 2 }),
+    );
+    mockBag.loc = { coords: { latitude: -36.85, longitude: 174.76 } }; // Auckland
+    await render(<MapScreen />);
+    expect(mockMapStore.setSelectedLocationId).toHaveBeenCalledWith("q2");
+  });
+
+  it("picks Queenstown's featured place when location is denied", async () => {
+    mockBag.locations.push(
+      makeSite("q2", "Skyline Queenstown", ["Scenic"], { lat: -45.03, lng: 168.65, area: "queenstown", featured: 2 }),
+    );
+    mockBag.locStatus = "denied";
+    await render(<MapScreen />);
+    expect(mockMapStore.setSelectedLocationId).toHaveBeenCalledWith("q2");
+  });
+
   it("falls back to the featured place when location is denied", async () => {
     mockBag.locStatus = "denied";
     await render(<MapScreen />);

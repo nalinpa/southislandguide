@@ -11,8 +11,9 @@ import { hooksBag, useRefreshLocations } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { ListView } from "@/components/sites/list/ListView";
 import { AreaSheet, type AreaOption } from "@/components/sites/AreaSheet";
+import { FeaturedCard } from "@/components/sites/FeaturedCard";
 import { nearestArea } from "@/components/map/MapRegion";
-import { AREAS, DEFAULT_AREA, areaName } from "@/lib/areas";
+import { AREAS, AREA_REGIONS, DEFAULT_AREA, areaName } from "@/lib/areas";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, matchesSearch, type SiteCategory } from "@/lib/models";
 import { useTourTarget } from "@/lib/tour/useTourTarget";
 import { useTourStepRoute } from "@/lib/tour/useTourStepRoute";
@@ -25,7 +26,7 @@ import { useTourStepRoute } from "@/lib/tour/useTourStepRoute";
 //   the row hides entirely when there's just one.
 // - one town at a time: DONE. The bar's title names the town and is the
 //   dropdown that changes it.
-// - "Featured" hero card: deferred until any doc sets `featured`.
+// - "Featured" hero card: DONE, for the town's highest-ranked place.
 
 export default function SiteListPage() {
   const { session } = useSession();
@@ -63,7 +64,8 @@ export default function SiteListPage() {
   // The towns the list can show: each area with at least one place, in the app's order,
   // then any the app has no label for yet (added in the admin panel since), then "Other"
   // for places with no area at all, so that none can drop out of sight. "" is its id.
-  // A town's region, for the sheet's headings, is the one most of its places are in.
+  // A town's region, for the sheet's headings, is its own (AREA_REGIONS), or for a town
+  // the app doesn't know yet, the one most of its places are in.
   const areaOptions = useMemo<AreaOption[]>(() => {
     const counts = new Map<string, number>();
     const regions = new Map<string, Map<string, number>>();
@@ -76,7 +78,8 @@ export default function SiteListPage() {
         regions.set(id, r);
       }
     }
-    const regionOf = (id: string) => [...(regions.get(id) ?? new Map()).entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+    const regionOf = (id: string) =>
+      AREA_REGIONS[id] ?? [...(regions.get(id) ?? new Map()).entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
     const known: string[] = AREAS.map((a) => a.id).filter((id) => counts.has(id));
     const unlabelled = [...counts.keys()].filter((id) => id && !known.includes(id)).sort();
     return [...known, ...unlabelled, ...(counts.has("") ? [""] : [])].map((id) => ({
@@ -135,13 +138,28 @@ export default function SiteListPage() {
 
   const rows = hooksBag.useSortedRows(sortableLocations, lockedLoc);
 
+  // The card at the top, as in rotorua-guide and aklguide: the place ranked highest by
+  // `featured` (higher is more featured) among those shown, and not again in the rows
+  // under it. Unlike theirs, nothing unranked is put in the card: "Featured" is a pick
+  // someone made. Off while searching, when the matches are all that's wanted.
+  const featured = useMemo(() => {
+    if (searchQuery.trim()) return null;
+    const ranked = rows.filter((r) => (r.location.featured ?? 0) > 0);
+    if (!ranked.length) return null;
+    return ranked.reduce((best, r) => ((r.location.featured ?? 0) > (best.location.featured ?? 0) ? r : best));
+  }, [rows, searchQuery]);
+  const listRows = useMemo(
+    () => (featured ? rows.filter((r) => r.location.id !== featured.location.id) : rows),
+    [rows, featured],
+  );
+
   // The opening tour's steps on this screen (lib/tour/tourSteps.ts), and the place its
-  // next steps open: the first one listed.
+  // next steps open: the featured one, or else the first one listed.
   const townTarget = useTourTarget("town");
   const guideTarget = useTourTarget("guide");
   const browseTarget = useTourTarget("browse");
   const placeTarget = useTourTarget("place");
-  const firstId = rows[0]?.location.id;
+  const firstId = (featured ?? rows[0])?.location.id;
   useTourStepRoute("place", firstId ? `/(app)/(tabs)/sites/${firstId}` : undefined);
 
   // A town chosen in the sheet, or handed over by a trip's "Find more things to do". A
@@ -300,6 +318,12 @@ export default function SiteListPage() {
             : `No ${activeCategory ? SITE_CATEGORY_LABELS[activeCategory] : "places"} to show.`}
         </AppText>
       )}
+
+      {featured && (
+        <View {...placeTarget}>
+          <FeaturedCard site={featured.location} onPress={(id) => router.push(`/(app)/(tabs)/sites/${id}`)} />
+        </View>
+      )}
     </Stack>
   );
 
@@ -309,10 +333,10 @@ export default function SiteListPage() {
     <Screen padded={false} style={styles.screen}>
       {topBar}
       <ListView
-        rows={rows}
+        rows={listRows}
         header={header}
         onPressItem={(id) => router.push(`/(app)/(tabs)/sites/${id}`)}
-        firstRowTarget={placeTarget}
+        firstRowTarget={featured ? undefined : placeTarget}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

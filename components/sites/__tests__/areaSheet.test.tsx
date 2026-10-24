@@ -41,6 +41,23 @@ describe("AreaSheet", () => {
     ]);
   });
 
+  // Queenstown is the town Explore opens on (lib/areas.ts DEFAULT_AREA), so its region
+  // heads the list wherever the guide puts it (owner, 2026-10-24).
+  it("lists Queenstown's region first, then the rest in the guide's order", async () => {
+    const view = await open({
+      options: [...options, { id: "queenstown", label: "Queenstown", count: 25, region: "queenstown-wanaka" }],
+    });
+
+    const headings = view.getAllByRole("header").map((h: any) => h.props.children);
+    expect(headings).toEqual([
+      "Queenstown & Wānaka",
+      "Canterbury & Christchurch",
+      "Kaikōura",
+      "Dunedin & Otago Coast",
+      "Elsewhere",
+    ]);
+  });
+
   it("puts a town under its region's heading", async () => {
     const view = await open();
 

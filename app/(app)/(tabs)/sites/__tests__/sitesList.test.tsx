@@ -6,6 +6,12 @@
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
 
+jest.mock("expo-linear-gradient", () => {
+  const React = require("react");
+  const { View } = require("react-native");
+  return { LinearGradient: ({ children, style }: any) => React.createElement(View, { style }, children) };
+});
+
 // The list is a FlashList wrapper with its own file; here it only has to show the rows it
 // was handed, in order, and pass taps back.
 jest.mock("@/components/sites/list/ListView", () => {
@@ -428,11 +434,15 @@ describe("towns", () => {
   });
 
   describe("where it starts", () => {
-    it("starts on Christchurch with no position", async () => {
+    const QUEENSTOWN_PLACE = () =>
+      makeSite("q1", "Queenstown Gardens", ["Walks"], { area: "queenstown", region: "queenstown-wanaka", lat: -45.036, lng: 168.66 });
+
+    it("starts on Queenstown with no position", async () => {
+      mockBag.locations.push(QUEENSTOWN_PLACE());
       const view = await render(<SiteListPage />);
 
-      expect(rowNames(view)).toEqual(["Sumner Beach", "Riccarton Bush", "Riverside Market", "Port Hills Walk"]);
-      expect(view.getByText("Christchurch")).toBeTruthy();
+      expect(rowNames(view)).toEqual(["Queenstown Gardens"]);
+      expect(view.getByText("Queenstown")).toBeTruthy();
     });
 
     it("starts on the town the user is in", async () => {
@@ -475,11 +485,12 @@ describe("towns", () => {
       expect(rowNames(view)).toEqual(["Sumner Beach", "Riccarton Bush", "Riverside Market", "Port Hills Walk"]);
     });
 
-    it("starts on Christchurch for someone off the island", async () => {
+    it("starts on Queenstown for someone off the island", async () => {
+      mockBag.locations.push(QUEENSTOWN_PLACE());
       mockBag.storedLoc = AUCKLAND;
       const view = await render(<SiteListPage />);
 
-      expect(view.getByText("Christchurch")).toBeTruthy();
+      expect(view.getByText("Queenstown")).toBeTruthy();
     });
 
     // The position isn't kept between launches, so on a cold start it comes in after the
@@ -504,7 +515,7 @@ describe("towns", () => {
       expect(rowNames(view)).toEqual(["Caroline Bay"]);
     });
 
-    it("starts on the first town that has places when Christchurch has none", async () => {
+    it("starts on the first town that has places when Queenstown and Christchurch have none", async () => {
       mockBag.locations = mockBag.locations.filter((l) => l.area !== "christchurch");
       const view = await render(<SiteListPage />);
 
@@ -547,7 +558,40 @@ describe("towns", () => {
       expect(menuRows(view)).toEqual(["Christchurch, 4 places", "Timaru, 1 place", "Dunedin, 2 places"]);
     });
 
-    // A town's region is the one its places are in; the guide's region names head them.
+    // Each town has its region in lib/areas.ts: what its places say can be split or wrong.
+    // Most of the Catlins' places are filed under Otago, but the town is Southland's.
+    it("puts a town under its own region, whatever most of its places say", async () => {
+      mockBag.locations.push(
+        makeSite("c1", "Nugget Point", ["Scenic"], { area: "catlins", region: "dunedin-otago" }),
+        makeSite("c2", "Purakaunui Falls", ["Walks"], { area: "catlins", region: "dunedin-otago" }),
+        makeSite("c3", "Curio Bay", ["Nature"], { area: "catlins", region: "southland-catlins" }),
+        makeSite("r1", "Howells Point", ["Walks"], { area: "riverton", region: "fiordland" }),
+        makeSite("k1", "Lake Tekapo", ["Scenic"], { area: "tekapo", region: "canterbury" }),
+      );
+      const view = await render(<SiteListPage />);
+
+      await fireEvent.press(view.getByLabelText("Christchurch, choose a town"));
+
+      const southland = view.getByText("Southland & the Catlins").parent!;
+      expect(within(southland).getByText("The Catlins")).toBeTruthy();
+      expect(within(southland).getByText("Riverton")).toBeTruthy();
+      expect(within(view.getByText("Aoraki & Mackenzie").parent!).getByText("Tekapo")).toBeTruthy();
+    });
+
+    // A town added in the admin panel before the app has a region for it goes by its places.
+    it("puts a town the app has no region for under the one most of its places are in", async () => {
+      mockBag.locations.push(
+        makeSite("n1", "Somewhere New", ["Scenic"], { area: "lake-new", region: "west-coast" }),
+        makeSite("n2", "Somewhere Else", ["Scenic"], { area: "lake-new", region: "west-coast" }),
+        makeSite("n3", "Somewhere Odd", ["Scenic"], { area: "lake-new", region: "canterbury" }),
+      );
+      const view = await render(<SiteListPage />);
+
+      await fireEvent.press(view.getByLabelText("Christchurch, choose a town"));
+
+      expect(within(view.getByText("West Coast").parent!).getByText("Lake New")).toBeTruthy();
+    });
+
     it("groups the towns under their region", async () => {
       const view = await render(<SiteListPage />);
 
@@ -651,8 +695,91 @@ describe("towns", () => {
 
 // The opening tour points at the town, the guide button, the category tabs and the first
 // place, and opens that place for the steps that follow (lib/tour/tourSteps.ts).
+// rotorua-guide's and aklguide's hero card: the place ranked highest by `featured` (higher
+// is more featured) among those shown, in a card at the top of the list and not again in
+// the rows under it.
+describe("the featured place", () => {
+  const card = (view: any) => view.queryByLabelText(/^Featured: /);
+  const rank = (id: string, featured: number) => {
+    mockBag.locations.find((l) => l.id === id)!.featured = featured;
+  };
+
+  it("shows the highest-ranked place in a card above the list, and not again in it", async () => {
+    rank("s2", 3);
+    rank("s4", 1);
+    mockBag.locations[1].description = "Old-growth forest in the city.";
+    const view = await render(<SiteListPage />);
+
+    const header = within(view.getByTestId("list-header"));
+    expect(header.getByLabelText("Featured: Riccarton Bush")).toBeTruthy();
+    expect(header.getByText("Riccarton Bush")).toBeTruthy();
+    expect(header.getByText("Old-growth forest in the city.")).toBeTruthy();
+    expect(rowNames(view)).toEqual(["Sumner Beach", "Riverside Market", "Port Hills Walk"]);
+  });
+
+  it("opens the featured place when its card is tapped", async () => {
+    rank("s2", 3);
+    const view = await render(<SiteListPage />);
+
+    await fireEvent.press(card(view));
+
+    expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/sites/s2");
+  });
+
+  it("features a place from the town shown, not a higher-ranked one elsewhere", async () => {
+    rank("s2", 3);
+    mockBag.locations.push(makeSite("d1", "Otago Museum", ["Culture"], { area: "dunedin", featured: 9 }));
+    const view = await render(<SiteListPage />);
+
+    expect(card(view).props.accessibilityLabel).toBe("Featured: Riccarton Bush");
+  });
+
+  it("features the highest-ranked place in the chosen category", async () => {
+    rank("s1", 5);
+    rank("s2", 3);
+    const view = await render(<SiteListPage />);
+    expect(card(view).props.accessibilityLabel).toBe("Featured: Sumner Beach");
+
+    await fireEvent.press(view.getByText("Walks"));
+
+    expect(card(view).props.accessibilityLabel).toBe("Featured: Riccarton Bush");
+    expect(rowNames(view)).toEqual(["Port Hills Walk"]);
+  });
+
+  // "Featured" is a pick someone made. With none made here, no place is passed off as one.
+  it("has no card when no place shown is ranked", async () => {
+    rank("s1", 0);
+    rank("s4", 2);
+    const view = await render(<SiteListPage />);
+
+    await fireEvent.press(view.getByText("Food & Drink"));
+
+    expect(card(view)).toBeNull();
+    expect(rowNames(view)).toEqual(["Riverside Market"]);
+  });
+
+  it("puts the featured place back among the rows while searching", async () => {
+    rank("s2", 3);
+    const view = await render(<SiteListPage />);
+
+    await fireEvent.press(view.getByLabelText("Search places"));
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "riccarton");
+
+    expect(card(view)).toBeNull();
+    expect(rowNames(view)).toEqual(["Riccarton Bush"]);
+  });
+});
+
 describe("the tour", () => {
   const target = (view: any, id: string) => within(view.getByTestId("tour-target-" + id));
+
+  it("points at the featured place when there is one, and opens it for the next step", async () => {
+    mockBag.locations[3].featured = 2;
+    const view = await render(<SiteListPage />);
+
+    expect(target(view, "place").getByLabelText("Featured: Port Hills Walk")).toBeTruthy();
+    expect(mockStepRoutes.place).toBe("/(app)/(tabs)/sites/s4");
+  });
 
   it("points at the town in the title", async () => {
     mockBag.locations.push(makeSite("d1", "Otago Museum", ["Culture"], { area: "dunedin" }));

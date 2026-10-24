@@ -1,4 +1,4 @@
-import { AREAS, AREA_LABELS, DEFAULT_AREA, areaLabel, areaName, areaDriveMinutes } from "@/lib/areas";
+import { AREAS, AREA_LABELS, AREA_REGIONS, DEFAULT_AREA, areaLabel, areaName, areaDriveMinutes } from "@/lib/areas";
 
 describe("areas", () => {
   it("labels the areas whose names capitals can't make", () => {
@@ -10,6 +10,7 @@ describe("areas", () => {
       "dunedin",
       "kaikoura",
       "oamaru",
+      "queenstown",
       "timaru",
       "wanaka",
     ]);
@@ -54,9 +55,21 @@ describe("areas", () => {
   });
 
   // Where Explore opens for someone who isn't on the island, or has no position.
-  it("starts from Christchurch, which is one of the areas", () => {
-    expect(DEFAULT_AREA).toBe("christchurch");
+  it("starts from Queenstown, which is one of the areas", () => {
+    expect(DEFAULT_AREA).toBe("queenstown");
     expect(AREAS.map((a) => a.id)).toContain(DEFAULT_AREA);
+  });
+
+  // A town with no region here goes under the one most of its places say, which is how the
+  // Catlins ended up under Otago. Every town in the bundled place files has its own.
+  it("gives every town in the place files a region", () => {
+    const fs = require("fs");
+    const path = require("path");
+    const dir = path.join(__dirname, "../../assets/data");
+    const towns = new Set<string>();
+    for (const f of fs.readdirSync(dir).filter((f: string) => f.endsWith("_places.json") || f === "christchurch_places_all.json"))
+      for (const p of JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"))) if (p.area) towns.add(p.area);
+    expect([...towns].filter((t) => !AREA_REGIONS[t])).toEqual([]);
   });
 
   it("areaDriveMinutes returns the listed time for a known pair in either order", () => {

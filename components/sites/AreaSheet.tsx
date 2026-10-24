@@ -4,6 +4,7 @@ import { Check, X } from "lucide-react-native";
 
 import { tokens } from "@/lib/ui/tokens";
 import { REGIONS, REGION_LABELS, type RegionId } from "@/lib/guideContent";
+import { AREA_REGIONS, DEFAULT_AREA } from "@/lib/areas";
 
 /** A town Explore can show: its area id ("" for places with none), name, how many places, and its region. */
 export type AreaOption = { id: string; label: string; count: number; region?: string };
@@ -16,14 +17,17 @@ type AreaSheetProps = {
   onClose: () => void;
 };
 
-const REGION_ORDER: string[] = REGIONS.map((r) => r.id);
+// The guide's order, with the default town's region moved to the top: the town Explore
+// opens on is then the first one listed.
+const FIRST_REGION = AREA_REGIONS[DEFAULT_AREA];
+const REGION_ORDER: string[] = [FIRST_REGION, ...REGIONS.map((r) => r.id).filter((id) => id !== FIRST_REGION)];
 
 function regionTitle(region: string | undefined): string {
   if (region === undefined) return "Elsewhere";
   return REGION_LABELS[region as RegionId] ?? region.replace(/-/g, " ").replace(/\b[a-z]/g, (c) => c.toUpperCase());
 }
 
-// Towns under their region, in the guide's region order (lib/guideContent.ts), then any
+// Towns under their region, in REGION_ORDER (the guide's, lib/guideContent.ts), then any
 // region the guide doesn't list, then the towns with no region ("Elsewhere"). Towns keep
 // the order they were given in.
 function sections(options: AreaOption[]) {

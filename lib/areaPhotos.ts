@@ -11,3 +11,8 @@ import type { ImageSourcePropType } from "react-native";
 //   dunedin: require("../assets/images/areas/thumb/dunedin.webp"),
 // Paths are relative because require() needs a static string Metro can resolve.
 export const AREA_PHOTOS: Record<string, ImageSourcePropType> = {};
+
+// The photographer for any town photo whose licence asks to be credited, as the licence
+// words it ("Miles Holden"), by area id. The squares are too small to carry it, so it is
+// shown on the Photo credits page (app/(app)/photo-credits.tsx).
+export const AREA_PHOTO_CREDITS: Record<string, string> = {};

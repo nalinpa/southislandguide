@@ -183,6 +183,28 @@ describe("signed in", () => {
 });
 
 // The opening tour, from its first step, for whoever is looking.
+// Where the photographers the image licences require are named, for the photos too small
+// to carry a credit of their own.
+describe("Photo credits", () => {
+  it("opens the photo credits for a signed-in user", async () => {
+    const view = await render(<AccountScreen />);
+
+    await fireEvent.press(view.getByRole("button", { name: "Photo credits" }));
+
+    expect(mockRouter.push).toHaveBeenCalledWith("/(app)/photo-credits");
+  });
+
+  it("opens them for a guest too", async () => {
+    mockSession.status = "guest";
+    mockSession.uid = undefined;
+    const view = await render(<AccountScreen />);
+
+    await fireEvent.press(view.getByRole("button", { name: "Photo credits" }));
+
+    expect(mockRouter.push).toHaveBeenCalledWith("/(app)/photo-credits");
+  });
+});
+
 describe("Show me around", () => {
   it("runs the tour again for a signed-in user", async () => {
     const view = await render(<AccountScreen />);

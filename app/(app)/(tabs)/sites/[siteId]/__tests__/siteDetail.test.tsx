@@ -163,6 +163,13 @@ describe("what it shows", () => {
     expect(screen.getByText("go early for the birds.")).toBeTruthy();
   });
 
+  it("credits the photographer over the photo", async () => {
+    mockBag.site = makeSite({ imageCredit: "Miles Holden" });
+    await openDetail();
+
+    expect(screen.getByText("Photo: Miles Holden")).toBeTruthy();
+  });
+
   it("puts each clause of the hours note on its own line", async () => {
     mockBag.site = makeSite({ hoursNote: "open daily 7am-dusk; dogs on lead" });
     await openDetail();

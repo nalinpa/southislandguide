@@ -76,6 +76,10 @@ export type Site = {
   website?: string;
   imageUrl?: string | null;
   imageThumbnailUrl?: string | null;
+  // The photographer, as the photo's licence asks to be credited ("Miles Holden").
+  // Typed in the admin panel next to the photo; shown over it on the place's page and on
+  // the Photo credits page (app/(app)/photo-credits.tsx).
+  imageCredit?: string | null;
   featured?: number;
   // 30-minute slots, used by the itinerary planner.
   recommendedDurationSlots?: number;

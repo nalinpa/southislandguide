@@ -171,7 +171,12 @@ function SiteDetail({ id }: { id: string }) {
       <LightStatusBar />
 
       <Animated.View style={[styles.heroWrap, { transform: [{ translateY: imageTranslateY }] }]}>
-        <Hero imageUrl={site.imageUrl} imageThumbnailUrl={site.imageThumbnailUrl} category={site.category[0]} />
+        <Hero
+          imageUrl={site.imageUrl}
+          imageThumbnailUrl={site.imageThumbnailUrl}
+          category={site.category[0]}
+          imageCredit={site.imageCredit}
+        />
       </Animated.View>
 
       <Animated.ScrollView

@@ -1,5 +1,5 @@
 // components/sites/detail/Hero.tsx
-import { View, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { ImageOff } from "lucide-react-native";
 
@@ -14,10 +14,14 @@ type HeroProps = {
   imageThumbnailUrl?: string | null;
   /** Primary category — its default image is shown when there's no photo. */
   category?: SiteCategory | null;
+  /** The photographer the photo's licence asks to be named. Not shown over a category's photo. */
+  imageCredit?: string | null;
 };
 
-export function Hero({ imageUrl, imageThumbnailUrl, category }: HeroProps) {
-  const source = siteImage(imageUrl ?? imageThumbnailUrl, category, "full");
+export function Hero({ imageUrl, imageThumbnailUrl, category, imageCredit }: HeroProps) {
+  const ownPhoto = imageUrl ?? imageThumbnailUrl;
+  const source = siteImage(ownPhoto, category, "full");
+  const credit = ownPhoto ? imageCredit?.trim() : undefined;
   return (
     <View style={styles.container}>
       {source ? (
@@ -34,6 +38,11 @@ export function Hero({ imageUrl, imageThumbnailUrl, category }: HeroProps) {
         locations={[0, 0.62, 1]}
         style={StyleSheet.absoluteFill}
       />
+      {credit ? (
+        <Text style={styles.credit} numberOfLines={1}>
+          {`Photo: ${credit}`}
+        </Text>
+      ) : null}
     </View>
   );
 }
@@ -46,4 +55,19 @@ const styles = StyleSheet.create({
   },
   image: { width: "100%", height: "100%", resizeMode: "cover" },
   placeholder: { flex: 1, justifyContent: "center", alignItems: "center" },
+  // Bottom right, clear of the 32pt the white sheet laps over the photo
+  // (app/(app)/(tabs)/sites/[siteId]/index.tsx), and on the darker end of the fade. The
+  // shadow keeps it readable over a bright sky or snow.
+  credit: {
+    position: "absolute",
+    right: tokens.space.sm,
+    bottom: 32 + tokens.space.xs,
+    maxWidth: "70%",
+    color: "rgba(255,255,255,0.9)",
+    fontSize: 11,
+    fontWeight: "600",
+    textShadowColor: "rgba(0,0,0,0.6)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
+  },
 });

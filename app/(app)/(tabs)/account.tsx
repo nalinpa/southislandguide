@@ -89,12 +89,12 @@ export default function AccountScreen() {
             <>
               <View style={styles.divider} />
               <TouchableOpacity
-                style={styles.tourRow}
+                style={styles.linkRow}
                 onPress={() => startTour(tourAudience)}
                 activeOpacity={0.6}
                 accessibilityRole="button"
               >
-                <Text style={styles.tourRowText}>Show me around</Text>
+                <Text style={styles.linkRowText}>Show me around</Text>
                 <ChevronRight size={16} color={tokens.colors.textMuted} strokeWidth={2} />
               </TouchableOpacity>
             </>
@@ -110,6 +110,19 @@ export default function AccountScreen() {
               <DangerZoneCard />
             </>
           )}
+
+          {/* The photographers the image licences require to be named. Guests too: the
+              photos are the same for everyone. */}
+          <View style={styles.divider} />
+          <TouchableOpacity
+            style={styles.linkRow}
+            onPress={() => router.push("/(app)/photo-credits")}
+            activeOpacity={0.6}
+            accessibilityRole="button"
+          >
+            <Text style={styles.linkRowText}>Photo credits</Text>
+            <ChevronRight size={16} color={tokens.colors.textMuted} strokeWidth={2} />
+          </TouchableOpacity>
 
           {/* Was insets.bottom + 80 (~114pt on a Face ID iPhone), sized for a tab
               bar floating over the content. This tab bar sits below it, so that
@@ -163,8 +176,9 @@ const styles = StyleSheet.create({
   statLabel: { fontSize: 10, fontWeight: "700", color: tokens.colors.text2, letterSpacing: 1, textTransform: "uppercase" },
   statDivider: { width: 1, height: 36, backgroundColor: tokens.colors.border },
   divider: { height: StyleSheet.hairlineWidth, backgroundColor: tokens.colors.border, marginHorizontal: tokens.space.md },
-  // As a row in the cards below (SavedItemsCard), at the cards' side padding.
-  tourRow: {
+  // Show me around and Photo credits: as a row in the cards (SavedItemsCard), at the
+  // cards' side padding.
+  linkRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -172,5 +186,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: tokens.space.md,
     paddingVertical: 14,
   },
-  tourRowText: { fontSize: 15, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1 },
+  linkRowText: { fontSize: 15, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1 },
 });

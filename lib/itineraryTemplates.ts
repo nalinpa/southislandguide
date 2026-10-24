@@ -131,7 +131,10 @@ const QUEENSTOWN_TO_TE_ANAU_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Milford Sound and back from Te Anau: 8:00 AM to 7:00 PM.
+// Milford Sound and back from Te Anau: 8:00 AM to 5:30 PM. The day must end in Te Anau:
+// its last stop is where the next day sets out from, and ending at Milford would put the
+// drive back on the next morning. Dinner at Redcliff goes on the end once it is a place in
+// the app (owner, 2026-10-24), in place of the Fiordland Cinema.
 const MILFORD_SOUND_DAY: ItineraryTemplateDay = {
   items: [
     // No food at Milford, so pies for the road.
@@ -141,10 +144,9 @@ const MILFORD_SOUND_DAY: ItineraryTemplateDay = {
     // The 12.45pm sailing (hourly at :45 from 9.45am to 2.45pm, Cruise Milford's booking
     // page, 31 Oct 2026): check in at 12.30, back by 2.30.
     { siteId: "cruise-milford-small-boat-cruise", siteName: "Milford Sound Cruise with Cruise Milford", slotIndex: 9, durationSlots: 4 },
-    // The 6pm show (screenings at 3, 5 and 6pm every day, Fiordland Cinema). The 1.5 hours
-    // left free after the cruise are slack for the slow road and the Homer Tunnel lights
-    // (owner, 2026-10-22).
-    { siteId: "fiordland-cinema-ata-whenua", siteName: "Fiordland Cinema: Ata Whenua", slotIndex: 20, durationSlots: 2 },
+    // Back in Te Anau for the takahē, open in daylight. For now: it is also in KEY_SUMMIT_DAY,
+    // so the five-day Fiordland trip has it twice.
+    { siteId: "punanga-manu-o-te-anau-bird-sanctuary", siteName: "Punanga Manu o Te Anau Bird Sanctuary", slotIndex: 17, durationSlots: 2 },
   ],
 };
 
@@ -190,8 +192,9 @@ const WANAKA_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "diamond-lake-rocky-mountain-track", siteName: "Diamond Lake and Rocky Mountain Track", slotIndex: 2, durationSlots: 6 },
     { siteId: "big-fig-wanaka", siteName: "Big Fig", slotIndex: 9, durationSlots: 2 },
-    // Last admission 4.30pm.
-    { siteId: "puzzling-world", siteName: "Puzzling World", slotIndex: 12, durationSlots: 4 },
+    // Kayak or paddleboard hire, in place of Puzzling World (owner, 2026-10-24). Closed May
+    // to August; 10am to 4pm in April and September.
+    { siteId: "paddle-wanaka", siteName: "Paddle Wānaka", slotIndex: 12, durationSlots: 4 },
     // May close in summer for fire risk.
     { siteId: "mount-iron-track", siteName: "Mount Iron Track", slotIndex: 17, durationSlots: 3 },
   ],
@@ -215,7 +218,8 @@ const WANAKA_TO_QUEENSTOWN_DAY: ItineraryTemplateDay = {
 // to 4:00 PM.
 const CHRISTCHURCH_TO_TEKAPO_DAY: ItineraryTemplateDay = {
   items: [
-    { siteId: "rakaia-salmon-statue", siteName: "Rakaia Salmon Statue", slotIndex: 3, durationSlots: 1 },
+    // The drive is the morning: the Rakaia Salmon Statue is out (owner, 2026-10-24), and a
+    // Geraldine stop would show as two hours from Fairlie (see TEKAPO_TO_CHRISTCHURCH_DAY).
     { siteId: "fairlie-bakehouse", siteName: "Fairlie Bakehouse", slotIndex: 8, durationSlots: 1 },
     // Open "mid morning into the evening" every day.
     { siteId: "tekapo-springs", siteName: "Tekapo Springs", slotIndex: 11, durationSlots: 5 },
@@ -276,7 +280,8 @@ const TEKAPO_TO_CHRISTCHURCH_DAY: ItineraryTemplateDay = {
     { siteId: "church-of-the-good-shepherd", siteName: "Church of the Good Shepherd", slotIndex: 2, durationSlots: 1 },
     { siteId: "barkers-foodstore-geraldine", siteName: "Barker's Foodstore & Eatery", slotIndex: 6, durationSlots: 2 },
     { siteId: "geraldine-cheese-company", siteName: "Geraldine Cheese Company", slotIndex: 9, durationSlots: 1 },
-    { siteId: "rakaia-salmon-statue", siteName: "Rakaia Salmon Statue", slotIndex: 13, durationSlots: 1 },
+    // Straight up State Highway 1 from Geraldine: the Rakaia Salmon Statue is out (owner,
+    // 2026-10-24).
     { siteId: "little-high-eatery", siteName: "Little High Eatery", slotIndex: 17, durationSlots: 2 },
   ],
 };
@@ -325,8 +330,8 @@ const TE_ANAU_TO_INVERCARGILL_DAY: ItineraryTemplateDay = {
     { siteId: "clifden-suspension-bridge", siteName: "Clifden Suspension Bridge", slotIndex: 3, durationSlots: 1 },
     { siteId: "mccrackens-rest", siteName: "McCracken's Rest", slotIndex: 5, durationSlots: 1 },
     { siteId: "the-crib-cafe-riverton", siteName: "The Crib Cafe", slotIndex: 8, durationSlots: 2 },
-    // Open 10am to 4pm.
-    { siteId: "te-hikoi-museum-riverton", siteName: "Te Hikoi Museum", slotIndex: 11, durationSlots: 2 },
+    // Riverton Rocks, in place of Te Hikoi Museum (owner, 2026-10-24).
+    { siteId: "howells-point-reserve", siteName: "Howells Point Reserve", slotIndex: 11, durationSlots: 2 },
     // Closes 5pm.
     { siteId: "classic-motorcycle-mecca", siteName: "Classic Motorcycle Mecca", slotIndex: 15, durationSlots: 3 },
     { siteId: "balibu-invercargill", siteName: "Balibu", slotIndex: 19, durationSlots: 2 },
@@ -404,15 +409,15 @@ const PUNAKAIKI_TO_HOKITIKA_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Hokitika to Franz Josef: 9:00 AM to 6:00 PM.
+// Hokitika to Franz Josef: 9:00 AM to 7:00 PM.
 const HOKITIKA_TO_FRANZ_JOSEF_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "hokitika-gorge", siteName: "Hokitika Gorge", slotIndex: 2, durationSlots: 3 },
     // Lunch at its café (9am to 3pm). Last entry 3.15pm in winter.
     { siteId: "west-coast-treetop-walk", siteName: "West Coast Treetop Walk", slotIndex: 7, durationSlots: 3 },
-    // The centre is open 10am to 3pm.
-    { siteId: "ross-goldfields-water-race-walk", siteName: "Ross Goldfields Heritage Centre and Water Race Walk", slotIndex: 11, durationSlots: 2 },
-    { siteId: "glacier-hot-pools", siteName: "Glacier Hot Pools", slotIndex: 17, durationSlots: 3 },
+    // The heli from Whataroa, on the way down, in place of Ross (owner, 2026-10-24).
+    { siteId: "glacier-country-scenic-flights", siteName: "Glacier Country Scenic Flights", slotIndex: 14, durationSlots: 3 },
+    { siteId: "glacier-hot-pools", siteName: "Glacier Hot Pools", slotIndex: 19, durationSlots: 3 },
   ],
 };
 
@@ -420,7 +425,8 @@ const HOKITIKA_TO_FRANZ_JOSEF_DAY: ItineraryTemplateDay = {
 const FRANZ_JOSEF_TO_FOX_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "franz-josef-glacier-valley-walk", siteName: "Franz Josef Glacier Valley Walk", slotIndex: 2, durationSlots: 3 },
-    { siteId: "west-coast-wildlife-centre", siteName: "West Coast Wildlife Centre", slotIndex: 6, durationSlots: 2 },
+    // The West Coast Wildlife Centre is out (owner, 2026-10-24). Lake Mapourika goes here
+    // once it is a place in the app.
     { siteId: "snakebite-brewery", siteName: "SnakeBite Brewery", slotIndex: 9, durationSlots: 2 },
     { siteId: "okarito-trig-walk", siteName: "Ōkārito Trig Walk", slotIndex: 12, durationSlots: 3 },
     { siteId: "fox-glacier-south-side-walk", siteName: "Fox Glacier South Side Walk", slotIndex: 16, durationSlots: 4 },
@@ -449,8 +455,11 @@ const HAAST_TO_WANAKA_DAY: ItineraryTemplateDay = {
     { siteId: "blue-pools-track", siteName: "Blue Pools Track", slotIndex: 7, durationSlots: 2 },
     // Closes 2 to 3pm depending on the season.
     { siteId: "makarora-country-cafe", siteName: "Makarora Country Café", slotIndex: 10, durationSlots: 2 },
-    // Last admission 4.30pm.
-    { siteId: "puzzling-world", siteName: "Puzzling World", slotIndex: 15, durationSlots: 4 },
+    // Lake Hāwea and the tree on the way into Wānaka, in place of Puzzling World (owner,
+    // 2026-10-24). Not The Neck: the app counts Makarora to it through Wānaka, two hours
+    // for what is half an hour up the road.
+    { siteId: "lake-hawea-esplanade-reserve", siteName: "Lake Hāwea Esplanade Reserve", slotIndex: 15, durationSlots: 2 },
+    { siteId: "that-wanaka-tree", siteName: "That Wānaka Tree", slotIndex: 18, durationSlots: 1 },
     { siteId: "red-star-burger-bar", siteName: "Red Star Burger Bar", slotIndex: 20, durationSlots: 2 },
   ],
 };
@@ -607,26 +616,29 @@ const HAAST_TO_FOX_DAY: ItineraryTemplateDay = {
 // Fox to Franz Josef: 9:00 AM to 7:30 PM.
 const FOX_TO_FRANZ_JOSEF_DAY: ItineraryTemplateDay = {
   items: [
-    { siteId: "fox-glacier-south-side-walk", siteName: "Fox Glacier South Side Walk", slotIndex: 2, durationSlots: 4 },
-    { siteId: "cafe-neve", siteName: "Cafe Nevé", slotIndex: 7, durationSlots: 2 },
-    { siteId: "franz-josef-glacier-valley-walk", siteName: "Franz Josef Glacier Valley Walk", slotIndex: 10, durationSlots: 3 },
-    { siteId: "west-coast-wildlife-centre", siteName: "West Coast Wildlife Centre", slotIndex: 14, durationSlots: 2 },
+    // A scenic flight first thing, before leaving Fox, in place of the West Coast Wildlife
+    // Centre (owner, 2026-10-24).
+    { siteId: "mountain-helicopters-scenic-flights", siteName: "Mountain Helicopters Scenic Flights", slotIndex: 2, durationSlots: 2 },
+    { siteId: "fox-glacier-south-side-walk", siteName: "Fox Glacier South Side Walk", slotIndex: 5, durationSlots: 4 },
+    { siteId: "cafe-neve", siteName: "Cafe Nevé", slotIndex: 10, durationSlots: 2 },
+    { siteId: "franz-josef-glacier-valley-walk", siteName: "Franz Josef Glacier Valley Walk", slotIndex: 13, durationSlots: 3 },
     { siteId: "glacier-hot-pools", siteName: "Glacier Hot Pools", slotIndex: 17, durationSlots: 3 },
     { siteId: "snakebite-brewery", siteName: "SnakeBite Brewery", slotIndex: 21, durationSlots: 2 },
   ],
 };
 
-// Franz Josef up the coast to Hokitika: 9:00 AM to 7:00 PM.
+// Franz Josef up the coast to Hokitika: 8:30 AM to 7:30 PM.
 const FRANZ_JOSEF_TO_HOKITIKA_DAY: ItineraryTemplateDay = {
   items: [
-    { siteId: "okarito-trig-walk", siteName: "Ōkārito Trig Walk", slotIndex: 2, durationSlots: 3 },
-    // The centre is open 10am to 3pm.
-    { siteId: "ross-goldfields-water-race-walk", siteName: "Ross Goldfields Heritage Centre and Water Race Walk", slotIndex: 9, durationSlots: 2 },
+    // Half an hour earlier than before, to fit the kayaks in before the drive north.
+    { siteId: "okarito-trig-walk", siteName: "Ōkārito Trig Walk", slotIndex: 1, durationSlots: 3 },
+    // Two hours on the lagoon from the same car park, in place of Ross (owner, 2026-10-24).
+    { siteId: "okarito-kayaks", siteName: "Ōkārito Kayaks", slotIndex: 5, durationSlots: 4 },
     // A late lunch at its café (9am to 3pm). Last entry 3.15pm in winter.
-    { siteId: "west-coast-treetop-walk", siteName: "West Coast Treetop Walk", slotIndex: 12, durationSlots: 3 },
-    { siteId: "hokitika-gorge", siteName: "Hokitika Gorge", slotIndex: 17, durationSlots: 2 },
+    { siteId: "west-coast-treetop-walk", siteName: "West Coast Treetop Walk", slotIndex: 13, durationSlots: 3 },
+    { siteId: "hokitika-gorge", siteName: "Hokitika Gorge", slotIndex: 18, durationSlots: 2 },
     // Dinner only, 5 to 8pm. Closed Tuesday and Wednesday: kept anyway (owner, 2026-10-22).
-    { siteId: "fat-pipi-pizza", siteName: "Fat Pipi Pizza", slotIndex: 20, durationSlots: 2 },
+    { siteId: "fat-pipi-pizza", siteName: "Fat Pipi Pizza", slotIndex: 21, durationSlots: 2 },
   ],
 };
 
@@ -835,7 +847,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "queenstown",
     label: "Queenstown and Fiordland in Three Days",
     description:
-      "Day one: the gondola and Fergburger, then the drive to Te Anau and the glowworm caves. Day two: Milford Sound by road, with Mirror Lakes and Lake Gunn on the way, a cruise and the Ata Whenua film back in Te Anau. Day three: the Kepler Track to Brod Bay, then back to Queenstown for the gardens and dinner at The Cow.",
+      "Day one: the gondola and Fergburger, then the drive to Te Anau and the glowworm caves. Day two: Milford Sound by road, with Mirror Lakes and Lake Gunn on the way, a cruise and the takahē back in Te Anau. Day three: the Kepler Track to Brod Bay, then back to Queenstown for the gardens and dinner at The Cow.",
     free: true,
     days: [QUEENSTOWN_TO_TE_ANAU_DAY, MILFORD_SOUND_DAY, TE_ANAU_TO_QUEENSTOWN_DAY],
   },
@@ -853,7 +865,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "queenstown",
     label: "Queenstown and Wānaka in Four Days",
     description:
-      "Day one in Queenstown. Day two: the Shotover Jet and Arrowtown, then over the Crown Range to Cardrona and Wānaka. Day three in Wānaka: Diamond Lake and Rocky Mountain, Puzzling World and Mount Iron. Day four: the toy museum, fruit at Cromwell and the Kawarau bungy bridge on the way back.",
+      "Day one in Queenstown. Day two: the Shotover Jet and Arrowtown, then over the Crown Range to Cardrona and Wānaka. Day three in Wānaka: Diamond Lake and Rocky Mountain, a paddle on the lake and Mount Iron. Day four: the toy museum, fruit at Cromwell and the Kawarau bungy bridge on the way back.",
     free: true,
     days: [QUEENSTOWN_TOWN_DAY, QUEENSTOWN_TO_WANAKA_DAY, WANAKA_DAY, WANAKA_TO_QUEENSTOWN_DAY],
   },
@@ -907,7 +919,7 @@ export const ITINERARY_TEMPLATES: ItineraryTemplate[] = [
     start: "christchurch",
     label: "South Island in 7 Days",
     description:
-      "Christchurch to Queenstown by the West Coast. Day one over Arthur's Pass to Greymouth. Day two at Punakaiki's Pancake Rocks, then on to Hokitika. Day three: Hokitika Gorge and the treetop walk, then the hot pools at Franz Josef. Day four: the glacier valley, kiwi at the wildlife centre and Ōkārito, then Fox. Day five: Lake Matheson and down the coast to Haast. Day six over the Haast Pass to Wānaka. Day seven through Cromwell to Queenstown.",
+      "Christchurch to Queenstown by the West Coast. Day one over Arthur's Pass to Greymouth. Day two at Punakaiki's Pancake Rocks, then on to Hokitika. Day three: Hokitika Gorge and the treetop walk, a scenic flight from Whataroa, then the hot pools at Franz Josef. Day four: the glacier valley and Ōkārito, then Fox. Day five: Lake Matheson and down the coast to Haast. Day six over the Haast Pass to Wānaka. Day seven through Cromwell to Queenstown.",
     free: true,
     days: [
       CHRISTCHURCH_TO_GREYMOUTH_DAY,

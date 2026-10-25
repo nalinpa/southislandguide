@@ -66,8 +66,8 @@ D1 and D2 were for the unlock and have moved to [After launch](#after-launch-the
 | # | What | Notes |
 |---|---|---|
 | E1 | App icon and splash | **Done 2026-10-20** (`TASKS.md`). |
-| E2 | Apple Sign In | Blocked on Apple's side: confirmed 2026-10-10 as a fault on Apple's server (it answers `invalid_client` for the App ID), which only Apple can repair. If Google sign-in ships without Apple, App Review rejects it, so the fallback is email only, with Google removed too. **Needs a cutoff date** for switching to the fallback. |
-| E3 | Account deletion with Apple revocation | Code done; untestable until E2 works. |
+| E2 | Apple Sign In | **Decided 2026-10-25 (owner): not in the first release, and Google neither.** Apple's server still answered `invalid_client` for the App ID that day (Rotorua's: `invalid_request`), a fault only Apple can repair, and App Review rejects Google sign-in without an equal privacy-minded option. The first release signs in by email only, which the login screen already does (`61a18ac`). Bringing both back: [After launch: Apple and Google sign-in](#after-launch-apple-and-google-sign-in). |
+| E3 | Account deletion with Apple revocation | Not needed for the first release: with no Apple sign-in there is no token to revoke. Code done; tested with the sign-in's return (after launch). |
 | E4 | EAS production environment variables | Same as `development`. |
 | E5 | Sentry organisation | `app.config.ts` still has `REPLACE_ME_SENTRY_ORG`. |
 | E6 | Firestore rules for reports and blocks deployed | Not known whether they are live. |
@@ -93,7 +93,7 @@ Recommended 2026-10-16, brought up to date 2026-10-20. Content (A) is the long p
 6. ~~**A7, suggested itineraries.**~~ 21 trips (2026-10-22).
 7. **One EAS build, then every device check** in `TASKS.md`, size and speed with the full list (C8), and a look at the drives: **B4 to B6** only for places that read wrong.
 8. ~~**C4 tour and C5 review prompt**~~ Done (2026-10-20 and 2026-10-19).
-9. **E, the store checklist and Rotorua's review checks, TestFlight, submit.** Screenshots after the sweep's wording (fix-24) and the photos are in. E2 depends on Apple: set a cutoff for the email-only fallback.
+9. **E, the store checklist and Rotorua's review checks, TestFlight, submit.** Screenshots after the sweep's wording (fix-24) and the photos are in. E2 is decided: email sign-in only (2026-10-25).
 
 ## Already done
 
@@ -104,6 +104,15 @@ Recommended 2026-10-16, brought up to date 2026-10-20. Content (A) is the long p
 By 2026-10-20: places and in-town drive times for 36 towns; the first UX sweep (fix-1 to fix-15); the app icon and splash (E1).
 
 2026-10-20 to 22: the second UX sweep (fix-16 to fix-31); the guide for every region (A6); Queenstown, Arrowtown and Glenorchy (A1 complete at 41 towns); town hubs, town-to-town times for every pair, and far-out places' own times (fix-32); 21 suggested trips with a start-town picker (A7).
+
+## After launch: Apple and Google sign-in
+
+Left out of the first release (owner, 2026-10-25; E2). The buttons (`components/auth/SocialSignInButtons.tsx`) and `lib/auth` are untouched, and `usesAppleSignIn` stays in `app.config.ts` so builds keep the capability.
+
+1. **Wait for Apple.** GET `https://appleid.apple.com/auth/authorize?client_id=app.blacksands.southislandguide`: `invalid_client` means still broken; `invalid_request` (what Rotorua's App ID gets) means Apple knows the app. Feedback FB25131402 and forum thread 837986 are already filed; nothing more to chase.
+2. **Test on the phone:** a fresh Apple sign-up, a sign-in, then account deletion with the token revoked (E3: the api log shows `POST …/auth/apple/link - Ok`, then `DELETE …/account - Ok` with no "apple revoke skipped"). Google sign-in too, with the EAS web client ID set (TASKS.md, Sign-in).
+3. **Ship both together**, never Google alone (App Store guideline 4.8): render `<SocialSignInButtons>` above the email button on the login screen again (`app/(auth)/login.tsx` says where), in a new store version rather than an over-the-air update, since it changes how people sign in.
+4. Update the privacy labels and the review notes for the two new sign-ins.
 
 ## After launch: the paid unlock
 

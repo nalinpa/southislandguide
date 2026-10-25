@@ -47,20 +47,16 @@ export function SocialSignInButtons({ onError, onBusyChange }: SocialSignInButto
   };
 
   const handleAppleSignIn = async () => {
-    console.warn("[apple-signin] button pressed; busy =", socialBusy, "signingInWith =", signingInWith); // TEMPORARY DIAGNOSTIC
     if (socialBusy) return;
     onError(null);
     setSigningInWith("apple");
     try {
       await signInWithApple();
-      console.warn("[apple-signin] succeeded"); // TEMPORARY DIAGNOSTIC
     } catch (e) {
-      // TEMPORARY DIAGNOSTIC — remove once Apple sign-in works. iOS reports some
-      // setup failures (e.g. a missing Sign in with Apple capability) with the
-      // same ERR_REQUEST_CANCELED code as a user tapping Cancel, and the branch
-      // below swallows that silently — so log what actually came back.
-      const err = e as { code?: string; message?: string };
-      console.warn("[apple-signin] failed:", err?.code, "|", err?.message);
+      // iOS reports some setup failures (a missing Sign in with Apple capability, an App ID
+      // Apple doesn't recognise) with the same ERR_REQUEST_CANCELED code as a user tapping
+      // Cancel, so a sign-in that silently does nothing may not be a cancel. The phone's
+      // own log has the real reason (TASKS.md, Sign-in, has how it was read last time).
       if ((e as { code?: string })?.code === "ERR_REQUEST_CANCELED") {
         setSigningInWith(null);
         return;

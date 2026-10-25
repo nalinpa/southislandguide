@@ -751,6 +751,21 @@ describe("the featured place", () => {
     expect(view.queryByText(/featured/i)).toBeNull();
   });
 
+  // Its top edge meets the bottom of the teal bar, with nothing above it: the sign-in and
+  // location notices come after it (owner, 2026-10-25).
+  it("sits right under the top bar, above any notice", async () => {
+    mockSession.status = "guest";
+    mockSession.uid = undefined;
+    mockBag.locStatus = "denied";
+    const view = await render(<SiteListPage />);
+
+    const header = view.getByTestId("explore-header");
+    expect(header).not.toHaveStyle({ paddingTop: expect.any(Number) });
+    const shown = JSON.stringify(view.toJSON());
+    expect(shown.indexOf("featured-card")).toBeLessThan(shown.indexOf("Sign In for More"));
+    expect(shown.indexOf("featured-card")).toBeLessThan(shown.indexOf("Location Disabled"));
+  });
+
   // Past the list's side padding, to the screen's edges (owner, 2026-10-25).
   it("runs the full width of the screen", async () => {
     rank("s2", 3);

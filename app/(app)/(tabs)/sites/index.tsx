@@ -290,47 +290,50 @@ export default function SiteListPage() {
 
   // Scrolls away with the rows. No side padding of its own: the list already
   // pads its content, so these line up with the cards' edges.
+  // The featured card first, its top edge against the bottom of the teal bar (owner,
+  // 2026-10-25); the notices go under it.
   const header = (
-    <Stack gap="md" style={styles.headerStack}>
-      {locStatus === "denied" && (
-        <ErrorCard
-          status="warning"
-          title="Location Disabled"
-          message="Enable location to see distances to nearby places."
-          action={{ label: "Open Settings", onPress: handleRefreshGPS }}
-        />
-      )}
-
-      {isGuest ? (
-        <Pressable
-          onPress={() => router.push("/(auth)/login")}
-          accessibilityRole="button"
-          style={styles.signInBanner}
-        >
-          <View style={styles.signInText}>
-            <AppText variant="sectionTitle">Sign In for More</AppText>
-            <AppText variant="body" style={styles.signInHint}>
-              Sign in to save places and leave reviews.
-            </AppText>
-          </View>
-          <ChevronRight size={22} color={tokens.colors.highlight} strokeWidth={2.5} />
-        </Pressable>
-      ) : null}
-
-      {activeLocations.length > 0 && rows.length === 0 && (
-        <AppText variant="body" status="hint" style={styles.centerText}>
-          {searchQuery.trim()
-            ? `No places${areaLabel ? ` in ${areaLabel}` : ""} match your search.`
-            : `No ${activeCategory ? SITE_CATEGORY_LABELS[activeCategory] : "places"} to show.`}
-        </AppText>
-      )}
-
+    <View testID="explore-header">
       {featured && (
         <View {...placeTarget}>
           <FeaturedCard site={featured.location} onPress={(id) => router.push(`/(app)/(tabs)/sites/${id}`)} />
         </View>
       )}
-    </Stack>
+      <Stack gap="md" style={styles.headerStack}>
+        {locStatus === "denied" && (
+          <ErrorCard
+            status="warning"
+            title="Location Disabled"
+            message="Enable location to see distances to nearby places."
+            action={{ label: "Open Settings", onPress: handleRefreshGPS }}
+          />
+        )}
+  
+        {isGuest ? (
+          <Pressable
+            onPress={() => router.push("/(auth)/login")}
+            accessibilityRole="button"
+            style={styles.signInBanner}
+          >
+            <View style={styles.signInText}>
+              <AppText variant="sectionTitle">Sign In for More</AppText>
+              <AppText variant="body" style={styles.signInHint}>
+                Sign in to save places and leave reviews.
+              </AppText>
+            </View>
+            <ChevronRight size={22} color={tokens.colors.highlight} strokeWidth={2.5} />
+          </Pressable>
+        ) : null}
+  
+        {activeLocations.length > 0 && rows.length === 0 && (
+          <AppText variant="body" status="hint" style={styles.centerText}>
+            {searchQuery.trim()
+              ? `No places${areaLabel ? ` in ${areaLabel}` : ""} match your search.`
+              : `No ${activeCategory ? SITE_CATEGORY_LABELS[activeCategory] : "places"} to show.`}
+          </AppText>
+        )}
+      </Stack>
+    </View>
   );
 
   return (

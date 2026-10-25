@@ -13,6 +13,14 @@ import {
   REGIONS_WITH_CONTENT,
   type RegionId,
 } from "@/lib/guideContent";
+import { FIRST_REGION } from "@/lib/areas";
+
+// The regions with sections written, the default town's first (Queenstown & Wānaka), as in
+// Explore's town list; the rest in the guide's order.
+const REGION_TABS = [
+  ...REGIONS_WITH_CONTENT.filter((r) => r.id === FIRST_REGION),
+  ...REGIONS_WITH_CONTENT.filter((r) => r.id !== FIRST_REGION),
+];
 
 export default function GuideIndexPage() {
   // null = island-wide. A region id filters to that region's sections.
@@ -55,7 +63,7 @@ export default function GuideIndexPage() {
           <TopBarTabs<RegionId | null>
             tabs={[
               { key: null, label: "South Island" },
-              ...REGIONS_WITH_CONTENT.map((r) => ({ key: r.id, label: r.label })),
+              ...REGION_TABS.map((r) => ({ key: r.id, label: r.label })),
             ]}
             selected={region}
             onSelect={setRegion}

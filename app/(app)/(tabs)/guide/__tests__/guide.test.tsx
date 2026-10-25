@@ -108,6 +108,19 @@ describe("the guide index", () => {
     }
   });
 
+  // Queenstown is the town the app opens on, so its region leads, as in Explore's town list
+  // (owner, 2026-10-25); the rest keep the guide's order.
+  it("lists Queenstown & Wānaka first after the island", async () => {
+    const view = await render(<GuideIndexPage />);
+
+    const labels = view.getAllByRole("tab").map((t: any) => {
+      const text = (n: any): string => (typeof n === "string" ? n : (n?.children ?? []).map(text).join(""));
+      return text(t);
+    });
+    expect(labels.slice(0, 2)).toEqual(["South Island", "Queenstown & Wānaka"]);
+    expect(labels.slice(2)).toEqual(REGIONS_WITH_CONTENT.filter((r) => r.id !== "queenstown-wanaka").map((r) => r.label));
+  });
+
   it("switches to a region's own sections, and back", async () => {
     const region = REGIONS_WITH_CONTENT[0];
     const regional = GUIDE_CATEGORIES.filter((c) => c.region === region.id);

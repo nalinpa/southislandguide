@@ -81,6 +81,10 @@ export const AREA_REGIONS: Record<string, RegionId> = {
   blenheim: "marlborough",
 };
 
+// The default town's region, listed first in the town picker and in the guide's region tabs
+// (owner, 2026-10-24 and 2026-10-25); the rest keep the guide's order.
+export const FIRST_REGION: RegionId = AREA_REGIONS[DEFAULT_AREA];
+
 // The guide's region for a town where it isn't the town picker's: the guide gives Kaikōura
 // sections of its own. Any other town opens the guide on its AREA_REGIONS region.
 export const AREA_GUIDE_REGIONS: Record<string, RegionId> = {

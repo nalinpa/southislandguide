@@ -99,7 +99,7 @@
     "hoursNote": "Daily 9am to 5pm; bridge $12.50 adult, $5 child; gold panning $12.50 adult, $10 child",
     "sourceUrl": "https://bullergorge.co.nz/swingbridge/",
     "confidence": "high",
-    "area": "westport"
+    "area": "murchison"
   },
   {
     "name": "Ōpārara Arch",
@@ -252,7 +252,7 @@
     "hoursNote": "9.30am to 2pm Thu, Fri, Sun and Mon; closed Tue, Wed and Sat",
     "sourceUrl": "https://www.nelsontasman.nz/eat-drink/tutaki-bakery/",
     "confidence": "medium",
-    "area": "westport",
+    "area": "murchison",
     "website": "https://www.facebook.com/tutakibakery"
   },
   {
@@ -305,8 +305,8 @@
     "region": "west-coast",
     "active": true,
     "price": "Free",
-    "description": "A free gravel camping area at North Beach on the northern edge of Westport, a short walk through the driftwood to the sea and about 10 minutes by bike from town. There are 30 spaces, for certified self-contained vehicles only, and you can stay up to two nights.\n\nThere's a long drop toilet, rubbish bins and a tap with non-drinkable water. Across Buller, freedom camping is for certified self-contained vehicles only, with a maximum of nine nights a month, and the council can fine you $200 for breaking the rules.\nLocal tip: It fills up by early evening in summer, so arrive by late afternoon, and keep your food away from the cheeky weka.",
-    "hoursNote": "Certified self-contained only; 30 spaces; max 2 nights; long drop; non-potable water; $200 fines under Buller rules",
+    "description": "A free gravel camping area at North Beach on the northern edge of Westport, a short walk through the driftwood to the sea and about 10 minutes by bike from town. There are 30 spaces, for certified self-contained vehicles only, and you can stay up to two nights.\n\nThere's a long drop toilet, rubbish bins and a tap with non-drinkable water. Across Buller, freedom camping is for certified self-contained vehicles only, with a maximum of nine nights a month, and the council can fine you $400 for breaking the rules.\nLocal tip: It fills up by early evening in summer, so arrive by late afternoon, and keep your food away from the cheeky weka.",
+    "hoursNote": "Certified self-contained only; 30 spaces; max 2 nights; long drop; non-potable water; $400 fines under Buller rules",
     "sourceUrl": "https://bullerdc.govt.nz/recreation/freedom-camping/",
     "confidence": "medium",
     "area": "westport"

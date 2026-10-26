@@ -86,7 +86,7 @@
     ],
     "region": "canterbury",
     "area": "banks-peninsula",
-    "active": true,
+    "active": false,
     "price": "Moderate",
     "website": "https://www.thegiantshouse.co.nz/",
     "description": "Artist Josie Martin's mosaic garden on the hill above Akaroa, built around a historic house and filled with tiled sculptures, figures and terraces that tumble down through the flower beds. Nothing else in Akaroa looks like it. Adults are $35 and children 2 to 15 are $20, with family passes available.\n\nThere is a café and a gallery on site. It is a short but steep walk up Rue Balguerie from the waterfront.\nLocal tip: Allow at least an hour, since the fun is in the detail, and note it closes earlier, at 3pm, from May to September.",
@@ -125,7 +125,7 @@
       "Walks"
     ],
     "region": "canterbury",
-    "area": "banks-peninsula",
+    "area": "christchurch",
     "active": true,
     "price": "Cheap",
     "website": "https://www.blackcat.co.nz/diamond-harbour-ferry/",

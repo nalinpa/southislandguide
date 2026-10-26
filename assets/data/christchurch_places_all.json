@@ -17,7 +17,9 @@
     "hoursNote": "Open daily 11am to 10pm; closed 25 Dec and 1 Jan",
     "premium": true,
     "sourceUrl": "https://www.littlehigh.co.nz/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/fb8cbf20-76d9-48cb-a3e6-e89f4a0202e5.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/c9eda9af-1692-4c21-8d18-0fdab5fe9d46.webp"
   },
   {
     "name": "C1 Espresso",
@@ -38,7 +40,9 @@
     "hoursNote": "Open daily; 7am to 9pm weekdays, 7am to 5pm weekends; breakfast menu to 3pm",
     "premium": true,
     "sourceUrl": "https://www.c1espresso.co.nz/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/4fbca602-4492-4f5d-a52a-a4c7fe634065.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/cdadf7a6-ed89-404d-8305-f7de11566ecf.webp"
   },
   {
     "name": "The Welder",
@@ -58,7 +62,9 @@
     "hoursNote": "Mon to Fri 7am to 3pm (side window only until 8am); Sat and Sun 8.30am to 2.30pm",
     "premium": true,
     "sourceUrl": "https://grizzlybakedgoods.com/the-welder",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/1f0de8b6-6524-496a-b27b-5c6f65d04427.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/8a6db194-244e-4b17-8518-e9114f968a06.webp"
   },
   {
     "name": "Blue Moon Bakehouse",
@@ -78,7 +84,9 @@
     "hoursNote": "Mon to Fri 7.30am to 7pm; Sat and Sun 8.30am to 7pm; closed 25 Dec only",
     "premium": true,
     "sourceUrl": "https://www.bluemoonbakehouse.co.nz/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/10cbc928-8b16-42fe-ab7b-9c263653b75f.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/c7042568-3f54-46dd-a518-7da82ca8c897.webp"
   },
   {
     "name": "Christchurch Farmers Market",
@@ -98,7 +106,9 @@
     "hoursNote": "Saturdays only, 9am to 12pm; may close between Christmas and New Year",
     "premium": true,
     "sourceUrl": "https://www.christchurchfarmersmarket.co.nz/faq",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/2a436e99-a0b9-4d1d-8965-4fc8c6df8f1b.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/d9914142-6d66-46ff-8980-a74d9d75e3e4.webp"
   },
   {
     "name": "Fire and Slice",
@@ -118,7 +128,9 @@
     "hoursNote": "Tue to Sun 11.30am to 8pm; closed Mon",
     "premium": true,
     "sourceUrl": "https://www.fireandslice.co.nz/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/aef6a460-889f-429c-9646-eb8a34216940.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/4897506a-160a-4bf6-9e15-be69041f0969.webp"
   },
   {
     "name": "Lyttelton Farmers Market",
@@ -133,13 +145,15 @@
     "active": true,
     "price": "Cheap",
     "website": "https://www.projectlyttelton.org/project/market",
-    "description": "A Saturday market on London Street with 35 to 50 stalls of fruit, vegetables, free-range eggs, bread, meat, fish and cheese, plus coffee and brunch to eat while you wander. Many stallholders come from Lyttelton itself or from within 20km of it.\n\nLive music runs every week through 2026, and dogs on a lead are welcome.\nLocal tip: Parking around London Street gets tight on busy Saturdays, so the bus is the easier option. The stallholder list goes out in a newsletter every Friday afternoon.",
+    "description": "A Saturday market on London Street with 35 to 50 stalls of fruit, vegetables, free-range eggs, bread, meat, fish and cheese, plus coffee and brunch to eat while you wander. Many stallholders come from Lyttelton itself or from within 50km of it.\n\nLive music runs every week through 2026, and dogs on a lead are welcome.\nLocal tip: Parking around London Street gets tight on busy Saturdays, so the bus is the easier option. The stallholder list goes out in a newsletter every Friday afternoon.",
     "recommendedDurationSlots": 3,
     "featured": 7,
     "hoursNote": "Saturdays only, 10am to 1pm",
     "premium": true,
     "sourceUrl": "https://www.projectlyttelton.org/project/market",
-    "confidence": "medium"
+    "confidence": "medium",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/a40a5499-ef2c-4639-bf50-23f33463d9db.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/89d353c1-611d-4edc-aada-9c1dc564fde8.webp"
   },
   {
     "name": "Bower Fish Supply",
@@ -158,7 +172,9 @@
     "hoursNote": "Sun and Mon 4.30pm to 8pm; Tue to Sat 11.30am to 1.30pm and 4.30pm to 8pm",
     "premium": true,
     "sourceUrl": "https://wanderlog.com/place/details/3473971/bower-fish-supply",
-    "confidence": "medium"
+    "confidence": "medium",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/c5975aee-cfa9-452a-a96a-ad3a0d4275db.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/bb5546bb-1fcd-4666-8f28-d8c94901e88f.webp"
   },
   {
     "name": "Christchurch Botanic Gardens",
@@ -178,7 +194,9 @@
     "hoursNote": "Grounds daily 7am to 9pm Nov to Feb, 7am to 8.30pm in Oct and March, 7am to 6.30pm Apr to Sep; visitor centre and ilex Café 9am to 5pm Sep to May, 9am to 4pm Jun to Aug; visitor centre and café closed 25 December; conservatories daily 10am to 4pm",
     "premium": true,
     "sourceUrl": "https://ccc.govt.nz/parks-and-gardens/christchurch-botanic-gardens/visit/botanic-gardens-opening-hours",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/08bb4493-022c-43ed-b47b-2e245f3e493f.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/c4945af3-f4f4-4d2e-91c1-da5ed56dce7e.webp"
   },
   {
     "name": "Canterbury Museum Pop-Up",
@@ -190,10 +208,10 @@
     ],
     "region": "canterbury",
     "area": "christchurch",
-    "active": true,
+    "active": false,
     "price": "Free",
     "website": "https://www.canterburymuseum.com/",
-    "description": "The main museum building on Rolleston Avenue is closed for redevelopment, so a pop-up at 66 Gloucester Street shows collection highlights and changing exhibitions in the meantime. Expect a small, free display. Recent visitors found a dinosaur exhibition, hands-on microscopes and bug drawers that kids love.\n\nIt is a stop of 30 minutes to an hour, not a half-day museum.\nLocal tip: Check the What's On page before you go, since exhibitions change, and pair it with the Botanic Gardens a few minutes' walk away.",
+    "description": "The main museum building on Rolleston Avenue is closed for redevelopment, so a pop-up at 66 Gloucester Street shows collection highlights and changing exhibitions in the meantime. Expect a small, free display. Recent visitors found hands-on microscopes and bug drawers that kids love.\n\nIt is a stop of 30 minutes to an hour, not a half-day museum.\nLocal tip: Check the What's On page before you go, since exhibitions change, and pair it with the Botanic Gardens a few minutes' walk away.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Daily 9am to 5.30pm Oct to March; daily 9am to 5pm Apr to Sep; closed 25 December; free entry, donations welcome; main Rolleston Avenue building closed for redevelopment",
     "premium": true,
@@ -219,7 +237,9 @@
     "hoursNote": "Summer (from 28 September): daily 10am to 5pm; winter (from 1 May): daily 10am to 4pm; last ride down an hour after closing",
     "premium": true,
     "sourceUrl": "https://www.christchurchattractions.nz/christchurch-gondola/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/f7122313-14d3-4813-8c48-b6fd8de833b5.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/f88bdf43-8d3e-4a93-a4ab-6ae18c8065d2.webp"
   },
   {
     "name": "Christchurch Tram",
@@ -239,7 +259,9 @@
     "hoursNote": "Summer (from 28 September): daily 8.30am to 6.30pm; winter (from 1 May): daily 9am to 5pm; last tram leaves stop 1 an hour before closing; trams every 10 to 20 minutes",
     "premium": true,
     "sourceUrl": "https://www.christchurchattractions.nz/christchurch-tram/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/2f5a12e0-dfbc-4fcd-a7bc-f86ca3e0e0dd.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/b45047e9-7da2-4acb-8513-dc9c5cbb6294.webp"
   },
   {
     "name": "International Antarctic Centre",
@@ -259,7 +281,9 @@
     "hoursNote": "Open daily 9am to 4.30pm; closed 25 Dec",
     "premium": true,
     "sourceUrl": "https://www.iceberg.co.nz/plan-your-visit",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/3a778be6-a26f-448c-af17-3bc40ebff728.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/9d9e8abb-1350-4ab6-879a-1048e7da5200.webp"
   },
   {
     "name": "Air Force Museum of New Zealand",
@@ -271,7 +295,7 @@
     ],
     "region": "canterbury",
     "area": "christchurch",
-    "active": true,
+    "active": false,
     "price": "Cheap",
     "website": "https://airforcemuseum.co.nz/",
     "description": "The national collection of the Royal New Zealand Air Force at Wigram, with historic aircraft, exhibitions, a Mosquito flight simulator and a café. Entry is free for New Zealanders and anyone living here. International visitors aged 18 and over pay $15, and under 18s are free.\n\nGuided tours run daily at 11am, 1.30pm and 3pm for $5, with no need to book. Allow two to three hours, or about an hour for the highlights.\nLocal tip: Parking is free right at the door. Food and drink can't go into the galleries, so eat at the café.",
@@ -291,7 +315,7 @@
     ],
     "region": "canterbury",
     "area": "christchurch",
-    "active": true,
+    "active": false,
     "price": "Moderate",
     "website": "https://www.ferrymead.org.nz/",
     "description": "A living history park built around an Edwardian township of restored cottages, a school, a church and period shops, plus trams, a steam railway, fire engines and printing displays. Volunteer societies run the exhibits. Adults are $20, children 5 to 15 are $15, and under 5s are free.\n\nTram rides ($5) and train rides ($8) cost extra and only run on some days.\nLocal tip: It opens Thursday to Sunday outside school holidays. If there is one display you really want to see, contact that society first to check volunteers will be on.",
@@ -319,7 +343,9 @@
     "hoursNote": "Open daily 9am to 5pm in summer; 9.30am to 4pm in winter; bookings essential",
     "premium": true,
     "sourceUrl": "https://christchurchattractions.nz/punting-on-the-avon-antigua-boatsheds",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/07b3f092-64f6-4cac-b31a-7a3db61184d7.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/1691ca8d-4c60-448e-9dac-202bd9471232.webp"
   },
   {
     "name": "Riccarton House and Bush",
@@ -339,7 +365,9 @@
     "premium": true,
     "website": "https://www.riccartonhouse.co.nz",
     "sourceUrl": "https://www.riccartonhouse.co.nz/riccarton-house",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/b32c562f-8998-4f8c-b711-dac45fa29be5.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/bc480d5e-af36-4129-8e98-8e03c2b62085.webp"
   },
   {
     "name": "Mona Vale",
@@ -351,11 +379,11 @@
     ],
     "region": "canterbury",
     "area": "christchurch",
-    "active": true,
+    "active": false,
     "price": "Free",
     "description": "A Victorian-style garden estate on the Avon at 40 Mona Vale Avenue, with a rose garden, a fernery, a lily pond, streams and willows around a historic homestead. There are tea rooms, and dogs on a lead are welcome.\n\nIt is quieter than the Botanic Gardens, and autumn colour brings the biggest crowds.\nLocal tip: Go before about 3pm. Recent visitors found the tea rooms and fernery closed later in the afternoon.",
     "recommendedDurationSlots": 3,
-    "hoursNote": "Gates open daily from 7am; close 9pm Nov to Feb, 8pm Mar, 6.30pm Apr, 5.30pm May to Aug, 6pm Sep, 7pm Oct; Homestead and Pantry café Wed to Sun 9am to 3pm, also Tue 10am to 3pm in winter; fernery keeps shorter hours",
+    "hoursNote": "Gates open daily from 7am; close 9pm Nov to Feb, 8pm Mar, 6.30pm Apr, 5.30pm May to Aug, 6pm Sep, 7pm Oct; Mona Vale Kitchen café in the homestead daily 9am to 4pm, closed Christmas Day; fernery keeps shorter hours",
     "premium": true,
     "sourceUrl": "https://ccc.govt.nz/parks-and-gardens/mona-vale",
     "confidence": "high"
@@ -378,7 +406,9 @@
     "hoursNote": "Open any time; sealed, flat and accessible; the Botanic Gardens end is busiest on sunny weekends",
     "premium": true,
     "sourceUrl": "https://ccc.govt.nz/city-promenade",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/f9ea0424-eae0-4df9-a1ad-73e098383e72.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/2257aada-c0df-4e73-a783-2ee7f1dbafbb.webp"
   },
   {
     "name": "Hagley Park Loop",
@@ -397,7 +427,9 @@
     "hoursNote": "Open 24 hours; flat and pram friendly; paths shared with cyclists",
     "premium": true,
     "sourceUrl": "https://ccc.govt.nz/parks-and-gardens/explore-parks/hagley-park-and-gardens",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/e6058b76-f147-45d4-95cb-dd6b72ed920a.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/df5ccbb3-496a-4b57-9026-ffea3a4b46d7.webp"
   },
   {
     "name": "Bridle Path",
@@ -417,7 +449,9 @@
     "hoursNote": "Open any time; steep and exposed with little shade; rockfall zone, do not linger; rough sections after storm damage",
     "premium": true,
     "sourceUrl": "https://ccc.govt.nz/parks-and-gardens/explore-parks/port-hills/bridle-path/bridle-path",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/10ed8447-9ed2-428d-bab5-666a15a89695.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/1c8c45d0-80d1-414e-a5fb-1b70a63255e7.webp"
   },
   {
     "name": "Rāpaki Track",
@@ -436,7 +470,9 @@
     "hoursNote": "Open any time; exposed with no shade; shared with downhill mountain bikes",
     "premium": true,
     "sourceUrl": "https://ccc.govt.nz/parks-and-gardens/explore-parks/port-hills/rapaki-to-bowenvale/rapaki-track",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/54ace3bf-b428-48e3-8e56-3d6edd7e4843.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/ed37d84d-f094-4fb9-9195-f2ea731e3084.webp"
   },
   {
     "name": "Harry Ell Walkway",
@@ -476,7 +512,9 @@
     "hoursNote": "Track open any time; Godley Head car park open 8am to 8pm; no mountain bikes; dogs on lead; toilets and water at both car parks",
     "premium": true,
     "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/godley-head/things-to-do/awaroa-godley-head-loop-track/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/7d86fed7-b48a-4e9d-bc6b-3bb8ccef0fcb.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/fdfefcdc-e64e-4e5d-957c-0dec2da51335.webp"
   },
   {
     "name": "Taylors Mistake Track",
@@ -496,10 +534,12 @@
     "hoursNote": "Open any time; steep cliff edges, slippery bush section; dogs on lead; not for wheelchairs or buggies",
     "premium": true,
     "sourceUrl": "https://ccc.govt.nz/parks-and-gardens/explore-parks/coast-and-plains/sumner-redcliffs/taylors-mistake-track",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/bb20d2d8-4236-45fe-a86c-854c3a09857f.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/4ef7ffa9-7062-4f7d-b7b5-083e515fe372.webp"
   },
   {
-    "name": "Ōtamahua/Quail Island Loop",
+    "name": "Quail Island Loop",
     "slug": "otamahua-quail-island-loop",
     "lat": -43.627857,
     "lng": 172.693026,
@@ -509,7 +549,7 @@
     ],
     "region": "canterbury",
     "area": "christchurch",
-    "active": true,
+    "active": false,
     "price": "Moderate",
     "description": "A ferry ride from Lyttelton to an island in the middle of the harbour, with an easy 4.5km loop track that takes about two and a half hours. The track passes the old quarantine barracks, a former leper colony site and a ship graveyard of wrecked hulks on the shore, with short side tracks to beaches and the summit.\n\nThe walk is free, but the Black Cat ferry is $45 return for adults. There are toilets on the island but no shops, and water must be boiled, so bring everything you need. Dogs aren't allowed.\nLocal tip: See the shipwrecks at low tide and swim at high tide, and don't miss the afternoon ferry back. There is no other way off the island.",
     "recommendedDurationSlots": 10,
@@ -533,10 +573,12 @@
     "website": "https://christchurchartgallery.org.nz/",
     "description": "The city's public art gallery, in the glass building on the corner of Worcester Boulevard and Montreal Street, holding one of the most significant public collections in the country. Entry is free. Current shows include Kā Whakatauraki: The Promises, which brings together the ten Ngāi Tahu land purchase deeds and runs until March 2027, and a selection of treasures from the historical collection.\n\nThere is a café, a good gift shop and often children's activities under the staircase, which makes it an easy rainy-day option. Backpacks and large bags have to be checked in, and tripods, selfie sticks and flash aren't allowed.\nLocal tip: Go on a Wednesday evening, when it stays open until 9pm and is much quieter than a weekend afternoon.",
     "recommendedDurationSlots": 3,
-    "hoursNote": "Open daily 10am to 5pm; Wednesday until 9pm; free entry",
+    "hoursNote": "Open daily 10am to 5pm; Wednesday until 9pm; closed Christmas Day; free entry",
     "premium": true,
     "sourceUrl": "https://christchurchartgallery.org.nz/visit",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/f679ac5d-c5d0-43fc-91de-e98cf5037036.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/1926c733-c50d-4eec-bcd1-d4de4ccbe81d.webp"
   },
   {
     "name": "The Arts Centre",
@@ -556,7 +598,9 @@
     "hoursNote": "Open daily 10am to 5pm; free to enter, some galleries and shops charge",
     "premium": true,
     "sourceUrl": "https://www.artscentre.org.nz/visit/getting-here/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/1c089b84-6408-4d81-9aef-26c141a37d78.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/40a88e39-6e6d-4d69-b0a8-eab63630fe92.webp"
   },
   {
     "name": "Quake City",
@@ -569,7 +613,7 @@
     ],
     "region": "canterbury",
     "area": "christchurch",
-    "active": true,
+    "active": false,
     "price": "Moderate",
     "website": "https://quakecity.co.nz/",
     "description": "Canterbury Museum's exhibition about the 2010 and 2011 earthquakes, at 299 Durham Street North. Eyewitness videos, interactive displays and objects like the spire of the old cathedral tell the story, and explain why the city was hit so hard. Adult tickets are $25, seniors and students $20, and under 15s go free with an adult.\n\nIt is moving rather than grim, and it helps a first-time visitor make sense of the rebuilt city around them. Most people take 45 minutes to an hour.\nLocal tip: Go early in your stay. The empty lots, new buildings and the memorial by the river make far more sense afterwards.",
@@ -597,7 +641,9 @@
     "hoursNote": "Mon to Sat 9am to 4pm, or until the evening service ends if later; Sun 7.30am until after the 5pm service; services held, so visits may be limited at service times; donations welcome",
     "premium": true,
     "sourceUrl": "https://www.cardboardcathedral.org.nz/pages/information",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/cf91035c-a73e-451f-9802-938d410730e7.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/407ccdf9-71ae-45af-9637-5744279aeb5e.webp"
   },
   {
     "name": "Waka on Avon",
@@ -618,10 +664,12 @@
     "hoursNote": "Daily departures at 10.30am, 12.30pm and 4.30pm; closed 25 December; minimum 4 people; book ahead",
     "premium": true,
     "sourceUrl": "https://wakaonavon.co.nz/manaaki-waka-experience/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/0e11d426-78ff-4506-a6dc-9c84b31a1b67.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/b65a3b97-0863-4fa7-a8b8-63030c0e9a0a.webp"
   },
   {
-    "name": "Central City Street Art",
+    "name": "Central Street Art",
     "slug": "central-city-street-art",
     "lat": -43.531373,
     "lng": 172.637854,
@@ -631,14 +679,16 @@
     ],
     "region": "canterbury",
     "area": "christchurch",
-    "active": true,
+    "active": false,
     "price": "Free",
-    "description": "More than 250 street art pieces across the central city, including over 50 major murals. Start at Narcissa by Jacob Yikes just off Cathedral Square, at 53m the tallest mural in the country, then wander Manchester, Tuam, Armagh and Barbadoes Streets, New Regent Street and the streets around Riverside Market.\n\nIt costs nothing and fits around other sightseeing. Pieces change over time as buildings go up and walls get repainted.\nLocal tip: Open the Street Art Cities map on the ChristchurchNZ street art page on your phone. It pins every mural, so you aren't wandering blind.",
+    "description": "More than 250 street art pieces across Christchurch, including over 50 major murals in the central city. Start at Narcissa by Jacob Yikes just off Cathedral Square, at 53m the tallest mural in the country, then wander Manchester, Tuam, Armagh and Barbadoes Streets, New Regent Street and the streets around Riverside Market.\n\nIt costs nothing and fits around other sightseeing. Pieces change over time as buildings go up and walls get repainted.\nLocal tip: Open the Street Art Cities map linked from the ChristchurchNZ street art page on your phone. It pins over 200 pieces, so you aren't wandering blind.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Outdoors, any time; best in daylight; murals change as sites are redeveloped",
     "premium": true,
     "sourceUrl": "https://www.christchurchnz.com/visit/things-to-do/get-inspired/celebrating-street-art-in-the-city",
-    "confidence": "medium"
+    "confidence": "medium",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/6842dee5-9df8-45f6-91c0-c2435ef572a0.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/f0ac4295-e761-4686-b448-da122e81eb94.webp"
   },
   {
     "name": "Willowbank Wildlife Reserve",
@@ -658,7 +708,9 @@
     "hoursNote": "Open daily 9.30am to 5pm; kiwi house opens 10.30am; closed 25 Dec; no bird flu restrictions as of July 2026",
     "premium": true,
     "sourceUrl": "https://willowbank.co.nz/plan-your-visit/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/a2a05224-156a-4734-9415-69bc61cfa488.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/d409eecc-15a4-4023-b848-f5f0c9622300.webp"
   },
   {
     "name": "Orana Wildlife Park",
@@ -673,12 +725,14 @@
     "active": true,
     "price": "Moderate",
     "website": "https://www.oranawildlifepark.co.nz/",
-    "description": "New Zealand's only open range zoo, on 80 hectares on McLeans Island Road near the airport. Lions, giraffes, gorillas and cheetahs share the park with native birds, and animal feedings and talks run through the day at no extra cost. Adults are $39.50, children 5 to 15 are $12.50, and a family pass is $91.50.\n\nThe park suggests at least two hours, but most people stay three to five. There are barbecue spots, playgrounds and a café, and a shuttle loops the grounds.\nLocal tip: Grab the daily map of feeding times at the gate and plan your loop around the giraffe feeding. Stay until closing, when some animals that hide all day come out.",
+    "description": "New Zealand's only open range zoo, on 80 hectares on McLeans Island Road near the airport. Lions, giraffes, gorillas and cheetahs share the park with native birds, and animal feedings and talks run through the day at no extra cost. Adults are $39.50, children 5 to 15 are $12.50, and a family pass is $91.50.\n\nThe park suggests at least two hours, but most people stay three to five. There are barbecue spots, playgrounds and a café, and a shuttle loops the grounds.\nLocal tip: Pick up a map at the entrance, scan its QR code for the day's presentation times, and plan your loop around the giraffe feeding. Stay until closing, when some animals that hide all day come out.",
     "recommendedDurationSlots": 8,
     "hoursNote": "Open daily 10am to 5pm; last entry 4pm; closed 25 Dec",
     "premium": true,
     "sourceUrl": "https://www.oranawildlifepark.co.nz/pricing-and-passes/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/83c3dcf0-349f-4a65-adf2-193383e09395.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/9ddb6ad7-bd37-404b-a36b-bcb1cd1a4c8a.webp"
   },
   {
     "name": "He Puna Taimoana Hot Pools",
@@ -699,7 +753,9 @@
     "hoursNote": "Daily 10am to 7.30pm, to 10pm Thu and Fri (adults-only late sessions); Sat to 10pm October to February (Summer Nights); 2 hour sessions; closed 25 December; bookings essential",
     "premium": true,
     "sourceUrl": "https://hepunataimoana.co.nz/frequently-asked-questions",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/c6b06ece-78fd-47d2-91d0-bcb37f725250.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/b0d367ab-2589-494f-beeb-335c6f1b9db9.webp"
   },
   {
     "name": "New Brighton Beach and Pier",
@@ -736,8 +792,10 @@
     "recommendedDurationSlots": 3,
     "hoursNote": "Open any time; lifeguards patrol Sat, Sun and public holidays 11am to 5pm from Show Weekend in November to mid-March, and weekdays over the summer school holidays; Cave Rock walk-through at low tide",
     "premium": true,
-    "sourceUrl": "https://www.surflifesaving.org.nz/join-us/find-a-surf-life-saving-club/southern-region/sumner-slsc",
-    "confidence": "medium"
+    "sourceUrl": "https://www.sumnerslsc.co.nz/lifeguarding",
+    "confidence": "medium",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/5024246a-d922-4a91-82f8-581ba65132b7.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/4646538e-0e42-44ea-82fb-db8372fb77ff.webp"
   },
   {
     "name": "Taylors Mistake Beach",
@@ -756,7 +814,9 @@
     "hoursNote": "Open any time; narrow road, no public transport; toilets and showers at the car park; surf beach, swim near the club when lifeguards are on",
     "premium": true,
     "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/godley-head/things-to-do/awaroa-godley-head-loop-track/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/c74a8395-7e86-4faf-91cb-9f0fdd6d4902.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/374a2f90-f8e7-43f1-86f8-f2e5163cc8ad.webp"
   },
   {
     "name": "Corsair Bay",
@@ -770,12 +830,14 @@
     "area": "christchurch",
     "active": true,
     "price": "Free",
-    "description": "A small, sheltered swimming beach just around from Lyttelton, with calm green water that suits families better than the open surf beaches. There is a playground, picnic tables, toilets, changing rooms and an outdoor shower, and a coastal track links it to Cass Bay.\n\nThe beach is a short walk down from the car park, and the sand is full of tiny shells. Parking fills on sunny days. A sewage overflow closed it briefly in January 2026, and the warning was lifted after testing.\nLocal tip: Stormwater works are due to finish in late October 2026. Until then the car parks and toilet block above the beach are closed, so park on Park Terrace (the nearest toilets are at Cass Bay) and check the signs when you arrive.",
+    "description": "A small, sheltered swimming beach just around from Lyttelton, with calm green water that suits families better than the open surf beaches. There is a playground, picnic tables, toilets, changing rooms and an outdoor shower, and a coastal track links it to Cass Bay.\n\nThe beach is a short walk down from the car park, and the sand is full of tiny shells. Parking fills on sunny days. A sewage overflow closed it briefly in January 2026, and the warning was lifted after testing.\nLocal tip: Stormwater works finished in October 2026, the car parks were resurfaced and a new playground has opened. If the car parks are full, there is on-street parking on Park Terrace.",
     "recommendedDurationSlots": 3,
-    "hoursNote": "Open any time; car parks and toilet block above the beach closed for stormwater works until late October 2026, park on Park Terrace; check water quality after heavy rain",
+    "hoursNote": "Open any time; check water quality after heavy rain",
     "premium": true,
-    "sourceUrl": "https://ccc.govt.nz/services/water-and-drainage/water-projects/corsair-bay-stormwater-renewal",
-    "confidence": "high"
+    "sourceUrl": "https://www.newsline.ccc.govt.nz/news/story/corsair-bay-gets-fresh-new-look-ahead-of-summer",
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/ba70811a-4407-48c8-985f-012a84a7c280.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/532e2f84-9042-423a-a307-96026d18729a.webp"
   },
   {
     "name": "Naval Point Freedom Camping Area",
@@ -793,7 +855,9 @@
     "hoursNote": "Certified self-contained vehicles only, with a green warrant card; max 2 nights in any 30 days; fines $200 to $800 for breaches",
     "premium": true,
     "sourceUrl": "https://ccc.govt.nz/freedom-camping-bylaw",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/1f1dd819-b24f-4611-8048-893b95179126.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/0a369fe7-18e7-446d-84d6-bc8b97982947.webp"
   },
   {
     "name": "Godley Head Campsite",
@@ -812,7 +876,9 @@
     "hoursNote": "Bookings required before 8pm on arrival day; locked gate, code sent on booking; no showers or power; dogs on lead; exposed to wind",
     "premium": true,
     "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/godley-head/things-to-do/godley-head-campsite/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/1f5e17c9-d648-49e0-96d8-a42986dd2e14.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/f3e1f783-7cd3-4426-b540-823ac2862897.webp"
   },
   {
     "name": "Hotel Give",
@@ -888,7 +954,9 @@
     "hoursNote": "Check-in 2pm, check-out 10am; late arrivals get PIN codes by email or text; free parking, first come first served; towels $4",
     "premium": true,
     "sourceUrl": "https://www.jail.co.nz/accommodation-christchurch.html",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/545f069f-7322-4b52-880d-14e9773c9777.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/419e3a6b-1ba8-4b33-a074-e60eacef39cd.webp"
   },
   {
     "name": "The Old Countryhouse Backpackers",
@@ -906,7 +974,9 @@
     "hoursNote": "Reception 10am to 3pm; after-hours check-in by instructions; on-site parking; hot tub and sauna",
     "premium": true,
     "sourceUrl": "https://hostelgeeks.com/best-hostels-in-christchurch-new-zealand/",
-    "confidence": "medium"
+    "confidence": "medium",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/23a68573-552f-4cc4-b6d3-6662025eed72.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/fac82c9c-07e6-454a-9fff-36c5efbdb0ab.webp"
   },
   {
     "name": "Sign of the Kiwi",
@@ -914,7 +984,6 @@
     "lat": -43.606317,
     "lng": 172.645154,
     "category": [
-      "Scenic",
       "Food"
     ],
     "region": "canterbury",
@@ -927,10 +996,12 @@
     "premium": true,
     "website": "https://signofthekiwi.co.nz/",
     "sourceUrl": "https://signofthekiwi.co.nz/opening-hours/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/a1a7a424-4179-49a2-a7c7-169ef7759156.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/ea446365-443d-45f1-b07c-0b65be01583d.webp"
   },
   {
-    "name": "John Jameson Lookout (Ōrongomai)",
+    "name": "John Jameson Lookout",
     "slug": "john-jameson-lookout",
     "lat": -43.632196,
     "lng": 172.625851,
@@ -939,7 +1010,7 @@
     ],
     "region": "canterbury",
     "area": "christchurch",
-    "active": true,
+    "active": false,
     "price": "Free",
     "description": "A lookout on the Summit Road opposite the Sign of the Bellbird, about 4.5km south of the Sign of the Kiwi, with one of the best views over Lyttelton Harbour. Opened in 2023, it has a stone-walled viewing area in the style of Harry Ell's Summit Road buildings and a panel naming the places around the harbour.\n\nIt has its own car park and an accessible viewing area, with a toilet at the Sign of the Bellbird across the road. Cross over to look west across the city and the plains, and you get both views from one stop.\nLocal tip: Go at sunset or early morning, when it is least windy, and add a short walk along the Crater Rim tracks that run in both directions.",
     "recommendedDurationSlots": 1,
@@ -967,7 +1038,9 @@
     "hoursNote": "Lift hours Oct and Nov: Mon and Tue 10am to 5pm, Wed to Fri 10am to 7pm, Sat and Sun 9am to 5pm; Dec to Mar: Mon to Fri 10am to 7pm, Sat and Sun 9am to 5pm; April: Mon to Fri 10am to 5pm, Sat and Sun 9am to 5pm; May to Sep: Wed to Sun 10am to 5pm, closed Mon and Tue outside school holidays; shut 10 to 20 days in August for lift maintenance; closed 25 December; public holidays run weekend hours; lift and ziplines pause in high wind; riders must be over 1m",
     "premium": true,
     "sourceUrl": "https://christchurchadventurepark.com/assets/Park_Operational_Hours_2026-2027-v3.pdf",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/a7d7b72d-948e-4a14-87af-e0bcc7ec7d8d.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/bf6d56fb-fca6-433b-8d86-f391bdb8a2b7.webp"
   },
   {
     "name": "Learn to Surf, Sumner",
@@ -988,7 +1061,9 @@
     "hoursNote": "Hire normally 10am to 6pm, September to May; adult group lessons Sat and Sun at 1pm, daily from 14 December; winter and after-hours hire from The Surf Locker; lessons by booking and conditions",
     "premium": true,
     "sourceUrl": "https://surfcoach.co.nz/prices/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/1c6f1e1a-3fff-4064-bdc6-95935811927e.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/cd558bd7-d2bd-4519-ad13-e0cfc9d3e8a4.webp"
   },
   {
     "name": "New Brighton Surf",
@@ -1009,7 +1084,9 @@
     "hoursNote": "Weekends 8am to 6pm, or by appointment; lesson and hire season 1 October to 30 April; private lessons only; message or phone before you come",
     "premium": true,
     "sourceUrl": "https://newbrightonsurf.co.nz/surf-lessons-1/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/2ac875f5-6dac-4fad-b8ff-3f4b242cb61c.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/6072c509-e34a-4f7a-896c-1586a6aec08e.webp"
   },
   {
     "name": "Antigua Boatsheds",
@@ -1030,7 +1107,9 @@
     "hoursNote": "Daily 9am to 5pm; last full hire boat out at 4pm, half hour trips until 4.30pm; closed Matariki, King's Birthday, Labour Day and 25 December; weather dependent",
     "premium": true,
     "sourceUrl": "https://boatsheds.co.nz/contact/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/840c631d-2c3d-4bad-9ae6-b667cd4a34e5.webp",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/c5dbbc7f-5666-4187-96ab-cde7c603d27a.webp"
   },
   {
     "name": "TranzAlpine Train",
@@ -1051,6 +1130,8 @@
     "hoursNote": "Daily, all year; departs 8.15am, back about 7pm; no trains 25 December or Labour Weekend; in 2027 also off at Easter (26 to 29 March), 22 to 28 May and 25 to 28 September; bookings required",
     "premium": true,
     "sourceUrl": "https://www.greatjourneysnz.com/scenic-trains/train-timetables/",
-    "confidence": "high"
+    "confidence": "high",
+    "imageThumbnailUrl": "https://api.blacksands.app/images/southislandguide/a73fea6b-414d-4e5a-8c00-2ce687568c0c.webp",
+    "imageUrl": "https://api.blacksands.app/images/southislandguide/b5f8da3d-3f7e-4627-bf4e-4fa3ff3c6239.webp"
   }
 ]

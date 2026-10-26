@@ -89,14 +89,23 @@ const db = getFirestore();
 
 (async () => {
   const col = db.collection(COLLECTION);
-  const existing = new Set((await col.get()).docs.map((d) => d.id));
-  const docs = places.map(toDoc);
+  const live = new Map((await col.get()).docs.map((d) => [d.id, d.data()]));
+  const existing = new Set(live.keys());
+  // ratingSum/ratingCount are tallied by the api from users' reviews; a replace must
+  // carry them over or every review on the place stops counting.
+  const docs = places.map(toDoc).map((d) => {
+    const prev = live.get(d.id) ?? {};
+    for (const k of ["ratingSum", "ratingCount"]) if (prev[k] !== undefined) d[k] = prev[k];
+    return d;
+  });
+  const rated = docs.filter((d) => d.ratingCount !== undefined).map((d) => d.id);
   const updates = docs.filter((d) => existing.has(d.id)).length;
 
   console.log(`${apply ? "APPLY" : "DRY RUN"} → ${EXPECTED_PROJECT}/${COLLECTION}`);
   console.log(`  source:   ${path.relative(process.cwd(), file)} (${docs.length} places)`);
   console.log(`  new:      ${docs.length - updates}`);
   console.log(`  replace:  ${updates}`);
+  if (rated.length) console.log(`  ratings kept: ${rated.join(", ")}`);
   const untouched = [...existing].filter((id) => !docs.some((d) => d.id === id));
   if (untouched.length) console.log(`  left as-is (not in this file): ${untouched.join(", ")}`);
 

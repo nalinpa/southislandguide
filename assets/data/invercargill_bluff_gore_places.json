@@ -11,12 +11,12 @@
     "area": "invercargill",
     "active": true,
     "price": "Moderate",
-    "website": "https://www.transportworld.co.nz/",
-    "description": "More than 300 classic and vintage motorcycles, the oldest from 1902, fill two restored heritage buildings on Tay Street in the city centre. The collection runs from Indian and Harley-Davidson bikes to British classics, Brough Superiors, motocross and speedway machines, with tributes to Burt Munro and Ivan Mauger and the George Begg Bunker, which honours the Southland engineer who built racing cars.\n\nThe bikes are displayed without glass cases, so you can get up close to the details, and there's an art gallery and the Kickstart Café on site. It's open daily from 10am to 5pm, and a Turbo Pass combines entry with Bill Richardson Transport World for a discount.\nLocal tip: Allow at least an hour and a half if you like old bikes, since the collection takes longer to get through than it looks.",
+    "website": "https://www.motorcyclemecca.nz/",
+    "description": "More than 300 classic and vintage motorcycles, the oldest from 1902, fill two restored heritage buildings on Tay Street in the city centre. The collection runs from Indian and Harley-Davidson bikes to British classics, Brough Superiors, motocross and speedway machines, with tributes to Burt Munro and Ivan Mauger and the George Begg Bunker, which honours the Southland engineer who built racing cars.\n\nThe bikes are displayed without glass cases, so you can get up close to the details, and there's an art gallery and the Kickstart Café on site. It's open daily from 10am to 5pm, and a Turbo Pass combines entry with Bill Richardson Transport World for a discount.\nLocal tip: Allow at least two hours if you like old bikes, since the collection takes longer to get through than it looks.",
     "recommendedDurationSlots": 3,
-    "hoursNote": "Daily 10am to 5pm; paid entry",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJJQpKwprE0qkR0dsWlXWM5OE",
-    "confidence": "medium"
+    "hoursNote": "Daily 10am to 5pm; last entry 4pm; paid entry",
+    "sourceUrl": "https://www.motorcyclemecca.nz/museum-info/faq/",
+    "confidence": "high"
   },
   {
     "name": "Stirling Point and Foveaux Walkway, Bluff",
@@ -31,12 +31,12 @@
     "area": "invercargill",
     "active": true,
     "price": "Free",
-    "description": "The end of State Highway 1 at Bluff, 25km south of Invercargill, marked by the yellow signpost showing distances to the Equator, the South Pole and cities around the world. It's also where Te Araroa, the trail that runs the length of the country, finishes, and there are views over Foveaux Strait to Stewart Island, plus parking and public toilets.\n\nThe Foveaux Walkway runs along the coast from the signpost through low bush to Lookout Point, about 2 hours return, with panels on the history and wildlife of the strait. Fur seals haul out near the track in winter, and southern right whales are sometimes seen further out. You can return the same way or loop back over Bluff Hill on the Glory Track. Parking by the sign is limited, and it's usually windy.\nLocal tip: If you're short on time, walk just the first 10 or 15 minutes of the walkway for the views, and look for the kelp beds swaying in the water below.",
+    "description": "The end of State Highway 1 at Bluff, 25km south of Invercargill, marked by the yellow signpost showing distances to the Equator, the South Pole and cities around the world. It's also where Te Araroa, the trail that runs the length of the country, finishes, and there are views over Foveaux Strait to Stewart Island, plus parking and public toilets.\n\nThe Foveaux Walkway runs along the coast from the signpost through low bush to Lookout Point, about 2 hours return, with panels on the history and wildlife of the strait. Fur seals haul out near the track in winter, and southern right whales are sometimes seen further out. You can return the same way or loop back through the bush on the Glory Track, past the historic gun pits. Parking by the sign is limited, and it's usually windy.\nLocal tip: If you're short on time, walk just the first 10 or 15 minutes of the walkway for the views, and look for the kelp beds swaying in the water below.",
     "recommendedDurationSlots": 3,
     "featured": 1,
     "hoursNote": "Open any time; limited parking at the signpost; exposed and windy",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJg8j_JFa30qkR1qm-Mq2CktA",
-    "confidence": "medium"
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/southland/places/invercargill-area/foveaux-walkway/",
+    "confidence": "high"
   },
   {
     "name": "Bluff Hill Lookout (Motupōhue)",
@@ -50,10 +50,10 @@
     "area": "invercargill",
     "active": true,
     "price": "Free",
-    "description": "The lookout on top of Bluff Hill, or Motupōhue, reached by a steep drive up Lee Street and Flagstaff Road from Stirling Point. A sealed spiral path, about 5 minutes return from the car park, winds up to the summit, where a carved stone slab labels the landmarks in the 360 degree view over Foveaux Strait, Stewart Island, the port and the Southland plains.\n\nPanels along the path cover the hill's natural history, its significance to Māori and its uses since European settlement. The car park is big enough for campervans, the path is wheelchair accessible, and walking tracks lead down the hill, including the Glory Track past historic gun pits.\nLocal tip: Bring takeaways up for sunset on a clear evening, and check the weather first, since on a cloudy day you'll see very little.",
+    "description": "The lookout on top of Bluff Hill, or Motupōhue, reached by a steep drive up Lee Street and Flagstaff Road from Stirling Point. A sealed spiral path, about 5 minutes return from the car park, winds up to the summit, where a carved stone slab labels the landmarks in the 360 degree view over Foveaux Strait, Stewart Island, the port and the Southland plains.\n\nPanels along the path cover the hill's natural history, its significance to Māori and its uses since European settlement. The car park is big enough for campervans, the path is wheelchair accessible, and walking tracks lead down the hill, including the Tōpuni Track to Stirling Point past WWII gun emplacements.\nLocal tip: Bring takeaways up for sunset on a clear evening, and check the weather first, since on a cloudy day you'll see very little.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Open any time; sealed road to the car park; very exposed in wind",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJJwNI7fa50qkRoszTvKsZjKQ",
+    "sourceUrl": "https://www.icc.govt.nz/parks-recreation/01-parks-and-reserves/3-te-wahi-takaro",
     "confidence": "medium"
   },
   {
@@ -107,11 +107,12 @@
     "area": "gore",
     "active": true,
     "price": "Free",
-    "description": "A free art gallery in Gore's former Carnegie Library, a few steps from the visitor centre and the moonshine museum. Temporary exhibitions fill the front rooms, and behind them are one of the country's largest collections of work by Ralph Hotere, a Len Lye gallery, and the John Money Wing, with work by Rita Angus and Theo Schoon alongside West African carvings and art from Elcho Island in Australia.\n\nIt's far better than most people expect in a small town, and easy to fit into a stop on the drive between Invercargill and Dunedin or Queenstown. It's open daily, from 1pm on Sundays and public holidays.\nLocal tip: Look for the giant brown trout sculpture on the way into town, since Gore calls itself the brown trout capital of the world.",
+    "description": "A free art gallery in Gore's former Carnegie Library, a few steps from the visitor centre and the moonshine museum. Temporary exhibitions fill the front rooms, and behind them are one of the country's largest collections of work by Ralph Hotere, a Len Lye kinetic sculpture, and the John Money Wing, with work by Rita Angus and Theo Schoon alongside West African carvings and art from Elcho Island in Australia.\n\nIt's far better than most people expect in a small town, and easy to fit into a stop on the drive between Invercargill and Dunedin or Queenstown. It's open daily, from 1pm on Sundays and public holidays.\nLocal tip: Look for the giant brown trout sculpture on the way into town, since Gore calls itself the brown trout capital of the world.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Listed Mon to Fri 10am to 4.30pm, Sat 10.30am to 4pm, Sun 1pm to 4pm; free entry",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJe51eqJ3PLKgR4ehKkcZ8PPk",
-    "confidence": "medium"
+    "hoursNote": "Mon to Fri 10am to 4.30pm; Sat 10.30am to 4pm in summer; Sun and public holidays 1pm to 4pm; closed Good Friday, 25 and 26 December and 1 January; free entry, donations welcome",
+    "sourceUrl": "https://www.goredc.govt.nz/council/our-hours",
+    "confidence": "high",
+    "website": "https://www.esgallery.co.nz/"
   },
   {
     "name": "The Batch Cafe",
@@ -127,9 +128,10 @@
     "price": "Cheap",
     "description": "One of the busiest cafés in Invercargill, on Spey Street a few blocks from the centre, with several seating areas and a big cabinet of baking. It's known for good coffee, cheese rolls and cakes, with plenty of gluten-free and dairy-free options.\n\nService is quick even when it's full, which it often is. It opens at 7am on weekdays and 8am at weekends, and closes at 3pm.\nLocal tip: Order a Southland cheese roll with your coffee. It's the local speciality, and this is one of the best places in town to try one.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Mon to Fri 7am to 3pm, Sat and Sun 8am to 3pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJb5b2SpfE0qkRfhgImtk_AuM",
-    "confidence": "medium"
+    "hoursNote": "Mon to Fri 7am to 3pm; Sat and Sun 8am to 3pm; kitchen menu until 2.30pm",
+    "sourceUrl": "https://southlandnz.com/listing/the-batch-cafe/876/",
+    "confidence": "medium",
+    "website": "https://www.facebook.com/batchcafe/"
   },
   {
     "name": "Balibu",
@@ -143,11 +145,12 @@
     "area": "invercargill",
     "active": true,
     "price": "Cheap",
-    "description": "A small, family-run Indonesian restaurant on Esk Street in the city centre. The fried chicken, soto (soup) and rice dishes are the favourites, and portions are big for the price.\n\nThe owner is known for her warm welcome, and it's open all day, every day, from 10am to 9pm, which makes it one of the more reliable cheap meals in town.\nLocal tip: Ask for chilli on the side, since regulars say it has a proper kick.",
+    "description": "A small, family-run Indonesian food counter in the Esk Eats dining area of Invercargill Central, on Esk Street in the city centre. The fried chicken, bakso (meatball soup) and rice dishes are the favourites, and portions are big for the price.\n\nThe owner is known for her warm welcome, and it's open all day, every day, from 10am to 9pm, which makes it one of the more reliable cheap meals in town.\nLocal tip: Ask for chilli on the side, since regulars say it has a proper kick.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Daily 10am to 9pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJc9Ge1QjF0qkR_iGknNBeoKc",
-    "confidence": "medium"
+    "hoursNote": "Daily 10am to 9pm; holiday hours may vary",
+    "sourceUrl": "https://www.balibu.co.nz/",
+    "confidence": "high",
+    "website": "https://www.balibu.co.nz/"
   },
   {
     "name": "TJ's Kitchen",
@@ -161,11 +164,12 @@
     "area": "invercargill",
     "active": true,
     "price": "Cheap",
-    "description": "A burger and takeaway shop on St Andrew Street, known for huge burgers that can easily feed two, with generous chips. Everything is cooked to order, so there can be a short wait.\n\nIt's open from 1pm to 8pm, Tuesday to Sunday, so it works for a late lunch or an easy dinner.\nLocal tip: Stick with the burgers, which get the best reviews, and share one if you're not very hungry.",
+    "description": "A burger and takeaway shop on St Andrew Street, known for huge burgers that can easily feed two, with generous chips. Everything is cooked to order, so there can be a short wait.\n\nIt's open from 11.30am to 8pm, Tuesday to Sunday, and 4.30pm to 8pm on Mondays, so it works for lunch or an easy dinner.\nLocal tip: Stick with the burgers, which get the best reviews, and share one if you're not very hungry.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Tue to Sun 1pm to 8pm; closed Mondays",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJmfForsDE0qkREzWmib-yCYA",
-    "confidence": "medium"
+    "hoursNote": "Mon 4.30pm to 8pm; Tue to Sun 11.30am to 8pm",
+    "sourceUrl": "https://tjskitchen.co.nz/invercargill",
+    "confidence": "high",
+    "website": "https://tjskitchen.co.nz/invercargill"
   },
   {
     "name": "Southern Comfort Backpackers",
@@ -180,9 +184,10 @@
     "active": true,
     "price": "Cheap",
     "description": "A small hostel in a well-kept colonial villa on Thomson Street, within walking distance of the city centre. It has dorms and private rooms, a cosy kitchen and lounge, a garden, and towels, coffee and a simple breakfast included.\n\nReviewers praise how clean and quiet it is, and the host is full of tips, including for the ferry and hikes on Stewart Island.\nLocal tip: Ask about storing gear if you're heading to Stewart Island for a few days, since it's a common stop for hikers before and after the ferry.",
-    "hoursNote": "Reception listed 8am to 7pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJTas1B6LE0qkRi9jjK8z5JCg",
-    "confidence": "medium"
+    "hoursNote": "Reception listed 8am to 7pm; check-in from 2pm; check-out by 10am; book online",
+    "sourceUrl": "https://www.southerncomfortbackpackers.com/",
+    "confidence": "medium",
+    "website": "https://www.southerncomfortbackpackers.com/"
   },
   {
     "name": "Invercargill Holiday Park & Motels",
@@ -197,9 +202,10 @@
     "active": true,
     "price": "Cheap",
     "description": "A family-owned holiday park at 77 McIvor Road on the north side of the city, with tent and powered sites, cabins sleeping up to 6, and motel and ensuite units from about $126 a night. It's the budget option if you're not in a certified self-contained vehicle.\n\nThere's a recreation room with a kitchen, communal bathrooms, a barbecue area and a pizza oven, and reviewers rate the kitchen, bathrooms and laundry as spotless and the staff as friendly.\nLocal tip: Arrive before reception closes, usually 7.30pm but earlier on Mondays and Wednesdays, or call ahead for a late check-in.",
-    "hoursNote": "Reception listed 8.30am to 7.30pm (5pm Wed, 6.30pm Mon); tent, campervan, cabin and motel options",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJk19lrp_c0qkR1OJp29Cv8K0",
-    "confidence": "medium"
+    "hoursNote": "Reception listed 8.30am to 7.30pm (5pm Wed, 6.30pm Mon); check-in from 2pm, check-out by 10am; tent, campervan, cabin and motel options",
+    "sourceUrl": "https://www.invercargillholidaypark.com/accommodation/",
+    "confidence": "medium",
+    "website": "https://www.invercargillholidaypark.com/"
   },
   {
     "name": "Colac Bay Freedom Camping",

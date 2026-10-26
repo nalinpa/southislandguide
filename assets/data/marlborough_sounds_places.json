@@ -12,12 +12,12 @@
     "area": "picton",
     "active": true,
     "price": "Moderate",
-    "description": "A 73km track along the ridges and bays between Queen Charlotte and Kenepuru Sounds, usually walked over three to five days. Most visitors walk one section as a day trip instead, taking a water taxi from Picton to the start and being picked up at the end. Two popular day sections are Ship Cove to Resolution Bay, 4.5km and about 2 hours, and Mistletoe Bay to Anakiwa, 12.5km and about 4 hours, on DOC's slow-pace times.\n\nA one-way boat from Picton to Ship Cove costs about $90 for an adult. Between Kenepuru Saddle and Anakiwa the track crosses private land, so you need a track pass, $15 for a day or $30 for up to five days, sold online and at the Picton and Blenheim i-SITEs. Several water taxi companies on the Picton waterfront can plan a day walk for you.\nLocal tip: Book your water taxi the day before and ask them to match the drop-off and pick-up to your pace. The views from the ridge between the two sounds are the reason to go, so pick a clear day.",
+    "description": "A 73km track along the ridges and bays between Queen Charlotte and Kenepuru Sounds, usually walked over three to five days. Most visitors walk one section as a day trip instead, taking a water taxi from Picton to the start and being picked up at the end. Two popular day sections are Ship Cove to Resolution Bay, 4.5km and about 2 hours, and Mistletoe Bay to Anakiwa, 12.5km and about 4 hours, on DOC's slow-pace times.\n\nA one-way boat from Picton to Ship Cove costs about $90 for an adult. Between Kenepuru Saddle and Anakiwa the track crosses private land, so you need a track pass, $25 for a day or $50 for up to five days, sold online and at the Picton and Blenheim i-SITEs. Several water taxi companies on the Picton waterfront can plan a day walk for you.\nLocal tip: Book your water taxi the day before and ask them to match the drop-off and pick-up to your pace. The views from the ridge between the two sounds are the reason to go, so pick a clear day.",
     "recommendedDurationSlots": 14,
     "featured": 1,
     "hoursNote": "Track open year round; water taxis run daily from Picton; track pass required for sections crossing private land",
-    "sourceUrl": "https://www.newzealand-spirit.com/guides/queen-charlotte-track/",
-    "confidence": "medium"
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/queen-charlotte-sound-totaranui-area/things-to-do/tracks/queen-charlotte-track/description",
+    "confidence": "high"
   },
   {
     "name": "The Snout Track",
@@ -32,12 +32,12 @@
     "area": "picton",
     "active": true,
     "price": "Free",
-    "description": "A walk from the edge of Picton along the ridge of the peninsula between Picton Harbour and Queen Charlotte Sound. From the car park in Victoria Domain, about five minutes' drive from town, it's about 30 minutes to the Queen Charlotte View lookout, which has a picnic table and a long drop toilet, and about 1 hour 20 minutes to the end at Snout Point.\n\nThe track is easy and mostly shaded by bush, with good views of the ferries coming and going, and a short section follows the road. There's no water along the way, and it gets slippery after rain.\nLocal tip: If you have a few hours before or after the ferry, walk up to the lookout and back. On foot from town, you can start from the Picton foreshore instead, which adds about an hour to the full return walk.",
+    "description": "A walk from the edge of Picton along the ridge of the peninsula between Picton Harbour and Queen Charlotte Sound. From the car park in Victoria Domain, about five minutes' drive from town, it's about 50 minutes to the Queen Charlotte View lookout, which has a picnic table and a long drop toilet, and about 1 hour 30 minutes to the end at Snout Point.\n\nThe track is graded moderate and mostly shaded by bush, with good views of the ferries coming and going, and a short section follows the road. There's no water along the way, and it gets slippery after rain.\nLocal tip: If you have a few hours before or after the ferry, walk up to the lookout and back. On foot from town, you can start from the Picton foreshore instead, which adds about an hour to the full return walk.",
     "recommendedDurationSlots": 5,
     "featured": 2,
     "hoursNote": "Open any time; small car park; long drop at the lookout; bring water; slippery after rain",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJW5yKWbIwOW0RmAWZHRo22wE",
-    "confidence": "medium"
+    "sourceUrl": "https://www.marlborough.govt.nz/repository/libraries/id:2ifzri1o01cxbymxkvwz/hierarchy/documents/recreation/events-list/Picton_by_Foot_or_Bike_Brochure_and_Map_Walking_Tracks.pdf",
+    "confidence": "high"
   },
   {
     "name": "Edwin Fox Maritime Museum",
@@ -71,11 +71,11 @@
     "area": "marlborough-sounds",
     "active": true,
     "price": "Free",
-    "description": "The winding coastal road between Picton and Havelock, along the edges of Queen Charlotte and Pelorus Sounds, with bays, lookouts and DOC campsites along the way. It's much slower than the highway via Blenheim but far more scenic.\n\nCullen Point, just before Havelock, has a short walk of about 10 minutes to a lookout over Havelock and Pelorus Sound, and a longer loop around the headland. The road is narrow and winding, and DOC notes that vehicles over 3,500kg towing more than 12.6m aren't permitted on it.\nLocal tip: Check the council's road alerts before you drive. Storm repairs are still going on, with construction closures near Linkwater on 20 and 21 October 2026.",
+    "description": "The winding coastal road between Picton and Havelock, along the edges of Queen Charlotte and Pelorus Sounds, with bays, lookouts and DOC campsites along the way. It's much slower than the highway via Blenheim but far more scenic.\n\nCullen Point, just before Havelock, has a short walk of about 10 minutes return to a lookout over Mahau Sound and the Kaituna and Pelorus estuaries, and a longer loop around the headland. The road is narrow and winding, and DOC notes that vehicles over 3,500kg towing more than 12.6m aren't permitted on it.\nLocal tip: Check the council's road alerts before you drive. Storm repairs are still going on, so there can be short construction closures.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Open any time; narrow and winding; restrictions on heavy vehicles and long towing combinations after flood damage",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJvSIZoIxPOW0RbIb5hYmk_gQ",
-    "confidence": "medium"
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/pelorus-and-kenepuru-sounds-area/things-to-do/tracks/cullen-point-tracks/",
+    "confidence": "high"
   },
   {
     "name": "Pelorus Mail Boat",
@@ -149,11 +149,11 @@
     "area": "marlborough-sounds",
     "active": true,
     "price": "Free",
-    "description": "A reserve of old native forest where State Highway 6 crosses the Pelorus River, between Havelock and Nelson. The clear river pools below the bridge are good for swimming, people jump off the rocks on hot days, and the barrel escape scene in The Hobbit was filmed on this river.\n\nShort walks loop through the forest, including the 30 minute Tōtara Walk to a giant tōtara and the 45 minute Circle Walk, which is wheelchair accessible as far as the swing bridge. There are toilets, picnic areas and a café, and the car park fills up on sunny weekends.\nLocal tip: Arrive before 10.30am on a sunny summer day to get a park, and bring insect repellent, because the sandflies are thick by the river.",
+    "description": "A reserve of old native forest where State Highway 6 crosses the Pelorus River, between Havelock and Nelson. The clear river pools below the bridge are good for swimming, people jump off the rocks on hot days, and the barrel escape scene in The Hobbit was filmed on this river.\n\nShort walks loop through the forest, including the 30 minute Tōtara Walk to a giant tōtara and the 45 minute Circle Walk, which is wheelchair accessible as far as the swing bridge. There are toilets, picnic areas and a food truck selling coffee and food at the campground entrance, and the car park fills up on sunny weekends.\nLocal tip: Arrive before 10.30am on a sunny summer day to get a park, and bring insect repellent, because the sandflies are thick by the river.",
     "recommendedDurationSlots": 3,
-    "hoursNote": "Open any time; toilets and picnic areas; coffee cart with limited hours; no camping in the car park",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJJXTEEIviO20RaTz_re9RCiQ",
-    "confidence": "medium"
+    "hoursNote": "Open any time; toilets and picnic areas; food truck with limited hours; no camping in the car park",
+    "sourceUrl": "https://www.doc.govt.nz/pelorus-bridge-campsite",
+    "confidence": "high"
   },
   {
     "name": "Toastie Lords",
@@ -167,11 +167,12 @@
     "area": "picton",
     "active": true,
     "price": "Cheap",
-    "description": "A toastie shop at 10 London Quay, on the Picton waterfront, with a short menu of toasted sandwiches, donuts and coffee. The Goldie, a classic cheese and onion, and the Quint, a tuna, jalapeño and cheese melt, are the favourites, and it caters well for vegans and other diets.\n\nService is fast, which suits people rushing for the ferry, and it opens at 6.30am every day, until 4pm. There are a few tables inside and out.\nLocal tip: Grab breakfast here before an early ferry or water taxi, since the terminal and the water taxi wharf are a short walk away. Lunchtime gets busy.",
+    "description": "A toastie shop at 10 London Quay, on the Picton waterfront, with a short menu of toasted sandwiches, donuts and coffee. The Goldie, a classic cheese and onion, and the Quint, a tuna, jalapeño and cheese melt, are the favourites, and it caters well for vegans and other diets.\n\nService is fast, which suits people rushing for the ferry, and in summer it opens at 6.30am every day, until 4pm (7am to 3pm in winter). There are a few tables inside and out.\nLocal tip: Grab breakfast here before an early ferry or water taxi, since the terminal and the water taxi wharf are a short walk away. Lunchtime gets busy.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Daily 6.30am to 4pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJIxOnYWw5OW0RJDC2CTu3q_Q",
-    "confidence": "medium"
+    "hoursNote": "Daily 6.30am to 4pm in summer (from late September); daily 7am to 3pm in winter",
+    "sourceUrl": "https://www.toastielords.co.nz/",
+    "confidence": "high",
+    "website": "https://www.toastielords.co.nz/"
   },
   {
     "name": "Mills Bay Mussels",
@@ -188,8 +189,9 @@
     "description": "A tasting room and eatery at Havelock Marina, next to the Mills Bay mussel packhouse, in the town that calls itself the green-lipped mussel capital of the world. Mussels come steamed with white wine, garlic and lemon, grilled with garlic butter, mānuka smoked, as Dutch-style croquettes, and in a mussel, smoked fish and kūmara pie.\n\nReviewers rate them the best mussels they've had in New Zealand, and the beer-battered fish and chips are good too. There's a pet-friendly patio, and it doesn't take bookings.\nLocal tip: It's lunch only, 10.30am to 2.30pm from Tuesday to Friday, and closed Saturday to Monday, so plan your drive through Havelock around it.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Tue to Fri 10.30am to 2.30pm; closed Sat to Mon",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJqb8tPlFFOW0RdUw_hH9FKWo",
-    "confidence": "medium"
+    "sourceUrl": "https://millsbaymussels.co.nz/eatery",
+    "confidence": "high",
+    "website": "https://millsbaymussels.co.nz/eatery"
   },
   {
     "name": "Whatamango Bay DOC Campsite",

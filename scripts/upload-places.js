@@ -89,7 +89,11 @@ const db = getFirestore();
 
 (async () => {
   const col = db.collection(COLLECTION);
-  const live = new Map((await col.get()).docs.map((d) => [d.id, d.data()]));
+  // Read only this file's docs: reading the whole collection on every run used up the
+  // free plan's 50k reads a day across a 30-file upload, and the api went down with it.
+  const ids = places.map((p) => p.slug);
+  const snaps = await db.getAll(...ids.map((id) => col.doc(id)));
+  const live = new Map(snaps.filter((s) => s.exists).map((s) => [s.id, s.data()]));
   const existing = new Set(live.keys());
   // ratingSum/ratingCount are tallied by the api from users' reviews; a replace must
   // carry them over or every review on the place stops counting.
@@ -106,8 +110,6 @@ const db = getFirestore();
   console.log(`  new:      ${docs.length - updates}`);
   console.log(`  replace:  ${updates}`);
   if (rated.length) console.log(`  ratings kept: ${rated.join(", ")}`);
-  const untouched = [...existing].filter((id) => !docs.some((d) => d.id === id));
-  if (untouched.length) console.log(`  left as-is (not in this file): ${untouched.join(", ")}`);
 
   if (!apply) {
     console.log("\nNothing written. Re-run with --apply.");

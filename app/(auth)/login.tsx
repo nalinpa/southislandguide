@@ -72,21 +72,23 @@ export default function LoginScreen() {
           >
             <View style={[styles.photo, { height: Math.round(height * PHOTO_SHARE) }]}>
               <Image source={HERO_IMAGE} style={StyleSheet.absoluteFill} contentFit="cover" />
-              {/* The scrim teal behind the white title over the white cloud, clear
-                  through the mountains, then into the panel's teal so the photo has no
-                  hard edge. The last two characters of each colour are its opacity. */}
+              {/* The scrim teal behind the title and tagline over the white cloud, held
+                  strong to just past the tagline (it was unreadable where the fade had
+                  already begun, owner 2026-10-26), clear through the mountains, then into
+                  the panel's teal so the photo has no hard edge. The last two characters
+                  of each colour are its opacity. */}
               <LinearGradient
                 colors={[
-                  `${tokens.colors.scrim}EB`,
-                  `${tokens.colors.scrim}B3`,
+                  `${tokens.colors.scrim}F2`,
+                  `${tokens.colors.scrim}D9`,
                   `${tokens.colors.scrim}00`,
                   `${tokens.colors.accentWarm}00`,
                   tokens.colors.accentWarm,
                 ]}
-                locations={[0, 0.36, 0.64, 0.82, 1]}
+                locations={[0, 0.5, 0.72, 0.84, 1]}
                 style={StyleSheet.absoluteFill}
               />
-              <View style={[styles.brand, { paddingTop: insets.top + 40 }]}>
+              <View style={[styles.brand, { paddingTop: insets.top + 24 }]}>
                 {/* Two lines at most, shrinking to fit an iPhone SE's width. */}
                 <AppText variant="screenTitle" style={styles.appName} numberOfLines={2} adjustsFontSizeToFit>
                   South Island Guide
@@ -144,17 +146,18 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 10,
   },
-  // In the highlight's on-dark twin, so it reads as its own line rather than a smaller
-  // echo of the white title.
+  // White, larger, and with a heavy shadow: in the on-dark orange it couldn't be read over
+  // the cloud (owner, 2026-10-26). Smaller and lighter than the title, so it still reads as
+  // its own line.
   tagline: {
-    color: tokens.colors.highlightOnDark,
-    fontSize: 17,
+    color: "#FFFFFF",
+    fontSize: 20,
     fontWeight: "700",
-    lineHeight: 22,
+    lineHeight: 26,
     textAlign: "center",
-    textShadowColor: "rgba(0,0,0,0.6)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 6,
+    textShadowColor: "rgba(0,0,0,0.95)",
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 12,
   },
   // flexGrow: the panel takes the rest of the screen, so the guest link sits at its foot.
   panel: {

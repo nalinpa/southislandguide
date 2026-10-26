@@ -117,13 +117,15 @@ describe("render", () => {
     expect(view.queryByText("Social Sign In")).toBeNull();
   });
 
-  // The subtitle is in the highlight's on-dark twin, so it reads as its own line
-  // rather than a smaller echo of the white title.
-  it("sets the subtitle in the highlight colour", async () => {
+  // White and larger, with a heavy shadow: in the on-dark orange it couldn't be read over
+  // the cloud (owner, 2026-10-26). Smaller and lighter than the title, so it still reads as
+  // its own line.
+  it("sets the subtitle in white, large enough to read over the photo", async () => {
     const view = await render(<LoginScreen />);
 
     expect(view.getByText("Ultimate South Island trip planner")).toHaveStyle({
-      color: tokens.colors.highlightOnDark,
+      color: "#FFFFFF",
+      fontSize: 20,
     });
   });
 

@@ -16,7 +16,7 @@
     "recommendedDurationSlots": 1,
     "featured": 1,
     "hoursNote": "Open 24 hours; free; parking and toilets at the watersports facility carpark on Wānaka Mount Aspiring Road",
-    "sourceUrl": "https://en.wikipedia.org/wiki/That_W%C4%81naka_Tree",
+    "sourceUrl": "https://www.wanaka.co.nz/explore/that-wanaka-tree",
     "confidence": "medium"
   },
   {
@@ -192,10 +192,10 @@
     "area": "wanaka",
     "active": true,
     "price": "Free",
-    "description": "The lakefront reserve at Lake Hāwea township, about 15 minutes north of Wānaka. It's much quieter than Wānaka's lakefront, with clear water, a stony beach, mountain views, toilets, a public barbecue and parking right by the shore.\n\nIt's a good spot for a swim on a hot day or a calm sunset. The Hāwea River Track starts nearby on Domain Road and follows the river about 10km to Albert Town, shared by walkers and cyclists.\nLocal tip: The water is cold even in summer, so ease in slowly. It's also the last lake stop before the Haast Pass, so check State Highway 6 conditions on NZTA here if you're heading north.",
+    "description": "The lakefront reserve at Lake Hāwea township, about 15 minutes north of Wānaka. It's much quieter than Wānaka's lakefront, with clear water, a stony beach, mountain views, toilets, a public barbecue and parking right by the shore.\n\nIt's a good spot for a swim on a hot day or a calm sunset. The Hāwea River Track starts nearby on Domain Road and follows the river about 12km to Albert Town, shared by walkers and cyclists.\nLocal tip: The water is cold even in summer, so ease in slowly. It's also the last lake stop before the Haast Pass, so check State Highway 6 conditions on NZTA here if you're heading north.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Free; toilets, barbecue and parking; SH6 north of Hāwea has storm restrictions, check NZTA before driving on",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJARVCKW9T1akRkkHjMX5lNDE",
+    "hoursNote": "Free; toilets, barbecue and parking; SH6 north of Hāwea has slip repair roadworks, check NZTA before driving on",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/wanaka-area/things-to-do/hawea-river-track/",
     "confidence": "medium"
   },
   {
@@ -210,10 +210,10 @@
     "area": "wanaka",
     "active": true,
     "price": "Free",
-    "description": "A roadside lookout on State Highway 6 at The Neck, the narrow strip of land between Lake Hāwea and Lake Wānaka, with a view over a deep blue bay of Lake Hāwea and the mountains beyond. There are several pull-offs along this stretch, and a Lake Wānaka lookout is only a minute or two further north.\n\nSlips in late August 2026 closed SH6 north of here towards Makarora. It reopened around the clock on 9 October, but with weekday daytime convoys on a 9km section and temporary speed limits while repairs continue, so check the NZTA Journey Planner before heading on to Haast.\nLocal tip: Come on a calm, sunny evening, when Lake Hāwea can turn into a mirror.",
+    "description": "A roadside lookout on State Highway 6 at The Neck, the narrow strip of land between Lake Hāwea and Lake Wānaka, with a view over a deep blue bay of Lake Hāwea and the mountains beyond. There are several pull-offs along this stretch, and a Lake Wānaka lookout is only a minute or two further north.\n\nSlips in late August 2026 closed SH6 north of here towards Makarora. It reopened around the clock on 9 October and the weekday convoys ended on 23 October, but expect a temporary 50km/h limit, traffic lights and other roadworks while repairs continue, so check the NZTA Journey Planner before heading on to Haast.\nLocal tip: Come on a calm, sunny evening, when Lake Hāwea can turn into a mirror.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Open any time; roadside pull-off on SH6; SH6 toward Makarora has slip restrictions and weekday convoys (Sept 2026), check NZTA",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ89TSvxhT1WwRneRTgeqpK8I",
+    "hoursNote": "Open any time; roadside pull-off on SH6; SH6 toward Makarora has slip repair roadworks (Oct 2026), check NZTA",
+    "sourceUrl": "https://www.scoop.co.nz/stories/AK2610/S00678/restrictions-on-sh6-between-makarora-and-hawea-end-today.htm",
     "confidence": "medium"
   },
   {
@@ -290,8 +290,8 @@
     "description": "An artisan bakery in Albert Town, about 10 minutes from central Wānaka, known for flaky croissants, almond croissants, pies and good coffee. Locals and visitors queue here most mornings.\n\nIt's a short walk from the Albert Town campground and the historic Albert Town bridge over the Clutha River, with bike parking and outdoor seating.\nLocal tip: Go early if you want the daily special, as it often sells out by mid-morning.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Mon to Fri 7.30am to 2pm; Sat and Sun 8am to 2pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJX3RMf29P1akREW0CmgYahm0",
-    "confidence": "medium"
+    "sourceUrl": "https://www.pembrokepatisserie.co.nz/contact/",
+    "confidence": "high"
   },
   {
     "name": "Albert Town Campground",
@@ -307,8 +307,8 @@
     "active": true,
     "price": "Cheap",
     "website": "https://hampshireholidayparks.co.nz/park/albert-town-campground/",
-    "description": "A big, basic campground on a council reserve beside the Clutha and Hāwea rivers at Albert Town, 10 minutes from Wānaka. Tents and vans are both welcome, and many sites sit right by the river with swimming spots close by.\n\nThere are no bookings. You pay at the EFTPOS machine at the entrance, then pick a spot, and recent visitors report about $12 per person per night. There are flush toilets on the Clutha side and long drops on the Hāwea side, but no showers, kitchen, laundry, power or drinking water, so come self-sufficient. Dogs are allowed on a lead, and special rules apply from 20 December to 3 January.\nLocal tip: The Clutha is cold and fast-flowing, so only swim at the calmer edges. For a shower, head to the Wānaka Recreation Centre.",
-    "hoursNote": "No bookings; pay at EFTPOS at entrance; about $12pp per night (per recent reviews); non potable water; no showers; special rules over Christmas and New Year",
+    "description": "A big, basic campground on a council reserve beside the Clutha and Hāwea rivers at Albert Town, 10 minutes from Wānaka. Tents and vans are both welcome, and many sites sit right by the river with swimming spots close by.\n\nThere are no bookings. You pay at the EFTPOS machine at the entrance, then pick a spot, and recent visitors report about $14 per adult per night. There are flush toilets on the Clutha side and long drops on the Hāwea side, but no showers, kitchen, laundry, power or drinking water, so come self-sufficient. Dogs are allowed on a lead, and special rules apply from 20 December to 3 January.\nLocal tip: The Clutha is cold and fast-flowing, so only swim at the calmer edges. For a shower, head to the Wānaka Recreation Centre.",
+    "hoursNote": "No bookings; pay at EFTPOS at entrance; about $14 per adult per night (per recent reviews); non potable water; no showers; special rules over Christmas and New Year",
     "sourceUrl": "https://hampshireholidayparks.co.nz/park/albert-town-campground/",
     "confidence": "medium"
   },
@@ -324,10 +324,10 @@
     "area": "wanaka",
     "active": true,
     "price": "Free",
-    "description": "A free camping area beside the Clutha River at the historic Red Bridge near Luggate, about 15 minutes east of Wānaka. It's one of the few places in the Queenstown Lakes district where freedom camping is still allowed, for certified self-contained vehicles.\n\nThere are about 50 spaces and long drop toilets, but no water and no lighting. The conditions are set out on signs at the reserve, and listings show check-in from 5pm and check-out by 10am. It fills quickly in summer.\nLocal tip: Read the signs and stick to them, since breaking the conditions here can bring an $800 fine under the Reserves Act. If it's full, the other free option is the designated carpark at the Wānaka Recreation Centre.",
-    "hoursNote": "Certified self-contained only; about 50 spaces; check in from 5pm, out by 10am; long drops; no water; follow signage",
-    "sourceUrl": "https://www.qldc.govt.nz/recreation/responsible-camping/responsible-camping-faqs",
-    "confidence": "medium"
+    "description": "A free camping area beside the Clutha River at the historic Red Bridge near Luggate, about 15 minutes east of Wānaka. It's one of the few places in the Queenstown Lakes district where freedom camping is still allowed, for certified self-contained vehicles.\n\nThere are about 50 spaces and long drop toilets, but no water and no lighting. The conditions are set out on signs at the reserve, and listings show check-in from 5pm and check-out by 10am. It fills quickly in summer.\nLocal tip: Read the signs and stick to them, since breaking the conditions here can bring an $800 fine under the Reserves Act. If it's full, another free option is the designated carpark at the Wānaka Recreation Centre.",
+    "hoursNote": "Certified self-contained only, no tents; 50 marked spaces; arrive after 5pm, leave by 10am; max 3 nights in any 30 days; long drops; no water; follow signage",
+    "sourceUrl": "https://www.qldc.govt.nz/media/b35d3vhk/3-council-report-luggate-red-bridge-09102025-final-signed-copy.pdf",
+    "confidence": "high"
   },
   {
     "name": "Wānaka Recreation Centre Freedom Camping",
@@ -342,9 +342,9 @@
     "active": true,
     "price": "Free",
     "description": "A council freedom camping area in the carpark of the Wānaka Recreation Centre on Sir Tim Wallis Drive, a few minutes' drive from the town centre. There are around 18 designated spaces, first come first served, for certified self-contained vehicles with a valid warrant displayed, and it's one of the few free places to stay in Wānaka itself.\n\nYou check in by scanning the QR code on the signs. The spaces fill early in summer, and council officers patrol at night and issue $400 fines. The rec centre has a pool, a hot spa and paid showers during opening hours.\nLocal tip: Park only in a clearly marked camping space and check the signed hours when you arrive. If it's full, Red Bridge near Luggate is the bigger free option.",
-    "hoursNote": "Certified self-contained only; 18 marked spaces; overnight hours set by signage (reviewers report roughly 8pm to 7am); fines enforced; rules under review by QLDC",
-    "sourceUrl": "https://wanakaapp.nz/NewsStory/portaloos-installed-for-self-contained-freedom-campers/69882d21f95c90002debb077",
-    "confidence": "medium"
+    "hoursNote": "Certified self-contained only, green warrant displayed; 18 marked spaces; arrive after 8pm, leave by 7am; max 2 nights in any 30 days; fines enforced; rules under review by QLDC",
+    "sourceUrl": "https://letstalk.qldc.govt.nz/proposed-amendments-fc-bylaw-2025",
+    "confidence": "high"
   },
   {
     "name": "Wānaka Bakpaka",
@@ -376,9 +376,10 @@
     "area": "wanaka",
     "active": true,
     "price": "Cheap",
-    "description": "A simple community campground around the cricket ground in Luggate, about 15 minutes from Wānaka on the road to Cromwell. At around $10 per adult per night, it's one of the cheapest places to stay near Wānaka, and it takes tents, cars and campervans.\n\nThere's a newer toilet and shower block, with hot showers at $2 for five minutes, free hot water for dishes, a laundry, and a tap and bench at many sites. Quite a few long-term residents live here, so it can look a bit rough around the edges, but reviewers say it feels safe and friendly.\nLocal tip: Bring $2 coins for the showers, avoid parking near the pitch on cricket days, and walk to the Luggate pub and general store for a pie.",
-    "hoursNote": "Around $10 per adult per night (per reviews); hot showers $2; laundry; limited sites as many are taken by permanent residents",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ549G_t1L1akRB_uVYBItFGU",
-    "confidence": "medium"
+    "description": "A simple community campground around the cricket ground in Luggate, about 15 minutes from Wānaka on the road to Cromwell. At $10 per person per night, with under-12s free, it's one of the cheapest places to stay near Wānaka, and it takes tents, cars and campervans.\n\nThere's a newer toilet and shower block, with hot showers at $2 for five minutes, free hot water for dishes, a laundry, and a tap and bench at many sites. Quite a few long-term residents live here, so it can look a bit rough around the edges, but reviewers say it feels safe and friendly.\nLocal tip: Bring $2 coins for the showers, avoid parking near the pitch on cricket days, and walk to the Luggate pub and general store for a pie.",
+    "hoursNote": "Open for arrivals 8am to 7pm; $10 per person per night, under-12s free; self check-in: pick a free site and pay by envelope; hot showers $2 for 5 minutes; laundry; 25 sites, many taken by permanent residents",
+    "sourceUrl": "https://luggatecampground.squarespace.com/stay",
+    "confidence": "high",
+    "website": "https://luggatecampground.squarespace.com/"
   }
 ]

@@ -114,11 +114,11 @@
     "active": true,
     "price": "Expensive",
     "website": "https://www.onsen.co.nz/",
-    "description": "Private cedar hot tubs perched on the cliffs above the Shotover River canyon at Arthurs Point, each with a retractable roof that opens to the mountain view. The water comes from the surrounding mountains and is filtered, UV treated and heated to about 38.5°C, so it's not a natural hot spring.\n\nA 60 minute private soak starts from about $117 per adult, and bookings are essential. Under 5s aren't allowed, children aged 5 to 11 can soak only before 5pm, and evening sessions are for ages 12 and over. Togs are compulsory.\nLocal tip: Book a slot around sunset, or after dark in winter, for the best experience, and arrive 15 minutes early, as they ask.",
+    "description": "Private cedar hot tubs perched on the cliffs above the Shotover River canyon at Arthurs Point, each with a retractable roof that opens to the mountain view. The water comes from the surrounding mountains and is filtered, UV treated and heated to about 38.5°C, so it's not a natural hot spring.\n\nA 60 minute private soak costs $122 for one person or $180 for two, and bookings are essential. Under 5s aren't allowed, children aged 5 to 11 can soak only before 5pm, and evening sessions are for ages 12 and over. Togs are compulsory.\nLocal tip: Book a slot around sunset, or after dark in winter, for the best experience, and arrive 15 minutes early, as they ask.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Daily 9am to 11pm, last booking 10pm; bookings essential; from about $117 per adult for 60 min; no under 5s; kids 5 to 11 before 5pm only",
-    "sourceUrl": "https://southernscope.nz/tech/onsen-hot-pools-queenstown-guide/",
-    "confidence": "medium"
+    "hoursNote": "Daily 9am to 11pm, last booking 10pm; bookings essential; 60 min private pool $122 for one, $180 for two; no under 5s; kids 5 to 11 before 5pm only",
+    "sourceUrl": "https://www.onsen.co.nz/experiences/original-onsen-soak-only/",
+    "confidence": "high"
   },
   {
     "name": "Skippers Canyon",
@@ -135,9 +135,9 @@
     "price": "Expensive",
     "description": "Skippers Road was built between 1883 and 1890 for the gold rush and clings to the canyon wall high above the Shotover River, with sections cut through solid rock. It's narrow, unsealed and off limits to rental vehicles, so most visitors see it on a guided 4WD or jet boat tour.\n\nThe historic Skippers suspension bridge has been closed to all vehicles, cyclists and pedestrians since October 2025, after inspectors found failures in the wires of its support cables. The council is still weighing whether to repair it, replace the cables or build a new bridge, with no timeframe, so you can't cross to the old Skippers schoolhouse and cemetery. Tours still run into the canyon with other stops, such as Lighthouse Rock and gold panning at Deep Creek.\nLocal tip: Book a tour rather than driving yourself, and ask the operator what you'll see while the bridge is closed before you pay, since some online listings still show the crossing.",
     "recommendedDurationSlots": 8,
-    "hoursNote": "Skippers Bridge closed to everyone until further notice (QLDC, Jan 2026); no rental cars on Skippers Road; guided tours still operating",
+    "hoursNote": "Skippers Bridge closed to everyone until further notice (QLDC, Jan 2026); no rental cars on Skippers Road; road can close after heavy rain (slips); guided tours still operating",
     "sourceUrl": "https://www.qldc.govt.nz/2026/january/26-01-12-closure-to-skippers-bridge-to-remain-in-place-until-future-notice/",
-    "confidence": "medium"
+    "confidence": "high"
   },
   {
     "name": "Deer Park Heights",
@@ -213,7 +213,7 @@
     "description": "A tiny taco bar on Searle Lane that started life as a food truck and is now one of the most popular cheap eats in town. The tacos are loaded, with fish, prawn, pork and beef fillings, and the menu is gluten-free.\n\nThere's seating for only about ten people inside, plus a few benches outside, so it works best as a quick meal. Reviewers say about three tacos each makes a filling feed.\nLocal tip: Go just before the lunch or dinner rush to get a seat, or take your tacos to the lakefront, five minutes away.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Hours vary; check before visiting; very small, limited seating",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJGf3EeYEd1akR2byDYllpvl4",
+    "sourceUrl": "https://crux.org.nz/crux-news/taco-medic-from-big-investment-to-permanently-closed/",
     "confidence": "medium"
   },
   {
@@ -266,11 +266,12 @@
     "area": "queenstown",
     "active": true,
     "price": "Moderate",
-    "description": "A relaxed café and bar on Church Street that runs from coffee and brunch through to dinner and late drinks. Breads, pastries and sauces are made in-house, and there's a strong focus on vegan and gluten-free options.\n\nThere are booths, nooks, a fireplace and a sunny courtyard, and reviewers praise the generous portions and friendly service. It opens at 8am daily and stays open late, until 2.30am on Fridays and Saturdays.\nLocal tip: The courtyard is a good sun trap for a late breakfast on a clear winter morning.",
+    "description": "A relaxed café and bar on Church Street that runs from coffee and brunch through to dinner and late drinks. Breads, pastries and sauces are made in-house, and there's a strong focus on vegan and gluten-free options.\n\nThere are booths, nooks, a fireplace and a sunny courtyard, and reviewers praise the generous portions and friendly service. It opens at 8am daily and stays open late.\nLocal tip: The courtyard is a good sun trap for a late breakfast on a clear winter morning.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Daily from 8am; open late, to 2.30am Fri and Sat",
-    "sourceUrl": "https://www.queenstownnz.co.nz/listing/yonder/1520/",
-    "confidence": "medium"
+    "hoursNote": "Daily from 8am to late; brunch daily 8am to 2pm; closed 25 December; book online for groups of 4 or more",
+    "sourceUrl": "https://yonderqt.co.nz/",
+    "confidence": "high",
+    "website": "https://yonderqt.co.nz/"
   },
   {
     "name": "The Cow",
@@ -284,12 +285,12 @@
     "area": "queenstown",
     "active": true,
     "price": "Moderate",
-    "website": "https://www.thecowrestaurant.co.nz/",
-    "description": "A cosy pizza and spaghetti house tucked down a lane in central Queenstown, serving the same simple menu of hand-rolled pizzas, spaghetti, soup, homemade bread and salad since 1976. It's dark, rustic and warm, with an open fire in winter.\n\nThe whole garlic loaf with butter is the dish everyone talks about, and portions are generous. It doesn't take bookings, so expect a short wait at busy times.\nLocal tip: Go for a late lunch or an early dinner to avoid the queue, and order the garlic loaf to share.",
+    "website": "https://www.thecowpizza.co.nz/queenstown.html",
+    "description": "A cosy pizza and spaghetti house tucked down a lane in central Queenstown, serving the same simple menu of hand-rolled pizzas, spaghetti, soup, homemade bread and salad since 1977. It's dark, rustic and warm, with an open fire in winter.\n\nThe whole garlic loaf with butter is the dish everyone talks about, and portions are generous. It doesn't take bookings, so expect a short wait at busy times.\nLocal tip: Go for a late lunch or an early dinner to avoid the queue, and order the garlic loaf to share.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Daily from noon to 10.30pm; no bookings; Cow Lane, central Queenstown",
-    "sourceUrl": "https://www.thecowrestaurant.co.nz/",
-    "confidence": "medium"
+    "hoursNote": "Daily from noon to 11pm; no bookings; Cow Lane, central Queenstown",
+    "sourceUrl": "https://www.thecowpizza.co.nz/queenstown.html",
+    "confidence": "high"
   },
   {
     "name": "Queenstown Hill Time Walk",
@@ -383,7 +384,7 @@
     "description": "A short stretch of sand right in the middle of town on the edge of Lake Wakatipu, looking straight across the water to the mountains. It's Queenstown's natural gathering spot, with people swimming on hot days and plenty of takeaway options within a few minutes' walk.\n\nThe water is clear but cold even in summer, so a swim here is usually a quick one, and there are no lifeguards.\nLocal tip: Grab takeaways from town and eat them on the sand at sunset. It's one of the cheapest good evenings in Queenstown.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Open all the time; no lifeguards; lake water is cold year round",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJs6Z-Jocd1akR5FsWWQ_YO38",
+    "sourceUrl": "https://www.queenstownnz.co.nz/stories/post/the-best-of-queenstowns-beaches/",
     "confidence": "medium"
   },
   {
@@ -399,9 +400,9 @@
     "area": "queenstown",
     "active": true,
     "price": "Free",
-    "description": "The flat lakeside Frankton Track follows the Frankton Arm of Lake Wakatipu between Queenstown and Frankton, and Frankton Beach at the eastern end is a calmer, quieter swimming spot than the town beach, with toilets, picnic tables and jetties. You can often watch planes coming in to land at the airport nearby.\n\nThe Queenstown end of the track, from Park Street to opposite Middleton Road, has been closed since January 2026 for wastewater pipe works, with walkers and cyclists detoured onto Frankton Road. The council plans to reopen it for Queenstown Marathon weekend in early November 2026 and, weather permitting, keep it open after that.\nLocal tip: Until it reopens, start at Frankton and walk or ride the open lakeside section from the beach, then come back the same way.",
+    "description": "The flat lakeside Frankton Track follows the Frankton Arm of Lake Wakatipu between Queenstown and Frankton, and Frankton Beach at the eastern end is a calmer, quieter swimming spot than the town beach, with toilets, picnic tables and jetties. You can often watch planes coming in to land at the airport nearby.\n\nThe Queenstown end of the track, from Park Street to opposite Middleton Road, has been closed since January 2026 for wastewater pipe works, with walkers and cyclists detoured onto Frankton Road. The council plans to reopen it on about 6 November 2026, ahead of Queenstown Marathon weekend (14 November), and, weather permitting, keep it open after that.\nLocal tip: Until it reopens, start at Frankton and walk or ride the open lakeside section from the beach, then come back the same way.",
     "recommendedDurationSlots": 3,
-    "hoursNote": "Track section Park St to Middleton Rd closed until about end of 2026 (brief reopening Marathon weekend, Nov); detour via Frankton Rd; Frankton end and beach open",
+    "hoursNote": "Track section Park St to Middleton Rd closed until about 6 November 2026; detour via Frankton Rd; Frankton end and beach open; minor works until mid-December",
     "sourceUrl": "https://www.qldc.govt.nz/your-council/council-projects/frankton-track-wastewater-upgrades",
     "confidence": "medium"
   },
@@ -460,7 +461,7 @@
     "description": "A busy bakery on Buckingham Street known for its pies, with fillings such as steak, jalapeño and cheese, Thai green chicken and butter chicken alongside the classic mince and cheese. The pastry is flaky and the pies come out hot.\n\nThere are also sandwiches, doughnuts, slices and cakes, which makes it an easy lunch stop while you explore Arrowtown.\nLocal tip: Take your pie down to the Arrow River or the tree-lined green on Buckingham Street to eat.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Daily 7am to 3pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ9wijc34Y1akRyQNjkbXiufQ",
+    "sourceUrl": "https://www.arrowtown.com/directory/food-and-drink/arrowtown-bakery/",
     "confidence": "medium"
   },
   {
@@ -514,7 +515,7 @@
     "description": "A roadside lookout on the Kingston Road (State Highway 6) along the southern arm of Lake Wakatipu, where the highway winds along the steep lake edge below the mountains. It's one of the best views on the main approach to Queenstown from Southland.\n\nThe pull-off is small and fills quickly, but there's a second one just beyond it. Reviewers say it's easiest to reach when you're heading towards Queenstown, because of the road markings.\nLocal tip: It's a good sunrise spot. If both pull-offs are full, keep driving rather than stopping on the road edge.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Open any time; small roadside pull-off on SH6, second one just beyond",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJg92ioEPC1KkR39NpSfOJ2zI",
+    "sourceUrl": "https://www.queenstownnz.co.nz/stories/post/a-guide-to-kingston-walks",
     "confidence": "medium"
   },
   {
@@ -553,9 +554,9 @@
     "website": "https://www.dartriver.co.nz/choose-your-experience/wilderness-jet/",
     "description": "A long jet boat trip from Glenorchy up the braided Dart River into Mount Aspiring National Park, run by Ngāi Tahu Tourism's Dart River Adventures. The ride lasts about 2 hours, the longest in the region, with guides sharing Māori legends and the story of the area's greenstone trail.\n\nIt departs from the Dart Visitor Centre in Glenorchy, with free coach transfers from Queenstown on some departures. From 1 October 2026 to 30 April 2027, adults are $399, children aged 5 to 15 are $299, and a family of four is $1,097. Off-peak prices from May to September are lower.\nLocal tip: Self-drive to Glenorchy and combine the jet with the wharf, the lagoon walkway and lunch in town. Bring warm layers and sunglasses for the wind on the river.",
     "recommendedDurationSlots": 5,
-    "hoursNote": "Morning and afternoon departures from Glenorchy; about 2 hr on the river, 2.5 hr return from Glenorchy or 5 hr from Queenstown; off peak adult $299, child $205, summer higher",
-    "sourceUrl": "https://www.bookme.co.nz/things-to-do/queenstown/activity/dart-river-wilderness-jet-half-day-adventure-ex-queenstown-or-glenorchy/859",
-    "confidence": "medium"
+    "hoursNote": "Departs Glenorchy 9.30am and 1pm; check in 15 min before; about 2 hr on the river, 2.5 hr return from Glenorchy or 5 hr from Queenstown; adult $399, child $299 to 30 April 2027; off peak adult $319, child $219 from 1 May 2027",
+    "sourceUrl": "https://www.dartriver.co.nz/choose-your-experience/wilderness-jet/",
+    "confidence": "high"
   },
   {
     "name": "Glenorchy Lagoon Walkway",
@@ -631,8 +632,8 @@
     "description": "An easy walk through tall red beech forest and old river terraces to a quiet lake with views towards Mt Earnslaw/Pikirakatahi, near the head of Lake Wakatipu, about 30 minutes past Glenorchy. DOC gives 40 minutes one way to the viewing platform, or 1 hour 40 minutes as a loop along an old tramline.\n\nAccess was cut after storms destroyed the old bridge over the Routeburn River. A new 42m suspension bridge, higher and about 600m upriver, opened in October 2025, with 1.5km of new track linking it to the campsite, so the route differs from older guides and may take a little longer. The DOC Sylvan Campsite is $18 per adult and $9 per child per night, and must be booked, especially from December to February.\nLocal tip: The campsite can flood in heavy rain, and DOC advises not pitching under the trees. The last part of the road is rough gravel.",
     "recommendedDurationSlots": 4,
     "hoursNote": "Walk free; new bridge open since 1 Oct 2025; campsite $18 adult, $9 child, bookings required; campsite may flood in heavy rain",
-    "sourceUrl": "https://www.doc.govt.nz/news/media-releases/2025-media-releases/new-bridge-reconnects-popular-glenorchy-trail/",
-    "confidence": "medium"
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/campsites/sylvan-campsite/",
+    "confidence": "high"
   },
   {
     "name": "Boundary Street Freedom Camping",
@@ -698,10 +699,11 @@
     "area": "queenstown",
     "active": true,
     "price": "Cheap",
-    "description": "An independent, sociable hostel on Camp Street in the middle of town, a minute's walk from the buses to the ski fields. The bunks are custom-built timber with privacy curtains, reading lights and USB charging, and there's a big kitchen and balconies with lake views.\n\nIt runs regular events such as quiz and movie nights and gets very strong guest reviews. There's no guest parking, but the staff can point you to nearby options.\nLocal tip: Book ahead for ski season and summer, since central beds in Queenstown fill up fast.",
-    "hoursNote": "Reception 8.30am to 7.30pm; no guest parking; lockers and luggage storage",
-    "sourceUrl": "https://www.hostelworld.com/hostels/p/46937/adventure-queenstown-hostel/",
-    "confidence": "medium"
+    "description": "An independent, sociable hostel on Camp Street in the middle of town, a minute's walk from the buses to the ski fields. The bunks are custom-built timber with privacy curtains, reading lights and USB charging, and there's a big kitchen and a balcony overlooking Camp Street.\n\nIt runs regular events such as quiz and movie nights and gets very strong guest reviews. There's no guest parking, but the staff can point you to nearby options.\nLocal tip: Book ahead for ski season and summer, since central beds in Queenstown fill up fast.",
+    "hoursNote": "Reception daily 9am to 7pm; check-in 2pm, check-out 10am; late check-in by prior arrangement; no guest parking; lockers and luggage storage",
+    "sourceUrl": "https://adventurehostels.co.nz/hostel/adventure-queenstown-hostel/",
+    "confidence": "high",
+    "website": "https://adventurehostels.co.nz/hostel/adventure-queenstown-hostel/"
   },
   {
     "name": "Nevis Bungy",
@@ -738,8 +740,8 @@
     "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/remarkables-conservation-area/things-to-do/lake-alta-track/",
     "description": "The ski field road up The Remarkables, which climbs from State Highway 6 near Frankton with wide views over the Wakatipu basin, and is open to cars in summer as well as in the ski season. From the ski area buildings at the top, the Lake Alta Track follows a ski field road to the top of the Alta chairlift and on to a small alpine lake under the peaks, climbing from about 1600m to 1800m.\n\nThe road is mostly sealed, with the last 3km gravel and steep drops beside it. NZSki charges a vehicle fee in summer; in winter it is the ski field's road, free and busy with skiers.\nLocal tip: Take warm, waterproof layers even on a hot day in town: it is often very cold up there, and snow can lie on the road.",
     "recommendedDurationSlots": 4,
-    "hoursNote": "Signposted off SH6 at the Remarkables ski area junction; mostly sealed, last 3km gravel, steep drops; vehicle fee in summer, free in the ski season; snow often on the road, check conditions first; Lake Alta track is under deep snow May to November, with avalanche risk; no rubbish bins",
+    "hoursNote": "Signposted off SH6 at the Remarkables ski area junction; mostly sealed, last 3km gravel, steep drops; vehicle fee in summer, free in the ski season; carry snow chains in the ski season; snow often on the road, check conditions first; Lake Alta track is under deep snow May to November, with avalanche risk; no rubbish bins",
     "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/remarkables-conservation-area/things-to-do/lake-alta-track/",
-    "confidence": "medium"
+    "confidence": "high"
   }
 ]

@@ -11,6 +11,8 @@ export const components = createComponents(tokens, uiKit);
 // comment on formTokens. Use these, not components.AuthCard / ReviewModal.
 const formComponents = createComponents(formTokens, createUI(formTokens));
 export const AuthCard = formComponents.AuthCard;
+// The login screen's form (docs/plans/login-redesign.md): the engine's card-less one.
+export const AuthPanel = formComponents.AuthPanel;
 export const ReviewModal = formComponents.ReviewModal;
 
 export const {

@@ -1,11 +1,40 @@
 // The login screen's job is wiring: it owns no auth logic of its own. useAuthForm has its
 // own unit tests (lib/hooks/__tests__/useAuthForm.test.ts), so this file keeps the real hook
 // and mocks only firebase — that way a field wired to the wrong setter fails here, without
-// re-asserting the hook's rules. The email form starts closed behind "Sign in with email"
-// (so the photo isn't covered), which is why the form tests open it first. Email is the
-// only sign-in method in 1.0.
+// re-asserting the hook's rules. Email is the only sign-in method in 1.0, so the form shows
+// straight away (owner, 2026-10-25; docs/plans/login-redesign.md).
+//
+// The form is the engine's real AuthPanel, not a stand-in: the engine's own tests check its
+// logic without drawing it, so this is where it is checked on screen.
 
-jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
+// The engine bundle loads moti and FlashList for its other components; stubbed as other
+// tests stub them.
+jest.mock("moti", () => {
+  const { View } = require("react-native");
+  return { MotiView: View, AnimatePresence: ({ children }: any) => children };
+});
+jest.mock("@shopify/flash-list", () => {
+  const { View } = require("react-native");
+  return { FlashList: View };
+});
+jest.mock("react-native-maps", () => {
+  const { View } = require("react-native");
+  return { __esModule: true, default: View, Marker: View, Circle: View, Polyline: View };
+});
+jest.mock("react-native-svg", () => {
+  const { View } = require("react-native");
+  return { __esModule: true, default: View, Svg: View, Path: View, Circle: View, G: View, Text: View };
+});
+jest.mock("expo-haptics", () => ({ impactAsync: jest.fn(), ImpactFeedbackStyle: {} }));
+
+// The kit's AppText and Stack are the stand-ins' (the real kit loads the animation library,
+// which can't run here); AuthPanel itself is the engine's.
+jest.mock("@/lib/uiKit", () => {
+  const kit = require("@/test/uiKitMock");
+  const { createAuthPanel } = require("@blacksands/components");
+  const { formTokens } = require("@/lib/ui/tokens");
+  return { ...kit, AuthPanel: createAuthPanel(formTokens, kit) };
+});
 
 jest.mock("@/components/auth/SocialSignInButtons", () => {
   const React = require("react");
@@ -55,10 +84,8 @@ const mockSignIn = signInWithEmailAndPassword as jest.Mock;
 const mockSignUp = createUserWithEmailAndPassword as jest.Mock;
 const mockResetEmail = sendPasswordResetEmail as jest.Mock;
 
-const renderWithEmailOpen = async () => {
-  const view = await render(<LoginScreen />);
-  await fireEvent.press(view.getByText("Sign in with email"));
-  return view;
+const fill = async (view: any, fields: Record<string, string>) => {
+  for (const [label, value] of Object.entries(fields)) await fireEvent.changeText(view.getByLabelText(label), value);
 };
 
 beforeEach(() => {
@@ -70,12 +97,16 @@ beforeEach(() => {
 });
 
 describe("render", () => {
-  it("names the app and offers email and guest entry, with the email form closed", async () => {
+  it("names the app and shows the email form straight away, with guest entry", async () => {
     const view = await render(<LoginScreen />);
     expect(view.getByText("South Island Guide")).toBeTruthy();
     expect(view.getByText("Ultimate South Island trip planner")).toBeTruthy();
-    expect(view.getByText("Sign in with email")).toBeTruthy();
-    expect(view.getByText("Continue as Guest")).toBeTruthy();
+    expect(view.getByLabelText("Email")).toBeTruthy();
+    expect(view.getByLabelText("Password")).toBeTruthy();
+    expect(view.getByRole("button", { name: "Sign in" })).toBeTruthy();
+    expect(view.getByText("Continue as guest")).toBeTruthy();
+    // No step before the form, and no title over it.
+    expect(view.queryByText("Sign in with email")).toBeNull();
     expect(view.queryByText("Welcome back")).toBeNull();
   });
 
@@ -96,62 +127,64 @@ describe("render", () => {
     });
   });
 
-  // White label, so the button is the full-strength highlight: white on the lighter
-  // on-dark orange is only 1.7:1.
-  it("makes signing in with email the highlighted action, with a white label", async () => {
+  // Mockup C: square corners, and the full-strength highlight with a white label (white on
+  // the lighter on-dark orange is only 1.7:1).
+  it("makes signing in the highlighted action, square-cornered, with a white label", async () => {
     const view = await render(<LoginScreen />);
 
-    expect(view.getByRole("button", { name: "Sign in with email" })).toHaveStyle({
+    expect(view.getByRole("button", { name: "Sign in" })).toHaveStyle({
       backgroundColor: tokens.colors.highlight,
+      borderRadius: 0,
     });
-    expect(view.getByText("Sign in with email")).toHaveStyle({ color: "#FFFFFF" });
+    expect(view.getByText("Sign in")).toHaveStyle({ color: "#FFFFFF" });
   });
 
-  it("opens the email form in place of the entry buttons, and closes it again", async () => {
-    const view = await renderWithEmailOpen();
-    expect(view.getByText("Welcome back")).toBeTruthy();
-    expect(view.queryByText("Sign in with email")).toBeNull();
-
-    await fireEvent.press(view.getByText("Back"));
-
-    expect(view.queryByText("Welcome back")).toBeNull();
-    expect(view.getByText("Sign in with email")).toBeTruthy();
-  });
-
-  it("won't open the email form while the session is still resolving", async () => {
-    mockSession.status = "loading";
+  // The form sits on the app's deep teal: muted white labels, white links, the guest link
+  // in the on-dark highlight.
+  it("sets the form's words for the teal panel", async () => {
     const view = await render(<LoginScreen />);
 
-    await fireEvent.press(view.getByText("Sign in with email"));
+    expect(view.getByText("Email")).toHaveStyle({ color: tokens.colors.onDarkMuted });
+    expect(view.getByText("Create an account")).toHaveStyle({ color: "#FFFFFF" });
+    expect(view.getByText("Continue as guest")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+  });
 
-    expect(view.queryByText("Welcome back")).toBeNull();
+  it("puts the form on the deep teal", async () => {
+    const view = await render(<LoginScreen />);
+
+    expect(view.getByTestId("login-panel")).toHaveStyle({ backgroundColor: tokens.colors.accentWarm });
   });
 
   it("keeps submit unavailable until there is something to submit", async () => {
-    const view = await renderWithEmailOpen();
-    await fireEvent.press(view.getByText("Submit login"));
+    const view = await render(<LoginScreen />);
+    await fireEvent.press(view.getByRole("button", { name: "Sign in" }));
     expect(mockSignIn).not.toHaveBeenCalled();
+  });
+
+  it("holds the form while the session is still resolving", async () => {
+    mockSession.status = "loading";
+    const view = await render(<LoginScreen />);
+
+    expect(view.getByLabelText("Email").props.editable).toBe(false);
   });
 });
 
 describe("email sign-in", () => {
   it("signs in with what was typed", async () => {
-    const view = await renderWithEmailOpen();
+    const view = await render(<LoginScreen />);
 
-    await fireEvent.changeText(view.getByPlaceholderText("Email"), "kia@ora.nz");
-    await fireEvent.changeText(view.getByPlaceholderText("Password"), "hunter2");
-    await fireEvent.press(view.getByText("Submit login"));
+    await fill(view, { Email: "kia@ora.nz", Password: "hunter2" });
+    await fireEvent.press(view.getByRole("button", { name: "Sign in" }));
 
     await waitFor(() => expect(mockSignIn).toHaveBeenCalledWith({}, "kia@ora.nz", "hunter2"));
   });
 
   it("shows why a sign-in was rejected", async () => {
     mockSignIn.mockRejectedValue(new Error("Incorrect password"));
-    const view = await renderWithEmailOpen();
+    const view = await render(<LoginScreen />);
 
-    await fireEvent.changeText(view.getByPlaceholderText("Email"), "kia@ora.nz");
-    await fireEvent.changeText(view.getByPlaceholderText("Password"), "wrong");
-    await fireEvent.press(view.getByText("Submit login"));
+    await fill(view, { Email: "kia@ora.nz", Password: "wrong" });
+    await fireEvent.press(view.getByRole("button", { name: "Sign in" }));
 
     await waitFor(() => expect(view.getByText("Incorrect password")).toBeTruthy());
   });
@@ -160,11 +193,10 @@ describe("email sign-in", () => {
     mockSignIn.mockRejectedValue(
       Object.assign(new Error("Firebase: Error (auth/wrong-password)."), { code: "auth/wrong-password" }),
     );
-    const view = await renderWithEmailOpen();
+    const view = await render(<LoginScreen />);
 
-    await fireEvent.changeText(view.getByPlaceholderText("Email"), "kia@ora.nz");
-    await fireEvent.changeText(view.getByPlaceholderText("Password"), "wrong");
-    await fireEvent.press(view.getByText("Submit login"));
+    await fill(view, { Email: "kia@ora.nz", Password: "wrong" });
+    await fireEvent.press(view.getByRole("button", { name: "Sign in" }));
 
     await waitFor(() => expect(view.getByText("Incorrect email or password.")).toBeTruthy());
     expect(view.queryByText(/Firebase/)).toBeNull();
@@ -173,37 +205,45 @@ describe("email sign-in", () => {
 
 describe("email sign-up", () => {
   it("creates the account once the confirmation matches", async () => {
-    const view = await renderWithEmailOpen();
-    await fireEvent.press(view.getByText("Switch to signup"));
+    const view = await render(<LoginScreen />);
+    await fireEvent.press(view.getByText("Create an account"));
 
-    await fireEvent.changeText(view.getByPlaceholderText("Email"), "new@ora.nz");
-    await fireEvent.changeText(view.getByPlaceholderText("Password"), "hunter2");
-    await fireEvent.changeText(view.getByPlaceholderText("Confirm"), "hunter2");
-    await fireEvent.press(view.getByText("Submit signup"));
+    await fill(view, { Email: "new@ora.nz", Password: "hunter22", "Confirm password": "hunter22" });
+    await fireEvent.press(view.getByRole("button", { name: "Create account" }));
 
-    await waitFor(() => expect(mockSignUp).toHaveBeenCalledWith({}, "new@ora.nz", "hunter2"));
+    await waitFor(() => expect(mockSignUp).toHaveBeenCalledWith({}, "new@ora.nz", "hunter22"));
   });
 
-  it("won't submit a sign-up whose confirmation doesn't match", async () => {
-    const view = await renderWithEmailOpen();
-    await fireEvent.press(view.getByText("Switch to signup"));
+  it("won't submit a sign-up whose confirmation doesn't match, and says so", async () => {
+    const view = await render(<LoginScreen />);
+    await fireEvent.press(view.getByText("Create an account"));
 
-    await fireEvent.changeText(view.getByPlaceholderText("Email"), "new@ora.nz");
-    await fireEvent.changeText(view.getByPlaceholderText("Password"), "hunter2");
-    await fireEvent.changeText(view.getByPlaceholderText("Confirm"), "hunter3");
-    await fireEvent.press(view.getByText("Submit signup"));
+    await fill(view, { Email: "new@ora.nz", Password: "hunter22", "Confirm password": "hunter33" });
+    await fireEvent.press(view.getByRole("button", { name: "Create account" }));
 
     expect(mockSignUp).not.toHaveBeenCalled();
+    expect(view.getByText("Passwords don't match")).toBeTruthy();
+  });
+
+  it("goes back to signing in", async () => {
+    const view = await render(<LoginScreen />);
+    await fireEvent.press(view.getByText("Create an account"));
+
+    await fireEvent.press(view.getByText("I have an account"));
+
+    expect(view.getByRole("button", { name: "Sign in" })).toBeTruthy();
+    expect(view.queryByLabelText("Confirm password")).toBeNull();
   });
 });
 
 describe("password reset", () => {
   it("emails a reset link on email alone and says so", async () => {
-    const view = await renderWithEmailOpen();
-    await fireEvent.press(view.getByText("Switch to reset"));
+    const view = await render(<LoginScreen />);
+    await fireEvent.press(view.getByText("Forgot password?"));
 
-    await fireEvent.changeText(view.getByPlaceholderText("Email"), "kia@ora.nz");
-    await fireEvent.press(view.getByText("Submit reset"));
+    expect(view.queryByLabelText("Password")).toBeNull();
+    await fill(view, { Email: "kia@ora.nz" });
+    await fireEvent.press(view.getByRole("button", { name: "Send reset link" }));
 
     await waitFor(() => expect(mockResetEmail).toHaveBeenCalledWith({}, "kia@ora.nz"));
     expect(view.getByText("Check your email for a reset link.")).toBeTruthy();
@@ -214,7 +254,7 @@ describe("guest entry", () => {
   it("makes a first-time visitor a guest and, once they are one, drops them onto the Explore tab", async () => {
     const view = await render(<LoginScreen />);
 
-    await fireEvent.press(view.getByText("Continue as Guest"));
+    await fireEvent.press(view.getByText("Continue as guest"));
     await waitFor(() => expect(mockEnableGuest).toHaveBeenCalled());
 
     mockSession.status = "guest";
@@ -227,7 +267,7 @@ describe("guest entry", () => {
     mockSession.status = "loading";
     const view = await render(<LoginScreen />);
 
-    await fireEvent.press(view.getByText("Continue as Guest"));
+    await fireEvent.press(view.getByText("Continue as guest"));
 
     expect(mockEnableGuest).not.toHaveBeenCalled();
     expect(mockRouter.replace).not.toHaveBeenCalled();
@@ -241,7 +281,7 @@ describe("guest entry", () => {
     mockSession.status = "guest";
     const view = await render(<LoginScreen />);
 
-    expect(view.getByText("Sign in with email")).toBeTruthy();
+    expect(view.getByRole("button", { name: "Sign in" })).toBeTruthy();
     expect(mockRouter.replace).not.toHaveBeenCalled();
   });
 });

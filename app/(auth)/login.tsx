@@ -1,19 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-  Animated,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import React, { useEffect } from "react";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 import { Stack, router } from "expo-router";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Mail } from "lucide-react-native";
-import { Screen, AppText, AuthCard } from "@/lib/uiKit";
+import { Screen, AppText, AuthPanel } from "@/lib/uiKit";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { tokens } from "@/lib/ui/tokens";
@@ -22,10 +13,20 @@ import { tokens } from "@/lib/ui/tokens";
 // network flash.
 const HERO_IMAGE = require("../../assets/login.webp");
 
+// The photo's share of the screen: about 400pt on a 6.1" iPhone, about 310 on an iPhone
+// SE (667pt), where the whole form must still fit (App Review runs iPhone apps on iPad at
+// 375×667; Rotorua was rejected for a button off the bottom there).
+const PHOTO_SHARE = 0.47;
+
+// Mockup C (owner, 2026-10-25; docs/plans/login-redesign.md): the photo with the title
+// on top, fading into the deep teal of the app's top bars, and the engine's AuthPanel on
+// the teal, showing straight away. Email is the only way in, so there is no "Sign in with
+// email" step to open it.
 export default function LoginScreen() {
   const f = useAuthForm("login");
   const { session, enableGuest } = useSession();
   const insets = useSafeAreaInsets();
+  const { height } = useWindowDimensions();
 
   useEffect(() => {
     // Guest is not redirected here — see app/(auth)/_layout.tsx for why.
@@ -37,27 +38,13 @@ export default function LoginScreen() {
   // ponytail: email-only for 1.0. Apple's servers reject this App ID's Sign in
   // with Apple ("Invalid client", see TASKS.md Sign-in), and Google can't be
   // offered without it (App Store guideline 4.8). When Apple fixes it, render
-  // <SocialSignInButtons> above the email button again: the component and
-  // lib/auth are untouched. usesAppleSignIn stays in app.config.ts on purpose:
-  // without it `eas build` switches the capability off at Apple.
+  // <SocialSignInButtons> above the form again: the component and lib/auth are
+  // untouched. usesAppleSignIn stays in app.config.ts on purpose: without it
+  // `eas build` switches the capability off at Apple.
   const busy = f.busy || session.status === "loading";
 
-  // The email form stays closed until asked for, so the photo isn't hidden
-  // behind a card most people never use.
-  const [emailOpen, setEmailOpen] = useState(false);
-
-  // The buttons and the form swap in place. Whichever has just arrived fades
-  // in, so the change doesn't snap. A fade-in of the newcomer only, not a
-  // crossfade of both stacked: the form is several times the buttons' height,
-  // and stacking them would take it out of the scroll view's layout.
-  const fade = useRef(new Animated.Value(1)).current;
-  useEffect(() => {
-    fade.setValue(0);
-    Animated.timing(fade, { toValue: 1, duration: 220, useNativeDriver: true }).start();
-  }, [emailOpen, fade]);
-
   // Navigates explicitly: guests are no longer auto-redirected off this screen,
-  // so "Continue as Guest" has to take them into the app itself. Also allowed
+  // so "Continue as guest" has to take them into the app itself. Also allowed
   // when already a guest — that's someone who came here to sign in and changed
   // their mind.
   const handleGuestEntry = async () => {
@@ -72,173 +59,108 @@ export default function LoginScreen() {
       {/* paddingTop 0 overrides Screen's own top inset so the photo runs up under
           the status bar; the content adds the inset back itself. */}
       <Screen padded={false} statusBarStyle="light-content" style={{ paddingTop: 0 }}>
-        <View style={styles.container}>
-          {/* Outside the KeyboardAvoidingView so the photo doesn't shrink and
-              re-crop when the keyboard opens. */}
-          <Image source={HERO_IMAGE} style={StyleSheet.absoluteFill} contentFit="cover" />
-          {/* The scrim colour at the top (white title over white cloud) and the
-              bottom (white guest link over the lake), clear through the
-              mountains. It holds past the subtitle before fading and is nearly
-              opaque there, so the clouds don't show through behind the words.
-              It is the deep scrim teal, not the brand teal it used to be: the
-              words were readable on that but didn't stand out. The last two
-              characters of each colour are its opacity. */}
-          <LinearGradient
-            colors={[
-              `${tokens.colors.scrim}F5`,
-              `${tokens.colors.scrim}E6`,
-              `${tokens.colors.scrim}00`,
-              `${tokens.colors.scrim}00`,
-              `${tokens.colors.scrim}CC`,
-            ]}
-            // Strong to just under the subtitle (~0.36), then a quick fade, clear
-            // by 0.5: Aoraki's peak sits at about half screen height.
-            locations={[0, 0.36, 0.5, 0.58, 1]}
-            style={StyleSheet.absoluteFill}
-          />
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.flex1}
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.flex1}>
+          {/* Scrolls so the form stays reachable above the keyboard: the photo goes up
+              out of the way. A tap on empty space dismisses the keyboard. */}
+          <ScrollView
+            style={styles.screen}
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="interactive"
+            showsVerticalScrollIndicator={false}
+            bounces={false}
           >
-            {/* Scrolls so the open email form stays reachable above the keyboard
-                on a small screen; a tap on empty space dismisses the keyboard. */}
-            <ScrollView
-              contentContainerStyle={[
-                styles.scrollContent,
-                {
-                  // The title sits lower over the sky while the buttons show;
-                  // back up top when the taller email form needs the room.
-                  paddingTop: insets.top + (emailOpen ? tokens.space.xl : 80),
-                  paddingBottom: insets.bottom + tokens.space.md,
-                },
-              ]}
-              keyboardShouldPersistTaps="handled"
-              keyboardDismissMode="interactive"
-              showsVerticalScrollIndicator={false}
-            >
-              <View style={styles.brandContainer}>
-                {/* Two lines at most, shrinking to fit: at 60pt "South Island" is
-                    wider than an iPhone SE's 327pt between the margins. */}
+            <View style={[styles.photo, { height: Math.round(height * PHOTO_SHARE) }]}>
+              <Image source={HERO_IMAGE} style={StyleSheet.absoluteFill} contentFit="cover" />
+              {/* The scrim teal behind the white title over the white cloud, clear
+                  through the mountains, then into the panel's teal so the photo has no
+                  hard edge. The last two characters of each colour are its opacity. */}
+              <LinearGradient
+                colors={[
+                  `${tokens.colors.scrim}EB`,
+                  `${tokens.colors.scrim}B3`,
+                  `${tokens.colors.scrim}00`,
+                  `${tokens.colors.accentWarm}00`,
+                  tokens.colors.accentWarm,
+                ]}
+                locations={[0, 0.36, 0.64, 0.82, 1]}
+                style={StyleSheet.absoluteFill}
+              />
+              <View style={[styles.brand, { paddingTop: insets.top + 40 }]}>
+                {/* Two lines at most, shrinking to fit an iPhone SE's width. */}
                 <AppText variant="screenTitle" style={styles.appName} numberOfLines={2} adjustsFontSizeToFit>
                   South Island Guide
                 </AppText>
-                {/* Not the label variant: small, widely spaced capitals were the
-                    hardest words on the screen to read. */}
                 <AppText style={styles.tagline}>Ultimate South Island trip planner</AppText>
               </View>
+            </View>
 
-              {emailOpen ? (
-                <Animated.View style={[styles.actions, { opacity: fade }]}>
-                  <AuthCard
-                    mode={f.mode}
-                    title={f.title}
-                    subtitle={f.subtitle}
-                    email={f.email}
-                    password={f.password}
-                    confirm={f.confirm}
-                    busy={busy}
-                    err={f.err}
-                    notice={f.notice}
-                    canSubmit={f.canSubmit}
-                    onChangeMode={f.setMode}
-                    onChangeEmail={f.setEmail}
-                    onChangePassword={f.setPassword}
-                    onChangeConfirm={f.setConfirm}
-                    onSubmit={() => void f.submit()}
-                    onGuest={handleGuestEntry}
-                  />
-                  <Pressable
-                    onPress={() => setEmailOpen(false)}
-                    accessibilityRole="button"
-                    style={styles.linkBtn}
-                  >
-                    <AppText style={styles.linkText}>Back</AppText>
-                  </Pressable>
-                </Animated.View>
-              ) : (
-                <Animated.View style={[styles.actions, { opacity: fade }]}>
-                  <Pressable
-                    onPress={() => setEmailOpen(true)}
-                    disabled={busy}
-                    accessibilityRole="button"
-                    accessibilityState={{ disabled: busy }}
-                    style={[styles.emailBtn, busy && styles.dimmed]}
-                  >
-                    <Mail size={20} color="#FFFFFF" strokeWidth={2.25} />
-                    <AppText style={styles.emailText}>Sign in with email</AppText>
-                  </Pressable>
-                  <Pressable
-                    onPress={handleGuestEntry}
-                    accessibilityRole="button"
-                    style={styles.linkBtn}
-                  >
-                    <AppText style={styles.linkText}>Continue as Guest</AppText>
-                  </Pressable>
-                </Animated.View>
-              )}
-            </ScrollView>
-          </KeyboardAvoidingView>
-        </View>
+            <View testID="login-panel" style={[styles.panel, { paddingBottom: insets.bottom + tokens.space.md }]}>
+              <AuthPanel
+                mode={f.mode}
+                email={f.email}
+                password={f.password}
+                confirm={f.confirm}
+                busy={busy}
+                err={f.err}
+                notice={f.notice}
+                canSubmit={f.canSubmit}
+                onChangeMode={f.setMode}
+                onChangeEmail={f.setEmail}
+                onChangePassword={f.setPassword}
+                onChangeConfirm={f.setConfirm}
+                onSubmit={() => void f.submit()}
+                onGuest={handleGuestEntry}
+                tone="dark"
+                radius={0}
+                colors={{
+                  label: tokens.colors.onDarkMuted,
+                  guest: tokens.colors.highlightOnDark,
+                }}
+                style={styles.flex1}
+              />
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </Screen>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: tokens.colors.accentWarm },
   flex1: { flex: 1 },
-  // Title pinned to the top, buttons to the bottom, photo showing between.
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: "space-between",
-    gap: tokens.space.lg,
-    paddingHorizontal: tokens.space.lg,
-  },
-  brandContainer: { alignItems: "center" },
-  // 52pt (screenTitle is 30) wraps to "South Island / Guide" on every phone
-  // width; "South Island" alone is ~290pt, inside an iPhone SE's 327. The
-  // shadow lifts it off the cloud.
-  // Letter spacing -0.5, not the tighter -1.5 it had: at this weight the
-  // letters were starting to touch.
+  screen: { flex: 1, backgroundColor: tokens.colors.accentWarm },
+  scrollContent: { flexGrow: 1 },
+  photo: { width: "100%" },
+  brand: { alignItems: "center", gap: tokens.space.xs, paddingHorizontal: tokens.space.lg },
+  // The shadow lifts the white title off the cloud.
   appName: {
     color: "#FFFFFF",
-    fontSize: 60,
-    lineHeight: 64,
+    fontSize: 44,
+    lineHeight: 48,
     letterSpacing: -0.5,
     textAlign: "center",
-    textShadowColor: "rgba(0,0,0,0.6)",
+    textShadowColor: "rgba(0,0,0,0.55)",
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 10,
   },
-  // Normal case, bold, in the highlight's on-dark twin: in white at 18pt it
-  // read as a smaller echo of the title rather than a line of its own. ~330pt
-  // wide at 20pt, so it may wrap to two lines on an iPhone SE.
+  // In the highlight's on-dark twin, so it reads as its own line rather than a smaller
+  // echo of the white title.
   tagline: {
-    marginTop: tokens.space.sm,
     color: tokens.colors.highlightOnDark,
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: "700",
-    lineHeight: 26,
+    lineHeight: 22,
     textAlign: "center",
     textShadowColor: "rgba(0,0,0,0.6)",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 6,
   },
-  actions: { gap: tokens.space.sm },
-  // The screen's main action: the full-strength highlight with a white label
-  // (5.2:1). Not the lighter on-dark orange: white on that is only 1.7:1.
-  // 56pt is the kit's primary tap height.
-  emailBtn: {
-    height: tokens.tap.primary,
-    borderRadius: tokens.radius.md,
-    backgroundColor: tokens.colors.highlight,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
+  // flexGrow: the panel takes the rest of the screen, so the guest link sits at its foot.
+  panel: {
+    flexGrow: 1,
+    backgroundColor: tokens.colors.accentWarm,
+    paddingHorizontal: tokens.space.lg,
+    paddingTop: tokens.space.xs,
   },
-  dimmed: { opacity: 0.5 },
-  emailText: { color: "#FFFFFF", fontSize: 19, fontWeight: "700" },
-  linkBtn: { alignSelf: "center", paddingVertical: 10, paddingHorizontal: tokens.space.md },
-  linkText: { color: "#FFFFFF", fontSize: 15, fontWeight: "700" },
 });

@@ -70,10 +70,10 @@
     "region": "canterbury",
     "active": true,
     "price": "Free",
-    "description": "Informal lakeside camping at Lake Camp (Ōtautari), right beside Lake Clearwater in the Hakatere high country. You can camp on the northern and eastern sides of the lake, where there are public toilets, but not on the southern side.\n\nIt is a big, open spot with room for tents and vans and views across to the mountains. There is no running water, and it gets very windy. The motorised boat ban covers Lake Clearwater, not Lake Camp, so expect boats here on summer weekends.\nLocal tip: Bring all the water you need, and pack for wind and cold nights. Dogs aren't allowed, and fires can't be lit on council land.",
+    "description": "Informal lakeside camping at Lake Camp (Ōtuatari), right beside Lake Clearwater in the Hakatere high country. You can camp on the northern and eastern sides of the lake, where there are public toilets, but not on the southern side.\n\nIt is a big, open spot with room for tents and vans and views across to the mountains. There is no running water, and it gets very windy. The motorised boat ban covers Lake Clearwater, not Lake Camp, so expect boats here on summer weekends.\nLocal tip: Bring all the water you need, and pack for wind and cold nights. Dogs aren't allowed, and fires can't be lit on council land.",
     "hoursNote": "Camp on northern and eastern shores only; toilets; no drinking water; no dogs; no fires; gravel access",
-    "sourceUrl": "https://www.ashburtondc.govt.nz/__data/assets/pdf_file/0023/58253/20847-Lake-Camp-Brochure-webversion.pdf",
-    "confidence": "medium",
+    "sourceUrl": "https://www.ashburtondc.govt.nz/community-facilities/ashburton-district/lakes-camp-and-clearwater",
+    "confidence": "high",
     "area": "mid-canterbury"
   },
   {
@@ -146,7 +146,7 @@
     "description": "A family-friendly walk through beech forest to a waterfall below Mt Somers, near Staveley. The old track closed for about ten years after rockfall, and in 2023 the Mt Somers Walkways Society opened a new route on the other side of the valley, with two new bridges.\n\nMost people take about 30 minutes each way on a well made, undulating track with some steps. There are toilets at the car park, a picnic table by the river, and small swimming spots in summer.\nLocal tip: Go after rain, when the falls are at their best. Bring insect repellent for the sandflies, and arrive early at weekends, since the car park fills.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Open all the time; about 1 hr return; toilets at car park; parking fills on busy days",
-    "sourceUrl": "https://www.guardianonline.co.nz/news/sharplin-falls-walkway-opened/",
+    "sourceUrl": "https://midcanterbury.co.nz/location/sharplin-falls",
     "confidence": "medium",
     "area": "mid-canterbury"
   },
@@ -164,7 +164,7 @@
     "description": "A country store and café at the foot of Mt Somers on Inland Scenic Route 72, and the natural coffee stop between Methven and Geraldine. Expect freshly made cabinet food, a small breakfast menu, home baking and pies, plus beer and wine.\n\nThere is seating inside and out with rural views, and the shop sells homemade jams, chutneys, books and gifts. The Sharplin Falls and Mt Somers tracks are only a few minutes away.\nLocal tip: Reviewers rave about the pies, especially the beef brisket and mushroom, so grab one before or after your walk.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Open daily, listed as 8am to 4.30pm; hours may vary seasonally",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJy5ljjDAyLG0RY0M8anm6AOU",
+    "sourceUrl": "https://midcanterbury.co.nz/location/the-staveley-store-cafe",
     "confidence": "medium",
     "area": "mid-canterbury"
   },
@@ -181,8 +181,8 @@
     "price": "Cheap",
     "description": "A small, friendly café on Methven's Main Street that opens early, which suits skiers, trampers and anyone heading out to the Ashburton Lakes. It serves Kokako coffee, cabinet food, scones and muffins, plus build-your-own toasties and sandwiches.\n\nReviewers praise the coffee and the warm service, and it is the place to sort out lunch before a day on gravel roads with no shops.\nLocal tip: Order sandwiches to take away for Mt Sunday or Lake Clearwater. There are no cafés or shops out in the Hakatere high country.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Mon 6am to 2pm; Tue to Fri 6am to 2.30pm; Sat and Sun 6.30am to 2.30pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJA9go0ojRLW0RHR6_U3vcILw",
+    "hoursNote": "Mon to Fri 6am to 2pm; Sat and Sun 7am to 2pm",
+    "sourceUrl": "https://midcanterbury.co.nz/location/the-alpine-grind",
     "confidence": "medium",
     "area": "mid-canterbury"
   },
@@ -222,7 +222,7 @@
     "description": "White water rafting in the Rangitata Gorge, one of the few commercial trips in New Zealand that runs grade 5 rapids. The river builds from easy water up to the big rapids in the gorge, with about 2.5 hours on the water and around 6 hours in total.\n\nIt costs $219 per person, including all rafting gear, hot showers and a barbecue meal at the lodge on Mt Peel Station. Trips meet at 12.30pm daily. The minimum age is 13, and you need basic swimming ability.\nLocal tip: Call the day before to confirm river conditions. If you're coming from Christchurch, optional transport costs an extra $30.",
     "recommendedDurationSlots": 12,
     "hoursNote": "Trips meet 12.30pm daily, subject to river levels; min age 13; confirm the day before",
-    "sourceUrl": "https://www.bookme.co.nz/things-to-do/christchurch-canterbury-kaikoura/activity/rafting-grade-5-rangitata-rafts/533",
+    "sourceUrl": "https://www.hiddenvalleysrafting.co.nz/rangitata",
     "confidence": "medium",
     "area": "mid-canterbury"
   },
@@ -290,9 +290,9 @@
     "region": "canterbury",
     "active": true,
     "price": "Cheap",
-    "description": "A small, owner-run backpackers a couple of minutes' walk from Methven's centre and the i-SITE. Guests describe it as clean, quiet and homely, with a proper lounge, a fireplace and comfortable couches.\n\nIt is a good budget base for Mt Hutt in winter, and for the Rakaia Gorge, the Ashburton Lakes and Mt Sunday in summer. Reviews note that wifi costs extra.\nLocal tip: Book ahead in ski season, and before heading into the high country, check road and weather conditions at the i-SITE around the corner.",
+    "description": "A small, owner-run backpackers a couple of minutes' walk from Methven's centre. Guests describe it as clean, quiet and homely, with a proper lounge, a fireplace and comfortable couches.\n\nIt is a good budget base for Mt Hutt in winter, and for the Rakaia Gorge, the Ashburton Lakes and Mt Sunday in summer. Reviews note that wifi costs extra.\nLocal tip: Book ahead in ski season, and before heading into the high country, check road and weather conditions.",
     "hoursNote": "Book ahead in ski season; wifi extra",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ82PFxdLRLW0Rf7g96CLlThA",
+    "sourceUrl": "https://mthuttbunkhouse.co.nz/backpacker-lodge/",
     "confidence": "medium",
     "area": "mid-canterbury"
   }

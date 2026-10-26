@@ -16,8 +16,8 @@
     "recommendedDurationSlots": 2,
     "featured": 1,
     "hoursNote": "Open any time; do not feed the eels; heavy sandflies in summer; visitor centre nearby open 9am to 4pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJlQzFhrf5Om0RdqKzgRdENp8",
-    "confidence": "medium"
+    "sourceUrl": "https://www.doc.govt.nz/documents/parks-and-recreation/national-parks/nelson-lakes-np-visitor-information.pdf",
+    "confidence": "high"
   },
   {
     "name": "Mount Robert Circuit",
@@ -129,11 +129,11 @@
     "area": "nelson-lakes",
     "active": true,
     "price": "Free",
-    "description": "A small volunteer run museum at 60 Fairfax Street that tells the story of the 1929 Murchison earthquake, with photographs and first-hand accounts of the damage across the district. Other displays cover goldmining, sawmilling and farming, and a barn-style building next door holds vintage farm machinery.\n\nEntry is by donation, and 20 to 30 minutes is enough for most visitors. It's open all year and doubles as an information point for the Murchison area.\nLocal tip: Pair it with a pie from Tutaki Bakery right next door, which opens a few days a week, then look for the earthquake's handiwork at Maruia Falls on the drive south.",
+    "description": "A small volunteer run museum at 60 Fairfax Street that tells the story of the 1929 Murchison earthquake, with photographs and first-hand accounts of the damage across the district. Other displays cover goldmining, sawmilling and farming, and a barn-style building next door holds vintage farm machinery.\n\nEntry is by donation, and 20 to 30 minutes is enough for most visitors. It's open all year and doubles as an information point for the Murchison area.\nLocal tip: Pair it with a pie from Tutaki Bakery, which runs from a van in the museum garden and opens a few days a week, then look for the earthquake's handiwork at Maruia Falls on the drive south.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Open all year; Google lists 11am to 3pm, closed Saturday; entry by donation",
-    "sourceUrl": "https://www.visitmurchison.nz/murchison-museum.html",
-    "confidence": "medium"
+    "hoursNote": "Open all year; Mon to Fri 10am to 4pm, plus some weekends; volunteer run, so hours can vary; entry by donation",
+    "sourceUrl": "https://www.tasman.govt.nz/my-community/heritage/museums-in-tasman",
+    "confidence": "high"
   },
   {
     "name": "Rivers Cafe",
@@ -150,7 +150,7 @@
     "description": "The main road stop in Murchison, in a converted old petrol station on Fairfax Street, opposite the museum. The cabinet has pies, quiches, muffins and sandwiches made in-house, and there's a full cooked breakfast and lunch menu too.\n\nInside it's warm and wooden with lots of seating, and there are outdoor tables where dogs are welcome. It gets busy at lunch with people driving between Nelson, Christchurch and the West Coast.\nLocal tip: If the kitchen queue is long, grab something from the cabinet, then eat at the picnic tables by the museum across the road.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Daily 8am to 3pm (Google listing)",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ0T7smL_ROm0RMVHfJa33aMk",
+    "sourceUrl": "https://www.visitmurchison.nz/rivers-cafe1.html",
     "confidence": "medium"
   },
   {

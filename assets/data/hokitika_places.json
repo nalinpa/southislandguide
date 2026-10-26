@@ -36,7 +36,7 @@
     "recommendedDurationSlots": 2,
     "featured": 2,
     "hoursNote": "Open any time; free; no swimming, strong rips; Driftwood and Sand festival 20 to 24 Jan 2027",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ-Vs7axQvL20ReN7Igj-faqY",
+    "sourceUrl": "https://www.1news.co.nz/2026/06/29/hokitikas-famous-driftwood-sign-destroyed-in-suspected-vandalism/",
     "confidence": "medium"
   },
   {
@@ -55,7 +55,7 @@
     "recommendedDurationSlots": 1,
     "featured": 4,
     "hoursNote": "Best after dark; free; roadside parking on both sides of SH6",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJo5tvv3AvL20RAuHt6DQfEwY",
+    "sourceUrl": "https://isitehokitika.nz/activities/glow-worm-dell-hokitika/",
     "confidence": "medium"
   },
   {
@@ -130,11 +130,11 @@
     "area": "hokitika",
     "active": true,
     "price": "Moderate",
-    "website": "https://www.bonznstonz.co.nz/",
-    "description": "A carving studio on Hamilton Street where you design and carve your own pendant from pounamu (greenstone), bone or pāua, with a carver guiding you through each step. Hokitika is the home of pounamu carving, and this is one of the best-reviewed ways to take home a piece you made yourself.\n\nAllow at least 3 hours, and many people stay longer. The price depends on the material and the size of the piece, so ask when you book. The shop also sells finished taonga and does commissions, stone identification and restringing.\nLocal tip: Book ahead in summer, since sessions fill up, and sketch a design idea before you arrive.",
+    "website": "https://www.bonznstonz.nz/",
+    "description": "A carving studio on Hamilton Street where you design and carve your own pendant from pounamu (greenstone), bone or pāua, with a carver guiding you through each step. Hokitika is the home of pounamu carving, and this is one of the best-reviewed ways to take home a piece you made yourself.\n\nAllow 2 to 3 hours for a classic design (up to 4 hours in the studio is included). The price depends on the material: $200 for pounamu, $120 for bone and $100 for pāua, with a $40 deposit when you book online. The shop also sells finished taonga and does commissions, stone identification and restringing.\nLocal tip: Book ahead in summer, since sessions fill up, and sketch a design idea before you arrive.",
     "recommendedDurationSlots": 7,
     "hoursNote": "Daily 9am to 4.30pm; booking recommended",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJsSuGTBQvL20R71PyHsol4fE",
+    "sourceUrl": "https://www.bonznstonz.nz/pages/carve-your-own",
     "confidence": "medium"
   },
   {
@@ -207,11 +207,12 @@
     "area": "hokitika",
     "active": true,
     "price": "Cheap",
-    "description": "A small sandwich shop on Revell Street that's one of the best-reviewed places to eat in town. Sandwiches are made to order on fresh bread, with fillings such as smoked fish with cream cheese and lemon, chicken, and a generous vegetarian option.\n\nThey travel well, so they're ideal to take up to the Gorge or down to the beach.\nLocal tip: It's open only until 2pm and closed on Sundays, so grab lunch on your way out of town.",
+    "description": "A small sandwich shop on Revell Street that's one of the best-reviewed places to eat in town. Sandwiches are made to order on fresh bread, with fillings such as smoked fish with cream cheese and capers, chicken, and a generous vegetarian option.\n\nThey travel well, so they're ideal to take up to the Gorge or down to the beach.\nLocal tip: It's open only until 2pm and closed on Sundays, so grab lunch on your way out of town.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Mon to Sat 10am to 2pm; closed Sun",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJicVGQRQvL20REIkS0x7P73Y",
-    "confidence": "medium"
+    "sourceUrl": "https://www.hokitikasandwichcompany.com/locations",
+    "confidence": "high",
+    "website": "https://www.hokitikasandwichcompany.com/"
   },
   {
     "name": "Fat Pipi Pizza",
@@ -225,11 +226,12 @@
     "area": "hokitika",
     "active": true,
     "price": "Moderate",
-    "description": "A popular pizza place on Revell Street, known for its West Coast whitebait pizza and a good range of gluten-free options. There's a garden seating area out the back, local beers and a seafood chowder.\n\nIt's dinner only, from 5pm to 8pm, closed on Tuesdays and Wednesdays, and busy in summer.\nLocal tip: Order a half and half pizza to try two flavours, and take it to the beach for sunset.",
+    "description": "A popular pizza place on Revell Street, known for its West Coast whitebait pizza (when whitebait is available) and a good range of gluten-free options. There's a garden seating area out the back, New Zealand beers and wine, and a seafood chowder when it's on the specials board.\n\nIt's dinner only, from 5pm to 8pm, closed on Tuesdays and Wednesdays, and busy in summer.\nLocal tip: Order a half and half pizza to try two flavours, and take it to the beach for sunset.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Dinner only, 5pm to 8pm; closed Tue and Wed",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJeaezQxQvL20RUQ58n7Kew04",
-    "confidence": "medium"
+    "sourceUrl": "https://www.fatpipipizza.co.nz/",
+    "confidence": "high",
+    "website": "https://www.fatpipipizza.co.nz/"
   },
   {
     "name": "Hans Bay Campsite, Lake Kaniere",
@@ -282,7 +284,7 @@
     "description": "A community-run camping spot on the Woodstock Domain sports field at 47 Back Creek Road, about 10 minutes from Hokitika on the way to the Gorge. It's one of only three responsible camping sites in Westland District, and the local community runs it for a donation.\n\nRecent reviewers report paying $5 per person a night, cash only, into an honesty box. There are clean flush toilets, a washing-up sink and picnic tables, but no showers or kitchen, and parking along the fence is limited. Council rules say freedom camping in Westland is only for certified self-contained vehicles, and camping on council reserves around Hokitika isn't allowed.\nLocal tip: Carry cash for the honesty box, and check the sign on the building for the current rules before you set up.",
     "hoursNote": "Community donation, about $5 per person, cash; toilets, no showers; check signage for self-contained rules",
     "sourceUrl": "https://www.westlanddc.govt.nz/recreation/campgrounds-and-responsible-camping/",
-    "confidence": "medium"
+    "confidence": "high"
   },
   {
     "name": "Lake Mahinapua Hotel",
@@ -297,9 +299,9 @@
     "active": true,
     "price": "Cheap",
     "website": "https://mahinapua.nz/",
-    "description": "A historic country pub between the beach and Lake Māhinapua, about 10km south of Hokitika, with an on-site bar and eating house and accommodation out the back. Options range from flashpacker-style 4 bed shared dorms in the Miners Quarters to a private double with ensuite, a renovated two-bedroom apartment and a three-bedroom homestead.\n\nGuests share a spa pool, and reviewers praise the friendly, social atmosphere and good value. There's direct access to the beach, and the lake is a short walk away.\nLocal tip: It closes over winter, so check it has reopened for the season before you plan around it.",
-    "hoursNote": "Closed over winter; website says reopening spring 2026; confirm before booking",
-    "sourceUrl": "https://mahinapua.nz/lodging/",
-    "confidence": "medium"
+    "description": "A historic country pub between the beach and Lake Māhinapua, about 10km south of Hokitika, with an on-site bar and eating house and accommodation out the back. Options range from flashpacker-style 4 bed shared dorms in the Miners Quarters to a private double with ensuite, a renovated two-bedroom apartment and a three-bedroom homestead.\n\nGuests share a spa pool, and reviewers praise the friendly, social atmosphere and good value. The beach is about 400m away along a walking trail, and the lake is a short walk away.\nLocal tip: It closes over winter, so check it has reopened for the season before you plan around it.",
+    "hoursNote": "Closed over winter; pub reopens Fri 30 October 2026; rooms reopen Sun 1 November 2026; spa pool 11am to 8pm",
+    "sourceUrl": "https://mahinapua.nz/youre-invited-mahinapua-hotel-pre-opening-party-%f0%9f%8d%bb/",
+    "confidence": "high"
   }
 ]

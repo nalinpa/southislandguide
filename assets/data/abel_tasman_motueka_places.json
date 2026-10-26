@@ -77,7 +77,7 @@
     "description": "A huge granite boulder split neatly in two, sitting just off a small sandy beach between Kaiteriteri and Mārahau. Its Māori name is Toka Ngawhā, and scientists think water freezing in its cracks during an ice age split it apart. It's one of the most photographed spots on the Abel Tasman coast.\n\nThe walk is an easy 20 to 30 minutes return from the car park at the end of Moonraker Way, off Tokongawa Drive, but the track down is steep in places, so the climb back takes a little effort. At low tide you can wade out to the rock and explore the small caves at the northern end of the beach. In very dry summers, Tasman District Council can close the track because of fire risk.\nLocal tip: Go at low tide, since when the tide is in, the beach almost disappears and there's little room to move.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Open any time; small car park that fills in summer; best at low tide",
-    "sourceUrl": "https://www.nelson360.co.nz/things-to-do-and-see/walking-and-hiking/split-apple-rock",
+    "sourceUrl": "https://www.nelsontasman.nz/scenic-attractions/split-apple-rock/",
     "confidence": "medium"
   },
   {
@@ -116,7 +116,7 @@
     "description": "The region's only saltwater baths, a tidal pool on the Motueka foreshore that fills and empties with the sea. The first enclosure went up in the early 1920s after a shark sighting, when a local fundraiser paid for galvanised wire to fence off part of the foreshore.\n\nToday it's a free, family-friendly swimming spot with a playground, picnic area and barbecues beside it, and a deck that's good for watching the sunset in winter. A cycle trail runs right past.\nLocal tip: Check the tide before you go. Around high tide you can swim from the sand as well as in the pool.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Open any time; free; best around high tide",
-    "sourceUrl": "https://www.nelsontasman.nz/scenic-attractions/motueka-saltwater-baths/",
+    "sourceUrl": "https://www.nelsontasman.nz/activity/motueka-saltwater-baths",
     "confidence": "medium"
   },
   {
@@ -172,9 +172,10 @@
     "price": "Cheap",
     "description": "A burger caravan in Mārahau, a short walk from the start of the Abel Tasman Coast Track, and a favourite with walkers coming off the track. The burgers are huge, with plenty of choice, including vegetarian and vegan options, plus fish and chips, wedges and kūmara fries.\n\nSeating is outdoors in a relaxed garden beside a small creek, where weka wander about looking for scraps.\nLocal tip: Hours change with the seasons, so check before you walk over, especially outside summer, and come hungry, since the portions are big.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Seasonal hours; typically lunch to early evening in summer; check before visiting",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJDagIvMF5PG0Rn-wNOSf62oc",
-    "confidence": "medium"
+    "hoursNote": "Daily 12pm to 8pm in summer, weather permitting; Fri to Sun only from late May; closed from mid-July until spring; check Facebook before visiting",
+    "sourceUrl": "https://www.facebook.com/486460701371881/",
+    "confidence": "medium",
+    "website": "https://www.facebook.com/486460701371881/"
   },
   {
     "name": "Park Café Mārahau",
@@ -224,10 +225,11 @@
     "area": "abel-tasman",
     "active": true,
     "price": "Moderate",
-    "description": "A large campground right across the road from Kaiteriteri Beach, with more than 400 powered sites plus cabins, and room for tents and campervans. Four amenity blocks have kitchens, showers, toilets and laundries, and there's a store with an ATM, a restaurant, a playground, barbecues, EV charging and a dump station.\n\nPrices start at around $29.50 a night, and boats into Abel Tasman leave from the beach opposite. It's open all year and has a Qualmark Four Star Plus rating.\nLocal tip: Book well ahead for the summer holidays, and if your plans might change, cancel at least 14 days out to get a full refund.",
-    "hoursNote": "Office 8am to 5pm; sites from about $29.50 per night; book ahead in summer",
-    "sourceUrl": "https://www.nelsontasman.nz/accommodation/kaiteriteri-recreation-reserve-campground-and-cabins/",
-    "confidence": "medium"
+    "description": "A large campground right across the road from Kaiteriteri Beach, with more than 400 powered sites plus cabins, and room for tents and campervans. Four amenity blocks have kitchens, showers, toilets and laundries, and there's a store with an ATM, a restaurant, a playground, barbecues, EV charging and a dump station.\n\nPowered sites start at around $29.50 a night for one person ($59 for two), and boats into Abel Tasman leave from the beach opposite. It's open all year and has a Qualmark Four Star Plus rating.\nLocal tip: Book well ahead for the summer holidays, and if your plans might change, cancel at least 14 days out to get a full refund, less a transaction fee.",
+    "hoursNote": "Office daily 8am to 6pm; check-in from 2pm, check-out by 10am; powered sites from about $29.50 per night for one, $59 for two; book ahead in summer",
+    "sourceUrl": "https://experiencekaiteriteri.co.nz/campground",
+    "confidence": "high",
+    "website": "https://experiencekaiteriteri.co.nz/campground"
   },
   {
     "name": "Port Motueka Beach Reserve Freedom Camping",

@@ -52,9 +52,9 @@
     "website": "https://thecommon.nz/",
     "description": "A café and garden bar a little away from the busiest part of the village, with good coffee, a modern brunch menu and generous plates. There is plenty of garden seating, and dogs are welcome at the outdoor tables.\n\nIt is a favourite for starting the day, which means on busy mornings the wait for coffee and food can stretch to 20 to 40 minutes.\nLocal tip: Don't come in a hurry. Order, then browse the bookshop and the local wares shop in the same courtyard while you wait.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Mon to Wed 8.30am to 3pm; Thu to Sun 8.30am to 8pm",
-    "sourceUrl": "https://www.christchurchnz.com/visit/eat-and-drink/food-guide/wine-dine-in-akaroa",
-    "confidence": "medium"
+    "hoursNote": "Mon to Wed 8.30am to 3pm; Thu to Sun 8.30am to 8pm; evening bookings recommended",
+    "sourceUrl": "https://thecommon.nz/",
+    "confidence": "high"
   },
   {
     "name": "Barrys Bay Cheese",
@@ -190,8 +190,8 @@
     "description": "A wide, gently shelving sandy beach at the end of Le Bons Bay Road, off the Summit Road east of Akaroa. It is about a kilometre across, good for swimming and usually quiet, with a grassy domain behind it that has shady trees, picnic tables and a clean toilet by the car park.\n\nThere are no shops, so bring your own food and drink. In summer a coffee and ice cream van is sometimes parked up.\nLocal tip: The road down is sealed but very narrow and winding, so take it slowly, and think twice before bringing a large campervan.",
     "recommendedDurationSlots": 4,
     "hoursNote": "Open any time; free; toilets and picnic tables; no shops",
-    "sourceUrl": "https://www.tripideas.nz/place/le-bons-bay",
-    "confidence": "medium"
+    "sourceUrl": "https://ccc.govt.nz/parks-and-gardens/explore-parks/banks-peninsula",
+    "confidence": "high"
   },
   {
     "name": "Hinewai Reserve",
@@ -226,7 +226,7 @@
     "area": "banks-peninsula",
     "active": true,
     "price": "Free",
-    "description": "An easy walk along Beach Road from the village to Akaroa's white wooden lighthouse, built in 1878 to 1879 and first lit on 1 January 1880. It originally stood at the harbour heads, and in the late 1970s it was cut into three pieces and moved to Cemetery Point. You can look around the outside for free, and on weekend afternoons volunteers open it up for a small fee.\n\nBehind it, the Garden of Tāne is a council reserve with a maze of tracks through big old trees and native bush, several early settler cemeteries and lookouts over the harbour. Allow up to an hour to wander it.\nLocal tip: Walk out along the waterfront to the lighthouse, climb up through the Garden of Tāne, and come back down Rue Jolie past its main entrance.",
+    "description": "An easy walk along Beach Road from the village to Akaroa's white wooden lighthouse, built in 1878 to 1879 and first lit on 1 January 1880. It originally stood at the harbour heads, and in 1980 it was cut into three pieces and moved to Cemetery Point. You can look around the outside for free, and on weekend afternoons volunteers open it up for a small fee.\n\nBehind it, the Garden of Tāne is a council reserve with a maze of tracks through big old trees and native bush, several early settler cemeteries and lookouts over the harbour. Allow up to an hour to wander it.\nLocal tip: Walk out along the waterfront to the lighthouse, climb up through the Garden of Tāne, and come back down Rue Jolie past its main entrance.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Outside and garden open any time; lighthouse interior usually Sat and Sun 1pm to 3pm; dogs on leash in the garden",
     "sourceUrl": "https://ccc.govt.nz/parks-and-gardens/explore-parks/banks-peninsula-parks-reserves/garden-of-tane",
@@ -247,8 +247,9 @@
     "description": "A small fish and chip shop at 120 Rue Jolie, a short walk from the Akaroa waterfront, and one of the best reviewed takeaways in town. Reviewers rate the Chatham Islands blue cod, the light, crispy batter and the generous serves. There are kūmara fries, curly fries and halloumi fritters too, and the pineapple fritters rolled in cinnamon sugar are worth saving room for.\n\nIt is takeaway only, with no tables.\nLocal tip: Carry your order across the road and eat it on the foreshore, looking out over the harbour.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Daily 11.30am to 7pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJwx1d40fLM20RsZvCdRE7aQc",
-    "confidence": "medium"
+    "sourceUrl": "https://restaurantguru.com/Kaimoana-Takeaways-Akaroa",
+    "confidence": "medium",
+    "website": "https://www.facebook.com/profile.php?id=100083019047850"
   },
   {
     "name": "Akaroa Harbour Lookout",
@@ -265,7 +266,7 @@
     "description": "A roadside pull-off on State Highway 75 as the road drops from Hilltop towards Barrys Bay, giving you the first full view down Akaroa Harbour and across the rim of the old volcanic crater. It is the classic photo on the way in.\n\nIt is free, open any time and only needs a few minutes, though locals also rate it for sunset.\nLocal tip: Stop on the way down to get your bearings. You can pick out Akaroa, Barrys Bay and Duvauchelle from here before you reach them.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Open any time; free; small roadside parking area",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJQ3j9CiczMm0REclIad5TnKI",
+    "sourceUrl": "https://www.openstreetmap.org/?mlat=-43.76236&mlon=172.89354#map=17/-43.76236/172.89354",
     "confidence": "medium"
   },
   {
@@ -336,7 +337,7 @@
     "price": "Cheap",
     "description": "A relaxed backpackers and campground on a working sheep farm on the hill above the harbour at Ōnuku, a short drive south of Akaroa. As well as the hostel there is a campervan and tent area, plus simple \"stargazer\" huts with see-through roofs at about $50 a night, with sleeping bags for hire.\n\nReviewers like the views, the clean showers and shared kitchen, the animals wandering around and the walks on the farm. The hostel also runs dolphin swimming trips. It is open from October to the end of April.\nLocal tip: The access road is steep and single lane, so take it slowly, and pack light, since some huts and campsites are a walk from the car park.",
     "hoursNote": "Open October to end of April; closed in winter",
-    "sourceUrl": "https://nzastronomy.co.nz/operators/onuku-farm-hostel",
-    "confidence": "medium"
+    "sourceUrl": "http://web.archive.org/web/20231129082948/http://onuku.co.nz/home/",
+    "confidence": "high"
   }
 ]

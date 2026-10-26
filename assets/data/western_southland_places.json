@@ -15,9 +15,9 @@
     "website": "https://www.tehikoi.co.nz/",
     "description": "Riverton's heritage museum and visitor information centre, on the main street beside the Aparima River. A visit starts with a 15 minute film, then you walk through life-size displays on how Māori and European settlers survived here, from whaling and early settlement to logging, farming and Chinese gold miners, with a geology room and audio guides in several languages, including te reo Māori.\n\nAdults are $10, including the film, and children 14 and under are free. It's open daily from 10am to 5pm between Labour Weekend and Easter, and until 4pm the rest of the year. Most people spend about 45 minutes, and the shop stocks local books and gifts.\nLocal tip: Watch the film first, since it makes the displays far more interesting, and ask the staff for advice on the rest of the Southern Scenic Route.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Open 7 days, 10am to 4pm; small entry fee",
-    "sourceUrl": "https://southlandnz.com/listing/te-hikoi-museum-&-information-centre/548/",
-    "confidence": "medium"
+    "hoursNote": "Daily 10am to 5pm, Labour Weekend to Easter; daily 10am to 4pm, Easter to Labour Weekend; closed Good Friday and 25 December; small entry fee",
+    "sourceUrl": "https://www.tehikoi.co.nz/",
+    "confidence": "high"
   },
   {
     "name": "Howells Point Reserve",
@@ -35,7 +35,7 @@
     "description": "A rocky headland at Riverton Rocks, a few minutes' drive from town along the Rocks Highway. Short bush tracks lead up to a lookout with views across Foveaux Strait to Stewart Island, and a walk around the point takes you past rock platforms, seabirds and a popular surf break.\n\nThe beach below is sheltered on a fine day and wild when a southerly swell is running, and both are worth seeing. It's free and open all the time, though some of the tracks are uneven.\nLocal tip: Stop at the small pebble beach on the way out. People fossick for colourful stones here too, and dolphins are sometimes seen close in.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Open 24 hours; free; short tracks, some uneven",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJdefMol7x0qkRB6IWNkkh4uM",
+    "sourceUrl": "https://southlandnz.com/listing/howells-point/426/",
     "confidence": "medium"
   },
   {
@@ -53,7 +53,7 @@
     "description": "A local takeaway and dairy at Riverton Rocks, a short walk from Taramea Bay beach. It's known for fresh blue cod and chips in crisp batter, and it does ice cream too.\n\nReviews are consistently good for the fish, the chips and the friendly service. Take your order down to the foreshore and eat it looking out over the bay.\nLocal tip: Order the blue cod, since it's the reason most people stop here, and note it only opens from 5pm on Tuesdays.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Usually noon to 8pm; Tuesdays from 5pm only",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJAzktvmjw0qkR0YCWAqnl9hw",
+    "sourceUrl": "https://localista.co.nz/listing/taramea-takeaway-dairy-limited?place=riverton+rocks,+nz",
     "confidence": "medium"
   },
   {
@@ -71,7 +71,7 @@
     "description": "A friendly, arty café on Riverton's main street, with good coffee, home baking and a full cabinet of sweet and savoury food. Local artwork hangs on the walls, and the service gets warm reviews.\n\nIt's an easy coffee and lunch stop before you head west along the coast, with homemade sausage rolls, frittata and brownies among the regular favourites.\nLocal tip: It shuts at 3pm, so plan lunch here and dinner elsewhere.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Open 7 days, 8am to 3pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ94QI2oH60qkR3TlXT78Jdxg",
+    "sourceUrl": "https://restaurantguru.com/The-Crib-Cafe-Riverton-Southland",
     "confidence": "medium"
   },
   {
@@ -90,8 +90,8 @@
     "description": "A wide, open bay about 10 minutes west of Riverton, known as one of the best surf spots in the south. The road runs right beside the beach, so you can park facing the water, and it's a good place to learn to surf when the swell is small.\n\nOn a calm day it's a lovely spot for a barbecue or a walk along the sand. There are toilets by the beach, and the settlement has the Colac Bay Bakehouse and Bar, reopened under new owners with good reviews for its burgers and baking, closed on Mondays and Tuesdays.\nLocal tip: Self-contained campers can stay at the council freedom camping area on the foreshore, so check the signs for the current rules.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Open access; free; Bakehouse and Bar closed Mon and Tue",
-    "sourceUrl": "https://southlandnz.com/western-southland",
-    "confidence": "medium"
+    "sourceUrl": "https://southlanddc.govt.nz/services/freedom-camping/freedom-camping-locations/colac-bayoraka-township/",
+    "confidence": "high"
   },
   {
     "name": "Gemstone Beach",
@@ -110,7 +110,7 @@
     "recommendedDurationSlots": 3,
     "featured": 3,
     "hoursNote": "Open access; free; best at low tide; no facilities",
-    "sourceUrl": "https://exploreinvercargill.co.nz/gemstone-beach-hunt-for-unique-stones-on-a-stunning-southland-coastline/",
+    "sourceUrl": "https://southlandnz.com/places-to-visit/western-southland/orepuki/",
     "confidence": "medium"
   },
   {
@@ -130,7 +130,7 @@
     "recommendedDurationSlots": 3,
     "featured": 1,
     "hoursNote": "Open access; free; island reachable on foot at low tide only",
-    "sourceUrl": "https://exploreinvercargill.co.nz/monkey-island-swim-and-explore-a-unique-tidal-island-near-invercargill/",
+    "sourceUrl": "https://southlanddc.govt.nz/services/freedom-camping/freedom-camping-locations/orepuki-monkey-island/",
     "confidence": "medium"
   },
   {

@@ -194,9 +194,10 @@
     "price": "Cheap",
     "description": "A small working wharf on the Waimea Inlet, west of Richmond, lined with cafés, restaurants, bars and shops selling local art, gifts and homewares. It's a relaxed spot for fish and chips or a coffee in the sun, watching the boats come and go.\n\nThe Māpua Ferry crosses to Rabbit Island every hour, on the hour, from 10am, linking the two halves of the Great Taste Trail. Adults are $15 one way or $18 return, and children under 12 are $6 or $8. It runs daily from late September to May, and in winter at weekends, school holidays and public holidays only.\nLocal tip: Signage around Māpua is patchy, so put Aranui Road in your GPS. The wharf is at the end of it.",
     "recommendedDurationSlots": 4,
-    "hoursNote": "Shops and cafes open daily with varied hours; ferry hourly 10am to 5pm daily late Sep to May, weekends and holidays in winter",
-    "sourceUrl": "http://www.mapuaferry.co.nz/ferry-times--prices.html",
-    "confidence": "medium"
+    "hoursNote": "Shops and cafes open daily with varied hours; ferry hourly 10am to 5pm daily late Sep to May; ferry 10am to 4pm at weekends and school and public holidays in winter",
+    "sourceUrl": "https://www.mapuaferry.co.nz/ferry-times--prices.html",
+    "confidence": "high",
+    "website": "https://www.mapuawharf.co.nz/"
   },
   {
     "name": "Cycle Nelson Bike Hire",
@@ -212,11 +213,11 @@
     "active": true,
     "price": "Moderate",
     "website": "https://www.cyclenelson.co.nz/",
-    "description": "Cycle Nelson hires e-bikes, mountain bikes, touring and kids' bikes from Tāhunanui, with more pick-up points at Nelson Airport and Kaiteriteri, and it's handy for the flat Great Taste Trail. Every hire includes a helmet, lock and repair kit, and they also run shuttles and self-guided tours.\n\nThe classic day out is Nelson to Māpua, 35km of easy grade 2 riding past the Waimea Inlet, across Rabbit Island and over on the little ferry to Māpua Wharf, with about 2 to 3 hours in the saddle. Their Māpua Cycle and Shuttle Tour is $160 per person, plus $50 for an e-bike.\nLocal tip: Book ahead in summer, and check the Māpua ferry times before you go, since it runs hourly and only at weekends and holidays in winter.",
+    "description": "Cycle Nelson hires e-bikes, mountain bikes, touring and kids' bikes from Tāhunanui, with more pick-up points at Nelson Airport and Kaiteriteri, and it's handy for the flat Great Taste Trail. Every hire includes a helmet, lock and repair kit, and they also run shuttles and self-guided tours.\n\nThe classic day out is Nelson to Māpua, 35km of easy grade 2 riding past the Waimea Inlet, across Rabbit Island and over on the little ferry to Māpua Wharf, with about 2 to 3 hours in the saddle. Their Māpua Cycle and Shuttle Tour is $180 per person, plus $50 for an e-bike.\nLocal tip: Book ahead in summer, and check the Māpua ferry times before you go, since it runs hourly and only at weekends and holidays in winter.",
     "recommendedDurationSlots": 12,
-    "hoursNote": "Daily 9am to 5pm at Tāhuna Beach Holiday Park; book online; hire prices on the booking site",
-    "sourceUrl": "https://www.nzcycletrail.com/find-your-ride/23-great-rides/tasmans-great-taste-trail",
-    "confidence": "medium"
+    "hoursNote": "Daily 9am to 5pm from 1 September to Anzac weekend, at Tāhuna Beach Holiday Park; open on demand from Anzac weekend to 1 September; multi-day bookings only on 1 January, Good Friday, Easter Monday and Anzac Day; closed 25 and 26 December; book online; hire prices on the booking site",
+    "sourceUrl": "https://www.cyclenelson.co.nz/contact-us/",
+    "confidence": "high"
   },
   {
     "name": "Black Hole, Maitai River",
@@ -231,10 +232,10 @@
     "area": "nelson",
     "active": true,
     "price": "Free",
-    "description": "The best known of the swimming holes on the Maitai River, in the Maitai Valley on the edge of the city, with the Maitai Walkway leading there from town. The water is clear and cool, and there's a rope swing that kids and adults both queue for.\n\nAcross the river is a big lawn with public barbecues, toilets and a playground, and Dennes Hole and Sunday Hole are close by if it's busy. It's quiet in winter and packed on hot summer afternoons.\nLocal tip: River water quality can drop after heavy rain, so check the LAWA \"Can I swim here?\" site before you jump in.",
+    "description": "The best known of the swimming holes on the Maitai River, in the Maitai Valley on the edge of the city, with the Maitai Walkway leading there from town. The water is clear and cool.\n\nAcross the river is a big lawn with public barbecues, toilets and a playground, and Dennes Hole and Sunday Hole are close by if it's busy. It's quiet in winter and packed on hot summer afternoons.\nLocal tip: River water quality can drop after heavy rain, so check the LAWA \"Can I swim here?\" site before you jump in.",
     "recommendedDurationSlots": 4,
     "hoursNote": "Open all the time; free; toilets and barbecues nearby; best in summer",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJC65GKaXtO20RnzquYy--KZ0",
+    "sourceUrl": "https://our.nelson.govt.nz/stories/maitai-river-swimming-holes-update/",
     "confidence": "medium"
   },
   {
@@ -252,8 +253,9 @@
     "description": "A small, friendly dumpling café on Hardy Street, and a popular, well priced meal in central Nelson. The pan-fried dumplings, especially the kung pao chicken, get the most praise, along with the steamed pork and prawn dumplings and the dan dan noodles.\n\nFood comes out quickly, and you can usually walk in without a booking at lunchtime.\nLocal tip: It closes between lunch and dinner, and all day on Sundays and Mondays, so check the hours before you head over.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Tue to Sat 11.30am to 2.30pm and 5pm to 8.30pm; closed Sun and Mon",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ_XB0yaPtO20R_bqIlCVBrCI",
-    "confidence": "medium"
+    "sourceUrl": "https://sites.google.com/view/jays-dumpling-cafe/contact-us",
+    "confidence": "high",
+    "website": "https://sites.google.com/view/jays-dumpling-cafe"
   },
   {
     "name": "Fishy Business on Roto",
@@ -270,7 +272,7 @@
     "description": "A fish and chip shop on Roto Street in Tāhunanui, a few minutes from the beach, and one of the best rated in Nelson. The batter is light and crispy, the fish fresh, and the scoops of chips generous. The fish burgers get special praise, and they also do burgers, fritters and donuts.\n\nPrices are reasonable, and the open kitchen is busy with a big team, so expect a wait at peak times.\nLocal tip: Phone your order through ahead, then take it down to Tāhunanui Beach to eat on the sand at sunset.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Tue to Fri 11.30am to 1.30pm and 4.30pm to about 8pm; Sat and Sun evenings only from 4.30pm; closed Mondays",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJZeXGotOTO20RHOwgJXdvCEw",
+    "sourceUrl": "https://wanderboat.ai/local-businesses/new-zealand/nelson/fishy-business-on-roto/24N4RAJVQyulj26lem7GBQ",
     "confidence": "medium"
   },
   {
@@ -305,9 +307,9 @@
     "active": true,
     "price": "Free",
     "description": "A central city carpark at Buxton Square where Nelson City Council allows free overnight camping under its 2025 responsible camping bylaw. There are 20 spaces for certified self-contained vehicles and 10 for vehicles that aren't, first come first served, with a limit of two nights in a row and no more than two stays a month.\n\nThe 24 hour public toilets are right there, and hot showers are available nearby. Normal paid parking rules apply during the day, and tents aren't allowed.\nLocal tip: It's right in town, so expect some late night noise at weekends, and bring earplugs.",
-    "hoursNote": "20 self-contained and 10 non-self-contained spaces; max 2 consecutive nights, twice a month; paid parking 8am to 5pm weekdays and 9am to 1pm Sat; no tents",
-    "sourceUrl": "https://shape.nelson.govt.nz/responsible-camping-bylaw",
-    "confidence": "medium"
+    "hoursNote": "20 self-contained and 10 non-self-contained spaces; max 2 consecutive nights, twice a month; leave by 8am; paid parking 8am to 5pm weekdays and 9am to 1pm Sat; no tents",
+    "sourceUrl": "https://www.nelson.govt.nz/5community/2recreation/responsible-camping",
+    "confidence": "high"
   },
   {
     "name": "Fittal Street Freedom Camping",

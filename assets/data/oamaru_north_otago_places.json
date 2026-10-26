@@ -75,9 +75,9 @@
     "price": "Free",
     "description": "One of the oldest public gardens in the country, opened in October 1876 and a short walk from the town centre, with entrances off Severn and Chelmer Streets. Oamaru Creek winds through the middle, past Mirror Lake and its ponds.\n\nHighlights include a Chinese garden with a red lacquer bridge over the creek, a rhododendron dell, a rose garden, a native fernery and a children's playground. Entry is free, it's open every day, and there are toilets and picnic areas, with the Top 10 holiday park backing onto it.\nLocal tip: Come in spring for the rhododendrons and azaleas, and bring a picnic for the lawns.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Open any time; glasshouses reported closed for restoration; playground and toilets on site",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJQ6lMRtyZKagRgTKRHO3_b3c",
-    "confidence": "medium"
+    "hoursNote": "Open daily, dawn to dusk; display house daily 8.30am to 4.30pm; playground and toilets on site",
+    "sourceUrl": "https://www.waitaki.govt.nz/Facilities/Parks-and-Recreation/Parks-playgrounds-and-reserves/Oamaru-Public-Gardens",
+    "confidence": "high"
   },
   {
     "name": "Waitaki Museum & Archive",
@@ -93,9 +93,9 @@
     "price": "Free",
     "description": "The district museum, Te Whare Taoka o Waitaki, in the old Athenaeum building at 60 Thames Street. Entry is free. The ground floor holds Kā Puipuiaki o Korotuaheka, a big collection of taoka Māori from the area, alongside galleries on the Waitaki landscape and the Victorian settlers who built the stone town. Upstairs, Ballad of the Waitaki covers the 20th century.\n\nIt's recently renovated, with hands-on drawers of rocks and fossils for kids. Allow about an hour. The Forrester Gallery, the town's art gallery, is a few doors along.\nLocal tip: It's open 10am to 4pm Tuesday to Friday but only until 12.30pm at weekends, and it's closed on Mondays, so a weekday visit gives you the most time.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Listed Tue to Fri 10am to 4pm, Sat and Sun 10am to 12.30pm, closed Mondays; free entry",
-    "sourceUrl": "https://www.culturewaitaki.org.nz/Waitaki-Museum",
-    "confidence": "medium"
+    "hoursNote": "Tue to Fri 10am to 4pm; Sat, Sun and public holidays 10am to 12.30pm; closed Mondays unless a public holiday; closed Good Friday, 25 and 26 December and 1 January; free entry",
+    "sourceUrl": "https://www.culturewaitaki.org.nz/contact-us",
+    "confidence": "high"
   },
   {
     "name": "Harbour Street Bakery",
@@ -112,7 +112,7 @@
     "description": "A small bakery at 4 Harbour Street, in the middle of the Victorian Precinct, in a building that still carries an old Lane's Emulsions sign reading \"It's famous because it's good.\" Everything is made from scratch, and sourdough is the speciality, but reviewers come for the pies: steak and pepper, steak and jalapeño, and big sausage rolls with proper flaky pastry.\n\nThere are cronuts, custard pastries and good coffee too, and the staff stay quick and friendly even when it's busy. There's a little room to sit inside, or take it down to the harbour.\nLocal tip: It's closed on Mondays and shuts at 3pm or 4pm depending on the day, so make it a lunch stop, and come early for the full selection.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Tue to Sun from 9am, closing 3pm Tue and Sun, 4pm Wed to Sat; closed Mondays",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJF6CAOM6ZKagRWHLCfNkiKig",
+    "sourceUrl": "https://neatplaces.co.nz/places/oamaru/eat-drink/harbour-street-bakery",
     "confidence": "medium"
   },
   {
@@ -130,8 +130,9 @@
     "description": "A brewpub on Wansbeck Street, at the harbour end of the Victorian Precinct, with beer brewed on site and a menu of pizzas, loaded fries, wings and sharing plates. Order a tasting tray if you want to work through the range.\n\nIn the evening it's the busiest room in town, warm, loud and friendly, with booths inside and tables outside. It opens at 11am, or 10am at weekends, and stays open until 9pm or later, and until about 11.30pm on Fridays and Saturdays.\nLocal tip: Eat here before the penguins. The colony is about 15 minutes' walk along the waterfront, so you can have dinner and still make the evening viewing.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Daily from 11am (10am Sat and Sun) to about 9pm, later on Fri and Sat",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJV5riTW5BDW0R4k3VOBn6dqA",
-    "confidence": "medium"
+    "sourceUrl": "https://scottsbrewing.co.nz/eat/",
+    "confidence": "medium",
+    "website": "https://scottsbrewing.co.nz/"
   },
   {
     "name": "Whitestone Cheese Diner & Deli",
@@ -167,8 +168,9 @@
     "description": "A Sunday morning market on the corner of Wansbeck and Tyne Streets, next to Scotts Brewing at the harbour end of the Victorian Precinct. Expect local vegetables, meat, bread, cheese, preserves and coffee, plus some crafts.\n\nIt runs from 9.30am to 1pm, and it's a good place to stock up before a road trip or a few nights camping.\nLocal tip: The bacon butties are what everyone talks about, so get one first, then do your shopping before the stalls pack up at 1pm.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Sundays 9.30am to 1pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJfRmQ8M6ZKagRz56wHCedvJQ",
-    "confidence": "medium"
+    "sourceUrl": "https://www.oamarufarmersmarket.co.nz/",
+    "confidence": "high",
+    "website": "https://www.oamarufarmersmarket.co.nz/"
   },
   {
     "name": "Bushy Beach Penguin Hide",
@@ -225,9 +227,9 @@
     "price": "Free",
     "description": "A rocky headland just off State Highway 1 near Palmerston, where large numbers of fur seals haul out on the rocks below the lookout. A five minute track leads from the car park to viewing platforms, with wide views along the coast.\n\nIt's a quick, usually quiet detour on the drive between Oamaru and Dunedin. The seals are wild and can move fast, and some lie right beside the path. Watch your footing near the steep, rocky edges.\nLocal tip: Come mid-afternoon on a sunny day, when the seals are hauled out basking, and stay on the marked path at least 20m from them.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Open any time; free parking; steep, rocky edges; keep 20m from wildlife",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJvx0D5ftrKagR9fuXgR33bgk",
-    "confidence": "medium"
+    "hoursNote": "Open any time; free parking; no dogs; steep, rocky edges; keep 20m from wildlife",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/moeraki-area/shag-point-matakaea/",
+    "confidence": "high"
   },
   {
     "name": "All Day Bay Freedom Camping",
@@ -241,10 +243,10 @@
     "area": "oamaru",
     "active": true,
     "price": "Free",
-    "description": "A free roadside camping area at All Day Bay, south of Kakanui and about 20 minutes from Oamaru. You park on grass beside the road, sheltered by trees, with the beach just behind them and an estuary on the other side.\n\nThere are long drop toilets and a rubbish bin but no water, and fires aren't allowed. Like all freedom camping in Waitaki, it's for certified self-contained vehicles only, with a limit of three nights in any four weeks, and the council can fine you $200 if you're not self-contained.\nLocal tip: The bin is often full, so take your rubbish with you, and bring insect repellent, since the mosquitoes can be bad on still evenings.",
-    "hoursNote": "Certified self-contained vehicles only; max 3 nights in 4 weeks; long drop toilets and bin; no water; no fires",
-    "sourceUrl": "https://campermate.com/en/location/new-zealand/ota/waitaki/free-campsites/all-day-bay-free-campground/27b1e64b-91d7-4680-8d2d-7d6e04ef173c",
-    "confidence": "medium"
+    "description": "A free roadside camping area at All Day Bay, south of Kakanui and about 20 minutes from Oamaru. You park on grass beside the road, sheltered by trees, with the beach just behind them and an estuary on the other side.\n\nThere are long drop toilets and a rubbish bin but no water, and fires aren't allowed. Like all freedom camping in Waitaki, it's for certified self-contained vehicles only, with a limit of three nights in any four weeks, and the council can fine you $400 if you're not self-contained.\nLocal tip: The bin is often full, so take your rubbish with you, and bring insect repellent, since the mosquitoes can be bad on still evenings.",
+    "hoursNote": "Certified self-contained vehicles only (green warrant); max 3 nights in 4 weeks; no camping at the north and south ends; long drop toilets and bin; no water; no fires",
+    "sourceUrl": "https://www.waitaki.govt.nz/files/assets/public/v/5/files/our-council/policies-and-bylaws/bylaws/waitaki-district-responsible-freedom-camping-bylaw-amended.pdf",
+    "confidence": "high"
   },
   {
     "name": "Katiki Beach North Reserve",
@@ -259,8 +261,8 @@
     "active": true,
     "price": "Free",
     "description": "A free rest area right on the beach beside State Highway 1, a few minutes south of Moeraki, where certified self-contained vehicles can stay up to three nights. There's plenty of room and level parking, the spots at the front look straight out to sea, and Kātiki Point and the Moeraki Boulders are close by.\n\nFacilities are pit toilets only, with no water, and you'll hear the highway during the day.\nLocal tip: Arrive by early evening for a beachfront spot, and bring sandfly repellent, because they come out in force at dusk.",
-    "hoursNote": "Certified self-contained vehicles only; max 3 nights; pit toilets; no water; highway noise",
-    "sourceUrl": "https://campermate.com/en/location/new-zealand/ota/waitaki/free-campgrounds/katiki-beach-north-reserve-rest-stop/f27061ad-088d-4313-b90f-4490a747a5f5",
+    "hoursNote": "Certified self-contained vehicles only (green warrant); max 3 nights; pit toilets; no water; highway noise",
+    "sourceUrl": "https://www.waitaki.govt.nz/Facilities/Parks-and-Recreation/Freedom-camping/Freedom-camping-in-Waitaki",
     "confidence": "medium"
   },
   {
@@ -293,9 +295,10 @@
     "area": "oamaru",
     "active": true,
     "price": "Cheap",
-    "description": "A small hostel on Tees Street, on the hill just above the Victorian Precinct, with rooms looking out over the bay. It has a well kept kitchen and lounge, free tea and cereal, and a garden of succulents planted in old bikes and wheelbarrows.\n\nCheck-in is self-service, and the office is only open from 10am to 4.30pm. It's a quiet place rather than a party hostel, and reviewers praise how clean it is, though noise carries between rooms.\nLocal tip: Pack earplugs, and park on the street early in the evening, since spaces near the hostel fill up.",
-    "hoursNote": "Self check-in; office 10am to 4.30pm; limited street parking",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJhxntGNeZKagRZsRIEu0XAqc",
-    "confidence": "medium"
+    "description": "A small hostel on Tees Street, on the hill just above the Victorian Precinct, with rooms looking out over the bay. It has a well kept kitchen and lounge, free tea and cereal, and a garden of succulents planted in old bikes and wheelbarrows.\n\nCheck-in is self-service from 3pm with a PIN code, as there's no front desk, and staff only answer the phone from 10am to 4.30pm. It's a quiet place rather than a party hostel, and reviewers praise how clean it is, though noise carries between rooms.\nLocal tip: Pack earplugs, and park on the street early in the evening, since spaces near the hostel fill up.",
+    "hoursNote": "Self check-in from 3pm; check-out 10am; phone 10am to 4.30pm, text any time; limited street parking",
+    "sourceUrl": "https://www.oamarubackpackers.co.nz/",
+    "confidence": "high",
+    "website": "https://www.oamarubackpackers.co.nz/"
   }
 ]

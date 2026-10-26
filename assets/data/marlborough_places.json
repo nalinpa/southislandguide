@@ -59,7 +59,7 @@
     "recommendedDurationSlots": 13,
     "hoursNote": "Full day and half day tours daily; closed Christmas Day, Good Friday and Anzac Day; 18+ only; book ahead",
     "sourceUrl": "https://marlboroughwinetours.co.nz/tours/",
-    "confidence": "medium"
+    "confidence": "high"
   },
   {
     "name": "The Burleigh",
@@ -76,7 +76,7 @@
     "description": "A tiny pie shop in the suburb of Burleigh, on New Renwick Road, with a reputation for some of the best pies in New Zealand. The pastry is flaky and the fillings generous, and the favourites are steak and French blue cheese, pork belly, and jerk chicken.\n\nThere are sausage rolls and filled rolls too, plus a deli shelf of salami, sausages and cheese. There's plenty of parking, and it's on the way out of town towards the wineries.\nLocal tip: Go early, especially on Saturday, when it closes at 1.30pm, since the popular flavours sell out. It's closed on Sundays and Mondays.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Tue to Fri 7.30am to 3pm, Sat 7.30am to 1.30pm; closed Sun and Mon",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJxw7q5FITOW0RKsd3mbhTIUE",
+    "sourceUrl": "https://restaurantguru.com/The-Burleigh-Blenheim",
     "confidence": "medium"
   },
   {
@@ -94,9 +94,9 @@
     "price": "Free",
     "description": "A sheltered sandy bay over the hill from Rārangi, 15km from State Highway 1 at Tuamarina and about 25 minutes' drive from Blenheim. It's one of the best swimming beaches in Marlborough, with bush running down to the sand, rocks at each end, and a natural arch at the northern end that you can reach around the rocks at low tide.\n\nThe bay is named after Black Jack White, an American sailor who jumped ship in 1828, and in 1866 the telegraph cable linking the North and South Islands came ashore here. There's parking at the end of the road, toilets at the DOC campsite, and walks including the 90 minute Black Jack Track loop and a one hour track over the hill to Rārangi.\nLocal tip: Council has flagged construction closures on Port Underwood Road between Whites Bay and Robin Hood Bay from mid-October to early December 2026, so come in from the Rārangi side rather than over from Picton.",
     "recommendedDurationSlots": 4,
-    "hoursNote": "Open any time; lifeguards in summer; Port Underwood Road works north of the bay mid Oct to early Dec 2026",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJTypVDmA8OW0RYABlq4bvACo",
-    "confidence": "medium"
+    "hoursNote": "Open any time; DOC campsite gate locked 9pm to 7am from Labour Weekend to Easter; lifeguards in summer; Port Underwood Road works north of the bay mid Oct to early Dec 2026",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/blenheim-area/things-to-do/campsites/whites-bay-campsite/",
+    "confidence": "high"
   },
   {
     "name": "Monkey Bay Walk, Rārangi",
@@ -165,8 +165,8 @@
     "price": "Free",
     "description": "A temporary free camping area on the Wairau Diversion floodway north of Blenheim, on open rural land near the river mouth. It's for certified self-contained vehicles only, with no tents and a limit of two nights in any four weeks. The main camping area and the day stay area are closed for flood repairs and construction, and the council says the temporary site will stay open until further notice.\n\nThe last couple of kilometres are bumpy gravel, facilities are basic, and when the river is in a good state, people fish from the banks.\nLocal tip: Drive in slowly, especially after dark, and check the council's camping page before you go, since the site is temporary and may change.",
     "hoursNote": "Certified self-contained only; max 2 nights in 4 weeks; temporary site; gravel access; basic toilets",
-    "sourceUrl": "https://exploreblenheim.co.nz/wairau-diversion-reserve-freedom-camping-by-the-river-near-blenheim/",
-    "confidence": "medium"
+    "sourceUrl": "https://www.marlborough.govt.nz/recreation/responsible-camping/camping-in-marlborough",
+    "confidence": "high"
   },
   {
     "name": "Whites Bay Campsite",

@@ -15,7 +15,7 @@
     "description": "A wild stretch of beach right beside State Highway 6, about 40km south of Fox Glacier, where the rimu forest runs almost down to the Tasman Sea. It makes a good leg stretch on the long drive between the glaciers and Haast, with plenty of roadside parking and public toilets nearby.\n\nThe beach is known for its white stones, many of them written on by passing travellers. Plenty of people see the writing as graffiti, so enjoy reading them rather than adding your own. The surf is big and the rips are strong, so it isn't safe for swimming, and a coffee caravan is sometimes parked up here.\nLocal tip: The sandflies are fierce, so keep your car doors and windows shut and put on repellent before you get out.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Open any time; roadside parking on SH6; not safe for swimming; sandflies",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJa_8__OISKm0RQjfJX7MH7Hw",
+    "sourceUrl": "https://westcoast.co.nz/visit/operators/bruce-bay/",
     "confidence": "medium"
   },
   {
@@ -54,7 +54,7 @@
     "description": "A roadside viewing platform high above the Tasman Sea on State Highway 6 between Haast and Lake Moeraki, with wide views over rugged headlands, sea stacks and bush running down to the water. This is where the two road crews met when the Haast highway was finished, and the last section opened on 6 November 1965. Oddly, the point is named after a dog called Knight.\n\nThe car park is big enough for campervans, and there are basic toilets but no rubbish bins. Fur seals, and occasionally elephant seals, rest on the rocks below. You can't get down to the shore from here, so it's purely a lookout.\nLocal tip: It's a short stop, but a good one at sunset if you're camping nearby. Bring repellent, as the sandflies are keen here too.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Open all the time; free; toilets; no rubbish bins",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJJ-jw2L6P1WwR89OUXDfduU4",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/haast-paringa-and-moeraki-rivers-area/things-to-do/",
     "confidence": "medium"
   },
   {
@@ -114,7 +114,7 @@
     "description": "The local pub on Marks Road in Haast township, with walls covered in deer antlers and trophy heads. It's the easiest spot in town for a proper feed, and reviewers rate the venison burgers, venison steak, whitebait sandwiches and fish and chips, all in generous West Coast portions.\n\nIt stays open into the evening, which matters in a town where most places close by mid-afternoon. Staff get consistently good reviews, and it has a relaxed, friendly country pub feel.\nLocal tip: For something cheaper and quicker, the Haast Eagle Tuck Shop food truck on the corner of Marks Road does well reviewed burgers and whitebait during the day.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Mon to Thu 12pm to 9.30pm; Fri to Sun 11am to 10pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJv-bA2Wd11WwRlOqA1WKCbIw",
+    "sourceUrl": "https://westcoast.co.nz/plan-your-trip/hard-antler-bar-restaurant",
     "confidence": "medium"
   },
   {
@@ -244,9 +244,9 @@
     "area": "haast",
     "active": true,
     "price": "Cheap",
-    "description": "A cosy roadside café in an old service station at Makarora, about an hour north of Wānaka, with a fire in winter and views up the valley. It does coffee, pies, cakes and simple café food, and it's the only real food stop between Wānaka and Haast.\n\nThere's also a small campground behind it, with showers, toilets, a kitchenette, a laundry and free wifi, which is handy if you're breaking the drive. Reviewers love the friendly staff and Tuck the dog.\nLocal tip: It's open from 9am and closes mid-afternoon, so if you're crossing the pass late in the day, eat in Wānaka or Haast instead.",
+    "description": "A cosy roadside café in an old service station at Makarora, about an hour north of Wānaka, with a fire in winter and views up the valley. It does coffee, pies, cakes and simple café food, and it's one of the few food stops between Wānaka and Haast.\n\nThere's also a small campground behind it, with showers, toilets, a kitchenette, a laundry and free wifi, which is handy if you're breaking the drive. Reviewers love the friendly staff and Tuck the dog.\nLocal tip: It's open from 9am and closes mid-afternoon, so if you're crossing the pass late in the day, eat in Wānaka or Haast instead.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Daily from 9am, closing 2pm to 3pm depending on season",
+    "hoursNote": "Daily 9am to 3pm",
     "sourceUrl": "https://www.wanaka.co.nz/explore/makarora-country-cafe-and-camp/",
     "confidence": "medium"
   }

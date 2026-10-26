@@ -12,12 +12,12 @@
     "area": "timaru",
     "active": true,
     "price": "Free",
-    "description": "Timaru's town beach, a wide sandy bay right below the main street, with lawns, a rose garden, a boardwalk, mini golf and volleyball nets along the back. CPlay, the award-winning playground that opened in December 2023, cost more than $3 million to build, with equipment themed on shipwrecks, sea creatures and Ngāi Tahu stories, and there are barbecues nearby.\n\nIt's an easy stop to break up the drive between Christchurch and Dunedin, and a footbridge and underpass link it straight to Stafford Street for food and coffee. There are toilets on site, and paid overnight campervan parking at the southern end.\nLocal tip: Stay into the evening, since little blue penguins come ashore at the southern end of the bay after sunset, a short walk from the playground.",
+    "description": "Timaru's town beach, a wide sandy bay right below the main street, with lawns, a rose garden, a boardwalk, mini golf and volleyball nets along the back. CPlay, the award-winning playground that opened in December 2023, cost about $3 million to build, with equipment themed on shipwrecks, sea creatures and Ngāi Tahu stories, and there are barbecues nearby.\n\nIt's an easy stop to break up the drive between Christchurch and Dunedin, and the steps and lift at the Piazza link it straight to Stafford Street for food and coffee. There are toilets on site, and paid overnight campervan parking at the southern end.\nLocal tip: Stay into the evening, since little blue penguins come ashore at the southern end of the bay after sunset, a short walk from the playground.",
     "recommendedDurationSlots": 3,
     "featured": 2,
-    "hoursNote": "Open any time; playground and toilets on site; paid overnight campervan parking at the southern end",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJqTQJSgDBLG0Rd56mS5H14VE",
-    "confidence": "medium"
+    "hoursNote": "Open any time; playground and toilets on site; summer carnival from 26 December into early January; paid overnight parking for self-contained campervans at the southern end, $20 a night",
+    "sourceUrl": "https://www.timaru.govt.nz/community/recreation/parks-and-sports-facilities/popular-parks/caroline-bay",
+    "confidence": "high"
   },
   {
     "name": "Caroline Bay Penguins",
@@ -53,9 +53,9 @@
     "price": "Free",
     "description": "Victorian gardens on the south side of town, planted from 1868 and recognised as a Garden of National Significance. There are rose gardens, ornamental ponds, a 1912 band rotunda, a conservatory and fernery, an aviary, a marble statue of Robert Burns and a children's playground, and entry is free.\n\nIt's quieter than Caroline Bay, and you can drive in through the Queen Street gates and park inside. The gates open at 8am and close at dusk, from 5pm in winter to 9pm in midsummer. Allow an hour or so for a wander.\nLocal tip: Come in late spring or early summer for the roses, then drive five minutes to Patiti Point for a clifftop walk where seals often lie on the beach.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Listed daily 8am to 8pm; free; parking inside the gardens",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ030MM5_BLG0R0e-AWrwcaKA",
-    "confidence": "medium"
+    "hoursNote": "Walk in any time; vehicle gates daily 8am to dusk (5pm May to July, 9pm November to January); conservatory and fernery Mon to Fri 10am to 4pm, Sat, Sun and public holidays 2pm to 4pm; free; parking inside the gardens",
+    "sourceUrl": "https://www.timaru.govt.nz/community/recreation/gardens/timaru-botanic-gardens",
+    "confidence": "high"
   },
   {
     "name": "Te Ana Māori Rock Art Centre",
@@ -72,9 +72,9 @@
     "website": "https://www.teana.co.nz/",
     "description": "A Ngāi Tahu-run centre in the Landing Services Building on George Street near the waterfront, telling the story of the rock art drawn in limestone shelters across South Canterbury and North Otago. There are original drawings preserved behind glass and multimedia displays, and you can hold a moa bone and try making your own rock art.\n\nYou can go self-guided or book a guided centre tour. In the warmer months there are also guided trips to the Ōpihi rock art site on farmland, which take about 3.5 hours and include some walking over uneven ground. The centre is open Tuesday to Saturday, and it's best to book online ahead.\nLocal tip: Book the guided centre tour rather than going self-guided, since reviewers who went without a guide found the exhibition small for the price.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Listed Tue to Fri 10am to 3.30pm, Sat 9am to 2pm; closed Sun and Mon; site tours October to April",
-    "sourceUrl": "https://www.teana.co.nz/wp-content/uploads/2024/09/2025-26-Product-Sheet-1.pdf",
-    "confidence": "medium"
+    "hoursNote": "Tue to Fri 10am to 3pm, Sat 9am to 2pm; closed Sun and Mon, 25 and 26 December; site tours November to April or by arrangement",
+    "sourceUrl": "https://www.teana.co.nz/trade-information/",
+    "confidence": "high"
   },
   {
     "name": "South Canterbury Museum",
@@ -88,11 +88,12 @@
     "area": "timaru",
     "active": true,
     "price": "Free",
-    "description": "South Canterbury's regional museum covers the natural history of the area, Māori and European settlement, and local collections. It closed its Perth Street building on 19 July 2026 to move into a brand new facility on Barnard Street, which is due to open in April 2027.\n\nUntil then, the exhibitions and research services are closed, so check the museum's website for the opening date before you plan a visit. Entry at the old building was free, with donations welcome.\nLocal tip: While it's closed, the free Aigantighe Art Gallery and the Te Ana Māori Rock Art Centre are the best indoor stops in town.",
+    "description": "South Canterbury's regional museum covers the natural history of the area, Māori and European settlement, and local collections. It closed its Perth Street building for good on 26 October 2026 to move into a brand new facility on Barnard Street, which is due to open in April 2027.\n\nUntil then, the exhibitions and research services are closed, so check the museum's website for the opening date before you plan a visit. Entry at the old building was free, with donations welcome.\nLocal tip: While it's closed, the free Aigantighe Art Gallery and the Te Ana Māori Rock Art Centre are the best indoor stops in town.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Listed Tue to Fri 10am to 4.30pm, Sat and Sun 1pm to 4.30pm; closed Mondays; free entry",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJkSuHXofBLG0RVzLMKZJy1RE",
-    "confidence": "medium"
+    "hoursNote": "Closed from 27 October 2026 while it moves to a new building on Barnard Street; due to reopen April 2027",
+    "sourceUrl": "https://museum.timaru.govt.nz/about-us/news/museum-closing-day",
+    "confidence": "high",
+    "website": "https://museum.timaru.govt.nz/"
   },
   {
     "name": "Aigantighe Art Gallery",
@@ -124,10 +125,10 @@
     "area": "timaru",
     "active": true,
     "price": "Cheap",
-    "description": "A small sandwich and bagel shop on Stafford Street that bakes its own focaccia, bagels and brioche. The fried chicken sandwiches are the thing to get, especially the chipotle honey, and the toasties and cinnamon scrolls get a lot of love too.\n\nThe coffee is good, there are vegetarian options, and it's one of the best-rated places to eat in Timaru.\nLocal tip: It's closed on Mondays and Tuesdays and shuts mid-afternoon, so plan it as a lunch stop from Wednesday to Sunday.",
+    "description": "A small sandwich and bagel shop on Stafford Street that bakes its own focaccia, bagels and brioche. The fried chicken sandwiches are the thing to get, especially the chipotle honey, and the cinnamon scrolls get a lot of love too.\n\nThe coffee is good, there are vegetarian options, and it's one of the best-rated places to eat in Timaru.\nLocal tip: It's closed on Mondays and Tuesdays and shuts mid-afternoon, so plan it as a lunch stop from Wednesday to Sunday.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Wed to Sat 8.30am to 3pm, Sun 8.30am to 2.30pm; closed Mon and Tue",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJc4n3sWnDLG0RylaH9Xhoj9I",
+    "sourceUrl": "https://www.thepress.co.nz/nz-news/361073046/timaru-business-ditches-toasties-bid-keep-business-going",
     "confidence": "medium"
   },
   {
@@ -145,7 +146,7 @@
     "description": "A small, no-fuss coffee spot at the north end of Stafford Street, run by a real coffee enthusiast, with old grindhouse film posters on the walls and seats outside. Locals regularly call it the best coffee in Timaru.\n\nThe food is limited to a small cabinet, so treat it as a coffee stop. It's a short walk from Caroline Bay, and it's closed on Sundays.\nLocal tip: It opens at 7.15am on weekdays, so it's a good first stop before you head off down the highway.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Mon to Fri 7.15am to 2.30pm, Sat 9am to 2pm; closed Sundays",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ6yVmd4jBLG0Rz0RF4CHakxY",
+    "sourceUrl": "https://theexchangetimaru.nz/dine/the-grindhouse/",
     "confidence": "medium"
   },
   {
@@ -160,11 +161,12 @@
     "area": "timaru",
     "active": true,
     "price": "Cheap",
-    "description": "The shop and café of Barker's of Geraldine, the family company that has made fruit syrups, jams and chutneys since 1969, when it started in a converted cowshed on the family farm. It's on Talbot Street, the main street, with free tasting stations for the syrups, sauces and jams, and you can try the chutneys with your food in the café.\n\nThe all-day café does toasties, cakes and good coffee, and the shop is handy for gifts. It's open daily from 8.30am to 4.30pm, and Geraldine is about 35 minutes north of Timaru, on the way to Tekapo and Mount Cook.\nLocal tip: Try the syrups with sparkling water before you buy, then cross the road to the Geraldine Cheese Company.",
+    "description": "The shop and café of Barker's of Geraldine, the family company that started in 1969 making elderberry wine in a converted shed on the family farm, and now makes fruit syrups, jams and chutneys. It's on Talbot Street, the main street, with free tasting stations for the syrups, sauces and jams, and you can try the chutneys with your food in the café.\n\nThe all-day café does toasties, cakes and good coffee, and the shop is handy for gifts. It's open daily from 8.30am to 4.30pm, and Geraldine is about 35 minutes north of Timaru, on the way to Tekapo and Mount Cook.\nLocal tip: Try the syrups with sparkling water before you buy, then cross the road to the Geraldine Cheese Company.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Daily 8.30am to 4.30pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ1yZOltD1LG0RDHYGkt-iPN0",
-    "confidence": "medium"
+    "hoursNote": "Daily 8.30am to 4.30pm; open public holidays; closed 25 December",
+    "sourceUrl": "https://www.barkersfoodstore.nz/",
+    "confidence": "high",
+    "website": "https://www.barkersfoodstore.nz/"
   },
   {
     "name": "Geraldine Cheese Company",
@@ -181,7 +183,7 @@
     "description": "A small cheesemaker on Talbot Street, Geraldine's main street, where big windows let you watch the cheesemakers at work while you browse. The range runs from soft cheeses, mozzarella and haloumi to cheddars, Havarti, blues and cheeses made from sheep and deer milk, and you can taste before you buy.\n\nThey also scoop ice cream, which makes it a popular road trip stop in summer, and the shop stocks local deli products. It's open daily from 9am to 5pm.\nLocal tip: Stock up for a picnic or a campsite dinner here, since prices are reasonable and there are deals if you buy a few.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Daily 9am to 5pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJc9MHltD1LG0RVnnIkBiailY",
+    "sourceUrl": "https://www.scoffsc.nz/store/p28/Geraldine_Cheese_Co.html",
     "confidence": "medium"
   },
   {
@@ -197,11 +199,11 @@
     "area": "timaru",
     "active": true,
     "price": "Free",
-    "description": "A rare remnant of lowland podocarp forest on the edge of Geraldine, a few minutes' walk from the main street, with four short, easy, shady tracks. Big kahikatea, mataī and tōtara form the canopy, including a tōtara thought to be about 800 years old, and you'll hear kererū, fantails and tomtits.\n\nThe Kahikatea and Mataī tracks take about 20 minutes each, and the shorter Tōtara and Reservoir tracks link them, so you can walk the lot in under an hour. There are picnic areas at Tripp Street and Totara Street, and toilets.\nLocal tip: Walk it after lunch at Barker's. Start from the Tripp Street picnic area and you'll be back on the main street in under an hour.",
+    "description": "A rare remnant of lowland podocarp forest on the edge of Geraldine, about a 10-minute walk from the main street, with four short, easy, shady tracks. Big kahikatea, mataī and tōtara form the canopy, including a tōtara thought to be about 800 years old, and you'll hear kererū, fantails and tomtits.\n\nThe Kahikatea and Mataī tracks take about 20 minutes each, and the shorter Tōtara and Reservoir tracks link them, so you can walk the lot in under an hour. There are picnic areas at Tripp Street and Totara Street, and toilets.\nLocal tip: Walk it after lunch at Barker's. Start from the Tripp Street picnic area and you'll be back on the main street in under an hour.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Open any time; short easy tracks; toilets at the entrance",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJD8kzq7z1LG0RVgPNGysIzM0",
-    "confidence": "medium"
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/geraldine-area/things-to-do/talbot-forest-scenic-reserve-tracks/",
+    "confidence": "high"
   },
   {
     "name": "Caroline Bay Overnight Parking",

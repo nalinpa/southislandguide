@@ -72,11 +72,11 @@
     "area": "reefton",
     "active": true,
     "price": "Free",
-    "description": "A replica 1860s miners' hut at 46 Broadway, built from native cedar slabs and run by volunteer miners in period dress. There's usually a fire going and billy tea on, and the miners are happy to yarn about how prospectors lived and worked during the gold rush.\n\nEntry is free. You can also try gold panning, where flakes of gold are guaranteed, and sometimes watch the blacksmith shaping iron at the forge.\nLocal tip: Go in the morning, since they close in the early afternoon, and ask about panning prices when you arrive.",
+    "description": "A replica 1860s miners' hut at 46 Broadway, built from native cedar slabs and run by volunteer miners in period dress. There's usually a fire going and billy tea on, and the miners are happy to yarn about how prospectors lived and worked during the gold rush.\n\nEntry is by donation. You can also try gold panning, where flakes of gold are guaranteed, and sometimes watch the blacksmith shaping iron at the forge.\nLocal tip: Go in the morning, since they close in the early afternoon, and ask about panning prices when you arrive.",
     "recommendedDurationSlots": 1,
     "featured": 4,
-    "hoursNote": "Daily 9am to 2pm (Google listing); free entry, gold panning extra",
-    "sourceUrl": "https://www.reefton.co.nz/see-and-do/gold-panning/the-bearded-miners",
+    "hoursNote": "Daily 9am to 2pm (Google listing); entry by donation, gold panning extra",
+    "sourceUrl": "https://reefton.co.nz/directory/the-bearded-miners/",
     "confidence": "medium"
   },
   {
@@ -130,11 +130,12 @@
     "area": "reefton",
     "active": true,
     "price": "Cheap",
-    "description": "Reefton's go-to stop for pies, filled rolls, sandwiches, cakes and slices, in an old shop on Broadway with plenty of seating. It has more than a thousand Google reviews, and travellers regularly call it the best stop between the Coast and Nelson.\n\nThere's a self-service area with hot food and a big cabinet of sweet things, plus good coffee, and prices are reasonable.\nLocal tip: It opens at 6am on weekdays, so it's handy for an early breakfast before driving the Lewis Pass or heading out to Waiuta.",
+    "description": "Reefton's go-to stop for pies, filled rolls, sandwiches, cakes and slices, in an old shop on Broadway with plenty of seating. It has more than a thousand Google reviews, and travellers regularly call it the best stop between the Coast and Nelson.\n\nThere's a self-service area with hot food and a big cabinet of sweet things, plus good coffee, and prices are reasonable.\nLocal tip: It opens at 8am every day, so it's handy for breakfast before driving the Lewis Pass or heading out to Waiuta.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Mon to Fri 6am to 3pm; Sat and Sun 7am to 3pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJLVeqt1hdJW0Rzfvq0ysPZAc",
-    "confidence": "medium"
+    "hoursNote": "Daily 8am to 5pm; public holidays may vary",
+    "sourceUrl": "https://thefuturedoughco.co.nz/",
+    "confidence": "high",
+    "website": "https://thefuturedoughco.co.nz/"
   },
   {
     "name": "Nourish Reefton at Wilson's Hotel",
@@ -151,7 +152,7 @@
     "description": "The dinner option in town, in the historic Wilson's Hotel on Broadway. Recent reviewers praise the friendly owner, the big portions and the homemade dishes, such as lasagne and focaccia toasties.\n\nIt's a relaxed, family friendly place with high chairs, and it's open from late afternoon every day.\nLocal tip: Most Reefton cafés close by mid-afternoon, so if you're staying overnight, this is the easiest sit-down meal.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Daily from 4pm (Google listing)",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJj-IiffZnJW0R7OtbGGrkBc4",
+    "sourceUrl": "https://reefton.co.nz/directory/nourish-reefton-wilsons-hotel/",
     "confidence": "medium"
   },
   {
@@ -184,10 +185,10 @@
     "area": "reefton",
     "active": true,
     "price": "Free",
-    "description": "A free riverside parking area on The Strand, a short walk from Broadway's cafés and pubs, with around 10 spaces. Buller District Council only allows freedom camping in certified self-contained vehicles, for no more than two nights in one place and nine nights a month, and fines are $200.\n\nThere are public toilets, drinking water and a dump station nearby, and a hard gravel surface that copes well with rain.\nLocal tip: Arrive by mid-afternoon in summer, since it fills up. Freedom camping is banned on Bridge Street, so don't overflow there.",
+    "description": "A free riverside parking area on The Strand, a short walk from Broadway's cafés and pubs, with around 10 spaces. Buller District Council only allows freedom camping in certified self-contained vehicles, for no more than two nights in one place and nine nights a month, and fines are $400.\n\nThere are public toilets, drinking water and a dump station nearby, and a hard gravel surface that copes well with rain.\nLocal tip: Arrive by mid-afternoon in summer, since it fills up. Freedom camping is banned on Bridge Street and on The Strand from Bridge Street to the pool car park, so don't overflow there.",
     "hoursNote": "Certified self-contained only; max 2 nights; about 10 spaces; toilets, water and dump station nearby",
     "sourceUrl": "https://bullerdc.govt.nz/recreation/freedom-camping/",
-    "confidence": "medium"
+    "confidence": "high"
   },
   {
     "name": "The Old Breadshop Backpackers",
@@ -203,7 +204,7 @@
     "price": "Cheap",
     "description": "A small, homely backpackers in a former bakery on Buller Road, about five minutes' walk from the shops on Broadway. Reviewers consistently praise the welcoming host, the comfortable beds and the good value.\n\nThere's a full kitchen, and guests mention free laundry and movies. It's simple rather than fancy, but it's one of the cheapest beds on this stretch of highway.\nLocal tip: It has only a few rooms, so book ahead by phone on 03 732 8420 in summer.",
     "hoursNote": "Small hostel; book ahead in summer; phone 03 732 8420",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJz7sbkPdnJW0RGE6kUWAWc-U",
+    "sourceUrl": "https://www.hostelz.com/hostel/104820-The-Old-Breadshop-Backpackers",
     "confidence": "medium"
   }
 ]

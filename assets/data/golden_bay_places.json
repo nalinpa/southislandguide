@@ -75,7 +75,7 @@
     "description": "A maze of narrow paths winding between limestone outcrops and native bush on Scott Road, just outside Tākaka, founded by an English geologist. Small figurines and toys are tucked into the rocks for a self-guided scavenger hunt, from kissing pigs to a stegosaurus, and some of the formations look like faces.\n\nEntry is free, with a donation box to support the people who look after it. Most visitors spend 30 minutes to an hour, and kids love it. Parking is limited to about ten vehicles, with overflow along the road.\nLocal tip: Grab the free map at the entrance, and keep little ones close, since it really is easy to lose each other in the passages.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Open daily; free, donations welcome; small car park",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJG6-lZyyJPG0RnIPbMEZMcdM",
+    "sourceUrl": "https://www.goldenbaynz.co.nz/directory-golden-bay-gems.html",
     "confidence": "medium",
     "area": "golden-bay"
   },
@@ -148,10 +148,10 @@
     "region": "nelson-tasman",
     "active": true,
     "price": "Free",
-    "description": "Golden Bay's main swimming beach, a long sandy stretch about 10 minutes from Tākaka along Abel Tasman Drive. It's popular for swimming, kayaking, windsurfing and fishing, with shady trees along the back of the beach.\n\nThe tide goes out a very long way, leaving a huge flat expanse of sand at low tide. There's a boat ramp, public toilets and a few cafés nearby in Pōhara village.\nLocal tip: Swim around high tide, since at low tide it's a long walk to water deep enough.",
+    "description": "Golden Bay's main swimming beach, a long sandy stretch about 10 minutes from Tākaka along Abel Tasman Drive. It's popular for swimming, kayaking, windsurfing and fishing, with shady trees along the back of the beach.\n\nThe tide goes out a very long way, leaving a huge flat expanse of sand at low tide. There's a boat ramp at nearby Port Tarakohe, plus public toilets and a few cafés in Pōhara village.\nLocal tip: Swim around high tide, since at low tide it's a long walk to water deep enough.",
     "recommendedDurationSlots": 4,
     "hoursNote": "Open any time; free; best swimming near high tide",
-    "sourceUrl": "https://www.nelsontasman.nz/scenic-attractions/pohara-beach/",
+    "sourceUrl": "https://tasman.govt.nz/my-region/recreation/maritime/water-safety/boat-ramps",
     "confidence": "medium",
     "area": "golden-bay"
   },
@@ -247,10 +247,11 @@
     "price": "Cheap",
     "description": "A café in Collingwood's restored old courthouse at 11 Elizabeth Street, a short walk from where the Farewell Spit tours leave. Bread is baked on site, and the menu leans on local seafood such as mussel chowder and market fish, alongside cooked breakfasts and generous cabinet food.\n\nThere are several indoor rooms and plenty of outdoor seating, and dogs are welcome. It's also home to the gallery and studio of local artist Sue Dasler.\nLocal tip: Stop in for coffee before a morning spit tour, or for lunch on the way back from Wharariki.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Daily 8am to 3pm",
-    "sourceUrl": "https://www.nelsontasman.nz/eat-drink/the-courthouse-cafe/",
-    "confidence": "medium",
-    "area": "golden-bay"
+    "hoursNote": "Daily 8am to 3pm; summer pizza night Sat 5pm to 7.30pm, eat in or takeaway",
+    "sourceUrl": "https://www.thecourthousecafecollingwood.com/menu",
+    "confidence": "high",
+    "area": "golden-bay",
+    "website": "https://www.thecourthousecafecollingwood.com/"
   },
   {
     "name": "Old School Cafe, Bar and Restaurant",
@@ -263,11 +264,11 @@
     "region": "nelson-tasman",
     "active": true,
     "price": "Moderate",
-    "description": "A café, bar and restaurant in an old school building at Pūponga, near the base of Farewell Spit and the road to Wharariki Beach. It's the natural place to eat after a day at the spit or the beach, with a fire inside in winter and tables inside and out.\n\nMains are big and not cheap, with blue cod, steak, burgers, pizza and seafood chowder among the favourites. The owners work in the café, and the service is friendly and relaxed.\nLocal tip: It only opens Friday to Sunday, with dinner from Friday and lunch at weekends, so plan your Wharariki or Farewell Spit day around it and arrive hungry.",
+    "description": "A café, bar and restaurant in an old school building at Pākawau, about 10 minutes north of Collingwood on the road to Farewell Spit and Wharariki Beach. It's the natural place to eat after a day at the spit or the beach, with a fire inside in winter and tables inside and out.\n\nMains are big and not cheap, with blue cod, steak, burgers, pizza and seafood chowder among the favourites. The owners work in the café, and the service is friendly and relaxed.\nLocal tip: It only opens Thursday to Sunday, from 4pm on Thursday and Friday and from 11am at weekends, so plan your Wharariki or Farewell Spit day around it and arrive hungry.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Fri 4pm to 8pm; Sat and Sun 11am to 2pm and 5pm to 8pm; closed Mon to Thu",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJWXu-nT_vPG0RNriDEHyXmLY",
-    "confidence": "medium",
+    "hoursNote": "Thu 4pm to 8pm; Fri 4pm to 7.30pm; Sat and Sun 11am to 7.30pm; closed Mon to Wed",
+    "sourceUrl": "https://www.instagram.com/oldschoolcafepakawau/",
+    "confidence": "high",
     "area": "golden-bay"
   },
   {
@@ -284,7 +285,7 @@
     "description": "A small pizzeria on Abel Tasman Drive at Pōhara, a few minutes from the beach, making pizzas with crisp bases and fresh toppings. Reviewers rate the vegan options highly.\n\nIt's a relaxed place with a small dining area, and it gets very busy in peak summer, so expect a wait.\nLocal tip: It only opens Friday to Sunday, 4.30pm to 7.30pm, so order early and pair it with an evening swim at Pōhara Beach.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Fri to Sun 4.30pm to 7.30pm; closed Mon to Thu",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJmd94isyJPG0ROLoIcb0cd1s",
+    "sourceUrl": "https://restaurantguru.com/Al-Forno-Pizza-Pohara",
     "confidence": "medium",
     "area": "golden-bay"
   },
@@ -355,7 +356,7 @@
     "price": "Cheap",
     "description": "A relaxed, friendly hostel on Commercial Street, a short walk from the middle of Tākaka. It has dorms and private rooms, plus spots for tents and your own campervan, and a couple of caravans to rent.\n\nGuests regularly mention the welcoming owners, the family feel and the free bikes to borrow, and it's one of the cheapest beds in town.\nLocal tip: Book ahead over Christmas and New Year, when Golden Bay fills up fast.",
     "hoursNote": "Reception about 8am to 7pm; phone 03 525 7005",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ710sg9iOPG0R-_KSq6Fr5lQ",
+    "sourceUrl": "https://servicefinder.co.nz/profile/Golden-Bay--Barefoot--Backpackers-226042",
     "confidence": "medium",
     "area": "golden-bay"
   }

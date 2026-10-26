@@ -35,8 +35,8 @@
     "description": "A wide, sandy surf beach backed by hills, right beside the seal colony car park at Cape Foulwind. You'll often see surfers here, and it's a lovely place to wander, especially at sunset when the headland lights up.\n\nThere's plenty of free parking and toilets at the car park, and the Kawatiri Coastal Trail runs past, so you can link it with a walk or ride along the coast to Cape Foulwind (3.5km) or Ōkari Lagoon (5.5km).\nLocal tip: It's an exposed West Coast surf beach, so only swim on a calm day and stay close to shore.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Open any time; free parking and toilets at the Tauranga Bay car park",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJxaPNfACnJW0R6DPaaxh53ec",
-    "confidence": "medium",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/cape-foulwind-area/things-to-do/tracks/cape-foulwind-walkway/",
+    "confidence": "high",
     "area": "westport"
   },
   {
@@ -174,11 +174,11 @@
     "active": true,
     "price": "Cheap",
     "website": "https://westcoastpies.co.nz/",
-    "description": "An award winning pie shop on Palmerston Street, formerly the West Coast Pie Co, making pies from wild hunted meat such as venison, wallaby, goat and hare. It has won several Outstanding New Zealand Food Producer Awards, the pastry gets plenty of praise, and there are classic flavours alongside the unusual ones.\n\nPies are big and priced at the top end for a pie, but still make a cheap, filling lunch. The website lists it as open seven days, 8am to 2pm, or 9am on Sundays.\nLocal tip: Reviewers rate the open pork and fennel sausage roll as highly as the pies.",
+    "description": "An award winning pie shop on Palmerston Street, formerly the West Coast Pie Co, making pies from wild hunted meat such as venison, wallaby, goat and hare. It has won several Outstanding New Zealand Food Producer Awards, the pastry gets plenty of praise, and there are classic flavours alongside the unusual ones.\n\nPies are big and priced at the top end for a pie, but still make a cheap, filling lunch. The website lists it as open Wednesday to Saturday, 8am to 3pm.\nLocal tip: Reviewers rate the open pork and fennel sausage roll as highly as the pies.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Website lists Mon to Sat 8am to 2pm, Sun 9am to 2pm, but opening days vary by season; check before going",
+    "hoursNote": "Wed to Sat 8am to 3pm; closed Sun, Mon and Tue; opening days vary by season, check before going",
     "sourceUrl": "https://westcoastpies.co.nz/",
-    "confidence": "medium",
+    "confidence": "high",
     "area": "westport"
   },
   {
@@ -194,8 +194,8 @@
     "price": "Cheap",
     "description": "A small European deli and café on Palmerston Street, and one of the best rated places to eat in Westport. It does cooked breakfasts, good coffee and cakes, and sells imported European groceries.\n\nRegulars rave about the scrambled eggs on fried ciabatta, the Portuguese tarts and the chocolate cake, and the owners are known for friendly service.\nLocal tip: Grab a few Portuguese tarts to take away for the drive or the Cape Foulwind walk.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Mon to Fri 8am to 3pm, Sat 8am to 1pm, closed Sun",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJZ9Z_mRwHJW0RdPNvigVbKAo",
+    "hoursNote": "Mon to Fri 8am to 3pm (breakfast until 11am); Sat 8am to 1pm; closed Sun",
+    "sourceUrl": "https://www.facebook.com/p/Euro-Food-Store-61558849055957/",
     "confidence": "medium",
     "area": "westport"
   },
@@ -210,12 +210,13 @@
     "region": "west-coast",
     "active": true,
     "price": "Moderate",
-    "description": "A country pub on Lighthouse Road at Cape Foulwind, close to the lighthouse end of the walkway. It pours local and New Zealand beers on tap and serves hearty pub dinners.\n\nReviewers single out the seafood chowder and the lamb shank, and it's a handy option for an evening meal if you're staying out at the cape.\nLocal tip: It's dinner only and closed on Tuesdays and Wednesdays, so walk the cape in the afternoon and finish here.",
+    "description": "A country pub on Lighthouse Road at Cape Foulwind, close to the lighthouse end of the walkway. It pours local and New Zealand beers on tap and serves hearty pub meals.\n\nReviewers single out the seafood chowder and the lamb shank, and it's a handy option for an evening meal if you're staying out at the cape.\nLocal tip: On weekdays it doesn't open until 4pm, so walk the cape in the afternoon and finish here.",
     "recommendedDurationSlots": 3,
-    "hoursNote": "Dinner 4.30pm to 8.30pm Thu to Mon; closed Tue and Wed",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJh_GTsRCpJW0RaLl9PH8pDg0",
+    "hoursNote": "Mon to Fri 4pm to 8.30pm; Sat and Sun 12pm to 8.30pm; may close earlier when quiet; book on 03 789 6923",
+    "sourceUrl": "https://startavern.co.nz/pages/contact",
     "confidence": "medium",
-    "area": "westport"
+    "area": "westport",
+    "website": "https://startavern.co.nz"
   },
   {
     "name": "Coalface Cafe and Takeaways",
@@ -231,7 +232,7 @@
     "description": "A friendly café and takeaway on the main road through Ngakawau, on State Highway 67 north of Westport. It's known for fish and chips, fish burgers and pizza, with ice cream and coffee too.\n\nIt's a good stop on the way to Karamea or the Charming Creek Walkway, and there's outdoor seating where you can eat with the dog.\nLocal tip: Take your fish and chips a few minutes up the road to the beach at Hector or Granity for dinner with a sea view.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Daily 11am to 7pm, until 7.30pm Fri and Sat",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJGTqas9HfJG0ROAJrBGFfS1c",
+    "sourceUrl": "https://mindtrip.ai/restaurant/hector-new-zealand/coalface-cafe-takeaways/re-ck0SmGqq",
     "confidence": "medium",
     "area": "westport"
   },
@@ -246,12 +247,13 @@
     "region": "west-coast",
     "active": true,
     "price": "Cheap",
-    "description": "A tiny standalone bakery beside the Murchison District Museum on Fairfax Street, on the Buller Gorge route between Nelson and Westport. The baker makes everything himself, from flaky meat and vegetarian pies to pain au chocolat and slices.\n\nIt's mostly takeaway, with a few outdoor tables and benches nearby.\nLocal tip: It only opens a few days a week, so if it lines up with your drive, stock up for a picnic at the Buller Gorge Swingbridge.",
+    "description": "A tiny bakery run from a van in the garden of the Murchison District Museum on Fairfax Street, on the Buller Gorge route between Nelson and Westport. The baker and his family make everything from scratch, from flaky meat and vegetarian pies to pain au chocolat and slices.\n\nIt's mostly takeaway, with a few outdoor tables and benches nearby.\nLocal tip: It only opens a few days a week, so if it lines up with your drive, stock up for a picnic at the Buller Gorge Swingbridge.",
     "recommendedDurationSlots": 1,
     "hoursNote": "9.30am to 2pm Thu, Fri, Sun and Mon; closed Tue, Wed and Sat",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJfZwvtr_ROm0RZj9ZWg4FUig",
+    "sourceUrl": "https://www.nelsontasman.nz/eat-drink/tutaki-bakery/",
     "confidence": "medium",
-    "area": "westport"
+    "area": "westport",
+    "website": "https://www.facebook.com/tutakibakery"
   },
   {
     "name": "Scotts Beach Walk (Heaphy Track)",
@@ -339,10 +341,10 @@
     "active": true,
     "price": "Cheap",
     "website": "https://www.bazils.com/",
-    "description": "A colourful backpackers at 54 to 56 Russell Street in Westport, covered in street art and murals, with dorms, private rooms, family units, self-contained units, and campervan and tent sites. There's a well equipped kitchen, a covered barbecue and pizza area, a garden with hammocks, a laundry and off-street parking.\n\nIt's also an accredited surf school, with lessons and hire of surfboards, wetsuits, kayaks, paddleboards, bikes and e-mountain bikes. Pay for five nights on arrival and you get a free surf lesson, and in winter the fourth night is free when you pay for three.\nLocal tip: If the surf is up, book a lesson with the owner. The park and the beach are a short walk away.",
-    "hoursNote": "Dorms, private rooms, units, campervan and tent sites; surf lessons and gear hire; book online",
-    "sourceUrl": "https://www.bazils.com/",
-    "confidence": "medium",
+    "description": "A colourful backpackers at 54 to 56 Russell Street in Westport, covered in street art and murals, with dorms, private rooms, family units, self-contained units, and campervan and tent sites. There's a well equipped kitchen, a covered barbecue and pizza area, a garden with hammocks, a laundry and off-street parking.\n\nIt's also an accredited surf school, with lessons and hire of surfboards, wetsuits, kayaks, paddleboards, bikes and e-mountain bikes. Pay for five nights on arrival and you get a free surf lesson, and in winter there's a free night when you pay for a longer stay up front.\nLocal tip: If the surf is up, book a lesson with the owner. The park and the beach are a short walk away.",
+    "hoursNote": "Reception 8am to 9pm; check-in from 2pm, check-out 10am; dorms, private rooms, units, campervan and tent sites; surf lessons from $90, board and wetsuit hire $45 a day; book online",
+    "sourceUrl": "https://www.bazils.com/activities-westport.html",
+    "confidence": "high",
     "area": "westport"
   },
   {

@@ -150,11 +150,11 @@
     "area": "tekapo",
     "active": true,
     "price": "Cheap",
-    "description": "The summit of Mt John, above Lake Tekapo, is home to the University of Canterbury observatory and gives a 360 degree view over Lake Tekapo, Lake Alexandrina and the Mackenzie Basin to the Southern Alps. The glass-walled Astro Café at the top serves coffee, sandwiches, cakes and soup, from 9am to 2pm, with last orders at 1.30pm.\n\nThe road up costs $14 per vehicle and is open 9am to 4pm. Up top, the Summit Circuit Track takes 30 to 45 minutes. You can also walk up for free on the Mt John Walkway from beside Tekapo Springs, about 1.5 hours return.\nLocal tip: Walk up the track from Tekapo Springs to skip the road fee, then treat yourself to a coffee in the café before it closes at 2pm.",
+    "description": "The summit of Mt John, above Lake Tekapo, is home to the University of Canterbury observatory and gives a 360 degree view over Lake Tekapo, Lake Alexandrina and the Mackenzie Basin to the Southern Alps. The glass-walled Astro Café at the top serves coffee, sandwiches, cakes and soup, from 9am to 4pm, with last orders at 3.45pm.\n\nThe road up costs $14 per vehicle and is open 9am to 4pm. Up top, the Summit Circuit Track takes 30 to 45 minutes. You can also walk up for free on the Mt John Walkway from beside Tekapo Springs, about 1.5 hours return.\nLocal tip: Walk up the track from Tekapo Springs to skip the road fee, then treat yourself to a coffee in the café before it closes at 4pm.",
     "recommendedDurationSlots": 3,
-    "hoursNote": "Summit road 9am to 4pm, $14 per vehicle; café open daytime only; walking track free",
-    "sourceUrl": "https://www.mackenzienz.com/visit/astro-cafe/",
-    "confidence": "medium"
+    "hoursNote": "Summit road daily 9am to 4pm, $14 per vehicle, pay by card at the gate; café daily 9am to 4pm, last orders 3.45pm; road and café shut in bad weather; no vehicles over 12 seats; walking track free",
+    "sourceUrl": "https://darkskyproject.co.nz/dine/astro-cafe/",
+    "confidence": "high"
   },
   {
     "name": "Dark Sky Project Summit Experience",
@@ -210,9 +210,10 @@
     "price": "Cheap",
     "description": "A small vintage food trailer on Lakeside Drive doing fish and chips, blue cod, squid, seafood chowder and fish burgers, with vegetarian options such as potato fritters and onion rings. Reviewers rate the light, crispy batter highly, and it's one of the best rated takeaways in Tekapo.\n\nGrab your box and eat at the picnic tables by the lake. It's popular, and waits of 30 to 45 minutes are common at busy times.\nLocal tip: Order early in the afternoon to beat the dinner rush, and walk along the lake while you wait.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Afternoons, roughly 1pm to 6pm, closed Sundays (from Google listing); expect queues",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJeRcb1bF1K20RUneFoAI06ss",
-    "confidence": "medium"
+    "hoursNote": "Hours change day to day, check its Instagram or Google listing; expect queues",
+    "sourceUrl": "https://www.laketekaponz.co.nz/eat-drink/better-batter",
+    "confidence": "medium",
+    "website": "https://www.instagram.com/thebetterbatter_nz/"
   },
   {
     "name": "Mt Cook Alpine Salmon Shop",
@@ -250,7 +251,7 @@
     "description": "A roadside lookout on State Highway 80, the road to Mount Cook, with the classic view along Lake Pukaki to Aoraki/Mount Cook and the road curving away towards the mountains. There's plenty of parking and a toilet.\n\nA short walk takes you down towards the lake shore. It's worth a stop on the way in or out of the national park, especially at sunset.\nLocal tip: Plenty of people step onto the highway for the famous road photo. Stay on the verge and watch for traffic, as it's a fast road.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Open all the time; free parking; basic toilet",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJhbK3F_kCK20RItinQVazLiM",
+    "sourceUrl": "https://www.linz.govt.nz/node/2276",
     "confidence": "medium"
   },
   {
@@ -265,10 +266,10 @@
     "area": "twizel",
     "active": true,
     "price": "Free",
-    "description": "A free camping area at the southern end of Lake Pukaki, near the power station, with lake and mountain views towards Aoraki/Mount Cook. It's the only legal freedom camping spot on Lake Pukaki, since the old spots along Hayman Road are now closed to camping.\n\nIt's for certified self-contained vehicles only, and since 7 June 2026 that means a current green warrant. There are long drop toilets and bins, but no water or lighting. Spaces are first come, first served, and it can get very busy.\nLocal tip: Arrive by mid-afternoon in summer to get a flat spot with a lake view, and follow the signs on site for stay limits.",
-    "hoursNote": "Certified self-contained only (green warrant); free; long drops; no water; illegal camping fines $400",
-    "sourceUrl": "https://www.rankers.co.nz/experiences/6068-Lake_Pukaki_Overnight_Campervan_Parking_Southern_end_of_lake",
-    "confidence": "medium"
+    "description": "A free camping area at the southern end of Lake Pukaki, near the dam, with lake and mountain views towards Aoraki/Mount Cook. It's the only legal freedom camping spot on Lake Pukaki, since the old spots along Hayman Road are now closed to camping.\n\nIt's for certified self-contained vehicles only, and since 7 June 2026 that means a current green warrant. There are long drop toilets and bins, but no water or lighting. Spaces are first come, first served, and it can get very busy.\nLocal tip: Arrive by mid-afternoon in summer to get a flat spot with a lake view, and follow the signs on site for stay limits.",
+    "hoursNote": "Certified self-contained only (green warrant); free; max 3 nights each calendar month; no tents or fires; long drops; no water; illegal camping fines $400",
+    "sourceUrl": "https://www.linz.govt.nz/products-services/camping-areas/camping-areas-central-otago-and-south-canterbury",
+    "confidence": "high"
   },
   {
     "name": "Lake Middleton Campsite",
@@ -283,10 +284,11 @@
     "area": "twizel",
     "active": true,
     "price": "Cheap",
-    "description": "A low cost lakeside camping ground on Lake Ōhau Road, a short drive west of Twizel, beside small Lake Middleton and just across the road from the much larger Lake Ōhau. There's plenty of space to spread out, and the small lake is good for swimming and kayaking, with a walking track around most of it.\n\nFacilities are basic: a flush toilet block, and water that must be boiled before drinking. Reviewers report fees of about $10 per adult per night, paid with a registration slip at the box by the road as you drive in. Many of the shelter trees were lost in a fire some years ago, so it can be exposed when the wind blows up the lake.\nLocal tip: Pick a spot near the remaining trees for shelter from the wind, and bring a camp stove to boil your drinking water.",
-    "hoursNote": "About $10 per adult per night (per reviews), pay at the honesty box; flush toilets; boil water before drinking; often windy",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJX7n-xDXCKm0R4tSMSv-KmX0",
-    "confidence": "medium"
+    "description": "A low cost lakeside camping ground on Lake Ōhau Road, a short drive west of Twizel, beside small Lake Middleton and just across the road from the much larger Lake Ōhau. There's plenty of space to spread out, and the small lake is good for swimming and kayaking, with a walking track around most of it.\n\nFacilities are basic: a flush toilet block, a dump station, and water that must be boiled before drinking. Fees are $10 per adult and $5 per child (5 to 17) per night from 1 October to Easter, and camping is free over winter, when only a vault toilet is open. Fees are paid with a registration slip at the box by the road as you drive in. Many of the shelter trees were lost in a fire some years ago, so it can be exposed when the wind blows up the lake.\nLocal tip: Pick a spot near the remaining trees for shelter from the wind, and bring a camp stove to boil your drinking water.",
+    "hoursNote": "1 Oct to Easter: $10 adult, $5 child (5 to 17) a night; after Easter to 30 Sep: free, vault toilet only; first come, first served; pay at the honesty box; flush toilets and dump station in season; boil water before drinking; no fires; dogs on a leash; often windy",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/twizel-area/things-to-do/lake-middleton-campsite/",
+    "confidence": "high",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/twizel-area/things-to-do/lake-middleton-campsite/"
   },
   {
     "name": "Foodelicious",
@@ -340,8 +342,8 @@
     "price": "Free",
     "description": "The top of the Lindis Pass on State Highway 8, the main road between the Mackenzie Basin and Wānaka, Cromwell and Queenstown, where rolling tussock hills fold away on every side. There's a small car park just off the highway, and a short dirt track of about 200m, 10 minutes, climbs to a higher viewpoint.\n\nThere are no toilets or other facilities. In winter the pass can have snow and ice, so check road conditions before crossing.\nLocal tip: The view from the car park is almost as good as from the top, so if you're short of time, just stretch your legs and take your photos there.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Open any time; small car park; no toilets; snow and ice possible in winter",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJwzeFuUChKqgRbx7HwP-BygY",
+    "hoursNote": "Open any time; small car park; no toilets; snow can close the pass or make chains essential in winter; check NZTA road conditions before crossing",
+    "sourceUrl": "https://www.journeys.nzta.govt.nz/traffic-bulletins/lindis-passsh8-closed-due-to-snow",
     "confidence": "medium"
   },
   {
@@ -414,8 +416,8 @@
     "price": "Cheap",
     "website": "https://www.tekapohostelnz.com/",
     "description": "An independent guesthouse and hostel at 11 Aorangi Crescent, on a quiet street about five minutes' walk from the lakefront, shops and InterCity bus stop. It has private rooms, some with ensuites, and a bunk-free six bed mixed dorm.\n\nThere's a well equipped guest kitchen, a lounge with a log fire, free wifi and parking, a laundry and drying room, and barbecues. The shared bathrooms are individual lockable units, and guinea pigs, chickens and rabbits live in the garden.\nLocal tip: It's handy for late night stargazing tours, since you can walk back from the village afterwards, and there are hammocks in the backyard for stargazing at home.",
-    "hoursNote": "Self check in; free parking; dorm and private rooms",
-    "sourceUrl": "https://www.tekapohostelnz.com/",
-    "confidence": "medium"
+    "hoursNote": "Check in from 2pm; check out 10am; free parking; dorm and private rooms",
+    "sourceUrl": "https://www.tekapohostelnz.com/faq",
+    "confidence": "high"
   }
 ]

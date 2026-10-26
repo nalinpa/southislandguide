@@ -268,8 +268,8 @@
     "price": "Cheap",
     "description": "A no-frills pie shop at 1 Lakefront Drive, at the lake end of the main street. The venison pie is the one people talk about, but reviewers also rate the chicken, the lamb and mint, the Thai chicken curry and a chickpea vegetarian pie, plus sweet pies such as apple and blueberry.\n\nIt opens at 7am, so it's a good breakfast stop before the Milford Road, and there's coffee too. Expect a queue at peak times.\nLocal tip: Take your pie across the road to the lakefront. It's only a minute's walk, and the view is better than the shop's.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Daily 7am to 3pm; 1 Lakefront Drive, Te Anau",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJl0OefLMP1KkRmdd1Fs1BTrM",
+    "hoursNote": "Daily 7am to 3pm; closed over winter; 1 Lakefront Drive, Te Anau",
+    "sourceUrl": "https://restaurantguru.com/Miles-Better-Pies-Te-Anau",
     "confidence": "medium"
   },
   {
@@ -287,7 +287,7 @@
     "description": "One of the busiest cafés in Te Anau, at 9 The Lane, just off the main street. It does full breakfasts, pancakes, bagels and a pasta of the day, with a cabinet of sandwiches, slices and cakes if you're in a hurry.\n\nIt opens at 7am every day, which suits an early start to Milford. There's indoor and outdoor seating, but it fills up fast.\nLocal tip: If there's no table, order from the cabinet to take away. It's quicker, and the cabinet food makes a good packed lunch for the road.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Daily 7am to 4.30pm; 9 The Lane, Te Anau",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ1Y2K99EP1KkRZhTKc8HdXPw",
+    "sourceUrl": "https://wanderlog.com/place/details/777906/sandfly-cafe-te-anau",
     "confidence": "medium"
   },
   {
@@ -302,11 +302,12 @@
     "area": "te-anau",
     "active": true,
     "price": "Cheap",
-    "description": "A small takeaway on the Te Anau main street, best known for its lamb and chicken souvlaki, which reviewers rate as some of the best food of their trip. It also does coffee, pastries and cabinet food, and you order at a self-service kiosk.\n\nThe souvlaki are big, and there are kids' sizes. There's some outdoor seating on the street.\nLocal tip: It stays open until 6.30pm from Wednesday to Sunday, which makes it a handy cheap dinner after a long day on the Milford Road.",
+    "description": "A small takeaway on the Te Anau main street, best known for its lamb and chicken souvlaki, which reviewers rate as some of the best food of their trip. It also does coffee, pastries and cabinet food, and you order at a self-service kiosk.\n\nThe souvlaki are big, and there are kids' sizes. There's some outdoor seating on the street.\nLocal tip: On some days it stays open into the evening, which makes it a handy cheap dinner after a long day on the Milford Road. Hours change often, so check its Facebook page first.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Mon and Tue 8am to 3pm; Wed to Sun 8am to 6.30pm; 72 Town Centre, Te Anau",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJTTJLP2gP1KkRS6u0njLRnzs",
-    "confidence": "medium"
+    "hoursNote": "Hours change often; check the Blak Shak Facebook page before you go; 72 Town Centre, Te Anau",
+    "sourceUrl": "https://blakshakteanau.co.nz/contact",
+    "confidence": "medium",
+    "website": "https://blakshakteanau.co.nz/"
   },
   {
     "name": "Cascade Creek Campsite",
@@ -373,9 +374,9 @@
     "active": true,
     "price": "Free",
     "description": "A well set up free camping area in the middle of Lumsden, beside the old railway station, on the route between Queenstown, Invercargill and Te Anau. Bays are marked on the ground in blue for certified self-contained vehicles and green for those that aren't, so check the lines before you park. Tents aren't allowed.\n\nThere are clean public toilets, drinking water, a dishwashing sink, picnic tables and a dump station, with a Four Square supermarket next door and a café nearby.\nLocal tip: Fill up with water and empty your tanks here before heading on to Te Anau and the Milford Road, and check the signs for the current maximum stay.",
-    "hoursNote": "Free; marked bays for self-contained (blue) and non self-contained (green) vehicles; no tents; check signs for max stay; toilets, water, dump station",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ2_mx3V9m06kR0PReLsI-ejw",
-    "confidence": "medium"
+    "hoursNote": "Free; marked bays for self-contained (blue) and non self-contained (green) vehicles; no tents; max 7 nights in any 30 days; toilets, water, dump station",
+    "sourceUrl": "https://southlanddc.govt.nz/services/freedom-camping/freedom-camping-locations/lumsden/",
+    "confidence": "high"
   },
   {
     "name": "Te Anau Central Backpackers",

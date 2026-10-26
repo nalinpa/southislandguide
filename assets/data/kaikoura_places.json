@@ -15,9 +15,9 @@
     "description": "Kaikōura's signature walk, along the clifftops at the tip of the peninsula. It starts at the Point Kean car park, about 4km from town, where fur seals sprawl across the rocks and pools a few metres from the parked cars. From there the track climbs onto the cliffs, with the sea on one side and the snow-capped Seaward Kaikōura Range behind you.\n\nDOC puts the clifftop section from Point Kean to the South Bay car park at 3.4km, about 65 minutes one way, so the return trip takes a little over two hours before stops. There are toilets at Point Kean, Armers Beach and South Bay but none on the clifftop, and the cliff edges are unfenced. DOC doesn't maintain the shoreline route back and advises against it, so return the way you came.\nLocal tip: Stay at least 20m from the seals, as DOC asks, and never get between a seal and the sea. The big males in the Point Kean car park can bite if they're disturbed.",
     "recommendedDurationSlots": 4,
     "featured": 1,
-    "hoursNote": "Open any time; free parking and toilets at Point Kean; cliff edges and some steps; shore route only at low tide",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ2cD3opNXN20RPvbWxXJqHPw",
-    "confidence": "medium"
+    "hoursNote": "Open any time; free parking and toilets at Point Kean; cliff edges and some steps; shore route back not recommended",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/kaikoura-area/things-to-do/tracks/kaikoura-peninsula-walkway/",
+    "confidence": "high"
   },
   {
     "name": "Ōhau Point Seal Colony",
@@ -32,11 +32,11 @@
     "area": "kaikoura",
     "active": true,
     "price": "Free",
-    "description": "A roadside stop on State Highway 1, about 25 minutes north of Kaikōura, above one of the biggest fur seal colonies on the coast. You don't need to walk anywhere: from the car park you look straight down on hundreds of seals hauled out on the rocks, and a boardwalk runs about 200m along the shore.\n\nPups are born from around January, and by late summer they're playing in the rock pools below the lookout, many of them lifted out of the sea by the 2016 earthquake. The stopping area opened in 2018 with parking for about 20 vehicles. There are no toilets.\nLocal tip: The Ōhau Stream waterfall walk nearby, where the pups used to swim, has been closed since the earthquake. Don't climb the fence. Watch them from the lookout instead.",
+    "description": "A roadside stop on State Highway 1, about 25 minutes north of Kaikōura, above one of the biggest fur seal colonies on the coast. You don't need to walk anywhere: from the car park you look straight down on hundreds of seals hauled out on the rocks, and a boardwalk runs about 200m along the shore.\n\nPups are born from mid-November to mid-January, and by late summer they're playing in the rock pools below the lookout, many of them lifted out of the sea by the 2016 earthquake. The stopping area opened in 2018 with parking for about 20 vehicles. There are no toilets.\nLocal tip: The Ōhau Stream waterfall walk nearby, where the pups used to swim, has been closed since the earthquake. Don't climb the fence. Watch them from the lookout instead.",
     "recommendedDurationSlots": 1,
     "featured": 2,
     "hoursNote": "Open any time; roadside car park on SH1; no toilets; Ōhau Stream waterfall walk closed",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJBe6C4sHlOW0RC9xUio5yzjQ",
+    "sourceUrl": "https://www.nzta.govt.nz/media-releases/ohau-point-north-of-kaikoura-safe-stopping-area-open-ahead-of-labour-weekend",
     "confidence": "medium"
   },
   {
@@ -73,12 +73,12 @@
     "area": "kaikoura",
     "active": true,
     "price": "Expensive",
-    "description": "One base on the Esplanade running two of Kaikōura's best known boat trips. Dolphin Encounter takes you out to swim with pods of wild dusky dolphins, some of the most acrobatic in the world, in a thick wetsuit, mask and snorkel. The swim starts from $265 for adults and $240 for children 8 to 14, with higher prices in the November to April peak, and there's a cheaper option to watch from the boat. It takes about three and a half hours, with around 40 minutes in water that ranges from about 8°C to 18°C.\n\nAlbatross Encounter heads 15 to 20 minutes offshore in a smaller boat, with no more than 12 people, to see wandering and royal albatross, the largest flying birds in the world, plus petrels and shearwaters. It's $200 for adults and $95 for children 3 to 14, and takes about two and a half hours. There's a café at the base for afterwards.\nLocal tip: For the dolphin swim, book the early morning departure, when the sea is usually calmest. For albatross, winter brings the widest variety of species, but from June to September there's only one trip a day, at 10am.",
+    "description": "One base on the Esplanade running two of Kaikōura's best known boat trips. Dolphin Encounter takes you out to swim with pods of wild dusky dolphins, some of the most acrobatic in the world, in a thick wetsuit, mask and snorkel. The swim starts from $265 for adults and $240 for children 8 to 14, with higher prices in the November to April peak, and there's a cheaper option to watch from the boat. It takes about four hours from check-in, with around 20 to 30 minutes in water that ranges from about 9°C to 18°C.\n\nAlbatross Encounter heads 15 to 20 minutes offshore in a smaller boat, with no more than 12 people, to see wandering and royal albatross, the largest flying birds in the world, plus petrels and shearwaters. It's $200 for adults and $95 for children 3 to 14, and takes about two and a half hours. There's a café at the base for afterwards.\nLocal tip: For the dolphin swim, book the early morning departure, when the sea is usually calmest. For albatross, October to November and March to May bring the widest variety of species, and from June to September there's only one trip a day, at 10am.",
     "recommendedDurationSlots": 7,
-    "hoursNote": "Dolphin swims up to three times daily including a sunrise trip; albatross Nov to Apr 6am, 9am, 1pm, Oct and May 9am, 1pm, Jun to Sep 10am; weather dependent; book ahead",
+    "hoursNote": "Dolphin tours Oct to early Nov 8.30am, mid Nov to Apr 5.30am, 8.30am, 12.30pm, May 8.30am, 12.30pm, Jun to Sep 10am; albatross Nov to Apr 6am, 9am, 1pm, Oct and May 9am, 1pm, Jun to Sep 10am; weather dependent; book ahead",
     "website": "https://www.dolphinencounter.co.nz/",
-    "sourceUrl": "https://www.albatrossencounter.co.nz/our-tours/",
-    "confidence": "medium"
+    "sourceUrl": "https://www.dolphinencounter.co.nz/our-tours/swim-with-dolphins/",
+    "confidence": "high"
   },
   {
     "name": "Seal Swim Kaikōura",
@@ -114,8 +114,8 @@
     "price": "Free",
     "description": "A hilltop lookout at the end of Scarborough Street, a few minutes' drive from town, with a small platform looking over both bays, the peninsula and the Seaward Kaikōura Range. There's free parking right beside it.\n\nIt's one of the best spots in town for sunset, and on a clear night, for stars.\nLocal tip: Get there before the tour buses at sunset. Once they pull in, they can block the view from the car park.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Open any time; free parking",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJddd3v4lWN20RdXiqSyVNeXM",
+    "hoursNote": "Open any time; free parking; no dogs",
+    "sourceUrl": "https://www.kaikoura.govt.nz/council/news?item=id:2kv5jniy51cxbynfanmg",
     "confidence": "medium"
   },
   {
@@ -130,12 +130,12 @@
     "area": "kaikoura",
     "active": true,
     "price": "Cheap",
-    "description": "Kaikōura's oldest surviving building, and the last trace of a whaling station set up here in 1842. The cottage famously stands on piles made from the vertebrae of a southern right whale (tohorā). Heritage New Zealand runs it, telling the story of the whaling years and the three families who lived here between 1844 and 1980, and it was repaired after the 2016 earthquake.\n\nEntry is $10 for adults and $3 for children 16 and under. It's self-guided, though staff usually give a short introduction at the door. From Labour Weekend to April it's open daily, and in the cooler months it closes midweek, so check the days before you go.\nLocal tip: It's at 62 Avoca Street, on the road out to Point Kean, so pair it with the peninsula walk and the seals.",
+    "description": "Kaikōura's oldest surviving building, and the last trace of a whaling station set up here in 1842. The cottage famously stands on piles made from the vertebrae of a southern right whale (tohorā). Heritage New Zealand runs it, telling the story of the whaling years and the three families who lived here between 1844 and 1980, and it was repaired after the 2016 earthquake.\n\nEntry is $12 for adults, $6 for tertiary students and free for under-18s. It's self-guided, though staff usually give a short introduction at the door. From October to April it's open every day except Tuesday, and from May to September only Friday to Monday, so check the days before you go.\nLocal tip: It's at 62 Avoca Street, on the road out to Point Kean, so pair it with the peninsula walk and the seals.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Listed Fri to Mon 10am to 4pm; closed Tue to Thu; about $10 entry",
+    "hoursNote": "October to April: Wed to Mon 10am to 5pm, closed Tue; May to September: Fri to Mon 10am to 4pm; closed 24 to 26 December, Anzac Day and other public holidays except 1 and 2 January and Waitangi Day; $12 adults, under-18s free",
     "website": "https://www.visitheritage.co.nz/visit/upper-south-island/fyffe-house",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJNeHnX1hWN20RRKKgdCyQpcQ",
-    "confidence": "medium"
+    "sourceUrl": "https://www.visitheritage.co.nz/visit/upper-south-island/fyffe-house",
+    "confidence": "high"
   },
   {
     "name": "Kaikōura Seafood BBQ Kiosk",
@@ -151,9 +151,10 @@
     "price": "Moderate",
     "description": "A roadside kiosk on Fyffe Quay, on the way out to the seal colony, grilling crayfish, scallops, mussels, fish and whitebait fritters to order. You queue, order and eat at outdoor tables looking out to sea.\n\nIt's the easiest way to try the crayfish the town is named for (kai means food and kōura means crayfish), though a whole cray isn't cheap. Reviewers rate the chowder and the grilled fish too.\nLocal tip: If crayfish is out of your budget, get the chowder and a piece of grilled fish. You still get the seaside setting for a fraction of the price.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Listed daily from 10am, closing 5pm Mon to Fri, 3pm Sat, 4pm Sun",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ0V_8p_dWN20RBI5PVrxURxI",
-    "confidence": "medium"
+    "hoursNote": "Mon to Fri 10am to 5pm; Sat 10am to 3pm; Sun 10am to 4pm",
+    "sourceUrl": "https://www.kaikoura.co.nz/listing/kaikoura-seafood-bbq",
+    "confidence": "medium",
+    "website": "https://www.facebook.com/thekaikouraseafoodbbq/"
   },
   {
     "name": "Top Shop Kaikōura",
@@ -170,7 +171,7 @@
     "description": "A takeaway on Beach Road at the north end of town that reviewers rate as the best fish and chips in Kaikōura. Order the blue cod or the crumbed gurnard, the two favourites, with chips cooked in clean oil and your pick of sauces.\n\nIt's open from 11am to 7.30pm, so it works for lunch or an early dinner, but there's hardly anywhere to sit.\nLocal tip: It's on the main road north, so pick it up on your way to Blenheim, or on your way into town, and eat it on the beach.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Listed daily 11am to 7.30pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJT4xwgRX9OW0RFRJf_sbU5r0",
+    "sourceUrl": "https://restaurantguru.com/The-Top-Shop-Kaikoura",
     "confidence": "medium"
   },
   {
@@ -205,9 +206,10 @@
     "price": "Cheap",
     "description": "A café right on the beach at Kekerengu, about an hour north of Kaikōura on the road to Blenheim, and the natural place to break the drive. Expect good coffee, pies, sandwiches and scones, plus a seafood chowder that reviewers rate highly.\n\nThe deck out the back looks straight over the sea, and the kitchen copes well when the tour buses pull in.\nLocal tip: Sit out on the deck on a fine day, but keep a hand over your food, because the seagulls are bold.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Listed daily 8am to 4pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJWZmxm6m-OW0R8u0cIf8kunw",
-    "confidence": "medium"
+    "hoursNote": "Daily 8.30am to 4pm; in winter Thu to Mon 9am to 3.30pm, closed Tue and Wed",
+    "sourceUrl": "https://www.thestore.kiwi/contactus",
+    "confidence": "high",
+    "website": "https://www.thestore.kiwi"
   },
   {
     "name": "Cathedral Cliffs, Gore Bay",
@@ -224,7 +226,7 @@
     "description": "Tall, fluted clay cliffs that erosion has carved into shapes like organ pipes, above Gore Bay near Cheviot. They're a 10 to 15 minute detour off State Highway 1 on the drive between Christchurch and Kaikōura, and you see them from a roadside viewpoint on Cathedral Road, with no walk needed.\n\nThe viewing area is small, and bushes block part of the view. The beach and little settlement at Gore Bay below are worth a stop too, and seals sometimes haul out on the sand.\nLocal tip: The best angle is where the viewing area's guardrail meets the road, not from the grassy patch. The road up is steep, so take it slowly in a campervan.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Open any time; roadside viewpoint; toilets nearby",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJLXSPCFrcMG0R-Sr4-UwMcwQ",
+    "sourceUrl": "https://visithurunui.co.nz/listings/listing/the-cathedrals",
     "confidence": "medium"
   },
   {
@@ -291,11 +293,11 @@
     "area": "kaikoura",
     "active": true,
     "price": "Cheap",
-    "description": "Two council-owned camping grounds at Gore Bay, a surf beach near Cheviot, and a good place to break the drive between Christchurch and Kaikōura. The main camp at 31 Moody Street sits right behind the beach and is open all year, and Buxton Camp, just down Gore Bay Road, has its own beach access and opens from October to May.\n\nPowered sites are $40 for two people and unpowered sites are $35, with extra adults $10 and children 5 to 15 $5. There are toilets, hot showers and kitchens, but no dump station, and generators aren't allowed.\nLocal tip: Book ahead for long weekends and the summer holidays. In winter you can just drive in and pick a spot. Empty your tanks in Cheviot on the way, since that's the nearest dump station.",
-    "hoursNote": "Book with the camp manager (03 319 8010); powered and unpowered sites; hot showers; no dogs",
+    "description": "Two council-owned camping grounds at Gore Bay, a surf beach near Cheviot, and a good place to break the drive between Christchurch and Kaikōura. The main camp at 31 Moody Street sits right behind the beach and is open all year, and Buxton Camp, just down Gore Bay Road, has its own beach access and opens from 1 October to 30 April.\n\nPowered sites are $40 for two people and unpowered sites are $35, with extra adults $10 and children 5 to 15 $5. There are toilets, hot showers and kitchens, but no dump station, and generators aren't allowed.\nLocal tip: Book ahead for long weekends and the summer holidays. In winter you can just drive in and pick a spot. Empty your tanks in Cheviot on the way, since that's the nearest dump station.",
+    "hoursNote": "Main camp open all year; Buxton Camp open 1 October to 30 April; check-in from 12pm, check-out 10.30am; book with the camp manager (03 319 8010); powered and unpowered sites; hot showers; dogs only in the main camp's dog-friendly area",
     "website": "https://campgorebay.com/",
-    "sourceUrl": "https://www.hurunui.govt.nz/recreation/camping-grounds/gore-bay-buxton-camp-gore-bay",
-    "confidence": "medium"
+    "sourceUrl": "https://www.campgorebay.com/faq",
+    "confidence": "high"
   },
   {
     "name": "The Pier Hotel",
@@ -312,9 +314,9 @@
     "website": "https://www.thepierhotel.co.nz/",
     "description": "A hotel on the waterfront by the old wharf, where the town meets the peninsula, with a bar and a restaurant open from breakfast through to dinner. Seafood is the focus, as it should be in a town whose name means a meal of crayfish, and the view runs back across the bay to the Seaward Kaikōura Range.\nLocal tip: Ask for a table with the view of the mountains, best in the evening light.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Open 7 days from 8am till late, for breakfast, lunch and dinner; 1 Avoca Street, Kaikōura",
-    "sourceUrl": "https://www.thepierhotel.co.nz/",
-    "confidence": "medium"
+    "hoursNote": "Open 7 days from 8am till late, for breakfast, lunch and dinner; dinner bookings essential, call 03 319 5037; 1 Avoca Street, Kaikōura",
+    "sourceUrl": "https://www.thepierhotel.co.nz/index.php/restaurant/",
+    "confidence": "high"
   },
   {
     "name": "Nin's Bin",
@@ -332,7 +334,7 @@
     "description": "A caravan on the side of State Highway 1 at Half Moon Bay, about 20 minutes north of Kaikōura, selling crayfish caught locally and cooked on the spot, along with other seafood. It is a roadside institution that Lonely Planet has singled out, and you eat looking straight out to sea. Crayfish is priced by size and isn't cheap.\nLocal tip: It is on the main road between Picton and Kaikōura, so it suits a late lunch on the drive down; it can be shut when the weather has kept the boats in.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Usually daily about 9am to 5 or 6pm, Wednesday to 2.30pm (listings differ; check Google or call 020 486 3474); may close when weather stops the fishing; roadside on SH1 at Half Moon Bay, north of Kaikōura",
-    "sourceUrl": "https://neatplaces.co.nz/places/kaikoura/eat-drink/nins-bin",
+    "sourceUrl": "https://www.ninsbin.co.nz/menu",
     "confidence": "medium"
   }
 ]

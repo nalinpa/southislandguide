@@ -72,7 +72,7 @@
     "region": "dunedin-otago",
     "active": true,
     "price": "Free",
-    "description": "A short, steep climb from the end of Grey Street in Kurow to the top of Kurow Hill, with views over the town, the braided Waitaki River and up the Hakataramea Valley. It is about 1.1km each way with roughly 260m of climbing, and most people reach the top in 25 to 45 minutes.\n\nThe track crosses farmland, so close every gate and stay on the formed path. Armchairs placed along the way give you somewhere to catch your breath. There are no toilets at the start, so use the public ones in town.\nLocal tip: Take an extra layer, since it can be cold and breezy at the top even when the town below is warm.",
+    "description": "A short, steep climb from the end of Grey Street in Kurow to the top of Kurow Hill, with views over the town, the braided Waitaki River and up the Hakataramea Valley. It is about 1.1km each way with roughly 250m of climbing, and most people reach the top in 25 to 45 minutes.\n\nThe track crosses farmland, so close every gate and stay on the formed path. Armchairs placed along the way give you somewhere to catch your breath. There are no toilets at the start, so use the public ones in town.\nLocal tip: Take an extra layer, since it can be cold and breezy at the top even when the town below is warm.",
     "recommendedDurationSlots": 3,
     "hoursNote": "Open any time; farmland, close all gates; no toilets at trailhead",
     "sourceUrl": "https://waitakinz.com/explore/kurow-hill",
@@ -132,9 +132,10 @@
     "description": "A classic small-town takeaway and café on Kurow's main street, doing fish and chips, burgers and cooked breakfasts. Reviewers praise the fish of the day, often elephant fish, and the friendly welcome.\n\nIt stays open until 7pm, which makes it one of the few places in the valley for an early dinner on the road.\nLocal tip: Ask what the fish of the day is, and know that a half scoop of chips is plenty for one.",
     "recommendedDurationSlots": 1,
     "hoursNote": "9am to 7pm daily",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ41toYb0NKqgRnBQGpv5RAbM",
+    "sourceUrl": "https://restaurantguru.com/River-Cafe-Restaurant-Kurow-Otago",
     "confidence": "medium",
-    "area": "waitaki-valley"
+    "area": "waitaki-valley",
+    "website": "https://www.facebook.com/p/River-Restaurant-Takeaways-61563487356711/"
   },
   {
     "name": "Duntroon Hotel",
@@ -149,10 +150,11 @@
     "price": "Moderate",
     "description": "The village pub next door to the Vanished World Centre, recently refurbished, with a restaurant, a bar and simple rooms. It is a regular overnight stop for Alps 2 Ocean riders, with bike storage and a laundry.\n\nReviewers praise the friendly staff and the very large portions. The loaded wedges are a favourite, and a Thai menu runs on some nights.\nLocal tip: If you're in a big group, call ahead, since the small kitchen can be slow when it is busy.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "10.30am to 9pm daily",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJrY_sMY8eKqgRp_IC4FevcB4",
+    "hoursNote": "10.30am to 9pm daily; closed over winter, reopens in spring",
+    "sourceUrl": "https://abcbusiness.co.nz/property/36678/duntroon/",
     "confidence": "medium",
-    "area": "waitaki-valley"
+    "area": "waitaki-valley",
+    "website": "https://www.facebook.com/duntroonhotelandcyclestays"
   },
   {
     "name": "The Hungry Hydro",
@@ -168,7 +170,7 @@
     "description": "A little food truck on the main road through Otematata, serving coffee and fresh baking like cheese scones, cheese rolls and muffins, plus toasted sandwiches and breakfast. There are picnic tables outside.\n\nIt is one of the best rated stops in the valley, and reviewers say the owner is generous with advice on what to do around the lakes.\nLocal tip: It only opens Thursday to Sunday and closes at 1.30pm. On other days, the On the Spot store nearby on SH83 sells pies and coffee.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Thu to Sun 7.30am to 1.30pm; closed Mon to Wed",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ51MNaXN5KqgRku2aSgCrbBM",
+    "sourceUrl": "https://www.propertybrokers.co.nz/commercial/sale/the-hungry-hydro-otematata-waitaki",
     "confidence": "medium",
     "area": "waitaki-valley"
   },

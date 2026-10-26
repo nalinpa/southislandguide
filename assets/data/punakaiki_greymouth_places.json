@@ -97,7 +97,7 @@
     "description": "A full day workshop in Barrytown, on the coast road between Punakaiki and Greymouth, where you forge your own blade from red-hot steel and finish it with a native timber handle, brass bolsters and pins. You take the knife home, and reviewers regularly call it a highlight of their New Zealand trip.\n\nThe day runs from 9.30am to around 4pm, with a toasted sandwich lunch, axe throwing, target practice and a giant swing in the breaks. It's $220 per person, paid by cash or bank transfer, and you must book by 7pm the day before.\nLocal tip: Book well ahead in summer, and confirm which days are running when you book, since the website now lists classes on just two days a week.",
     "recommendedDurationSlots": 14,
     "featured": 2,
-    "hoursNote": "Tue to Sun 9.30am to about 4pm; closed Mon; book by 7pm the day before; cash or bank transfer",
+    "hoursNote": "Classes 2 days a week, confirm days when booking; 9.30am to about 4pm; book by 7pm the day before; cash or bank transfer",
     "sourceUrl": "https://barrytownknifemaking.com/make-a-knife/",
     "confidence": "medium",
     "area": "punakaiki"
@@ -115,8 +115,8 @@
     "price": "Cheap",
     "description": "A small food cart inside Punakaiki Beach Camp, a short walk from the Pororari River and the beach. Pete makes West Coast whitebait patties, cheese rolls with three cheeses, soft serve, coffee and coconut iced coffee, and the reviews are close to perfect.\n\nIt's the best value feed in Punakaiki, where the options near Pancake Rocks are pricey, and the beach is a two minute walk away for eating your pattie with a view.\nLocal tip: Come in the morning for coffee and a whitebait pattie before the Pancake Rocks crowds arrive.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Inside Punakaiki Beach Camp, 5 Owen St; hours vary, coffee from the morning",
-    "sourceUrl": "https://www.punakaikibeachcamp.co.nz/petes-pattie-palace-update/",
+    "hoursNote": "Inside Punakaiki Beach Camp, 5 Owen St; seasonal, usually Christmas to Easter; hours vary, coffee from the morning",
+    "sourceUrl": "https://www.punakaikibeachcamp.co.nz/2026/02/03/where-to-eat-in-punakaiki-your-all-day-food-guide-at-punakaiki-beach-camp/",
     "confidence": "medium",
     "area": "punakaiki"
   },
@@ -131,10 +131,10 @@
     "region": "west-coast",
     "active": true,
     "price": "Free",
-    "description": "A small free camping area at the end of McMillan Road, just south of Pancake Rocks, right behind a wild beach with big sunsets. It's for certified self-contained vehicles only, with a limit of two nights.\n\nThere are no toilets or showers and only about five spaces, so it's full most evenings in summer. Weka roam the site and will raid any food you leave out. Freedom camping is banned north of here, between the Punakaiki and Fox Rivers, so don't try the village or the Pancake Rocks car park.\nLocal tip: Arrive by mid-afternoon to get a spot, bring sandfly repellent, and keep off the dunes behind the beach, which are breeding ground for protected seabirds.",
-    "hoursNote": "Certified self-contained only; max 2 nights; about 5 spaces; no toilets; first come first served",
-    "sourceUrl": "https://www.rankers.co.nz/experiences/10442-McMillan_Road_Freedom_Camping_Area",
-    "confidence": "medium",
+    "description": "A small free camping area at the end of McMillan Road, just south of Pancake Rocks, right behind a wild beach with big sunsets. It's for certified self-contained vehicles only, with a limit of three nights in any four weeks.\n\nThere are no toilets or showers and only about five spaces, so it's full most evenings in summer. Weka roam the site and will raid any food you leave out. Freedom camping is banned north of here, between the Punakaiki and Fox Rivers, so don't try the village or the Pancake Rocks car park.\nLocal tip: Arrive by mid-afternoon to get a spot, bring sandfly repellent, and keep off the dunes behind the beach, which are breeding ground for protected seabirds.",
+    "hoursNote": "Certified self-contained only; max 3 nights in any 4 weeks; about 5 spaces; no toilets; first come first served",
+    "sourceUrl": "https://www.greydc.govt.nz/repository/libraries/id:2cvtsvtyv1cxbyz1k6uz/hierarchy/sitecollectiondocuments/Your%20Council/Council%20Publications/by-laws/Responsible%20Freedom%20Camping%20Bylaw",
+    "confidence": "high",
     "area": "punakaiki"
   },
   {
@@ -191,7 +191,7 @@
     "description": "A quirky café on Mawhera Quay, beside the floodwall in central Greymouth, with bare floors, painted brick walls and a relaxed feel. Locals rate the coffee as the best in town.\n\nThere's a cabinet of baking and a full breakfast and lunch menu, and staff are happy to help with vegetarian requests. Free newspapers are there to read.\nLocal tip: Grab a coffee and walk the floodwall along the Grey River, where info panels explain the town's history.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Mon to Fri 7am to 3pm; Sat and Sun 8am to 3pm",
-    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJRWlDD35pL20RSjRWiCDM42E",
+    "sourceUrl": "https://westcoast.co.nz/visit/operators/dp1-cafe/",
     "confidence": "medium",
     "area": "greymouth"
   },
@@ -267,10 +267,10 @@
     "region": "west-coast",
     "active": true,
     "price": "Free",
-    "description": "A free Grey District Council camping area on the shore of Lake Brunner at Iveagh Bay, south of Moana, with lake views and swimming out front. It's for certified self-contained vehicles only, in about 10 marked spots.\n\nThere are flush toilets, bins and water, but no showers or dump station, and fires aren't allowed. The council's limit is two consecutive nights in one spot, and the fine for breaking the rules is $400.\nLocal tip: Arrive before 4pm, since the bays fill quickly, park only south of the toilet block, and bring repellent for the sandflies.",
-    "hoursNote": "Certified self-contained only; about 10 spaces; max 3 consecutive nights; toilets and water; no fires",
-    "sourceUrl": "https://www.rankers.co.nz/experiences/6525-Iveagh_Bay_Overnight_Campervan_Parking",
-    "confidence": "medium",
+    "description": "A free Grey District Council camping area on the shore of Lake Brunner at Iveagh Bay, south of Moana, with lake views and swimming out front. It's for certified self-contained vehicles only, in about 10 marked spots.\n\nThere are flush toilets, bins and water, but no showers or dump station, and fires aren't allowed. The council's limit is three nights in any four weeks in one spot, and the fine for breaking the rules is $400.\nLocal tip: Arrive before 4pm, since the bays fill quickly, park only south of the toilet block, and bring repellent for the sandflies.",
+    "hoursNote": "Certified self-contained only; about 10 spaces; max 3 nights in any 4 weeks; toilets and water; no fires",
+    "sourceUrl": "https://www.greydc.govt.nz/repository/libraries/id:2cvtsvtyv1cxbyz1k6uz/hierarchy/sitecollectiondocuments/Your%20Council/Council%20Publications/by-laws/Responsible%20Freedom%20Camping%20Bylaw",
+    "confidence": "high",
     "area": "greymouth"
   },
   {
@@ -285,9 +285,9 @@
     "active": true,
     "price": "Free",
     "description": "A free council camping area in Cobden, just across the river from central Greymouth, between the lagoon and the beach near the breakwater. It's for certified self-contained vehicles only, and tents aren't allowed.\n\nThere are public toilets, cleaned regularly, and a 20 minute loop track around the lagoon with picnic tables and black swans. It can get very windy, and busy on summer nights.\nLocal tip: Walk up to the breakwater at sunset to watch the fishing boats cross the Grey River bar, and check the signs for the current night limit.",
-    "hoursNote": "Certified self-contained only; toilets; dump station; night limits signposted",
-    "sourceUrl": "https://www.travellers-autobarn.co.nz/blog/freedom-camping-greymouth",
-    "confidence": "medium",
+    "hoursNote": "Certified self-contained only; toilets; up to 3 nights in any 4 weeks; nearest dump station at north end of Cobden Bridge",
+    "sourceUrl": "https://www.greydc.govt.nz/repository/libraries/id:2cvtsvtyv1cxbyz1k6uz/hierarchy/sitecollectiondocuments/Your%20Council/Council%20Publications/by-laws/Responsible%20Freedom%20Camping%20Bylaw",
+    "confidence": "high",
     "area": "greymouth"
   },
   {
@@ -302,10 +302,10 @@
     "active": true,
     "price": "Cheap",
     "website": "https://globalvillagebackpackers.co.nz/",
-    "description": "A colourful, art-filled backpackers at 42 to 54 Cowper Street in Greymouth, with dorms, twins and doubles, central heating and off-street parking. It rates 9.5 on Hostelworld from more than a thousand guests, with cleanliness and value scoring highest.\n\nBikes, kayaks and the gym are free, and there's a spa and sauna for a small fee. They'll pick you up from the train station, 1.7km away, for free, which is handy for the TranzAlpine.\nLocal tip: It doesn't take children under 13, and you need to cancel 48 hours ahead to avoid a charge.",
-    "hoursNote": "Check in 1pm to 8pm; check out 10am; no under 13s; 48 hrs cancellation",
-    "sourceUrl": "https://www.hostelworld.com/hostels/p/25994/global-village-travellers-lodge/",
-    "confidence": "medium",
+    "description": "A colourful, art-filled backpackers at 42 to 54 Cowper Street in Greymouth, with dorms, twins and doubles, central heating and off-street parking. It rates 9.6 on Hostelworld from more than a thousand guests, with cleanliness and value scoring highest.\n\nBikes, kayaks and the gym are free, and there's a spa and sauna for a small fee. They'll pick you up from the train station, 1.7km away, for free, which is handy for the TranzAlpine.\nLocal tip: It doesn't take children under 10, and you need to cancel 48 hours ahead to avoid a charge.",
+    "hoursNote": "Check in from 1pm; reception 9am to 2pm and 5pm to 8.30pm; check out 10am; minimum age 10; 48 hrs cancellation",
+    "sourceUrl": "https://globalvillagebackpackers.co.nz/faq-comments/",
+    "confidence": "high",
     "area": "greymouth"
   }
 ]

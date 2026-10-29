@@ -30,7 +30,7 @@ type ListItemProps = {
 };
 
 export function ListItem({ id, name, description, distanceMeters, imageUrl, category, area, onPress, index }: ListItemProps) {
-  const source = siteImage(imageUrl, category, "thumb");
+  const source = siteImage(imageUrl, category, "thumb", id);
   return (
     <MotiView
       from={{ opacity: 0, translateY: 20 }}

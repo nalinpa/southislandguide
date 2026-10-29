@@ -1,5 +1,6 @@
 import type { ImageSourcePropType } from "react-native";
 import type { SiteCategory } from "@/lib/models";
+import { PLACE_IMAGE_TYPES } from "@/lib/placeImageTypes";
 
 // A default image per category, shown for any place that hasn't had its own
 // photo attached. Bundled rather than hosted: the fallback is shown exactly
@@ -39,18 +40,58 @@ const THUMB: Record<SiteCategory, ImageSourcePropType> = {
   Stay: require("../assets/images/categories/thumb/Stay.webp"),
 };
 
+// A default per type of place (a café, a backpackers, a campsite), shown ahead of the
+// category's for the places the owner has listed under that type in
+// lib/placeImageTypes.ts. Same sizes and resize step as above, into
+// assets/images/types, each original named after its type (coffee.jpg, dorm.jpg).
+export type PlaceImageType = "camping" | "carcamp" | "dorm" | "coffee" | "bakery" | "pizza" | "beer" | "steak" | "ice-cream";
+
+const TYPE_FULL: Record<PlaceImageType, ImageSourcePropType> = {
+  camping: require("../assets/images/types/full/camping.webp"),
+  carcamp: require("../assets/images/types/full/carcamp.webp"),
+  dorm: require("../assets/images/types/full/dorm.webp"),
+  coffee: require("../assets/images/types/full/coffee.webp"),
+  bakery: require("../assets/images/types/full/bakery.webp"),
+  pizza: require("../assets/images/types/full/pizza.webp"),
+  beer: require("../assets/images/types/full/beer.webp"),
+  steak: require("../assets/images/types/full/steak.webp"),
+  "ice-cream": require("../assets/images/types/full/ice-cream.webp"),
+};
+
+const TYPE_THUMB: Record<PlaceImageType, ImageSourcePropType> = {
+  camping: require("../assets/images/types/thumb/camping.webp"),
+  carcamp: require("../assets/images/types/thumb/carcamp.webp"),
+  dorm: require("../assets/images/types/thumb/dorm.webp"),
+  coffee: require("../assets/images/types/thumb/coffee.webp"),
+  bakery: require("../assets/images/types/thumb/bakery.webp"),
+  pizza: require("../assets/images/types/thumb/pizza.webp"),
+  beer: require("../assets/images/types/thumb/beer.webp"),
+  steak: require("../assets/images/types/thumb/steak.webp"),
+  "ice-cream": require("../assets/images/types/thumb/ice-cream.webp"),
+};
+
+const TYPE_OF = new Map(
+  (Object.entries(PLACE_IMAGE_TYPES) as [PlaceImageType, readonly string[]][]).flatMap(([type, ids]) =>
+    ids.map((id) => [id, type] as const),
+  ),
+);
+
 /**
- * The place's own photo if it has one, otherwise its primary category's
- * default. `category` is the place's first category — the same one its map
- * marker uses. Returns null only when there's neither, so callers keep their
- * existing no-image placeholder for that case.
+ * The place's own photo if it has one, otherwise its type's default if the
+ * owner has given it one (`siteId` is the place's id), otherwise its primary
+ * category's. `category` is the place's first category — the same one its map
+ * marker uses. Returns null only when there's none of these, so callers keep
+ * their existing no-image placeholder for that case.
  */
 export function siteImage(
   url: string | null | undefined,
   category: SiteCategory | null | undefined,
   size: "full" | "thumb",
+  siteId?: string | null,
 ): ImageSourcePropType | null {
   if (url) return { uri: url };
+  const type = siteId ? TYPE_OF.get(siteId) : undefined;
+  if (type) return (size === "full" ? TYPE_FULL : TYPE_THUMB)[type];
   if (category) return (size === "full" ? FULL : THUMB)[category] ?? null;
   return null;
 }

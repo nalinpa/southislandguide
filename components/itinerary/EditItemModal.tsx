@@ -22,22 +22,25 @@ import { PLANNER } from "@/lib/constants/gameplay";
 import { PURCHASE_CHECK_MESSAGE_SHORT, FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
 import { usePurchaseContext } from "@/lib/iap/PurchaseProvider";
 import { hooksBag } from "@/lib/hooksBag";
+import { siteImage } from "@/lib/categoryImages";
 import { slotsToDurationLabel } from "@/lib/utils/itineraryPhysics";
 import type { ItineraryItem } from "@/lib/models";
 
 const MAX_NOTE_LEN = 280;
 
+// The stop's photo, or its type's or category's default (lib/categoryImages.ts) when the
+// place has none.
 function ItemImage({ imageUrl, siteId }: { imageUrl?: string; siteId: string }) {
   const { location: site } = hooksBag.useLocation(imageUrl ? null : siteId);
-  const uri = imageUrl || site?.imageThumbnailUrl || site?.imageUrl;
-  if (!uri) {
+  const source = siteImage(imageUrl || site?.imageThumbnailUrl || site?.imageUrl, site?.category?.[0], "full", siteId);
+  if (!source) {
     return (
       <View style={styles.imagePlaceholder}>
         <ImageIcon color={tokens.colors.borderStrong} size={32} />
       </View>
     );
   }
-  return <Image source={{ uri }} style={styles.image} contentFit="cover" />;
+  return <Image source={source} style={styles.image} contentFit="cover" />;
 }
 
 type DayOption = { id: string; label: string; full?: boolean };

@@ -18,7 +18,7 @@ type FeaturedCardProps = {
 // name say enough (owner, 2026-10-25). The full-size photo, since it's the width of the
 // screen, or the category's default when the place has none.
 export function FeaturedCard({ site, onPress }: FeaturedCardProps) {
-  const source = siteImage(site.imageUrl, site.category[0], "full");
+  const source = siteImage(site.imageUrl, site.category[0], "full", site.id);
   return (
     <TouchableOpacity
       testID="featured-card"

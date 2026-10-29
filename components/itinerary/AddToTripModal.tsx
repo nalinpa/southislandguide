@@ -12,7 +12,8 @@ import { usePlaceLookup } from "@/lib/hooks/usePlaceLookup";
 import { slotsToDurationLabel, tripSummary, tryEdit } from "@/lib/utils/itineraryPhysics";
 import { areaName } from "@/lib/areas";
 import { PLANNER } from "@/lib/constants/gameplay";
-import type { ItineraryItem } from "@/lib/models";
+import { siteImage } from "@/lib/categoryImages";
+import type { ItineraryItem, SiteCategory } from "@/lib/models";
 
 const TIME_OF_DAY = [
   { key: "morning", label: "Morning", startSlot: 1 },
@@ -29,7 +30,8 @@ const dayDate = (iso: string) =>
 type Added = { tripId: string; tripTitle: string; dayId: string; dayLabel: string; slot: number };
 
 type AddToTripModalProps = {
-  site: { id: string; name: string; imageUrl?: string } | null;
+  /** `category` is the place's first, for its default image when it has no photo. */
+  site: { id: string; name: string; imageUrl?: string; category?: SiteCategory } | null;
   onClose: () => void;
   initialItineraryId?: string | null;
 };
@@ -74,6 +76,8 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   );
 
   if (!site) return null;
+
+  const siteThumb = siteImage(site.imageUrl, site.category, "thumb", site.id);
 
   const handleAdd = async () => {
     setErrorMsg(null);
@@ -174,8 +178,8 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
             ) : (
             <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
               <View style={styles.siteRow}>
-                {site.imageUrl ? (
-                  <Image source={{ uri: site.imageUrl }} style={styles.siteImage} />
+                {siteThumb ? (
+                  <Image source={siteThumb} style={styles.siteImage} />
                 ) : (
                   <View style={styles.siteImagePlaceholder}>
                     <ImageIcon color={tokens.colors.borderStrong} size={22} />

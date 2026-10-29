@@ -14,13 +14,15 @@ type HeroProps = {
   imageThumbnailUrl?: string | null;
   /** Primary category — its default image is shown when there's no photo. */
   category?: SiteCategory | null;
-  /** The photographer the photo's licence asks to be named. Not shown over a category's photo. */
+  /** The place's id, for its type's default image (lib/placeImageTypes.ts) ahead of the category's. */
+  siteId?: string | null;
+  /** The photographer the photo's licence asks to be named. Not shown over a default photo. */
   imageCredit?: string | null;
 };
 
-export function Hero({ imageUrl, imageThumbnailUrl, category, imageCredit }: HeroProps) {
+export function Hero({ imageUrl, imageThumbnailUrl, category, siteId, imageCredit }: HeroProps) {
   const ownPhoto = imageUrl ?? imageThumbnailUrl;
-  const source = siteImage(ownPhoto, category, "full");
+  const source = siteImage(ownPhoto, category, "full", siteId);
   const credit = ownPhoto ? imageCredit?.trim() : undefined;
   return (
     <View style={styles.container}>

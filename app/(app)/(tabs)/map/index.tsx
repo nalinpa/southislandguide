@@ -451,7 +451,12 @@ export default function MapScreen() {
       <AddToTripModal
         site={
           isAddingToTrip && selectedSite
-            ? { id: selectedSite.id, name: selectedSite.name, imageUrl: selectedSite.imageThumbnailUrl ?? selectedSite.imageUrl ?? undefined }
+            ? {
+                id: selectedSite.id,
+                name: selectedSite.name,
+                imageUrl: selectedSite.imageThumbnailUrl ?? selectedSite.imageUrl ?? undefined,
+                category: selectedSite.category[0],
+              }
             : null
         }
         initialItineraryId={pendingItineraryId}

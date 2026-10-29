@@ -22,8 +22,14 @@ Re-uploading a place file with `scripts/upload-places.js` replaces the whole pla
 |---|---|---|---|---|
 | Tourism New Zealand (Brandkit) | Paid Activity License | Paid and unpaid media, worldwide | Promote New Zealand as a visitor destination; credit the photographer where the photo's page names one | Other licence types in the same library (unpaid only, editorial, trade); Tourism NZ's logos and trade marks; a paid app without asking first |
 | Great South, Southland (Brandkit) | Worldwide Public Use - All Uses | Commercial or non-commercial use, worldwide | Promote the Southland region (Invercargill, Bluff, Riverton, Tuatapere, Gore, Fiordland, Stewart Island, the Southland side of the Catlins); credit the photographer | Otago places, such as Nugget Point, Purakaunui Falls and Owaka; bulk downloads; changes beyond what the licence allows (ask before relying on resizing and cropping) |
+| Wikimedia Commons | Per file, as its page shows: CC0, public domain, CC BY or CC BY-SA (any version) | Commercial use, worldwide; resizing and cropping | Credit the author and licence as the file page words them, and say it was changed ("Schwede66, CC BY-SA 4.0, resized"); a changed CC BY-SA photo stays under CC BY-SA | Files marked NC (non-commercial), ND (no changes), GFDL only, or with no licence; suggesting the author backs the app; using a recognisable person or a logo in it as if the licence covered them |
+| Department of Conservation (doc.govt.nz) | CC BY 4.0, for images whose caption credits DOC ("Image: Sarah Haughey \| DOC") | Commercial use, worldwide; resizing and cropping | Credit the photographer where named plus the Department of Conservation, the licence, and the change ("Sarah Haughey, Department of Conservation, CC BY 4.0, resized") | Images captioned © or "Creative Commons" (some DOC pages carry CC BY-NC photos); DOC's logos; suggesting DOC backs the app |
 
-Either library can ask for a photo to stop being used. A place photo comes out in the admin panel, with no app update; a town photo needs an update.
+| Pexels | Pexels License | Commercial use, worldwide; changes; no credit needed | Nothing beyond the licence | Selling a photo unchanged; suggesting a person or brand in it backs the app |
+
+Tourism NZ or Great South can ask for a photo to stop being used; a Creative Commons licence can't be withdrawn.
+
+The type defaults bundled in `assets/images/types` (camping, carcamp, dorm, coffee, bakery, pizza, beer, steak, ice-cream; which places use them is in `lib/placeImageTypes.ts`) are all from Pexels. A place photo comes out in the admin panel, with no app update; a town photo needs an update.
 
 ## Photos
 

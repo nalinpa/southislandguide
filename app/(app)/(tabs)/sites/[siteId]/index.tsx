@@ -175,6 +175,7 @@ function SiteDetail({ id }: { id: string }) {
           imageUrl={site.imageUrl}
           imageThumbnailUrl={site.imageThumbnailUrl}
           category={site.category[0]}
+          siteId={site.id}
           imageCredit={site.imageCredit}
         />
       </Animated.View>
@@ -314,7 +315,12 @@ function SiteDetail({ id }: { id: string }) {
       <AddToTripModal
         site={
           isAddingToTrip
-            ? { id: site.id, name: site.name, imageUrl: site.imageThumbnailUrl ?? site.imageUrl ?? undefined }
+            ? {
+                id: site.id,
+                name: site.name,
+                imageUrl: site.imageThumbnailUrl ?? site.imageUrl ?? undefined,
+                category: site.category[0],
+              }
             : null
         }
         initialItineraryId={pendingItineraryId}

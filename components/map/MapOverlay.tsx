@@ -268,7 +268,7 @@ export function MapOverlayCard({
             >
               {todayItems.map((item) => {
                 const dotColor = (CATEGORY_CONFIG[item.category] ?? CATEGORY_CONFIG.other).color;
-                const cardImage = siteImage(item.imageUrl, item.category, "thumb");
+                const cardImage = siteImage(item.imageUrl, item.category, "thumb", item.siteId);
                 return (
                   <Pressable
                     key={item.id}

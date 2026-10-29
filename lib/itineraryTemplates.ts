@@ -406,17 +406,17 @@ const DUNEDIN_AND_PENINSULA_DAY: ItineraryTemplateDay = {
 
 // Christchurch over Arthur's Pass to Greymouth: 9:30 AM (the drive out of the city, which
 // the app counts when the day follows a night in Christchurch, as in the loop from
-// Queenstown) to 7:00 PM.
+// Queenstown) to 7:30 PM.
 const CHRISTCHURCH_TO_GREYMOUTH_DAY: ItineraryTemplateDay = {
   items: [
     // Pies for the road: nothing in the pass is open for lunch every day.
     { siteId: "sheffield-pies", siteName: "Sheffield Pies", slotIndex: 3, durationSlots: 1 },
     { siteId: "kura-tawhiti-castle-hill", siteName: "Kura Tāwhiti Castle Hill", slotIndex: 6, durationSlots: 2 },
-    { siteId: "arthurs-pass-national-park-visitor-centre", siteName: "Arthur's Pass National Park Visitor Centre", slotIndex: 10, durationSlots: 1 },
-    { siteId: "devils-punchbowl-falls", siteName: "Devils Punchbowl Falls", slotIndex: 12, durationSlots: 2 },
-    { siteId: "otira-viaduct-lookout", siteName: "Otira Viaduct Lookout", slotIndex: 15, durationSlots: 1 },
+    { siteId: "arthurs-pass-walking-track-bridal-veil", siteName: "Arthur's Pass Walking Track and Bridal Veil", slotIndex: 10, durationSlots: 2 },
+    { siteId: "devils-punchbowl-falls", siteName: "Devils Punchbowl Falls", slotIndex: 13, durationSlots: 2 },
+    { siteId: "otira-viaduct-lookout", siteName: "Otira Viaduct Lookout", slotIndex: 16, durationSlots: 1 },
     // Dinner; the brewery tour is at 4pm, before the drive gets here.
-    { siteId: "monteiths-brewery", siteName: "Monteith's Brewery", slotIndex: 19, durationSlots: 3 },
+    { siteId: "monteiths-brewery", siteName: "Monteith's Brewery", slotIndex: 20, durationSlots: 3 },
   ],
 };
 

@@ -14,7 +14,7 @@ One row per photo in use. Delete a row when its photo comes out of the app, and 
 
 A town photo is bundled with the app (`lib/areaPhotos.ts`); its credit goes in `AREA_PHOTO_CREDITS` there, by area id.
 
-Re-uploading a place file with `scripts/upload-places.js` replaces the whole place, including the photo and credit added in the admin panel. Don't re-upload a place that has a photo unless the file has its photo fields too.
+Re-uploading a place file with `scripts/upload-places.js` replaces the whole place but keeps the photo and credit added in the admin panel (`imageUrl`, `imageThumbnailUrl`, `imageCredit`), unless the file sets its own.
 
 ## The libraries
 

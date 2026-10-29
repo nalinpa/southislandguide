@@ -96,10 +96,15 @@ const db = getFirestore();
   const live = new Map(snaps.filter((s) => s.exists).map((s) => [s.id, s.data()]));
   const existing = new Set(live.keys());
   // ratingSum/ratingCount are tallied by the api from users' reviews; a replace must
-  // carry them over or every review on the place stops counting.
+  // carry them over or every review on the place stops counting. The photo and its
+  // credit are attached in the admin panel, so they're carried over too, unless the
+  // file sets its own.
   const docs = places.map(toDoc).map((d) => {
     const prev = live.get(d.id) ?? {};
     for (const k of ["ratingSum", "ratingCount"]) if (prev[k] !== undefined) d[k] = prev[k];
+    for (const k of ["imageUrl", "imageThumbnailUrl", "imageCredit"]) {
+      if (d[k] === undefined && prev[k] !== undefined) d[k] = prev[k];
+    }
     return d;
   });
   const rated = docs.filter((d) => d.ratingCount !== undefined).map((d) => d.id);

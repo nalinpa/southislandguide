@@ -254,6 +254,7 @@
   {
     "name": "Akaroa Harbour Lookout",
     "slug": "akaroa-harbour-lookout",
+    "featured": 4,
     "lat": -43.76237,
     "lng": 172.893503,
     "category": [

@@ -64,6 +64,7 @@
   {
     "name": "Split Apple Rock",
     "slug": "split-apple-rock",
+    "featured": 5,
     "lat": -41.018289,
     "lng": 173.020219,
     "category": [

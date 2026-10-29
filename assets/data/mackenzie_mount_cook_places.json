@@ -239,6 +239,7 @@
   {
     "name": "Peters Lookout",
     "slug": "peters-lookout",
+    "featured": 4,
     "lat": -44.08903,
     "lng": 170.135785,
     "category": [

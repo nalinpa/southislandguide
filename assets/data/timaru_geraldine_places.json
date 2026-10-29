@@ -41,6 +41,7 @@
   {
     "name": "Timaru Botanic Gardens",
     "slug": "timaru-botanic-gardens",
+    "featured": 5,
     "lat": -44.410146,
     "lng": 171.254989,
     "category": [

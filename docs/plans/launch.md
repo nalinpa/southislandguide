@@ -25,9 +25,9 @@ One launch, finished and ready to promote: every area of the South Island and al
 |---|---|---|---|
 | A1 | Every area's places, with `area` and `region` on each | You | Import with `scripts/upload-places.js`. The api's 300-place cap is fixed (2026-10-15). |
 | A2 | Area labels for names capitals can't make (Wānaka, Ōamaru…) | Me, small | One line each in `lib/areas.ts`. |
-| A3 | Photos for places | You | A bulk upload-and-attach script is worth writing first (`TASKS.md`). Me, medium, if you want it. |
+| A3 | Photos for places | You | **Done 2026-10-29:** 313 place photos with credits, and type photos for 186 Food and Stay places (`TASKS.md`). |
 | A4 | One photo per town | You | Into `C:\Users\User\Pictures\southisland\areas\`, named by area id; I wire them up (`lib/areaPhotos.ts`). |
-| A5 | Opening hours and facts checked | You | 25 of the first 51 non-Christchurch places were medium confidence. |
+| A5 | Opening hours and facts checked | You | **Done 2026-10-29:** ten rounds, a final pass and your hand check of 450 items; all 558 places match live. |
 | A6 | Guide: five sections per region | You | **Done 2026-10-21:** every region, 58 sections. Device check and a few open questions left (`TASKS.md`). |
 | A7 | Suggested itineraries across the island | You (content), me (baking) | **Done 2026-10-22:** 21 trips from Christchurch, Queenstown and Picton, picked by start town. Device check left (`TASKS.md`). |
 
@@ -68,9 +68,9 @@ D1 and D2 were for the unlock and have moved to [After launch](#after-launch-the
 | E1 | App icon and splash | **Done 2026-10-20** (`TASKS.md`). |
 | E2 | Apple Sign In | **Decided 2026-10-25 (owner): not in the first release, and Google neither.** Apple's server still answered `invalid_client` for the App ID that day (Rotorua's: `invalid_request`), a fault only Apple can repair, and App Review rejects Google sign-in without an equal privacy-minded option. The first release signs in by email only, which the login screen already does (`61a18ac`). Bringing both back: [After launch: Apple and Google sign-in](#after-launch-apple-and-google-sign-in). |
 | E3 | Account deletion with Apple revocation | Not needed for the first release: with no Apple sign-in there is no token to revoke. Code done; tested with the sign-in's return (after launch). |
-| E4 | EAS production environment variables | Same as `development`. |
-| E5 | Sentry organisation | `app.config.ts` still has `REPLACE_ME_SENTRY_ORG`. |
-| E6 | Firestore rules for reports and blocks deployed | Not known whether they are live. |
+| E4 | EAS production environment variables | **Done 2026-10-30**: all twelve, including the Sentry DSN and auth token. |
+| E5 | Sentry | **Done 2026-10-30**: org `patel-td`, project `kiwi-guide`, version 1.0.0 (`TASKS.md`). |
+| E6 | Firestore rules for reports and blocks deployed | **Done**: the console's rules matched `firestore.rules` exactly on 2026-10-30. |
 | E7 | The listing | Rotorua's `docs/launch-checklist.md` section C, adapted: privacy labels, privacy and terms URLs, screenshots, description, age rating, review notes with a demo account. (The IAP product moved to After launch.) |
 
 ## Rotorua's review lessons, as checks
@@ -85,13 +85,16 @@ From Rotorua's rejections and fixes (`rotorua-guide/TASKS.md`, 2026-09). These t
 
 Recommended 2026-10-16, brought up to date 2026-10-20. Content (A) is the long pole and is mostly yours, so it runs alongside everything else; the code is ordered by risk.
 
-1. **Push.** south-island and enginev1/api are pushed (2026-10-23). Nine other enginev1 repos still have unpushed commits (create-app 10, client 5, templates 5, commerce-api 3, components 2, hooks 2, storefront 2, auth 1, ui 1). That work exists only on one PC.
+1. ~~**Push.**~~ Done 2026-10-25: all thirteen enginev1 repos and south-island.
 2. ~~**B1 to B3, drive times.**~~ Done, and since 2026-10-22 town-to-town times cover all 41 towns, from hubs you picked, with far-out places timed on their own (fix-32).
 3. ~~**A1 (you): import areas.**~~ 41 towns in by 2026-10-22, Queenstown, Arrowtown and Glenorchy last.
 4. ~~**Account deletion (D).**~~ Fixed and deployed 2026-10-23 (fix-25). Its phone check goes with step 7.
 5. ~~**The UX sweep prompts.**~~ All in (2026-10-20). Their device checks go with step 7.
 6. ~~**A7, suggested itineraries.**~~ 21 trips (2026-10-22).
-7. **One EAS build, then every device check** in `TASKS.md`, size and speed with the full list (C8), and a look at the drives: **B4 to B6** only for places that read wrong.
+6a. **Before the build (added 2026-10-29):**
+    - Done 2026-10-30: the place-list cache (api live 2026-10-29; the app half reaches phones with the build), the version to 1.0.0, Sentry, the EAS production variables, the rename to Kiwi Guide, and the Firestore rules (E6, already live).
+    - All in `TASKS.md`.
+7. **One EAS build, then every device check** in `TASKS.md`, size and speed with the full list (C8), and a look at the drives: **B4 to B6** only for places that read wrong. A production build on TestFlight covers all of them; a dev build can't check speed or opening offline.
 8. ~~**C4 tour and C5 review prompt**~~ Done (2026-10-20 and 2026-10-19).
 9. **E, the store checklist and Rotorua's review checks, TestFlight, submit.** Screenshots after the sweep's wording (fix-24) and the photos are in. E2 is decided: email sign-in only (2026-10-25).
 

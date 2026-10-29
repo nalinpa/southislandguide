@@ -15,11 +15,18 @@
  * Idempotent: each doc's id is its slug, so re-running overwrites the same docs
  * instead of duplicating them. A slug change therefore creates a NEW doc and
  * leaves the old one behind — delete it by hand if you rename.
+ *
+ * After --apply it drops the api's 14-day copy of the place list, or the app keeps
+ * showing the old places (clear-places-cache.js). After an edit in the Firebase
+ * console, drop it by hand: node scripts/clear-places-cache.js, or from enginev1/api
+ *
+ *   npx wrangler kv key delete --binding APP_CONFIG --remote "locations:southislandguide"
  */
 const { initializeApp, cert } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
 const fs = require("fs");
 const path = require("path");
+const { clearPlacesCache } = require("./clear-places-cache");
 
 const EXPECTED_PROJECT = "southislandguide";
 const COLLECTION = "locations"; // registry collections.locations
@@ -125,6 +132,7 @@ const db = getFirestore();
   for (const d of docs) batch.set(col.doc(d.id), d);
   await batch.commit();
   console.log(`\nWrote ${docs.length} docs.`);
+  clearPlacesCache();
 })().catch((e) => {
   console.error(e);
   process.exit(1);

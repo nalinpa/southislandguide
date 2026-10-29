@@ -7,12 +7,14 @@
  * Unlike upload-places.js this only touches those two fields, so it is safe to run
  * over places that have since been edited in the admin panel (photos, shorter
  * names). A place with no `area` in the JSON is left alone. Credentials: as
- * upload-places.js.
+ * upload-places.js. After writing it drops the api's copy of the place list, as
+ * upload-places.js does.
  */
 const { initializeApp, cert } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
 const fs = require("fs");
 const path = require("path");
+const { clearPlacesCache } = require("./clear-places-cache");
 
 const FILES = ["christchurch_places_all.json", "timaru_geraldine_places.json", "dunedin_places.json", "akaroa_banks_peninsula_places.json",
   "hanmer_springs_places.json", "oamaru_north_otago_places.json", "kaikoura_places.json"];
@@ -47,5 +49,5 @@ const col = getFirestore().collection("locations");
   for (const [, d] of changes) for (const [k, v] of Object.entries(d)) tally[`${k}=${v}`] = (tally[`${k}=${v}`] || 0) + 1;
   console.log(`${apply ? "APPLY" : "DRY RUN"}: ${changes.length} docs to change`, tally);
   console.log(`  in Firestore but not in any file: ${[...docs.keys()].filter((id) => !want[id]).join(", ") || "none"}`);
-  if (apply) { await batch.commit(); console.log("Written."); }
+  if (apply) { await batch.commit(); console.log("Written."); if (changes.length) clearPlacesCache(); }
 })().catch((e) => { console.error(e); process.exit(1); });

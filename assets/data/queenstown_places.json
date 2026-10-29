@@ -137,7 +137,8 @@
     "recommendedDurationSlots": 8,
     "hoursNote": "Skippers Bridge closed to everyone until further notice (QLDC, Jan 2026); no rental cars on Skippers Road; road can close after heavy rain (slips); guided tours still operating",
     "sourceUrl": "https://www.qldc.govt.nz/2026/january/26-01-12-closure-to-skippers-bridge-to-remain-in-place-until-future-notice/",
-    "confidence": "high"
+    "confidence": "high",
+    "website": "https://www.nomadsafaris.co.nz/tours/gold-heritage-4wd/skippers-canyon/"
   },
   {
     "name": "Deer Park Heights",
@@ -208,7 +209,7 @@
     ],
     "region": "queenstown-wanaka",
     "area": "queenstown",
-    "active": true,
+    "active": false,
     "price": "Cheap",
     "description": "A tiny taco bar on Searle Lane that started life as a food truck and is now one of the most popular cheap eats in town. The tacos are loaded, with fish, prawn, pork and beef fillings, and the menu is gluten-free.\n\nThere's seating for only about ten people inside, plus a few benches outside, so it works best as a quick meal. Reviewers say about three tacos each makes a filling feed.\nLocal tip: Go just before the lunch or dinner rush to get a seat, or take your tacos to the lakefront, five minutes away.",
     "recommendedDurationSlots": 1,
@@ -629,7 +630,7 @@
     "area": "glenorchy",
     "active": true,
     "price": "Free",
-    "description": "An easy walk through tall red beech forest and old river terraces to a quiet lake with views towards Mt Earnslaw/Pikirakatahi, near the head of Lake Wakatipu, about 30 minutes past Glenorchy. DOC gives 40 minutes one way to the viewing platform, or 1 hour 40 minutes as a loop along an old tramline.\n\nAccess was cut after storms destroyed the old bridge over the Routeburn River. A new 42m suspension bridge, higher and about 600m upriver, opened in October 2025, with 1.5km of new track linking it to the campsite, so the route differs from older guides and may take a little longer. The DOC Sylvan Campsite is $18 per adult and $9 per child per night, and must be booked, especially from December to February.\nLocal tip: The campsite can flood in heavy rain, and DOC advises not pitching under the trees. The last part of the road is rough gravel.",
+    "description": "An easy walk through tall red beech forest and old river terraces to a quiet lake with views towards Mt Earnslaw/Pikirakatahi, near the head of Lake Wakatipu, about 30 minutes past Glenorchy. DOC gives 40 minutes one way to the viewing platform, or 1 hour 40 minutes as a loop along an old tramline.\n\nAccess was cut after storms destroyed the old bridge over the Routeburn River. A new 42m suspension bridge, higher and about 600m upriver, opened in October 2025, with 1.5km of new track linking it to the campsite, so the route differs from older guides and may take a little longer. The DOC Sylvan Campsite is $18 per adult and $9 per child per night, and must be booked, especially from December to February.\nLocal tip: The campsite can flood in heavy rain, and DOC advises not pitching under the trees. The last part of the road is gravel.",
     "recommendedDurationSlots": 4,
     "hoursNote": "Walk free; new bridge open since 1 Oct 2025; campsite $18 adult, $9 child, bookings required; campsite may flood in heavy rain",
     "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/campsites/sylvan-campsite/",

@@ -20,7 +20,7 @@
     "confidence": "high"
   },
   {
-    "name": "Hokitika Beach and Driftwood Sign",
+    "name": "Hokitika Beach",
     "slug": "hokitika-beach-driftwood-sign",
     "lat": -42.716737,
     "lng": 170.960468,
@@ -32,7 +32,7 @@
     "area": "hokitika",
     "active": true,
     "price": "Free",
-    "description": "The big HOKITIKA letters built from driftwood sit on the black sand beach at the end of Beach Street, a short walk from the town centre shops and cafés. The beach is strewn with driftwood and faces straight out to the Tasman Sea, which makes it the town's main sunset spot.\n\nWalk south along the sand or the path to Sunset Point on Gibson Quay at the river mouth, which has picnic tables, toilets and free parking. Each January the Driftwood and Sand festival fills the south end of the beach with sculptures, and the 2027 event runs from 20 to 24 January. The surf is rough with strong rips, so this is a beach for walking, not swimming.\nLocal tip: Look for small pieces of pounamu and interesting stones along the tideline, especially after a storm.",
+    "description": "Hokitika's black sand beach is a short walk from the town centre shops and cafés. It is strewn with driftwood and faces straight out to the Tasman Sea, which makes it the town's main sunset spot. The big HOKITIKA driftwood sign that stood here was removed in 2026.\n\nWalk south along the sand or the path to Sunset Point on Gibson Quay at the river mouth, which has picnic tables, toilets and free parking. Each January the Driftwood and Sand festival fills the south end of the beach with sculptures, and the 2027 event runs from 20 to 24 January. The surf is rough with strong rips, so this is a beach for walking, not swimming.\nLocal tip: Look for small pieces of pounamu and interesting stones along the tideline, especially after a storm.",
     "recommendedDurationSlots": 2,
     "featured": 2,
     "hoursNote": "Open any time; free; no swimming, strong rips; Driftwood and Sand festival 20 to 24 Jan 2027",
@@ -207,7 +207,7 @@
     "area": "hokitika",
     "active": true,
     "price": "Cheap",
-    "description": "A small sandwich shop on Revell Street that's one of the best-reviewed places to eat in town. Sandwiches are made to order on fresh bread, with fillings such as smoked fish with cream cheese and capers, chicken, and a generous vegetarian option.\n\nThey travel well, so they're ideal to take up to the Gorge or down to the beach.\nLocal tip: It's open only until 2pm and closed on Sundays, so grab lunch on your way out of town.",
+    "description": "A small sandwich shop on Revell Street that's one of the best-reviewed places to eat in town. Sandwiches are made to order on fresh bread, with fillings such as chicken and a generous vegetarian option.\n\nThey travel well, so they're ideal to take up to the Gorge or down to the beach.\nLocal tip: It's open only until 2pm and closed on Sundays, so grab lunch on your way out of town.",
     "recommendedDurationSlots": 1,
     "hoursNote": "Mon to Sat 10am to 2pm; closed Sun",
     "sourceUrl": "https://www.hokitikasandwichcompany.com/locations",
@@ -226,7 +226,7 @@
     "area": "hokitika",
     "active": true,
     "price": "Moderate",
-    "description": "A popular pizza place on Revell Street, known for its West Coast whitebait pizza (when whitebait is available) and a good range of gluten-free options. There's a garden seating area out the back, New Zealand beers and wine, and a seafood chowder when it's on the specials board.\n\nIt's dinner only, from 5pm to 8pm, closed on Tuesdays and Wednesdays, and busy in summer.\nLocal tip: Order a half and half pizza to try two flavours, and take it to the beach for sunset.",
+    "description": "A popular pizza place on Revell Street, known for its West Coast whitebait pizza (when whitebait is available) and a good range of gluten-free options. There's a garden seating area out the back, New Zealand beers and wine, and a chowder when it's on the specials board.\n\nIt's dinner only, from 5pm to 8pm, closed on Tuesdays and Wednesdays, and busy in summer.\nLocal tip: Take your pizza to the beach for sunset.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Dinner only, 5pm to 8pm; closed Tue and Wed",
     "sourceUrl": "https://www.fatpipipizza.co.nz/",
@@ -281,7 +281,7 @@
     "area": "hokitika",
     "active": true,
     "price": "Cheap",
-    "description": "A community-run camping spot on the Woodstock Domain sports field at 47 Back Creek Road, about 10 minutes from Hokitika on the way to the Gorge. It's one of only three responsible camping sites in Westland District, and the local community runs it for a donation.\n\nRecent reviewers report paying $5 per person a night, cash only, into an honesty box. There are clean flush toilets, a washing-up sink and picnic tables, but no showers or kitchen, and parking along the fence is limited. Council rules say freedom camping in Westland is only for certified self-contained vehicles, and camping on council reserves around Hokitika isn't allowed.\nLocal tip: Carry cash for the honesty box, and check the sign on the building for the current rules before you set up.",
+    "description": "A community-run camping spot on the Woodstock Domain at 47 Back Creek Road, about 10 minutes from Hokitika on the way to the Gorge. It's one of only three responsible camping sites in Westland District, and the local community runs it for a donation.\n\nRecent reviewers report paying $5 per person a night, cash only, into an honesty box. There are clean flush toilets, a washing-up sink and picnic tables, but no showers or kitchen. Council rules say freedom camping in Westland is only for certified self-contained vehicles, and camping on council reserves around Hokitika isn't allowed.\nLocal tip: Carry cash for the honesty box, and check the sign on the building for the current rules before you set up.",
     "hoursNote": "Community donation, about $5 per person, cash; toilets, no showers; check signage for self-contained rules",
     "sourceUrl": "https://www.westlanddc.govt.nz/recreation/campgrounds-and-responsible-camping/",
     "confidence": "high"
@@ -300,7 +300,7 @@
     "price": "Cheap",
     "website": "https://mahinapua.nz/",
     "description": "A historic country pub between the beach and Lake Māhinapua, about 10km south of Hokitika, with an on-site bar and eating house and accommodation out the back. Options range from flashpacker-style 4 bed shared dorms in the Miners Quarters to a private double with ensuite, a renovated two-bedroom apartment and a three-bedroom homestead.\n\nGuests share a spa pool, and reviewers praise the friendly, social atmosphere and good value. The beach is about 400m away along a walking trail, and the lake is a short walk away.\nLocal tip: It closes over winter, so check it has reopened for the season before you plan around it.",
-    "hoursNote": "Closed over winter; pub reopens Fri 30 October 2026; rooms reopen Sun 1 November 2026; spa pool 11am to 8pm",
+    "hoursNote": "Closed over winter; pub reopens Fri 30 October 2026; rooms reopen Sun 1 November 2026; pub Tue and Wed 3pm to 8pm, Fri to Sun 12pm to 8pm; pub closed Mon and Thu; kitchen closes 7.30pm; spa pool 11am to 8pm",
     "sourceUrl": "https://mahinapua.nz/youre-invited-mahinapua-hotel-pre-opening-party-%f0%9f%8d%bb/",
     "confidence": "high"
   }

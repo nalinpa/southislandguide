@@ -159,22 +159,22 @@
     "confidence": "high"
   },
   {
-    "name": "Glacier Hot Pools",
+    "name": "Waiho Hot Tubs",
     "slug": "glacier-hot-pools",
-    "lat": -43.384156,
-    "lng": 170.184562,
+    "lat": -43.3845262,
+    "lng": 170.1848296,
     "category": [
       "Water"
     ],
     "region": "west-coast",
     "area": "franz-josef",
     "active": true,
-    "price": "Moderate",
-    "website": "https://www.glacierhotpools.co.nz/",
-    "description": "Three public hot pools of different temperatures set in rainforest at 63 Cron Street, in the middle of Franz Josef township, plus three private pools, massage and a licensed café. It's small compared with Hanmer Springs and there are no children's pools, but it's shaded, tidy and a good way to warm up after a wet walk.\n\nMain pool entry is $29 for adults and $25 for children 5 to 16, with under 5s free, and children must be actively supervised. Private pools are booked in 45 minute sessions and include your own shower and changing room.\nLocal tip: The public pools can get busy in the late afternoon after the heli trips finish, so go earlier in the day or book a private pool.",
-    "recommendedDurationSlots": 3,
-    "hoursNote": "Open daily; 63 Cron Street; book private pools ahead; children must be supervised",
-    "sourceUrl": "https://www.bookme.co.nz/things-to-do/west-coast-glacier-country/activity/franz-josef-glacier-hot-pools-main-pool-entry/814",
+    "price": "Expensive",
+    "website": "https://waihohottubs.co.nz/",
+    "description": "Private wood-fired hot tubs set in rainforest at 64B Cron Street, opposite the DOC visitor centre in the middle of Franz Josef township. Each tub is refilled with fresh mountain stream water for every booking, heated to about 39°C and adjustable, and seats up to four adults and one child, with its own small wooden shelter to keep your things dry. Towels, drinking water and private hot showers are included.\n\nA 60 minute soak is $98 for one adult, $135 for two, $175 for three or $215 for four, plus $20 for each child aged 5 to 14 and an online booking fee. It's not suitable for children under 5, and bookings after 5pm are adults only. You can bring your own snacks and drinks, but not in glass.\nLocal tip: Book online ahead, arrive 5 minutes early so staff can walk you to your tub, and don't write it off on a wet day, as the shelters keep your gear dry and a soak in the rain is part of the appeal.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 10am to after dusk in summer, 2pm to after dusk in winter; book online; adults only after 5pm; 64B Cron Street",
+    "sourceUrl": "https://waihohottubs.co.nz/options-pricing/",
     "confidence": "medium"
   },
   {
@@ -268,7 +268,7 @@
     "area": "fox-glacier",
     "active": true,
     "price": "Moderate",
-    "description": "A friendly café on the main street of Fox Glacier village, serving coffee, pies, pasta, burgers, salads and thin crust homemade pizzas. Reviewers rate the pizzas as good value, and a large one is enough for two.\n\nIt's a handy lunch stop between the South Side walk and Lake Matheson, and it serves beer and wine as well as coffee.\nLocal tip: It closes at 3pm, so plan ahead for dinner in Fox.",
+    "description": "A friendly café on the main street of Fox Glacier village, serving coffee, pies, pasta, burgers, salads and pizzas. Reviewers rate the pizzas as good value.\n\nIt's a handy lunch stop between the South Side walk and Lake Matheson, and it serves beer and wine as well as coffee.\nLocal tip: It closes at 3pm, so plan ahead for dinner in Fox.",
     "recommendedDurationSlots": 2,
     "hoursNote": "Open daily 7.30am to 3pm",
     "sourceUrl": "https://westcoast.co.nz/visit/operators/caf%C3%A9-neve",
@@ -322,8 +322,8 @@
     "area": "franz-josef",
     "active": true,
     "price": "Cheap",
-    "description": "A small, family run hostel on Cron Street in Franz Josef, a short walk from the shops, the Wildlife Centre and the hot pools. It has dorms and private rooms, a well equipped kitchen, a lounge with a fire, and a free spa pool.\n\nReviewers consistently rate it among the friendliest hostels on the Coast, with free vegetable soup every evening at 6pm and popcorn in the lounge. Parking is free.\nLocal tip: Book ahead in summer, since it's one of the best reviewed cheap beds in town and fills quickly.",
-    "hoursNote": "Check in 3pm to midnight; check out by 10am; free soup nightly at 6pm; free parking",
+    "description": "A small hostel on Cron Street in Franz Josef, a short walk from the shops, the Wildlife Centre and the hot pools. It has dorms and private rooms, a well equipped kitchen, a lounge with a fire, and a free spa pool.\n\nReviewers consistently rate it among the friendliest hostels on the Coast, and there's popcorn in the lounge.\nLocal tip: Book ahead in summer, since it's one of the best reviewed cheap beds in town and fills quickly.",
+    "hoursNote": "Book ahead in summer",
     "sourceUrl": "https://www.glowwormfranz.co.nz/",
     "confidence": "medium",
     "website": "https://www.glowwormfranz.co.nz/"
@@ -359,9 +359,9 @@
     "area": "franz-josef",
     "active": true,
     "price": "Free",
-    "description": "A big rainforest lake a few minutes north of Franz Josef on State Highway 6, its dark, tannin-stained water mirroring the bush and, on a still day, the mountains. The highway runs along the eastern shore, but the forest keeps most of it out of reach: the places to stop are the slipway and toilets at the southern end, and the DOC campsite at the northern end, where people swim, fish for trout and launch kayaks.\nLocal tip: Come early or late on a calm day for the reflections, and bring insect repellent for the sandflies.",
+    "description": "A big rainforest lake a few minutes north of Franz Josef on State Highway 6, its dark, tannin-stained water mirroring the bush and, on a still day, the mountains. The highway runs along the eastern shore, but the forest keeps most of it out of reach: the place to stop is the DOC campsite at the northern end, where people swim, fish for trout and launch kayaks.\nLocal tip: Come early or late on a calm day for the reflections, and bring insect repellent for the sandflies.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Open any time; free; DOC toilets and a slipway at the southern end, off SH6 north of Franz Josef; Otto/MacDonalds DOC campsite at the northern end, book ahead; shore access limited elsewhere",
+    "hoursNote": "Open any time; free; Otto/MacDonalds DOC campsite at the northern end, book ahead; shore access limited elsewhere",
     "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/westland-tai-poutini-national-park/things-to-do/campsites/otto-macdonalds-campsite/",
     "confidence": "medium"
   }

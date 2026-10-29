@@ -428,7 +428,7 @@ const PUNAKAIKI_TO_HOKITIKA_DAY: ItineraryTemplateDay = {
     { siteId: "truman-track", siteName: "Truman Track", slotIndex: 8, durationSlots: 1 },
     // Closes 3pm.
     { siteId: "dp1-cafe", siteName: "DP1 Cafe", slotIndex: 11, durationSlots: 2 },
-    { siteId: "hokitika-beach-driftwood-sign", siteName: "Hokitika Beach and Driftwood Sign", slotIndex: 15, durationSlots: 1 },
+    { siteId: "hokitika-beach-driftwood-sign", siteName: "Hokitika Beach", slotIndex: 15, durationSlots: 1 },
     // Dinner only, 5 to 8pm. Closed Tuesday and Wednesday: kept anyway (owner, 2026-10-22).
     { siteId: "fat-pipi-pizza", siteName: "Fat Pipi Pizza", slotIndex: 18, durationSlots: 2 },
   ],
@@ -442,7 +442,7 @@ const HOKITIKA_TO_FRANZ_JOSEF_DAY: ItineraryTemplateDay = {
     { siteId: "west-coast-treetop-walk", siteName: "West Coast Treetop Walk", slotIndex: 7, durationSlots: 3 },
     // The heli from Whataroa, on the way down, in place of Ross (owner, 2026-10-24).
     { siteId: "glacier-country-scenic-flights", siteName: "Glacier Country Scenic Flights", slotIndex: 14, durationSlots: 3 },
-    { siteId: "glacier-hot-pools", siteName: "Glacier Hot Pools", slotIndex: 19, durationSlots: 3 },
+    { siteId: "glacier-hot-pools", siteName: "Waiho Hot Tubs", slotIndex: 19, durationSlots: 3 },
   ],
 };
 
@@ -573,7 +573,6 @@ const GOLDEN_BAY_TO_WESTPORT_DAY: ItineraryTemplateDay = {
     { siteId: "toad-hall-motueka", siteName: "TOAD Hall", slotIndex: 2, durationSlots: 2 },
     { siteId: "kawatiri-historic-railway-walk", siteName: "Kawatiri Historic Railway Walk", slotIndex: 8, durationSlots: 1 },
     { siteId: "cape-foulwind-walkway-seal-colony", siteName: "Cape Foulwind Walkway and Seal Colony", slotIndex: 14, durationSlots: 3 },
-    // Closed Tuesdays and Wednesdays: kept anyway (owner, 2026-10-22).
     { siteId: "star-tavern-cape-foulwind", siteName: "Star Tavern", slotIndex: 18, durationSlots: 2 },
   ],
 };
@@ -592,14 +591,14 @@ const CHRISTCHURCH_TO_KAIKOURA_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Kaikōura up the coast to Picton: 10:00 AM to 4:30 PM. Nothing in Picton is open for
+// Kaikōura up the coast to Picton: 10:00 AM to 6:00 PM. Nothing in Picton is open for
 // dinner, so the day ends on the Snout Track.
 const KAIKOURA_TO_PICTON_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "ohau-point-seal-colony", siteName: "Ōhau Point Seal Colony", slotIndex: 4, durationSlots: 1 },
     { siteId: "the-store-kekerengu", siteName: "The Store, Kekerengu", slotIndex: 6, durationSlots: 2 },
     { siteId: "monkey-bay-walk-rarangi", siteName: "Monkey Bay Walk, Rārangi", slotIndex: 11, durationSlots: 2 },
-    { siteId: "snout-track-picton", siteName: "The Snout Track", slotIndex: 14, durationSlots: 3 },
+    { siteId: "snout-track-picton", siteName: "The Snout Track", slotIndex: 14, durationSlots: 6 },
   ],
 };
 
@@ -655,7 +654,7 @@ const FOX_TO_FRANZ_JOSEF_DAY: ItineraryTemplateDay = {
     { siteId: "fox-glacier-south-side-walk", siteName: "Fox Glacier South Side Walk", slotIndex: 5, durationSlots: 4 },
     { siteId: "cafe-neve", siteName: "Cafe Nevé", slotIndex: 10, durationSlots: 2 },
     { siteId: "franz-josef-glacier-valley-walk", siteName: "Franz Josef Glacier Valley Walk", slotIndex: 13, durationSlots: 3 },
-    { siteId: "glacier-hot-pools", siteName: "Glacier Hot Pools", slotIndex: 17, durationSlots: 3 },
+    { siteId: "glacier-hot-pools", siteName: "Waiho Hot Tubs", slotIndex: 17, durationSlots: 3 },
     { siteId: "snakebite-brewery", siteName: "SnakeBite Brewery", slotIndex: 21, durationSlots: 2 },
   ],
 };
@@ -678,14 +677,13 @@ const FRANZ_JOSEF_TO_HOKITIKA_DAY: ItineraryTemplateDay = {
 // Hokitika up the coast through Punakaiki to Westport: 9:00 AM to 8:00 PM.
 const HOKITIKA_TO_WESTPORT_DAY: ItineraryTemplateDay = {
   items: [
-    { siteId: "hokitika-beach-driftwood-sign", siteName: "Hokitika Beach and Driftwood Sign", slotIndex: 2, durationSlots: 1 },
+    { siteId: "hokitika-beach-driftwood-sign", siteName: "Hokitika Beach", slotIndex: 2, durationSlots: 1 },
     // An early lunch; it closes at 3pm.
     { siteId: "dp1-cafe", siteName: "DP1 Cafe", slotIndex: 5, durationSlots: 2 },
     { siteId: "pancake-rocks-and-blowholes-walk", siteName: "Pancake Rocks and Blowholes Walk", slotIndex: 9, durationSlots: 1 },
     { siteId: "pororari-river-track", siteName: "Pororari River Track", slotIndex: 11, durationSlots: 3 },
     { siteId: "truman-track", siteName: "Truman Track", slotIndex: 15, durationSlots: 1 },
     { siteId: "cape-foulwind-walkway-seal-colony", siteName: "Cape Foulwind Walkway and Seal Colony", slotIndex: 18, durationSlots: 3 },
-    // Closed Tuesdays and Wednesdays: kept anyway (owner, 2026-10-22).
     { siteId: "star-tavern-cape-foulwind", siteName: "Star Tavern", slotIndex: 22, durationSlots: 2 },
   ],
 };

@@ -208,9 +208,9 @@
     "area": "tekapo",
     "active": true,
     "price": "Cheap",
-    "description": "A small vintage food trailer on Lakeside Drive doing fish and chips, blue cod, squid, seafood chowder and fish burgers, with vegetarian options such as potato fritters and onion rings. Reviewers rate the light, crispy batter highly, and it's one of the best rated takeaways in Tekapo.\n\nGrab your box and eat at the picnic tables by the lake. It's popular, and waits of 30 to 45 minutes are common at busy times.\nLocal tip: Order early in the afternoon to beat the dinner rush, and walk along the lake while you wait.",
+    "description": "A small vintage food trailer on Lakeside Drive doing fish and chips, blue cod, squid, seafood chowder and fish burgers, with vegetarian options such as potato fritters and onion rings. Reviewers rate the light, crispy batter highly, and it's one of the best rated takeaways in Tekapo.\n\nGrab your box and eat at the picnic tables by the lake. It's popular, so expect a wait at busy times.\nLocal tip: Order early in the afternoon to beat the dinner rush, and walk along the lake while you wait.",
     "recommendedDurationSlots": 2,
-    "hoursNote": "Hours change day to day, check its Instagram or Google listing; expect queues",
+    "hoursNote": "Often 1pm to 6pm, but hours change day to day; check its Instagram or Google listing; expect queues",
     "sourceUrl": "https://www.laketekaponz.co.nz/eat-drink/better-batter",
     "confidence": "medium",
     "website": "https://www.instagram.com/thebetterbatter_nz/"
@@ -340,9 +340,9 @@
     "area": "twizel",
     "active": true,
     "price": "Free",
-    "description": "The top of the Lindis Pass on State Highway 8, the main road between the Mackenzie Basin and Wānaka, Cromwell and Queenstown, where rolling tussock hills fold away on every side. There's a small car park just off the highway, and a short dirt track of about 200m, 10 minutes, climbs to a higher viewpoint.\n\nThere are no toilets or other facilities. In winter the pass can have snow and ice, so check road conditions before crossing.\nLocal tip: The view from the car park is almost as good as from the top, so if you're short of time, just stretch your legs and take your photos there.",
+    "description": "The top of the Lindis Pass on State Highway 8, the main road between the Mackenzie Basin and Wānaka, Cromwell and Queenstown, where rolling tussock hills fold away on every side. There's a small car park just off the highway, and a short dirt track of about 200m, 10 minutes, climbs to a higher viewpoint.\n\nIn winter the pass can have snow and ice, so check road conditions before crossing.\nLocal tip: The view from the car park is almost as good as from the top, so if you're short of time, just stretch your legs and take your photos there.",
     "recommendedDurationSlots": 1,
-    "hoursNote": "Open any time; small car park; no toilets; snow can close the pass or make chains essential in winter; check NZTA road conditions before crossing",
+    "hoursNote": "Open any time; small car park; snow can close the pass or make chains essential in winter; check NZTA road conditions before crossing",
     "sourceUrl": "https://www.journeys.nzta.govt.nz/traffic-bulletins/lindis-passsh8-closed-due-to-snow",
     "confidence": "medium"
   },

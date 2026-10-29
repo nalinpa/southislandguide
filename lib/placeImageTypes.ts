@@ -186,6 +186,22 @@ export const PLACE_IMAGE_TYPES: Record<PlaceImageType, readonly string[]> = {
     "la-mia-pizza",
     "the-cow",
   ],
+  burger: [
+    "fergburger",
+    "red-star-burger-bar",
+    "the-fat-tui",
+    "tjs-kitchen-invercargill",
+  ],
+  "fish-and-chips": [
+    "eriks-fish-and-chips",
+    "fishy-business-on-roto",
+    "kaimoana-takeaways",
+    "mr-and-mrs-potato-clyde",
+    "river-restaurant-takeaways-kurow",
+    "taramea-bay-store",
+    "the-better-batter-tekapo",
+    "top-shop-kaikoura",
+  ],
   beer: [
     "cardrona-hotel",
     "duntroon-hotel",

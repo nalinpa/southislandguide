@@ -58,7 +58,7 @@ describe("siteImage", () => {
   });
 
   it("keeps the category default for a place with no type", () => {
-    expect(file(siteImage(null, "Food", "full", "fergburger"))).toMatch(/categories\/full\/Food\.webp$/);
+    expect(file(siteImage(null, "Food", "full", "barrys-bay-cheese"))).toMatch(/categories\/full\/Food\.webp$/);
   });
 });
 

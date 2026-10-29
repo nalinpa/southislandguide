@@ -31,7 +31,7 @@ Tourism NZ or Great South can ask for a photo to stop being used; a Creative Com
 
 Unpaid-media-only licences (Tourism NZ's WorldWide Licence, ChristchurchNZ's Restricted Licence) are kept while the app is free (owner, 2026-10-29). Before the app charges for anything, find each photo under one and replace it or get the library's written OK.
 
-The type defaults bundled in `assets/images/types` (camping, carcamp, dorm, coffee, bakery, pizza, beer, steak, ice-cream; which places use them is in `lib/placeImageTypes.ts`) are all from Pexels. A place photo comes out in the admin panel, with no app update; a town photo needs an update.
+The type defaults bundled in `assets/images/types` (camping, carcamp, dorm, coffee, bakery, pizza, burger, fish-and-chips, beer, steak, ice-cream; which places use them is in `lib/placeImageTypes.ts`) are all from Pexels. A place photo comes out in the admin panel, with no app update; a town photo needs an update.
 
 ## Photos
 

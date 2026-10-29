@@ -44,7 +44,18 @@ const THUMB: Record<SiteCategory, ImageSourcePropType> = {
 // category's for the places the owner has listed under that type in
 // lib/placeImageTypes.ts. Same sizes and resize step as above, into
 // assets/images/types, each original named after its type (coffee.jpg, dorm.jpg).
-export type PlaceImageType = "camping" | "carcamp" | "dorm" | "coffee" | "bakery" | "pizza" | "beer" | "steak" | "ice-cream";
+export type PlaceImageType =
+  | "camping"
+  | "carcamp"
+  | "dorm"
+  | "coffee"
+  | "bakery"
+  | "pizza"
+  | "burger"
+  | "fish-and-chips"
+  | "beer"
+  | "steak"
+  | "ice-cream";
 
 const TYPE_FULL: Record<PlaceImageType, ImageSourcePropType> = {
   camping: require("../assets/images/types/full/camping.webp"),
@@ -53,6 +64,8 @@ const TYPE_FULL: Record<PlaceImageType, ImageSourcePropType> = {
   coffee: require("../assets/images/types/full/coffee.webp"),
   bakery: require("../assets/images/types/full/bakery.webp"),
   pizza: require("../assets/images/types/full/pizza.webp"),
+  burger: require("../assets/images/types/full/burger.webp"),
+  "fish-and-chips": require("../assets/images/types/full/fish-and-chips.webp"),
   beer: require("../assets/images/types/full/beer.webp"),
   steak: require("../assets/images/types/full/steak.webp"),
   "ice-cream": require("../assets/images/types/full/ice-cream.webp"),
@@ -65,6 +78,8 @@ const TYPE_THUMB: Record<PlaceImageType, ImageSourcePropType> = {
   coffee: require("../assets/images/types/thumb/coffee.webp"),
   bakery: require("../assets/images/types/thumb/bakery.webp"),
   pizza: require("../assets/images/types/thumb/pizza.webp"),
+  burger: require("../assets/images/types/thumb/burger.webp"),
+  "fish-and-chips": require("../assets/images/types/thumb/fish-and-chips.webp"),
   beer: require("../assets/images/types/thumb/beer.webp"),
   steak: require("../assets/images/types/thumb/steak.webp"),
   "ice-cream": require("../assets/images/types/thumb/ice-cream.webp"),

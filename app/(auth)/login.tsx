@@ -91,7 +91,7 @@ export default function LoginScreen() {
               <View style={[styles.brand, { paddingTop: insets.top + 24 }]}>
                 {/* Two lines at most, shrinking to fit an iPhone SE's width. */}
                 <AppText variant="screenTitle" style={styles.appName} numberOfLines={2} adjustsFontSizeToFit>
-                  South Island Guide
+                  Kiwi Guide
                 </AppText>
                 <AppText style={styles.tagline}>Ultimate South Island trip planner</AppText>
               </View>

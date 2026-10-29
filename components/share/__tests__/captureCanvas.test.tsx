@@ -1,7 +1,7 @@
 // The off-screen card that gets rasterised into the share image. It has no interaction —
 // what matters is that the text baked into the picture is right, that its overlay follows
 // the palette, and that it reports when the photo has loaded (the screen won't capture
-// before that). south-island's card says "South Island" / "South Island Guide" and derives
+// before that). south-island's card says "South Island" / "Kiwi Guide" and derives
 // the gradient from tokens.colors.text rather than rotorua-guide's hard-coded brown.
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
@@ -48,7 +48,7 @@ it("bakes the place, the region and the date into the card", async () => {
   expect(view.getByText("Sumner Beach")).toBeTruthy();
   expect(view.getByText("South Island")).toBeTruthy();
   expect(view.getByText("Sep 2026")).toBeTruthy();
-  expect(view.getByText("South Island Guide")).toBeTruthy();
+  expect(view.getByText("Kiwi Guide")).toBeTruthy();
 });
 
 it("never carries rotorua-guide's branding", async () => {

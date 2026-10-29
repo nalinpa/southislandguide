@@ -176,7 +176,7 @@ describe("permissions", () => {
     await waitFor(() => expect(alertSpy).toHaveBeenCalled());
     expect(alertSpy.mock.calls[0][0]).toBe("Permission Required");
     expect(alertSpy.mock.calls[0][1]).toContain("photo library");
-    expect(alertSpy.mock.calls[0][1]).toContain("South Island Guide");
+    expect(alertSpy.mock.calls[0][1]).toContain("Kiwi Guide");
     expect(mockPicker.launchImageLibraryAsync).not.toHaveBeenCalled();
 
     const buttons = alertSpy.mock.calls[0][2] as { text: string; onPress?: () => void }[];

@@ -3,10 +3,10 @@ import type { ExpoConfig, ConfigContext } from "expo/config";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: "South Island Guide",
+  name: "Kiwi Guide",
   slug: "southislandguide",
   scheme: "southislandguide",
-  version: "0.1.0",
+  version: "1.0.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "automatic",
@@ -27,7 +27,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // Env override exists so CI can point at a secret file instead of the repo copy.
     googleServicesFile: process.env.GOOGLE_SERVICES_FILE ?? "./GoogleService-Info.plist",
     infoPlist: {
-      NSLocationWhenInUseUsageDescription: "South Island Guide uses your location to show where you are on the map and how far away places are.",
+      NSLocationWhenInUseUsageDescription: "Kiwi Guide uses your location to show where you are on the map and how far away places are.",
       ITSAppUsesNonExemptEncryption: false,
     },
   },
@@ -49,8 +49,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       "expo-image-picker",
       {
-        photosPermission: "South Island Guide accesses your photos so you can build a share card.",
-        cameraPermission: "South Island Guide uses your camera so you can take a photo for your share card.",
+        photosPermission: "Kiwi Guide accesses your photos so you can build a share card.",
+        cameraPermission: "Kiwi Guide uses your camera so you can take a photo for your share card.",
         microphonePermission: false,
       },
     ],
@@ -75,15 +75,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       "expo-location",
       {
-        locationAlwaysAndWhenInUsePermission: "South Island Guide uses your location to show where you are on the map and how far away places are.",
+        locationAlwaysAndWhenInUsePermission: "Kiwi Guide uses your location to show where you are on the map and how far away places are.",
       },
     ],
     [
       "@sentry/react-native/expo",
       {
         url: "https://sentry.io/",
-        project: "southislandguide",
-        organization: "REPLACE_ME_SENTRY_ORG",
+        project: "kiwi-guide",
+        organization: "patel-td",
       },
     ],
   ],

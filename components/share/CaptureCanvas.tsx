@@ -45,7 +45,7 @@ export const CaptureCanvas = forwardRef<View, CaptureCanvasProps>(
 
         {/* Footer strip */}
         <View style={styles.footer}>
-          <Text style={styles.brandLabel}>South Island Guide</Text>
+          <Text style={styles.brandLabel}>Kiwi Guide</Text>
           <View style={styles.dateBadge}>
             <Text style={styles.dateText}>{payload.dateLabel}</Text>
           </View>

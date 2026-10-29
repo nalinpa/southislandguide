@@ -99,7 +99,7 @@ beforeEach(() => {
 describe("render", () => {
   it("names the app and shows the email form straight away, with guest entry", async () => {
     const view = await render(<LoginScreen />);
-    expect(view.getByText("South Island Guide")).toBeTruthy();
+    expect(view.getByText("Kiwi Guide")).toBeTruthy();
     expect(view.getByText("Ultimate South Island trip planner")).toBeTruthy();
     expect(view.getByLabelText("Email")).toBeTruthy();
     expect(view.getByLabelText("Password")).toBeTruthy();

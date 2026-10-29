@@ -73,7 +73,7 @@ export default function ShareFrameScreen() {
     if (!permission.granted) {
       Alert.alert(
         "Permission Required",
-        `South Island Guide needs access to your ${useCamera ? "camera" : "photo library"} to create a share card.`,
+        `Kiwi Guide needs access to your ${useCamera ? "camera" : "photo library"} to create a share card.`,
         [
           { text: "Cancel", style: "cancel" },
           { text: "Open Settings", onPress: () => Linking.openSettings() },

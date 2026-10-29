@@ -1,6 +1,6 @@
 import React from "react";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { QueryClient, onlineManager } from "@tanstack/react-query";
+import { QueryClient, onlineManager, partialMatchKey } from "@tanstack/react-query";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo, { type NetInfoState } from "@react-native-community/netinfo";
@@ -28,6 +28,12 @@ export const queryClient = new QueryClient({
   },
 });
 
+// The place list (key: the prefix in lib/hooksBag.ts plus "locations") is every place on the
+// island in one download, so the phone fetches it at most once a day. Pull to refresh still
+// forces it. The shared hook sets no staleTime of its own, so this default applies.
+const PLACE_LIST_KEY = ["southislandguide", "locations"];
+queryClient.setQueryDefaults(PLACE_LIST_KEY, { staleTime: 1000 * 60 * 60 * 24 });
+
 // Offline as the trip screens already judge it (CreateItineraryModal, AddToTripModal).
 const isOnline = (state: NetInfoState) => state.isConnected !== false && state.isInternetReachable !== false;
 
@@ -40,7 +46,8 @@ onlineManager.setEventListener((setOnline) => NetInfo.addEventListener((state) =
 registerTripWrites(queryClient);
 
 // Trip writes still waiting when the app last closed: sent now if there's signal, else on
-// reconnect (the client's own listener), and then the cache catches up with the server.
+// reconnect (the client's own listener), and then the cache catches up with the server,
+// all but the place list, which would otherwise be downloaded again on every launch.
 // Only once sign-in is back and NetInfo has answered. Before that, a write goes out with no
 // token or no signal, fails and is dropped. Firebase's sign-in restore checks with its server,
 // so it normally finishes after the cache restore.
@@ -49,7 +56,7 @@ registerTripWrites(queryClient);
 function resumeTripWrites() {
   void Promise.all([auth.authStateReady(), NetInfo.fetch().then((state) => onlineManager.setOnline(isOnline(state)))])
     .then(() => queryClient.resumePausedMutations())
-    .then(() => queryClient.invalidateQueries());
+    .then(() => queryClient.invalidateQueries({ predicate: (query) => !partialMatchKey(query.queryKey, PLACE_LIST_KEY) }));
 }
 
 const persister = createAsyncStoragePersister({

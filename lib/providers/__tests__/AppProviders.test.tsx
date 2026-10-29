@@ -60,6 +60,40 @@ describe("the saved copy on the phone", () => {
   });
 });
 
+// Every place on the island comes in one download, so the phone fetches it at most once a
+// day. Trips and reviews keep the one-minute default.
+describe("the place list", () => {
+  const places = ["southislandguide", "locations"];
+  const trips = ["southislandguide", "itineraries", "uid-1"];
+  const staleTime = (queryKey: string[]) => queryClient.defaultQueryOptions({ queryKey }).staleTime;
+
+  it("goes stale after a day, trips after a minute", () => {
+    expect(staleTime(places)).toBe(DAY);
+    expect(staleTime(trips)).toBe(60 * 1000);
+  });
+
+  it("isn't refreshed on launch with the rest of the cache", async () => {
+    mockFetch.mockResolvedValue({ isConnected: true, isInternetReachable: true });
+    mockAuthStateReady.mockResolvedValue(undefined);
+    const resume = jest.spyOn(queryClient, "resumePausedMutations").mockResolvedValue(undefined);
+    queryClient.clear();
+    queryClient.setQueryData(places, []);
+    queryClient.setQueryData(trips, []);
+    await render(
+      <AppProviders>
+        <Text>app</Text>
+      </AppProviders>,
+    );
+
+    mockPersistProps.current.onSuccess();
+    await settle();
+
+    expect(queryClient.getQueryState(places)?.isInvalidated).toBe(false);
+    expect(queryClient.getQueryState(trips)?.isInvalidated).toBe(true);
+    resume.mockRestore();
+  });
+});
+
 // Without NetInfo, TanStack Query took the phone to be online always: trip writes failed
 // offline instead of waiting, and a write saved on the phone was never sent.
 describe("offline", () => {

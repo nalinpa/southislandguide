@@ -64,12 +64,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       "expo-splash-screen",
       {
         image: "./assets/splash-icon.png",
-        // Plugin default is 100pt, and the art only fills part of its 1024px
-        // canvas — at the default the icon renders far too small on device.
+        // Plugin default is 100pt — far too small for the sign and the name
+        // under it on device.
         imageWidth: 300,
         resizeMode: "contain",
-        // The icon's tile colour: the mark's white snow disappears on mint.
-        backgroundColor: "#03262B",
+        // The icon's tile colour, so the splash carries straight on from it.
+        backgroundColor: "#095C65",
       },
     ],
     [

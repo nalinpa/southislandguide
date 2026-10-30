@@ -4,6 +4,7 @@ import { Stack, router } from "expo-router";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import * as Sentry from "@sentry/react-native";
 import { Screen, AppText, AuthPanel } from "@/lib/uiKit";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -89,8 +90,17 @@ export default function LoginScreen() {
                 style={StyleSheet.absoluteFill}
               />
               <View style={[styles.brand, { paddingTop: insets.top + 24 }]}>
-                {/* Two lines at most, shrinking to fit an iPhone SE's width. */}
-                <AppText variant="screenTitle" style={styles.appName} numberOfLines={2} adjustsFontSizeToFit>
+                {/* Two lines at most, shrinking to fit an iPhone SE's width. A long press
+                    sends a test error, to check a build's crash reporting end to end (the
+                    stack should name this file); nothing shows on screen. */}
+                <AppText
+                  variant="screenTitle"
+                  style={styles.appName}
+                  numberOfLines={2}
+                  adjustsFontSizeToFit
+                  suppressHighlighting
+                  onLongPress={() => Sentry.captureException(new Error("Sentry test from the login title"))}
+                >
                   Kiwi Guide
                 </AppText>
                 <AppText style={styles.tagline}>Ultimate South Island trip planner</AppText>

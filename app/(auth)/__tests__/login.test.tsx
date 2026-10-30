@@ -48,6 +48,8 @@ jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
 }));
 
+jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
+
 jest.mock("@/lib/firebase", () => ({ auth: {} }));
 jest.mock("firebase/auth", () => ({
   signInWithEmailAndPassword: jest.fn(),
@@ -76,6 +78,8 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+
+import * as Sentry from "@sentry/react-native";
 
 import LoginScreen from "@/app/(auth)/login";
 import { tokens } from "@/lib/ui/tokens";
@@ -115,6 +119,16 @@ describe("render", () => {
   it("offers no Apple or Google sign-in", async () => {
     const view = await render(<LoginScreen />);
     expect(view.queryByText("Social Sign In")).toBeNull();
+  });
+
+  // The check that a build's crash reporting works: holding the title sends a test error.
+  it("sends a test error to Sentry on a long press of the title, and only then", async () => {
+    const view = await render(<LoginScreen />);
+    expect(Sentry.captureException).not.toHaveBeenCalled();
+    await fireEvent(view.getByText("Kiwi Guide"), "longPress");
+    expect(Sentry.captureException).toHaveBeenCalledWith(
+      expect.objectContaining({ message: "Sentry test from the login title" }),
+    );
   });
 
   // White and larger, with a heavy shadow: in the on-dark orange it couldn't be read over

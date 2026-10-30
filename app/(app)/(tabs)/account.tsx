@@ -20,8 +20,8 @@ import { useTourAudience } from "@/lib/tour/TourAutoStart";
 
 // App Review asks for a privacy policy (5.1.1(i)) and a way to reach the developer (1.2)
 // inside the app. The page may move with the Kiwi Guide rename: change it here.
-const PRIVACY_URL = "https://blacksands.app/south-island-guide#privacy";
-const TERMS_URL = "https://blacksands.app/south-island-guide#terms";
+const PRIVACY_URL = "https://blacksands.app/kiwi-guide#privacy";
+const TERMS_URL = "https://blacksands.app/kiwi-guide#terms";
 const SUPPORT_EMAIL = "info@blacksandsdigital.nz";
 
 // Out of the app, to the browser or Mail. That can fail (no mail account set up on the

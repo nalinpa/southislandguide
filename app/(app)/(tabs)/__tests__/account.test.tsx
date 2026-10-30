@@ -221,8 +221,8 @@ describe("Privacy policy, terms and contact", () => {
   });
 
   const LINKS: [string, string][] = [
-    ["Privacy policy", "https://blacksands.app/south-island-guide#privacy"],
-    ["Terms of use", "https://blacksands.app/south-island-guide#terms"],
+    ["Privacy policy", "https://blacksands.app/kiwi-guide#privacy"],
+    ["Terms of use", "https://blacksands.app/kiwi-guide#terms"],
     ["Contact us", "mailto:info@blacksandsdigital.nz?subject=Kiwi%20Guide"],
   ];
 

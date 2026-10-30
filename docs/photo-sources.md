@@ -352,3 +352,11 @@ Filled in 2026-10-29 from the photo folders in `C:\Users\User\Pictures\southisla
 | Tauranga Bay Beach | `westport/resized/full/tauranga-bay-beach.webp` | West Coast (CrowdRiff) | West Coast CrowdRiff, credit named in the file | BareKiwi | Oct 2026 | `westport/credits.txt` | |
 | The Wild Pie Co | `westport/resized/full/wild-pie-co-westport.webp` | West Coast (CrowdRiff) | West Coast CrowdRiff, credit named in the file | Clint Trahan | Oct 2026 | `westport/credits.txt` | |
 | Underworld Adventures | `westport/resized/full/underworld-adventures-charleston.webp` | not recorded | not recorded | none needed | Oct 2026 | `westport/credits.txt` | |
+
+## Store listing
+
+The App Store's Header and Search Results image, in `store/header/`. It's an advert with nowhere to show a credit, so it uses only photos that need none: Pexels, Wikimedia Commons files marked CC0 or public domain, or the owner's own.
+
+| Asset | Photo | Library | Licence | Credit | Downloaded | Original kept |
+|---|---|---|---|---|---|---|
+| Header and search results, all three sizes | "Road towards Mount Cook", Jean-Pierre Brungs (first published on Unsplash), [file page](https://commons.wikimedia.org/wiki/File:Road_towards_Mount_Cook_(Unsplash).jpg) | Wikimedia Commons | CC0 | none needed | 30 Oct 2026 | `store/header/source/road-towards-mount-cook-5184x2916.jpg` |

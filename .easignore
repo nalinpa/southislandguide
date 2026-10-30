@@ -1,0 +1,16 @@
+# EAS reads this file instead of .gitignore, so it repeats .gitignore and adds what builds don't need.
+node_modules/
+.expo/
+dist/
+*.log
+.env
+GoogleService-Info.plist
+
+# Firebase service-account private keys — never commit
+*firebase-adminsdk*.json
+
+# Reference images for design tools (third-party artwork, not ours to commit)
+design-refs/
+
+# App Store artwork (header and search image, masters, source photo); the app never imports it
+store/

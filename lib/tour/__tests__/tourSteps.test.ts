@@ -8,14 +8,19 @@ const words = (audience: Parameters<typeof stepsFor>[0]) =>
   stepsFor(audience).map((s) => [s.id, s.title, s.body]);
 
 describe("tourSteps", () => {
-  it("gives a guest 6 steps, free and paid 7", () => {
-    expect(stepsFor("guest")).toHaveLength(6);
-    expect(stepsFor("free")).toHaveLength(7);
-    expect(stepsFor("paid")).toHaveLength(7);
+  it("gives a guest 7 steps, free and paid 8", () => {
+    expect(stepsFor("guest")).toHaveLength(7);
+    expect(stepsFor("free")).toHaveLength(8);
+    expect(stepsFor("paid")).toHaveLength(8);
   });
 
   it("gives each person the words in the plan", () => {
     const start = [
+      [
+        "welcome",
+        "Welcome to Kiwi Guide",
+        "Here's a quick tour of how it works. It takes a minute, and you can skip it any time.",
+      ],
       ["town", "Pick a Town", "You start in the nearest town. Tap here to see another."],
       ["guide", "Before You Go", "Driving, weather and safety, from people who live here."],
       ["browse", "Browse by Type", "Walks, food, beaches and more. Search is up top."],

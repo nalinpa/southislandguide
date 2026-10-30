@@ -20,19 +20,37 @@ export type TourStep = {
   noTarget?: boolean;
   // The dim's opacity, when the screen should show through more than usual.
   dim?: number;
+  // The card's button, when it isn't Next (or Done on the last step).
+  nextLabel?: string;
+  // Skip Tour at the bottom of the screen, for a target where it usually sits (top right).
+  skipAtBottom?: boolean;
   title: string;
   body: string;
 };
 
 // Steps without a tabKey or routeKey stay on the screen the step before landed on.
 export const TOUR_STEPS: TourStep[] = [
+  // Says it's a tour before the first cut-out appears (owner, 2026-10-30).
+  {
+    id: "welcome",
+    tabKey: "sites",
+    noTarget: true,
+    nextLabel: "Start Tour",
+    title: "Welcome to Kiwi Guide",
+    body: "Here's a quick tour of how it works. It takes a minute, and you can skip it any time.",
+  },
   {
     id: "town",
-    tabKey: "sites",
     title: "Pick a Town",
     body: "You start in the nearest town. Tap here to see another.",
   },
-  { id: "guide", title: "Before You Go", body: "Driving, weather and safety, from people who live here." },
+  // The guide button is top right, under where Skip Tour sits.
+  {
+    id: "guide",
+    skipAtBottom: true,
+    title: "Before You Go",
+    body: "Driving, weather and safety, from people who live here.",
+  },
   { id: "browse", title: "Browse by Type", body: "Walks, food, beaches and more. Search is up top." },
   { id: "place", title: "Tap a Place", body: "Photos, hours, directions and reviews, all in one place." },
   {

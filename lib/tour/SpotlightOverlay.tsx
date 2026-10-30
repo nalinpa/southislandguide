@@ -115,7 +115,11 @@ export function SpotlightOverlay() {
 
       {!isLast && (
         <Pressable
-          style={({ pressed }) => [styles.skipBtn, { top: insets.top + 12 }, pressed && styles.pressed]}
+          style={({ pressed }) => [
+            styles.skipBtn,
+            step.skipAtBottom ? { bottom: insets.bottom + 12 } : { top: insets.top + 12 },
+            pressed && styles.pressed,
+          ]}
           onPress={skip}
           hitSlop={12}
           accessibilityRole="button"
@@ -152,7 +156,7 @@ export function SpotlightOverlay() {
             onPress={next}
             accessibilityRole="button"
           >
-            <Text style={styles.nextText}>{isLast ? "Done" : "Next"}</Text>
+            <Text style={styles.nextText}>{step.nextLabel ?? (isLast ? "Done" : "Next")}</Text>
           </Pressable>
         </View>
       </Animated.View>

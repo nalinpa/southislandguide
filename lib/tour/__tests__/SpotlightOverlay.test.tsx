@@ -56,9 +56,20 @@ describe("SpotlightOverlay", () => {
     expect(screen.toJSON()).toBeNull();
   });
 
+  it("opens on a card that says it's a tour, with Start Tour and Skip", async () => {
+    await show();
+    await act(async () => tour.start("paid"));
+
+    expect(screen.getByText("Welcome to Kiwi Guide")).toBeTruthy();
+    expect(screen.getByText("Here's a quick tour of how it works. It takes a minute, and you can skip it any time.")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Start Tour" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Skip tour" })).toBeTruthy();
+  });
+
   it("shows the step's title and words", async () => {
     await show();
     await act(async () => tour.start("paid"));
+    await fireEvent.press(screen.getByRole("button", { name: "Start Tour" }));
 
     expect(screen.getByText("Pick a Town")).toBeTruthy();
     expect(screen.getByText("You start in the nearest town. Tap here to see another.")).toBeTruthy();
@@ -67,6 +78,7 @@ describe("SpotlightOverlay", () => {
   it("moves on with Next and ends with Skip", async () => {
     await show();
     await act(async () => tour.start("paid"));
+    await act(async () => tour.next());
 
     await fireEvent.press(screen.getByRole("button", { name: "Next" }));
     expect(screen.getByText("Before You Go")).toBeTruthy();
@@ -78,7 +90,7 @@ describe("SpotlightOverlay", () => {
   it("says Done on the last step, with no Skip", async () => {
     await show();
     await act(async () => tour.start("guest"));
-    for (let i = 0; i < 5; i++) await act(async () => tour.next());
+    for (let i = 0; i < 6; i++) await act(async () => tour.next());
 
     expect(screen.getByText("See It on the Map")).toBeTruthy();
     expect(screen.getByRole("button", { name: "Done" })).toBeTruthy();
@@ -94,13 +106,14 @@ describe("SpotlightOverlay", () => {
     await act(async () => tour.start("paid"));
 
     expect(screen.getByTestId("tour-layer").props.accessibilityViewIsModal).toBe(true);
+    expect(screen.getByRole("header", { name: "Welcome to Kiwi Guide" })).toBeTruthy();
+    expect(announce).toHaveBeenLastCalledWith("Welcome to Kiwi Guide. Here's a quick tour of how it works. It takes a minute, and you can skip it any time.");
+
+    await act(async () => tour.next());
     expect(screen.getByRole("header", { name: "Pick a Town" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Next" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Skip tour" })).toBeTruthy();
     expect(announce).toHaveBeenLastCalledWith("Pick a Town. You start in the nearest town. Tap here to see another.");
-
-    await act(async () => tour.next());
-    expect(announce).toHaveBeenLastCalledWith("Before You Go. Driving, weather and safety, from people who live here.");
     announce.mockRestore();
   });
 
@@ -115,6 +128,7 @@ describe("SpotlightOverlay", () => {
   it("puts the card under a target near the top", async () => {
     await show();
     await act(async () => tour.start("paid"));
+    await act(async () => tour.next());
     await act(async () => tour.registerTarget("town", { x: 16, y: 60, width: 180, height: 40 }));
     await layoutCard(200);
 
@@ -125,6 +139,7 @@ describe("SpotlightOverlay", () => {
     const height = Dimensions.get("window").height;
     await show();
     await act(async () => tour.start("paid"));
+    await act(async () => tour.next());
     await act(async () => tour.registerTarget("town", { x: 16, y: height - 100, width: 180, height: 60 }));
     await layoutCard(200);
 
@@ -136,16 +151,32 @@ describe("SpotlightOverlay", () => {
     await act(async () => tour.start("guest"));
     expect(screen.queryByText("trip preview")).toBeNull();
 
-    for (let i = 0; i < 4; i++) await act(async () => tour.next());
+    for (let i = 0; i < 5; i++) await act(async () => tour.next());
     expect(screen.getByText("Your Trip, Day by Day")).toBeTruthy();
     expect(screen.getByText("trip preview")).toBeTruthy();
+  });
+
+  it("moves Skip Tour to the bottom on the guide step, off the guide button", async () => {
+    await show();
+    await act(async () => tour.start("paid"));
+    const skipStyle = () => StyleSheet.flatten(screen.getByRole("button", { name: "Skip tour" }).props.style);
+    expect(skipStyle().top).toBeDefined();
+
+    await act(async () => tour.next());
+    await act(async () => tour.next());
+    expect(screen.getByText("Before You Go")).toBeTruthy();
+    expect(skipStyle().top).toBeUndefined();
+    expect(skipStyle().bottom).toBeDefined();
+
+    await act(async () => tour.next());
+    expect(skipStyle().top).toBeDefined();
   });
 
   it("keeps the card's buttons at least 44pt tall", async () => {
     await show();
     await act(async () => tour.start("paid"));
 
-    for (const name of ["Next", "Skip tour"]) {
+    for (const name of ["Start Tour", "Skip tour"]) {
       expect(StyleSheet.flatten(screen.getByRole("button", { name }).props.style).minHeight).toBeGreaterThanOrEqual(44);
     }
   });

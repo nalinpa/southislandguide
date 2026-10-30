@@ -41,7 +41,7 @@ describe("TourContext", () => {
     const { result } = await renderHook(() => useTour(), { wrapper });
     await act(async () => result.current.start("free"));
     expect(result.current.active).toBe(true);
-    expect(result.current.step?.id).toBe("town");
+    expect(result.current.step?.id).toBe("welcome");
     expect(mockNavigate).toHaveBeenCalledWith("/(app)/(tabs)/sites");
   });
 
@@ -49,15 +49,15 @@ describe("TourContext", () => {
     const { result } = await renderHook(() => useTour(), { wrapper });
 
     await act(async () => result.current.start("paid"));
-    expect(result.current.stepCount).toBe(7);
-    expect(await walk(result)).toEqual(["town", "guide", "browse", "place", "placeAdd", "trip", "map"]);
+    expect(result.current.stepCount).toBe(8);
+    expect(await walk(result)).toEqual(["welcome", "town", "guide", "browse", "place", "placeAdd", "trip", "map"]);
 
     await act(async () => result.current.start("free"));
-    expect(await walk(result)).toEqual(["town", "guide", "browse", "place", "placeSave", "trip", "map"]);
+    expect(await walk(result)).toEqual(["welcome", "town", "guide", "browse", "place", "placeSave", "trip", "map"]);
 
     await act(async () => result.current.start("guest"));
-    expect(result.current.stepCount).toBe(6);
-    expect(await walk(result)).toEqual(["town", "guide", "browse", "place", "trip", "map"]);
+    expect(result.current.stepCount).toBe(7);
+    expect(await walk(result)).toEqual(["welcome", "town", "guide", "browse", "place", "trip", "map"]);
     expect(result.current.step).toBeNull();
   });
 
@@ -66,7 +66,7 @@ describe("TourContext", () => {
     await act(async () => result.current.start("paid"));
     await act(async () => result.current.next());
     await act(async () => result.current.start("paid"));
-    expect(result.current.step?.id).toBe("town");
+    expect(result.current.step?.id).toBe("welcome");
     expect(result.current.stepIndex).toBe(0);
   });
 
@@ -82,7 +82,7 @@ describe("TourContext", () => {
   it("a step with a tab moves to that tab", async () => {
     const { result } = await renderHook(() => useTour(), { wrapper });
     await act(async () => result.current.start("guest"));
-    for (let i = 0; i < 4; i++) await act(async () => result.current.next());
+    for (let i = 0; i < 5; i++) await act(async () => result.current.next());
 
     expect(result.current.step?.id).toBe("trip");
     expect(mockNavigate).toHaveBeenLastCalledWith("/(app)/(tabs)/itinerary");
@@ -94,7 +94,7 @@ describe("TourContext", () => {
     const { result } = await renderHook(() => useTour(), { wrapper });
     await act(async () => result.current.registerStepRoute("place", "/(app)/(tabs)/sites/abc123"));
     await act(async () => result.current.start("paid"));
-    for (let i = 0; i < 3; i++) await act(async () => result.current.next());
+    for (let i = 0; i < 4; i++) await act(async () => result.current.next());
 
     expect(result.current.step?.id).toBe("place");
     expect(mockPush).not.toHaveBeenCalled();
@@ -108,7 +108,7 @@ describe("TourContext", () => {
     await act(async () => result.current.registerStepRoute("place", "/(app)/(tabs)/sites/abc123"));
     await act(async () => result.current.registerStepRoute("place", undefined));
     await act(async () => result.current.start("paid"));
-    for (let i = 0; i < 4; i++) await act(async () => result.current.next());
+    for (let i = 0; i < 5; i++) await act(async () => result.current.next());
 
     expect(result.current.step?.id).toBe("placeAdd");
     expect(mockPush).not.toHaveBeenCalled();
@@ -118,7 +118,9 @@ describe("TourContext", () => {
     const { result } = await renderHook(() => useTour(), { wrapper });
     await act(async () => result.current.registerTarget("guide", { x: 9, y: 9, width: 9, height: 9 }));
     await act(async () => result.current.start("paid"));
+    await act(async () => result.current.next());
 
+    expect(result.current.step?.id).toBe("town");
     expect(result.current.targetRect).toBeNull();
     await act(async () => result.current.registerTarget("town", { x: 1, y: 2, width: 3, height: 4 }));
     expect(result.current.targetRect).toEqual({ x: 1, y: 2, width: 3, height: 4 });

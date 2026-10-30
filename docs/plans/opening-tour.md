@@ -27,8 +27,9 @@ With decisions 1 and 3, step 6 has one wording for everyone, and there is no gue
 
 | # | id | Screen | Points at | Title | Body | Who |
 |---|---|---|---|---|---|---|
+| 0 | `welcome` | Explore | nothing, a centred card; its button says Start Tour (added 2026-10-30) | Welcome to Kiwi Guide | Here's a quick tour of how it works. It takes a minute, and you can skip it any time. | all |
 | 1 | `town` | Explore | the title (the town, with its chevron) | Pick a Town | You start in the nearest town. Tap here to see another. | all |
-| 2 | `guide` | Explore | the book button in the top bar | Before You Go | Driving, weather and safety, from people who live here. | all |
+| 2 | `guide` | Explore | the book button in the top bar; Skip Tour moves to the bottom, off it | Before You Go | Driving, weather and safety, from people who live here. | all |
 | 3 | `browse` | Explore | the category tabs | Browse by Type | Walks, food, beaches and more. Search is up top. | all |
 | 4 | `place` | Explore | the first place in the list | Tap a Place | Photos, hours, directions and reviews, all in one place. | all |
 | 5a | `placeAdd` | that place | "+ Add to Itinerary" | Add It to a Trip | Drop it into any day. We work out the drive. | paid |

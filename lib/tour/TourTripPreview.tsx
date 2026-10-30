@@ -1,7 +1,9 @@
+import { useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 
 import { TripOverview } from "@/components/itinerary/TripOverview";
 import { areaImage } from "@/lib/areaImages";
+import { useAllLocations } from "@/lib/hooksBag";
 import { tokens } from "@/lib/ui/tokens";
 import { packTrip } from "@/lib/utils/itineraryPhysics";
 import type { ItineraryItem } from "@/lib/models";
@@ -9,7 +11,9 @@ import type { PlaceLookup } from "@/lib/utils/transitMatrix";
 
 // The tour's trip step: the real trip view with a fixed sample, since a new user has no
 // trip to point at (docs/plans/opening-tour.md). The places are made up and looked up
-// here, so nothing comes from the network; only the towns and the drives show.
+// here; only the towns and the drives show. The towns' pictures come from the place list
+// Explore has already loaded (the same query, so nothing more is fetched), as in a real
+// trip; before it's in, the rows keep their empty picture.
 const AREA: Record<string, string> = { chc: "christchurch", dun: "dunedin" };
 const places: PlaceLookup = (siteId) => ({ area: AREA[siteId.split("-")[0]] });
 
@@ -32,9 +36,9 @@ const DAYS = packTrip(
   places,
 );
 
-const imageFor = (areaId: string) => areaImage(areaId, []);
-
 export function TourTripPreview() {
+  const { locations } = useAllLocations();
+  const imageFor = useCallback((areaId: string) => areaImage(areaId, locations), [locations]);
   return (
     <View style={styles.frame}>
       <TripOverview title="Your South Island Trip" days={DAYS} places={places} imageFor={imageFor} onOpenDay={() => {}} />

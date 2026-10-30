@@ -28,7 +28,7 @@ export function FeaturedCard({ site, onPress }: FeaturedCardProps) {
       accessibilityRole="button"
       accessibilityLabel={site.name}
     >
-      {source && <Image source={source} style={StyleSheet.absoluteFill} resizeMode="cover" />}
+      {source && <Image testID="featured-photo" source={source} style={styles.photo} resizeMode="cover" />}
       <LinearGradient colors={["transparent", `${tokens.colors.scrim}E6`]} locations={[0.3, 1]} style={styles.overlay}>
         <AppText style={styles.title}>{site.name}</AppText>
         {site.description ? (
@@ -50,6 +50,10 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     backgroundColor: tokens.colors.accent,
   },
+  // The size, not just the edges: React Native gives a bundled image (a default photo) its
+  // file's own size, 1200x800pt, which wins over left/right/top/bottom alone. The card then
+  // showed only the photo's top-left corner, about three times too big (owner, 2026-10-31).
+  photo: { ...StyleSheet.absoluteFill, width: "100%", height: "100%" },
   overlay: { flex: 1, justifyContent: "flex-end", padding: tokens.space.md },
   title: { color: "#FFFFFF", fontSize: 22, fontWeight: "800", marginBottom: 4 },
   description: { color: "rgba(255,255,255,0.88)", fontSize: 14, lineHeight: 20 },

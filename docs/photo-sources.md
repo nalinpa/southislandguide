@@ -33,6 +33,8 @@ Unpaid-media-only licences (Tourism NZ's WorldWide Licence, ChristchurchNZ's Res
 
 The type defaults bundled in `assets/images/types` (camping, carcamp, dorm, coffee, bakery, pizza, burger, fish-and-chips, beer, steak, ice-cream; which places use them is in `lib/placeImageTypes.ts`) are all from Pexels. A place photo comes out in the admin panel, with no app update; a town photo needs an update.
 
+Five were replaced on 2026-10-31 with wider landscape shots, since their portrait originals cut to 3:2 come out as close-ups; camping was recut the same day inside its film-scan frame. The new originals are saved beside the old ones as `<type>-pexels-<id>.jpg`: beer [12360540](https://www.pexels.com/photo/beer-taps-on-the-table-12360540/), coffee [5864553](https://www.pexels.com/photo/view-of-a-cafe-counter-5864553/), steak [7474378](https://www.pexels.com/photo/steak-on-table-near-wineglass-7474378/), carcamp [30131065](https://www.pexels.com/photo/camper-van-with-scenic-mountain-view-30131065/), dorm [5137980](https://www.pexels.com/photo/a-room-in-a-hostel-5137980/).
+
 ## Photos
 
 Filled in 2026-10-29 from the photo folders in `C:\Users\User\Pictures\southisland` (paths below are relative to it); "not recorded" means no source was written down when the photo was saved. Christchurch's photos, uploaded earlier in the admin panel, still need their rows.
@@ -355,8 +357,10 @@ Filled in 2026-10-29 from the photo folders in `C:\Users\User\Pictures\southisla
 
 ## Store listing
 
-The App Store's Header and Search Results image, in `store/header/`. It's an advert with nowhere to show a credit, so it uses only photos that need none: Pexels, Wikimedia Commons files marked CC0 or public domain, or the owner's own.
+The App Store's Header and Search Results image, in `store/header/`, and the iPhone screenshots, in `store/screenshots/`. They're adverts with nowhere to show a credit, so they use only photos that need none: Pexels, Wikimedia Commons files marked CC0 or public domain, or the owner's own.
 
 | Asset | Photo | Library | Licence | Credit | Downloaded | Original kept |
 |---|---|---|---|---|---|---|
 | Header and search results, all three sizes | "Road towards Mount Cook", Jean-Pierre Brungs (first published on Unsplash), [file page](https://commons.wikimedia.org/wiki/File:Road_towards_Mount_Cook_(Unsplash).jpg) | Wikimedia Commons | CC0 | none needed | 30 Oct 2026 | `store/header/source/road-towards-mount-cook-5184x2916.jpg` |
+| Screenshots 1–4 (background) | "Road towards Mount Cook", as above | Wikimedia Commons | CC0 | none needed | 30 Oct 2026 | `store/screenshots/source/road-towards-mount-cook-5184x2916.jpg` |
+| Screenshots 5–7 (background) | "Lake Pukaki and Mt Cook NZ", Bernard Spragg, [file page](https://commons.wikimedia.org/wiki/File:Lake_Pukaki_and_Mt_Cook_NZ._(36555432290).jpg) | Wikimedia Commons | CC0 | none needed | 30 Oct 2026 | `store/screenshots/source/lake-pukaki-and-mt-cook-4916x2984.jpg` |

@@ -144,11 +144,16 @@ export default function SiteListPage() {
   // The card at the top, as in rotorua-guide and aklguide: the place with the highest
   // `featured` value (higher is more featured; none set counts as 0) among those shown, so
   // the chosen category's own when a tab is picked, and not again in the rows under it. A
-  // tie goes to the place listed first (owner, 2026-10-25). Off while searching, when the
-  // matches are all that's wanted.
+  // tie goes to the place listed first (owner, 2026-10-25). Only places with their own photo
+  // are in the running while any are shown: a place's own photo makes a better hero than a
+  // stock default (owner, 2026-10-30). Off while searching, when the matches are all that's
+  // wanted.
   const featured = useMemo(() => {
     if (searchQuery.trim() || !rows.length) return null;
-    return rows.reduce((best, r) => ((r.location.featured ?? 0) > (best.location.featured ?? 0) ? r : best));
+    const withPhoto = rows.filter((r) => r.location.imageUrl);
+    return (withPhoto.length ? withPhoto : rows).reduce((best, r) =>
+      (r.location.featured ?? 0) > (best.location.featured ?? 0) ? r : best,
+    );
   }, [rows, searchQuery]);
   const listRows = useMemo(
     () => (featured ? rows.filter((r) => r.location.id !== featured.location.id) : rows),

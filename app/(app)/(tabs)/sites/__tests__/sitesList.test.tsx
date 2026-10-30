@@ -783,6 +783,25 @@ describe("the featured place", () => {
     expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/sites/s2");
   });
 
+  // A bundled default photo comes with its file's own size, which would beat the card's
+  // edges alone and show only its top-left corner (owner, 2026-10-31).
+  it("sizes the photo to the card, not to the photo file", async () => {
+    rank("s2", 3);
+    const view = await render(<SiteListPage />);
+
+    expect(view.getByTestId("featured-photo")).toHaveStyle({ width: "100%", height: "100%" });
+  });
+
+  // A place's own photo makes a better hero than a stock default (owner, 2026-10-30).
+  it("features the highest-ranked place with its own photo over one without", async () => {
+    rank("s2", 3);
+    rank("s4", 1);
+    mockBag.locations.find((l) => l.id === "s4")!.imageUrl = "https://img/port-hills.webp";
+    const view = await render(<SiteListPage />);
+
+    expect(card(view).props.accessibilityLabel).toBe("Port Hills Walk");
+  });
+
   it("features a place from the town shown, not a higher-ranked one elsewhere", async () => {
     rank("s2", 3);
     mockBag.locations.push(makeSite("d1", "Otago Museum", ["Culture"], { area: "dunedin", featured: 9 }));

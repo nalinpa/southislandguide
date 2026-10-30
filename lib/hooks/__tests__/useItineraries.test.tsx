@@ -291,6 +291,43 @@ describe("useItineraries", () => {
     expect(result.current.itineraries.map((i) => i.id)).toEqual(["itin-1"]);
   });
 
+  // "Couldn't add to your trip" used to sit over a list still showing the place.
+  it("puts the list back if a save fails", async () => {
+    signedIn();
+    // The refetch after the failure never answers, so what's on screen is the rollback alone.
+    mockGetMyItineraries.mockResolvedValueOnce([itin()]).mockReturnValue(new Promise(() => {}));
+    mockSaveItinerary.mockRejectedValue(new Error("nope"));
+
+    const { result } = await renderHook(() => useItineraries(), { wrapper });
+    await waitFor(() => expect(result.current.itineraries).toHaveLength(1));
+
+    await act(async () => {
+      await result.current.saveItinerary({ id: "itin-1", title: "Renamed" }).catch(() => {});
+    });
+
+    expect(result.current.itineraries[0].title).toBe("Weekend trip");
+  });
+
+  it("keeps a save waiting for signal in the list", async () => {
+    signedIn();
+    mockGetMyItineraries.mockResolvedValue([itin()]);
+
+    const { result } = await renderHook(() => useItineraries(), { wrapper });
+    await waitFor(() => expect(result.current.itineraries).toHaveLength(1));
+
+    onlineManager.setOnline(false);
+    try {
+      await act(async () => {
+        void result.current.saveItinerary({ id: "itin-1", title: "Renamed" });
+      });
+
+      await waitFor(() => expect(result.current.itineraries[0].title).toBe("Renamed"));
+      expect(mockSaveItinerary).not.toHaveBeenCalled();
+    } finally {
+      onlineManager.setOnline(true);
+    }
+  });
+
   it("asks for a review when the first trip is created", async () => {
     signedIn();
     mockGetMyItineraries.mockResolvedValue([]);

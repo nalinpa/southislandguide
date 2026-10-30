@@ -387,7 +387,15 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     if (!localTrip) return;
     setShowDeleteConfirm(false);
     hasUnsavedChanges.current = false;
-    await deleteItinerary(localTrip.id);
+    // A failure puts the trip back in the list (useItineraries), so say it's still there.
+    // Offline the delete pauses rather than fails, and resolves on reconnect.
+    try {
+      await deleteItinerary(localTrip.id);
+    } catch (e) {
+      Sentry.captureException(e);
+      Alert.alert("Couldn't Delete Trip", "Please try again.");
+      return;
+    }
     router.replace("/(app)/(tabs)/itinerary");
   };
 

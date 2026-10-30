@@ -47,7 +47,8 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { fireEvent, render, within } from "@testing-library/react-native";
+import { Alert, Linking } from "react-native";
+import { fireEvent, render, waitFor, within } from "@testing-library/react-native";
 
 import AccountScreen from "@/app/(app)/(tabs)/account";
 import { tokens } from "@/lib/ui/tokens";
@@ -202,6 +203,47 @@ describe("Photo credits", () => {
     await fireEvent.press(view.getByRole("button", { name: "Photo credits" }));
 
     expect(mockRouter.push).toHaveBeenCalledWith("/(app)/photo-credits");
+  });
+});
+
+// App Review asks for a privacy policy (5.1.1(i)) and a way to reach the developer (1.2),
+// and checks them without signing in.
+describe("Privacy policy, terms and contact", () => {
+  let openUrlSpy: jest.SpyInstance;
+  let alertSpy: jest.SpyInstance;
+  beforeEach(() => {
+    openUrlSpy = jest.spyOn(Linking, "openURL").mockResolvedValue(true as never);
+    alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+  });
+  afterEach(() => {
+    openUrlSpy.mockRestore();
+    alertSpy.mockRestore();
+  });
+
+  const LINKS: [string, string][] = [
+    ["Privacy policy", "https://blacksands.app/south-island-guide#privacy"],
+    ["Terms of use", "https://blacksands.app/south-island-guide#terms"],
+    ["Contact us", "mailto:info@blacksandsdigital.nz?subject=Kiwi%20Guide"],
+  ];
+
+  for (const status of ["authed", "guest"]) {
+    it.each(LINKS)(`opens %s for a ${status === "authed" ? "signed-in user" : "guest"}`, async (label, url) => {
+      mockSession.status = status;
+      const view = await render(<AccountScreen />);
+
+      await fireEvent.press(view.getByRole("button", { name: label }));
+
+      expect(openUrlSpy).toHaveBeenCalledWith(url);
+    });
+  }
+
+  it("says where to write when Mail can't open", async () => {
+    openUrlSpy.mockRejectedValue(new Error("no mail account"));
+    const view = await render(<AccountScreen />);
+
+    await fireEvent.press(view.getByRole("button", { name: "Contact us" }));
+
+    await waitFor(() => expect(alertSpy).toHaveBeenCalledWith("Couldn't Open", "Email us at info@blacksandsdigital.nz"));
   });
 });
 

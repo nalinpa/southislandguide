@@ -536,6 +536,18 @@ describe("the trip menu", () => {
     await waitFor(() => expect(mockTrips.deleteItinerary).toHaveBeenCalledWith("t1"));
     expect(mockRouter.replace).toHaveBeenCalledWith("/(app)/(tabs)/itinerary");
   });
+
+  it("says so and stays put when the delete fails", async () => {
+    mockTrips.deleteItinerary = jest.fn().mockRejectedValue(new Error("server error"));
+    const view = await openTrip();
+    await fireEvent.press(view.getByLabelText("Trip options"));
+    await fireEvent.press(view.getByText("Delete Trip"));
+
+    await fireEvent.press(view.getByText("Delete Trip", { exact: true }));
+
+    await waitFor(() => expect(alertSpy).toHaveBeenCalledWith("Couldn't Delete Trip", "Please try again."));
+    expect(mockRouter.replace).not.toHaveBeenCalled();
+  });
 });
 
 describe("notes", () => {

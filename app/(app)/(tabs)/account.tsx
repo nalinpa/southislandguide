@@ -1,6 +1,6 @@
 // app/(app)/(tabs)/account.tsx
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Alert } from "react-native";
 import { router } from "expo-router";
 import { ArrowRight, ChevronRight } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -17,6 +17,26 @@ import { SavedItemsCard } from "@/components/account/SavedItemsCard";
 import { DangerZoneCard } from "@/components/account/DangerZoneCard";
 import { useTour } from "@/lib/tour/TourContext";
 import { useTourAudience } from "@/lib/tour/TourAutoStart";
+
+// App Review asks for a privacy policy (5.1.1(i)) and a way to reach the developer (1.2)
+// inside the app. The page may move with the Kiwi Guide rename: change it here.
+const PRIVACY_URL = "https://blacksands.app/south-island-guide#privacy";
+const TERMS_URL = "https://blacksands.app/south-island-guide#terms";
+const SUPPORT_EMAIL = "info@blacksandsdigital.nz";
+
+// Out of the app, to the browser or Mail. That can fail (no mail account set up on the
+// phone), so say where to go instead.
+const openOut = (url: string, instead: string) =>
+  Linking.openURL(url).catch(() => Alert.alert("Couldn't Open", instead));
+
+const LEGAL_ROWS = [
+  { label: "Privacy policy", open: () => openOut(PRIVACY_URL, `Visit ${PRIVACY_URL}`) },
+  { label: "Terms of use", open: () => openOut(TERMS_URL, `Visit ${TERMS_URL}`) },
+  {
+    label: "Contact us",
+    open: () => openOut(`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent("Kiwi Guide")}`, `Email us at ${SUPPORT_EMAIL}`),
+  },
+];
 
 export default function AccountScreen() {
   const { session } = useSession();
@@ -123,6 +143,17 @@ export default function AccountScreen() {
             <Text style={styles.linkRowText}>Photo credits</Text>
             <ChevronRight size={16} color={tokens.colors.textMuted} strokeWidth={2} />
           </TouchableOpacity>
+
+          {/* Guests too: App Review checks these without signing in. */}
+          {LEGAL_ROWS.map(({ label, open }) => (
+            <React.Fragment key={label}>
+              <View style={styles.divider} />
+              <TouchableOpacity style={styles.linkRow} onPress={open} activeOpacity={0.6} accessibilityRole="button">
+                <Text style={styles.linkRowText}>{label}</Text>
+                <ChevronRight size={16} color={tokens.colors.textMuted} strokeWidth={2} />
+              </TouchableOpacity>
+            </React.Fragment>
+          ))}
 
           {/* Was insets.bottom + 80 (~114pt on a Face ID iPhone), sized for a tab
               bar floating over the content. This tab bar sits below it, so that

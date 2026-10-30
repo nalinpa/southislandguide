@@ -172,7 +172,8 @@ function SiteReviews({ id, siteName }: { id: string; siteName?: string }) {
         }
         ListEmptyComponent={
           <View style={styles.itemWrapper}>
-            <components.ReviewsEmptyState onBack={goBack} onRetry={refresh} />
+            {/* The engine's default body mentions checking in, which this app doesn't have. */}
+            <components.ReviewsEmptyState onBack={goBack} onRetry={refresh} body="Be the first to review this place." />
           </View>
         }
       />

@@ -1,5 +1,5 @@
 // The map's bottom sheet. Which of its three bodies shows depends on the GPS state, and
-// TODAY'S PLAN takes precedence over NEARBY when the selected day has stops. "Add to
+// TODAY'S TRIP takes precedence over NEARBY when the selected day has stops. "Add to
 // Itinerary" is rendered only when the screen supplies a handler — for a guest it must be
 // absent, not disabled (TASKS.md, Guest).
 
@@ -253,7 +253,7 @@ describe("today's plan and nearby", () => {
   it("shows today's stops when the trip has some", async () => {
     const view = await openSheet({ todayItems });
 
-    expect(view.getByText("TODAY'S PLAN")).toBeTruthy();
+    expect(view.getByText("TODAY'S TRIP")).toBeTruthy();
     expect(view.getByText("Hell's Gate")).toBeTruthy();
     expect(view.getByText("9:00 AM")).toBeTruthy();
   });
@@ -261,7 +261,7 @@ describe("today's plan and nearby", () => {
   it("prefers today's plan over the nearby list", async () => {
     const view = await openSheet({ todayItems, nearbySites });
 
-    expect(view.getByText("TODAY'S PLAN")).toBeTruthy();
+    expect(view.getByText("TODAY'S TRIP")).toBeTruthy();
     expect(view.queryByText("NEARBY")).toBeNull();
   });
 
@@ -275,7 +275,7 @@ describe("today's plan and nearby", () => {
   it("shows neither section when there is nothing to put in them", async () => {
     const view = await openSheet();
 
-    expect(view.queryByText("TODAY'S PLAN")).toBeNull();
+    expect(view.queryByText("TODAY'S TRIP")).toBeNull();
     expect(view.queryByText("NEARBY")).toBeNull();
   });
 
@@ -298,7 +298,7 @@ describe("today's plan and nearby", () => {
   it("hides both sections while the GPS is still settling", async () => {
     const view = await openSheet({ hasLoc: false, todayItems, nearbySites });
 
-    expect(view.queryByText("TODAY'S PLAN")).toBeNull();
+    expect(view.queryByText("TODAY'S TRIP")).toBeNull();
     expect(view.queryByText("NEARBY")).toBeNull();
   });
 });

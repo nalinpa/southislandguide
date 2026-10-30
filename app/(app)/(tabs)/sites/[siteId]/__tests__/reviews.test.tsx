@@ -166,6 +166,14 @@ describe("loading, failure and emptiness", () => {
     expect(mockBag.refresh).toHaveBeenCalled();
   });
 
+  // The engine's default body asks for a review "after you've checked in": no check-in here.
+  it("asks for the first review without mentioning check-in", async () => {
+    mockBag.reviews = [];
+    const view = await render(<SiteReviewsPage />);
+
+    expect(view.getByText("Be the first to review this place.")).toBeTruthy();
+  });
+
   it("lists each review's author, text and rating", async () => {
     const view = await render(<SiteReviewsPage />);
 

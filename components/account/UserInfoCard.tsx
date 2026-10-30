@@ -7,6 +7,7 @@ import { LogIn, LogOut } from "lucide-react-native";
 import { AppButton, AppText, Row } from "@/lib/uiKit";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { auth } from "@/lib/firebase";
+import { clearLocalUserData } from "@/lib/services/userService";
 import { tokens } from "@/lib/ui/tokens";
 
 export function UserInfoCard() {
@@ -19,8 +20,10 @@ export function UserInfoCard() {
   const handleLogout = async () => {
     setLogoutError(null);
     try {
+      const uid = auth.currentUser?.uid;
       await disableGuest();
       await auth.signOut();
+      clearLocalUserData(uid);
       router.replace("/(auth)/login");
     } catch {
       setLogoutError("Failed to log out. Please try again.");

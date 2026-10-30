@@ -79,11 +79,19 @@ export function useItineraries() {
     ...tripWrites.save,
     // Into the cached list now, not after the refetch: a save waiting for signal would
     // otherwise leave the old trip in the cache, for the screen to show on return and the
-    // next edit to start from (and then overwrite this one).
+    // next edit to start from (and then overwrite this one). A save that fails puts the list
+    // back, as a failed delete does. A paused one hasn't failed, so it keeps its edit.
     onMutate: async (data: Partial<Itinerary>) => {
       if (!data.id) return;
       await queryClient.cancelQueries({ queryKey });
+      const previous = queryClient.getQueryData<Itinerary[]>(queryKey);
       queryClient.setQueryData<Itinerary[]>(queryKey, (old) => old?.map((i) => (i.id === data.id ? { ...i, ...data } : i)));
+      return { previous };
+    },
+    // Refreshed without waiting: the failure is reported at once, not after the refetch.
+    onError: (_err, _data, context) => {
+      if (context?.previous) queryClient.setQueryData(queryKey, context.previous);
+      queryClient.invalidateQueries({ queryKey });
     },
     onSuccess: async (_data, variables) => {
       // Ask for a review on the very first trip creation, before the refetch

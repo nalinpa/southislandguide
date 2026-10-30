@@ -24,12 +24,19 @@ export const userService = {
     } catch (e) {
       Sentry.captureException(e);
     }
-    // What the account left on the phone. Its trips, saved places and reviews were saved with
-    // the cache (every key holds the uid), and trip writes may be waiting for signal: the saved
-    // copy follows the cache. Unsent review drafts are kept by place, not by user, so the next
-    // account to sign in here would find them.
-    if (uid) queryClient.removeQueries({ predicate: (q) => q.queryKey.includes(uid) });
-    queryClient.getMutationCache().clear();
-    hooksBag.useDraftsStore.setState({ drafts: {} });
+    clearLocalUserData(uid);
   },
 };
+
+// What an account leaves on the phone, cleared when it signs out or is deleted. Its trips,
+// saved places and reviews were saved with the cache (every key holds the uid), and trip
+// writes may be waiting for signal: left queued, they'd send with the next account's token
+// and land in that account. The saved copy follows the cache. Unsent review drafts are kept
+// by place, not by user, so the next account to sign in here would find them.
+// Call it after auth.signOut(): before, a screen still signed in could refetch the data
+// straight back into the cache.
+export function clearLocalUserData(uid: string | undefined) {
+  if (uid) queryClient.removeQueries({ predicate: (q) => q.queryKey.includes(uid) });
+  queryClient.getMutationCache().clear();
+  hooksBag.useDraftsStore.setState({ drafts: {} });
+}

@@ -259,7 +259,7 @@ export function MapOverlayCard({
         {showItinerary && todayItems && (
           <View style={styles.nearbySection}>
             <View style={styles.nearbySep} />
-            <Text style={styles.nearbySectionTitle}>TODAY'S PLAN</Text>
+            <Text style={styles.nearbySectionTitle}>TODAY'S TRIP</Text>
             <ScrollView
               ref={carouselRef}
               horizontal

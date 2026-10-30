@@ -74,8 +74,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ],
     [
       "expo-location",
+      // Foreground only: the app never asks for "Always", so no NSLocationAlways* strings.
+      // The When In Use string is ios.infoPlist's.
       {
-        locationAlwaysAndWhenInUsePermission: "Kiwi Guide uses your location to show where you are on the map and how far away places are.",
+        locationAlwaysAndWhenInUsePermission: false,
+        locationAlwaysPermission: false,
       },
     ],
     [

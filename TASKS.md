@@ -144,6 +144,11 @@ Owner, 2026-10-25: not in the first release, which signs in by email only. The s
 - [ ] **Phone test:** a fresh Apple sign-up and sign-in, account deletion with the token revoked, and Google sign-in with the EAS web client ID set.
 - [ ] **Ship both together in a new store version**, never Google alone: put `<SocialSignInButtons>` back on the login screen, and update the privacy labels and review notes.
 
+### After launch — review fixes, round 2
+Owner, 2026-10-30: round 1 of the pre-build review fixes is done; round 2 waits until after launch.
+- [ ] **Run [prompts/fix-39-after-launch-review-fixes.md](prompts/fix-39-after-launch-review-fixes.md)** (items 12–20): bad live data crashing a screen, the error screen's message and Restart button, Sentry tracing at 0.2, Sign In on the expired-session and guest Saved Places screens, the account-delete retry, a resumed offline trip save failing silently, a stray `console.error`, and a TASKS line for Timaru's hub.
+- [ ] **Engine first, owner: `CardShell` `shrink` prop** in `@blacksands/ui` (item 21 in the same prompt). Without it the Create Trip and Add to Trip modals can push "Create Trip" off screen on an iPhone SE. After it's published, the app passes `shrink` to both modals.
+
 ---
 
 ## Tooling

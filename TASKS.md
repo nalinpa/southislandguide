@@ -149,6 +149,37 @@ Owner, 2026-10-30: round 1 of the pre-build review fixes is done; round 2 waits 
 - [ ] **Run [prompts/fix-39-after-launch-review-fixes.md](prompts/fix-39-after-launch-review-fixes.md)** (items 12–20): bad live data crashing a screen, the error screen's message and Restart button, Sentry tracing at 0.2, Sign In on the expired-session and guest Saved Places screens, the account-delete retry, a resumed offline trip save failing silently, a stray `console.error`, and a TASKS line for Timaru's hub.
 - [ ] **Engine first, owner: `CardShell` `shrink` prop** in `@blacksands/ui` (item 21 in the same prompt). Without it the Create Trip and Add to Trip modals can push "Create Trip" off screen on an iPhone SE. After it's published, the app passes `shrink` to both modals.
 
+### After launch — first weeks
+Added 2026-10-30.
+- [ ] **Watch Sentry daily for the first week.** New crashes are under Issues; screen timings are under Traces. Tracing samples every session (`tracesSampleRate: 1.0`) until fix-39 lowers it to 0.2, so keep an eye on the free plan's span allowance.
+- [ ] **Expo package updates: `npx expo install --fix`.** On 2026-10-30, expo-doctor listed 12 packages behind what SDK 57 expects. Most are patch updates (`expo` 57.0.25 → .31, `react-native` 0.86.2 → .3, `expo-router` .23 → .29, `jest-expo` and eight `expo-*`). They were left for 1.0 because the build was tested on these versions.
+  - **Careful with `@shopify/flash-list`:** we have 2.3.2, which is newer than the 2.0.2 Expo expects, so `--fix` would downgrade it. Check what the engine components need first, and exclude it (`expo.install.exclude` in package.json) if they need 2.3.
+  - It needs a new store build and a full phone check.
+- [ ] **Stats without an analytics SDK (optional).**
+  - Free, no code: App Store Connect → Analytics (downloads, sessions, retention, crashes), the Firebase console's Authentication list (sign-ups by date), and the Cloudflare dashboard's Worker metrics (api requests, all apps together).
+  - For more: a read-only `scripts/stats.js` using Firestore `count()` queries (about 1 read per 1,000 docs) and the Firebase Auth user list, reporting accounts, trips (total and this week), reviews and saved places.
+  - Trips don't record which suggested trip they came from (the api's create parser drops extra fields), so "started from a suggested trip" can only be guessed by matching a trip's first day against the templates.
+  - Counting place-list requests per route needs Workers Logs (`[observability]` in enginev1/api's `wrangler.toml`, deployed on the owner's go). With the app's 24-hour `staleTime`, list requests per day roughly equal daily active phones.
+  - Opening-tour completion and share taps can't be counted without an SDK.
+
+### After launch — the North Island
+Owner, 2026-10-30: North Island areas come after launch, and that's why the app is now "Kiwi Guide". Not planned in detail yet. Internal ids stay `southislandguide` (bundle id, slug, Firebase and EAS projects, api key).
+- **Order (owner, 2026-10-30): Wellington first, then up the island.**
+  - Wellington links to the South Island by the Cook Strait ferry from Picton, which is already a suggested-trip start. A Wellington day and the ferry crossing can begin or end those trips.
+  - **Rotorua and Auckland (owner, 2026-10-30):** Kiwi Guide will cover both. Their own apps are superseded, but may be kept. Points for then:
+    - **Reuse their content:** their places are in their own Firebase projects, with the same engine data model, so copy them into this project rather than researching again. Check each photo's licence first, since theirs were cleared for those apps.
+    - **Rotorua's paid unlock:** the same places free in Kiwi Guide would undercut it, and people have paid for it. Decide what they get.
+    - **App Store guideline 4.3 (spam):** separate apps from the same developer with overlapping content can be rejected as duplicates, at their next update if not before. If they're kept, keep them clearly different (one city, for example) or stop updating them.
+- **Store text changes when it ships:** the description, promotional text and keywords. The subtitle "New Zealand road trip planner" can stay.
+- **In the app, these assume the South Island:**
+  - the login tagline "Ultimate South Island trip planner"
+  - the share card's region label, hard-coded "South Island" in `components/share/CaptureCanvas.tsx`, which needs to follow the place's island
+  - the "South Island in 7/10/14/21 Days" suggested trips
+  - the guide's region list in `lib/guideContent.ts`
+  - the town picker's regions in `lib/areas.ts`
+- **Content, as for the South Island:** the place files in `assets/data`, town-to-town drive times (Google Maps quota: quote the cost first), place photos and their licences, and guide sections.
+- The place list grows past 559 docs. The api's KV copy keeps list calls at 0 reads, but every full read (an upload dry run, a cleared copy) costs more.
+
 ---
 
 ## Tooling

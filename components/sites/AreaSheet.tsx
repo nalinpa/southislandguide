@@ -111,15 +111,19 @@ const styles = StyleSheet.create({
     marginBottom: tokens.space.xs,
   },
   title: { fontSize: 20, fontWeight: "800", color: tokens.colors.text },
-  section: { paddingHorizontal: tokens.space.md, paddingTop: tokens.space.sm },
-  // As the field labels in Add to Trip.
+  section: { paddingHorizontal: tokens.space.md },
+  // A tinted band across the sheet, in teal, so a region reads as a heading over its
+  // towns and not one more town to tap (owner, 2026-10-30).
   sectionTitle: {
+    marginHorizontal: -tokens.space.md,
+    paddingHorizontal: tokens.space.md,
+    paddingVertical: 6,
+    backgroundColor: tokens.colors.bgSurface,
     fontSize: 12,
     fontWeight: "700",
     letterSpacing: 0.5,
     textTransform: "uppercase",
-    color: tokens.colors.text2,
-    marginBottom: 2,
+    color: tokens.colors.accent,
   },
   row: {
     flexDirection: "row",

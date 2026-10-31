@@ -362,5 +362,4 @@ The App Store's Header and Search Results image, in `store/header/`, and the iPh
 | Asset | Photo | Library | Licence | Credit | Downloaded | Original kept |
 |---|---|---|---|---|---|---|
 | Header and search results, all three sizes | "Road towards Mount Cook", Jean-Pierre Brungs (first published on Unsplash), [file page](https://commons.wikimedia.org/wiki/File:Road_towards_Mount_Cook_(Unsplash).jpg) | Wikimedia Commons | CC0 | none needed | 30 Oct 2026 | `store/header/source/road-towards-mount-cook-5184x2916.jpg` |
-| Screenshots 1–4 (background) | "Road towards Mount Cook", as above | Wikimedia Commons | CC0 | none needed | 30 Oct 2026 | `store/screenshots/source/road-towards-mount-cook-5184x2916.jpg` |
-| Screenshots 5–7 (background) | "Lake Pukaki and Mt Cook NZ", Bernard Spragg, [file page](https://commons.wikimedia.org/wiki/File:Lake_Pukaki_and_Mt_Cook_NZ._(36555432290).jpg) | Wikimedia Commons | CC0 | none needed | 30 Oct 2026 | `store/screenshots/source/lake-pukaki-and-mt-cook-4916x2984.jpg` |
+| Screenshot 1 (poster background) | "Road towards Mount Cook", as above | Wikimedia Commons | CC0 | none needed | 30 Oct 2026 | `store/screenshots/source/road-towards-mount-cook-5184x2916.jpg` |

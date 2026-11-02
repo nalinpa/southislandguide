@@ -234,10 +234,10 @@ def draw_icon(pg, x, y, w, post_to=None, border=False):
     kiwi_m = Matrix(OUTER + " translate(512 520) scale(1.12) translate(-512 -520)"
                     " translate(496.5 534.4) scale(0.970) translate(-512 -512)")
     pg.svg_path(KIWI_D, kiwi_m, tf, BLACK)
-    pg.rect(x + (132 - VB_X) * s, y + (960 - VB_Y) * s, 760 * s, 196 * s, fill=TEAL, r=20 * s)  # name plate
-    pg.rect(x + (148 - VB_X) * s, y + (976 - VB_Y) * s, 728 * s, 164 * s, stroke=WHITE, sw=10 * s, r=10 * s)  # inset border
-    size_pt = 128 * s * 72 / 25.4
-    pg.text("Bold", size_pt, x + (512 - VB_X) * s, y + (1104 - VB_Y) * s, "Kiwi Guide", WHITE,
+    pg.rect(x + (12 - VB_X) * s, y + (950 - VB_Y) * s, 1000 * s, 260 * s, fill=TEAL, r=24 * s)  # name plate (wider than the sign)
+    pg.rect(x + (30 - VB_X) * s, y + (968 - VB_Y) * s, 964 * s, 224 * s, stroke=WHITE, sw=12 * s, r=14 * s)  # inset border
+    size_pt = 176 * s * 72 / 25.4
+    pg.text("Bold", size_pt, x + (512 - VB_X) * s, y + (1144 - VB_Y) * s, "Kiwi Guide", WHITE,
             tracking_em=-2 / 128, align="center")
     return VB_H * s
 

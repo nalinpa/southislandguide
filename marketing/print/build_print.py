@@ -395,7 +395,8 @@ def build(pg, k, clear):
     sign_top = band_bottom + 6.4 * k
     plate_bottom = sign_top + (1210 - VB_Y) * s_
     post_w = 80 * s_
-    pg.rect(xc - post_w / 2, sign_top + (880 - VB_Y) * s_, post_w, th + BLEED - sign_top, fill=POST_GREY)
+    post_top = sign_top + (880 - VB_Y) * s_
+    pg.rect(xc - post_w / 2, post_top, post_w, th + BLEED - post_top, fill=POST_GREY)  # ends exactly at the bleed edge
     draw_icon(pg, sign_x, sign_top, sign_w, border=True, post=False, plate_mm=em_of(36), plate_weight="ExtraBold")
 
     qp_x, qp_top, qp_w = M, plate_bottom + 2 * k, plate_w
@@ -472,20 +473,24 @@ PIECES = {  # name: (trim w, trim h, scale k vs A4, QR clear zone mm)
 
 def strip_unused_font(path):
     """ReportLab writes 'BT /F1 12 Tf 14.4 TL ET' and a Helvetica resource on every page even though all
-    text here is outlined; remove both so PDF/X preflight sees no unembedded font."""
+    text here is outlined. Remove both, then copy the page into a fresh PDF so the unreferenced font
+    object is not carried over (PDF/X preflight then sees no fonts at all)."""
     from pypdf import PdfReader, PdfWriter
     from pypdf.generic import NameObject
-    w = PdfWriter(clone_from=PdfReader(path))
-    for page in w.pages:
-        cs = page.get_contents()
-        data = cs.get_data().replace(b"BT /F1 12 Tf 14.4 TL ET", b"")
-        cs.set_data(data)
-        page.replace_contents(cs)
+    src = PdfReader(path)
+    out = PdfWriter()
+    for page in src.pages:
         res = page.get("/Resources")
         if res is not None and NameObject("/Font") in res.get_object():
             del res.get_object()[NameObject("/Font")]
+        wp = out.add_page(page)
+        cs = wp.get_contents()
+        cs.set_data(cs.get_data().replace(b"BT /F1 12 Tf 14.4 TL ET", b""))
+        wp.replace_contents(cs)
+    if src.metadata:
+        out.add_metadata({k: v for k, v in src.metadata.items()})
     with open(path, "wb") as fh:
-        w.write(fh)
+        out.write(fh)
 
 
 def main():

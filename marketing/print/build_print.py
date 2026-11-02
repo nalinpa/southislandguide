@@ -465,38 +465,55 @@ def build(pg, k, clear):
 
 
 def build_card(pg, k, clear):
-    """A6 card (105 x 148 mm), read in the hand. White card: headline at the top, the Kiwi Guide
-    signpost as the hero with the app on a phone beside it, and a full-bleed yellow band at the
-    foot carrying the call to action, the App Store badge and the QR code."""
+    """A6 card (105 x 148 mm), read in the hand. White card: headline at the top with the offer as a
+    yellow tag on line 1, the Kiwi Guide signpost as the hero with the app on a phone beside it, and
+    a full-bleed yellow band at the foot: call to action pointing at the QR, App Store badge, address."""
     tw, th = pg.tw, pg.th
     W = tw + 2 * BLEED
     M = 7.0                      # text and artwork margin on every side
     X1 = tw - M
     em_of = lambda size: size * 25.4 / 72
     XB = FONTS["ExtraBold"]
-    H, TH = 21.5, -0.015         # headline
-    C, TC = 16, -0.005           # call to action
-    S, TS = 14, 0.0              # small lines: tag, proof, address
+    H, TH = 22, -0.016           # headline
+    C, TC = 18, -0.01            # call to action and address
+    S, TS = 14, 0.0              # tag and proof line
     hem, cem, sem = em_of(H), em_of(C), em_of(S)
-    lsb = lambda t, e: XB.tt["hmtx"][XB.tt.getBestCmap()[ord(t[0])]][1] / XB.upm * e
+    gid = lambda ch: XB.tt.getBestCmap()[ord(ch)]
+    lsb = lambda t, e: XB.tt["hmtx"][gid(t[0])][1] / XB.upm * e
+
+    def ink_right(t, e, tr):     # right edge of the ink of the last glyph, from the text origin
+        from fontTools.pens.boundsPen import BoundsPen
+        name = gid(t[-1])
+        gs = XB.tt.getGlyphSet()
+        bp = BoundsPen(gs)
+        gs[name].draw(bp)
+        rsb = XB.tt["hmtx"][name][0] - bp.bounds[2] if bp.bounds else 0.0
+        return XB.width(t, tr) * e - rsb / XB.upm * e
+
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
 
-    # ---- headline block on white: teal tag line, black headline, teal proof line
-    bl0 = M + XB.cap * sem
-    bl1 = bl0 + 2.6 + XB.cap * hem
+    # ---- headline block on white: [Free for 2026:] New Zealand / travel planner for iPhone / proof
+    padx, pady = 0.3 * sem, 1.3
+    tag_w = XB.width("Free for 2026:", TS) * sem + 2 * padx
+    tag_h = XB.cap * sem + 2 * pady
+    tag_top = M
+    bl1 = tag_top + tag_h / 2 + XB.cap * hem / 2          # tag centred on the cap height of line 1
     bl2 = bl1 + 1.04 * hem
-    bl3 = bl2 + XB.desc * hem + 2.2 + XB.cap * sem
-    assert M + XB.width("travel planner for iPhone", TH) * hem <= X1 + 0.01, "headline line 2"
-    pg.text("ExtraBold", S, M - lsb("F", sem), bl0, "Free for 2026:", TEAL, tracking_em=TS)
-    pg.text("ExtraBold", H, M - lsb("N", hem), bl1, "New Zealand", BLACK, tracking_em=TH)
+    bl3 = bl2 + 3.2 + XB.cap * sem
+    nz_x = M + tag_w + 0.3 * hem
+    assert nz_x - lsb("N", hem) + ink_right("New Zealand", hem, TH) <= X1 + 0.05, "line 1"
+    assert M - lsb("t", hem) + ink_right("travel planner for iPhone", hem, TH) <= X1 + 0.05, "line 2"
+    pg.rect(M, tag_top, tag_w, tag_h, fill=YELLOW, r=0.8)
+    pg.text("ExtraBold", S, M + padx, tag_top + pady + XB.cap * sem, "Free for 2026:", BLACK, tracking_em=TS)
+    pg.text("ExtraBold", H, nz_x - lsb("N", hem), bl1, "New Zealand", BLACK, tracking_em=TH)
     pg.text("ExtraBold", H, M - lsb("t", hem), bl2, "travel planner for iPhone", BLACK, tracking_em=TH)
     pg.text("ExtraBold", S, M - lsb("5", sem), bl3, "500+ places, 26 trips.", TEAL, tracking_em=TS)
     hero_top = bl3 + XB.desc * sem + 3.2
 
-    # ---- yellow band geometry: QR tile bottom-right, evenly inset; the band bleeds off the foot
+    # ---- yellow band geometry: QR tile bottom-right; the band bleeds off the foot
     qs = 28.0
     tile = qs + 2 * clear
-    gbl = th - SAFE - XB.desc * cem - 0.4          # address baseline = tile bottom; its descender stays in the safe area
+    gbl = th - SAFE - XB.desc * cem - 0.4          # address baseline = tile bottom; descender stays in the safe area
     ty = gbl - tile
     tx = X1 - tile
     band_top = ty - 5.0
@@ -510,8 +527,7 @@ def build_card(pg, k, clear):
     plate_right = sign_x + (1012 - VB_X) * s_
     pg.rect(sign_x + (484 - VB_X) * s_, hero_top + (880 - VB_Y) * s_, 56 * s_,
             band_top + 2 - (hero_top + (880 - VB_Y) * s_), fill=POST_GREY)
-    plate_pt = 24
-    draw_icon(pg, sign_x, hero_top, sign_w, border=True, post=False, plate_mm=em_of(plate_pt), plate_weight="ExtraBold")
+    draw_icon(pg, sign_x, hero_top, sign_w, border=True, post=False, plate_mm=em_of(24), plate_weight="ExtraBold")
 
     # ---- phone on the right margin, same height as the signpost, fully above the band
     img = screen_image()
@@ -536,17 +552,30 @@ def build_card(pg, k, clear):
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
 
-    # ---- yellow band: call to action, badge, address (left); QR on its white tile (right)
+    # ---- yellow band: call to action with an arrow to the QR, badge, address; QR on its white tile
     pg.rect(-BLEED, band_top, W, th + BLEED - band_top, fill=YELLOW)
     pg.rect(tx, ty, tile, tile, fill=WHITE)
     labelled_box(pg, tx + clear, ty + clear, qs, qs, "QR", 14, BLACK, 0.3)
-    right = tx - 3.0
     c1 = ty + XB.cap * cem
     c2 = c1 + 1.12 * cem
     for y, t in ((c1, "Scan to"), (c2, "download.")):
-        assert M + XB.width(t, TC) * cem <= right, t
         pg.text("ExtraBold", C, M - lsb(t, cem), y, t, BLACK, tracking_em=TC)
-    pg.text("ExtraBold", C, M - lsb("g", cem), gbl, URL, BLACK, tracking_em=TC)  # address at the call-to-action size
+    # road-sign arrow from the end of "download." to the tile, centred on the line's x-height
+    a_x0 = M - lsb("d", cem) + ink_right("download.", cem, TC) + 3.0
+    a_x1 = tx - 3.0
+    a_cy = c2 - XB.tt["OS/2"].sxHeight / XB.upm * cem / 2
+    head_l, head_h, shaft = 5.0, 6.0, 2.0
+    assert a_x1 - a_x0 >= 2 * head_l, ("arrow length", a_x1 - a_x0)
+    pg.rect(a_x0, a_cy - shaft / 2, a_x1 - head_l - a_x0 + 0.2, shaft, fill=BLACK)
+    cv = pg.c
+    p = cv.beginPath()
+    p.moveTo(pg.X(a_x1 - head_l), pg.Y(a_cy - head_h / 2))
+    p.lineTo(pg.X(a_x1), pg.Y(a_cy))
+    p.lineTo(pg.X(a_x1 - head_l), pg.Y(a_cy + head_h / 2))
+    p.close()
+    cv.setFillColorCMYK(*BLACK)
+    cv.drawPath(p, stroke=0, fill=1)
+    pg.text("ExtraBold", C, M - lsb("g", cem), gbl, URL, BLACK, tracking_em=TC)
     bh = 10.0                                     # Apple's minimum badge height for print
     bw = bh * 119.66407 / 40
     by = (c2 + gbl - XB.cap * cem) / 2 - bh / 2
@@ -554,7 +583,7 @@ def build_card(pg, k, clear):
     assert by - c2 >= bh / 4 and (gbl - XB.cap * cem) - (by + bh) >= bh / 4, "badge clear space (text)"
     draw_badge(pg, M, by, bh)
     print(f"  card: hero {hero_top:.1f}  sign {sign_w:.1f} wide to {plate_bottom:.1f}  phone {pw:.1f}x{ph:.1f}  "
-          f"band {band_top:.1f}  tile {ty:.1f}-{ty + tile:.1f}  screen {img.size[0] / (sw_ / 25.4) if img else 0:.0f} ppi")
+          f"band {band_top:.1f}  tile {ty:.1f}-{ty + tile:.1f}  arrow {a_x0:.1f}-{a_x1:.1f}  screen {img.size[0] / (sw_ / 25.4) if img else 0:.0f} ppi")
     return qs
 
 

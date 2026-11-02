@@ -263,9 +263,9 @@ def labelled_box(pg, x, y, w, h, label, size_pt, color, sw, r=0.0, weight="Extra
     pg.text(weight, size_pt, x + w / 2, y + h / 2 + cap / 2, label, color, align="center")
 
 
-HEADLINE = ["Free South Island", "trip planner", "for iPhone"]
-SUPPORT = [[("Medium", "500+ places, 26 trips, written by locals.")], [("ExtraBold", "Scan to download.")]]  # paragraphs
-FOOTER = "Kiwi Guide, free, no ads. blacksands.app/kiwi-guide"
+HEADLINE = ["Free in 2026:", "South Island", "trip planner", "for iPhone"]
+SUPPORT = [[("Medium", "500+ places, 26 trips.")], [("ExtraBold", "Scan to download.")]]  # paragraphs
+FOOTER = "Kiwi Guide, no ads. blacksands.app/kiwi-guide"
 
 
 def build(pg, L):
@@ -293,10 +293,10 @@ def build(pg, L):
 
     hx, htop, hsz, hw = L["headline"]
     f, em = FONTS["ExtraBold"], hsz * 25.4 / 72
-    # yellow highlight block behind the first word
+    # yellow highlight block behind the whole first line
     bl0 = css_baseline("ExtraBold", hsz, htop, 1.05, 0)
     pad = 0.12 * em
-    fw = f.width("Free", -0.02) * em
+    fw = f.width(HEADLINE[0], -0.02) * em
     pg.rect(hx - pad, bl0 - f.cap * em - pad, fw + 2 * pad - 0.02 * em, f.cap * em + 2 * pad, fill=YELLOW)
     assert hx - pad >= SAFE
     for i, line in enumerate(HEADLINE):
@@ -334,8 +334,8 @@ def poster_layout(k):
         "road": (118 * k, 13 * k, 16 * k, 12 * k, 2.4 * k),
         "icon": (14 * k, 12 * k, 70 * k),
         "shot": (146 * k, 14 * k, 50 * k, 96 * k, 7 * k, 16 * k),
-        "headline": (14 * k, 139 * k, 58 * k, 182 * k),
-        "support": (14 * k, 210 * k, 26 * k, 112 * k, 1.25),
+        "headline": (14 * k, 139 * k, 52 * k, 182 * k),
+        "support": (14 * k, 224 * k, 26 * k, 112 * k, 1.25),
         "qr": (134 * k, 209 * k, 62 * k, 1.0 * k, 36 * k),
         "band": 276 * k,
         "footer": (14 * k, 282.5 * k, 20 * k, 8 * k),
@@ -348,11 +348,11 @@ PIECES = {
         "road": (60, 6.5, 8, 6, 1.2),
         "icon": (9, 7, 34),
         "shot": (70, 9, 26, 45, 3.5, 7),
-        "headline": (9, 72, 24, 87),
-        "support": (9, 103, 10, 54, 1.3),
-        "qr": (68, 103, 28, 0.5, 14),
-        "band": 136,
-        "footer": (9, 138.6, 7.5, 3),
+        "headline": (9, 72, 22, 87),
+        "support": (9, 108, 10, 54, 1.3),
+        "qr": (68, 105, 28, 0.5, 14),
+        "band": 137.5,
+        "footer": (9, 139.2, 7.5, 3),
     }),
     "kiwi-guide_A4-poster": (210, 297, poster_layout(1.0)),
     "kiwi-guide_A3-poster": (297, 420, poster_layout(math.sqrt(2))),

@@ -36,6 +36,7 @@ MARK_LEN = 6.0
 YELLOW = (0.0, 0.20, 1.0, 0.0)
 TEAL = (0.90, 0.35, 0.40, 0.30)
 BLACK = (0.0, 0.0, 0.0, 1.0)
+TEAL_TINT = tuple(round(v * 0.12, 4) for v in TEAL)  # 12% tint of the brand teal, ~#DAEBE9
 WHITE = (0.0, 0.0, 0.0, 0.0)
 REGISTRATION = (1.0, 1.0, 1.0, 1.0)
 
@@ -286,7 +287,7 @@ def build(pg, L):
     # paper, teal sign field, road strip, yellow footer band (all run into the bleed)
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
     rt, rh, dl, dg, dh = L["road"]
-    pg.rect(-BLEED, rt + rh, W, L["band"] - rt - rh, fill=TEAL)  # teal panel behind the text
+    pg.rect(-BLEED, rt + rh, W, L["band"] - rt - rh, fill=TEAL_TINT)  # pale teal panel behind the text
     pg.rect(-BLEED, rt, W, rh, fill=BLACK)
     x = -BLEED - dl / 3
     while x < tw + BLEED:  # yellow centre-line dashes
@@ -314,7 +315,7 @@ def build(pg, L):
     for i, line in enumerate(HEADLINE):
         assert f.width(line, -0.02) * em <= hw, line
         pg.text("ExtraBold", hsz, hx, css_baseline("ExtraBold", hsz, htop, 1.05, i), line,
-                BLACK if i == 0 else WHITE, tracking_em=-0.02)
+                BLACK, tracking_em=-0.02)
 
     px, ptop, psz, pw, plh = L["support"]
     em = psz * 25.4 / 72
@@ -325,7 +326,7 @@ def build(pg, L):
         for j, (wt, word) in enumerate(line):
             if j:
                 cx += FONTS[wt].width(" ") * em
-            cx += pg.text(wt, psz, cx, bl, word, WHITE)
+            cx += pg.text(wt, psz, cx, bl, word, BLACK)
 
     qx, qy, qs, qst, qsz = L["qr"]
     pg.rect(qx - 4, qy - 4, qs + 8, qs + 8, fill=WHITE)  # 4 mm white clear zone tile

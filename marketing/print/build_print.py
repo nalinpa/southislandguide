@@ -553,7 +553,7 @@ def build_card(pg, k, clear):
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
 
-    # ---- yellow band: call to action with an arrow to the QR, badge, address; QR on its white tile
+    # ---- yellow band: call to action, badge, address (left); QR on its white tile (right)
     pg.rect(-BLEED, band_top, W, th + BLEED - band_top, fill=YELLOW)
     pg.rect(tx, ty, tile, tile, fill=WHITE)
     labelled_box(pg, tx + clear, ty + clear, qs, qs, "QR", 14, BLACK, 0.3)

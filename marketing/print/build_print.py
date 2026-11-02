@@ -36,7 +36,7 @@ MARK_LEN = 6.0
 YELLOW = (0.0, 0.20, 1.0, 0.0)
 TEAL = (0.90, 0.35, 0.40, 0.30)
 BLACK = (0.0, 0.0, 0.0, 1.0)
-TEAL_TINT = tuple(round(v * 0.12, 4) for v in TEAL)  # 12% tint of the brand teal, ~#DAEBE9
+TEAL_TINT = (0.42, 0.06, 0.24, 0.0)  # mid teal (clean build, no K) for the panel behind the text
 WHITE = (0.0, 0.0, 0.0, 0.0)
 REGISTRATION = (1.0, 1.0, 1.0, 1.0)
 

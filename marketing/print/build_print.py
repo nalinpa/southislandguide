@@ -256,7 +256,7 @@ def rounded_square(x0, size, r):
 SIGN_BORDER_D = rounded_square(263.4, 497.2, 81) + rounded_square(277.4, 469.2, 67)
 
 
-def draw_icon(pg, x, y, w, post_to=None, border=False, post=True):
+def draw_icon(pg, x, y, w, post_to=None, border=False, post=True, plate_mm=None, plate_weight="Bold"):
     s = w / VB_W  # mm per icon unit
 
     def tf(pt):
@@ -273,8 +273,10 @@ def draw_icon(pg, x, y, w, post_to=None, border=False, post=True):
     pg.svg_path(KIWI_D, kiwi_m, tf, BLACK)
     pg.rect(x + (12 - VB_X) * s, y + (950 - VB_Y) * s, 1000 * s, 260 * s, fill=TEAL, r=24 * s)  # name plate (wider than the sign)
     pg.rect(x + (30 - VB_X) * s, y + (968 - VB_Y) * s, 964 * s, 224 * s, stroke=WHITE, sw=12 * s, r=14 * s)  # inset border
-    size_pt = 176 * s * 72 / 25.4
-    pg.text("Bold", size_pt, x + (512 - VB_X) * s, y + (1144 - VB_Y) * s, "Kiwi Guide", WHITE,
+    size_pt = (plate_mm if plate_mm else 176 * s) * 72 / 25.4
+    cap = FONTS[plate_weight].cap * size_pt * 25.4 / 72
+    plate_mid = y + (950 + 130 - VB_Y) * s  # vertical centre of the name plate
+    pg.text(plate_weight, size_pt, x + (512 - VB_X) * s, plate_mid + cap / 2, "Kiwi Guide", WHITE,
             tracking_em=-2 / 128, align="center")
     return VB_H * s
 
@@ -348,13 +350,14 @@ def build(pg, k, clear):
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
 
     # ================= header band
-    em = em_of(36)
-    padx, pady = 0.3 * em, 0.25 * em
+    em = em_of(26)
+    padx = pady = 4.8 * k  # equal padding: 2.8 mm of yellow inside the frame all round
+    tag_top = 11 * k
     tag_w = XB.width("Free for 2026:", -0.01) * em + 2 * padx
     tag_h = XB.cap * em + 2 * pady
-    tag_bl = M + pady + XB.cap * em
+    tag_bl = tag_top + pady + XB.cap * em
     em = em_of(56)
-    bl = M + tag_h + 4 * k + XB.cap * em
+    bl = tag_top + tag_h + 4 * k + XB.cap * em
     lines = []
     for text in ("New Zealand", "travel planner"):
         assert M + XB.width(text, -0.02) * em <= tw - M, text
@@ -363,13 +366,14 @@ def build(pg, k, clear):
         bl += em
     ip_em = em_of(36)
     ip_bl = last + 0.22 * em + 3 * k + XB.cap * ip_em
-    band_bottom = ip_bl + 0.2 * ip_em + 5.5 * k
+    band_bottom = ip_bl + 11 * k
     pg.rect(-BLEED, -BLEED, W, band_bottom + BLEED, fill=TEAL)
-    pg.rect(M, M, tag_w, tag_h, fill=YELLOW, r=1.5 * k)
-    pg.rect(M + 1.2 * k, M + 1.2 * k, tag_w - 2.4 * k, tag_h - 2.4 * k, stroke=BLACK, sw=0.8 * k, r=0.8 * k)
-    pg.text("ExtraBold", 36 * k, M + padx, tag_bl, "Free for 2026:", BLACK, tracking_em=-0.01)
+    pg.rect(M, tag_top, tag_w, tag_h, fill=YELLOW, r=1.5 * k)
+    pg.rect(M + 1.2 * k, tag_top + 1.2 * k, tag_w - 2.4 * k, tag_h - 2.4 * k, stroke=BLACK, sw=0.8 * k, r=0.8 * k)
+    pg.text("ExtraBold", 26 * k, M + padx, tag_bl, "Free for 2026:", BLACK, tracking_em=-0.01)
     for y, text in lines:
-        pg.text("ExtraBold", 56 * k, M, y, text, WHITE, tracking_em=-0.02)
+        lsb = XB.tt["hmtx"][XB.tt.getBestCmap()[ord(text[0])]][1] / XB.upm
+        pg.text("ExtraBold", 56 * k, M - lsb * em + 0.0098 * em, y, text, WHITE, tracking_em=-0.02)
     ip_w = pg.text("ExtraBold", 36 * k, M, ip_bl, "for iPhone", WHITE, tracking_em=-0.02)
     # App Store badge: right-aligned on the "for iPhone" line, centred on its cap height
     bh = 12 * k
@@ -388,11 +392,11 @@ def build(pg, k, clear):
     xc = M + plate_w / 2
     sign_x = xc - (512 - VB_X) * s_
     assert sign_x + (12 - VB_X) * s_ >= SAFE - 0.01
-    sign_top = band_bottom + 7 * k
+    sign_top = band_bottom + 6.4 * k
     plate_bottom = sign_top + (1210 - VB_Y) * s_
     post_w = 80 * s_
     pg.rect(xc - post_w / 2, sign_top + (880 - VB_Y) * s_, post_w, th + BLEED - sign_top, fill=POST_GREY)
-    draw_icon(pg, sign_x, sign_top, sign_w, border=True, post=False)
+    draw_icon(pg, sign_x, sign_top, sign_w, border=True, post=False, plate_mm=em_of(36), plate_weight="ExtraBold")
 
     qp_x, qp_top, qp_w = M, plate_bottom + 2 * k, plate_w
     inset, line = 1.2 * k, 0.8 * k
@@ -400,10 +404,10 @@ def build(pg, k, clear):
     em = em_of(36)
     bl1 = qp_top + edge + 3 * k + XB.cap * em
     bl2 = bl1 + em
-    tile = qp_w - 2 * edge - 2 * k  # white tile = QR + clear zone on all sides
+    tile = qp_w - 2 * edge - 3 * k  # white tile = QR + clear zone; 1.5 mm of yellow at the sides and bottom
     qs = min(62 * k, tile - 2 * clear)
     tile_y = bl2 + 2.5 * k
-    qp_bottom = tile_y + tile + 2 * k + edge
+    qp_bottom = tile_y + tile + 1.5 * k + edge
     assert qs >= 60 * k, ("QR too small", qs)
     assert qp_bottom <= th - SAFE + 0.01, ("QR plate inside the safe area", qp_bottom)
     pg.rect(qp_x, qp_top, qp_w, qp_bottom - qp_top, fill=YELLOW, r=1.5 * k)
@@ -443,13 +447,13 @@ def build(pg, k, clear):
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
     cem = em_of(26)
-    cbl = ptop + ih + 2 * b + 3.5 * k + XB.cap * cem
+    cbl = ptop + ih + 2 * b + 2 * k + XB.cap * cem
     for t in ("500+ places,", "26 trips."):
         assert XB.width(t) * cem <= pw, t
         pg.text("ExtraBold", 26 * k, px, cbl, t, BLACK)
         cbl += cem * 1.05
     gem = em_of(26)
-    natural = cbl - cem * 1.05 + 0.05 * cem + 2.5 * k + XB.cap * gem
+    natural = cbl - cem * 1.05 + 0.05 * cem + 3 * k + XB.cap * gem
     assert natural <= tile_y + tile + 0.3 * k, ("caption longer than the QR column", natural, tile_y + tile)
     gbl = tile_y + tile  # last caption baseline aligned with the bottom of the QR tile
     assert gbl + 0.25 * gem <= th - SAFE, ("guide.kiwi inside the safe area", gbl + 0.25 * gem)

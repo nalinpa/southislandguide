@@ -210,18 +210,20 @@ OUTER = "translate(512 512) scale(1.2608) translate(-512 -512)"
 VB_X, VB_Y, VB_W, VB_H = 92, 92, 840, 1148  # icon viewBox
 
 
-def draw_icon(pg, x, y, w):
+def draw_icon(pg, x, y, w, post_to=None):
     s = w / VB_W  # mm per icon unit
 
     def tf(pt):
         return pg.X(x + (pt[0] - VB_X) * s), pg.Y(y + (pt[1] - VB_Y) * s)
 
-    pg.rect(x + (484 - VB_X) * s, y + (880 - VB_Y) * s, 56 * s, 360 * s, fill=BLACK)  # post
+    post_bottom = post_to if post_to is not None else y + (1240 - VB_Y) * s
+    pg.rect(x + (484 - VB_X) * s, y + (880 - VB_Y) * s, 56 * s, post_bottom - (y + (880 - VB_Y) * s), fill=BLACK)  # post
     pg.svg_path(SIGN_D, Matrix(OUTER + " rotate(45 512 512)"), tf, YELLOW)
     kiwi_m = Matrix(OUTER + " translate(512 520) scale(1.12) translate(-512 -520)"
                     " translate(496.5 534.4) scale(0.970) translate(-512 -512)")
     pg.svg_path(KIWI_D, kiwi_m, tf, BLACK)
     pg.rect(x + (132 - VB_X) * s, y + (960 - VB_Y) * s, 760 * s, 196 * s, fill=TEAL, r=20 * s)  # name plate
+    pg.rect(x + (148 - VB_X) * s, y + (976 - VB_Y) * s, 728 * s, 164 * s, stroke=WHITE, sw=10 * s, r=10 * s)  # inset border
     size_pt = 128 * s * 72 / 25.4
     pg.text("Bold", size_pt, x + (512 - VB_X) * s, y + (1104 - VB_Y) * s, "Kiwi Guide", WHITE,
             tracking_em=-2 / 128, align="center")
@@ -268,19 +270,37 @@ FOOTER = "Kiwi Guide, free, no ads. blacksands.app/kiwi-guide"
 
 def build(pg, L):
     tw, th = pg.tw, pg.th
-    # white paper + footer band to the bleed edge
-    pg.rect(-BLEED, -BLEED, tw + 2 * BLEED, th + 2 * BLEED, fill=WHITE)
-    pg.rect(-BLEED, L["band"], tw + 2 * BLEED, th + BLEED - L["band"], fill=TEAL)
+    W = tw + 2 * BLEED
+    # paper, teal sign field, road strip, yellow footer band (all run into the bleed)
+    pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
+    pg.rect(-BLEED, -BLEED, W, L["teal"] + BLEED, fill=TEAL)
+    rt, rh, dl, dg, dh = L["road"]
+    pg.rect(-BLEED, rt, W, rh, fill=BLACK)
+    x = -BLEED - dl / 3
+    while x < tw + BLEED:  # yellow centre-line dashes
+        x0, x1 = max(x, -BLEED), min(x + dl, tw + BLEED)
+        pg.rect(x0, rt + (rh - dh) / 2, x1 - x0, dh, fill=YELLOW)
+        x += dl + dg
+    pg.rect(-BLEED, L["band"], W, th + BLEED - L["band"], fill=YELLOW)
 
     ix, iy, iw = L["icon"]
-    ih = draw_icon(pg, ix, iy, iw)
+    draw_icon(pg, ix, iy, iw, post_to=rt)
 
-    sx, sy, sw_, sr, sst, ssz = L["shot"]
-    labelled_box(pg, sx, sy, sw_, ih, "screenshot", ssz, TEAL, sst, r=sr, weight="SemiBold")
+    sx, sy, sw_, sh, sr, ssz = L["shot"]
+    pg.rect(sx, sy, sw_, sh, fill=WHITE, r=sr)
+    cap = FONTS["SemiBold"].cap * ssz * 25.4 / 72
+    pg.text("SemiBold", ssz, sx + sw_ / 2, sy + sh / 2 + cap / 2, "screenshot", TEAL, align="center")
 
     hx, htop, hsz, hw = L["headline"]
+    f, em = FONTS["ExtraBold"], hsz * 25.4 / 72
+    # yellow highlight block behind the first word
+    bl0 = css_baseline("ExtraBold", hsz, htop, 1.05, 0)
+    pad = 0.12 * em
+    fw = f.width("Free", -0.02) * em
+    pg.rect(hx - pad, bl0 - f.cap * em - pad, fw + 2 * pad - 0.02 * em, f.cap * em + 2 * pad, fill=YELLOW)
+    assert hx - pad >= SAFE
     for i, line in enumerate(HEADLINE):
-        assert FONTS["ExtraBold"].width(line, -0.02) * hsz * 25.4 / 72 <= hw, line
+        assert f.width(line, -0.02) * em <= hw, line
         pg.text("ExtraBold", hsz, hx, css_baseline("ExtraBold", hsz, htop, 1.05, i), line, BLACK, tracking_em=-0.02)
 
     px, ptop, psz, pw, plh = L["support"]
@@ -296,8 +316,8 @@ def build(pg, L):
 
     qx, qy, qs, qst, qsz = L["qr"]
     labelled_box(pg, qx, qy, qs, qs, "QR", qsz, BLACK, qst)
-    # QR clear zone check: 4 mm white around it (trim edge, text and band)
-    assert qx + qs + 4 <= tw and qy + qs + 4 <= L["band"], "QR clear zone"
+    # QR clear zone: 4 mm of white on every side
+    assert qx + qs + 4 <= tw and qy + qs + 4 <= L["band"] and qy - 4 >= rt + rh, "QR clear zone"
 
     fx, ftop, fsz, flh = L["footer"]
     f = FONTS["SemiBold"]
@@ -305,29 +325,33 @@ def build(pg, L):
     bl = ftop + (flh - (f.asc + f.desc) * em) / 2 + f.asc * em
     assert bl + f.desc * em * 0.5 <= th - SAFE, "footer inside safe area"
     assert fx + f.width(FOOTER) * em <= tw - SAFE, "footer width"
-    pg.text("SemiBold", fsz, fx, bl, FOOTER, WHITE)
+    pg.text("SemiBold", fsz, fx, bl, FOOTER, BLACK)
 
 
 def poster_layout(k):
     return {
-        "icon": (14 * k, 14 * k, 72 * k),
-        "shot": (150 * k, 14 * k, 46 * k, 7 * k, 1.0 * k, 16 * k),
-        "headline": (14 * k, 122 * k, 60 * k, 182 * k),
-        "support": (14 * k, 199 * k, 26 * k, 112 * k, 1.25),
-        "qr": (134 * k, 200 * k, 62 * k, 1.0 * k, 36 * k),
-        "band": 268 * k,
-        "footer": (14 * k, 278.5 * k, 20 * k, 8 * k),
+        "teal": 118 * k,
+        "road": (118 * k, 13 * k, 16 * k, 12 * k, 2.4 * k),
+        "icon": (14 * k, 12 * k, 70 * k),
+        "shot": (146 * k, 14 * k, 50 * k, 96 * k, 7 * k, 16 * k),
+        "headline": (14 * k, 139 * k, 58 * k, 182 * k),
+        "support": (14 * k, 210 * k, 26 * k, 112 * k, 1.25),
+        "qr": (134 * k, 209 * k, 62 * k, 1.0 * k, 36 * k),
+        "band": 276 * k,
+        "footer": (14 * k, 282.5 * k, 20 * k, 8 * k),
     }
 
 
 PIECES = {
     "kiwi-guide_A6-card": (105, 148, {
-        "icon": (9, 9, 40),
-        "shot": (68, 9, 28, 4, 0.6, 7),
-        "headline": (9, 69, 26, 87),
-        "support": (9, 103.4, 10.5, 54, 1.3),
-        "qr": (68, 104, 28, 0.5, 14),
-        "band": 137,
+        "teal": 60,
+        "road": (60, 6.5, 8, 6, 1.2),
+        "icon": (9, 7, 34),
+        "shot": (70, 9, 26, 45, 3.5, 7),
+        "headline": (9, 72, 24, 87),
+        "support": (9, 103, 10, 54, 1.3),
+        "qr": (68, 103, 28, 0.5, 14),
+        "band": 136,
         "footer": (9, 138.6, 7.5, 3),
     }),
     "kiwi-guide_A4-poster": (210, 297, poster_layout(1.0)),

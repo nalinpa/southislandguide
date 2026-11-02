@@ -299,7 +299,12 @@ def screen_image():
     """The screenshot as a CMYK image (simple conversion; the printer may re-separate with their profile)."""
     global _SCREEN_CMYK
     if _SCREEN_CMYK is None and os.path.exists(SCREEN):
-        rgb = np.asarray(Image.open(SCREEN).convert("RGB"), dtype=np.float32) / 255.0
+        src = Image.open(SCREEN).convert("RGB")
+        # hide the test-device distance pill ("1010.3 km") in the place panel with the panel's own colour
+        if src.size == (828, 1792):
+            from PIL import ImageDraw
+            ImageDraw.Draw(src).rectangle([580, 1434, 802, 1516], fill=src.getpixel((560, 1480)))
+        rgb = np.asarray(src, dtype=np.float32) / 255.0
         cmy = 1.0 - rgb
         kk = cmy.min(axis=2, keepdims=True)  # full grey-component replacement keeps total ink low
         cmy = np.where(kk < 1.0, (cmy - kk) / np.maximum(1.0 - kk, 1e-6), 0.0)
@@ -314,88 +319,81 @@ def build(pg, k, clear):
     W = tw + 2 * BLEED
     M = 14 * k  # visual margin
     em_of = lambda size: size * k * 25.4 / 72  # A4 point size -> em in mm at this scale
-    XB = FONTS["ExtraBold"]
+    XB, SB = FONTS["ExtraBold"], FONTS["SemiBold"]
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
 
-    # ---- "Free for 2026:" as a teal tag, like a supplementary road-sign plate
+    # phone geometry first (the header panel ends behind it)
+    img = screen_image()
+    px, pw = 112 * k, 84 * k
+    b = 3 * k
+    sw_ = pw - 2 * b
+    ih = sw_ * (img.size[1] / img.size[0] if img else 1792 / 828)
+    ph = ih + 2 * b
+    ptop = 100 * k
+    panel_bottom = 116 * k
+
+    # ---- dark teal header panel, full bleed (echoes the app's own header)
+    pg.rect(-BLEED, -BLEED, W, panel_bottom + BLEED, fill=TEAL)
+
+    # "Free for 2026:" as a yellow tag, black text
     em = em_of(38)
     padx, pady = 0.25 * em, 0.22 * em
     tag_w = XB.width("Free for 2026:", -0.01) * em + 2 * padx
     tag_h = XB.cap * em + 2 * pady
-    pg.rect(M, M, tag_w, tag_h, fill=TEAL, r=0.12 * em)
-    pg.text("ExtraBold", 38 * k, M + padx, M + pady + XB.cap * em, "Free for 2026:", WHITE, tracking_em=-0.01)
+    pg.rect(M, M, tag_w, tag_h, fill=YELLOW, r=0.12 * em)
+    pg.text("ExtraBold", 38 * k, M + padx, M + pady + XB.cap * em, "Free for 2026:", BLACK, tracking_em=-0.01)
 
-    # ---- headline: two huge lines, then "for iPhone", then the proof line
     em = em_of(66)
     bl = M + tag_h + 5 * k + XB.cap * em
     for text in ("New Zealand", "travel planner"):
         assert M + XB.width(text, -0.02) * em <= tw - M, text
-        pg.text("ExtraBold", 66 * k, M, bl, text, BLACK, tracking_em=-0.02)
+        pg.text("ExtraBold", 66 * k, M, bl, text, WHITE, tracking_em=-0.02)
         last = bl
         bl += em
-    bl = last + 0.22 * em + 3 * k + XB.cap * em_of(30)
-    pg.text("ExtraBold", 30 * k, M, bl, "for iPhone", BLACK, tracking_em=-0.02)
-    bl += 0.2 * em_of(30) + 4 * k + FONTS["Medium"].cap * em_of(24)
-    pg.text("Medium", 24 * k, M, bl, "500+ places, 26 trips.", BLACK)
-    head_bottom = bl + 0.2 * em_of(24)
+    bl = last + 0.22 * em + 3 * k + XB.cap * em_of(40)
+    pg.text("ExtraBold", 40 * k, M, bl, "for iPhone", WHITE, tracking_em=-0.02)
+    bl += 0.2 * em_of(40) + 4 * k + SB.cap * em_of(25)
+    assert M + SB.width("500+ places, 26 trips.") * em_of(25) <= px - 4 * k
+    pg.text("SemiBold", 25 * k, M, bl, "500+ places, 26 trips.", WHITE)
+    assert bl + 0.2 * em_of(25) <= panel_bottom - 3 * k, "header text inside the panel"
 
-    # ---- phone: large, cropped by the right and bottom edges; top set so the screenshot's
-    # place panel and tab bar stay below the page edge
-    img = screen_image()
-    px, pw = 104 * k, 112 * k
-    b = 3 * k
-    sw_ = pw - 2 * b
-    vis_px = 1380  # screenshot rows that may show (the dark place panel starts at row ~1390)
-    top = th + BLEED - b - vis_px * sw_ / (img.size[0] if img else 828)
-    top = max(top, head_bottom + 6 * k)
-    gap = 2 * k
-    pg.rect(px - gap, top - gap, pw + 2 * gap, th + BLEED - top + 30 * k, fill=WHITE, r=14 * k + gap)  # white halo
-
-    # ---- sign standing on a road (drawn before the phone so the phone sits in front of the road)
-    sign_w = 54 * k
-    sign_x = M + 4 * k
-    s_ = sign_w / VB_W
-    assert sign_x + (12 - VB_X) * s_ >= SAFE, "plate inside safe margin"
-    sign_top = head_bottom + 8 * k
-    plate_bottom = sign_top + (1210 - VB_Y) * s_
-    road_t, road_h = plate_bottom + 2 * k, 10 * k
-    pg.rect(-BLEED, road_t, W, road_h, fill=BLACK)
-    dl, dg, dh = 14 * k, 10 * k, 1.6 * k  # white centre line, as on NZ roads
-    x = -BLEED - dl / 3
-    while x < tw + BLEED:
-        x0, x1 = max(x, -BLEED), min(x + dl, tw + BLEED)
-        pg.rect(x0, road_t + (road_h - dh) / 2, x1 - x0, dh, fill=WHITE)
-        x += dl + dg
-    draw_icon(pg, sign_x, sign_top, sign_w, post_to=road_t, border=True)
-
-    pg.rect(px - gap, top - gap, pw + 2 * gap, th + BLEED - top + 30 * k, fill=WHITE, r=14 * k + gap)
-    pg.rect(px, top, pw, th + BLEED - top + 30 * k, fill=BLACK, r=14 * k)
-    sx, sy = px + b, top + b
-    sh = th + BLEED - sy + 30 * k
+    # ---- phone, whole, overlapping the bottom of the header panel
+    gap = 1.5 * k
+    assert px + pw <= tw - SAFE and ptop + ph <= th - SAFE, "phone inside safe area"
+    pg.rect(px - gap, ptop - gap, pw + 2 * gap, ph + 2 * gap, fill=WHITE, r=13 * k + gap)
+    pg.rect(px, ptop, pw, ph, fill=BLACK, r=13 * k)
+    sx, sy = px + b, ptop + b
     if img is None:
-        pg.rect(sx, sy, sw_, sh, fill=TEAL_TINT, r=11 * k)
-        cap = FONTS["SemiBold"].cap * em_of(16)
-        pg.text("SemiBold", 16 * k, sx + sw_ / 2, sy + 60 * k, "screenshot", TEAL, align="center")
+        pg.rect(sx, sy, sw_, ih, fill=TEAL_TINT, r=10 * k)
+        cap = SB.cap * em_of(16)
+        pg.text("SemiBold", 16 * k, sx + sw_ / 2, sy + ih / 2 + cap / 2, "screenshot", TEAL, align="center")
     else:
         c = pg.c
         c.saveState()
         clip = c.beginPath()
-        clip.roundRect(pg.X(sx), pg.Y(sy + sh), sw_ * mm, sh * mm, 11 * k * mm)
+        clip.roundRect(pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm, 10 * k * mm)
         c.clipPath(clip, stroke=0, fill=0)
-        pg.rect(sx, sy, sw_, sh, fill=WHITE)
-        ih = sw_ * img.size[1] / img.size[0]
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
 
-    # ---- call to action under the road, left column, on plain white
+    # ---- sign lockup on white, left column
+    sign_w = 52 * k
+    sign_x = M + 5 * k
+    s_ = sign_w / VB_W
+    assert sign_x + (12 - VB_X) * s_ >= SAFE, "plate inside safe margin"
+    sign_top = panel_bottom + 4 * k
+    draw_icon(pg, sign_x, sign_top, sign_w, border=True)
+    sign_bottom = sign_top + VB_H * s_
+
+    # ---- call to action + QR, left column, plain white
     col_r = px - gap - 4 * k
-    em = em_of(26)
-    bl = road_t + road_h + 4 * k + XB.cap * em
+    em = em_of(28)
+    bl = sign_bottom + 8 * k + XB.cap * em
     assert M + XB.width("Scan to download.") * em <= col_r
-    pg.text("ExtraBold", 26 * k, M, bl, "Scan to download.", BLACK)
-    em = em_of(22)
-    bl += 3.5 * k + FONTS["SemiBold"].cap * em
-    pg.text("SemiBold", 22 * k, M, bl, URL, BLACK)
+    pg.text("ExtraBold", 28 * k, M, bl, "Scan to download.", BLACK)
+    em = em_of(24)
+    bl += 4 * k + SB.cap * em
+    pg.text("SemiBold", 24 * k, M, bl, URL, BLACK)
     qy = bl + 0.22 * em + clear
     qs = min(62 * k, th - SAFE - qy)
     assert qs >= (60 if k >= 1 else 25), ("QR too small", qs)

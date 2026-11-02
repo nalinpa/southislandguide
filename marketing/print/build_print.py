@@ -301,13 +301,15 @@ def screen_image():
     if _SCREEN_CMYK is None and os.path.exists(SCREEN):
         src = Image.open(SCREEN).convert("RGB")
         # hide the test-device distance pill ("1010.3 km") in the place panel with the panel's own colour
-        if src.size == (828, 1792):
+        if os.path.basename(SCREEN) == "screen-map.png":
             from PIL import ImageDraw
-            ImageDraw.Draw(src).rectangle([580, 1434, 802, 1516], fill=src.getpixel((560, 1480)))
+            sx, sy = src.size[0] / 828, src.size[1] / 1792  # coordinates measured on the 828x1792 capture
+            ImageDraw.Draw(src).rectangle([580 * sx, 1434 * sy, 802 * sx, 1516 * sy],
+                                          fill=src.getpixel((int(560 * sx), int(1480 * sy))))
         rgb = np.asarray(src, dtype=np.float32) / 255.0
         cmy = 1.0 - rgb
         kk = cmy.min(axis=2, keepdims=True)  # full grey-component replacement keeps total ink low
-        cmy = np.where(kk < 1.0, (cmy - kk) / np.maximum(1.0 - kk, 1e-6), 0.0)
+        cmy = cmy - kk  # under-colour removal: the grey component goes to K only
         cmyk = np.concatenate([cmy, kk], axis=2)
         _SCREEN_CMYK = Image.fromarray((cmyk * 255 + 0.5).astype(np.uint8), mode="CMYK")
     return _SCREEN_CMYK
@@ -322,52 +324,51 @@ def build(pg, k, clear):
     XB, SB = FONTS["ExtraBold"], FONTS["SemiBold"]
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
 
-    # phone geometry first (the header panel ends behind it)
-    img = screen_image()
-    px, pw = 112 * k, 84 * k
-    b = 3 * k
-    sw_ = pw - 2 * b
-    ih = sw_ * (img.size[1] / img.size[0] if img else 1792 / 828)
-    ph = ih + 2 * b
-    ptop = 100 * k
-    panel_bottom = 116 * k
-
-    # ---- dark teal header panel, full bleed (echoes the app's own header)
-    pg.rect(-BLEED, -BLEED, W, panel_bottom + BLEED, fill=TEAL)
-
-    # "Free for 2026:" as a yellow tag, black text
+    # ================= header: dark teal panel (the app's own header colour), full bleed
+    # "Free for 2026:" as a yellow supplementary plate with a thin black inset border
     em = em_of(38)
-    padx, pady = 0.25 * em, 0.22 * em
+    padx, pady = 0.3 * em, 0.25 * em
     tag_w = XB.width("Free for 2026:", -0.01) * em + 2 * padx
     tag_h = XB.cap * em + 2 * pady
-    pg.rect(M, M, tag_w, tag_h, fill=YELLOW, r=0.12 * em)
-    pg.text("ExtraBold", 38 * k, M + padx, M + pady + XB.cap * em, "Free for 2026:", BLACK, tracking_em=-0.01)
-
+    tag_bl = M + pady + XB.cap * em
     em = em_of(66)
     bl = M + tag_h + 5 * k + XB.cap * em
+    lines = []
     for text in ("New Zealand", "travel planner"):
         assert M + XB.width(text, -0.02) * em <= tw - M, text
-        pg.text("ExtraBold", 66 * k, M, bl, text, WHITE, tracking_em=-0.02)
+        lines.append((bl, text))
         last = bl
         bl += em
-    bl = last + 0.22 * em + 3 * k + XB.cap * em_of(40)
-    pg.text("ExtraBold", 40 * k, M, bl, "for iPhone", WHITE, tracking_em=-0.02)
-    bl += 0.2 * em_of(40) + 4 * k + SB.cap * em_of(25)
-    assert M + SB.width("500+ places, 26 trips.") * em_of(25) <= px - 4 * k
-    pg.text("SemiBold", 25 * k, M, bl, "500+ places, 26 trips.", WHITE)
-    assert bl + 0.2 * em_of(25) <= panel_bottom - 3 * k, "header text inside the panel"
+    ip_bl = last + 0.22 * em + 3 * k + XB.cap * em_of(40)
+    proof_w = SB.width("500+ places, 26 trips.") * em_of(24)
+    assert M + XB.width("for iPhone", -0.02) * em_of(40) + 8 * k <= tw - M - proof_w, "for iPhone / proof line"
+    band_bottom = ip_bl + 0.2 * em_of(40) + 9 * k
+    pg.rect(-BLEED, -BLEED, W, band_bottom + BLEED, fill=TEAL)
+    pg.rect(M, M, tag_w, tag_h, fill=YELLOW, r=1.5 * k)
+    pg.rect(M + 1.2 * k, M + 1.2 * k, tag_w - 2.4 * k, tag_h - 2.4 * k, stroke=BLACK, sw=0.8 * k, r=0.8 * k)
+    pg.text("ExtraBold", 38 * k, M + padx, tag_bl, "Free for 2026:", BLACK, tracking_em=-0.01)
+    for y, text in lines:
+        pg.text("ExtraBold", 66 * k, M, y, text, WHITE, tracking_em=-0.02)
+    pg.text("ExtraBold", 40 * k, M, ip_bl, "for iPhone", WHITE, tracking_em=-0.02)
+    pg.text("SemiBold", 24 * k, tw - M - proof_w, ip_bl, "500+ places, 26 trips.", WHITE)
 
-    # ---- phone, whole, overlapping the bottom of the header panel
-    gap = 1.5 * k
-    assert px + pw <= tw - SAFE and ptop + ph <= th - SAFE, "phone inside safe area"
-    pg.rect(px - gap, ptop - gap, pw + 2 * gap, ph + 2 * gap, fill=WHITE, r=13 * k + gap)
-    pg.rect(px, ptop, pw, ph, fill=BLACK, r=13 * k)
+    # ================= phone: right column, on white, running off the bottom edge
+    img = screen_image()
+    pw = 100 * k
+    px = tw - M - pw
+    b = 3 * k
+    sw_ = pw - 2 * b
+    aspect = img.size[1] / img.size[0] if img else 1792 / 828
+    vis_rows = 1580 / 1792  # show the screen down to the top of the tab bar
+    ptop = max(th + BLEED - b - vis_rows * aspect * sw_, band_bottom + 6 * k)
+    pg.rect(px, ptop, pw, th + BLEED - ptop + 20 * k, fill=BLACK, r=13 * k)
     sx, sy = px + b, ptop + b
     if img is None:
-        pg.rect(sx, sy, sw_, ih, fill=TEAL_TINT, r=10 * k)
+        pg.rect(sx, sy, sw_, th + BLEED - sy + 20 * k, fill=TEAL_TINT, r=10 * k)
         cap = SB.cap * em_of(16)
-        pg.text("SemiBold", 16 * k, sx + sw_ / 2, sy + ih / 2 + cap / 2, "screenshot", TEAL, align="center")
+        pg.text("SemiBold", 16 * k, sx + sw_ / 2, sy + 60 * k, "screenshot", TEAL, align="center")
     else:
+        ih = sw_ * aspect
         c = pg.c
         c.saveState()
         clip = c.beginPath()
@@ -376,37 +377,70 @@ def build(pg, k, clear):
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
 
-    # ---- sign lockup on white, left column
+    # ================= left column: one signpost carrying the kiwi sign, the name plate,
+    # and a white information plate with the call to action and the QR code
+    col_r = px - 6 * k
+    ip_w = col_r - M  # information plate width
+    xc = M + ip_w / 2  # post centre line
     sign_w = 52 * k
-    sign_x = M + 5 * k
     s_ = sign_w / VB_W
-    assert sign_x + (12 - VB_X) * s_ >= SAFE, "plate inside safe margin"
-    sign_top = panel_bottom + 4 * k
+    sign_x = xc - (512 - VB_X) * s_
+    assert sign_x + (12 - VB_X) * s_ >= SAFE, "name plate inside safe margin"
+    sign_top = band_bottom + 4 * k
+    plate_bottom = sign_top + (1210 - VB_Y) * s_
+    post_w = 56 * s_
+    pg.rect(xc - post_w / 2, sign_top + (880 - VB_Y) * s_, post_w, th + BLEED - sign_top, fill=BLACK)  # post to the ground
     draw_icon(pg, sign_x, sign_top, sign_w, border=True)
-    sign_bottom = sign_top + VB_H * s_
 
-    # ---- call to action + QR, left column, plain white
-    col_r = px - gap - 4 * k
-    em = em_of(28)
-    bl = sign_bottom + 8 * k + XB.cap * em
-    assert M + XB.width("Scan to download.") * em <= col_r
-    pg.text("ExtraBold", 28 * k, M, bl, "Scan to download.", BLACK)
-    em = em_of(24)
-    bl += 4 * k + SB.cap * em
-    pg.text("SemiBold", 24 * k, M, bl, URL, BLACK)
-    qy = bl + 0.22 * em + clear
-    qs = min(62 * k, th - SAFE - qy)
+    ip_top = plate_bottom + 3 * k
+    inset, line = 1.5 * k, 0.8 * k
+    edge = inset + line  # inner edge of the plate's black border
+    em = em_of(30)
+    bl1 = ip_top + edge + 4 * k + XB.cap * em
+    bl2 = bl1 + em
+    for t in ("Scan to", "download."):
+        assert XB.width(t) * em <= ip_w - 2 * edge - 8 * k, t
+    qy = bl2 + clear
+    qs = min(62 * k, ip_w - 2 * edge - 2 * clear)
+    gem = em_of(22)
+    g_bl = qy + qs + clear + SB.cap * gem
+    ip_bottom = g_bl + 0.25 * gem + 3 * k + edge
     assert qs >= (60 if k >= 1 else 25), ("QR too small", qs)
-    assert M + qs + clear <= px - gap, "QR clear zone vs phone"
-    labelled_box(pg, M, qy, qs, qs, "QR", 36 * k, BLACK, 1.0 * k)
+    assert g_bl <= th - SAFE, "guide.kiwi inside safe area"
+    assert ip_bottom <= th, "information plate inside the trim"
+    pg.rect(M, ip_top, ip_w, ip_bottom - ip_top, fill=WHITE, r=2.5 * k)
+    pg.rect(M + inset, ip_top + inset, ip_w - 2 * inset, ip_bottom - ip_top - 2 * inset,
+            stroke=BLACK, sw=line, r=1.5 * k)
+    pg.text("ExtraBold", 30 * k, xc, bl1, "Scan to", BLACK, align="center")
+    pg.text("ExtraBold", 30 * k, xc, bl2, "download.", BLACK, align="center")
+    labelled_box(pg, xc - qs / 2, qy, qs, qs, "QR", 36 * k, BLACK, 1.0 * k)
+    pg.text("SemiBold", 22 * k, xc, g_bl, URL, BLACK, align="center")
     return qs
 
 
 PIECES = {  # name: (trim w, trim h, scale k vs A4, QR clear zone mm)
     "kiwi-guide_A6-card": (105, 148, 0.5, 4.0),
-    "kiwi-guide_A4-poster": (210, 297, 1.0, 5.0),
-    "kiwi-guide_A3-poster": (297, 420, math.sqrt(2), 5.0 * math.sqrt(2)),
+    "kiwi-guide_A4-poster": (210, 297, 1.0, 4.5),
+    "kiwi-guide_A3-poster": (297, 420, math.sqrt(2), 4.5 * math.sqrt(2)),
 }
+
+
+def strip_unused_font(path):
+    """ReportLab writes 'BT /F1 12 Tf 14.4 TL ET' and a Helvetica resource on every page even though all
+    text here is outlined; remove both so PDF/X preflight sees no unembedded font."""
+    from pypdf import PdfReader, PdfWriter
+    from pypdf.generic import NameObject
+    w = PdfWriter(clone_from=PdfReader(path))
+    for page in w.pages:
+        cs = page.get_contents()
+        data = cs.get_data().replace(b"BT /F1 12 Tf 14.4 TL ET", b"")
+        cs.set_data(data)
+        page.replace_contents(cs)
+        res = page.get("/Resources")
+        if res is not None and NameObject("/Font") in res.get_object():
+            del res.get_object()[NameObject("/Font")]
+    with open(path, "wb") as fh:
+        w.write(fh)
 
 
 def main():
@@ -420,6 +454,7 @@ def main():
             qs = build(pg, k, clear)
             pg.end_art()
             pg.finish()
+            strip_unused_font(path)
         wpx, hpx = int((tw + 2 * BLEED) / 25.4 * 300), int((th + 2 * BLEED) / 25.4 * 300)
         subprocess.run(["pdftoppm", "-r", "300", "-png", "-singlefile", "-x", "0", "-y", "0",
                         "-W", str(wpx), "-H", str(hpx),

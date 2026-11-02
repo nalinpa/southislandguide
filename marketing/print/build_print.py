@@ -18,7 +18,9 @@ import subprocess
 import uharfbuzz as hb
 from fontTools.pens.basePen import BasePen
 from fontTools.ttLib import TTFont
+from PIL import Image
 from reportlab.lib.units import mm
+from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas as rl_canvas
 from svgelements import Arc, Close, CubicBezier, Line, Matrix, Move, Path, QuadraticBezier
 
@@ -277,6 +279,16 @@ def labelled_box(pg, x, y, w, h, label, size_pt, color, sw, r=0.0, weight="Extra
 
 
 URL = "guide.kiwi"
+SCREEN = os.path.join(HERE, "assets", "screen-map.png")  # app screenshot shown on the phone
+_SCREEN_CMYK = None
+
+
+def screen_image():
+    """The screenshot as a CMYK image (simple conversion; the printer may re-separate with their profile)."""
+    global _SCREEN_CMYK
+    if _SCREEN_CMYK is None and os.path.exists(SCREEN):
+        _SCREEN_CMYK = Image.open(SCREEN).convert("RGB").convert("CMYK")
+    return _SCREEN_CMYK
 
 
 HEADLINE = [  # (text, weight, size in A4 points, highlighted)
@@ -331,8 +343,24 @@ def build(pg, k, clear, sign_border):
     pg.rect(px, top, pw, th + BLEED - top + 20 * k, fill=BLACK, r=14 * k)
     b = 3 * k
     sx, sy, sw_ = px + b, top + b, pw - 2 * b
-    pg.rect(sx, sy, sw_, th + BLEED - sy + 20 * k, fill=TEAL_TINT, r=11 * k)
-    pg.rect(px + pw / 2 - 11 * k, sy + 3 * k, 22 * k, 6 * k, fill=BLACK, r=3 * k)
+    sh = th + BLEED - sy + 20 * k
+    img = screen_image()
+    if img is None:
+        pg.rect(sx, sy, sw_, sh, fill=TEAL_TINT, r=11 * k)
+    else:
+        # screenshot scaled to the screen width, anchored at the top, clipped to the rounded screen;
+        # anything below the image is white (matches the app's tab bar)
+        c = pg.c
+        c.saveState()
+        clip = c.beginPath()
+        clip.roundRect(pg.X(sx), pg.Y(sy + sh), sw_ * mm, sh * mm, 11 * k * mm)
+        c.clipPath(clip, stroke=0, fill=0)
+        pg.rect(sx, sy, sw_, sh, fill=WHITE)
+        ih = sw_ * img.size[1] / img.size[0]
+        c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
+        c.restoreState()
+    if img is None:
+        pg.rect(px + pw / 2 - 11 * k, sy + 3 * k, 22 * k, 6 * k, fill=BLACK, r=3 * k)
 
     # ---- QR on a white tile overlapping the phone, below the road
     qs = 62 * k
@@ -342,8 +370,9 @@ def build(pg, k, clear, sign_border):
     assert qx + qs <= tw - SAFE and qy + qs <= th - SAFE, "QR inside safe area"
 
     # screenshot label centred in the visible screen above the road
-    cap = FONTS["SemiBold"].cap * pt(16)
-    pg.text("SemiBold", 16 * k, sx + sw_ / 2, (sy + road_t) / 2 + cap / 2, "screenshot", TEAL, align="center")
+    if img is None:
+        cap = FONTS["SemiBold"].cap * pt(16)
+        pg.text("SemiBold", 16 * k, sx + sw_ / 2, (sy + road_t) / 2 + cap / 2, "screenshot", TEAL, align="center")
 
     # ---- supporting text + address, left column under the road
     tx, tsz = M, 20

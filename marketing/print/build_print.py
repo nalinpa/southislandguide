@@ -465,75 +465,65 @@ def build(pg, k, clear):
 
 
 def build_card(pg, k, clear):
-    """A6 card (105 x 148 mm), read in the hand. Three roadside signs on white: a teal information
-    panel (headline), the Kiwi Guide signpost beside the app on a phone, and a yellow supplementary
-    plate in front of both carrying the call to action, the App Store badge and the QR code."""
+    """A6 card (105 x 148 mm), read in the hand. White card: headline at the top, the Kiwi Guide
+    signpost as the hero with the app on a phone beside it, and a full-bleed yellow band at the
+    foot carrying the call to action, the App Store badge and the QR code."""
     tw, th = pg.tw, pg.th
     W = tw + 2 * BLEED
-    F = 6.0          # every panel edge sits 6 mm inside the trim
-    X0 = F + 4.0     # every line of copy starts here
-    X1 = tw - F - 4.0
-    G = 3.5          # gap between the teal panel and the signpost / phone
+    M = 7.0                      # text and artwork margin on every side
+    X1 = tw - M
     em_of = lambda size: size * 25.4 / 72
     XB = FONTS["ExtraBold"]
-    H, TH = 20, -0.015   # one large size (headline, name plate, call to action)
-    S, TS = 14, 0.0      # one small size (tag, proof line, address)
-    hem, sem = em_of(H), em_of(S)
+    H, TH = 21.5, -0.015         # headline
+    C, TC = 16, -0.005           # call to action
+    S, TS = 14, 0.0              # small lines: tag, proof, address
+    hem, cem, sem = em_of(H), em_of(C), em_of(S)
     lsb = lambda t, e: XB.tt["hmtx"][XB.tt.getBestCmap()[ord(t[0])]][1] / XB.upm * e
-    inset, line = 0.8, 0.5   # inset rule on both panels, as on NZ signs
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
 
-    # ---- teal information panel: [Free for 2026:] New Zealand / travel planner for iPhone / proof
-    padx, pady = 0.3 * sem, 1.35
-    tag_w = XB.width("Free for 2026:", TS) * sem + 2 * padx
-    tag_h = XB.cap * sem + 2 * pady
-    tag_top = F + 4.0
-    bl1 = tag_top + tag_h / 2 + XB.cap * hem / 2          # tag centred on the cap height of line 1
-    bl2 = bl1 + 1.06 * hem
-    bl3 = bl2 + XB.desc * hem + 2.5 + XB.cap * sem
-    panel_bottom = bl3 + 5.0
-    nz_x = X0 + tag_w + 0.31 * hem
-    assert nz_x + XB.width("New Zealand", TH) * hem <= X1 + 0.01, "line 1"
-    assert X0 + XB.width("travel planner for iPhone", TH) * hem <= X1 + 0.01, "line 2"
-    pg.rect(F, F, tw - 2 * F, panel_bottom - F, fill=TEAL, r=1.5)
-    pg.rect(F + inset, F + inset, tw - 2 * F - 2 * inset, panel_bottom - F - 2 * inset, stroke=WHITE, sw=line, r=0.9)
-    pg.rect(X0, tag_top, tag_w, tag_h, fill=YELLOW, r=0.8)
-    pg.text("ExtraBold", S, X0 + padx, tag_top + pady + XB.cap * sem, "Free for 2026:", BLACK, tracking_em=TS)
-    pg.text("ExtraBold", H, nz_x - lsb("N", hem), bl1, "New Zealand", WHITE, tracking_em=TH)
-    pg.text("ExtraBold", H, X0 - lsb("t", hem), bl2, "travel planner for iPhone", WHITE, tracking_em=TH)
-    pg.text("ExtraBold", S, X0 - lsb("5", sem), bl3, "500+ places, 26 trips.", WHITE, tracking_em=TS)
+    # ---- headline block on white: teal tag line, black headline, teal proof line
+    bl0 = M + XB.cap * sem
+    bl1 = bl0 + 2.6 + XB.cap * hem
+    bl2 = bl1 + 1.04 * hem
+    bl3 = bl2 + XB.desc * hem + 2.2 + XB.cap * sem
+    assert M + XB.width("travel planner for iPhone", TH) * hem <= X1 + 0.01, "headline line 2"
+    pg.text("ExtraBold", S, M - lsb("F", sem), bl0, "Free for 2026:", TEAL, tracking_em=TS)
+    pg.text("ExtraBold", H, M - lsb("N", hem), bl1, "New Zealand", BLACK, tracking_em=TH)
+    pg.text("ExtraBold", H, M - lsb("t", hem), bl2, "travel planner for iPhone", BLACK, tracking_em=TH)
+    pg.text("ExtraBold", S, M - lsb("5", sem), bl3, "500+ places, 26 trips.", TEAL, tracking_em=TS)
+    hero_top = bl3 + XB.desc * sem + 3.2
 
-    # ---- yellow plate geometry first: the signpost and the phone stand behind it
-    gap_tile = 1.4
-    edge = inset + line + gap_tile
+    # ---- yellow band geometry: QR tile bottom-right, evenly inset; the band bleeds off the foot
     qs = 28.0
     tile = qs + 2 * clear
-    qp_h = 2 * edge + tile
-    qp_top = th - F - qp_h
-    hero_top = panel_bottom + G
+    gbl = th - SAFE - XB.desc * cem - 0.4          # address baseline = tile bottom; its descender stays in the safe area
+    ty = gbl - tile
+    tx = X1 - tile
+    band_top = ty - 5.0
 
-    # ---- signpost: galvanised post, diamond, name plate (left edge on the panel edge)
-    sign_w = 40.0
-    s_ = sign_w / VB_W
-    sign_x = F + (VB_X - 12) * s_
-    post_w = 56 * s_
-    pg.rect(sign_x + (484 - VB_X) * s_, hero_top + (880 - VB_Y) * s_, post_w,
-            qp_top + 2 - (hero_top + (880 - VB_Y) * s_), fill=POST_GREY)
-    draw_icon(pg, sign_x, hero_top, sign_w, border=True, post=False, plate_mm=hem, plate_weight="ExtraBold")
+    # ---- signpost hero: galvanised post into the band, diamond, name plate on the left margin
+    post_gap = 4.0
+    s_ = (band_top - post_gap - hero_top) / (1210 - VB_Y)
+    sign_w = s_ * VB_W
+    sign_x = M + (VB_X - 12) * s_
     plate_bottom = hero_top + (1210 - VB_Y) * s_
     plate_right = sign_x + (1012 - VB_X) * s_
-    assert qp_top - plate_bottom >= 5.0, ("post visible", qp_top - plate_bottom)
+    pg.rect(sign_x + (484 - VB_X) * s_, hero_top + (880 - VB_Y) * s_, 56 * s_,
+            band_top + 2 - (hero_top + (880 - VB_Y) * s_), fill=POST_GREY)
+    plate_pt = 24
+    draw_icon(pg, sign_x, hero_top, sign_w, border=True, post=False, plate_mm=em_of(plate_pt), plate_weight="ExtraBold")
 
-    # ---- phone, right edge on the panel edge, its lower part behind the plate
+    # ---- phone on the right margin, same height as the signpost, fully above the band
     img = screen_image()
-    pw = 40.0
-    b = 1.6
-    px = tw - F - pw
-    assert px - plate_right >= 4.0, ("phone clear of the name plate", px - plate_right)
-    sw_ = pw - 2 * b
+    b = 1.4
+    ph = plate_bottom - hero_top
     aspect = img.size[1] / img.size[0] if img else 1792 / 828
+    sw_ = (ph - 2 * b) / aspect
+    pw = sw_ + 2 * b
+    px = X1 - pw
+    assert px - plate_right >= 3.0, ("phone clear of the name plate", px - plate_right)
     ih = sw_ * aspect
-    pg.rect(px, hero_top, pw, ih + 2 * b, fill=BLACK, r=0.165 * pw)
+    pg.rect(px, hero_top, pw, ph, fill=BLACK, r=0.165 * pw)
     sx, sy = px + b, hero_top + b
     if img is None:
         pg.rect(sx, sy, sw_, ih, fill=TEAL_TINT, r=0.14 * sw_)
@@ -545,33 +535,26 @@ def build_card(pg, k, clear):
         c.clipPath(clip, stroke=0, fill=0)
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
-    shown = (qp_top - sy) / ih
-    assert shown < 1390 / 1792 - 0.02, ("plate hides the place card", shown)
 
-    # ---- yellow plate: call to action, badge and address (left), QR on its white tile (right)
-    assert qp_top + qp_h <= th - SAFE + 0.01
-    pg.rect(F, qp_top, tw - 2 * F, qp_h, fill=YELLOW, r=1.5)
-    pg.rect(F + inset, qp_top + inset, tw - 2 * F - 2 * inset, qp_h - 2 * inset, stroke=BLACK, sw=line, r=0.9)
-    tx = tw - F - edge - tile
-    ty = qp_top + edge
+    # ---- yellow band: call to action, badge, address (left); QR on its white tile (right)
+    pg.rect(-BLEED, band_top, W, th + BLEED - band_top, fill=YELLOW)
     pg.rect(tx, ty, tile, tile, fill=WHITE)
     labelled_box(pg, tx + clear, ty + clear, qs, qs, "QR", 14, BLACK, 0.3)
     right = tx - 3.0
-    c1 = ty + XB.cap * hem
-    c2 = c1 + 1.06 * hem
+    c1 = ty + XB.cap * cem
+    c2 = c1 + 1.12 * cem
     for y, t in ((c1, "Scan to"), (c2, "download.")):
-        assert X0 + XB.width(t, TH) * hem <= right, t
-        pg.text("ExtraBold", H, X0 - lsb(t, hem), y, t, BLACK, tracking_em=TH)
-    gbl = ty + tile                                        # address baseline on the tile's bottom edge
-    pg.text("ExtraBold", S, X0 - lsb("g", sem), gbl, URL, BLACK, tracking_em=TS)
-    bh = 10.0                                             # Apple's minimum badge height for print
+        assert M + XB.width(t, TC) * cem <= right, t
+        pg.text("ExtraBold", C, M - lsb(t, cem), y, t, BLACK, tracking_em=TC)
+    pg.text("ExtraBold", C, M - lsb("g", cem), gbl, URL, BLACK, tracking_em=TC)  # address at the call-to-action size
+    bh = 10.0                                     # Apple's minimum badge height for print
     bw = bh * 119.66407 / 40
-    by = (c2 + gbl - XB.cap * sem) / 2 - bh / 2
-    assert X0 + bw + bh / 4 <= tx and X0 - bh / 4 >= F + inset + line, "badge clear space"
-    assert by - c2 >= bh / 4 and (gbl - XB.cap * sem) - (by + bh) >= bh / 4, "badge clear space"
-    draw_badge(pg, X0, by, bh)
-    print(f"  card: panel {F:.1f}-{panel_bottom:.1f}  hero {hero_top:.1f}  name plate to {plate_bottom:.1f}  "
-          f"plate {qp_top:.1f}-{qp_top + qp_h:.1f}  phone shows {shown:.0%}  screen {img.size[0] / (sw_ / 25.4) if img else 0:.0f} ppi")
+    by = (c2 + gbl - XB.cap * cem) / 2 - bh / 2
+    assert M + bw + bh / 4 <= tx, "badge clear space (tile)"
+    assert by - c2 >= bh / 4 and (gbl - XB.cap * cem) - (by + bh) >= bh / 4, "badge clear space (text)"
+    draw_badge(pg, M, by, bh)
+    print(f"  card: hero {hero_top:.1f}  sign {sign_w:.1f} wide to {plate_bottom:.1f}  phone {pw:.1f}x{ph:.1f}  "
+          f"band {band_top:.1f}  tile {ty:.1f}-{ty + tile:.1f}  screen {img.size[0] / (sw_ / 25.4) if img else 0:.0f} ppi")
     return qs
 
 

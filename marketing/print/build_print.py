@@ -350,13 +350,13 @@ def build(pg, k, clear):
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
 
     # ================= header band
-    em = em_of(26)
-    padx = pady = 4.8 * k  # equal padding: 2.8 mm of yellow inside the frame all round
+    em = em_of(36)
+    padx = pady = 0.28 * em  # equal padding all round
     tag_top = 11 * k
     tag_w = XB.width("Free for 2026:", -0.01) * em + 2 * padx
     tag_h = XB.cap * em + 2 * pady
     tag_bl = tag_top + pady + XB.cap * em
-    em = em_of(56)
+    em = em_of(52)
     bl = tag_top + tag_h + 4 * k + XB.cap * em
     lines = []
     for text in ("New Zealand", "travel planner"):
@@ -366,41 +366,51 @@ def build(pg, k, clear):
         bl += em
     ip_em = em_of(36)
     ip_bl = last + 0.22 * em + 3 * k + XB.cap * ip_em
-    band_bottom = ip_bl + 11 * k
+    band_bottom = ip_bl + 8 * k
     pg.rect(-BLEED, -BLEED, W, band_bottom + BLEED, fill=TEAL)
     pg.rect(M, tag_top, tag_w, tag_h, fill=YELLOW, r=1.5 * k)
     pg.rect(M + 1.2 * k, tag_top + 1.2 * k, tag_w - 2.4 * k, tag_h - 2.4 * k, stroke=BLACK, sw=0.8 * k, r=0.8 * k)
-    pg.text("ExtraBold", 26 * k, M + padx, tag_bl, "Free for 2026:", BLACK, tracking_em=-0.01)
+    pg.text("ExtraBold", 36 * k, M + padx, tag_bl, "Free for 2026:", BLACK, tracking_em=-0.01)
     for y, text in lines:
         lsb = XB.tt["hmtx"][XB.tt.getBestCmap()[ord(text[0])]][1] / XB.upm
-        pg.text("ExtraBold", 56 * k, M - lsb * em + 0.0098 * em, y, text, WHITE, tracking_em=-0.02)
-    pg.text("ExtraBold", 36 * k, M, ip_bl, "for iPhone", WHITE, tracking_em=-0.02)
+        pg.text("ExtraBold", 52 * k, M - lsb * em + 0.0098 * em, y, text, WHITE, tracking_em=-0.02)
+    ip_w = pg.text("ExtraBold", 36 * k, M, ip_bl, "for iPhone", WHITE, tracking_em=-0.02)
+    # App Store badge: right-aligned on the "for iPhone" line, centred on its cap height
+    bh = 15 * k
+    bw = bh * 119.66407 / 40
+    bx, by = tw - M - bw, ip_bl - XB.cap * ip_em / 2 - bh / 2
+    planner_end = M + XB.width(lines[-1][1], -0.02) * em
+    assert M + ip_w + bh / 4 <= bx, "badge clear space from 'for iPhone'"
+    assert planner_end + bh / 4 <= bx or by - bh / 4 >= lines[-1][0] + 0.22 * em, "badge clear space from the headline"
+    assert by + bh + bh / 4 <= band_bottom, "badge inside the band"
+    draw_badge(pg, bx, by, bh)
 
     # ================= left column: signpost (diamond, name plate, yellow QR plate on one grey post)
-    sign_w = 66 * k
+    sign_w = 65 * k
     s_ = sign_w / VB_W
     plate_w = 1000 * s_  # name plate width; the QR plate matches it
     xc = M + plate_w / 2
     sign_x = xc - (512 - VB_X) * s_
     assert sign_x + (12 - VB_X) * s_ >= SAFE - 0.01
-    sign_top = band_bottom + 4 * k  # same as the tag-to-headline gap
+    sign_top = band_bottom + 8 * k
     plate_bottom = sign_top + (1210 - VB_Y) * s_
     post_w = 80 * s_
     post_top = sign_top + (880 - VB_Y) * s_
     pg.rect(xc - post_w / 2, post_top, post_w, th + BLEED - post_top, fill=POST_GREY)  # ends exactly at the bleed edge
     draw_icon(pg, sign_x, sign_top, sign_w, border=True, post=False, plate_mm=em_of(36), plate_weight="ExtraBold")
 
-    qp_x, qp_top, qp_w = M, plate_bottom + 2 * k, plate_w
+    qp_x, qp_top, qp_w = M, plate_bottom + 3 * k, plate_w
     inset, line = 1.2 * k, 0.8 * k
     edge = inset + line
-    em = em_of(32)
-    bl1 = qp_top + edge + 3 * k + XB.cap * em
+    em = em_of(36)
+    bl1 = qp_top + edge + 2.5 * k + XB.cap * em
     bl2 = bl1 + em
-    tile = min(qp_w - 2 * edge - 3 * k, 62 * k + 2 * clear)  # white tile = QR + clear zone, no bigger
-    qs = min(62 * k, tile - 2 * clear)
-    side = (qp_w - 2 * edge - tile) / 2  # yellow between the frame and the white tile, same at sides and bottom
+    qs = 60 * k
+    tile = qs + 2 * clear  # white tile = QR + its clear zone, no bigger
+    side = (qp_w - 2 * edge - tile) / 2  # yellow between frame and tile, same at sides and bottom
     tile_y = bl2 + 2 * k
     qp_bottom = tile_y + tile + side + edge
+    assert qp_bottom <= th - 10 * k, ("bottom margin at least 10 mm", qp_bottom)
     assert qs >= 60 * k, ("QR too small", qs)
     assert qp_bottom <= th - SAFE + 0.01, ("QR plate inside the safe area", qp_bottom)
     pg.rect(qp_x, qp_top, qp_w, qp_bottom - qp_top, fill=YELLOW, r=1.5 * k)
@@ -408,63 +418,57 @@ def build(pg, k, clear):
             stroke=BLACK, sw=line, r=0.8 * k)
     for bl_, t in ((bl1, "Scan to"), (bl2, "download.")):
         assert XB.width(t) * em <= qp_w - 2 * edge - 4 * k, t
-        pg.text("ExtraBold", 32 * k, xc, bl_, t, BLACK, align="center")
+        pg.text("ExtraBold", 36 * k, xc, bl_, t, BLACK, align="center")
     tx = xc - tile / 2
     pg.rect(tx, tile_y, tile, tile, fill=WHITE)
     labelled_box(pg, xc - qs / 2, tile_y + (tile - qs) / 2, qs, qs, "QR", 36 * k, BLACK, 0.5 * k)
 
-    # ================= right column, built bottom-up so the conversion block lines up with the QR plate:
-    # App Store badge (bottom on the QR tile's bottom), guide.kiwi, proof line, then the phone above
+    # ================= right column: phone (whole; 70 mm screen keeps the 828 px screenshot at 300 ppi),
+    # proof line and address as its caption
     img = screen_image()
-    aspect = img.size[1] / img.size[0] if img else 1792 / 828
-    b = 3 * k
-    pitch = 10 * k
-    cem = em_of(26)
-    bh = 13 * k
-    bw = bh * 119.66407 / 40
-    by = tile_y + tile - bh
-    gbl = by - bh / 4 - 0.25 * cem  # guide.kiwi descender stays outside the badge's clear space
-    pbl2 = gbl - pitch
-    pbl1 = pbl2 - pitch
-    phone_bottom = pbl1 - SB.cap * cem - 4 * k
-    ptop = sign_top
-    ih = phone_bottom - ptop - 2 * b
-    sw_ = ih / aspect
-    pw = sw_ + 2 * b
+    pw = 74 * k
     px = tw - M - pw
-    assert pw <= 76 * k, ("phone wider than the column", pw)
     assert px - (M + qp_w) >= 10 * k, "gap between the signpost and the phone"
-    assert px + bw <= tw - M and M + qp_w + bh / 4 <= px, "badge inside the column with clear space"
-    pg.rect(px, ptop, pw, ih + 2 * b, fill=BLACK, r=11 * k * pw / (76 * k))
+    b = 3 * k
+    sw_ = pw - 2 * b
+    aspect = img.size[1] / img.size[0] if img else 1792 / 828
+    ih = sw_ * aspect
+    ptop = sign_top
+    pg.rect(px, ptop, pw, ih + 2 * b, fill=BLACK, r=11 * k)
     sx, sy = px + b, ptop + b
     if img is None:
         pg.rect(sx, sy, sw_, ih, fill=TEAL_TINT, r=8 * k)
         cap = SB.cap * em_of(16)
         pg.text("SemiBold", 16 * k, sx + sw_ / 2, sy + ih / 2 + cap / 2, "screenshot", TEAL, align="center")
     else:
-        ppi = img.size[0] / (sw_ / 25.4)
-        assert ppi >= 299, ("screenshot under 300 ppi", ppi)
+        assert img.size[0] / (sw_ / 25.4) >= 299, "screenshot under 300 ppi"
         c = pg.c
         c.saveState()
         clip = c.beginPath()
-        clip.roundRect(pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm, 8 * k * mm * pw / (76 * k))
+        clip.roundRect(pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm, 8 * k * mm)
         c.clipPath(clip, stroke=0, fill=0)
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
+    cem = em_of(26)
+    gbl = tile_y + tile  # caption built upward from guide.kiwi, whose baseline sits on the QR tile bottom
+    pitch = 1.12 * cem
+    pbl2 = gbl - pitch - 1.6 * k  # a little extra air separates the address from the proof line
+    pbl1 = pbl2 - pitch
+    assert pbl1 - XB.cap * cem >= ptop + ih + 2 * b + 3 * k, "caption clears the phone"
+    assert gbl + 0.25 * cem <= th - SAFE, ("guide.kiwi inside the safe area", gbl + 0.25 * cem)
+    lsb = lambda t: XB.tt["hmtx"][XB.tt.getBestCmap()[ord(t[0])]][1] / XB.upm * cem
     for bl_, t in ((pbl1, "500+ places,"), (pbl2, "26 trips.")):
-        assert SB.width(t) * cem <= tw - M - px, t
-        pg.text("SemiBold", 26 * k, px, bl_, t, BLACK)
-    pg.text("ExtraBold", 26 * k, px, gbl, URL, TEAL)
-    draw_badge(pg, px, by, bh)
-    print(f"  phone {pw:.1f} mm wide, screen {sw_:.1f} mm ({img.size[0] / (sw_ / 25.4) if img else 0:.0f} ppi)")
-    print(f"  band {band_bottom:.1f}  sign top {sign_top:.1f}  phone bottom {ptop + ih + 2 * b:.1f}  "
-          f"tile bottom {tile_y + tile:.1f}  plate bottom {qp_bottom:.1f}  guide bl {gbl:.1f}  QR {qs:.1f}")
+        assert XB.width(t) * cem <= pw, t
+        pg.text("ExtraBold", 26 * k, px - lsb(t), bl_, t, BLACK)
+    pg.text("ExtraBold", 26 * k, px - lsb(URL), gbl, URL, TEAL)
+    print(f"  side {side:.1f}  band {band_bottom:.1f}  sign top {sign_top:.1f}  phone bottom {ptop + ih + 2 * b:.1f}  "
+          f"tile bottom {tile_y + tile:.1f}  plate bottom {qp_bottom:.1f}  guide bl {gbl:.1f}")
     return qs
 
 
 PIECES = {  # name: (trim w, trim h, scale k vs A4, QR clear zone mm)
     # A6 card (105 x 148, k = 0.5, clear 4.4) is on hold while the A4 poster is iterated
-    "kiwi-guide_A4-poster": (210, 297, 1.0, 4.5),
+    "kiwi-guide_A4-poster": (210, 297, 1.0, 4.2),
     # A3 (297 x 420, k = sqrt(2), clear 4.5 * sqrt(2)) is on hold until a higher-resolution screenshot is available
 }
 

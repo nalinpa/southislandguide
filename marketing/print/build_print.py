@@ -307,7 +307,6 @@ def screen_image():
             panel = src.getpixel((int(560 * sx), int(1480 * sy)))
             d = ImageDraw.Draw(src)
             d.rectangle([580 * sx, 1434 * sy, 802 * sx, 1516 * sy], fill=panel)  # distance pill
-            d.rectangle([0, 1581 * sy, src.size[0], src.size[1]], fill=panel)  # tab bar
         rgb = np.asarray(src, dtype=np.float32) / 255.0
         cmy = 1.0 - rgb
         kk = 0.7 * cmy.min(axis=2, keepdims=True)  # 70% grey-component replacement
@@ -356,26 +355,28 @@ def build(pg, k, clear):
 
     # ================= phone: right column, on white, running off the bottom edge
     img = screen_image()
-    pw = 96 * k
+    pw = 76 * k  # 70 mm screen on A4: the 828 px screenshot prints at 300 ppi
     px = tw - M - pw
     b = 3 * k
     sw_ = pw - 2 * b
     aspect = img.size[1] / img.size[0] if img else 1792 / 828
     ptop = band_bottom + 4 * k  # top aligned with the sign
-    # the place panel's last text row (1543 of 1792) must sit inside the 5 mm safe area
-    assert ptop + b + (1543 / 1792) * aspect * sw_ <= th - SAFE, "screenshot text inside safe area"
-    pg.rect(px, ptop, pw, th + BLEED - ptop + 20 * k, fill=BLACK, r=13 * k)
+    ih = sw_ * aspect
+    ph = ih + 2 * b
+    assert ptop + ph <= th - SAFE, "whole phone inside the safe area"
+    if img is not None:
+        assert img.size[0] / (sw_ / 25.4) >= 299 or k > 1, ("screenshot under 300 ppi", img.size[0] / (sw_ / 25.4))
+    pg.rect(px, ptop, pw, ph, fill=BLACK, r=11 * k)
     sx, sy = px + b, ptop + b
     if img is None:
-        pg.rect(sx, sy, sw_, th + BLEED - sy + 20 * k, fill=TEAL_TINT, r=10 * k)
+        pg.rect(sx, sy, sw_, ih, fill=TEAL_TINT, r=8 * k)
         cap = SB.cap * em_of(16)
-        pg.text("SemiBold", 16 * k, sx + sw_ / 2, sy + 60 * k, "screenshot", TEAL, align="center")
+        pg.text("SemiBold", 16 * k, sx + sw_ / 2, sy + ih / 2 + cap / 2, "screenshot", TEAL, align="center")
     else:
-        ih = sw_ * aspect
         c = pg.c
         c.saveState()
         clip = c.beginPath()
-        clip.roundRect(pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm, 10 * k * mm)
+        clip.roundRect(pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm, 8 * k * mm)
         c.clipPath(clip, stroke=0, fill=0)
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
@@ -383,7 +384,7 @@ def build(pg, k, clear):
     # ================= left column: one signpost carrying the kiwi sign, the name plate,
     # and a white information plate with the call to action and the QR code
     col_r = px - 6 * k
-    ip_w = col_r - M  # information plate width
+    ip_w = min(col_r - M, 80 * k)  # information plate width
     xc = M + ip_w / 2  # post centre line
     sign_w = (52 if k >= 1 else 48) * k  # slightly smaller on the card so the QR stays >= 25 mm in the safe area
     s_ = sign_w / VB_W
@@ -426,7 +427,7 @@ def build(pg, k, clear):
 PIECES = {  # name: (trim w, trim h, scale k vs A4, QR clear zone mm)
     "kiwi-guide_A6-card": (105, 148, 0.5, 4.4),
     "kiwi-guide_A4-poster": (210, 297, 1.0, 4.5),
-    "kiwi-guide_A3-poster": (297, 420, math.sqrt(2), 4.5 * math.sqrt(2)),
+    # A3 (297 x 420, k = sqrt(2), clear 4.5 * sqrt(2)) is on hold until a higher-resolution screenshot is available
 }
 
 

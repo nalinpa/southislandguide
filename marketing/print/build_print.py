@@ -464,9 +464,116 @@ def build(pg, k, clear):
     return qs
 
 
-PIECES = {  # name: (trim w, trim h, scale k vs A4, QR clear zone mm)
-    # A6 card (105 x 148, k = 0.5, clear 4.4) is on hold while the A4 poster is iterated
-    "kiwi-guide_A4-poster": (210, 297, 1.0, 4.5),
+def build_card(pg, k, clear):
+    """A6 card (105 x 148 mm): its own layout, read in the hand. Header band, sign + phone row,
+    then a landscape yellow plate carrying the call to action and the QR code."""
+    tw, th = pg.tw, pg.th
+    W = tw + 2 * BLEED
+    M = 7.0
+    em_of = lambda size: size * 25.4 / 72
+    XB = FONTS["ExtraBold"]
+    T = -0.02
+    lsb = lambda t, e: XB.tt["hmtx"][XB.tt.getBestCmap()[ord(t[0])]][1] / XB.upm * e
+    pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
+
+    # ---- header band: tag, headline, "for iPhone" + App Store badge
+    em = em_of(12)
+    pad = 0.3 * em
+    tag_top = 6.0
+    tag_w = XB.width("Free for 2026:", T) * em + 2 * pad
+    tag_h = XB.cap * em + 2 * pad
+    hem = em_of(24)
+    bl1 = tag_top + tag_h + 3 + XB.cap * hem
+    bl2 = bl1 + hem
+    iem = em_of(15)
+    ibl = bl2 + 0.22 * hem + 2 + XB.cap * iem
+    band_bottom = ibl + 7
+    pg.rect(-BLEED, -BLEED, W, band_bottom + BLEED, fill=TEAL)
+    pg.rect(M, tag_top, tag_w, tag_h, fill=YELLOW, r=0.8)
+    pg.rect(M + 0.6, tag_top + 0.6, tag_w - 1.2, tag_h - 1.2, stroke=BLACK, sw=0.4, r=0.4)
+    pg.text("ExtraBold", 12, M + pad, tag_top + pad + XB.cap * em, "Free for 2026:", BLACK, tracking_em=T)
+    for y, t in ((bl1, "New Zealand"), (bl2, "travel planner")):
+        assert M + XB.width(t, T) * hem <= tw - M, t
+        pg.text("ExtraBold", 24, M - lsb(t, hem) + 0.0098 * hem, y, t, WHITE, tracking_em=T)
+    iw = pg.text("ExtraBold", 15, M, ibl, "for iPhone", WHITE, tracking_em=T)
+    bh = 10.0  # Apple's minimum badge height for print
+    bw = bh * 119.66407 / 40
+    bx, by = tw - M - bw, ibl - XB.cap * iem / 2 - bh / 2
+    planner_end = M + XB.width("travel planner", T) * hem
+    assert planner_end + bh / 4 <= bx and M + iw + bh / 4 <= bx and by + bh + bh / 4 <= band_bottom, "badge clear space"
+    draw_badge(pg, bx, by, bh)
+
+    # ---- middle row: Kiwi Guide sign (left) with the proof line under it; phone (right)
+    row_top = band_bottom + 4
+    sign_w = 28.0
+    s_ = sign_w / VB_W
+    sign_x = M + (92 - 12) * s_  # name plate's left edge on the margin
+    draw_icon(pg, sign_x, row_top, sign_w, border=True, plate_mm=em_of(15), plate_weight="ExtraBold")
+    sign_bottom = row_top + VB_H * s_
+    pem = em_of(11)
+    pbl1 = sign_bottom + 3 + XB.cap * pem
+    pbl2 = pbl1 + 1.12 * pem
+    for y, t in ((pbl1, "500+ places,"), (pbl2, "26 trips.")):
+        pg.text("ExtraBold", 11, M - lsb(t, pem), y, t, BLACK, tracking_em=T)
+
+    img = screen_image()
+    pw, b = 25.0, 1.2
+    px = tw - M - pw
+    sw_ = pw - 2 * b
+    aspect = img.size[1] / img.size[0] if img else 1792 / 828
+    ih = sw_ * aspect
+    pg.rect(px, row_top, pw, ih + 2 * b, fill=BLACK, r=4.2)
+    sx, sy = px + b, row_top + b
+    if img is None:
+        pg.rect(sx, sy, sw_, ih, fill=TEAL_TINT, r=3.2)
+    else:
+        c = pg.c
+        c.saveState()
+        clip = c.beginPath()
+        clip.roundRect(pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm, 3.2 * mm)
+        c.clipPath(clip, stroke=0, fill=0)
+        c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
+        c.restoreState()
+    row_bottom = max(row_top + ih + 2 * b, pbl2 + 0.22 * pem)
+
+    # ---- landscape yellow plate: call to action + address (left), QR on its white tile (right)
+    qp_top = row_bottom + 3.5
+    inset, line = 1.0, 0.6
+    edge = inset + line
+    side = 1.5
+    qs = 25.0
+    tile = qs + 2 * clear
+    qp_h = 2 * (edge + side) + tile
+    qp_bottom = qp_top + qp_h
+    assert qp_bottom <= th - SAFE + 0.01, ("plate inside the safe area", qp_bottom)
+    pg.rect(M, qp_top, tw - 2 * M, qp_h, fill=YELLOW, r=1.0)
+    pg.rect(M + inset, qp_top + inset, tw - 2 * M - 2 * inset, qp_h - 2 * inset, stroke=BLACK, sw=line, r=0.6)
+    tx = tw - M - edge - side - tile
+    ty = qp_top + edge + side
+    pg.rect(tx, ty, tile, tile, fill=WHITE)
+    labelled_box(pg, tx + clear, ty + clear, qs, qs, "QR", 14, BLACK, 0.3)
+    cem, gem = em_of(18), em_of(13)
+    left, right = M + edge + 3, tx - 3
+    block = XB.cap * cem + cem + 0.2 * cem + 3.5 + XB.cap * gem + 0.25 * gem
+    top = qp_top + (qp_h - block) / 2
+    c1 = top + XB.cap * cem
+    c2 = c1 + cem
+    for y, t in ((c1, "Scan to"), (c2, "download.")):
+        assert left + XB.width(t, T) * cem <= right, t
+        pg.text("ExtraBold", 18, left - lsb(t, cem), y, t, BLACK, tracking_em=T)
+    gbl = c2 + 0.2 * cem + 3.5 + XB.cap * gem
+    gw = XB.width(URL, T) * gem
+    assert left + gw <= right
+    pg.text("ExtraBold", 13, left - lsb(URL, gem), gbl, URL, TEAL, tracking_em=T)
+    pg.rect(left, gbl + 0.11 * gem, gw - lsb(URL, gem), 0.06 * gem, fill=TEAL)
+    print(f"  card: band {band_bottom:.1f}  row {row_top:.1f}-{row_bottom:.1f}  plate {qp_top:.1f}-{qp_bottom:.1f}  "
+          f"screen {img.size[0] / (sw_ / 25.4) if img else 0:.0f} ppi")
+    return qs
+
+
+PIECES = {  # name: (trim w, trim h, scale k vs A4, QR clear zone mm, builder)
+    "kiwi-guide_A6-card": (105, 148, 1.0, 4.0, "card"),
+    "kiwi-guide_A4-poster": (210, 297, 1.0, 4.5, "poster"),
     # A3 (297 x 420, k = sqrt(2), clear 4.5 * sqrt(2)) is on hold until a higher-resolution screenshot is available
 }
 
@@ -495,13 +602,13 @@ def strip_unused_font(path):
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    for name, (tw, th, k, clear) in PIECES.items():
+    for name, (tw, th, k, clear, kind) in PIECES.items():
         title = name.replace("_", " ")
         for suffix, marks in (("print", True), ("bleed", False)):
             path = os.path.join(OUT, f"{name}_{suffix}.pdf")
             pg = Page(path, tw, th, marks, title)
             pg.begin_art()
-            qs = build(pg, k, clear)
+            qs = (build_card if kind == "card" else build)(pg, k, clear)
             pg.end_art()
             pg.finish()
             strip_unused_font(path)

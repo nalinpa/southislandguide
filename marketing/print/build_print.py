@@ -149,7 +149,7 @@ class Page:
         self.c.drawPath(path, fill=1, stroke=0, fillMode=1)  # nonzero winding
         return adv * em_mm
 
-    def svg_path(self, d, matrix, tf, color):
+    def svg_path(self, d, matrix, tf, color, even_odd=False):
         p = Path(d) * matrix
         path = self.c.beginPath()
         for seg in p.segments():
@@ -170,7 +170,7 @@ class Page:
                 for cb in seg.as_cubic_curves():
                     path.curveTo(*tf(cb.control1), *tf(cb.control2), *tf(cb.end))
         self.fill(color)
-        self.c.drawPath(path, fill=1, stroke=0)
+        self.c.drawPath(path, fill=1, stroke=0, fillMode=0 if even_odd else 1)
 
     def finish(self):
         c = self.c
@@ -210,7 +210,17 @@ OUTER = "translate(512 512) scale(1.2608) translate(-512 -512)"
 VB_X, VB_Y, VB_W, VB_H = 92, 92, 840, 1148  # icon viewBox
 
 
-def draw_icon(pg, x, y, w, post_to=None):
+def rounded_square(x0, size, r):
+    x1 = x0 + size
+    return (f"M{x0 + r} {x0}H{x1 - r}A{r} {r} 0 0 1 {x1} {x0 + r}V{x1 - r}A{r} {r} 0 0 1 {x1 - r} {x1}"
+            f"H{x0 + r}A{r} {r} 0 0 1 {x0} {x1 - r}V{x0 + r}A{r} {r} 0 0 1 {x0 + r} {x0}Z")
+
+
+# black inset border like a real road sign: ring centred 22 units inside the edge, 14 wide
+SIGN_BORDER_D = rounded_square(263.4, 497.2, 81) + rounded_square(277.4, 469.2, 67)
+
+
+def draw_icon(pg, x, y, w, post_to=None, border=False):
     s = w / VB_W  # mm per icon unit
 
     def tf(pt):
@@ -219,6 +229,8 @@ def draw_icon(pg, x, y, w, post_to=None):
     post_bottom = post_to if post_to is not None else y + (1240 - VB_Y) * s
     pg.rect(x + (484 - VB_X) * s, y + (880 - VB_Y) * s, 56 * s, post_bottom - (y + (880 - VB_Y) * s), fill=BLACK)  # post
     pg.svg_path(SIGN_D, Matrix(OUTER + " rotate(45 512 512)"), tf, YELLOW)
+    if border:
+        pg.svg_path(SIGN_BORDER_D, Matrix(OUTER + " rotate(45 512 512)"), tf, BLACK, even_odd=True)
     kiwi_m = Matrix(OUTER + " translate(512 520) scale(1.12) translate(-512 -520)"
                     " translate(496.5 534.4) scale(0.970) translate(-512 -512)")
     pg.svg_path(KIWI_D, kiwi_m, tf, BLACK)
@@ -263,7 +275,7 @@ def labelled_box(pg, x, y, w, h, label, size_pt, color, sw, r=0.0, weight="Extra
     pg.text(weight, size_pt, x + w / 2, y + h / 2 + cap / 2, label, color, align="center")
 
 
-HEADLINE = ["Free in 2026:", "South Island", "trip planner", "for iPhone"]
+HEADLINE = ["Free for 2026:", "New Zealand", "travel planner", "for iPhone"]
 SUPPORT = [[("Medium", "500+ places, 26 trips.")], [("ExtraBold", "Scan to download.")]]  # paragraphs
 FOOTER = "Kiwi Guide, no ads. blacksands.app/kiwi-guide"
 
@@ -273,8 +285,8 @@ def build(pg, L):
     W = tw + 2 * BLEED
     # paper, teal sign field, road strip, yellow footer band (all run into the bleed)
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
-    pg.rect(-BLEED, -BLEED, W, L["teal"] + BLEED, fill=TEAL)
     rt, rh, dl, dg, dh = L["road"]
+    pg.rect(-BLEED, rt + rh, W, L["band"] - rt - rh, fill=TEAL)  # teal panel behind the text
     pg.rect(-BLEED, rt, W, rh, fill=BLACK)
     x = -BLEED - dl / 3
     while x < tw + BLEED:  # yellow centre-line dashes
@@ -284,10 +296,10 @@ def build(pg, L):
     pg.rect(-BLEED, L["band"], W, th + BLEED - L["band"], fill=YELLOW)
 
     ix, iy, iw = L["icon"]
-    draw_icon(pg, ix, iy, iw, post_to=rt)
+    draw_icon(pg, ix, iy, iw, post_to=rt, border=L.get("sign_border", False))
 
-    sx, sy, sw_, sh, sr, ssz = L["shot"]
-    pg.rect(sx, sy, sw_, sh, fill=WHITE, r=sr)
+    sx, sy, sw_, sh, sr, ssz, sst = L["shot"]
+    pg.rect(sx, sy, sw_, sh, fill=WHITE, stroke=TEAL, sw=sst, r=sr)
     cap = FONTS["SemiBold"].cap * ssz * 25.4 / 72
     pg.text("SemiBold", ssz, sx + sw_ / 2, sy + sh / 2 + cap / 2, "screenshot", TEAL, align="center")
 
@@ -301,7 +313,8 @@ def build(pg, L):
     assert hx - pad >= SAFE
     for i, line in enumerate(HEADLINE):
         assert f.width(line, -0.02) * em <= hw, line
-        pg.text("ExtraBold", hsz, hx, css_baseline("ExtraBold", hsz, htop, 1.05, i), line, BLACK, tracking_em=-0.02)
+        pg.text("ExtraBold", hsz, hx, css_baseline("ExtraBold", hsz, htop, 1.05, i), line,
+                BLACK if i == 0 else WHITE, tracking_em=-0.02)
 
     px, ptop, psz, pw, plh = L["support"]
     em = psz * 25.4 / 72
@@ -312,12 +325,12 @@ def build(pg, L):
         for j, (wt, word) in enumerate(line):
             if j:
                 cx += FONTS[wt].width(" ") * em
-            cx += pg.text(wt, psz, cx, bl, word, BLACK)
+            cx += pg.text(wt, psz, cx, bl, word, WHITE)
 
     qx, qy, qs, qst, qsz = L["qr"]
+    pg.rect(qx - 4, qy - 4, qs + 8, qs + 8, fill=WHITE)  # 4 mm white clear zone tile
     labelled_box(pg, qx, qy, qs, qs, "QR", qsz, BLACK, qst)
-    # QR clear zone: 4 mm of white on every side
-    assert qx + qs + 4 <= tw and qy + qs + 4 <= L["band"] and qy - 4 >= rt + rh, "QR clear zone"
+    assert qx + qs + 4 <= tw - SAFE and qy + qs + 4 <= L["band"] and qy - 4 >= rt + rh, "QR clear zone"
 
     fx, ftop, fsz, flh = L["footer"]
     f = FONTS["SemiBold"]
@@ -330,13 +343,13 @@ def build(pg, L):
 
 def poster_layout(k):
     return {
-        "teal": 118 * k,
+        "sign_border": True,
         "road": (118 * k, 13 * k, 16 * k, 12 * k, 2.4 * k),
-        "icon": (14 * k, 12 * k, 70 * k),
-        "shot": (146 * k, 14 * k, 50 * k, 96 * k, 7 * k, 16 * k),
+        "icon": (28 * k, 10 * k, 74 * k),
+        "shot": (130 * k, 14 * k, 52 * k, 96 * k, 7 * k, 16 * k, 1.0 * k),
         "headline": (14 * k, 139 * k, 52 * k, 182 * k),
         "support": (14 * k, 224 * k, 26 * k, 112 * k, 1.25),
-        "qr": (134 * k, 209 * k, 62 * k, 1.0 * k, 36 * k),
+        "qr": (134 * k, 207 * k, 62 * k, 1.0 * k, 36 * k),
         "band": 276 * k,
         "footer": (14 * k, 282.5 * k, 20 * k, 8 * k),
     }
@@ -344,13 +357,12 @@ def poster_layout(k):
 
 PIECES = {
     "kiwi-guide_A6-card": (105, 148, {
-        "teal": 60,
         "road": (60, 6.5, 8, 6, 1.2),
         "icon": (9, 7, 34),
-        "shot": (70, 9, 26, 45, 3.5, 7),
+        "shot": (70, 9, 26, 45, 3.5, 7, 0.5),
         "headline": (9, 72, 22, 87),
         "support": (9, 108, 10, 54, 1.3),
-        "qr": (68, 105, 28, 0.5, 14),
+        "qr": (68, 104, 28, 0.5, 14),
         "band": 137.5,
         "footer": (9, 139.2, 7.5, 3),
     }),

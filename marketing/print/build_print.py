@@ -276,104 +276,105 @@ def labelled_box(pg, x, y, w, h, label, size_pt, color, sw, r=0.0, weight="Extra
     pg.text(weight, size_pt, x + w / 2, y + h / 2 + cap / 2, label, color, align="center")
 
 
-HEADLINE = ["Free for 2026:", "New Zealand", "travel planner", "for iPhone"]
-SUPPORT = [[("Medium", "500+ places, 26 trips.")], [("ExtraBold", "Scan to download.")]]  # paragraphs
 URL = "guide.kiwi"
 
 
-def build(pg, L):
+HEADLINE = [  # (text, weight, size in A4 points, highlighted)
+    ("Free for 2026:", "ExtraBold", 28, True),
+    ("New Zealand", "ExtraBold", 66, False),
+    ("travel planner", "ExtraBold", 66, False),
+    ("for iPhone", "ExtraBold", 28, False),
+]
+
+
+def build(pg, k, clear, sign_border):
+    """One layout for every size: A4 coordinates (mm) scaled by k. `clear` = QR clear zone in mm."""
     tw, th = pg.tw, pg.th
     W = tw + 2 * BLEED
-    # white paper, road strip with centre-line dashes, teal panel below (all run into the bleed)
+    M = 14 * k  # visual margin
+    pt = lambda size: size * k * 25.4 / 72  # A4 points -> mm em at this size
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
-    rt, rh, dl, dg, dh = L["road"]
-    pg.rect(-BLEED, rt + rh, W, th + BLEED - rt - rh, fill=TEAL_TINT)  # teal panel behind the text, to the bottom bleed
-    pg.rect(-BLEED, rt, W, rh, fill=BLACK)
+
+    # ---- headline: small highlighted lead-in, two huge lines, small tail
+    f = FONTS["ExtraBold"]
+    y = M
+    prev_desc = 0.0
+    for i, (text, wt, size, hi) in enumerate(HEADLINE):
+        em = pt(size)
+        pad = 0.12 * em if hi else 0.0
+        gap = (2.5 * k if i else 0.0)
+        bl = y + prev_desc + gap + pad + f.cap * em
+        if hi:
+            fw = f.width(text, -0.02) * em
+            pg.rect(M - pad, bl - f.cap * em - pad, fw + 2 * pad - 0.02 * em, f.cap * em + 2 * pad, fill=YELLOW)
+        assert M + f.width(text, -0.02) * em <= tw - M + 0.01, text
+        pg.text(wt, size * k, M, bl, text, BLACK, tracking_em=-0.02)
+        y = bl
+        prev_desc = (0.22 * em if text != "Free for 2026:" else 0.0) + pad
+    head_bottom = y + prev_desc
+
+    # ---- hero row: sign on the left planted on a road, phone on the right running off the bottom
+    top = head_bottom + 10 * k
+    road_t, road_h = top + 104 * k, 13 * k
+    # road strip with yellow centre-line dashes, full bleed
+    pg.rect(-BLEED, road_t, W, road_h, fill=BLACK)
+    dl, dg, dh = 16 * k, 12 * k, 2.4 * k
     x = -BLEED - dl / 3
-    while x < tw + BLEED:  # yellow centre-line dashes
+    while x < tw + BLEED:
         x0, x1 = max(x, -BLEED), min(x + dl, tw + BLEED)
-        pg.rect(x0, rt + (rh - dh) / 2, x1 - x0, dh, fill=YELLOW)
+        pg.rect(x0, road_t + (road_h - dh) / 2, x1 - x0, dh, fill=YELLOW)
         x += dl + dg
+    draw_icon(pg, M, top, 70 * k, post_to=road_t, border=sign_border)
 
-    ix, iy, iw = L["icon"]
-    draw_icon(pg, ix, iy, iw, post_to=rt, border=L.get("sign_border", False))
+    # phone: black body, mid-teal screen placeholder, island
+    px, pw = 104 * k, 88 * k
+    pg.rect(px, top, pw, th + BLEED - top + 20 * k, fill=BLACK, r=14 * k)
+    b = 3 * k
+    sx, sy, sw_ = px + b, top + b, pw - 2 * b
+    pg.rect(sx, sy, sw_, th + BLEED - sy + 20 * k, fill=TEAL_TINT, r=11 * k)
+    pg.rect(px + pw / 2 - 11 * k, sy + 3 * k, 22 * k, 6 * k, fill=BLACK, r=3 * k)
 
-    sx, sy, sw_, sh, sr, ssz, sst = L["shot"]
-    pg.rect(sx, sy, sw_, sh, fill=WHITE, stroke=TEAL, sw=sst, r=sr)
-    cap = FONTS["SemiBold"].cap * ssz * 25.4 / 72
-    pg.text("SemiBold", ssz, sx + sw_ / 2, sy + sh / 2 + cap / 2, "screenshot", TEAL, align="center")
+    # ---- QR on a white tile overlapping the phone, below the road
+    qs = 62 * k
+    qx, qy = 102 * k + clear - 4 * k, road_t + road_h + 12 * k
+    pg.rect(qx - clear, qy - clear, qs + 2 * clear, qs + 2 * clear, fill=WHITE, r=2 * k)
+    labelled_box(pg, qx, qy, qs, qs, "QR", 36 * k, BLACK, 1.0 * k)
+    assert qx + qs <= tw - SAFE and qy + qs <= th - SAFE, "QR inside safe area"
 
-    hx, htop, hsz, hw = L["headline"]
-    f, em = FONTS["ExtraBold"], hsz * 25.4 / 72
-    # yellow highlight block behind the whole first line
-    bl0 = css_baseline("ExtraBold", hsz, htop, 1.05, 0)
-    pad = 0.12 * em
-    fw = f.width(HEADLINE[0], -0.02) * em
-    pg.rect(hx - pad, bl0 - f.cap * em - pad, fw + 2 * pad - 0.02 * em, f.cap * em + 2 * pad, fill=YELLOW)
-    assert hx - pad >= SAFE
-    for i, line in enumerate(HEADLINE):
-        assert f.width(line, -0.02) * em <= hw, line
-        pg.text("ExtraBold", hsz, hx, css_baseline("ExtraBold", hsz, htop, 1.05, i), line,
-                BLACK, tracking_em=-0.02)
+    # screenshot label centred in the visible screen above the road
+    cap = FONTS["SemiBold"].cap * pt(16)
+    pg.text("SemiBold", 16 * k, sx + sw_ / 2, (sy + road_t) / 2 + cap / 2, "screenshot", TEAL, align="center")
 
-    px, ptop, psz, pw, plh = L["support"]
-    em = psz * 25.4 / 72
-    lines = [ln for para in SUPPORT for ln in wrap_runs(para, psz, pw)]
-    for i, line in enumerate(lines):
-        bl = css_baseline("Medium", psz, ptop, plh, i)
-        cx = px
-        for j, (wt, word) in enumerate(line):
-            if j:
-                cx += FONTS[wt].width(" ") * em
-            cx += pg.text(wt, psz, cx, bl, word, BLACK)
-
-    qx, qy, qs, qst, qsz = L["qr"]
-    pg.rect(qx - 4, qy - 4, qs + 8, qs + 8, fill=WHITE)  # 4 mm white clear zone tile
-    labelled_box(pg, qx, qy, qs, qs, "QR", qsz, BLACK, qst)
-    assert qx + qs + 4 <= tw - SAFE and qy + qs + 4 <= th - SAFE and qy - 4 >= rt + rh, "QR clear zone"
-
-    ux, utop, usz = L["url"]
-    bl = css_baseline("SemiBold", usz, utop, 1.2, 0)
-    assert bl <= th - SAFE and ux + FONTS["SemiBold"].width(URL) * usz * 25.4 / 72 <= qx - 4, "url"
-    pg.text("SemiBold", usz, ux, bl, URL, BLACK)
+    # ---- supporting text + address, left column under the road
+    tx, tsz = M, 20
+    em = pt(tsz)
+    col_w = qx - clear - 6 * k - tx
+    lines = [("Medium", "500+ places, 26 trips."), ("ExtraBold", "Scan to download."), ("SemiBold", URL)]
+    bl = qy + FONTS["Medium"].cap * em
+    for i, (wt, text) in enumerate(lines):
+        assert FONTS[wt].width(text) * em <= col_w, (text, col_w)
+        if i == 2:
+            bl += 4 * k
+        pg.text(wt, tsz * k, tx, bl, text, BLACK)
+        bl += 1.3 * em
+    assert bl - 1.3 * em <= th - SAFE
 
 
-def poster_layout(k):
-    return {
-        "sign_border": True,
-        "road": (118 * k, 13 * k, 16 * k, 12 * k, 2.4 * k),
-        "icon": (28 * k, 10 * k, 74 * k),
-        "shot": (130 * k, 14 * k, 52 * k, 96 * k, 7 * k, 16 * k, 1.0 * k),
-        "headline": (14 * k, 145 * k, 52 * k, 182 * k),
-        "support": (14 * k, 232 * k, 26 * k, 112 * k, 1.25),
-        "url": (14 * k, 262 * k, 20 * k),
-        "qr": (134 * k, 216 * k, 62 * k, 1.0 * k, 36 * k),
-    }
-
-
-PIECES = {
-    "kiwi-guide_A6-card": (105, 148, {
-        "road": (60, 6.5, 8, 6, 1.2),
-        "icon": (9, 7, 34),
-        "shot": (70, 9, 26, 45, 3.5, 7, 0.5),
-        "headline": (9, 76, 22, 87),
-        "support": (9, 112, 10, 54, 1.3),
-        "url": (9, 123.5, 8),
-        "qr": (68, 110, 28, 0.5, 14),
-    }),
-    "kiwi-guide_A4-poster": (210, 297, poster_layout(1.0)),
-    "kiwi-guide_A3-poster": (297, 420, poster_layout(math.sqrt(2))),
+PIECES = {  # name: (trim w, trim h, scale k vs A4, QR clear zone mm, sign border)
+    "kiwi-guide_A6-card": (105, 148, 0.5, 4.0, False),
+    "kiwi-guide_A4-poster": (210, 297, 1.0, 4.0, True),
+    "kiwi-guide_A3-poster": (297, 420, math.sqrt(2), 4.0 * math.sqrt(2), True),
 }
 
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    for name, (tw, th, L) in PIECES.items():
+    for name, (tw, th, k, clear, border) in PIECES.items():
         title = name.replace("_", " ")
         for suffix, marks in (("print", True), ("bleed", False)):
             path = os.path.join(OUT, f"{name}_{suffix}.pdf")
             pg = Page(path, tw, th, marks, title)
-            build(pg, L)
+            build(pg, k, clear, border)
             pg.finish()
         subprocess.run(["pdftoppm", "-r", "300", "-png", "-singlefile",
                         os.path.join(OUT, f"{name}_bleed.pdf"), os.path.join(OUT, f"{name}_300dpi")], check=True)

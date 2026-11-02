@@ -304,12 +304,14 @@ def screen_image():
         if os.path.basename(SCREEN) == "screen-map.png":
             from PIL import ImageDraw
             sx, sy = src.size[0] / 828, src.size[1] / 1792  # coordinates measured on the 828x1792 capture
-            ImageDraw.Draw(src).rectangle([580 * sx, 1434 * sy, 802 * sx, 1516 * sy],
-                                          fill=src.getpixel((int(560 * sx), int(1480 * sy))))
+            panel = src.getpixel((int(560 * sx), int(1480 * sy)))
+            d = ImageDraw.Draw(src)
+            d.rectangle([580 * sx, 1434 * sy, 802 * sx, 1516 * sy], fill=panel)  # distance pill
+            d.rectangle([0, 1581 * sy, src.size[0], src.size[1]], fill=panel)  # tab bar
         rgb = np.asarray(src, dtype=np.float32) / 255.0
         cmy = 1.0 - rgb
-        kk = cmy.min(axis=2, keepdims=True)  # full grey-component replacement keeps total ink low
-        cmy = cmy - kk  # under-colour removal: the grey component goes to K only
+        kk = 0.7 * cmy.min(axis=2, keepdims=True)  # 70% grey-component replacement
+        cmy = cmy - kk
         cmyk = np.concatenate([cmy, kk], axis=2)
         _SCREEN_CMYK = Image.fromarray((cmyk * 255 + 0.5).astype(np.uint8), mode="CMYK")
     return _SCREEN_CMYK
@@ -354,13 +356,14 @@ def build(pg, k, clear):
 
     # ================= phone: right column, on white, running off the bottom edge
     img = screen_image()
-    pw = 100 * k
+    pw = 96 * k
     px = tw - M - pw
     b = 3 * k
     sw_ = pw - 2 * b
     aspect = img.size[1] / img.size[0] if img else 1792 / 828
-    vis_rows = 1580 / 1792  # show the screen down to the top of the tab bar
-    ptop = max(th + BLEED - b - vis_rows * aspect * sw_, band_bottom + 6 * k)
+    ptop = band_bottom + 4 * k  # top aligned with the sign
+    # the place panel's last text row (1543 of 1792) must sit inside the 5 mm safe area
+    assert ptop + b + (1543 / 1792) * aspect * sw_ <= th - SAFE, "screenshot text inside safe area"
     pg.rect(px, ptop, pw, th + BLEED - ptop + 20 * k, fill=BLACK, r=13 * k)
     sx, sy = px + b, ptop + b
     if img is None:
@@ -382,7 +385,7 @@ def build(pg, k, clear):
     col_r = px - 6 * k
     ip_w = col_r - M  # information plate width
     xc = M + ip_w / 2  # post centre line
-    sign_w = 52 * k
+    sign_w = (52 if k >= 1 else 48) * k  # slightly smaller on the card so the QR stays >= 25 mm in the safe area
     s_ = sign_w / VB_W
     sign_x = xc - (512 - VB_X) * s_
     assert sign_x + (12 - VB_X) * s_ >= SAFE, "name plate inside safe margin"
@@ -400,14 +403,16 @@ def build(pg, k, clear):
     bl2 = bl1 + em
     for t in ("Scan to", "download."):
         assert XB.width(t) * em <= ip_w - 2 * edge - 8 * k, t
-    qy = bl2 + clear
-    qs = min(62 * k, ip_w - 2 * edge - 2 * clear)
     gem = em_of(22)
-    g_bl = qy + qs + clear + SB.cap * gem
-    ip_bottom = g_bl + 0.25 * gem + 3 * k + edge
+    over = 0.015  # round-glyph overshoot below the baseline / above cap height, in em
+    qy = bl2 + over * em + clear
+    g_cap = SB.cap * gem + over * gem  # top of "guide.kiwi" incl. the 'k'/'d' ascender allowance
+    below = clear + g_cap + 0.25 * gem + 3 * k + edge  # QR bottom -> plate bottom
+    qs = min(62 * k, ip_w - 2 * edge - 2 * clear, th - SAFE - qy - below)
+    g_bl = qy + qs + clear + g_cap
+    ip_bottom = qy + qs + below
     assert qs >= (60 if k >= 1 else 25), ("QR too small", qs)
-    assert g_bl <= th - SAFE, "guide.kiwi inside safe area"
-    assert ip_bottom <= th, "information plate inside the trim"
+    assert ip_bottom <= th - SAFE + 0.01, "information plate inside the safe area"
     pg.rect(M, ip_top, ip_w, ip_bottom - ip_top, fill=WHITE, r=2.5 * k)
     pg.rect(M + inset, ip_top + inset, ip_w - 2 * inset, ip_bottom - ip_top - 2 * inset,
             stroke=BLACK, sw=line, r=1.5 * k)
@@ -419,7 +424,7 @@ def build(pg, k, clear):
 
 
 PIECES = {  # name: (trim w, trim h, scale k vs A4, QR clear zone mm)
-    "kiwi-guide_A6-card": (105, 148, 0.5, 4.0),
+    "kiwi-guide_A6-card": (105, 148, 0.5, 4.4),
     "kiwi-guide_A4-poster": (210, 297, 1.0, 4.5),
     "kiwi-guide_A3-poster": (297, 420, math.sqrt(2), 4.5 * math.sqrt(2)),
 }

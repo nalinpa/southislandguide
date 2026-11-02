@@ -277,7 +277,7 @@ def draw_icon(pg, x, y, w, post_to=None, border=False, post=True, plate_mm=None,
     cap = FONTS[plate_weight].cap * size_pt * 25.4 / 72
     plate_mid = y + (950 + 130 - VB_Y) * s  # vertical centre of the name plate
     pg.text(plate_weight, size_pt, x + (512 - VB_X) * s, plate_mid + cap / 2, "Kiwi Guide", WHITE,
-            tracking_em=-2 / 128, align="center")
+            tracking_em=-0.02, align="center")
     return VB_H * s
 
 
@@ -350,10 +350,10 @@ def build(pg, k, clear):
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
 
     # ================= header band
-    em = em_of(36)
+    em = em_of(26)
     padx = pady = 0.28 * em  # equal padding all round
     tag_top = 11 * k
-    tag_w = XB.width("Free for 2026:", -0.01) * em + 2 * padx
+    tag_w = XB.width("Free for 2026:", -0.02) * em + 2 * padx
     tag_h = XB.cap * em + 2 * pady
     tag_bl = tag_top + pady + XB.cap * em
     em = em_of(52)
@@ -370,13 +370,13 @@ def build(pg, k, clear):
     pg.rect(-BLEED, -BLEED, W, band_bottom + BLEED, fill=TEAL)
     pg.rect(M, tag_top, tag_w, tag_h, fill=YELLOW, r=1.5 * k)
     pg.rect(M + 1.2 * k, tag_top + 1.2 * k, tag_w - 2.4 * k, tag_h - 2.4 * k, stroke=BLACK, sw=0.8 * k, r=0.8 * k)
-    pg.text("ExtraBold", 36 * k, M + padx, tag_bl, "Free for 2026:", BLACK, tracking_em=-0.01)
+    pg.text("ExtraBold", 26 * k, M + padx, tag_bl, "Free for 2026:", BLACK, tracking_em=-0.02)
     for y, text in lines:
         lsb = XB.tt["hmtx"][XB.tt.getBestCmap()[ord(text[0])]][1] / XB.upm
         pg.text("ExtraBold", 52 * k, M - lsb * em + 0.0098 * em, y, text, WHITE, tracking_em=-0.02)
     ip_w = pg.text("ExtraBold", 36 * k, M, ip_bl, "for iPhone", WHITE, tracking_em=-0.02)
     # App Store badge: right-aligned on the "for iPhone" line, centred on its cap height
-    bh = 15 * k
+    bh = 16 * k
     bw = bh * 119.66407 / 40
     bx, by = tw - M - bw, ip_bl - XB.cap * ip_em / 2 - bh / 2
     planner_end = M + XB.width(lines[-1][1], -0.02) * em
@@ -403,12 +403,12 @@ def build(pg, k, clear):
     inset, line = 1.2 * k, 0.8 * k
     edge = inset + line
     em = em_of(36)
-    bl1 = qp_top + edge + 2.5 * k + XB.cap * em
+    bl1 = qp_top + edge + 4 * k + XB.cap * em
     bl2 = bl1 + em
     qs = 60 * k
     tile = qs + 2 * clear  # white tile = QR + its clear zone, no bigger
     side = (qp_w - 2 * edge - tile) / 2  # yellow between frame and tile, same at sides and bottom
-    tile_y = bl2 + 2 * k
+    tile_y = bl2 + 4 * k
     qp_bottom = tile_y + tile + side + edge
     assert qp_bottom <= th - 10 * k, ("bottom margin at least 10 mm", qp_bottom)
     assert qs >= 60 * k, ("QR too small", qs)
@@ -417,8 +417,8 @@ def build(pg, k, clear):
     pg.rect(qp_x + inset, qp_top + inset, qp_w - 2 * inset, qp_bottom - qp_top - 2 * inset,
             stroke=BLACK, sw=line, r=0.8 * k)
     for bl_, t in ((bl1, "Scan to"), (bl2, "download.")):
-        assert XB.width(t) * em <= qp_w - 2 * edge - 4 * k, t
-        pg.text("ExtraBold", 36 * k, xc, bl_, t, BLACK, align="center")
+        assert XB.width(t, -0.02) * em <= qp_w - 2 * edge - 4 * k, t
+        pg.text("ExtraBold", 36 * k, xc, bl_, t, BLACK, align="center", tracking_em=-0.02)
     tx = xc - tile / 2
     pg.rect(tx, tile_y, tile, tile, fill=WHITE)
     labelled_box(pg, xc - qs / 2, tile_y + (tile - qs) / 2, qs, qs, "QR", 36 * k, BLACK, 0.5 * k)
@@ -449,18 +449,20 @@ def build(pg, k, clear):
         c.clipPath(clip, stroke=0, fill=0)
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
-    cem = em_of(26)
-    gbl = tile_y + tile  # caption built upward from guide.kiwi, whose baseline sits on the QR tile bottom
-    pitch = 1.12 * cem
-    pbl2 = gbl - pitch - 1.6 * k  # a little extra air separates the address from the proof line
-    pbl1 = pbl2 - pitch
+    cem, gem = em_of(26), em_of(36)
+    gbl = qp_bottom  # both column feet on one line: the QR plate's bottom edge
+    pbl2 = gbl - XB.cap * gem - 4.5 * k
+    pbl1 = pbl2 - 1.12 * cem
     assert pbl1 - XB.cap * cem >= ptop + ih + 2 * b + 3 * k, "caption clears the phone"
-    assert gbl + 0.25 * cem <= th - SAFE, ("guide.kiwi inside the safe area", gbl + 0.25 * cem)
-    lsb = lambda t: XB.tt["hmtx"][XB.tt.getBestCmap()[ord(t[0])]][1] / XB.upm * cem
+    assert gbl + 0.25 * gem <= th - SAFE, ("guide.kiwi inside the safe area", gbl + 0.25 * gem)
+    lsb = lambda t, e: XB.tt["hmtx"][XB.tt.getBestCmap()[ord(t[0])]][1] / XB.upm * e
     for bl_, t in ((pbl1, "500+ places,"), (pbl2, "26 trips.")):
-        assert XB.width(t) * cem <= pw, t
-        pg.text("ExtraBold", 26 * k, px - lsb(t), bl_, t, BLACK)
-    pg.text("ExtraBold", 26 * k, px - lsb(URL), gbl, URL, TEAL)
+        assert XB.width(t, -0.02) * cem <= pw, t
+        pg.text("ExtraBold", 26 * k, px - lsb(t, cem), bl_, t, BLACK, tracking_em=-0.02)
+    uw = XB.width(URL, -0.02) * gem
+    assert uw <= pw, URL
+    pg.text("ExtraBold", 36 * k, px - lsb(URL, gem), gbl, URL, TEAL, tracking_em=-0.02)
+    pg.rect(px, gbl + 0.11 * gem, uw - lsb(URL, gem), 0.06 * gem, fill=TEAL)  # underline: not colour alone
     print(f"  side {side:.1f}  band {band_bottom:.1f}  sign top {sign_top:.1f}  phone bottom {ptop + ih + 2 * b:.1f}  "
           f"tile bottom {tile_y + tile:.1f}  plate bottom {qp_bottom:.1f}  guide bl {gbl:.1f}")
     return qs

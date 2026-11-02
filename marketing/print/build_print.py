@@ -348,7 +348,7 @@ def build(pg, k, clear):
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
 
     # ================= header band
-    em = em_of(38)
+    em = em_of(36)
     padx, pady = 0.3 * em, 0.25 * em
     tag_w = XB.width("Free for 2026:", -0.01) * em + 2 * padx
     tag_h = XB.cap * em + 2 * pady
@@ -363,11 +363,11 @@ def build(pg, k, clear):
         bl += em
     ip_em = em_of(36)
     ip_bl = last + 0.22 * em + 3 * k + XB.cap * ip_em
-    band_bottom = ip_bl + 0.2 * ip_em + 7 * k
+    band_bottom = ip_bl + 0.2 * ip_em + 5.5 * k
     pg.rect(-BLEED, -BLEED, W, band_bottom + BLEED, fill=TEAL)
     pg.rect(M, M, tag_w, tag_h, fill=YELLOW, r=1.5 * k)
     pg.rect(M + 1.2 * k, M + 1.2 * k, tag_w - 2.4 * k, tag_h - 2.4 * k, stroke=BLACK, sw=0.8 * k, r=0.8 * k)
-    pg.text("ExtraBold", 38 * k, M + padx, tag_bl, "Free for 2026:", BLACK, tracking_em=-0.01)
+    pg.text("ExtraBold", 36 * k, M + padx, tag_bl, "Free for 2026:", BLACK, tracking_em=-0.01)
     for y, text in lines:
         pg.text("ExtraBold", 56 * k, M, y, text, WHITE, tracking_em=-0.02)
     ip_w = pg.text("ExtraBold", 36 * k, M, ip_bl, "for iPhone", WHITE, tracking_em=-0.02)
@@ -388,7 +388,7 @@ def build(pg, k, clear):
     xc = M + plate_w / 2
     sign_x = xc - (512 - VB_X) * s_
     assert sign_x + (12 - VB_X) * s_ >= SAFE - 0.01
-    sign_top = band_bottom + 4 * k
+    sign_top = band_bottom + 7 * k
     plate_bottom = sign_top + (1210 - VB_Y) * s_
     post_w = 80 * s_
     pg.rect(xc - post_w / 2, sign_top + (880 - VB_Y) * s_, post_w, th + BLEED - sign_top, fill=POST_GREY)
@@ -442,16 +442,20 @@ def build(pg, k, clear):
         c.clipPath(clip, stroke=0, fill=0)
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
-    cem = em_of(28)
-    cbl = ptop + ih + 2 * b + 5 * k + XB.cap * cem
+    cem = em_of(26)
+    cbl = ptop + ih + 2 * b + 3.5 * k + XB.cap * cem
     for t in ("500+ places,", "26 trips."):
         assert XB.width(t) * cem <= pw, t
-        pg.text("ExtraBold", 28 * k, px, cbl, t, BLACK)
+        pg.text("ExtraBold", 26 * k, px, cbl, t, BLACK)
         cbl += cem * 1.05
-    gem = em_of(28)
-    gbl = cbl - cem * 1.05 + 0.05 * cem + 3 * k + XB.cap * gem
+    gem = em_of(26)
+    natural = cbl - cem * 1.05 + 0.05 * cem + 2.5 * k + XB.cap * gem
+    assert natural <= tile_y + tile + 0.3 * k, ("caption longer than the QR column", natural, tile_y + tile)
+    gbl = tile_y + tile  # last caption baseline aligned with the bottom of the QR tile
     assert gbl + 0.25 * gem <= th - SAFE, ("guide.kiwi inside the safe area", gbl + 0.25 * gem)
-    pg.text("ExtraBold", 28 * k, px, gbl, URL, TEAL)
+    pg.text("ExtraBold", 26 * k, px, gbl, URL, TEAL)
+    print(f"  band {band_bottom:.1f}  sign top {sign_top:.1f}  phone bottom {ptop + ih + 2 * b:.1f}  "
+          f"tile bottom {tile_y + tile:.1f}  plate bottom {qp_bottom:.1f}  guide bl {gbl:.1f}")
     return qs
 
 

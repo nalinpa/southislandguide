@@ -27,7 +27,7 @@ from reportlab.pdfgen import canvas as rl_canvas
 from svgelements import Arc, Close, CubicBezier, Line, Matrix, Move, Path, QuadraticBezier
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "out")
+OUT = os.environ.get("KIWI_PRINT_OUT", os.path.join(HERE, "out"))
 FONT_DIR = "/usr/share/fonts/opentype/inter"
 
 BLEED = 3.0      # mm
@@ -40,6 +40,7 @@ MARK_LEN = 6.0
 YELLOW = (0.0, 0.20, 1.0, 0.0)
 TEAL = (1.00, 0.25, 0.40, 0.45)  # closest press build to #095C65 (checked against a poppler render)
 BLACK = (0.0, 0.0, 0.0, 1.0)
+POST_GREY = (0.0, 0.0, 0.0, 0.55)  # galvanised sign post
 TEAL_TINT = (0.42, 0.06, 0.24, 0.0)  # mid teal (clean build, no K) for the panel behind the text
 WHITE = (0.0, 0.0, 0.0, 0.0)
 REGISTRATION = (1.0, 1.0, 1.0, 1.0)
@@ -225,6 +226,26 @@ OUTER = "translate(512 512) scale(1.2608) translate(-512 -512)"
 VB_X, VB_Y, VB_W, VB_H = 92, 92, 840, 1148  # icon viewBox
 
 
+BADGE = os.path.join(HERE, "assets", "app-store-badge-black.svg")  # Apple's official "Download on the App Store" badge
+
+
+def draw_badge(pg, x, y, h):
+    """Place Apple's badge unmodified at height h (mm). Colours map 1:1 to CMYK: black -> K100,
+    the #A6A6A6 keyline -> K35, white lettering/logo -> white."""
+    from svgelements import SVG, Shape
+    svg = SVG.parse(BADGE)
+    s = h / svg.height
+    cmyk = {"#000000": BLACK, "#a6a6a6": (0, 0, 0, 1 - 0xA6 / 255), "#ffffff": WHITE}
+
+    def tf(pt):
+        return pg.X(x + pt[0] * s), pg.Y(y + pt[1] * s)
+
+    for e in svg.elements():
+        if isinstance(e, Shape) and e.fill is not None and str(e.fill) != "None":
+            pg.svg_path(e.d(), Matrix(), tf, cmyk[str(e.fill).lower()])
+    return svg.width * s
+
+
 def rounded_square(x0, size, r):
     x1 = x0 + size
     return (f"M{x0 + r} {x0}H{x1 - r}A{r} {r} 0 0 1 {x1} {x0 + r}V{x1 - r}A{r} {r} 0 0 1 {x1 - r} {x1}"
@@ -235,14 +256,15 @@ def rounded_square(x0, size, r):
 SIGN_BORDER_D = rounded_square(263.4, 497.2, 81) + rounded_square(277.4, 469.2, 67)
 
 
-def draw_icon(pg, x, y, w, post_to=None, border=False):
+def draw_icon(pg, x, y, w, post_to=None, border=False, post=True):
     s = w / VB_W  # mm per icon unit
 
     def tf(pt):
         return pg.X(x + (pt[0] - VB_X) * s), pg.Y(y + (pt[1] - VB_Y) * s)
 
     post_bottom = post_to if post_to is not None else y + (1240 - VB_Y) * s
-    pg.rect(x + (484 - VB_X) * s, y + (880 - VB_Y) * s, 56 * s, post_bottom - (y + (880 - VB_Y) * s), fill=BLACK)  # post
+    if post:
+        pg.rect(x + (484 - VB_X) * s, y + (880 - VB_Y) * s, 56 * s, post_bottom - (y + (880 - VB_Y) * s), fill=BLACK)
     pg.svg_path(SIGN_D, Matrix(OUTER + " rotate(45 512 512)"), tf, YELLOW)
     if border:
         pg.svg_path(SIGN_BORDER_D, Matrix(OUTER + " rotate(45 512 512)"), tf, BLACK, even_odd=True)
@@ -317,62 +339,102 @@ def screen_image():
 
 
 def build(pg, k, clear):
-    """One layout for every size: A4 measurements (mm, pt) scaled by k. `clear` = QR clear zone in mm."""
+    """A4 layout (k = 1). `clear` = QR clear zone in mm."""
     tw, th = pg.tw, pg.th
     W = tw + 2 * BLEED
-    M = 14 * k  # visual margin
-    em_of = lambda size: size * k * 25.4 / 72  # A4 point size -> em in mm at this scale
+    M = 14 * k
+    em_of = lambda size: size * k * 25.4 / 72
     XB, SB = FONTS["ExtraBold"], FONTS["SemiBold"]
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
 
-    # ================= header: dark teal panel (the app's own header colour), full bleed
-    # "Free for 2026:" as a yellow supplementary plate with a thin black inset border
+    # ================= header band
     em = em_of(38)
     padx, pady = 0.3 * em, 0.25 * em
     tag_w = XB.width("Free for 2026:", -0.01) * em + 2 * padx
     tag_h = XB.cap * em + 2 * pady
     tag_bl = M + pady + XB.cap * em
-    em = em_of(66)
-    bl = M + tag_h + 5 * k + XB.cap * em
+    em = em_of(56)
+    bl = M + tag_h + 4 * k + XB.cap * em
     lines = []
     for text in ("New Zealand", "travel planner"):
         assert M + XB.width(text, -0.02) * em <= tw - M, text
         lines.append((bl, text))
         last = bl
         bl += em
-    ip_bl = last + 0.22 * em + 3 * k + XB.cap * em_of(40)
-    proof_w = SB.width("500+ places, 26 trips.") * em_of(24)
-    assert M + XB.width("for iPhone", -0.02) * em_of(40) + 8 * k <= tw - M - proof_w, "for iPhone / proof line"
-    band_bottom = ip_bl + 0.2 * em_of(40) + 9 * k
+    ip_em = em_of(36)
+    ip_bl = last + 0.22 * em + 3 * k + XB.cap * ip_em
+    band_bottom = ip_bl + 0.2 * ip_em + 7 * k
     pg.rect(-BLEED, -BLEED, W, band_bottom + BLEED, fill=TEAL)
     pg.rect(M, M, tag_w, tag_h, fill=YELLOW, r=1.5 * k)
     pg.rect(M + 1.2 * k, M + 1.2 * k, tag_w - 2.4 * k, tag_h - 2.4 * k, stroke=BLACK, sw=0.8 * k, r=0.8 * k)
     pg.text("ExtraBold", 38 * k, M + padx, tag_bl, "Free for 2026:", BLACK, tracking_em=-0.01)
     for y, text in lines:
-        pg.text("ExtraBold", 66 * k, M, y, text, WHITE, tracking_em=-0.02)
-    pg.text("ExtraBold", 40 * k, M, ip_bl, "for iPhone", WHITE, tracking_em=-0.02)
-    pg.text("SemiBold", 24 * k, tw - M - proof_w, ip_bl, "500+ places, 26 trips.", WHITE)
+        pg.text("ExtraBold", 56 * k, M, y, text, WHITE, tracking_em=-0.02)
+    ip_w = pg.text("ExtraBold", 36 * k, M, ip_bl, "for iPhone", WHITE, tracking_em=-0.02)
+    # App Store badge: right-aligned on the "for iPhone" line, centred on its cap height
+    bh = 12 * k
+    bw = bh * 119.66407 / 40
+    bx, by = tw - M - bw, ip_bl - XB.cap * ip_em / 2 - bh / 2
+    planner_end = M + XB.width(lines[-1][1], -0.02) * em
+    assert M + ip_w + bh / 4 <= bx, "badge clear space from 'for iPhone'"
+    assert planner_end + bh / 4 <= bx or by - bh / 4 >= lines[-1][0] + 0.22 * em, "badge clear space from the headline"
+    assert by + bh + bh / 4 <= band_bottom, "badge inside the band"
+    draw_badge(pg, bx, by, bh)
 
-    # ================= phone: right column, on white, running off the bottom edge
+    # ================= left column: signpost (diamond, name plate, yellow QR plate on one grey post)
+    sign_w = 64 * k
+    s_ = sign_w / VB_W
+    plate_w = 1000 * s_  # name plate width; the QR plate matches it
+    xc = M + plate_w / 2
+    sign_x = xc - (512 - VB_X) * s_
+    assert sign_x + (12 - VB_X) * s_ >= SAFE - 0.01
+    sign_top = band_bottom + 4 * k
+    plate_bottom = sign_top + (1210 - VB_Y) * s_
+    post_w = 80 * s_
+    pg.rect(xc - post_w / 2, sign_top + (880 - VB_Y) * s_, post_w, th + BLEED - sign_top, fill=POST_GREY)
+    draw_icon(pg, sign_x, sign_top, sign_w, border=True, post=False)
+
+    qp_x, qp_top, qp_w = M, plate_bottom + 2 * k, plate_w
+    inset, line = 1.2 * k, 0.8 * k
+    edge = inset + line
+    em = em_of(36)
+    bl1 = qp_top + edge + 3 * k + XB.cap * em
+    bl2 = bl1 + em
+    tile = qp_w - 2 * edge - 2 * k  # white tile = QR + clear zone on all sides
+    qs = min(62 * k, tile - 2 * clear)
+    tile_y = bl2 + 2.5 * k
+    qp_bottom = tile_y + tile + 2 * k + edge
+    assert qs >= 60 * k, ("QR too small", qs)
+    assert qp_bottom <= th - SAFE + 0.01, ("QR plate inside the safe area", qp_bottom)
+    pg.rect(qp_x, qp_top, qp_w, qp_bottom - qp_top, fill=YELLOW, r=1.5 * k)
+    pg.rect(qp_x + inset, qp_top + inset, qp_w - 2 * inset, qp_bottom - qp_top - 2 * inset,
+            stroke=BLACK, sw=line, r=0.8 * k)
+    for bl_, t in ((bl1, "Scan to"), (bl2, "download.")):
+        assert XB.width(t) * em <= qp_w - 2 * edge - 4 * k, t
+        pg.text("ExtraBold", 36 * k, xc, bl_, t, BLACK, align="center")
+    tx = xc - tile / 2
+    pg.rect(tx, tile_y, tile, tile, fill=WHITE)
+    labelled_box(pg, xc - qs / 2, tile_y + (tile - qs) / 2, qs, qs, "QR", 36 * k, BLACK, 0.5 * k)
+
+    # ================= right column: phone (whole; 70 mm screen keeps the 828 px screenshot at 300 ppi),
+    # proof line and address as its caption
     img = screen_image()
-    pw = 76 * k  # 70 mm screen on A4: the 828 px screenshot prints at 300 ppi
+    pw = 76 * k
     px = tw - M - pw
+    assert px - (M + qp_w) >= 10 * k, "gap between the signpost and the phone"
     b = 3 * k
     sw_ = pw - 2 * b
     aspect = img.size[1] / img.size[0] if img else 1792 / 828
-    ptop = band_bottom + 4 * k  # top aligned with the sign
     ih = sw_ * aspect
-    ph = ih + 2 * b
-    assert ptop + ph <= th - SAFE, "whole phone inside the safe area"
-    if img is not None:
-        assert img.size[0] / (sw_ / 25.4) >= 299 or k > 1, ("screenshot under 300 ppi", img.size[0] / (sw_ / 25.4))
-    pg.rect(px, ptop, pw, ph, fill=BLACK, r=11 * k)
+    ptop = sign_top
+    pg.rect(px, ptop, pw, ih + 2 * b, fill=BLACK, r=11 * k)
     sx, sy = px + b, ptop + b
     if img is None:
         pg.rect(sx, sy, sw_, ih, fill=TEAL_TINT, r=8 * k)
         cap = SB.cap * em_of(16)
         pg.text("SemiBold", 16 * k, sx + sw_ / 2, sy + ih / 2 + cap / 2, "screenshot", TEAL, align="center")
     else:
+        assert img.size[0] / (sw_ / 25.4) >= 299, "screenshot under 300 ppi"
         c = pg.c
         c.saveState()
         clip = c.beginPath()
@@ -380,52 +442,21 @@ def build(pg, k, clear):
         c.clipPath(clip, stroke=0, fill=0)
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
-
-    # ================= left column: one signpost carrying the kiwi sign, the name plate,
-    # and a white information plate with the call to action and the QR code
-    col_r = px - 6 * k
-    ip_w = min(col_r - M, 80 * k)  # information plate width
-    xc = M + ip_w / 2  # post centre line
-    sign_w = (52 if k >= 1 else 48) * k  # slightly smaller on the card so the QR stays >= 25 mm in the safe area
-    s_ = sign_w / VB_W
-    sign_x = xc - (512 - VB_X) * s_
-    assert sign_x + (12 - VB_X) * s_ >= SAFE, "name plate inside safe margin"
-    sign_top = band_bottom + 4 * k
-    plate_bottom = sign_top + (1210 - VB_Y) * s_
-    post_w = 56 * s_
-    pg.rect(xc - post_w / 2, sign_top + (880 - VB_Y) * s_, post_w, th + BLEED - sign_top, fill=BLACK)  # post to the ground
-    draw_icon(pg, sign_x, sign_top, sign_w, border=True)
-
-    ip_top = plate_bottom + 3 * k
-    inset, line = 1.5 * k, 0.8 * k
-    edge = inset + line  # inner edge of the plate's black border
-    em = em_of(30)
-    bl1 = ip_top + edge + 4 * k + XB.cap * em
-    bl2 = bl1 + em
-    for t in ("Scan to", "download."):
-        assert XB.width(t) * em <= ip_w - 2 * edge - 8 * k, t
-    gem = em_of(22)
-    over = 0.015  # round-glyph overshoot below the baseline / above cap height, in em
-    qy = bl2 + over * em + clear
-    g_cap = SB.cap * gem + over * gem  # top of "guide.kiwi" incl. the 'k'/'d' ascender allowance
-    below = clear + g_cap + 0.25 * gem + 3 * k + edge  # QR bottom -> plate bottom
-    qs = min(62 * k, ip_w - 2 * edge - 2 * clear, th - SAFE - qy - below)
-    g_bl = qy + qs + clear + g_cap
-    ip_bottom = qy + qs + below
-    assert qs >= (60 if k >= 1 else 25), ("QR too small", qs)
-    assert ip_bottom <= th - SAFE + 0.01, "information plate inside the safe area"
-    pg.rect(M, ip_top, ip_w, ip_bottom - ip_top, fill=WHITE, r=2.5 * k)
-    pg.rect(M + inset, ip_top + inset, ip_w - 2 * inset, ip_bottom - ip_top - 2 * inset,
-            stroke=BLACK, sw=line, r=1.5 * k)
-    pg.text("ExtraBold", 30 * k, xc, bl1, "Scan to", BLACK, align="center")
-    pg.text("ExtraBold", 30 * k, xc, bl2, "download.", BLACK, align="center")
-    labelled_box(pg, xc - qs / 2, qy, qs, qs, "QR", 36 * k, BLACK, 1.0 * k)
-    pg.text("SemiBold", 22 * k, xc, g_bl, URL, BLACK, align="center")
+    cem = em_of(28)
+    cbl = ptop + ih + 2 * b + 5 * k + XB.cap * cem
+    for t in ("500+ places,", "26 trips."):
+        assert XB.width(t) * cem <= pw, t
+        pg.text("ExtraBold", 28 * k, px, cbl, t, BLACK)
+        cbl += cem * 1.05
+    gem = em_of(28)
+    gbl = cbl - cem * 1.05 + 0.05 * cem + 3 * k + XB.cap * gem
+    assert gbl + 0.25 * gem <= th - SAFE, ("guide.kiwi inside the safe area", gbl + 0.25 * gem)
+    pg.text("ExtraBold", 28 * k, px, gbl, URL, TEAL)
     return qs
 
 
 PIECES = {  # name: (trim w, trim h, scale k vs A4, QR clear zone mm)
-    "kiwi-guide_A6-card": (105, 148, 0.5, 4.4),
+    # A6 card (105 x 148, k = 0.5, clear 4.4) is on hold while the A4 poster is iterated
     "kiwi-guide_A4-poster": (210, 297, 1.0, 4.5),
     # A3 (297 x 420, k = sqrt(2), clear 4.5 * sqrt(2)) is on hold until a higher-resolution screenshot is available
 }

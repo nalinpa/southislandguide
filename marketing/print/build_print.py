@@ -12,6 +12,8 @@ needs no fonts. Layout coordinates are millimetres from the top-left of the TRIM
 Requires: reportlab, fonttools, uharfbuzz, svgelements, poppler (pdftoppm).
 """
 import math
+
+import numpy as np
 import os
 import subprocess
 
@@ -36,7 +38,7 @@ MARK_LEN = 6.0
 
 # CMYK builds (0-1). Yellow ~ #F7C600, teal = #095C65, black = 100K.
 YELLOW = (0.0, 0.20, 1.0, 0.0)
-TEAL = (0.90, 0.35, 0.40, 0.30)
+TEAL = (1.00, 0.25, 0.40, 0.45)  # closest press build to #095C65 (checked against a poppler render)
 BLACK = (0.0, 0.0, 0.0, 1.0)
 TEAL_TINT = (0.42, 0.06, 0.24, 0.0)  # mid teal (clean build, no K) for the panel behind the text
 WHITE = (0.0, 0.0, 0.0, 0.0)
@@ -175,6 +177,16 @@ class Page:
         self.fill(color)
         self.c.drawPath(path, fill=1, stroke=0, fillMode=0 if even_odd else 1)
 
+    def begin_art(self):
+        """Clip everything drawn until end_art() to the bleed box, so nothing spills into the mark area."""
+        self.c.saveState()
+        p = self.c.beginPath()
+        p.rect(self.X(-BLEED), self.Y(self.th + BLEED), (self.tw + 2 * BLEED) * mm, (self.th + 2 * BLEED) * mm)
+        self.c.clipPath(p, stroke=0, fill=0)
+
+    def end_art(self):
+        self.c.restoreState()
+
     def finish(self):
         c = self.c
         # page boxes (points, PDF bottom-left origin)
@@ -287,69 +299,84 @@ def screen_image():
     """The screenshot as a CMYK image (simple conversion; the printer may re-separate with their profile)."""
     global _SCREEN_CMYK
     if _SCREEN_CMYK is None and os.path.exists(SCREEN):
-        _SCREEN_CMYK = Image.open(SCREEN).convert("RGB").convert("CMYK")
+        rgb = np.asarray(Image.open(SCREEN).convert("RGB"), dtype=np.float32) / 255.0
+        cmy = 1.0 - rgb
+        kk = cmy.min(axis=2, keepdims=True)  # full grey-component replacement keeps total ink low
+        cmy = np.where(kk < 1.0, (cmy - kk) / np.maximum(1.0 - kk, 1e-6), 0.0)
+        cmyk = np.concatenate([cmy, kk], axis=2)
+        _SCREEN_CMYK = Image.fromarray((cmyk * 255 + 0.5).astype(np.uint8), mode="CMYK")
     return _SCREEN_CMYK
 
 
-HEADLINE = [  # (text, weight, size in A4 points, highlighted)
-    ("Free for 2026:", "ExtraBold", 28, True),
-    ("New Zealand", "ExtraBold", 66, False),
-    ("travel planner", "ExtraBold", 66, False),
-    ("for iPhone", "ExtraBold", 28, False),
-]
-
-
-def build(pg, k, clear, sign_border):
-    """One layout for every size: A4 coordinates (mm) scaled by k. `clear` = QR clear zone in mm."""
+def build(pg, k, clear):
+    """One layout for every size: A4 measurements (mm, pt) scaled by k. `clear` = QR clear zone in mm."""
     tw, th = pg.tw, pg.th
     W = tw + 2 * BLEED
     M = 14 * k  # visual margin
-    pt = lambda size: size * k * 25.4 / 72  # A4 points -> mm em at this size
+    em_of = lambda size: size * k * 25.4 / 72  # A4 point size -> em in mm at this scale
+    XB = FONTS["ExtraBold"]
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
 
-    # ---- headline: small highlighted lead-in, two huge lines, small tail
-    f = FONTS["ExtraBold"]
-    y = M
-    prev_desc = 0.0
-    for i, (text, wt, size, hi) in enumerate(HEADLINE):
-        em = pt(size)
-        pad = 0.12 * em if hi else 0.0
-        gap = (2.5 * k if i else 0.0)
-        bl = y + prev_desc + gap + pad + f.cap * em
-        if hi:
-            fw = f.width(text, -0.02) * em
-            pg.rect(M - pad, bl - f.cap * em - pad, fw + 2 * pad - 0.02 * em, f.cap * em + 2 * pad, fill=YELLOW)
-        assert M + f.width(text, -0.02) * em <= tw - M + 0.01, text
-        pg.text(wt, size * k, M, bl, text, BLACK, tracking_em=-0.02)
-        y = bl
-        prev_desc = (0.22 * em if text != "Free for 2026:" else 0.0) + pad
-    head_bottom = y + prev_desc
+    # ---- "Free for 2026:" as a teal tag, like a supplementary road-sign plate
+    em = em_of(38)
+    padx, pady = 0.25 * em, 0.22 * em
+    tag_w = XB.width("Free for 2026:", -0.01) * em + 2 * padx
+    tag_h = XB.cap * em + 2 * pady
+    pg.rect(M, M, tag_w, tag_h, fill=TEAL, r=0.12 * em)
+    pg.text("ExtraBold", 38 * k, M + padx, M + pady + XB.cap * em, "Free for 2026:", WHITE, tracking_em=-0.01)
 
-    # ---- hero row: sign on the left planted on a road, phone on the right running off the bottom
-    top = head_bottom + 10 * k
-    road_t, road_h = top + 104 * k, 13 * k
-    # road strip with yellow centre-line dashes, full bleed
+    # ---- headline: two huge lines, then "for iPhone", then the proof line
+    em = em_of(66)
+    bl = M + tag_h + 5 * k + XB.cap * em
+    for text in ("New Zealand", "travel planner"):
+        assert M + XB.width(text, -0.02) * em <= tw - M, text
+        pg.text("ExtraBold", 66 * k, M, bl, text, BLACK, tracking_em=-0.02)
+        last = bl
+        bl += em
+    bl = last + 0.22 * em + 3 * k + XB.cap * em_of(30)
+    pg.text("ExtraBold", 30 * k, M, bl, "for iPhone", BLACK, tracking_em=-0.02)
+    bl += 0.2 * em_of(30) + 4 * k + FONTS["Medium"].cap * em_of(24)
+    pg.text("Medium", 24 * k, M, bl, "500+ places, 26 trips.", BLACK)
+    head_bottom = bl + 0.2 * em_of(24)
+
+    # ---- phone: large, cropped by the right and bottom edges; top set so the screenshot's
+    # place panel and tab bar stay below the page edge
+    img = screen_image()
+    px, pw = 104 * k, 112 * k
+    b = 3 * k
+    sw_ = pw - 2 * b
+    vis_px = 1380  # screenshot rows that may show (the dark place panel starts at row ~1390)
+    top = th + BLEED - b - vis_px * sw_ / (img.size[0] if img else 828)
+    top = max(top, head_bottom + 6 * k)
+    gap = 2 * k
+    pg.rect(px - gap, top - gap, pw + 2 * gap, th + BLEED - top + 30 * k, fill=WHITE, r=14 * k + gap)  # white halo
+
+    # ---- sign standing on a road (drawn before the phone so the phone sits in front of the road)
+    sign_w = 54 * k
+    sign_x = M + 4 * k
+    s_ = sign_w / VB_W
+    assert sign_x + (12 - VB_X) * s_ >= SAFE, "plate inside safe margin"
+    sign_top = head_bottom + 8 * k
+    plate_bottom = sign_top + (1210 - VB_Y) * s_
+    road_t, road_h = plate_bottom + 2 * k, 10 * k
     pg.rect(-BLEED, road_t, W, road_h, fill=BLACK)
-    dl, dg, dh = 16 * k, 12 * k, 2.4 * k
+    dl, dg, dh = 14 * k, 10 * k, 1.6 * k  # white centre line, as on NZ roads
     x = -BLEED - dl / 3
     while x < tw + BLEED:
         x0, x1 = max(x, -BLEED), min(x + dl, tw + BLEED)
-        pg.rect(x0, road_t + (road_h - dh) / 2, x1 - x0, dh, fill=YELLOW)
+        pg.rect(x0, road_t + (road_h - dh) / 2, x1 - x0, dh, fill=WHITE)
         x += dl + dg
-    draw_icon(pg, M, top, 70 * k, post_to=road_t, border=sign_border)
+    draw_icon(pg, sign_x, sign_top, sign_w, post_to=road_t, border=True)
 
-    # phone: black body, mid-teal screen placeholder, island
-    px, pw = 104 * k, 88 * k
-    pg.rect(px, top, pw, th + BLEED - top + 20 * k, fill=BLACK, r=14 * k)
-    b = 3 * k
-    sx, sy, sw_ = px + b, top + b, pw - 2 * b
-    sh = th + BLEED - sy + 20 * k
-    img = screen_image()
+    pg.rect(px - gap, top - gap, pw + 2 * gap, th + BLEED - top + 30 * k, fill=WHITE, r=14 * k + gap)
+    pg.rect(px, top, pw, th + BLEED - top + 30 * k, fill=BLACK, r=14 * k)
+    sx, sy = px + b, top + b
+    sh = th + BLEED - sy + 30 * k
     if img is None:
         pg.rect(sx, sy, sw_, sh, fill=TEAL_TINT, r=11 * k)
+        cap = FONTS["SemiBold"].cap * em_of(16)
+        pg.text("SemiBold", 16 * k, sx + sw_ / 2, sy + 60 * k, "screenshot", TEAL, align="center")
     else:
-        # screenshot scaled to the screen width, anchored at the top, clipped to the rounded screen;
-        # anything below the image is white (matches the app's tab bar)
         c = pg.c
         c.saveState()
         clip = c.beginPath()
@@ -359,55 +386,47 @@ def build(pg, k, clear, sign_border):
         ih = sw_ * img.size[1] / img.size[0]
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
-    if img is None:
-        pg.rect(px + pw / 2 - 11 * k, sy + 3 * k, 22 * k, 6 * k, fill=BLACK, r=3 * k)
 
-    # ---- QR on a white tile overlapping the phone, below the road
-    qs = 62 * k
-    qx, qy = 102 * k + clear - 4 * k, road_t + road_h + 12 * k
-    pg.rect(qx - clear, qy - clear, qs + 2 * clear, qs + 2 * clear, fill=WHITE, r=2 * k)
-    labelled_box(pg, qx, qy, qs, qs, "QR", 36 * k, BLACK, 1.0 * k)
-    assert qx + qs <= tw - SAFE and qy + qs <= th - SAFE, "QR inside safe area"
-
-    # screenshot label centred in the visible screen above the road
-    if img is None:
-        cap = FONTS["SemiBold"].cap * pt(16)
-        pg.text("SemiBold", 16 * k, sx + sw_ / 2, (sy + road_t) / 2 + cap / 2, "screenshot", TEAL, align="center")
-
-    # ---- supporting text + address, left column under the road
-    tx, tsz = M, 20
-    em = pt(tsz)
-    col_w = qx - clear - 6 * k - tx
-    lines = [("Medium", "500+ places, 26 trips."), ("ExtraBold", "Scan to download."), ("SemiBold", URL)]
-    bl = qy + FONTS["Medium"].cap * em
-    for i, (wt, text) in enumerate(lines):
-        assert FONTS[wt].width(text) * em <= col_w, (text, col_w)
-        if i == 2:
-            bl += 4 * k
-        pg.text(wt, tsz * k, tx, bl, text, BLACK)
-        bl += 1.3 * em
-    assert bl - 1.3 * em <= th - SAFE
+    # ---- call to action under the road, left column, on plain white
+    col_r = px - gap - 4 * k
+    em = em_of(26)
+    bl = road_t + road_h + 4 * k + XB.cap * em
+    assert M + XB.width("Scan to download.") * em <= col_r
+    pg.text("ExtraBold", 26 * k, M, bl, "Scan to download.", BLACK)
+    em = em_of(22)
+    bl += 3.5 * k + FONTS["SemiBold"].cap * em
+    pg.text("SemiBold", 22 * k, M, bl, URL, BLACK)
+    qy = bl + 0.22 * em + clear
+    qs = min(62 * k, th - SAFE - qy)
+    assert qs >= (60 if k >= 1 else 25), ("QR too small", qs)
+    assert M + qs + clear <= px - gap, "QR clear zone vs phone"
+    labelled_box(pg, M, qy, qs, qs, "QR", 36 * k, BLACK, 1.0 * k)
+    return qs
 
 
-PIECES = {  # name: (trim w, trim h, scale k vs A4, QR clear zone mm, sign border)
-    "kiwi-guide_A6-card": (105, 148, 0.5, 4.0, False),
-    "kiwi-guide_A4-poster": (210, 297, 1.0, 4.0, True),
-    "kiwi-guide_A3-poster": (297, 420, math.sqrt(2), 4.0 * math.sqrt(2), True),
+PIECES = {  # name: (trim w, trim h, scale k vs A4, QR clear zone mm)
+    "kiwi-guide_A6-card": (105, 148, 0.5, 4.0),
+    "kiwi-guide_A4-poster": (210, 297, 1.0, 5.0),
+    "kiwi-guide_A3-poster": (297, 420, math.sqrt(2), 5.0 * math.sqrt(2)),
 }
 
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    for name, (tw, th, k, clear, border) in PIECES.items():
+    for name, (tw, th, k, clear) in PIECES.items():
         title = name.replace("_", " ")
         for suffix, marks in (("print", True), ("bleed", False)):
             path = os.path.join(OUT, f"{name}_{suffix}.pdf")
             pg = Page(path, tw, th, marks, title)
-            build(pg, k, clear, border)
+            pg.begin_art()
+            qs = build(pg, k, clear)
+            pg.end_art()
             pg.finish()
-        subprocess.run(["pdftoppm", "-r", "300", "-png", "-singlefile",
+        wpx, hpx = int((tw + 2 * BLEED) / 25.4 * 300), int((th + 2 * BLEED) / 25.4 * 300)
+        subprocess.run(["pdftoppm", "-r", "300", "-png", "-singlefile", "-x", "0", "-y", "0",
+                        "-W", str(wpx), "-H", str(hpx),
                         os.path.join(OUT, f"{name}_bleed.pdf"), os.path.join(OUT, f"{name}_300dpi")], check=True)
-        print("built", name)
+        print("built", name, f"QR {qs:.1f} mm", f"PNG {wpx}x{hpx}")
 
 
 if __name__ == "__main__":

@@ -278,23 +278,22 @@ def labelled_box(pg, x, y, w, h, label, size_pt, color, sw, r=0.0, weight="Extra
 
 HEADLINE = ["Free for 2026:", "New Zealand", "travel planner", "for iPhone"]
 SUPPORT = [[("Medium", "500+ places, 26 trips.")], [("ExtraBold", "Scan to download.")]]  # paragraphs
-FOOTER = "Kiwi Guide, no ads. blacksands.app/kiwi-guide"
+URL = "guide.kiwi"
 
 
 def build(pg, L):
     tw, th = pg.tw, pg.th
     W = tw + 2 * BLEED
-    # paper, teal sign field, road strip, yellow footer band (all run into the bleed)
+    # white paper, road strip with centre-line dashes, teal panel below (all run into the bleed)
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
     rt, rh, dl, dg, dh = L["road"]
-    pg.rect(-BLEED, rt + rh, W, L["band"] - rt - rh, fill=TEAL_TINT)  # pale teal panel behind the text
+    pg.rect(-BLEED, rt + rh, W, th + BLEED - rt - rh, fill=TEAL_TINT)  # teal panel behind the text, to the bottom bleed
     pg.rect(-BLEED, rt, W, rh, fill=BLACK)
     x = -BLEED - dl / 3
     while x < tw + BLEED:  # yellow centre-line dashes
         x0, x1 = max(x, -BLEED), min(x + dl, tw + BLEED)
         pg.rect(x0, rt + (rh - dh) / 2, x1 - x0, dh, fill=YELLOW)
         x += dl + dg
-    pg.rect(-BLEED, L["band"], W, th + BLEED - L["band"], fill=YELLOW)
 
     ix, iy, iw = L["icon"]
     draw_icon(pg, ix, iy, iw, post_to=rt, border=L.get("sign_border", False))
@@ -331,15 +330,12 @@ def build(pg, L):
     qx, qy, qs, qst, qsz = L["qr"]
     pg.rect(qx - 4, qy - 4, qs + 8, qs + 8, fill=WHITE)  # 4 mm white clear zone tile
     labelled_box(pg, qx, qy, qs, qs, "QR", qsz, BLACK, qst)
-    assert qx + qs + 4 <= tw - SAFE and qy + qs + 4 <= L["band"] and qy - 4 >= rt + rh, "QR clear zone"
+    assert qx + qs + 4 <= tw - SAFE and qy + qs + 4 <= th - SAFE and qy - 4 >= rt + rh, "QR clear zone"
 
-    fx, ftop, fsz, flh = L["footer"]
-    f = FONTS["SemiBold"]
-    em = fsz * 25.4 / 72
-    bl = ftop + (flh - (f.asc + f.desc) * em) / 2 + f.asc * em
-    assert bl + f.desc * em * 0.5 <= th - SAFE, "footer inside safe area"
-    assert fx + f.width(FOOTER) * em <= tw - SAFE, "footer width"
-    pg.text("SemiBold", fsz, fx, bl, FOOTER, BLACK)
+    ux, utop, usz = L["url"]
+    bl = css_baseline("SemiBold", usz, utop, 1.2, 0)
+    assert bl <= th - SAFE and ux + FONTS["SemiBold"].width(URL) * usz * 25.4 / 72 <= qx - 4, "url"
+    pg.text("SemiBold", usz, ux, bl, URL, BLACK)
 
 
 def poster_layout(k):
@@ -348,11 +344,10 @@ def poster_layout(k):
         "road": (118 * k, 13 * k, 16 * k, 12 * k, 2.4 * k),
         "icon": (28 * k, 10 * k, 74 * k),
         "shot": (130 * k, 14 * k, 52 * k, 96 * k, 7 * k, 16 * k, 1.0 * k),
-        "headline": (14 * k, 139 * k, 52 * k, 182 * k),
-        "support": (14 * k, 224 * k, 26 * k, 112 * k, 1.25),
-        "qr": (134 * k, 207 * k, 62 * k, 1.0 * k, 36 * k),
-        "band": 276 * k,
-        "footer": (14 * k, 282.5 * k, 20 * k, 8 * k),
+        "headline": (14 * k, 145 * k, 52 * k, 182 * k),
+        "support": (14 * k, 232 * k, 26 * k, 112 * k, 1.25),
+        "url": (14 * k, 262 * k, 20 * k),
+        "qr": (134 * k, 216 * k, 62 * k, 1.0 * k, 36 * k),
     }
 
 
@@ -361,11 +356,10 @@ PIECES = {
         "road": (60, 6.5, 8, 6, 1.2),
         "icon": (9, 7, 34),
         "shot": (70, 9, 26, 45, 3.5, 7, 0.5),
-        "headline": (9, 72, 22, 87),
-        "support": (9, 108, 10, 54, 1.3),
-        "qr": (68, 104, 28, 0.5, 14),
-        "band": 137.5,
-        "footer": (9, 139.2, 7.5, 3),
+        "headline": (9, 76, 22, 87),
+        "support": (9, 112, 10, 54, 1.3),
+        "url": (9, 123.5, 8),
+        "qr": (68, 110, 28, 0.5, 14),
     }),
     "kiwi-guide_A4-poster": (210, 297, poster_layout(1.0)),
     "kiwi-guide_A3-poster": (297, 420, poster_layout(math.sqrt(2))),

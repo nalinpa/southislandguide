@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Alert, View, StyleSheet, Modal, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import { Alert, View, StyleSheet, Modal, TouchableOpacity, TextInput, ScrollView, useWindowDimensions } from "react-native";
 import { ApiError } from "@blacksands/client";
 import { useNetInfo } from "@react-native-community/netinfo";
 import { X, Minus, Plus, ChevronDown, Check, CalendarDays, Lock } from "lucide-react-native";
@@ -71,6 +71,8 @@ export function CreateItineraryModal({
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [start, setStart] = useState<TripStart>(TRIP_STARTS[0]);
   const [templateOpen, setTemplateOpen] = useState(false);
+  // Queenstown has 14 options: show about 7 on an iPhone SE and 9 on a 6.1", then scroll.
+  const { height: windowHeight } = useWindowDimensions();
   const [showCalendar, setShowCalendar] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -398,7 +400,7 @@ export function CreateItineraryModal({
                     <AppText style={styles.templateDescription}>{chosenTemplate.description}</AppText>
                   )}
                   {templateOpen && (
-                    <ScrollView style={styles.dropdownMenu} bounces={false} nestedScrollEnabled>
+                    <ScrollView style={[styles.dropdownMenu, { maxHeight: windowHeight * 0.5 }]} bounces={false} nestedScrollEnabled>
                       {(
                         [
                           { key: null, label: "Blank", dayCount: null, free: !locked },
@@ -590,7 +592,6 @@ const styles = StyleSheet.create({
     borderRadius: tokens.radius.md,
     overflow: "hidden",
     marginTop: 4,
-    maxHeight: 220,
   },
   dropdownOption: {
     flexDirection: "row",

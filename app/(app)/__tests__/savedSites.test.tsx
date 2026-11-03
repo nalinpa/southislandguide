@@ -65,6 +65,9 @@ jest.mock("@/lib/hooksBag", () => ({
   },
 }));
 
+const mockSession = { status: "authed" } as { status: string };
+jest.mock("@/lib/providers/SessionProvider", () => ({ useSession: () => ({ session: mockSession }) }));
+
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
 jest.mock("expo-router", () => ({
   get router() {
@@ -98,6 +101,7 @@ beforeEach(() => {
   mockBag.loading = false;
   mockBag.err = null;
   mockSavedSites.savedSiteIds = new Set(["s1", "s3"]);
+  mockSession.status = "authed";
 });
 
 describe("loading and failure", () => {
@@ -145,7 +149,20 @@ describe("the list", () => {
     const view = await render(<SavedSitesPage />);
 
     expect(view.getByText("No saved places yet")).toBeTruthy();
+    expect(view.getByText("Tap the heart on any place to save it here.")).toBeTruthy();
+    expect(view.queryByText("Sign In")).toBeNull();
     expect(view.queryByText("0")).toBeNull();
+  });
+
+  it("asks a guest to sign in rather than tap the heart", async () => {
+    mockSession.status = "guest";
+    mockSavedSites.savedSiteIds = new Set();
+    const view = await render(<SavedSitesPage />);
+
+    expect(view.getByText("Sign in to save places.")).toBeTruthy();
+    expect(view.queryByText("Tap the heart on any place to save it here.")).toBeNull();
+    await fireEvent.press(view.getByText("Sign In"));
+    expect(mockRouter.push).toHaveBeenCalledWith("/(auth)/login");
   });
 
   it("opens a saved place", async () => {

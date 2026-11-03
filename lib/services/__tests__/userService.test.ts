@@ -1,5 +1,5 @@
 jest.mock("@/lib/api", () => ({ client: { auth: { deleteAccount: jest.fn() } } }));
-jest.mock("@/lib/firebase", () => ({ auth: { signOut: jest.fn(), currentUser: { uid: "user-1" } } }));
+jest.mock("@/lib/firebase", () => ({ auth: { signOut: jest.fn(), currentUser: { uid: "user-1", reload: jest.fn() } } }));
 jest.mock("@/lib/providers/AppProviders", () => {
   const mockClear = jest.fn();
   return { queryClient: { removeQueries: jest.fn(), getMutationCache: () => ({ clear: mockClear }), mockClear } };
@@ -19,12 +19,15 @@ const mockSignOut = auth.signOut as jest.Mock;
 const mockRemoveQueries = queryClient.removeQueries as jest.Mock;
 const mockClearMutations = (queryClient as any).mockClear as jest.Mock;
 const mockSetDrafts = hooksBag.useDraftsStore.setState as jest.Mock;
+const mockReload = (auth.currentUser as any).reload as jest.Mock;
 
 describe("userService.deleteAccount", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockDeleteAccount.mockReset();
     mockSignOut.mockReset();
+    mockReload.mockReset();
+    mockReload.mockResolvedValue(undefined);
   });
 
   it("delegates to the API client's deleteAccount", async () => {
@@ -89,5 +92,28 @@ describe("userService.deleteAccount", () => {
 
     await expect(userService.deleteAccount()).resolves.toBeUndefined();
     expect(Sentry.captureException).toHaveBeenCalledWith(expect.any(Error));
+  });
+
+  // A retry after a delete that timed out once the server had finished: the account is gone.
+  it.each(["auth/user-not-found", "auth/user-token-expired"])(
+    "finishes the delete when the call fails but Firebase answers %s",
+    async (code) => {
+      mockDeleteAccount.mockRejectedValue(new Error("identity toolkit delete 400"));
+      mockReload.mockRejectedValue(Object.assign(new Error("gone"), { code }));
+
+      await userService.deleteAccount();
+
+      expect(mockSignOut).toHaveBeenCalledTimes(1);
+      expect(mockRemoveQueries).toHaveBeenCalledTimes(1);
+      expect(mockSetDrafts).toHaveBeenCalledWith({ drafts: {} });
+    },
+  );
+
+  it("still fails when the account exists or Firebase can't be reached", async () => {
+    mockDeleteAccount.mockRejectedValue(new Error("server error"));
+    mockReload.mockRejectedValueOnce(Object.assign(new Error("offline"), { code: "auth/network-request-failed" }));
+
+    await expect(userService.deleteAccount()).rejects.toThrow("server error");
+    expect(mockSignOut).not.toHaveBeenCalled();
   });
 });

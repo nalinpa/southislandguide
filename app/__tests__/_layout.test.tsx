@@ -18,7 +18,7 @@ jest.mock("expo-router", () => {
   Stack.Screen = () => null;
   return {
     Stack,
-    useNavigationContainerRef: () => ({}),
+    useNavigationContainerRef: () => mockNavigationRef,
   };
 });
 jest.mock("@/lib/hooksBag", () => ({
@@ -50,13 +50,14 @@ jest.mock("@/lib/tour/SpotlightOverlay", () => ({
 }));
 
 const mockRequestReview = jest.fn();
+const mockNavigationRef = { resetRoot: jest.fn() };
 let mockOpenCount: number | null = null;
 
 import React from "react";
-import { render, act, screen } from "@testing-library/react-native";
+import { render, act, screen, fireEvent } from "@testing-library/react-native";
 
 // Import after mocks are set up.
-import RootLayout from "../_layout";
+import RootLayout, { ErrorBoundary } from "../_layout";
 
 describe("RootLayout review prompt", () => {
   beforeEach(() => {
@@ -96,5 +97,20 @@ describe("RootLayout opening tour", () => {
     });
     expect(screen.getByText("tour auto start")).toBeTruthy();
     expect(screen.getByText("tour overlay")).toBeTruthy();
+  });
+});
+
+describe("ErrorBoundary", () => {
+  it("hides the raw error and restarts from the first screen, not the route that crashed", async () => {
+    const retry = jest.fn();
+    await render(<ErrorBoundary error={new Error("Cannot read property '0' of undefined")} retry={retry} />);
+
+    expect(screen.queryByText(/Cannot read property/)).toBeNull();
+    expect(screen.getByText("Please try again.")).toBeTruthy();
+
+    await fireEvent.press(screen.getByText("Restart App"));
+    expect(mockNavigationRef.resetRoot).toHaveBeenCalledTimes(1);
+    expect(retry).toHaveBeenCalledTimes(1);
+    expect(mockNavigationRef.resetRoot.mock.invocationCallOrder[0]).toBeLessThan(retry.mock.invocationCallOrder[0]);
   });
 });

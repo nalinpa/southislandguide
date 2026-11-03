@@ -24,7 +24,7 @@ const navigationIntegration = Sentry.reactNavigationIntegration({
 Sentry.init({
   dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
   debug: false,
-  tracesSampleRate: 1.0,
+  tracesSampleRate: 0.2,
   integrations: [navigationIntegration],
   enableNativeFramesTracking: false,
 });
@@ -76,6 +76,15 @@ function RootLayout() {
 }
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
+  const navigationRef = useNavigationContainerRef();
+  // retry() alone re-renders the route that crashed, so a crash from bad data loops.
+  // Resetting the navigation state first sends the app back to its first screen,
+  // as a cold start would.
+  const restart = () => {
+    navigationRef.resetRoot();
+    retry();
+  };
+
   useEffect(() => {
     Sentry.captureException(error);
   }, [error]);
@@ -86,12 +95,10 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
         <AlertTriangle size={32} color={tokens.colors.danger} strokeWidth={2} />
       </View>
       <Text style={styles.errorTitle}>Something went wrong</Text>
-      <Text style={styles.errorMessage}>
-        {error.message || "An unexpected error occurred."}
-      </Text>
+      <Text style={styles.errorMessage}>Please try again.</Text>
       <TouchableOpacity
         style={styles.errorRetryBtn}
-        onPress={retry}
+        onPress={restart}
         activeOpacity={0.85}
         accessibilityRole="button"
       >

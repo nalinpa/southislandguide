@@ -7,7 +7,7 @@ import * as Location from "expo-location";
 import * as StoreReview from "expo-store-review";
 import NetInfo from "@react-native-community/netinfo";
 import { client } from "@/lib/api";
-import type { Site } from "@/lib/models";
+import { normalizeSite } from "@/lib/models";
 
 export const hooksBag = createHooks(client, {
   appId: "southislandguide",
@@ -15,8 +15,9 @@ export const hooksBag = createHooks(client, {
   storage: AsyncStorage,
   // Fixed identity: the shared default is an inline arrow, new on every render,
   // which defeats the memo in useLocations and hands back a fresh array each time.
-  // Pinning it here stabilises the list for consumers that memo on it.
-  normalizeLocation: (raw: Site) => raw,
+  // Pinning it here stabilises the list for consumers that memo on it. normalizeSite
+  // returns the same object unless live data is missing a field a screen relies on.
+  normalizeLocation: normalizeSite,
   locationSource: {
     requestPermission: async () => {
       const perm = await Location.requestForegroundPermissionsAsync();

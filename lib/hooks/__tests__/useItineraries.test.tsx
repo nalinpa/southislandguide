@@ -223,6 +223,45 @@ describe("useItineraries", () => {
     }
   });
 
+  it("reports a restored write that fails, with one alert", async () => {
+    const alertSpy = jest.spyOn(require("react-native").Alert, "alert").mockImplementation(() => {});
+    signedIn();
+    mockGetMyItineraries.mockResolvedValue([itin()]);
+    const first = newClient();
+    const firstWrapper = ({ children }: { children: React.ReactNode }) => (
+      <QueryClientProvider client={first}>{children}</QueryClientProvider>
+    );
+
+    const { result } = await renderHook(() => useItineraries(), { wrapper: firstWrapper });
+    await waitFor(() => expect(result.current.itineraries).toHaveLength(1));
+
+    onlineManager.setOnline(false);
+    try {
+      await act(async () => {
+        void result.current.saveItinerary({ id: "itin-1", title: "Queued" });
+        void result.current.saveItinerary({ id: "itin-1", title: "Queued again" });
+      });
+      const saved = dehydrate(first);
+      first.getMutationCache().clear();
+
+      const fresh = newClient();
+      registerTripWrites(fresh);
+      hydrate(fresh, saved);
+      mockSaveItinerary.mockRejectedValue(new ApiError(500, "boom"));
+
+      await act(async () => {
+        onlineManager.setOnline(true);
+        await fresh.resumePausedMutations().catch(() => {});
+      });
+      await waitFor(() => expect(require("@sentry/react-native").captureException).toHaveBeenCalled());
+      expect(alertSpy).toHaveBeenCalledTimes(1);
+      expect(alertSpy.mock.calls[0][0]).toBe("A trip change couldn't be saved.");
+    } finally {
+      onlineManager.setOnline(true);
+      alertSpy.mockRestore();
+    }
+  });
+
   it("finishes a refresh with no signal instead of waiting for it", async () => {
     signedIn();
     mockGetMyItineraries.mockResolvedValue([itin()]);

@@ -14,7 +14,14 @@ export const userService = {
   // Same as rotorua-guide/lib/services/userService.ts.
   async deleteAccount(): Promise<void> {
     const uid = auth.currentUser?.uid;
-    await client.auth.deleteAccount();
+    try {
+      await client.auth.deleteAccount();
+    } catch (e) {
+      // A delete that timed out after the server finished leaves the account gone. Retrying
+      // can't succeed (the api's own Auth delete then fails with a 500 while the old token is
+      // still valid), so ask Firebase whether the account still exists and finish if not.
+      if (!(await accountIsGone())) throw e;
+    }
     // The account is gone from here on, so nothing below may fail the delete.
     // Server-side delete doesn't touch the local SDK session, so sign out
     // explicitly or the user stays "authed" client-side until token refresh.
@@ -27,6 +34,19 @@ export const userService = {
     clearLocalUserData(uid);
   },
 };
+
+// True when Firebase no longer has the signed-in account. reload() looks it up with the
+// user's token: a deleted account answers user-not-found, or user-token-expired once the
+// old token can't be refreshed. Any other failure (offline, say) proves nothing.
+async function accountIsGone(): Promise<boolean> {
+  try {
+    await auth.currentUser?.reload();
+    return false;
+  } catch (e) {
+    const code = (e as { code?: string }).code;
+    return code === "auth/user-not-found" || code === "auth/user-token-expired";
+  }
+}
 
 // What an account leaves on the phone, cleared when it signs out or is deleted. Its trips,
 // saved places and reviews were saved with the cache (every key holds the uid), and trip

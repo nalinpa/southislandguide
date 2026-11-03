@@ -44,6 +44,7 @@ const mockTrips = {
   itineraries: [] as any[],
   loading: false,
   error: null as string | null,
+  sessionExpired: false,
   refetch: jest.fn(),
 };
 jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
@@ -85,6 +86,7 @@ beforeEach(() => {
   mockTrips.itineraries = [];
   mockTrips.loading = false;
   mockTrips.error = null;
+  mockTrips.sessionExpired = false;
 });
 
 describe("guest", () => {
@@ -135,6 +137,17 @@ describe("loading and failure", () => {
     expect(view.getByText("Couldn't load your trips")).toBeTruthy();
     await fireEvent.press(view.getByText("Try Again"));
     expect(mockTrips.refetch).toHaveBeenCalled();
+    expect(view.queryByText("Sign In")).toBeNull();
+  });
+
+  it("offers Sign In as well as Try Again when the session expired", async () => {
+    mockTrips.error = "Your session expired. Please sign in again.";
+    mockTrips.sessionExpired = true;
+    const view = await render(<ItineraryListPage />);
+
+    expect(view.getByText("Try Again")).toBeTruthy();
+    await fireEvent.press(view.getByText("Sign In"));
+    expect(mockRouter.push).toHaveBeenCalledWith("/(auth)/login");
   });
 
   it("still lists what it has when a refetch fails", async () => {

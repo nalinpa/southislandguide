@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
+import { Alert } from "react-native";
 import { ApiError } from "@blacksands/client";
 import * as Sentry from "@sentry/react-native";
 
@@ -28,9 +29,22 @@ const tripWrites = {
   },
 };
 
+// A write restored after a restart has no screen waiting on it, so its failure was silent.
+// The live mutations in useItineraries set their own onError, which replaces this one.
+// One alert at a time: several queued writes can fail together when signal comes back.
+let failedWriteAlertOpen = false;
+function onRestoredWriteError(error: unknown) {
+  Sentry.captureException(error);
+  if (failedWriteAlertOpen) return;
+  failedWriteAlertOpen = true;
+  Alert.alert("A trip change couldn't be saved.", undefined, [
+    { text: "OK", onPress: () => (failedWriteAlertOpen = false) },
+  ]);
+}
+
 export function registerTripWrites(queryClient: QueryClient) {
-  queryClient.setMutationDefaults(tripWrites.save.mutationKey, tripWrites.save);
-  queryClient.setMutationDefaults(tripWrites.delete.mutationKey, tripWrites.delete);
+  queryClient.setMutationDefaults(tripWrites.save.mutationKey, { ...tripWrites.save, onError: onRestoredWriteError });
+  queryClient.setMutationDefaults(tripWrites.delete.mutationKey, { ...tripWrites.delete, onError: onRestoredWriteError });
 }
 
 export function useItineraries() {
@@ -48,7 +62,6 @@ export function useItineraries() {
       try {
         return await itineraryService.getMyItineraries();
       } catch (e) {
-        console.error("[useItineraries] load failed:", e instanceof ApiError ? `status=${e.status} message=${e.message}` : e);
         Sentry.captureException(e);
         throw e;
       }
@@ -118,15 +131,14 @@ export function useItineraries() {
     },
   });
 
+  const sessionExpired = error instanceof ApiError && error.status === 401;
+
   return {
     itineraries,
     addFlow,
     loading: isLoading,
-    error: error
-      ? error instanceof ApiError && error.status === 401
-        ? "Your session expired. Please sign in again."
-        : "Couldn't load your trips."
-      : null,
+    error: error ? (sessionExpired ? "Your session expired. Please sign in again." : "Couldn't load your trips.") : null,
+    sessionExpired,
     // Not the query's own refetch: offline that waits for signal, and the Trips tab's pull to
     // refresh spun until there was some. This one resolves at once for a paused fetch.
     refetch: () => queryClient.refetchQueries({ queryKey }),

@@ -5,13 +5,14 @@ import { Swipeable } from "react-native-gesture-handler";
 import { router } from "expo-router";
 import { Heart, Trash2 } from "lucide-react-native";
 
-import { AppText, LoadingState, ErrorCard, Screen } from "@/lib/uiKit";
+import { AppButton, AppText, LoadingState, ErrorCard, Screen } from "@/lib/uiKit";
 import { TopBar, TopBarBack } from "@/components/layout/TopBar";
 import { TopBarTabs } from "@/components/layout/TopBarTabs";
 import { tokens } from "@/lib/ui/tokens";
 import { areaName } from "@/lib/areas";
 import { hooksBag, useAllLocations } from "@/lib/hooksBag";
 import { useSavedSites } from "@/lib/hooks/useSavedSites";
+import { useSession } from "@/lib/providers/SessionProvider";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, type SiteCategory } from "@/lib/models";
 import { ListItem } from "@/components/sites/list/ListItem";
 import type { SortedRow } from "@blacksands/hooks";
@@ -68,6 +69,8 @@ function SwipeableRow({
 
 export default function SavedSitesPage() {
   const { savedSiteIds, toggleSavedSite } = useSavedSites();
+  // A guest's heart asks them to sign in, so telling them to tap it sends them in a circle.
+  const isGuest = useSession().session.status === "guest";
   const { locations, loading, err } = useAllLocations();
   const { loc } = hooksBag.useUserLocation();
 
@@ -180,8 +183,15 @@ export default function SavedSitesPage() {
             <AppText variant="body" status="hint" style={styles.centerText}>
               {savedLocations.length > 0 && category
                 ? "Try a different category."
-                : "Tap the heart on any place to save it here."}
+                : isGuest
+                  ? "Sign in to save places."
+                  : "Tap the heart on any place to save it here."}
             </AppText>
+            {isGuest && (
+              <AppButton variant="hero" size="lg" onPress={() => router.push("/(auth)/login")}>
+                Sign In
+              </AppButton>
+            )}
           </View>
         }
       />

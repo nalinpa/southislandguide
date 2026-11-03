@@ -20,7 +20,7 @@ export default function ItineraryListPage() {
   const uid = session.status === "authed" ? session.uid : null;
   const { entitledProductIds, loading: entitlementsLoading } = useEntitlementGate(uid);
   const isEntitled = entitledProductIds.has(FULL_GUIDE_PRODUCT_ID);
-  const { itineraries, loading, error, refetch } = useItineraries();
+  const { itineraries, loading, error, sessionExpired, refetch } = useItineraries();
 
   // Pull to refresh. Its own flag rather than `loading`, which swaps the whole
   // screen for the loading state.
@@ -80,7 +80,12 @@ export default function ItineraryListPage() {
   if (error && itineraries.length === 0) {
     return (
       <Screen>
-        <ErrorCard title="Couldn't load your trips" message={error} action={{ label: "Try Again", onPress: () => refetch() }} />
+        <ErrorCard
+          title="Couldn't load your trips"
+          message={error}
+          action={{ label: "Try Again", onPress: () => refetch() }}
+          secondaryAction={sessionExpired ? { label: "Sign In", onPress: () => router.push("/(auth)/login") } : undefined}
+        />
       </Screen>
     );
   }

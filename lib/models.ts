@@ -85,6 +85,19 @@ export type Site = {
   recommendedDurationSlots?: number;
 };
 
+// A place from the live list with the three fields every screen reads unguarded
+// (category[0], name, description) filled in. Returns the same object when nothing
+// is missing, so useLocations' memo stays stable; a copy only when a field is missing.
+export function normalizeSite(raw: Site): Site {
+  if (Array.isArray(raw.category) && typeof raw.name === "string" && typeof raw.description === "string") return raw;
+  return {
+    ...raw,
+    category: Array.isArray(raw.category) ? raw.category : [],
+    name: typeof raw.name === "string" ? raw.name : "",
+    description: typeof raw.description === "string" ? raw.description : "",
+  };
+}
+
 export type ItineraryItem = {
   id: string;
   siteId: string;

@@ -1,0 +1,338 @@
+[
+  {
+    "name": "Cape Palliser Lighthouse and Seal Colony",
+    "slug": "cape-palliser-lighthouse-and-seal-colony",
+    "lat": -41.611874,
+    "lng": 175.290096,
+    "category": [
+      "Scenic",
+      "Nature"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Free",
+    "description": "The southernmost point of the North Island, with a lighthouse first lit in 1897 that is still working, automated since 1986. It's 258 steps up to the lighthouse, with wide views along the wild South Wairarapa coast. You can't go inside, and the old keepers' houses are private.\n\nThe big draw is the fur seal colony along the road just before the lighthouse, a good place to see seals up close. They're most active from June to January, when young seals play in the rock pools and shallows. There are toilets at the lighthouse car park. It's about 70km and 1.5 hours' drive from Martinborough on Cape Palliser Road, which is narrow and exposed near the coast. Storm repairs are under way, the Hurupi Stream bridge has a 10km/h limit, and the council has asked people to cross the Tūranganui Bridge on Lake Ferry Road only when necessary.\nLocal tip: Check South Wairarapa District Council's road alerts before you set off, then drive slowly near the colony, give the seals plenty of space and never get between a seal and the sea.",
+    "recommendedDurationSlots": 4,
+    "featured": 1,
+    "hoursNote": "Open access; 258 steps to the lighthouse; toilets at carpark; narrow coastal road, check conditions after storms",
+    "sourceUrl": "https://freewalks.nz/wellington/cape-palliser-lighthouse-drive/track/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Castlepoint Lighthouse and Deliverance Cove",
+    "slug": "castlepoint-lighthouse-and-deliverance-cove",
+    "lat": -40.900306,
+    "lng": 176.231676,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Free",
+    "description": "A beach settlement on the Wairarapa east coast, 64km and about an hour from Masterton, with a lighthouse on a reef and the 162m Castle Rock above a sheltered lagoon called Deliverance Cove. The Lighthouse Walk is an easy 30 minute return boardwalk over the reef to the lighthouse and lookouts, and fur seals are common around the rocks.\n\nThe Deliverance Cove Track is about 1.5 hours return, but DOC has closed the section from the south end of the beach to the base of Castle Rock because of a large slip, so it can no longer be walked as a loop. The steep trail up Castle Rock itself isn't recommended. The reef is dangerous in big seas, and rogue waves have caused deaths here, so stay on the tracks and well back from the edge. Dogs must be on a leash, vehicles drive on the beach, and camping is only allowed at the Castlepoint motor camp.\nLocal tip: Bring a windproof layer, as it's often blowy out on the reef, and keep children close on the cliff sections near the lighthouse.",
+    "recommendedDurationSlots": 5,
+    "featured": 2,
+    "hoursNote": "Open access; Lighthouse Walk 30 min return; Deliverance Cove Track partly closed by a slip; keep off the reef in big seas",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/wairarapa/places/castlepoint-scenic-reserve/things-to-do/deliverance-cove-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Martinborough Wineries by Bike",
+    "slug": "martinborough-wineries-by-bike",
+    "lat": -41.216744,
+    "lng": 175.458087,
+    "category": [
+      "Attractions",
+      "Adventure"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Moderate",
+    "description": "Martinborough is a small wine village built around a leafy town square, with more than 20 cellar doors within 4km of the town centre, close enough to reach on a bike. Green Jersey, at 16 Kitchener Street, hires bikes for a self-guided winery ride.\n\nBike hire is $15 an hour or $40 for a full day, e-bikes are $75 a day and tandems $80, and pedal powered croc bikes for groups start from $40 an hour. Green Jersey also offers free collection of the wine you buy and roadside assistance if you get a flat. Pace yourself and pick two or three cellar doors rather than trying to do them all.\nLocal tip: Book ahead for summer weekends, and buy a bottle and some cheese to picnic under the trees in the town square afterwards.",
+    "recommendedDurationSlots": 8,
+    "featured": 3,
+    "hoursNote": "Green Jersey open daily 9.30am to 5pm; bikes from $15/hour, $40/day; e-bikes $75/day",
+    "sourceUrl": "https://greenjersey.rezdy.com/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Putangirua Pinnacles",
+    "slug": "putangirua-pinnacles",
+    "lat": -41.445538,
+    "lng": 175.247957,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Free",
+    "description": "Tall, eroded gravel spires in a stream valley on the road to Cape Palliser, used for filming the Dimholt Road scenes in The Lord of the Rings: The Return of the King. The car park is 13km along Cape Palliser Road from the Lake Ferry turnoff, and the routes in follow the rocky streambed or climb the steep Ridge Track (about 45 minutes one way) to a lookout above the spires.\n\nDOC's Pinnacles Track page currently says the Pinnacles Track, Ridge Track and streambed are all closed because of a large slip about 100m from the car park, and that it isn't possible to view the pinnacles, though the campsite, toilet and shelter at the entrance remain open. Part of the car park has also been damaged by a washout. Even when open, the streambed has rockfall risk and floods quickly after heavy rain.\nLocal tip: Check DOC's alerts for the Putangirua Pinnacles before you drive out, as the tracks may still be closed.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open access; Ridge Track 45 min one way; check DOC alerts first; avoid after heavy rain",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/wairarapa/places/putangirua-pinnacles-scenic-reserve/things-to-do/pinnacles-track/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Pūkaha National Wildlife Centre",
+    "slug": "pukaha-national-wildlife-centre",
+    "lat": -40.721097,
+    "lng": 175.639933,
+    "category": [
+      "Nature",
+      "Attractions"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.pukaha.org.nz/",
+    "description": "A non-profit wildlife centre in native forest on State Highway 2, about 30km north of Masterton, where paths lead through the bush past aviaries of native birds and a nocturnal house where you can often see kiwi. The Te Arapiki o Tawhiki loop track takes about 2 hours, and the Kākā Café is open 9.30am to 4pm.\n\nFree daily talks run at 12pm (kiwi), 1.30pm (longfin eel feeding) and 3pm (kākā feeding). Entry is $26 for adults, $10 for children 5 to 14, $22 for students and Gold Card holders and $65 for a family, and under 5s are free. It's open daily from 9am to 5pm, and locals from Norsewood to Featherston get half price entry with proof of address.\nLocal tip: Time your visit for the 3pm kākā feed, which visitors rate as the highlight.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Daily 9am to 6pm in summer (last entry 5pm), 9am to 5pm in winter (last entry 3.30pm); adult $26, child $10",
+    "sourceUrl": "https://www.airnewzealand.com/activity-deals/wellington-wairarapa/activity/pkaha-national-wildlife-centre-entry/2723",
+    "confidence": "medium"
+  },
+  {
+    "name": "Remutaka Rail Trail Incline",
+    "slug": "remutaka-rail-trail-incline",
+    "lat": -41.168013,
+    "lng": 175.236613,
+    "category": [
+      "Walks",
+      "Adventure"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Free",
+    "description": "The Wairarapa end of the Remutaka Rail Trail follows the old Rimutaka Incline, a 4.8km mountain railway between Cross Creek and the Summit that used special Fell engines from 1878 to 1955. From the Cross Creek car park, reached from Featherston via Western Lake Road and Cross Creek Road, the trail climbs steadily through bush, over bridges and through tunnels to the historic Summit.\n\nThe whole rail trail runs 18km over the range to Kaitoke. DOC grades the section from Cross Creek Station to the Cross Creek road end as Grade 3 for bikes, with steep drop-offs and washouts where you may need to walk, while the rest is an easy Grade 2. E-bikes over 300W aren't allowed on the incline. It's popular with walkers, cyclists and dog walkers.\nLocal tip: Bring a torch or head torch for the tunnels, and visit the Fell Locomotive Museum in Featherston to see the engine that once worked this line.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Open access; 18 km Cross Creek to Kaitoke; Cross Creek section grade 3 for bikes; bring a torch",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/wellington-kapiti/places/remutaka-forest-park/things-to-do/tracks/remutaka-rail-trail",
+    "confidence": "high"
+  },
+  {
+    "name": "Fell Locomotive Museum",
+    "slug": "fell-locomotive-museum",
+    "lat": -41.117999,
+    "lng": 175.327597,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://fellmuseum.org.nz/",
+    "description": "A small museum on the corner of State Highway 2 and Lyon Street in Featherston, a short walk from the train station, that is home to H199 Mont Cenis, the last Fell locomotive left in the world. Fell engines hauled trains up the steep Rimutaka Incline, a 4.8km mountain railway between Cross Creek and the Summit that ran from 1878 until 1955.\n\nAlongside the engine there are photos, models and memorabilia, plus an audio-visual presentation called Rimutaka 1949. Entry is $7 for adults, $2 for children 15 and under and $15 for a family, and under 5s are free with a paying adult. It's open Saturday and Sunday from 10am to 4pm, and closed on public holidays.\nLocal tip: Groups can book tours on other days by enquiry, and it pairs well with a walk or ride up the incline from Cross Creek.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Sat and Sun 10am to 4pm; closed public holidays; adult $7, child $2, family $15",
+    "sourceUrl": "https://fellmuseum.org.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Waiohine Gorge Swing Bridge",
+    "slug": "waiohine-gorge-swing-bridge",
+    "lat": -40.995412,
+    "lng": 175.388361,
+    "category": [
+      "Nature",
+      "Water"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Free",
+    "description": "A swing bridge over the Waiohine River gorge at the edge of Tararua Forest Park, near Carterton. Crossing it is a thrill if you're nervous of heights, and tracks lead off into the forest on the far side, including tramps to Cone Hut (2 to 3 hours) and Totara Flats Hut (4 to 5 hours).\n\nThe river below has deep pools for a summer swim and a picnic, with a DOC campsite next to the bridge ($10 per adult a night, bookings essential, no fires). Waiohine Gorge Road is gravel, with rough, narrow and windy sections and two fords, so take it slowly and avoid it after heavy rain.\nLocal tip: Bring insect repellent, as sandflies can be bad by the river, and keep dogs on a leash, as the bridge surface may not suit some dogs.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open access; gravel road with fords, rough after rain; sandflies by the river",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/wellington-kapiti/places/tararua-forest-park/things-to-do/campsites/waiohine-gorge-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Ferry and Lake Ōnoke",
+    "slug": "lake-ferry-and-lake-onoke",
+    "lat": -41.394354,
+    "lng": 175.143735,
+    "category": [
+      "Scenic",
+      "Water"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Free",
+    "description": "A tiny settlement on Palliser Bay where Lake Ōnoke meets the sea, about 30 minutes from Martinborough and a short detour off the road to Cape Palliser. The sea side is a wild beach that is popular for fishing, and the views across the bay can reach the South Island on a clear day.\n\nThe Lake Ferry Hotel, founded in 1851 and in its current building since 1919, overlooks the lake and is known for its fish and chips. It's open Sunday to Thursday 11am to 3pm and Friday and Saturday 11am to 7.30pm. The road in crosses the Tūranganui Bridge, which the council has asked people to use only when necessary while storm repairs continue.\nLocal tip: Check South Wairarapa District Council's road alerts before you go, and come late in the day for the sunset over the lake.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open access; often very windy; hotel meals at the Lake Ferry Hotel",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJsfPWk_ZER20RXtASQyQEDao",
+    "confidence": "medium"
+  },
+  {
+    "name": "Kitchener's Cafe",
+    "slug": "kitcheners-cafe-martinborough",
+    "lat": -41.217872,
+    "lng": 175.458606,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Cheap",
+    "description": "A no fuss local café at 5 Kitchener Street, just off Martinborough's town square, where farmers, tradies and visitors queue for coffee and hot food from early morning, rated 4.9 from nearly 200 Google reviews. The bacon and egg butties and pies get the most praise, and there's a cabinet of kai.\n\nIt's open weekdays only, from 5am to 1pm, which makes it a good stop before heading out to Cape Palliser.\nLocal tip: On weekends, when Kitchener's is shut, The Martinborough Bakery at 7 Jellicoe Street opens Thursday to Sunday from 8.30am to 1pm. Go early, as the baking sells out.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 5am to 1pm; closed Sat and Sun",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJb7zCSRMtR20R0eAiHXQpmG8",
+    "confidence": "medium"
+  },
+  {
+    "name": "The French Baker, Greytown",
+    "slug": "the-french-baker-greytown",
+    "lat": -41.079588,
+    "lng": 175.461579,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Cheap",
+    "description": "A long running bakery at 81 Main Street, Greytown, and a meeting place for locals, known for its baguettes, pastries and good coffee, with staff who know the regulars by name.\n\nIt's open weekdays from 7am to 3pm and weekends from 7.30am to about 3pm. Main Street is State Highway 2, so it's an easy stop on the way through the Wairarapa.\nLocal tip: Pastries are best early in the day, and later on a filled baguette makes a cheap lunch.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 7am to 3pm; Sat and Sun 7.30am to 3pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJlcyJEbfRQG0RPkfFEfHvm8A",
+    "confidence": "medium"
+  },
+  {
+    "name": "Pioneer Bakery, Featherston",
+    "slug": "pioneer-bakery-featherston",
+    "lat": -41.117379,
+    "lng": 175.325419,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Cheap",
+    "description": "An old school Kiwi bakery, trading as Pioneer Bakery and Coffee 2 Go, at 46 Fitzherbert Street (State Highway 2) in Featherston, the first town you reach after coming over the Remutaka Hill. It's good value, with pies, sausage rolls, sandwiches, salad rolls, chips and coffee.\n\nIt opens early every day: 5.30am to 3pm on weekdays, 7am to 3pm on Saturdays and 8am to 2pm on Sundays, with seating inside and out.\nLocal tip: Grab pies and sandwiches here before driving to Cape Palliser or the Rail Trail, as there are few food stops once you leave town.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 5.30am to 3pm; Sat 7am to 3pm; Sun 8am to 2pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJrWxWFMXLQG0RhyVervcB08s",
+    "confidence": "medium"
+  },
+  {
+    "name": "Captains Table Food Truck, Ngawi",
+    "slug": "captains-table-food-truck-ngawi",
+    "lat": -41.588763,
+    "lng": 175.233777,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Cheap",
+    "description": "A food truck on Ngawi Beach at 3111 Cape Palliser Road, in the fishing settlement on the way to the Cape Palliser lighthouse, and one of very few places to eat on this stretch of coast. It's best known for crispy fish and chips, with burgers, shakes and ice cream too, and it's under new ownership.\n\nIt's seasonal, with listings showing weekend hours, but opening days change, so check its Facebook page before you rely on it.\nLocal tip: Eat with a view of the sea, then carry on to the seal colony and lighthouse.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Seasonal; opening days vary, check their Facebook page first",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ04PN4IZsR20R9u4kF7MgIp4",
+    "confidence": "medium"
+  },
+  {
+    "name": "Ngawi Camping Area",
+    "slug": "ngawi-camping-area",
+    "lat": -41.588876,
+    "lng": 175.233226,
+    "category": [
+      "Stay"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Free",
+    "description": "A free council camping area at Ngawi Reserve, 3111 Cape Palliser Road, on the coastal side of the road on the way to the seal colony and lighthouse. South Wairarapa's bylaw lists it as a coastal camping area where tents and vehicles that aren't self-contained are allowed as well as certified self-contained ones, with a limit of 28 nights in any 12 months.\n\nThere are long drop toilets, rubbish bins and a dump station across the road, but no fresh water, as the dump station tank only holds rainwater for emergencies. Dogs aren't allowed. Camping is banned along the coast from 1271 Cape Palliser Road to the lighthouse car park, though the Ngawi Surf Breaks site about 3km north of Ngawi is also permitted.\nLocal tip: Fill up with water and fuel in Martinborough before heading out, as Ngawi has very limited services.",
+    "hoursNote": "Free; tents and non self-contained allowed; max 28 nights in 12 months; no dogs; bring water",
+    "sourceUrl": "https://swdc.govt.nz/wp-content/uploads/SWDC_Freedom-Camping-Bylaw_2024.pdf",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Domain Reserve Camping",
+    "slug": "lake-domain-reserve-camping",
+    "lat": -41.16437,
+    "lng": 175.302045,
+    "category": [
+      "Stay"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Free",
+    "description": "A big, quiet, free council camping area on the northern shore of Lake Wairarapa, about 10 minutes from Featherston at the southern end of Soldiers Settlement Road South. It's a designated coastal camping area, so tents and vehicles that aren't self-contained are allowed as well as certified self-contained ones, with a limit of 28 nights in any 12 months.\n\nThere are long drop toilets and a cooking shelter but no water, and it can be windy. Visitors enjoy the lake birdlife and sunrises, and a walk from the entrance leads about 600m to Barton's Lagoon and on to the Tauwharenīkau delta. Dogs must be on a lead.\nLocal tip: If you're in a certified self-contained vehicle (green warrant) and would rather be in town, the Fell Museum car park on Lyon Street, Featherston, allows up to three nights in any four weeks under the bylaw.",
+    "hoursNote": "Free; tents and non self-contained allowed; max 28 nights in 12 months; drop toilets; no water",
+    "sourceUrl": "https://swdc.govt.nz/wp-content/uploads/SWDC_Freedom-Camping-Bylaw_2024.pdf",
+    "confidence": "high"
+  },
+  {
+    "name": "Putangirua Pinnacles Campsite",
+    "slug": "putangirua-pinnacles-campsite",
+    "lat": -41.450128,
+    "lng": 175.225395,
+    "category": [
+      "Stay"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/wairarapa/places/putangirua-pinnacles-scenic-reserve/things-to-do/putangirua-pinnacles-campsite",
+    "description": "A DOC campsite at 1341 Cape Palliser Road, about 13km along from the Lake Ferry turnoff, at the start of the Putangirua Pinnacles tracks. It has 50 unpowered sites, parking, flush toilets and a shelter, and the seal colony and lighthouse are further down the same road.\n\nIt costs $10 per adult and $5 per child (5 to 17) a night, and under 5s are free. Book online before you arrive, as no spaces are held for walk ins, though same day bookings stay open until 8pm if spaces remain. There's tap water, but it isn't safe to drink and isn't always available, so bring your own. Fires aren't allowed at any time.\nLocal tip: DOC currently lists the Pinnacles tracks as closed after a slip, so check its alerts before you book if the walk is the reason you're coming.",
+    "hoursNote": "$10 adult, $5 child; book online; bring drinking water; no fires",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/wairarapa/places/putangirua-pinnacles-scenic-reserve/things-to-do/putangirua-pinnacles-campsite",
+    "confidence": "high"
+  },
+  {
+    "name": "Waiohine Gorge Campsite",
+    "slug": "waiohine-gorge-campsite",
+    "lat": -40.996105,
+    "lng": 175.390364,
+    "category": [
+      "Stay"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/wellington-kapiti/places/tararua-forest-park/things-to-do/campsites/waiohine-gorge-campsite/",
+    "description": "A DOC campsite beside the Waiohine River and its swing bridge in Tararua Forest Park, at the end of Waiohine Gorge Road, about 18km north west of Greytown via Carterton. The river is good for swimming, picnics and fishing, and tramping tracks start from the bridge, to Cone Hut (2 to 3 hours) and Totara Flats Hut (4 to 5 hours).\n\nIt costs $10 per adult and $5 per child (5 to 17) a night, and under 5s are free. Book online before you go, as no spaces are held for walk ins, though same day bookings stay open until 8pm. There are flush toilets and tap water, but the water is untreated, so boil it before use. Fires aren't allowed at any time, and dogs must be on a leash.\nLocal tip: The gravel road in has narrow, windy sections and two fords, so arrive in daylight, and bring insect repellent for the sandflies.",
+    "hoursNote": "$10 adult, $5 child; book online; no fires; gravel road with fords",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/wellington-kapiti/places/tararua-forest-park/things-to-do/campsites/waiohine-gorge-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Holdsworth Campsite",
+    "slug": "holdsworth-campsite",
+    "lat": -40.907054,
+    "lng": 175.482897,
+    "category": [
+      "Stay"
+    ],
+    "region": "wellington",
+    "area": "wairarapa",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/wellington-kapiti/places/tararua-forest-park/things-to-do/campsites/holdsworth-campsite/",
+    "description": "A grassy, caretaker run DOC campsite beside the river at the Holdsworth road end in Tararua Forest Park, about 15km west of Masterton. Turn off State Highway 2 onto Norfolk Road 2km south of Masterton. It suits cars, campervans and caravans, and walks and tramps into the ranges start here, with river swimming holes nearby.\n\nIt costs $10 per adult and $5 per child (5 to 17) a night, under 5s are free, and the maximum stay is seven nights. Book online, as walk ins aren't held. There are flush toilets and taps but no power, and there's recycling only, so take other rubbish home. Campfires are only allowed in a brazier allocated by the caretaker, with a fire permit, when the fire season allows.\nLocal tip: The access road has been damaged by storms, so drive with care, and boil the tap water before drinking it.",
+    "hoursNote": "$10 adult, $5 child; max 7 nights; book online; no reception; fires in brazier only with permit",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/wellington-kapiti/places/tararua-forest-park/things-to-do/campsites/holdsworth-campsite/",
+    "confidence": "high"
+  }
+]

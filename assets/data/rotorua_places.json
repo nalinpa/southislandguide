@@ -1,0 +1,532 @@
+[
+  {
+    "name": "Kuirau Park",
+    "slug": "kuirau-park",
+    "lat": -38.136625,
+    "lng": 176.244897,
+    "category": [
+      "Nature",
+      "Attractions"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Free",
+    "description": "Rotorua's free geothermal park, an easy walk from the city centre on the corner of Ranolf and Pukuatua streets. Walkways wind past steaming vents, bubbling mud pools, hot springs and a boiling crater lake, and the council warns the features are unpredictable and can change.\n\nThere are free thermal foot pools, a playground and paddling pool, picnic tables, barbecues and public toilets, and parking is free. On Saturday mornings, from about 7am to 1pm, a popular market fills part of the park with produce, coffee, food and crafts.\nLocal tip: Go early on a cool morning when the steam is thickest, then warm up in the foot pools, and keep to the walkways.",
+    "recommendedDurationSlots": 2,
+    "featured": 4,
+    "hoursNote": "Open 24 hours; free; foot pools, toilets and playground; Saturday morning market",
+    "sourceUrl": "https://www.rotorualakescouncil.nz/parks-lakes-recreation/park-reserves/kuirau-park",
+    "confidence": "high"
+  },
+  {
+    "name": "Government Gardens",
+    "slug": "government-gardens",
+    "lat": -38.134042,
+    "lng": 176.257241,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Free",
+    "description": "The formal heart of Rotorua on Queens Drive, a few minutes' walk from the city centre. Wide lawns, the Klamath Falls Rose Gardens and flower beds surround the historic Rotorua Museum building, with a bowling club, a band rotunda and Te Rūnanga Tearooms around the grounds.\n\nThe museum has been closed since November 2016 because of earthquake risk. The roughly $73 million restoration and strengthening of the building was finished in September 2026, but the exhibitions still have to be built and installed, and the council is aiming to reopen in August 2028, though that date could move. The Blue Baths are also closed. The gardens are free to wander, and Polynesian Spa is next door.\nLocal tip: Walk on from the gardens to Sulphur Point on the lake edge, as together they make an easy hour or so.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily; free; Rotorua Museum and Blue Baths closed (museum reopening aimed for August 2028)",
+    "sourceUrl": "https://www.rotorualakescouncil.nz/parks-lakes-recreation/park-reserves/government-gardens",
+    "confidence": "high"
+  },
+  {
+    "name": "Sulphur Point",
+    "slug": "sulphur-point",
+    "lat": -38.136006,
+    "lng": 176.262442,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Free",
+    "description": "A free walk through geothermal wetlands on the edge of Lake Rotorua, just beyond Government Gardens. Formed paths and boardwalks cross the steaming Sulphur Flats and vividly coloured pools, and visitors often compare it to another planet.\n\nIt's a wildlife refuge, and threatened birds such as the New Zealand dabchick, banded dotterel and black-billed gull live here. The paths are flat, and the walk out and back takes about 20 minutes, or about an hour if you do the full 4.7km lakefront and Sulphur Point loop. Storm damage moved part of the track further inland, and it can be wet after heavy rain. The rotten egg smell is strong.\nLocal tip: Keep to the tracks and give the birds plenty of space, and wear shoes you don't mind getting muddy after rain.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open 24 hours; free; flat paths; no toilets on the point; keep to the tracks",
+    "sourceUrl": "https://www.rotoruanz.com/visit/stories-articles/june-2026/14-free-things-to-do-in-rotorua",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Puia",
+    "slug": "te-puia",
+    "lat": -38.163195,
+    "lng": 176.250897,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.tepuia.com/",
+    "description": "Te Puia, on the southern edge of town, is home to Pōhutu, the largest active geyser in the Southern Hemisphere, in an active geothermal valley. Guided tours also take you into the Kiwi Conservation Centre, where you can see real kiwi, and through the New Zealand Māori Arts and Crafts Institute, where students learn traditional carving and weaving.\n\nThe Te Rā guided day experience takes about 90 minutes, leaves hourly from 9am to 3pm, and costs $105 for adults and $52.50 for children 15 and under. Evening experiences, with dinner, a tour and a cultural performance, run from 5pm to 10pm. The site is cashless.\nLocal tip: Check in 15 minutes before your tour time, as Te Puia asks, and leave time afterwards to wander back to the geyser in case Pōhutu goes off again.",
+    "recommendedDurationSlots": 5,
+    "featured": 3,
+    "hoursNote": "Open daily; day experiences 9am to 5pm, evening experiences 5pm to 10pm; Te Rā tour $105 adult, $52.50 child",
+    "sourceUrl": "https://www.newzealand.com/nz/plan/business/te-puia/",
+    "confidence": "high"
+  },
+  {
+    "name": "Whakarewarewa Living Māori Village",
+    "slug": "whakarewarewa-living-maori-village",
+    "lat": -38.161131,
+    "lng": 176.256495,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.whakarewarewa.com/",
+    "description": "Next door to Te Puia, Whakarewarewa is a real village where Tūhourangi Ngāti Wāhiao families still live among the steam and use the hot pools in daily life, including for cooking. Guides from the village take you through, sharing their history and daily life, and there's a daily cultural performance. You can only enter the village with a guide.\n\nA guided village tour is $55 for adults, $27.50 for children 5 to 15 and $148.50 for a family of two adults and up to four children, and under 5s are free. The first tour leaves at 9am and the last at 3pm, and the village is closed on 24 and 25 December. The self-guided Geothermal Trails are a separate ticket ($42 adult, $21 child, last entry 3.15pm) and don't give access to Pōhutu.\nLocal tip: Try a cob of corn cooked in the village's hot pools. Performance numbers are limited, so book ahead in busy periods.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Daily 8.30am to 4pm; guided tours 9am to 3pm; tour $55 adult; closed 24 and 25 December",
+    "sourceUrl": "https://www.whakarewarewa.com/",
+    "confidence": "high"
+  },
+  {
+    "name": "Wai-O-Tapu Thermal Wonderland and Lady Knox Geyser",
+    "slug": "wai-o-tapu-thermal-wonderland",
+    "lat": -38.358256,
+    "lng": 176.368984,
+    "category": [
+      "Nature",
+      "Attractions"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.waiotapu.co.nz/",
+    "description": "A big, colourful thermal park 29km south of Rotorua on the road to Taupō. Self-guided tracks lead past the Champagne Pool and other naturally coloured springs, bubbling mud, steaming ground, huge volcanic craters and sinter terraces. There are three walks of 45 to 90 minutes each, and you can do one or all three.\n\nAdult entry is listed at $49 and children $18, and the site is cashless. It's open 8.30am to 4.30pm, with last admission at 3pm, and closed Christmas Day. Staff set off the Lady Knox Geyser at 10.15am every day, and it can shoot 10 to 20m high.\nLocal tip: You need a park ticket to watch Lady Knox, so buy one at the visitor centre first, then drive the short distance to the geyser and be there by 9.45am, as Wai-O-Tapu advises. Walk the park afterwards, and stop at the mud pool on the access road, which Wai-O-Tapu calls the largest in New Zealand.",
+    "recommendedDurationSlots": 6,
+    "featured": 2,
+    "hoursNote": "Daily 8.30am to 4.30pm, last admission 3pm; Lady Knox Geyser 10.15am; cashless; closed Christmas Day",
+    "sourceUrl": "https://www.newzealand.com/nz/plan/business/wai-o-tapu-thermal-wonderland/",
+    "confidence": "high"
+  },
+  {
+    "name": "Waimangu Volcanic Valley",
+    "slug": "waimangu-volcanic-valley",
+    "lat": -38.285254,
+    "lng": 176.386259,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.waimangu.co.nz/",
+    "description": "A self-guided walk down a steaming volcanic valley south of Rotorua, past Frying Pan Lake, the world's largest hot spring, the bright blue Inferno Crater lake, and vents, pools and wetlands. The track runs down the valley to the jetty on Lake Rotomahana, and shuttle buses bring you back up from stops along the way.\n\nThe full experience, with the walk and a 45 minute guided boat cruise over the resting place of the Pink and White Terraces, is from $135 for adults and $67.50 for children, and under 6s are free. An all day shuttle pass is $10. It's open daily from 8.30am to 5pm, and last entry varies by season.\nLocal tip: Allow about 3.5 hours for the walk and cruise together, as Waimangu advises, or about an hour for a highlights walk.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Daily 8.30am to 5pm (6pm in January); last entry varies by season; walk and cruise from $135 adult",
+    "sourceUrl": "https://www.newzealand.com/nz/plan/business/waimangu-volcanic-valley/",
+    "confidence": "high"
+  },
+  {
+    "name": "Redwoods Whakarewarewa Forest",
+    "slug": "redwoods-whakarewarewa-forest",
+    "lat": -38.156967,
+    "lng": 176.272705,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.redwoods.co.nz/",
+    "description": "A grove of towering Californian coast redwoods, planted in 1901, at the edge of the 5600 hectare Whakarewarewa Forest, a few minutes' drive from the city centre. Entry is free, and walking tracks start from the visitor centre on Tītokorangi Drive, from the 2km Redwood Memorial Grove track (30 minutes) to the 3.4km Waitawa Walk (1 hour) and much longer routes.\n\nThe forest also has more than 160km of mountain bike trails, so watch for fast bikes where walking and biking tracks cross. The Redwoods Treewalk is at the same car park. Vehicle gates are open 5.30am to 10.30pm, and walkers and cyclists can enter at any time, though the council encourages daylight visits for safety.\nLocal tip: Come early in the morning or late in the afternoon, when the light slants through the trees and the car park is quieter.",
+    "recommendedDurationSlots": 4,
+    "featured": 1,
+    "hoursNote": "Free; vehicle gates open 5.30am to 10.30pm; walkers and cyclists can enter any time",
+    "sourceUrl": "https://www.rotorualakescouncil.nz/parks-lakes-recreation/the-redwoods-titokorangi-whakarewarewa-forest",
+    "confidence": "high"
+  },
+  {
+    "name": "Redwoods Treewalk",
+    "slug": "redwoods-treewalk",
+    "lat": -38.156638,
+    "lng": 176.273005,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.treewalk.co.nz/",
+    "description": "A walkway of suspension bridges strung between the redwoods beside the Whakarewarewa Forest visitor centre. The trees here grow up to 75m tall, and the walk takes 30 to 40 minutes from the first bridge.\n\nThe day walk is $45 for adults and $28 for children 5 to 15, with family passes at $95 (one adult) or $135 (two adults), and under 5s are free. After dark it becomes Nightlights, with lanterns among the trees, for $45 to $55 per adult, and since 1 September 2026 you book Nightlights for a set date and entry time. Altitude, a higher course up to 25m for ages 8 and over, is a separate $145 ticket.\nLocal tip: Nightlights starts within 15 minutes of sunset, but the Treewalk suggests booking 20 to 30 minutes after sunset to see the lanterns in full darkness.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily from 9am into the evening; Nightlights from sunset with timed entry; day walk $45 adult, $28 child",
+    "sourceUrl": "https://www.treewalk.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Skyline Rotorua Gondola and Luge",
+    "slug": "skyline-rotorua",
+    "lat": -38.110432,
+    "lng": 176.221969,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://rotorua.skyline.co.nz/",
+    "description": "A gondola up the slopes of Mt Ngongotahā on the western edge of town, with wide views over the city and Lake Rotorua from the top. The ride up takes about seven minutes. Most people come for the luge, with 7.3km of track in total: you ride a cart down a choice of tracks through the trees, from a gentle scenic route to faster, twistier runs, then take a chairlift back up.\n\nThe gondola alone is $49 for adults (15 and over) and $35 for children 6 to 14. Luge rides are sold in bundles with the gondola, and it's cheaper to book online. At the top there's the Market Kitchen Café and the Stratosfare restaurant.\nLocal tip: Buy more luge rides than you think you need, as plenty of visitors wish they had, and go at opening time to beat the queues.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Opens 9am daily; closes 5pm Mon to Thu, later Fri to Sun; gondola $49 adult, $35 child",
+    "sourceUrl": "https://rotorua.skyline.co.nz/things-to-do/gondola-rotorua/prices/",
+    "confidence": "high"
+  },
+  {
+    "name": "Mitai Māori Village",
+    "slug": "mitai-maori-village",
+    "lat": -38.106643,
+    "lng": 176.220807,
+    "category": [
+      "Culture",
+      "Food"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.mitai.co.nz/",
+    "description": "A family owned and run Māori cultural evening in native bush at 196 Fairy Springs Road, about five minutes' drive from the city centre. Warriors in traditional dress paddle a waka (war canoe) down the Wai-o-whiro stream, and there's a cultural performance with weaponry displays and poi, a talk on carving and tā moko, and a walk through the bush to a sacred freshwater spring, usually with glowworms along the way.\n\nThe evening, about three hours, ends with a hāngī lifted from the ground oven: meats, chicken and vegetables, plus salads and dessert. Expect to pay over $150 per adult. Children are cheaper, under 5s are free, and drinks are extra.\nLocal tip: Dress warmly, as much of the evening is outdoors, and bring a torch or phone light for the bush walk.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Evening hāngī and cultural experience, about 3 hours; book ahead; drinks extra",
+    "sourceUrl": "https://www.newzealand.com/nz/plan/business/mitai-maori-village/",
+    "confidence": "high"
+  },
+  {
+    "name": "Polynesian Spa",
+    "slug": "polynesian-spa",
+    "lat": -38.137895,
+    "lng": 176.258221,
+    "category": [
+      "Water",
+      "Attractions"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.polynesianspa.co.nz/",
+    "description": "Rotorua's best known hot pools, on the lake edge in Government Gardens. Two natural springs feed the pools: the acidic Priest Spring, said to help aching muscles, and the alkaline Rachel Spring, which is kinder to skin.\n\nThe Pavilion Pools, for ages 12 and over, have eight hot pools (five alkaline and three acidic) and cost $54.95 for adults, with towels and lockers extra. The Deluxe Lake Spa has lake views and geothermally heated recliners, there are private pools, and the Family Pools have a heated pool with a hydroslide plus two mineral pools. It's open daily from 9am to 11pm, with last pool entry at 10pm (9.45pm for the private pools).\nLocal tip: Opening time at 9am is usually quiet, and 4pm to 8pm is the busiest stretch. In the evening you're asked out of the water by about 10.40pm.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Daily 9am to 11pm, last pool entry 10pm; Pavilion Pools $54.95 adult, ages 12 and over",
+    "sourceUrl": "https://www.polynesianspa.co.nz/bathing/pavilion-pools/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kerosene Creek",
+    "slug": "kerosene-creek",
+    "lat": -38.334542,
+    "lng": 176.386301,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Free",
+    "description": "A free natural hot stream in the bush about 27km, or 25 minutes' drive, south of Rotorua, reached by Old Waiotapu Road off State Highway 5 just past Rainbow Mountain. Warm geothermal water tumbles over a small waterfall, about 2m high, into pools with soft sand underfoot, a short walk from the car park.\n\nIt's an unmanaged natural site with no lifeguards, and a toilet is the only facility, so change at your car. The car park is about 1km in along a rough, unsealed road. The surrounding forest has closed access here in the past during high fire risk, so check conditions before you go.\nLocal tip: Keep your head above the water to avoid the risk of amoebic meningitis, and leave nothing valuable in the car, as police have warned about thefts from vehicles here.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open 24 hours; free; unmanaged, no lifeguards; gravel road; keep head above water; may close in high fire risk",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJCa1bfnCjbm0R1D1aTEWa-pg",
+    "confidence": "medium"
+  },
+  {
+    "name": "Blue Lake (Lake Tikitapu)",
+    "slug": "blue-lake-tikitapu",
+    "lat": -38.192147,
+    "lng": 176.330663,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Free",
+    "description": "A clear, bush fringed lake on Tarawera Road and one of the most popular swimming spots near Rotorua. The reserve has swimming beaches, picnic tables, electric barbecues, a playground and public toilets, plus a boat ramp and ski lane.\n\nThe 5.5km Blue Lake Track loops around the lake through native bush and past beaches, taking about 1.5 hours, with a stretch along the road edge. On the way is the lookout over the neighbouring Green Lake, Rotokākahi, which is sacred and owned by local iwi, with no swimming, fishing or boating.\nLocal tip: Walk the loop early while it's cool, then finish with a swim. Dogs must be on a lead, and there's no overnight parking or camping at the reserve, but the Blue Lake Top 10 Holiday Park is across the road.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open daily; free; toilets, barbecues and playground; dogs on lead; no overnight parking or camping",
+    "sourceUrl": "https://www.rotorualakescouncil.nz/parks-lakes-recreation/lake-reserves/blue-lake-tikitapu",
+    "confidence": "high"
+  },
+  {
+    "name": "Hamurana Springs",
+    "slug": "hamurana-springs",
+    "lat": -38.033598,
+    "lng": 176.258712,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Cheap",
+    "description": "An easy riverside walk at 773 Hamurana Road, at the northern end of Lake Rotorua, about 15 minutes' drive from town. Spring water wells up so clear you can see straight to the bottom, then flows out under a grove of tall redwoods. The reserve is a wildlife refuge, and the main trail takes about 45 minutes, so allow an hour to take it slowly.\n\nEntry is $18 for adults, $8 for children 5 to 15 and $49 for a family of two adults and three children, under 5s are free, and discounted tickets are often available online. From late September to early April it's open daily 9am to 6pm (last entry 5pm), and in winter Tuesday to Sunday 9am to 5pm (last entry 3pm). Dogs aren't allowed, and the reserve closes in high winds because of the risk of falling branches.\nLocal tip: Bring a picnic for afterwards, as the free Hamurana Reserve on the lake shore nearby has toilets, a barbecue and a playground.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Late Sep to early Apr daily 9am to 6pm, last entry 5pm; winter Tue to Sun 9am to 5pm, last entry 3pm; $18 adult; no dogs",
+    "sourceUrl": "https://www.bookme.co.nz/things-to-do/rotorua-taupo/activity/hamurana-springs-self-guided-walk/7784",
+    "confidence": "medium"
+  },
+  {
+    "name": "Ōkere Falls",
+    "slug": "okere-falls",
+    "lat": -38.013912,
+    "lng": 176.344586,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Free",
+    "description": "An easy bush walk beside the powerful Kaituna River just below Lake Rotoiti, off State Highway 33 north east of Rotorua. The track passes the remains of the Ōkere Falls Power Station, New Zealand's first government built hydro station (1901 to 1939), and Hinemoa's Steps, cut in 1907, which lead down to Tutea's Cave, which guards the burial site of the Pikiao chief Tutea.\n\nThe walk is about 30 minutes one way to the Trout Pool, and there are public toilets beside a grassy picnic area at the main car park. Tutea Falls is the highest commercially rafted waterfall in the world, so you'll often see rafts going over. The Tutea Falls viewing platform is closed, but you can still see the falls from the track on the way down to the cave.\nLocal tip: Keep to the track, as DOC warns of dangerously strong currents. Have lunch afterwards at the Okere Falls Store, just up the road on State Highway 33.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open daily; free; about 30 minutes one way; toilets at main car park; keep to the track",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/bay-of-plenty/places/okere-falls-scenic-reserve/things-to-do/okere-falls-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Mountain Bike Rotorua",
+    "slug": "mountain-bike-rotorua",
+    "lat": -38.176542,
+    "lng": 176.253022,
+    "category": [
+      "Adventure"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.mtbrotorua.co.nz/",
+    "description": "The main bike hire base at the Waipa car park on Waipa State Mill Road, right at the start of the Whakarewarewa Forest trail network. The forest has more than 160km of trails, from beginner loops to advanced descents, and you ride straight out from the shop.\n\nMountain Bike Rotorua hires bikes and e-bikes, runs drop-offs to the Skyline bike park and public shuttles, and takes hire bookings online. The Waipa shop is open daily from 9am to 5pm (closed Christmas Day and Boxing Day), and a second shop at the Te Putake o Tawa car park opens Friday to Sunday and public holidays, 9am to 4pm.\nLocal tip: Ask the staff to suggest trails that match your riding. The Whakarewarewa Forest Loop, about 34km and mostly grade 2, suits almost all abilities.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Daily 9am to 5pm; Waipa car park, Waipa State Mill Road; book hire online",
+    "sourceUrl": "https://www.mtbrotorua.co.nz/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Eat Streat",
+    "slug": "eat-streat",
+    "lat": -38.133052,
+    "lng": 176.251706,
+    "category": [
+      "Food"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Moderate",
+    "description": "Rotorua's dining strip, a city block of restaurants and bars at the lake end of Tutanekai Street, with outdoor tables along a covered central walkway. The footpath is thermally heated, so eating outside works even on cool nights.\n\nThere are a dozen or so places, from steak and seafood to Lady Janes ice cream parlour, plus a small nightclub. Prices are mostly mid range, but it's a good spot for a drink and a look at the menus.\nLocal tip: Some restaurants here, such as Atticus Finch and Mac's Steak House, offer discounted dinners through First Table. On Thursdays, walk a little south along Tutanekai Street to the night market instead.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open daily; hours vary by restaurant; covered, heated walkway",
+    "sourceUrl": "https://www.rotoruanz.com/eat-drink/Eat-Streat",
+    "confidence": "high"
+  },
+  {
+    "name": "Rotorua Night Market",
+    "slug": "rotorua-night-market",
+    "lat": -38.136899,
+    "lng": 176.251536,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Cheap",
+    "description": "Every Thursday evening the middle of Tutanekai Street fills with dozens of food trucks and stalls, plus local arts and crafts and live music. It's a fun, inexpensive way to eat out, with food from all over the world.\n\nThe market runs from 5pm to 9pm, weather permitting, between Haupapa and Hinemoa streets. It moved to Kuirau Park for a trial in late 2025 but returned to Tutanekai Street on 8 January 2026, and the council has decided to keep running it there.\nLocal tip: Get there early, as the popular stalls build long queues. If the weather looks bad, check the market's Facebook page before heading out.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Thursdays 5pm to 9pm, weather permitting; Tutanekai Street between Haupapa and Hinemoa streets",
+    "sourceUrl": "https://www.rotorualakescouncil.nz/our-city/markets/nightmarket",
+    "confidence": "high"
+  },
+  {
+    "name": "Ali Baba's Tunisian Cuisine",
+    "slug": "ali-babas-tunisian-cuisine",
+    "lat": -38.134564,
+    "lng": 176.251646,
+    "category": [
+      "Food"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Moderate",
+    "description": "A small, friendly Tunisian restaurant at 1146 Tutanekai Street, a short walk from Eat Streat, rated 4.7 from more than 1,100 Google reviews. The food is halal, with no alcohol served, and the dish everyone talks about is the kascrute, a toasted wrap of Lebanese bread filled with meat, vegetables and sauce, served with a small salad.\n\nThere are also kebabs, falafel, Berber dishes, pizzas and loaded fries. It's open every day from 11.30am, until 10pm Sunday to Thursday and until 2am on Friday and Saturday.\nLocal tip: Order the kascrute if you've never tried Tunisian food.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily from 11.30am; until 10pm Mon to Thu, 2am Fri and Sat",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJm0pFtn4nbG0RvoRsX8zyfOY",
+    "confidence": "medium"
+  },
+  {
+    "name": "River's Catch",
+    "slug": "rivers-catch",
+    "lat": -38.148879,
+    "lng": 176.219034,
+    "category": [
+      "Food"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small fish and chip shop at 14D Pandora Avenue in suburban Sunnybrook, on the western side of Rotorua, rated 4.9 from more than 600 Google reviews. Alongside battered fish and thick cut fries there are fish tacos, battered mussels, calamari, crumbed halloumi and the RC Fish Bun, some with a Filipino twist such as the adobo fish taco ($18.50).\n\nPortions are generous, and a Tackle Box of fish, chips, salad and sauce runs $19 to $23. It's open Wednesday to Sunday from 12pm and Monday from 3pm, until 8pm, and closed on Tuesdays. You can order online ahead.\nLocal tip: For something lighter than battered fish, try the grilled fish tacos with Asian slaw.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Wed to Sun 12pm to 8pm; Mon 3pm to 8pm; closed Tue",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJP-P8P2EnbG0R5ABUISirKzU",
+    "confidence": "medium"
+  },
+  {
+    "name": "Okere Falls Store",
+    "slug": "okere-falls-store",
+    "lat": -38.018009,
+    "lng": 176.343181,
+    "category": [
+      "Food"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Moderate",
+    "description": "A country store, café and craft beer garden at 757A State Highway 33, Ōkere Falls, a few minutes from the falls track. The kitchen serves breakfasts, lunches and burgers, and the bar has 15 taps and more than 200 cans and bottles, with an off-licence if you want to take some away.\n\nThere's a sunny beer garden out back, a shop of specialty foods that make good gifts, and a compostable toilet. It's open daily from 7am, until 4pm Sunday to Thursday and 8pm on Fridays and Saturdays, with the evening hours running seasonally from Labour Weekend.\nLocal tip: Pair it with the Ōkere Falls walk or a rafting trip, and check the store's Facebook page on Thursdays for the Friday burger night menu.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily from 7am; until 4pm Sun to Thu, 8pm Fri and Sat",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ3ctRTw-Ebm0RPan76pyZce0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Fat Dog Cafe & Bar",
+    "slug": "fat-dog-cafe",
+    "lat": -38.134691,
+    "lng": 176.251918,
+    "category": [
+      "Food"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Moderate",
+    "description": "A busy local café at 1161 Arawa Street in the city centre, a few minutes' walk from Eat Streat, known for big breakfasts. Favourites include the waffles ($27.90), French toast ($25.90) and eggs bene served with the café's homemade potato hash, and the coffee is good.\n\nIt's family friendly, with a kids' breakfast menu (12 and under) served until 1pm. It's open weekdays from 7am and weekends from 8am, until about 3pm.\nLocal tip: Portions are large, so a big breakfast here can carry you through a morning of sightseeing to a late lunch.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Mon to Fri 7am to 3pm; Sat and Sun 8am to 3pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ62_ksH4nbG0RNtBVKdqofnk",
+    "confidence": "medium"
+  },
+  {
+    "name": "Government Gardens Campervan Parking",
+    "slug": "government-gardens-campervan-parking",
+    "lat": -38.137591,
+    "lng": 176.257245,
+    "category": [
+      "Stay"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Free",
+    "description": "Rotorua's free in-town spot for certified self-contained vehicles, on Hinemoa Street opposite Polynesian Spa and a short walk from the city centre. There are up to 17 marked spaces, first come, first served.\n\nYou can stay up to two consecutive nights per calendar month. There are no toilets, showers or water at the site, and no tents, dogs, fires or fireworks. Since 7 June 2026 only certified self-contained vehicles can freedom camp on council land, vehicles with portable toilets can no longer be certified, and your warrant card must be displayed on the windscreen. Park only in the marked bays.\nLocal tip: Reviewers suggest arriving by early afternoon to get a space. Free dump stations are at the Te Ngae Road wastewater plant and Gull Ngongotahā.",
+    "hoursNote": "Certified self-contained only; 17 spaces; max 2 consecutive nights per calendar month; no toilets or water",
+    "sourceUrl": "https://www.rotorualakescouncil.nz/parks-lakes-recreation/freedom-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Hamurana Reserve Freedom Camping",
+    "slug": "hamurana-reserve-freedom-camping",
+    "lat": -38.034894,
+    "lng": 176.250915,
+    "category": [
+      "Stay"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Free",
+    "description": "A free council camping area on the northern shore of Lake Rotorua at Hamurana, for certified self-contained vehicles only. There are up to 10 spaces, first come, first served, with a limit of two consecutive nights per calendar month.\n\nThe reserve has public toilets, a drinking water tap, a food preparation area (no hot water), a barbecue and a playground. No tents, dogs, fires or fireworks. Hamurana Springs is nearby.\nLocal tip: Arrive early in the day in summer, as there are only ten spaces, and take all your rubbish with you.",
+    "hoursNote": "Certified self-contained only; 10 spaces; max 2 consecutive nights per calendar month; toilets and drinking water",
+    "sourceUrl": "https://www.rotorualakescouncil.nz/parks-lakes-recreation/freedom-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Ōkareka Campsite (DOC)",
+    "slug": "lake-okareka-campsite",
+    "lat": -38.162037,
+    "lng": 176.36073,
+    "category": [
+      "Stay"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small, cheap DOC campsite on the northern shore of Lake Ōkareka, about 15 minutes from central Rotorua, with 12 non-powered campervan sites plus grassy tent areas. Vehicles over 6m aren't suitable, and there are toilets, a cooking shelter and picnic tables. Lake water must be boiled before drinking.\n\nIt costs $18 a night for adults and $9 for children 5 to 17, and under 5s are free. Use a DOC Campsite Pass or pay the camp host by EFTPOS. Space is limited, dogs aren't allowed and fires are banned at all times. A mostly flat 2km lakeside walkway (about an hour one way) runs to Boyes Beach, passing two local jumping rocks.\nLocal tip: If it's full and you're in a campervan, the council's Boyes Beach site nearby takes vans for $20 per adult, with $2 showers.",
+    "hoursNote": "$18 adult, $9 child; pay camp host or DOC pass; no bookings; no dogs or fires; boil lake water",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/bay-of-plenty/places/lake-okareka-scenic-reserve/things-to-do/lake-okareka-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Flying Pig Backpackers",
+    "slug": "flying-pig-backpackers",
+    "lat": -38.139535,
+    "lng": 176.249826,
+    "category": [
+      "Stay"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small backpackers at 1221 Amohau Street, right in the city centre on a strip of shops and restaurants. It's fully renovated with new bathrooms, and guests praise the friendly, helpful staff, the clean rooms and the value.\n\nThere are three kitchens, and as well as dorms it has family rooms with a queen bed and bunks, and takes groups. Check in is 2pm to 10pm and check out by 10am. There's no on-site parking.\nLocal tip: If you're driving, inner city street parking is paid Monday to Friday 9am to 5pm and Saturday 9am to 12pm, and in Zone 1 the first hour is free once you register your plate.",
+    "hoursNote": "Central city backpackers on Amohau Street; paid street parking on weekdays",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJJc1pJxQnbG0RD_aQnL748tc",
+    "confidence": "medium"
+  },
+  {
+    "name": "Crash Palace Backpackers",
+    "slug": "crash-palace-backpackers",
+    "lat": -38.138536,
+    "lng": 176.25532,
+    "category": [
+      "Stay"
+    ],
+    "region": "rotorua",
+    "area": "rotorua",
+    "active": false,
+    "price": "Cheap",
+    "description": "An independent backpackers at 1271 Hinemaru Street in the city centre, a short walk from Polynesian Spa and Eat Streat. Dorm beds have privacy curtains, their own power points, lights and small fans, and there are two kitchens and a small hot spa pool for guests.\n\nReviews describe it as cheap, clean and sociable, with friendly staff. There's an on-site bar, and some reviewers mention loud music until about 1am. Reception is listed as open 8am to 10pm, with check in from 2pm to 10pm and check out by 10am.\nLocal tip: Pak'nSave is a few blocks away on the corner of Fenton and Amohau streets, so stock up there and cook in the hostel to keep costs down.",
+    "hoursNote": "Reception 9am to 6pm; dorms with privacy curtains; guest spa pool",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ4SbVCn0nbG0Rbu3a-iAotZ4",
+    "confidence": "medium"
+  }
+]

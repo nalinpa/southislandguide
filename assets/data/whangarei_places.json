@@ -1,0 +1,365 @@
+[
+  {
+    "name": "Poor Knights Islands with Dive! Tutukaka",
+    "slug": "poor-knights-islands-dive-tutukaka",
+    "lat": -35.608475,
+    "lng": 174.526266,
+    "category": [
+      "Water",
+      "Adventure"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.diving.co.nz/",
+    "description": "The big water trip in Northland: a day out to the Poor Knights Islands Marine Reserve, with clear water, sea caves, arches and a huge amount of fish life. Dive! Tutukaka runs the boats from its shop at 3 Rona Place, beside Tutukaka marina, and dive trips run all year.\n\nFor non-divers, the Perfect Day cruise is the easy option, running daily over summer: $275 for adults, $165 for children, or $715 for two adults and two under 16s when you book direct. You check in at 10.30am, leave at 11am and are back about 4pm, with a buffet lunch, hot drinks, snorkel gear, wetsuits, kayaks and paddleboards included. Certified divers can do a full day with two dives and all gear for $399, first-timers can try a Discover Scuba dive for $499, and snorkellers can join the dive boat from $299.\nLocal tip: Take seasickness tablets before you leave if you need them, and pack a warm layer for the ride home, even on a sunny day.",
+    "recommendedDurationSlots": 12,
+    "featured": 1,
+    "hoursNote": "Perfect Day cruise daily over summer (October to April), check-in 10.30am, back about 4pm; dive and snorkel day trips check in 8am, back 4 to 4.30pm; book ahead",
+    "sourceUrl": "https://aperfectday.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Whangārei Falls",
+    "slug": "whangarei-falls",
+    "lat": -35.684295,
+    "lng": 174.335578,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.wdc.govt.nz/Community/Parks-and-recreation/Parks-and-reserves/Otuihau-Whangarei-Falls",
+    "description": "Otuihau Whangārei Falls drops 26.3m over basalt cliffs into a bush-fringed pool, in Tikipunga on the edge of the city. The lookout at the top is close to the car park, and the 1km loop down to the base and back takes about 30 minutes, with steps on the way back up.\n\nThere are picnic tables, barbecues, toilets and viewing platforms, and dogs are welcome on a lead. The loop crosses a low metal bridge with no handrail, built to let floodwater pass over, so take care after heavy rain. The longer Sands Road Loop (4.8km) also starts here, but the Hātea walkway swing bridge towards A H Reed Memorial Kauri Park is closed, and the kauri park itself is closed to protect the trees.\nLocal tip: Come early or late in the day to avoid the crowds. Four marked spaces here are also a one-night freedom camping spot for certified self-contained vehicles.",
+    "recommendedDurationSlots": 2,
+    "featured": 2,
+    "hoursNote": "Open all the time; free; falls loop 1 km, about 30 min; dogs on a lead; Hātea walkway swing bridge to A H Reed Park closed",
+    "sourceUrl": "https://www.wdc.govt.nz/Community/Parks-and-recreation/Parks-and-reserves/Otuihau-Whangarei-Falls",
+    "confidence": "high"
+  },
+  {
+    "name": "Hundertwasser Art Centre with Wairau Māori Art Gallery",
+    "slug": "hundertwasser-art-centre",
+    "lat": -35.724403,
+    "lng": 174.325064,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.hundertwasserartcentre.co.nz/",
+    "description": "A colourful building at the Town Basin, built to a design by the artist Friedensreich Hundertwasser, with mosaic tiles, uneven shapes and trees growing on the roof. Inside is an exhibition on Hundertwasser's life and work in New Zealand from 1973 to 2000, a small theatre showing films about him, the Wairau Māori Art Gallery of contemporary Māori art, and the Afforested Roof garden.\n\nIt's open daily from 10am to 4pm, except Christmas Day and Good Friday, and a ticket is valid all day. New Zealand residents get a discount with proof of address, and Whangārei district residents have their own cheaper ticket, sold in person only. If you only want the roof garden or the Māori gallery, cheaper single-area tickets are sold at the desk. Guided tours run on set days for an extra charge, and the shop is free to enter. Allow 1 to 1.5 hours.\nLocal tip: Start with the short film about Hundertwasser, as it makes the rest of the building make sense.",
+    "recommendedDurationSlots": 4,
+    "featured": 3,
+    "hoursNote": "Daily 10am to 4pm; closed Christmas Day and Good Friday; guided tours Thu to Sun 11am (extra cost); NZ and local resident discounts with proof of address",
+    "sourceUrl": "https://hundertwasserartcentre.co.nz/plan-your-visit/hours-and-admission",
+    "confidence": "high"
+  },
+  {
+    "name": "Town Basin and Hātea Loop",
+    "slug": "town-basin-hatea-loop",
+    "lat": -35.723997,
+    "lng": 174.325777,
+    "category": [
+      "Walks",
+      "Attractions"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.wdc.govt.nz/Services/Roads-and-Transportation/Cycling-shared-paths/Hatea-Loop-shared-path",
+    "description": "Whangārei's waterfront on the Hātea River, with the marina, cafés, galleries and shops, and the Hundertwasser Art Centre at its centre. It's the easiest place in the city to stroll, eat and watch the yachts.\n\nThe Hātea Loop starts here: a flat 4.2km path around the river that takes about an hour to walk and is fully accessible for bikes, pushchairs and mobility scooters. On the way you cross Te Matau a Pohe bridge and pass the Camera Obscura, the Waka and Wave sculpture, a playground, a skatepark and the Pohe Island bike park. Dogs must be on a lead.\nLocal tip: Walk the loop late in the afternoon, then finish with a drink or an early dinner back at the Town Basin.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; Hātea Loop 4.2 km, about 1 hour, fully accessible; dogs on a lead",
+    "sourceUrl": "https://www.wdc.govt.nz/Services/Roads-and-Transportation/Cycling-shared-paths/Hatea-Loop-shared-path",
+    "confidence": "high"
+  },
+  {
+    "name": "Whangārei Quarry Gardens",
+    "slug": "whangarei-quarry-gardens",
+    "lat": -35.712445,
+    "lng": 174.308827,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Free",
+    "description": "An old quarry at 37A Russell Road in Kensington, a few minutes' drive from the city centre, that volunteers have turned into large subtropical and native gardens. Streams and waterfalls feed a lake at the centre, and well-kept paths wind through the plantings.\n\nEntry is by donation, which keeps the volunteer project going, and the gardens are open daily from 9am to 5pm, when the gates are locked. The Quail Café on site is open Wednesday to Sunday from 9am to 3pm. Dogs aren't allowed.\nLocal tip: Time your visit for lunch at the café, and leave a donation in the box on the way out.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily 9am to 5pm; entry by donation; café Wednesday to Sunday",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJKwjqtNh-C20RMQLPifQZVdI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Ocean Beach",
+    "slug": "ocean-beach-whangarei-heads",
+    "lat": -35.837539,
+    "lng": 174.572146,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Free",
+    "description": "A long white sand surf beach at the end of the Whangārei Heads peninsula, backed by big dunes, with Bream Head rising at its southern end. The drive out along the harbour, past a string of small bays, is half the fun.\n\nIt's a proper surf beach, and surf lifeguards from the Whangārei Heads club, based here, patrol it in summer, so swim between the flags. There's a large car park with toilets a short walk from the sand, and the Te Whara Track starts at the southern end. About four vehicles, self-contained or not, can freedom camp for one night in the main car park, but not on the grass overflow area.\nLocal tip: Check Safeswim before you go for patrol times and swimming conditions, as the club doesn't publish its own.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; patrolled by surf lifeguards in summer; freedom camping about 4 vehicles, 1 night (grass overflow car park closed to camping)",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJvS0FdgefDG0Rf6iRa5T45vA",
+    "confidence": "medium"
+  },
+  {
+    "name": "Te Whara Track to Bream Head",
+    "slug": "te-whara-track-bream-head",
+    "lat": -35.838962,
+    "lng": 174.574489,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/whangarei-heads-area/things-to-do/te-whara-track/",
+    "description": "The ridge walk over Bream Head (Te Whara), the rocky headland at the mouth of Whangārei Harbour, with wide views along the coast and out to sea. The full track runs 7.5km one way between Ocean Beach and Urquharts Bay, takes 5 to 6 hours and is steep and rough, with about 456m of climbing. The last section crosses grazed farmland with livestock.\n\nMany people climb from the Ocean Beach car park on Ranui Road to the summit and back instead, or walk the separate Peach Cove Track (3.6km, 2 to 3 hours return) from its own car park on Ocean Beach Road. You pass the ruins of a WWII radar station on the way up. There are toilets at both car parks and at Peach Cove Hut, but no water on the track, and dogs aren't allowed in the reserve because of kiwi. Mt Manaia, the other big climb at the Heads, has been closed since a large slip in January 2026.\nLocal tip: Carry at least a litre of water and wear shoes with good grip, as the top section is often muddy.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Open all the time; free; full track 7.5 km one way, 5 to 6 hours; summit and back from Ocean Beach about 3 hours; no water on the track",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/whangarei-heads-area/things-to-do/te-whara-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Smugglers Bay",
+    "slug": "smugglers-bay",
+    "lat": -35.86093,
+    "lng": 174.541877,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/whangarei-heads-area/things-to-do/smugglers-bay-loop-track/",
+    "description": "A sheltered little beach near the harbour entrance at Whangārei Heads, reached on foot from the Urquharts Bay car park in about 15 minutes over the hill. It's a good spot for a swim and a picnic.\n\nThe easy Smugglers Bay Loop Track (about 1.5 hours) goes around Busby Head, past a WWII six-inch naval gun emplacement at Home Point and old pā and midden sites, with views over the harbour mouth. It crosses grazed farmland, so expect cattle and some mud after rain. The council says the Smugglers Bay boardwalk is closed after storm damage, but the track is still open. Dogs and bikes aren't allowed.\nLocal tip: Do the loop first and finish with a swim. The toilets are at the Urquharts Bay car park, with none at the beach.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open all the time; free; loop about 1.5 hours from Urquharts Bay car park; boardwalk closed for storm damage, track open; cattle grazing",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/whangarei-heads-area/things-to-do/smugglers-bay-loop-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Matapōuri Bay",
+    "slug": "matapouri-bay",
+    "lat": -35.564008,
+    "lng": 174.507216,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Free",
+    "description": "A curved bay of white sand on the Tutukaka Coast, with a sheltered estuary at one end, popular with families for swimming, boogie boarding and snorkelling. There's a public car park right by the beach on Wehiwehi Road.\n\nThe 1.1km Matapōuri Headland Track (about 40 minutes one way) climbs from the north end of the beach over to Whale Bay. Dogs aren't allowed on the walkway, on the conservation land at the north end of the beach, or in the estuary upstream of both bridges. The Mermaid Pools on the headland have been closed indefinitely under a rāhui from local hapū since 2019 so the rock pools can recover, so please respect it and stay away.\nLocal tip: Check conditions before swimming. The Wehiwehi Road car park doubles as a one-night freedom camping spot for about four vehicles, but check the council's current rules for the summer peak.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; Mermaid Pools closed under rāhui; freedom camping on Wehiwehi Road about 4 vehicles, 1 night, not 18 Dec to 8 Feb",
+    "sourceUrl": "https://www.wdc.govt.nz/Community/Facilities/Parks-and-recreation/Parks-and-reserves/Matapouri-Whale-Bay-walkway",
+    "confidence": "medium"
+  },
+  {
+    "name": "Whale Bay",
+    "slug": "whale-bay",
+    "lat": -35.558162,
+    "lng": 174.50038,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.wdc.govt.nz/Community/Facilities/Parks-and-recreation/Parks-and-reserves/Matapouri-Whale-Bay-walkway",
+    "description": "A small, sheltered bay just north of Matapōuri, ringed by bush and big old trees, with clear water that's good for swimming and snorkelling. You can only reach it on foot, so it feels a long way from the road.\n\nFrom the car park at 1070 Matapōuri Road, a 530m stone track leads down through the bush in about 20 minutes, with some fairly steep steps near the beach. The toilets are about 50m past the end of the track, and dogs aren't allowed. You can also walk over the headland from Matapōuri Beach in about 40 minutes, or make a loop using the Morrison Reserve or Ridge tracks.\nLocal tip: The car park is small and fills quickly on summer weekends and holidays, so arrive early or walk in from Matapōuri.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; 20 min walk each way from the car park; steep steps; no dogs",
+    "sourceUrl": "https://www.wdc.govt.nz/Community/Facilities/Parks-and-recreation/Parks-and-reserves/Matapouri-Whale-Bay-walkway",
+    "confidence": "high"
+  },
+  {
+    "name": "Sandy Bay",
+    "slug": "sandy-bay-tutukaka-coast",
+    "lat": -35.556888,
+    "lng": 174.475274,
+    "category": [
+      "Water",
+      "Stay"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Free",
+    "description": "A wide surf beach near Matapōuri on the Tutukaka Coast, with views out to the Poor Knights Islands and some of the best surf on the coast. A small stream at the north end forms a shallow pool that suits kids, and the rocks at the ends of the bay are good for rock-pooling.\n\nThere are toilets, a picnic area and a barbecue by the car park. Outside the peak season (18 December to 8 February), the council allows free camping here for one night, in tents as well as in self-contained and non-self-contained vehicles, with room for about four.\nLocal tip: Check the surf before you swim, and arrive by mid-afternoon if you want one of the few camping spaces. Campers report dogs aren't allowed at the camping area.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; camping (tents and vehicles) about 4 spaces, 1 night, not 18 Dec to 8 Feb",
+    "sourceUrl": "https://www.wdc.govt.nz/Community/Facilities/Parks-and-recreation/Freedom-camping",
+    "confidence": "medium"
+  },
+  {
+    "name": "Waipū Caves",
+    "slug": "waipu-caves",
+    "lat": -35.934662,
+    "lng": 174.348113,
+    "category": [
+      "Adventure",
+      "Nature"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/waipu-area/things-to-do/waipu-caves-track",
+    "description": "A free, self-guided glowworm cave in the limestone country inland from Waipū. The entrance is a short walk across the council reserve from the car park, and inside you wade along a stream under a ceiling of glowworms.\n\nBring a good torch (two is better), and shoes and clothes you don't mind getting wet, as the water can reach your knees. The cave can flash flood, so check the forecast and stay out after heavy rain, and the inner cave is for experienced cavers only. There's a toilet at the car park. The separate DOC Waipū Caves Track (about 2km, 1.5 hours return) climbs above the reserve to views over Whangārei Harbour to Bream Head, but doesn't lead to the caves.\nLocal tip: The last few kilometres of road are narrow, winding gravel. Waipū Caves Farm Park on the same road is a separate private business running paid guided tours, so carry on to the free reserve.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open all the time; free; bring torches; cave can flood after heavy rain; unsealed road at the end",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/waipu-area/things-to-do/waipu-caves-track",
+    "confidence": "high"
+  },
+  {
+    "name": "Langs Beach",
+    "slug": "langs-beach",
+    "lat": -36.044799,
+    "lng": 174.533687,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Free",
+    "description": "A long white sand beach at the southern end of Bream Bay, with clear water and views up the coast. It's usually good for swimming and body surfing, and there are toilets, changing rooms and pōhutukawa shade at the south end, but no lifeguards.\n\nThere are no shops or cafés at Langs apart from a coffee and ice cream truck in summer, so bring a picnic. Waipū Cove, to the north, has a café and a convenience store, and its beach is patrolled by surf lifeguards in summer. The Waipū Coastal Walkway links the two (2.9km, about 2 hours 15 minutes, with a stream crossing best at low tide). Camping isn't allowed at the Cove Road car park, and from 20 December to 31 January dogs are only allowed on the beach before 9am and after 5pm.\nLocal tip: Parking along the beach fills up on hot summer days, so get there early.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; no shops at Langs; Waipū Cove patrolled in summer; no camping at the Cove Road car park",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJSRrnXKSWDG0RTkeUvP8JqCw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Whangārei Growers' Market",
+    "slug": "whangarei-growers-market",
+    "lat": -35.726227,
+    "lng": 174.318346,
+    "category": [
+      "Food"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Cheap",
+    "description": "Whangārei's Saturday morning market at the Water Street car park in the central city, running since 1998, where local growers sell fruit, vegetables, cheese, seedlings and native plants direct, along with fresh fish, meat, eggs, honey, bread and flowers. It starts very early, at 6am, rain or shine, and is all over by 10am.\n\nYou can grab a coffee and something warm while you shop, so it works as a cheap breakfast stop before a day on the coast. Prices are fair, especially for seasonal fruit.\nLocal tip: Go early, as everything is packed up by 10am, and bring your own bags.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Saturdays 6am to 10am; 17 Water Street, central Whangārei",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJZ6S4u-R-C20RTHGhoaMK3pY",
+    "confidence": "medium"
+  },
+  {
+    "name": "Hungry Ape Asian Restaurant",
+    "slug": "hungry-ape-whangarei",
+    "lat": -35.725874,
+    "lng": 174.318892,
+    "category": [
+      "Food"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small, friendly Asian restaurant on Water Street in central Whangārei, known for big portions at fair prices. The fluffy steamed pork buns, kung pao chicken and crispy pork salad are favourites, and everything is cooked to order.\n\nReviewers report lunch specials such as pork and rice at around $13 and mains at about $18, which is cheap for the city, and meals come with free prawn crackers. It's open for lunch and dinner every day except Tuesday.\nLocal tip: Order the steamed pork buns to start, as they're big enough to share.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Lunch 11am to 2.30pm, dinner 4.30pm to 8.30pm; closed Tuesdays",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ008cKc1_C20R0c6kiqm5RzM",
+    "confidence": "medium"
+  },
+  {
+    "name": "Bascule Car Park Freedom Camping",
+    "slug": "bascule-car-park-freedom-camping",
+    "lat": -35.734725,
+    "lng": 174.334029,
+    "category": [
+      "Stay"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Free",
+    "description": "The city's main free camping spot, a council car park on Port Road at the edge of the city centre, about a 20 minute walk from the Town Basin. There are eight marked spaces, four for large or wide vehicles and four for small vans, and you can stay up to three nights, then not camp in the same area again within four weeks.\n\nWhangārei District Council allows both certified self-contained and non-self-contained vehicles here, but not tents. Reviewers report clean public toilets open all night and a drinking fountain, with some road noise from the roundabout and bridge into the evening.\nLocal tip: Arrive by late afternoon in summer, and empty your tanks at a dump station, as emptying them in public toilets is banned.",
+    "hoursNote": "Self-contained and non-self-contained vehicles; no tents; 8 marked spaces; max 3 nights; toilets",
+    "sourceUrl": "https://www.wdc.govt.nz/Community/Facilities/Parks-and-recreation/Freedom-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Waipū Caves Freedom Camping",
+    "slug": "waipu-caves-freedom-camping",
+    "lat": -35.933916,
+    "lng": 174.348127,
+    "category": [
+      "Stay"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Free",
+    "description": "Free council camping at the Waipū Caves car park, so you can see the glowworms after dark and again in the morning. It's one of only five council areas in the district where tents are allowed, and self-contained and non-self-contained vehicles can stay too, with a limit of one night, in the marked spaces only.\n\nThere's a toilet at the car park. The road in is narrow, winding gravel for the last few kilometres.\nLocal tip: Spaces go quickly in summer, so arrive by mid-afternoon, and stay out of the cave after heavy rain.",
+    "hoursNote": "Tents, self-contained and non-self-contained vehicles; max 1 night; toilets; unsealed road",
+    "sourceUrl": "https://www.wdc.govt.nz/Community/Facilities/Parks-and-recreation/Freedom-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Uretiti Beach DOC Campsite",
+    "slug": "uretiti-beach-doc-campsite",
+    "lat": -35.935057,
+    "lng": 174.457726,
+    "category": [
+      "Stay"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/waipu-area/things-to-do/uretiti-beach-campsite/",
+    "description": "A big, grassy DOC campsite behind the dunes on State Highway 1, about 5km north of Waipū, a couple of minutes' walk from a long white sand beach. There are no marked sites, so you find your own space among the grass and bush when you arrive.\n\nIt costs $18 a night for adults and $9 for children 5 to 17, and under 5s are free. You must book online before you arrive, as no spaces are kept for walk-ins, though same-day online bookings are open until 8pm. Hot showers are $2 (coin operated), the toilets are non-flush, there's treated drinking water, and camp hosts are on site all year. There's no rubbish collection, so take yours with you, and dogs aren't allowed.\nLocal tip: Book well ahead for summer, and note the gates are locked from 9pm to 7am. DOC warns that crab fishing in Bream Bay is dangerous and has caused several deaths.",
+    "hoursNote": "Book online first; $18 adult, $9 child; office 8.30am to 9pm; gates locked 9pm to 7am; $2 hot showers; min 3 nights 28 Dec to 1 Jan",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/waipu-area/things-to-do/uretiti-beach-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "The Cell Block Backpackers",
+    "slug": "cell-block-backpackers",
+    "lat": -35.72698,
+    "lng": 174.322296,
+    "category": [
+      "Stay"
+    ],
+    "region": "northland",
+    "area": "whangarei",
+    "active": false,
+    "price": "Cheap",
+    "description": "A colourful budget hostel in a refurbished 1960s jailhouse at 91 Cameron Street, a few minutes' walk from the city centre and the bus station. Most rooms are converted cells, each with its own basin and toilet.\n\nThere's an eight-bed mixed dorm as well as private single and twin rooms, a shared kitchen, a rooftop garden, free wifi, lockers and limited off-street parking. Check-in is from 1pm to 7pm and check-out by 10.30am, and guests must be 18 or over.\nLocal tip: Grab an off-street park early, as it's first in, first served.",
+    "hoursNote": "Dorms and private rooms; check-in 1pm to 7pm; bring a padlock for the lockers; limited free parking",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJzVYKVOV-C20RtGBlJmPwIc0",
+    "confidence": "medium"
+  }
+]

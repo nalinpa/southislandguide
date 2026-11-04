@@ -1,0 +1,328 @@
+[
+  {
+    "name": "Tāne Mahuta",
+    "slug": "tane-mahuta",
+    "lat": -35.600411,
+    "lng": 173.527973,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/waipoua-forest/things-to-do/tane-mahuta-walk/",
+    "description": "The largest known living kauri, Lord of the Forest, a five minute walk from the roadside car park on State Highway 12 in Waipoua Forest. DOC measures it at 51.2m tall with a trunk girth of 13.77m, and a raised boardwalk and viewing platform let you get close without harming its shallow roots.\n\nIt's free and open daily from 9am to 4pm, and the gate is locked outside those hours. Clean your shoes at the wash station on the way in and out, and stay on the boardwalk. The toilets and a picnic area are across the road from the track entrance. The nearby Kauri Walks to Te Matua Ngahere and the Four Sisters are closed while a new elevated boardwalk is built, and DOC expects them to reopen by early December 2026, with the date still to be confirmed.\nLocal tip: Parking is a widened stretch of road beside the track, so take care crossing State Highway 12 to the toilets and picnic area.",
+    "recommendedDurationSlots": 2,
+    "featured": 1,
+    "hoursNote": "Daily 9am to 4pm; free; 5 min walk each way; shoe wash station; Kauri Walks (Te Matua Ngahere, Four Sisters) closed for boardwalk build, reopening date due early Nov 2026",
+    "sourceUrl": "https://www.doc.govt.nz/our-work/rakau-rangatira-project/",
+    "confidence": "high"
+  },
+  {
+    "name": "Footprints Waipoua Twilight Encounter",
+    "slug": "footprints-waipoua-twilight-encounter",
+    "lat": -35.507226,
+    "lng": 173.391255,
+    "category": [
+      "Culture",
+      "Walks"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.footprintswaipoua.co.nz/",
+    "description": "A night walk into Waipoua Forest with a local Māori guide. It begins with a karakia asking permission to enter the forest, then follows easy tracks to the giant kauri, with stories, history and song along the way. Being among the trees after the day visitors have gone is the draw.\n\nThe tour takes 3 to 4 hours and costs from $115 per person, and children must be at least 5. It leaves from The Sands Hotel on State Highway 12 in Ōmāpere, with free pick ups from local accommodation, at 6pm from October to March and 5pm from April to October. A shorter Tāne Mahuta twilight tour costs from $90 and takes about 2 hours. A stop at Te Matua Ngahere depends on the Kauri Walks track, which DOC expects to reopen by early December 2026.\nLocal tip: Book ahead, wear sturdy shoes and bring a warm layer, as the forest gets cool and damp after dark.",
+    "recommendedDurationSlots": 6,
+    "featured": 3,
+    "hoursNote": "Evening tours, about 3 hours; from $115; pick-ups in Opononi and Ōmāpere; book ahead; Te Matua Ngahere stop depends on track reopening",
+    "sourceUrl": "https://footprintsmaneawaipoua.rezdy.com/417153/twilight-encounter",
+    "confidence": "high"
+  },
+  {
+    "name": "Arai Te Uru Signal Station Track",
+    "slug": "arai-te-uru-signal-station-track",
+    "lat": -35.537588,
+    "lng": 173.371985,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Free",
+    "website": "https://doc.govt.nz/parks-and-recreation/places-to-go/northland/places/hokianga-heads-area/tracks/signal-station-track",
+    "description": "A short clifftop walk out to the south head of the Hokianga Harbour at Ōmāpere, with views up the harbour, across the bar to the big sand dunes on the north head and out over the Tasman Sea. The track starts at the car park at the end of Signal Station Road and takes about 15 minutes one way, through flax, mānuka and cabbage trees to a grassy headland lookout.\n\nA signal station here guided ships across the harbour bar from 1838 until 1951, and a few of its old timbers still stand near the point. The grassy terraces make sheltered picnic spots. Buggies can get to the headland, but the track isn't suitable for wheelchairs. There are steep drops, so keep children close, and the nearest toilets are back in Ōmāpere.\nLocal tip: Come late in the day for the light on the dunes, and take the Martins Bay track if you want to get down to the water below the headland.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; free; 15 min one way; buggies to the headland only; steep drop-offs; no toilets",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/northland/places/hokianga-heads-area/tracks/signal-station-track",
+    "confidence": "high"
+  },
+  {
+    "name": "Hokianga Express Sand Dune Boat",
+    "slug": "hokianga-express-sand-dune-boat",
+    "lat": -35.504349,
+    "lng": 173.391991,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Cheap",
+    "description": "The giant golden sand dunes on the north head of the Hokianga Harbour can only be reached by boat, and Hokianga Express Charters, running since 1992, takes you across from Opononi Wharf. You climb the dunes and slide back down on a boogie board.\n\nBoats leave on the hour, and boogie boards are free. A recent review on the operator's own site mentions paying $27 per adult for the return trip. Allow a couple of hours, as the climbs back up are hard on the legs.\nLocal tip: Bring water and sunscreen, as there's no shade on the dunes.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Boats leave Opononi Wharf on the hour; about $27 to $30 adult return (as reported by recent visitors); boards supplied; book ahead in summer",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ8cbpchtFCW0RyySm8UXkYrg",
+    "confidence": "medium"
+  },
+  {
+    "name": "Hokianga Car Ferry, Rawene to Kohukohu",
+    "slug": "hokianga-car-ferry-rawene-kohukohu",
+    "lat": -35.392295,
+    "lng": 173.504995,
+    "category": [
+      "Scenic",
+      "Water"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://northlandferries.co.nz/hokianga-ferry/",
+    "description": "A 15 minute vehicle ferry across the upper Hokianga Harbour between Rawene and the Narrows near Kohukohu. It saves a long drive around the harbour if you're heading north, and on a calm day it doubles as a cheap harbour cruise.\n\nA car under 2500kg is $20 one way, a campervan with a bed over 2500kg is $40 and a motorbike $5, plus $2 for each passenger ($1 for children under 12). Pay on board by cash, EFTPOS, Visa or Mastercard. Sailings from Rawene start at 7am on weekdays (7.30am on weekends and public holidays) and run until the last at 7.30pm, and the last sailing back from the Narrows is at 8pm. At peak times the ferry may skip the timetable and shuttle back and forth.\nLocal tip: Arrive a little early in summer to make the next sailing. If you're in an extra large vehicle, call 0800 222 979 first, as low tide can limit sailings.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "From Rawene 7am weekdays, 7.30am weekends, last 7.30pm; last from the Narrows 8pm; 15 min crossing; car $20, passengers $2; cash or card on board",
+    "sourceUrl": "https://fndc.govt.nz/Services/Transport/Ferries/Hokianga-vehicle-ferry",
+    "confidence": "high"
+  },
+  {
+    "name": "Wairere Boulders Nature Park",
+    "slug": "wairere-boulders-nature-park",
+    "lat": -35.374851,
+    "lng": 173.59856,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.wairereboulders.co.nz/",
+    "description": "A privately run nature park near Horeke, at the top of the Hokianga Harbour, where marked tracks wind over, under and between huge boulders in native bush beside a stream. Walks take from one to three hours, with plenty of stairs, bridges and boulder hopping, and the Bush Pool is a swimming hole for cooling off.\n\nEntry is $15 for adults, $5 for school children and $35 for a family, valid for 24 hours, and pre-schoolers are free. You can hire kayaks ($15 an hour single, $30 double) to paddle the tidal stream at high tide, or a bouldering mat for $20 for 24 hours. Camping is $15 per adult ($10 if you've paid park entry the same day), and cabins sleeping four are $50 plus camping and park fees. Dogs are allowed in the campground but not on the trails.\nLocal tip: The park is open in daylight hours only, so leave enough time to be out of the boulders by dusk, and wear proper shoes, as the tracks are slippery after rain.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open daily, amenities daylight hours; adult $15, school child $5, family $35 (24 hr); kayaks best at high tide; camping $15 adult",
+    "sourceUrl": "https://www.wairereboulders.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Trounson Kauri Park",
+    "slug": "trounson-kauri-park",
+    "lat": -35.719975,
+    "lng": 173.649376,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/trounson-kauri-park/",
+    "description": "A 586 hectare kauri reserve about 40km north of Dargaville, just off State Highway 12, with an easy 40 minute loop walk on boardwalk and gravel past huge kauri and clear streams. The park has been managed as a mainland island since 1995, and DOC says it has the highest density of North Island brown kiwi in Northland.\n\nThe walk is free, but the track is undulating, with some steep sections. Come back after dark and you may hear kiwi calling, so walk quietly and keep to the track. Kauri dieback is a threat here, as it is across Northland, which is another reason to stay on the boardwalk. Dogs aren't allowed. The nearest fuel is at Kaihu, 9km south, or Waimamaku, 37km north.\nLocal tip: Wasp numbers are high from January to April, so carry an antihistamine if you react to stings.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time; free; 40 min loop; bring a red torch for night walks; wasps Jan to Apr",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/trounson-kauri-park/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kai Iwi Lakes (Taharoa Domain)",
+    "slug": "kai-iwi-lakes-taharoa-domain",
+    "lat": -35.811561,
+    "lng": 173.660428,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.kaipara.govt.nz/kai-iwi-lakes",
+    "description": "Three freshwater dune lakes north of Dargaville, Taharoa, Kai Iwi and Waikare, with white sand beaches and clear water that shifts from pale turquoise in the shallows to deep blue. The shallows are wide in places, which makes Lake Taharoa popular with families for swimming, kayaking and fishing, and boating and water skiing are allowed too.\n\nThere are no lifeguards, and the bottom drops away to darker water about 30m deep, so watch children closely. The domain is dog free, freedom camping isn't allowed, powered boats are limited to 5 knots unless exempted, and the main gate is locked from 9.30pm to 7am. You must check, clean and dry kayaks and gear to stop pest clams spreading.\nLocal tip: Bring your own food and drinking water, as the shop at Pine Beach only opens in summer.",
+    "recommendedDurationSlots": 6,
+    "featured": 2,
+    "hoursNote": "Domain gate locked 9.30pm to 7am; no lifeguards; dog free; 5 knot limit for powered boats; check, clean, dry all craft",
+    "sourceUrl": "https://www.kaipara.govt.nz/kai-iwi-lakes",
+    "confidence": "high"
+  },
+  {
+    "name": "Baylys Beach",
+    "slug": "baylys-beach",
+    "lat": -35.950804,
+    "lng": 173.741017,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Free",
+    "description": "A wild west coast surf beach a short drive west of Dargaville, with sand dunes, a long open stretch of sand and big sunsets over the Tasman Sea. The beach is a legal road, so you can drive on it. Normal road rules apply, with a 30km/h limit on some of the entrance sections.\n\nThe surf is rough and best left to confident swimmers. There are council public toilets at the beach, and dogs must be on a leash.\nLocal tip: If you take a car onto the sand, check the tide times first, and report unsafe beach driving on *555.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; free; surf patrols at set times in summer; beach driving allowed with a speed limit; toilets via stairs",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ1_951eoaDG0RJU0AGGOA5Qc",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Kauri Museum",
+    "slug": "the-kauri-museum",
+    "lat": -36.129789,
+    "lng": 174.185515,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.kauri-museum.com/",
+    "description": "A large, well laid out museum at Matakohe telling the story of the kauri timber and gum trade and the settlers who worked it. Expect huge slabs of kauri, a big collection of kauri gum, a full size steam sawmill, a 1910 boarding house and pioneer rooms with mannequins based on real people from the museum's history. The historic Pioneer Church, school and post office are on the same site.\n\nAdults are $30, children 5 to 15 are $10, under 5s are free, seniors and students pay $25, and a family pass (two adults, two children) is $60. It's open daily from 9am to 5pm, except Christmas Day. The museum is wheelchair accessible, with a lift and free wheelchairs on request, and the shop sells kauri gum jewellery, bowls and timber pieces.\nLocal tip: Allow at least two hours. It's about two hours' drive from Auckland, so it makes an easy first or last stop on a Kauri Coast trip.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Daily 9am to 5pm, closed Christmas Day; adult $30, child $10, senior or student $25, family $60",
+    "sourceUrl": "https://www.airnewzealand.com/activity-deals/new-zealand/bay-of-islands--whangarei/activity/the-kauri-museum-general-admission/96806",
+    "confidence": "medium"
+  },
+  {
+    "name": "Opo Takeaways",
+    "slug": "opo-takeaways",
+    "lat": -35.504744,
+    "lng": 173.391416,
+    "category": [
+      "Food"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Cheap",
+    "description": "The Opononi fish and chip shop, at 23 State Highway 12 on the harbourfront road (some listings call it Opononi Beach Takeaways). Order fresh fish, often snapper, with crispy chips, or seafood, a burger or an ice cream, and eat at the outside picnic tables.\n\nIt's listed as open daily from 10am to 7pm.\nLocal tip: Guard your chips if you eat outside, as the seagulls along the waterfront are bold.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 10am to 7pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJNVeIILZECW0R3ut5xmC_2Ro",
+    "confidence": "medium"
+  },
+  {
+    "name": "Boatshed Cafe, Rawene",
+    "slug": "boatshed-cafe-rawene",
+    "lat": -35.392933,
+    "lng": 173.505449,
+    "category": [
+      "Food"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Cheap",
+    "description": "A café at 8 Clendon Esplanade on the Rawene waterfront, with a verandah that hangs out over the Hokianga Harbour and views of the car ferry coming and going. A small gift shop sells local products.\n\nThe café changed hands after the previous owners left in December 2025, and the new owners, Holli Pellew and Storm Tautari, set out to reopen in late January 2026, keeping most of the old favourites and adding more baking. Check current opening hours before you go.\nLocal tip: It's right beside the ferry wharf, so time a coffee stop around your crossing.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 7.30am to 3pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJESZDvv9dCW0RXo8U0HBWqV4",
+    "confidence": "medium"
+  },
+  {
+    "name": "Matich's, Dargaville",
+    "slug": "matichs-dargaville",
+    "lat": -35.941434,
+    "lng": 173.870017,
+    "category": [
+      "Food"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Cheap",
+    "description": "A busy fish and chip shop and seafood takeaway at 95 Victoria Street, Dargaville's main road. Reviewers recommend the snapper and the homemade tartare sauce and say it's good value.\n\nIt's closed on Mondays, and listings disagree on opening times the rest of the week, so check before you go. The shop has wheelchair access.\nLocal tip: Phone your order through on 09 439 7350 to skip the wait at dinner time.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Tue to Sun 9am to 7pm; closed Mon",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ8agD4XISDG0RW9Mo9TqpgXU",
+    "confidence": "medium"
+  },
+  {
+    "name": "Waipoua Campground",
+    "slug": "waipoua-campground",
+    "lat": -35.65203,
+    "lng": 173.551962,
+    "category": [
+      "Stay"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.teroroa.iwi.nz/campground",
+    "description": "A large, peaceful campground of about 80 sites in Waipoua Forest, run by Te Roroa, the local iwi, a three minute drive off State Highway 12 on Waipoua River Road. Tent sites are spread among the trees, and campers say the Waipoua River behind the camp is good for a swim.\n\nNon-powered sites are $15 per adult and $6.50 for children 6 to 16, and the two powered sites (campervans only) are $17.50 per adult and $8.50 per child, with under 6s free. There are hot showers, toilets and a kitchen with a fridge, microwave and stovetop oven, but no wifi. Pets and fires aren't allowed. Book through the online form or by phone, and pay by bank transfer or by EFTPOS at the centre on weekdays from 8am to 4pm, as cash isn't accepted.\nLocal tip: Bring insect repellent, as campers mention plenty of mosquitoes and sandflies.",
+    "hoursNote": "Non-powered $15 adult, $6.50 child; 2 powered sites $17.50 adult; book ahead and pay by bank transfer; no pets or fires",
+    "sourceUrl": "https://www.teroroa.iwi.nz/campground",
+    "confidence": "high"
+  },
+  {
+    "name": "Trounson Kauri Park Campground",
+    "slug": "trounson-kauri-park-campground",
+    "lat": -35.721243,
+    "lng": 173.652468,
+    "category": [
+      "Stay"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/trounson-kauri-park/things-to-do/trounson-kauri-park-campground",
+    "description": "A DOC serviced campground beside Trounson Kauri Park, with the kauri loop walk starting next to it, so you can head out after dark to listen for kiwi without driving. There are 20 sites, 8 of them powered, plus a communal kitchen with electric stoves and flush toilets.\n\nNon-powered sites are $20 per adult and $10 per child (5 to 17), powered sites are $23 and $11.50, and under 5s are free. Warm showers cost $2 for five minutes and take $2 coins only. Tap water is untreated, so boil it before drinking. Book in advance, as no sites are held for walk ins, and the Campsite Pass can't be used from 26 December to 8 February. Dogs aren't allowed, and wasp numbers are high from January to April.\nLocal tip: Book online, where same day bookings stay open until 8pm, as phone and visitor centre bookings cost $10 extra.",
+    "hoursNote": "Non-powered $20 adult, $10 child; powered $23 adult; book online; $2 coin showers; boil tap water; no dogs",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/trounson-kauri-park/things-to-do/trounson-kauri-park-campground",
+    "confidence": "high"
+  },
+  {
+    "name": "Kai Iwi Lakes Campgrounds",
+    "slug": "kai-iwi-lakes-campgrounds",
+    "lat": -35.813552,
+    "lng": 173.645015,
+    "category": [
+      "Stay"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://kaiiwicamp.nz/",
+    "description": "Two council campgrounds right on the white sand shore of Lake Taharoa. Pine Beach, on the eastern side, is the larger one, with flush toilets and hot showers ($2 for three minutes, contactless). Promenade Point, on the western side, is cheaper, with large unallocated sites and toilets but no showers.\n\nThe council's fees are $20 per adult per night at Pine Beach ($25 powered) and $15 at Promenade Point, with children 5 to 14 at $10 and $8, and under 5s free. There's also a $10 admin fee per booking or change. Bookings open each 1 July for the year ahead, must be paid before you arrive and are non-refundable. Check in is 11am to 7.30pm, and the main gate is locked from 9.30pm to 7am. Dogs aren't allowed, and freedom camping is banned anywhere on the domain.\nLocal tip: Bring all your drinking water and a way to cook, as the water isn't drinkable and there are no kitchens.",
+    "hoursNote": "Pine Beach $20 adult ($25 powered), Promenade Point $15 adult; prepay online; check-in 11am to 7.30pm; gate locked 9.30pm to 7am; no dogs; no freedom camping on the domain",
+    "sourceUrl": "https://www.kaipara.govt.nz/kai-iwi-lakes",
+    "confidence": "high"
+  },
+  {
+    "name": "Globetrekkers Lodge, Ōmāpere",
+    "slug": "globetrekkers-lodge-omapere",
+    "lat": -35.531944,
+    "lng": 173.390278,
+    "category": [
+      "Stay"
+    ],
+    "region": "northland",
+    "area": "kauri-coast",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small, relaxed backpackers at 281 State Highway 12 in Ōmāpere, with harbour views and the beach a few minutes away. There are dorm beds, private rooms with shared bathrooms, and non-powered sites for tents and vans, plus a fully stocked shared kitchen.\n\nGuests mention the friendly, helpful host and the clean kitchen and bathrooms. A potable water tap that vehicles can reach lets you refill your campervan's tank.\nLocal tip: Top up your water here before heading to Tāne Mahuta, about 20 minutes' drive away.",
+    "hoursNote": "Reception about 8am to 7pm; dorms, tent and van sites; shared kitchen",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJs3mU-hFFCW0RsfRFu8quSC0",
+    "confidence": "medium"
+  }
+]

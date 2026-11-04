@@ -1,0 +1,450 @@
+[
+  {
+    "name": "Mautohe Cathedral Cove",
+    "slug": "mautohe-cathedral-cove",
+    "lat": -36.828708,
+    "lng": 175.790629,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/cathedral-cove-walk",
+    "description": "The famous rock archway at Mautohe Cathedral Cove sits inside Te Whanganui-A-Hei Marine Reserve, near Hahei. DOC has reopened the main walking track after clearing storm debris. It's sealed, with some steep sections and a set of steps down to the beach, and takes about 1 hour 30 minutes return from the top of Grange Road.\n\nGrange Road is drop off and pick up only, with no parking. Park free at the Hahei Visitor Car Park on Hahei Beach Road and walk up the hill (about 30 minutes, with little shade), or take the Park and Ride shuttle, which the operator lists at $8 return for adults, with children 14 and under free. It runs daily from 9am to 6pm between 1 October and 30 April, and 9am to 5pm the rest of the year, but stops under orange or red weather warnings. There's also paid parking at the Cathedral Cove Gateway car park on Lees Road. The Hahei Beach short walk and the Gemstone Bay track are still closed, with building work due to start in mid November 2026.\nLocal tip: Go early in the morning and around low tide, as the beach can be cut off from the track at high tide, and DOC advises staying away during or right after heavy rain or in rough seas.",
+    "recommendedDurationSlots": 6,
+    "featured": 1,
+    "hoursNote": "Track open; shuttle daily 1 Dec to 30 Apr, 9am to 6pm, $7 adult return, 14 and under free; no parking on Grange Road; no drones without a permit",
+    "sourceUrl": "https://www.doc.govt.nz/cathedral-cove-walk",
+    "confidence": "high"
+  },
+  {
+    "name": "Cathedral Cove Kayak Tours",
+    "slug": "cathedral-cove-kayak-tours",
+    "lat": -36.838138,
+    "lng": 175.806316,
+    "category": [
+      "Water",
+      "Adventure"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.cathedralcovekayaks.co.nz/",
+    "description": "A guided sea kayak trip from Hahei Beach through Te Whanganui-A-Hei Marine Reserve, past islands, caves and rock gardens, to Cathedral Cove. The operator says it's the only kayak company licensed to land there, and you stop on the beach while the guide makes cappuccinos and hot chocolates and hands out cookies.\n\nThe classic tour takes about 3 hours and runs all year, weather permitting. It's listed at $175 for adults and $105 for children 16 and under, and the minimum age is 5. Cancellations need 48 hours' notice.\nLocal tip: Book the first tour of the morning to reach the cove before the crowds walking in from Hahei.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Base open 7am to 7pm daily; guided tours, weather dependent; book ahead",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ8YxE1_tCcm0RmRwSYJjK6js",
+    "confidence": "medium"
+  },
+  {
+    "name": "Hot Water Beach",
+    "slug": "hot-water-beach",
+    "lat": -36.887941,
+    "lng": 175.82412,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Cheap",
+    "description": "At Hot Water Beach, water from underground hot springs seeps up through the sand near the rocks at the southern end, and you can dig your own warm pool. It only works for about two hours either side of low tide, so check a Whitianga tide table first. The water can reach about 64°C in places, so test it carefully before you sit down.\n\nBring a spade or hire one for about $10 near the main car park on Pye Place. Council parking closest to the springs costs $6 an hour or $35 a day at the main car park and $4 an hour or $25 a day at Taiwawe (2026/27 fees), and the main surf beach car park is free. There are toilets and a changing room at Pye Place.\nLocal tip: The surf here has very strong rips, so only swim between the flags when lifeguards are on duty in summer, and never within 50m of the rocks. The hot pools are for soaking, not swimming.",
+    "recommendedDurationSlots": 4,
+    "featured": 2,
+    "hoursNote": "Best 2 hours either side of low tide; parking $6 an hour main car park, $4 an hour Taiwawe; swim between the flags only",
+    "sourceUrl": "https://www.tcdc.govt.nz/Our-Council/Fees-and-Charges/Facilities-Fees-and-Charges/Fees-and-Charges-Parking-Hot-Water-Beach",
+    "confidence": "high"
+  },
+  {
+    "name": "Shakespeare Cliff Lookout",
+    "slug": "shakespeare-cliff-lookout",
+    "lat": -36.826937,
+    "lng": 175.730813,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Free",
+    "description": "A free lookout on top of Shakespeare Cliff, near Cooks Beach, with wide views over Mercury Bay and Cooks Beach. From the small car park it's only a minute or two to the first viewing platform and a little further to the top, on one paved, fairly steep path or a gravel one.\n\nThe last 800m or so of the road is narrow gravel and not suitable for large vehicles, and visitors report the gate is open from 7.30am to 7.30pm. Parking is free, but the drive gets busy from around midday in summer. A 1km track from the car park also leads down to Lonely Bay, about 15 to 20 minutes return.\nLocal tip: Come for sunrise or late in the afternoon, and pair it with the Whitianga ferry, which lands at Ferry Landing a few minutes' drive away.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Road gate open 7.30am to 7.30pm; free; short walk from car park",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJw-vmYvlccm0RCmEA4FHgGos",
+    "confidence": "medium"
+  },
+  {
+    "name": "Whitianga Ferry and Whitianga Rock",
+    "slug": "whitianga-ferry-and-whitianga-rock",
+    "lat": -36.831917,
+    "lng": 175.71094,
+    "category": [
+      "Attractions",
+      "Walks"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.whitiangaferry.co.nz/",
+    "description": "A small passenger ferry crosses the harbour mouth between Whitianga wharf and Ferry Landing about every 10 minutes, every day of the year. Adults pay $5.50 one way or $8 return, children under 16 $3.50 or $6, bikes are $1.50 each way and dogs ride free, and you buy tickets on board.\n\nOn the Ferry Landing side, a steep 300m track climbs to Whitianga Rock, a Ngāti Hei pā site with views back over the marina and town. There are sheer, unfenced drops, so keep children close. From the rock you can carry on along the Maramaratotara Track and loop back to the wharf (1.8km), though DOC doesn't recommend it in wet or windy weather. The ferry also saves a long drive round the harbour if you're heading to Cooks Beach or Hahei.\nLocal tip: The last ferry runs at 10.25pm, so you can cross for dinner in Whitianga and come back after dark.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily 7.30am to 7.25pm and 8.30pm to 10.25pm, about every 10 minutes; adults $5.50 one way, $8 return",
+    "sourceUrl": "https://www.whitiangaferry.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Snapper Jacks Takeaways, Whitianga",
+    "slug": "snapper-jacks-takeaways-whitianga",
+    "lat": -36.833235,
+    "lng": 175.704995,
+    "category": [
+      "Food"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Cheap",
+    "description": "A fish and chip shop at 26 Albert Street in the middle of Whitianga, serving fresh fish of the day. Reviewers mention a light batter, friendly staff and very generous scoops of ice cream.\n\nIt's open daily from 11.30am to 8pm, and Buffalo Beach is a short walk away if you want to eat on the sand. Public holiday hours may vary.\nLocal tip: Ask what fish came in fresh that day before you order, or phone ahead on 07 866 5482 at busy times.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 11.30am to 8pm; takeaway fish and chips and ice cream",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJiZAEWDVccm0RS75vDUENk_I",
+    "confidence": "medium"
+  },
+  {
+    "name": "New Chums Beach (Wainuiototo)",
+    "slug": "new-chums-beach",
+    "lat": -36.697794,
+    "lng": 175.606358,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Free",
+    "description": "Wainuiototo, better known as New Chums Beach, is an undeveloped beach north of Whangapoua that you can only reach on foot. The walk from the car park at the north end of Whangapoua is about 1.5km each way and takes about 30 minutes. You cross a tidal stream, follow the stony shoreline towards Motuto Point, then cut through nīkau forest over a saddle to the beach.\n\nGo outside high tide, ideally not within two hours either side of it, and wear proper shoes rather than jandals. There are no facilities at the beach, so use the public toilets at the north end of Whangapoua before you set off and take all your rubbish home. From the saddle, a steep, rough side track climbs to a point about 72m above the beach, for confident walkers only.\nLocal tip: Go around low tide on a calm day, as at high tide or in a big swell the stream and rocks can be deep and the walk isn't advised.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Walk in only, 30 to 40 minutes each way; go outside high tide; no facilities at the beach",
+    "sourceUrl": "https://www.tripideas.nz/place/new-chums-walkway",
+    "confidence": "medium"
+  },
+  {
+    "name": "Driving Creek Railway",
+    "slug": "driving-creek-railway",
+    "lat": -36.737046,
+    "lng": 175.504015,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://drivingcreek.nz/",
+    "description": "New Zealand's only mountain railway, built by the potter Barry Brickell in the hills just outside Coromandel town, now runs as a guided tour. The trip takes about 1 hour 15 minutes, climbing through regenerating native forest, over ten bridges and through three tunnels to the EyeFull Tower lookout, with the guide telling the railway's story on the way.\n\nAdults are $57, children 4 to 16 are $32, and a family pass for two adults and two children is $155. It's open daily from 9am to 4.30pm except Christmas Day, and tours run in most weather. The site also has a pottery gallery and shop, daily pottery classes and a zipline, so allow 1.5 to 3 hours in total.\nLocal tip: Book ahead in summer and on holiday weekends, and arrive 15 minutes before your departure time.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open daily 9am to 4.30pm except Christmas Day; tour about 75 minutes; adults $57, children $32",
+    "sourceUrl": "https://www.newzealand.com/nz/plan/business/driving-creek-railway-and-potteries/",
+    "confidence": "high"
+  },
+  {
+    "name": "Coromandel Oyster Company",
+    "slug": "coromandel-oyster-company",
+    "lat": -36.799442,
+    "lng": 175.499855,
+    "category": [
+      "Food"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Cheap",
+    "description": "A busy roadside seafood shop at 1611 Manaia Road (State Highway 25), about 5 minutes' drive south of Coromandel town on the road from Thames. It sells fresh oysters, mussel chowder, pāua and mussel fritters, burgers, and fish and chips cooked to order, and reviewers single out the snapper and a chowder packed with mussels.\n\nYou order at the counter and eat at covered or open outdoor tables looking over the bay. Some reviewers find the portions small, but the young staff get plenty of praise for friendly service.\nLocal tip: It's open daily but closes at about 5pm, so plan on a late lunch here rather than dinner.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 9am to 5pm, Fridays to 6.30pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ80Pk-cHzcm0RfjbPEf9iXsY",
+    "confidence": "medium"
+  },
+  {
+    "name": "Waikawau Bay Campsite (DOC)",
+    "slug": "waikawau-bay-campsite",
+    "lat": -36.605305,
+    "lng": 175.534106,
+    "category": [
+      "Stay"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Cheap",
+    "description": "A large DOC campsite behind a long, white sand surf beach on the east coast of the northern Coromandel, 42km north of Coromandel town via Colville Road, Port Charles Road and Waikawau Beach Road. The beachside area is open all year, a bush area across the road opens from 15 December to 15 February, and there are 12 powered sites.\n\nFacilities are simple: non flush toilets, cold showers and untreated tap water that needs boiling, with no cooking facilities or rubbish collection. Unpowered sites are $18 per adult and $9 per child (5 to 17) from 9 February to 25 December, and $20 and $10 from 26 December to 8 February. Powered sites are $21 per adult, or $23 in the peak period, and need a current electrical WOF. Bookings are essential and must be made online. Check in is from 2pm, you leave by 11am, and dogs and fires aren't allowed.\nLocal tip: Stock up in Coromandel or Colville first, as Port Charles Road is unsealed, narrow and winding in places, and there are no cash facilities at the camp.",
+    "hoursNote": "Book online, no walk-in spaces held; check in from 2pm; no fires; pack in, pack out",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/coromandel/places/northern-coromandel/things-to-do/waikawau-bay-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Fletcher Bay Campsite (DOC)",
+    "slug": "fletcher-bay-campsite",
+    "lat": -36.476386,
+    "lng": 175.390329,
+    "category": [
+      "Stay"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Cheap",
+    "description": "A remote DOC campsite at the very end of Port Jackson Road on the northern tip of the Coromandel Peninsula, 64km north of Coromandel town and 7km past Port Jackson. There are no set sites. You book online for your group and find a space on arrival, with room for up to 300 people.\n\nIt costs $18 per adult and $9 per child (5 to 17) a night. There are non flush toilets and cold showers, the tap water is untreated and needs boiling, and there's no rubbish collection, so take everything out with you. Dogs and fires aren't allowed. The Coromandel Walkway starts here, about 4 hours return to the lookout, but parts of it are closed by slips, so check DOC alerts before you set out.\nLocal tip: DOC recommends a reliable, well maintained vehicle (ideally 4WD), as the road is unsealed with one lane sections, and the ford between Port Jackson and Fletcher Bay can be impassable during or after heavy rain.",
+    "hoursNote": "Book online; check in from 2pm, leave by 11am; no fires; Coromandel Walkway partly closed by slips",
+    "sourceUrl": "https://www.doc.govt.nz/fletchercampsite",
+    "confidence": "high"
+  },
+  {
+    "name": "Tui Lodge Backpackers, Coromandel",
+    "slug": "tui-lodge-backpackers-coromandel",
+    "lat": -36.761692,
+    "lng": 175.506833,
+    "category": [
+      "Stay"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Cheap",
+    "description": "A friendly backpackers at 60 Whangapoua Road, about 1km from the centre of Coromandel town, set among fruit trees and paddocks where you can hand feed the sheep. There's a mix of ensuite and queen rooms, cabins, a shared bunk room, and sites for tents and campervans.\n\nGuests share a fully equipped kitchen, and hot showers are free. It's handy for Driving Creek Railway and the town's cafés and takeaways. Check in is from 2pm and check out by 10am.\nLocal tip: Book early for summer, and pick up groceries in town before you check in so you can cook in the shared kitchen.",
+    "hoursNote": "BBH backpackers; cabins and doubles with shared bathrooms; book ahead in summer",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJXxZ-jjjxcm0ROA7eON-WKCY",
+    "confidence": "medium"
+  },
+  {
+    "name": "Pinnacles Walk (Kauaeranga Kauri Trail)",
+    "slug": "pinnacles-walk-kauaeranga-kauri-trail",
+    "lat": -37.065892,
+    "lng": 175.667988,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Free",
+    "description": "A big day walk in Coromandel Forest Park behind Thames, climbing from the end of Kauaeranga Valley Road to the rocky summit of the Pinnacles. The Webb Creek Track takes 2.5 to 3 hours to Pinnacles Hut, then it's 1km and about 40 minutes more to the top, where the final stretch includes ladders beside steep drops.\n\nAllow 6 to 7.5 hours return on the same track, or 7 to 8.5 hours for the circuit down the Billygoat Track, which has unbridged stream crossings and ends with a crossing of the Kauaeranga River, so use the Webb Creek route only after heavy rain. Carry 3 litres of water each, warm and waterproof layers and a torch, and wear sturdy shoes. The road is unsealed for the last 9km past the Kauaeranga Visitor Centre (open 8.30am to 4pm), which has bag storage because the road end car parks are prone to theft.\nLocal tip: Start early and skip the summit ladders in high wind or rain. For sunset or sunrise on top, book one of the 80 bunks at Pinnacles Hut through DOC, from $34 a night for adults.",
+    "recommendedDurationSlots": 16,
+    "featured": 3,
+    "hoursNote": "Day walk 6 to 7.5 hours return; ladders near summit; avoid in flood, high wind or rain; Pinnacles Hut must be booked",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/coromandel/places/coromandel-forest-park/things-to-do/kauaeranga-kauri-trail",
+    "confidence": "high"
+  },
+  {
+    "name": "Booms Flat Campsite, Kauaeranga Valley (DOC)",
+    "slug": "booms-flat-campsite-kauaeranga-valley",
+    "lat": -37.079239,
+    "lng": 175.650109,
+    "category": [
+      "Stay"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Cheap",
+    "description": "One of nine DOC campsites beside the Kauaeranga River in Coromandel Forest Park, Booms Flat is 6km past the Kauaeranga Visitor Centre, which is itself about 14km from Thames. It's a standard campsite with toilets, the Booms Track to Crosbies Hut starts on site, and it's one of only two Kauaeranga campsites where dogs are allowed.\n\nIt costs $10 per adult and $5 per child (5 to 17) a night. Book online before you arrive, as no spaces are held for walk ins, though same day online bookings stay open until 8pm. Check in is from 2pm and you leave by 11am, with a maximum stay of 21 nights. There are no showers or rubbish collection, open fires and fireworks are banned all year, and stream water must be treated or boiled before drinking.\nLocal tip: It makes a good base for the Pinnacles, as the road end car park is only a few kilometres further up the valley.",
+    "hoursNote": "Book online; $10 adult, $5 child; dogs allowed; no fires; maximum 21 nights",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/coromandel/places/coromandel-forest-park/things-to-do/campsites/booms-flat-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Danby Field Freedom Camping, Thames",
+    "slug": "danby-field-freedom-camping-thames",
+    "lat": -37.141446,
+    "lng": 175.541793,
+    "category": [
+      "Stay"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Free",
+    "description": "A free council freedom camping area in the Danby Field car park at 301 Queen Street in central Thames, with room for up to 20 certified self-contained vehicles. Use the signposted area on the west side, entering from Richmond Street.\n\nUnder the council bylaw you can only camp between 5pm and 9am, for no more than two nights in a row. It's close to the supermarket and shops in the middle of town.\nLocal tip: Make sure your vehicle has a current green self-containment warrant, as blue stickers stopped counting on 7 June 2026.",
+    "hoursNote": "Certified self-contained only; up to 20 vehicles; 5pm to 9am; maximum 2 nights in a row",
+    "sourceUrl": "https://www.tcdc.govt.nz/camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Lee Street Freedom Camping, Whitianga",
+    "slug": "lee-street-freedom-camping-whitianga",
+    "lat": -36.834691,
+    "lng": 175.703571,
+    "category": [
+      "Stay"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Free",
+    "description": "Eight marked spaces at the west end of the Lee Street car park in central Whitianga are a council designated freedom camping spot, a short walk from the Albert Street shops, takeaways and the wharf.\n\nOnly certified self-contained vehicles can use it. You can camp between 5pm and 9am only, for no more than two nights in a row. Freedom camping is banned on the Albert Street esplanade, The Esplanade and Buffalo Beach Reserve south of Taputapuatea Stream, so stick to the marked spaces.\nLocal tip: With only eight spaces, arrive soon after 5pm in summer. If it's full, the council's Mercury Bay office car park on Monk Street has four more spaces from 5pm to 8am.",
+    "hoursNote": "Certified self-contained only; 8 spaces; 5pm to 9am; maximum 2 nights in a row",
+    "sourceUrl": "https://www.tcdc.govt.nz/camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Thames Bakery",
+    "slug": "thames-bakery",
+    "lat": -37.137426,
+    "lng": 175.541726,
+    "category": [
+      "Food"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Cheap",
+    "description": "A no frills bakery at 616 Pollen Street, the main street of Thames, popular for its pies, plus sandwiches and a big range of sweet things.\n\nIt's a handy stop for a pie before heading up the Kauaeranga Valley or along the Thames Coast. Listings disagree on its weekend hours, so check before you go on a Sunday.\nLocal tip: On Saturday mornings, from 8am to 12pm, the Thames market sets up at the northern end of Pollen Street in Grahamstown, with produce, plants, crafts and food.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Sat 7.30am to 5pm; closed Sunday",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ-dRm6jeBcm0Rr9y-Gam04_c",
+    "confidence": "medium"
+  },
+  {
+    "name": "Mount Paku Summit, Tairua",
+    "slug": "mount-paku-summit-tairua",
+    "lat": -37.000523,
+    "lng": 175.865835,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Free",
+    "description": "A short, steep climb to the summit of Mount Paku in Tairua gives big views over the harbour and town, across the water to Pauanui and out to sea. You can park by the playground near the top of Paku Drive and walk up in about 20 to 30 minutes, or walk the whole way from the end of Tirinui Crescent (about 2km, 45 minutes return).\n\nThe track is steep and rocky in places, so wear shoes with good grip, and it isn't suitable for wheelchairs or pushchairs. Motorhomes and large vehicles can't get up the road to the top car park. The walk is free.\nLocal tip: Go up for sunrise. If you're in a certified self-contained vehicle, the council has five freedom camping spaces at the south end of the Tangimoana Esplanade car park, opposite 44 Paku Drive.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time; free; short steep climb with a rock scramble at the top",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJb03BYzdscm0Rdu6RqUo13bA",
+    "confidence": "medium"
+  },
+  {
+    "name": "Broken Hills Campsite (DOC)",
+    "slug": "broken-hills-campsite",
+    "lat": -37.105336,
+    "lng": 175.738443,
+    "category": [
+      "Stay"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Cheap",
+    "description": "A DOC campsite beside the Tairua River near the end of Puketui Valley Road, about 4km of gravel road off State Highway 25 at Hikuai, opposite the Pauanui turnoff. Sites are spread out among the trees, with room for up to 200 people.\n\nIt costs $18 per adult and $9 per child (5 to 17) a night, and you must book online before you arrive, as mobile coverage is limited. Check in is from 2pm. There are toilets but no showers, rubbish is pack in, pack out, open fires are banned and dogs aren't allowed. Walks into the old gold mining area start nearby, including the short water race tunnels and the Collins Drive tunnel, about 500m long, with glowworms near its entrance.\nLocal tip: Bring a torch for the tunnels, and note the Tairua River bridge 1km before the road end has a 10 tonne limit.",
+    "hoursNote": "Book online; $18 adult, $9 child; check in from 2pm; no fires; no dogs",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/coromandel/places/coromandel-forest-park/things-to-do/campsites/broken-hills-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Opoutere Beach",
+    "slug": "opoutere-beach",
+    "lat": -37.105007,
+    "lng": 175.880471,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Free",
+    "description": "Opoutere is a quiet, undeveloped beach between Tairua and Whangamatā, with more than 5km of white sand and surf on one side and the calm Wharekawa Harbour on the other. The turnoff from State Highway 25 is 11km north of Whangamatā, the car park is about 4km along Opoutere Road, and an easy track leads through to the beach.\n\nThe sandspit is a refuge for endangered birds such as the New Zealand dotterel, so dogs and vehicles are banned, and nesting areas are roped off from early September each year. Entering them can bring an $800 fine, and a DOC ranger is on duty from November to February. A partial track closure because of unsafe trees doesn't affect beach access.\nLocal tip: The surf side has lots of rips, so the calm harbour side is the better choice for a paddle with children.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Free; no dogs or vehicles; keep out of roped-off nesting areas; dangerous rips",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/coromandel/places/tairua-area/tracks/opoutere-beach-track",
+    "confidence": "high"
+  },
+  {
+    "name": "Karangahake Gorge Windows Walk",
+    "slug": "karangahake-gorge-windows-walk",
+    "lat": -37.427082,
+    "lng": 175.725094,
+    "category": [
+      "Walks",
+      "Culture"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Free",
+    "description": "An easy loop of about an hour through the gold mining relics of Karangahake Gorge, on State Highway 2 between Paeroa and Waihī. From the Karangahake Reserve car park you cross a suspension bridge over the Ohinemuri River and a bridge over the Waitawheta, climb the stairs past the old Talisman battery, then follow the tramway into tunnels cut through the cliff, with openings looking out over the gorge.\n\nYou come back along the Crown Tramway Track beside the river. A torch is recommended for the tunnels. January 2026 storms closed the gorge for a time, with floodwater running through the Windows tunnel, and the lower Crown Track still closes whenever heavy rain is forecast, so check DOC alerts before you go.\nLocal tip: Come on a weekday or early in the morning for a park, and add the Rail Tunnel Loop from Karangahake Hall (2.5km, about 45 minutes), which runs through a lit 1.1km railway tunnel.",
+    "recommendedDurationSlots": 4,
+    "featured": 4,
+    "hoursNote": "Open; about 1 hour loop; take a torch; lower Crown Track closes when heavy rain is forecast",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/bay-of-plenty/places/kaimai-mamaku-conservation-park/things-to-do/tracks/karangahake-windows-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Waihi Gold Discovery Centre",
+    "slug": "waihi-gold-discovery-centre",
+    "lat": -37.389799,
+    "lng": 175.843722,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.golddiscoverycentre.co.nz/",
+    "description": "The Gold Discovery Centre at 126 Seddon Street tells the story of gold mining in Waihī, past and present, through interactive, hands on displays that work well for children, right beside the huge Martha open pit. The main exhibition, the Waihi Gold Experience, takes about an hour. It's open daily from 10am to 4pm.\n\nThe Waihi Gold Experience is $36 for adults, $33 for seniors and students, $18 for children 5 to 14 and $90 for a family, and under 5s are free. Two hour guided Waihi Gold Mine Tours cost $69 for adults and $34 for children and leave at 1pm, Thursday to Monday. A combo of both is $94 for adults and $47 for children.\nLocal tip: Book the mine tour ahead, and walk part of the free Pit Rim Walkway, which starts at the Cornish Pumphouse across the road.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Daily 10am to 4pm; mine tours 1pm Thu to Mon; Gold Experience $36 adult, $18 child",
+    "sourceUrl": "https://www.golddiscoverycentre.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Martha Mine Pit Rim Walkway and Lookout",
+    "slug": "martha-mine-pit-rim-walkway",
+    "lat": -37.386697,
+    "lng": 175.842748,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Free",
+    "description": "The free Pit Rim Walkway circles the edge of the huge Martha Mine open pit in the middle of Waihī, with information boards along the fence about the mine's history and how it works. The full loop is about 4km and takes about an hour of walking, or longer with stops.\n\nIt starts at the old Cornish Pumphouse, opposite the Gold Discovery Centre, where there are toilets nearby. Dogs are welcome.\nLocal tip: Pick a dry, mild day, as there's very little shade or shelter on the rim.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; free; full loop about 4 km, 1 to 2 hours; little shade",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJz8dixQWObW0RHWk60hgnmkQ",
+    "confidence": "medium"
+  },
+  {
+    "name": "Orokawa Bay Walk",
+    "slug": "orokawa-bay-walk",
+    "lat": -37.384612,
+    "lng": 175.939221,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "coromandel",
+    "area": "coromandel",
+    "active": false,
+    "price": "Free",
+    "description": "A coastal walk from the northern end of Waihī Beach to Orokawa Bay, a secluded beach backed by native bush and big pōhutukawa trees. The track starts on The Esplanade just past the surf lifesaving club and takes about 45 minutes each way. It's easy to moderate but hilly, so wear sturdy shoes rather than jandals.\n\nThe bay isn't considered safe for swimming because of its steep seafloor, and there are no toilets, drinking water or food along the way. Dogs aren't allowed. Keen walkers can carry on to William Wright Falls, about 30m high, but the route involves stream crossings and some rock scrambling, so avoid it after heavy rain.\nLocal tip: Check the tide before you go, as access may not be possible at high tide or in a big swell.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Free; 45 minutes each way; may be impassable at high tide or in big swell; no dogs",
+    "sourceUrl": "https://www.westernbay.govt.nz/recreation/walking-tracks-and-trails/orokawa-scenic-reserve",
+    "confidence": "high"
+  }
+]

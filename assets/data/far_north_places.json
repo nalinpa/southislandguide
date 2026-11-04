@@ -1,0 +1,300 @@
+[
+  {
+    "name": "Cape Reinga Lighthouse Walk (Te Rerenga Wairua)",
+    "slug": "cape-reinga-lighthouse-walk",
+    "lat": -34.426803,
+    "lng": 172.677552,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Free",
+    "description": "The lighthouse near the top of the North Island, where the Tasman Sea meets the Pacific Ocean. A paved path runs from the car park down to the lighthouse in about 10 minutes, with big views along the way. It's free, fine for buggies and children (though steep sections rule it out for some wheelchairs), and part of Te Araroa, the trail that runs the length of the country. Te Rerenga Wairua is a sacred site, highly significant to Māori as the place where spirits depart for their traditional homeland.\n\nDOC asks visitors not to eat at the cape (drinking water is fine), and there are no rubbish bins, so take everything out with you. Dogs and camping aren't allowed, and the car park gates are closed from 8.30pm to 7am. It's about 20km past Waitiki Landing on Cape Reinga Road, roughly 111km north of Kaitāia. The cape is very exposed and strong wind is common, so bring a warm layer.\nLocal tip: It's busiest between 11am and 3pm and from late December to early January, so come early or late. Then drive 5 to 10 minutes down the gravel road to Tapotupotu Bay, which has toilets, to eat your lunch.",
+    "recommendedDurationSlots": 3,
+    "featured": 1,
+    "hoursNote": "Car park gates closed 8.30pm to 7am; free; no eating at the cape; no dogs; no bins",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/te-paki-recreation-reserve/things-to-do/tracks/cape-reinga-lighthouse-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Paki Giant Sand Dunes",
+    "slug": "te-paki-giant-sand-dunes",
+    "lat": -34.5249,
+    "lng": 172.77394,
+    "category": [
+      "Adventure",
+      "Nature"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Free",
+    "description": "A field of huge golden dunes, around 150m high, at the end of Te Paki Stream Road, 3km off State Highway 1 and about five minutes' drive from Waitiki Landing. Walking on the dunes is free, and there are toilets near the car park.\n\nMost people come to sandboard, and you can hire boards beside the car park, where the hire stand keeps your ID as a deposit. The boards go very fast, and DOC notes that people have been seriously hurt here (one has died), so start on a small slope, check your run is clear and avoid slopes that run into the stream. Te Paki Stream is open to 4WD vehicles only, and rental vehicles aren't allowed in it, but you don't need one, just use the car park. Dogs aren't permitted.\nLocal tip: Go in the morning or late afternoon, as the sand gets too hot to walk on comfortably in the middle of a summer day, and bring photo ID if you want to hire a board.",
+    "recommendedDurationSlots": 4,
+    "featured": 2,
+    "hoursNote": "Open any time; free; board hire $15 cash, usually 11am to 4.30pm; Te Paki Stream 4WD only; no dogs",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/te-paki-recreation-reserve/te-paki-sand-dunes/",
+    "confidence": "high"
+  },
+  {
+    "name": "Maitai Bay",
+    "slug": "maitai-bay",
+    "lat": -34.828406,
+    "lng": 173.40831,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Free",
+    "description": "A curved white sand bay near the tip of the Karikari Peninsula, about 35km from Awanui via State Highway 10, Inland Road and Maitai Bay Road, with the last 2km on gravel. It's one of the best swimming beaches in the Far North, with clear water, soft sand, pōhutukawa for shade and two beaches to choose from.\n\nThe rocks at each end of the bay are good for snorkelling. A rāhui laid in 2017 by Te Whānau Moana and Te Rorohuri bans fishing and taking any seafood here, but snorkelling and swimming are welcome. There's a DOC campsite behind the beach, and the Maitai Bay headland track looks over neighbouring Waikato Bay. Fireworks (including sky lanterns) and open fires are banned all year, and there are no bins.\nLocal tip: Bring a mask and snorkel for the rocky ends of the bay, and keep off the high parts of Maitai Point, which are culturally significant to local iwi.",
+    "recommendedDurationSlots": 6,
+    "featured": 3,
+    "hoursNote": "Open any time; free parking; rāhui: no fishing or taking seafood; last 2 km gravel",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/northland/places/karikari-peninsula/things-to-do/maitai-bay-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ninety Mile Beach (Te Oneroa-a-Tōhē)",
+    "slug": "ninety-mile-beach-te-oneroa-a-tohe",
+    "lat": -35.039711,
+    "lng": 173.168495,
+    "category": [
+      "Scenic",
+      "Water"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Free",
+    "description": "A single, straight surf beach running about 88km up the west coast from Ahipara towards Cape Reinga. Locals drive it, but rental companies don't allow their cars or campervans on the sand, and it's really only for 4WDs at the right tides. Speed limits are 30km/h within 200m of each access ramp and 60km/h elsewhere, and camping, campervans and fires aren't allowed on the beach.\n\nIf you do drive, the beach's governing board says to use only approved ramps, never drive at night or after drinking, and if you get stuck, leave the vehicle and head for higher ground. The approaches to the Waipapakauri ramp, just north of Awanui, are very soft. Rips and undertows are strong, so stick to paddling.\nLocal tip: Watch for vehicles while you walk, and if you want to ride the sand without risking a hire car, take a tour bus instead.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open any time; free; rental vehicles not allowed on the sand; 30 km/h near ramps, 60 km/h elsewhere; no camping on the beach",
+    "sourceUrl": "https://www.scoop.co.nz/stories/AK2512/S00719.htm",
+    "confidence": "high"
+  },
+  {
+    "name": "Ahipara Beach and Shipwreck Bay",
+    "slug": "ahipara-beach-shipwreck-bay",
+    "lat": -35.177398,
+    "lng": 173.133906,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Free",
+    "description": "Ahipara sits at the southern end of Ninety Mile Beach, about 13.5km from Kaitāia, and makes a quieter base than Kaitāia for trips up to Cape Reinga. There's free parking at the Foreshore Road end, though spaces are limited, and the sunsets over Tauroa Point are excellent. There are no lifeguards, so swim with care.\n\nHead west along Wreck Bay Road to Te Kōhanga, Shipwreck Bay, a well known left hand point break. At low tide you can see the boiler of the paddle steamer Favourite, wrecked here in 1870. Local iwi have a strong connection to this coast, so be respectful, and a rāhui on gathering pāua has applied at Tauroa, from Te Huahua to Honuhonu, since 30 November 2025.\nLocal tip: Come at low tide to see the wreck, and leave the surf breaks to experienced surfers.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open any time; free; toilets and changing rooms at Foreshore Road",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJi2H2uDkOCW0RdXKisauO4Lg",
+    "confidence": "medium"
+  },
+  {
+    "name": "Rangikapiti Pā Historic Reserve",
+    "slug": "rangikapiti-pa-historic-reserve",
+    "lat": -34.985029,
+    "lng": 173.524678,
+    "category": [
+      "Walks",
+      "Culture"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Free",
+    "description": "A historic terraced pā on the headland at the entrance to Mangōnui Harbour, of great significance to Ngāti Kahu, with one of the best views in Doubtless Bay. From the top you look over the harbour and right around the bay.\n\nThe DOC car park is on Rangikapiti Road, off Mill Bay Road, and the walk up is short but steep near the summit. A loop track through native bush takes about 30 minutes, and there's also a longer route up from Coopers Beach.\nLocal tip: Go up for sunset with a picnic, and wear proper shoes rather than jandals, as parts of the path are steep and uneven.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time; free; no toilets; dogs on lead",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ-dShrW2BCW0R_4RO4St8-B8",
+    "confidence": "medium"
+  },
+  {
+    "name": "Gumdiggers Park",
+    "slug": "gumdiggers-park",
+    "lat": -34.964674,
+    "lng": 173.20814,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.gumdiggerspark.co.nz",
+    "description": "An old kauri gum field at 171 Heath Road, Waiharara, 25km north of Kaitāia on the road to Cape Reinga, that tells the story of the gumdiggers who dug kauri gum from the Far North swamps. A bush trail takes you past the original diggings, a recreated gumdiggers' village with sack huts, old equipment and buried kauri logs, some over 100,000 years old.\n\nEntry is $15 for adults, $7 for children 5 to 16 and $35 for a family, and under 5s are free. It's open daily from 9am to 5pm (last entry 4.30pm), closed only on Christmas Day, and dogs on a lead are welcome. The shop sells kauri gum and New Zealand amber crafts.\nLocal tip: It breaks up the long drive to the Cape nicely, so allow an hour or two, and don't miss the gecko house with its rare Northland geckos.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily 9am to 5pm, last entry 4.30pm; closed 25 December; dogs on lead welcome",
+    "sourceUrl": "https://www.gumdiggerspark.co.nz/prices.html",
+    "confidence": "high"
+  },
+  {
+    "name": "Mangōnui Fish Shop",
+    "slug": "mangonui-fish-shop",
+    "lat": -34.9888,
+    "lng": 173.534578,
+    "category": [
+      "Food"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Moderate",
+    "description": "A Far North institution on the Mangōnui waterfront, built out over the harbour, where fish has been sold on the site since the 1950s. The fish comes in at the wharf about 100m away, and you eat looking out over the water.\n\nFish and chips is the main draw, plus pāua and mussel fritters, seafood chowder, raw fish salad and fish hot smoked over mānuka. It's licensed, with beer on tap. It's not cheap fish and chips any more, and reviews are mixed on value, but the setting is hard to beat.\nLocal tip: Order online ahead at busy times, then look over the edge while you eat, as stingrays, kingfish and John Dory often swim under the shop.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 10am to 7pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ65kwOw6BCW0R1Ivg8C_Jm98",
+    "confidence": "medium"
+  },
+  {
+    "name": "Container Cafe Pukenui",
+    "slug": "container-cafe-pukenui",
+    "lat": -34.806942,
+    "lng": 173.115421,
+    "category": [
+      "Food"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small roadside café beside State Highway 1 at Pukenui, and a popular stop on the way to or from Cape Reinga. It's known for its pies, including pāua, with coffee and ice cream too.\n\nFood stops get scarce further north, so it's a sensible place to stock up before the drive to the Cape.\nLocal tip: Grab pies to go and eat them on the beach at nearby Henderson Bay.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Daily 6am to 4pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJC2NEJUK7CW0Rdtk3u60GAtM",
+    "confidence": "medium"
+  },
+  {
+    "name": "Mullarkey Tours Cape Reinga and Ninety Mile Beach",
+    "slug": "mullarkey-tours-cape-reinga-ninety-mile-beach",
+    "lat": -35.04595,
+    "lng": 173.257423,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Expensive",
+    "description": "A small group day tour for up to 11 people that does the drive most rental cars can't: about 15km along Ninety Mile Beach between Waipapakauri and Hukatere, tides and weather permitting. It then visits the Cape Reinga lighthouse, stops at the Te Paki dunes for a climb or a sandboard, and comes back down the east side with stops at Houhora and Mangōnui.\n\nIt's $259 per person, lunch included (with vegetarian, vegan and gluten free options), and you can book online or by phone on 0800 121 652. Pickups are at the Paihia i-SITE at 7.30am, Kerikeri BP at 8am, Taipa Z in Doubtless Bay at 9.15am, and the car park opposite Big River Café in Awanui at 9.45am.\nLocal tip: Sandboard hire costs extra, and the day is about 10 hours long, so pack water, a snack and a towel for the sand.",
+    "recommendedDurationSlots": 20,
+    "hoursNote": "Day tour, about 10 hours; from $229; pickups Taipa 9.15am, Awanui 9.45am; sandboard hire extra, cash",
+    "sourceUrl": "https://mullarkeytours.rezdy.com/396675/cape-reinga-and-ninety-mile-beach-tour-with-lunch",
+    "confidence": "medium"
+  },
+  {
+    "name": "Tapotupotu Campsite",
+    "slug": "tapotupotu-campsite",
+    "lat": -34.437327,
+    "lng": 172.716141,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Cheap",
+    "description": "A DOC campsite beside the beach at Tapotupotu Bay (now spelt Taputaputa by DOC), just five minutes' drive from Cape Reinga at the end of a gravel road. It's the closest place to stay to the Cape, so it's ideal for sunrise or sunset at the lighthouse. It's run with Ngāti Kuri, and there are 45 unpowered sites, non flush toilets, cold showers and untreated water that you need to boil.\n\nIt costs $18 per adult and $9 per child (5 to 17) a night, under 5s are free, and the DOC Campsite Pass isn't accepted. Payment is cashless. At last check, DOC's page said it isn't currently taking bookings for this campsite, so check the latest before you go. There are no bins, dogs or open fires, and phone reception is limited. Camp managers are on site from December to February and at Easter.\nLocal tip: The beach has strong currents, so swim with care, bring wasp protection from January to April, and don't leave valuables in your car, as vehicle thefts have been reported.",
+    "hoursNote": "$18 adult, $9 child; book via Ngāti Kuri helpdesk 0800 837 254; cashless; no dogs; managers Dec to Feb and Easter",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/te-paki-recreation-reserve/things-to-do/campsites/tapotupotu-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kapowairua (Spirits Bay) Campsite",
+    "slug": "kapowairua-spirits-bay-campsite",
+    "lat": -34.425672,
+    "lng": 172.861548,
+    "category": [
+      "Stay",
+      "Nature"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Cheap",
+    "description": "A remote, grassy DOC campsite at Kapowairua, Spirits Bay, with a long, wild beach about five minutes' walk away. It's reached by 16km of gravel road from Waitiki Landing and sits on the Te Paki Coastal Track. It's run with Ngāti Kuri, and there are 45 unpowered sites, flush toilets, cold showers and untreated water that you need to boil.\n\nIt costs $18 per adult and $9 per child (5 to 17) a night, under 5s are free, and the DOC Campsite Pass isn't accepted. Payment is cashless. At last check, DOC's page said it isn't currently taking bookings for this campsite, so check the latest before you go. There are no bins, so take your rubbish out (the nearest transfer station is at Houhora), and no dogs or open fires. Streams on the coastal track can be impossible to cross after rain or near high tide.\nLocal tip: Pack a mosquito proof tent and plenty of repellent, and don't swim off the beach, which has rough seas, strong currents and sudden drop offs.",
+    "hoursNote": "$18 adult, $9 child; book via Ngāti Kuri helpdesk 0800 837 254; cashless; 16 km gravel road; no dogs",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/te-paki-recreation-reserve/things-to-do/campsites/kapowairua-spirits-bay-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Rarawa Beach Campsite",
+    "slug": "rarawa-beach-campsite",
+    "lat": -34.726057,
+    "lng": 173.082768,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Cheap",
+    "description": "A DOC campsite among trees on a riverbank, a short walk from Rarawa Beach, whose pure white silica sand squeaks underfoot. It's off State Highway 1 about 54km north of Kaitāia, down Rarawa Beach Road, and the last 4km is gravel. It's run with Ngāti Kuri, and there are 45 unpowered sites, flush and non flush toilets, cold showers and untreated water that you need to boil.\n\nIt costs $18 per adult and $9 per child (5 to 17) a night, under 5s are free, and the DOC Campsite Pass isn't accepted. Payment is cashless. At last check, DOC's page said it isn't currently taking bookings for this campsite, so check the latest before you go. Camp managers are on site from December to February and at Easter, and dogs and open fires aren't allowed.\nLocal tip: The grass goes soft after heavy rain, so test it before you park. Shorebirds nest on the beach from August to March, so give any nests a wide berth, and the surf can be dangerous.",
+    "hoursNote": "$18 adult, $9 child; book via Ngāti Kuri helpdesk 0800 837 254; cashless; last 4 km gravel; no fires",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/northland/places/wharekapu-paxton-point-conservation-area/things-to-do/rarawa-beach-campsite",
+    "confidence": "high"
+  },
+  {
+    "name": "Maitai Bay Campsite",
+    "slug": "maitai-bay-campsite",
+    "lat": -34.829463,
+    "lng": 173.407562,
+    "category": [
+      "Stay",
+      "Water"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Cheap",
+    "description": "A large, grassy DOC campsite with about 100 unpowered sites among the pōhutukawa at Maitai Bay on the Karikari Peninsula, with a great swimming and snorkelling beach a short walk away. There are flush toilets and cold showers, and the tap water is untreated, so boil it first.\n\nIt costs $18 per adult and $9 per child (5 to 17) a night, under 5s are free, and the DOC Campsite Pass is accepted. It can't be booked, so it's first come, first served, and it's usually full over Christmas, New Year, January, school holidays and long weekends. From Christmas to Waitangi weekend you pay the camp managers by cash or EFTPOS, and the rest of the year it's cash only at the honesty box. Dogs, open fires and fireworks aren't allowed.\nLocal tip: Arrive early in peak season and have a backup option. A rāhui means no fishing or taking seafood in the bay, but snorkelling is welcome.",
+    "hoursNote": "$18 adult, $9 child; Campsite Pass accepted; not bookable; cash only outside peak season",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/northland/places/karikari-peninsula/things-to-do/maitai-bay-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Mangōnui Lions Park Freedom Camping",
+    "slug": "mangonui-lions-park-freedom-camping",
+    "lat": -34.995093,
+    "lng": 173.534673,
+    "category": [
+      "Stay"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Free",
+    "description": "One of the few council approved freedom camping spots in the Far North, at Lions Park on Waterfront Drive in Mangōnui village, beside the harbour. Under the council's camping policy you can stay up to 24 hours, with a maximum of four vehicles at a time, and no fires are allowed.\n\nThere are public toilets on site, and it's a short walk along the waterfront to the cafés and the fish shop. Overnight camping isn't allowed at the council's other parks, reserves and beaches. To be safe, treat it as certified self-contained only, as green warrants have been required nationally since 7 June 2026.\nLocal tip: There's no dump station on site, so empty your tanks at the one on Beach Road, 400m off State Highway 10.",
+    "hoursNote": "Free; certified self-contained vehicles; max 1 night (24 hours); max 4 vehicles; toilets, water and dump station",
+    "sourceUrl": "https://fndc-web.matrix.squiz.cloud/__data/assets/pdf_file/0023/18095/camping-in-public-places-2016.pdf",
+    "confidence": "medium"
+  },
+  {
+    "name": "Endless Summer Lodge",
+    "slug": "endless-summer-lodge-ahipara",
+    "lat": -35.17809,
+    "lng": 173.134497,
+    "category": [
+      "Stay"
+    ],
+    "region": "northland",
+    "area": "far-north",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small backpackers and guest house in a restored 1870s kauri villa at 245 Foreshore Road, Ahipara, on the beachfront with sea views. It has shared dorms, twin rooms and private sea view rooms, and is rated 9.7 on Hostelworld.\n\nThere's a well equipped kitchen, a herb garden, a barbecue and a table under the grapevine out back. Guests can borrow sandboards and bodyboards for free, and surfboards are for hire. Children under 7 aren't accepted, and the maximum stay is seven nights. Ahipara is a quiet base for Ninety Mile Beach and day trips up to Cape Reinga.\nLocal tip: Check in is from 2pm to 7pm and check out by 10am. Over New Year there's a three night minimum and no check in or check out on 31 December or 1 January.",
+    "hoursNote": "Check in 2pm to 7pm, check out 10am; 3 night minimum over New Year",
+    "sourceUrl": "https://www.hostelworld.com/hostels/p/295093/endless-summer-lodge/",
+    "confidence": "medium"
+  }
+]

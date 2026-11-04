@@ -1,0 +1,761 @@
+[
+  {
+    "name": "Maungawhau / Mount Eden",
+    "slug": "maungawhau-mount-eden",
+    "lat": -36.877579,
+    "lng": 174.764052,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.maunga.nz/maunga/maungawhau/",
+    "description": "At 196m, Maungawhau is the highest volcanic cone on the Auckland isthmus, and the summit gives a 360 degree view over the city, both harbours and Rangitoto. The crater is about 180m wide and 50m deep, and the slopes are covered in the terraces and storage pits of an old pā.\n\nThe summit road is closed to private vehicles, so you walk up from the visitor car parks on Puhi Huia Road, in Tahaki Reserve or at the Normanby Road playground, where time limits are enforced. A boardwalk runs from the car park through the pā terraces to the summit, and another circles the crater rim. At the base, the kiosk holds Te Ipu Kōrero o Maungawhau, a small visitor centre with a short video and an augmented reality model, and the Friend & Whau café. The maunga is open from 7am to 8.30pm in summer and 7am to 7pm in winter.\nLocal tip: Go at sunrise or sunset for the best light, and stay on the boardwalks, as the terraces and crater are sacred and erode easily.",
+    "recommendedDurationSlots": 3,
+    "featured": 1,
+    "hoursNote": "Open 7am to 8.30pm in summer, 7am to 7pm in winter; free; no private vehicles on the summit road; car park time limits enforced",
+    "sourceUrl": "https://www.maunga.nz/maunga/maungawhau/",
+    "confidence": "high"
+  },
+  {
+    "name": "Auckland War Memorial Museum",
+    "slug": "auckland-war-memorial-museum",
+    "lat": -36.860718,
+    "lng": 174.777754,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.aucklandmuseum.com/",
+    "description": "Auckland's grand museum, Tāmaki Paenga Hira, stands on the hill in the Auckland Domain and covers Māori and Pacific culture, natural history, Auckland's volcanoes and New Zealand's part in the world wars. Visitors rate the volcano gallery, the aircraft and the war galleries, including a strong section on the New Zealand Wars, and you can easily spend half a day here.\n\nEntry is free for Auckland residents and by donation for New Zealanders from outside Auckland. International visitors pay $32 for adults and $16 for children 5 to 15, under 5s are free, and a family of two adults and two children pays $86. Special exhibitions and tours can cost extra. It's open from 10am to 5pm on weekdays and 9am to 5pm at weekends, every day from 9am in the school holidays, and until 8.30pm on Tuesdays.\nLocal tip: The paid car park under the museum fills fast at weekends and in the school holidays, so catch bus 781 to the door or walk up through the Domain, about 10 minutes from Parnell or 15 from Grafton Station.",
+    "recommendedDurationSlots": 6,
+    "featured": 2,
+    "hoursNote": "Weekdays 10am to 5pm, weekends 9am to 5pm, Tuesdays until 8.30pm; 9am daily in school holidays; free for NZ residents; international adults $32",
+    "sourceUrl": "https://www.aucklandmuseum.com/visit/plan-your-visit/hours-and-admission",
+    "confidence": "high"
+  },
+  {
+    "name": "Piha Beach",
+    "slug": "piha-beach",
+    "lat": -36.955826,
+    "lng": 174.467162,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "Auckland's best-known surf beach is a long sweep of black sand on the wild west coast, about 45 minutes' drive from the city over the Waitākere Ranges. Lion Rock stands in the middle of the beach, and the lookout on Piha Road on the way down gives the classic view over it.\n\nThe surf is powerful and the rips are strong, so only swim between the red and yellow flags. Volunteer surf lifeguards patrol from Labour Weekend through the summer. The track up Lion Rock has been closed since the 2023 storms because it's unstable, as have the Laird Thomson and Tasman Lookout tracks, so enjoy the rock from the sand. There's a café, and the surf club has a bar and restaurant, but bring your own lunch on busy days.\nLocal tip: Stay for sunset, and pair it with the walk to Kitekite Falls. Freedom camping is banned in the main beach car parks and along the North Piha and Marine Parade South roadsides.",
+    "recommendedDurationSlots": 6,
+    "featured": 3,
+    "hoursNote": "Open all the time; free; patrolled in summer, swim between the flags; Lion Rock track closed; no freedom camping in Piha beach car parks",
+    "sourceUrl": "https://ourauckland.aucklandcouncil.govt.nz/news/2026/05/auckland-regional-parks-track-repairs-and-updates-may-2026/",
+    "confidence": "high"
+  },
+  {
+    "name": "Muriwai Gannet Colony",
+    "slug": "muriwai-gannet-colony",
+    "lat": -36.833146,
+    "lng": 174.424969,
+    "category": [
+      "Nature",
+      "Scenic"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "About 1,200 pairs of gannets, or tākapu, nest on the cliffs and rock stacks of Ōtakamiro Point at the south end of Muriwai Beach, one of the few mainland gannet colonies in New Zealand. The viewing platforms put you only metres from the nests, and the birds are there from about August to March, with fluffy chicks in early summer.\n\nThe lookouts are a short walk from the car park at 1 Waitea Road, which has toilets and a playground. The coastal track carries on to Maukatia (Māori Bay), past pillow lava, sea caves and a blowhole. The council is replacing the northern viewing platform, and the northern entrance off Motutara Road has been closed, so expect some temporary closures. Muriwai Beach below is a long black sand surf beach with strong rips.\nLocal tip: It's cold and windy on the cliffs even in summer, so bring a jacket, and don't feed or disturb the birds.",
+    "recommendedDurationSlots": 4,
+    "featured": 4,
+    "hoursNote": "Free; lookouts a short walk from the Waitea Road car park; best roughly August to March; parts of the coastal track may close for upgrades",
+    "sourceUrl": "https://aucklandcouncil.govt.nz/en/parks-recreation/get-outdoors/aklpaths/path-detail/4.html",
+    "confidence": "high"
+  },
+  {
+    "name": "Auckland Art Gallery Toi o Tāmaki",
+    "slug": "auckland-art-gallery",
+    "lat": -36.851195,
+    "lng": 174.766173,
+    "category": [
+      "Culture"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.aucklandartgallery.com/",
+    "description": "The city's main public art gallery sits beside Albert Park at the top of the CBD, in a building that mixes heritage architecture with bright, modern galleries. The collection covers New Zealand and Māori art alongside European works, with changing exhibitions throughout the year.\n\nEntry to the collection galleries is free for everyone, though special exhibitions can charge. It's open every day from 10am to 5pm except Christmas Day. There's a café on level 1 next to Albert Park, and Te Aka Matua, the free Creative Learning Centre for kids, is on the mezzanine floor.\nLocal tip: Join a free collection tour, which leaves from the red couches in the foyer at 1.30pm on weekdays (no booking needed), then have a picnic in Albert Park next door.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Daily 10am to 5pm, closed Christmas Day; collection free; some special exhibitions charge",
+    "sourceUrl": "https://www.aucklandartgallery.com/visit",
+    "confidence": "high"
+  },
+  {
+    "name": "New Zealand Maritime Museum",
+    "slug": "new-zealand-maritime-museum",
+    "lat": -36.841462,
+    "lng": 174.76333,
+    "category": [
+      "Culture",
+      "Water"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.maritimemuseum.co.nz/",
+    "description": "On the Viaduct waterfront, this museum tells the story of New Zealand's seafaring, from waka and early sailing ships to the America's Cup, with the yacht NZL32 Black Magic on show. It's bigger than it looks, and there are hands-on puzzles for kids.\n\nEntry is free for Auckland region residents with proof of address. Everyone else pays $24 for adults, $19 for seniors and students and $12 for children 5 to 14, and a family pass is $58. It's open daily from 10am to 5pm, with last entry at 4pm. The heritage scow Ted Ashby sails from the museum Tuesday to Sunday at 11.30am and 1.30pm for about an hour, and passes, which include museum entry, cost $63 for visiting adults and $31 for Auckland residents.\nLocal tip: Book the Ted Ashby sailing early, as it fills up on fine days. Rain rarely stops it, but strong wind can.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Daily 10am to 5pm, last entry 4pm, closed Christmas Day; free for Auckland residents; visitors $24 adults; Ted Ashby sails Tue to Sun 11.30am and 1.30pm",
+    "sourceUrl": "https://www.maritimemuseum.co.nz/visit",
+    "confidence": "high"
+  },
+  {
+    "name": "MOTAT Museum of Transport and Technology",
+    "slug": "motat",
+    "lat": -36.867818,
+    "lng": 174.726935,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.motat.nz/",
+    "description": "MOTAT at Western Springs is a hands-on museum spread over two sites. The main site on Great North Road has trams, trains and technology galleries, including the hands-on Te Puawānanga Science and Technology Centre, and the Aviation Hall on Motions Road holds a large collection of aircraft. A free heritage tram links the two sites, with a stop at Auckland Zoo.\n\nAdults pay $19, students $10 and children 5 to 15 $10, under 5s are free, and SuperGold cardholders get in free. A family of two adults and up to four children pays $45. It's open daily from 10am to 4pm, with last entry at 3.30pm, and closed on Christmas Day.\nLocal tip: Arrive early so you have time for both sites, and ride the tram between them. Auckland Zoo is right next door.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Daily 10am to 4pm; adults $19, children $10, family $45; free heritage tram between sites",
+    "sourceUrl": "https://www.motat.nz/visit/prices/",
+    "confidence": "high"
+  },
+  {
+    "name": "Sky Tower",
+    "slug": "sky-tower",
+    "lat": -36.848448,
+    "lng": 174.762191,
+    "category": [
+      "Attractions",
+      "Scenic"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.skycityauckland.co.nz/sky-tower/",
+    "description": "At 328m, the Sky Tower dominates Auckland's skyline, and the main viewing level, 186m up on Level 51, is the quickest way to see how the city wraps around its harbours and volcanic cones. On a clear day you can see for kilometres, and you might catch people leaping off on the SkyJump.\n\nAdults (15 and over) pay $47, children 10 to 14 $32 and children 3 to 9 $25, and a family pack for two adults and up to two children is $140. The higher Sky Deck on Level 60 is a $2 add-on. In October and November it's open from 9.30am to 8pm Monday to Thursday and 9.30am to 9.30pm Friday to Sunday, and in December and January until 9.30pm every day, with last entry 45 minutes before closing.\nLocal tip: Go about an hour before sunset to see the city by day and then lit up at night, and skip it if the tower is in cloud.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Oct to Nov: Mon to Thu 9.30am to 8pm, Fri to Sun 9.30am to 9.30pm; Dec to Jan daily 9.30am to 9.30pm; last entry 45 minutes before close; may close in bad weather",
+    "sourceUrl": "https://www.skycityauckland.co.nz/sky-tower/",
+    "confidence": "high"
+  },
+  {
+    "name": "Auckland Zoo",
+    "slug": "auckland-zoo",
+    "lat": -36.863063,
+    "lng": 174.718921,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.aucklandzoo.co.nz/",
+    "description": "Auckland Zoo at Western Springs is a well-kept, leafy zoo with plenty of shade and a strong focus on conservation. Visitors rave about the orangutan habitat and the Sumatran tigers on the South East Asia track, and the animal talks and feeds through the day. Until 7 February 2027 the temporary Dinosaur Discovery Track is included with entry.\n\nVisitors from outside Auckland pay $39 for adults and $22 for children 4 to 14, and under 4s are free. Aucklanders pay less, especially if they book by midnight the day before. There are no family tickets, but discounts of 10 to 20 percent apply automatically for three or more tickets. It's open daily from 9.30am to 5.30pm, with last entry at 4.30pm, and closed on Christmas Day.\nLocal tip: Parking costs $3 an hour (up to $9) and fills fast, so arrive at opening or catch bus 18, then walk next door to MOTAT.",
+    "recommendedDurationSlots": 7,
+    "hoursNote": "Daily 9.30am to 5.30pm, last entry 4.30pm, closed Christmas Day; non Aucklanders $39 adults, $22 children",
+    "sourceUrl": "https://www.aucklandzoo.co.nz/tickets",
+    "confidence": "high"
+  },
+  {
+    "name": "Auckland Domain and Wintergardens",
+    "slug": "auckland-domain-wintergardens",
+    "lat": -36.858931,
+    "lng": 174.775486,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "Auckland's oldest park, set aside in 1843, spreads over 75 hectares on the hill just east of the CBD, with big lawns, sports fields, bush tracks and the Auckland Museum on top. Lovers' Walk is a pretty bush path, restored with new boardwalks after storm damage.\n\nNear the museum, the Wintergardens are two glasshouses facing each other across a courtyard, pond and fountains, an unheated temperate house and a tropical house kept at about 28°C, full of orchids and flowering plants, with a fernery in an old scoria quarry beside them. The 100-year-old glasshouses reopened in 2023 after restoration. They're open daily from 9am to 5pm from November to March, and until 4.30pm the rest of the year.\nLocal tip: Combine it with the museum and walk in from Parnell or Grafton. The glasshouses are warm and dry on a wet Auckland day.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Domain open 24 hours; Wintergardens daily 9am to 4.30pm; free",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJCQ6TugpIDW0RU_XfsaBVC0E",
+    "confidence": "medium"
+  },
+  {
+    "name": "Maungakiekie / One Tree Hill and Cornwall Park",
+    "slug": "maungakiekie-one-tree-hill-cornwall-park",
+    "lat": -36.897447,
+    "lng": 174.784308,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "Maungakiekie is one of Auckland's most important volcanic cones. Its summit is crowned by a 21m obelisk that Sir John Logan Campbell left as a memorial to Māori, and he is buried there. The famous lone pine is long gone, and in 2016 three tōtara and six pōhutukawa were planted on the summit, with the aim that one tree will eventually stand alone.\n\nThe hill rises out of Cornwall Park, a huge free park where about 600 sheep and 60 cattle graze among old trees. There are free barbecues (two gas and one wood-fired), picnic spots, toilets and three places to eat, and the road loop around the maunga is 2.9km, about 40 minutes. The summit road is closed to private cars, and the summit gate is open from 7am to 8.30pm in summer and 7am to 7pm in winter.\nLocal tip: From 1 December 2026 some park car parks charge after the first two free hours, but over 300 free all-day spaces remain on Grand Drive and Bollard Avenue. Bring matches and kindling if you want to use the barbecues.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Summit gate 7am to 8.30pm in summer, 7am to 7pm in winter; free; no private cars on the summit road",
+    "sourceUrl": "https://www.maunga.nz/maunga/maungakiekie/",
+    "confidence": "high"
+  },
+  {
+    "name": "Maungauika / North Head",
+    "slug": "maungauika-north-head",
+    "lat": -36.827201,
+    "lng": 174.810385,
+    "category": [
+      "Scenic",
+      "Culture"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.maunga.nz/maunga/maungauika/",
+    "description": "This volcanic headland guards the entrance to the Waitematā Harbour at Devonport. A fort was built here from 1885, prisoners dug many of its tunnels between 1888 and 1914, and the military finally left in the 1990s. You can explore gun emplacements and fortifications, with views to Rangitoto and the city.\n\nPaths climb to the summit and wind around the slopes, with rocky shore platforms below, and Cheltenham Beach is right next door. Pedestrian gates are open from 6am to 10pm, and vehicles can enter from 6am to 8pm. Dogs must be on a lead.\nLocal tip: Some of the heritage tunnels closed in October 2026 after a condition check, so don't count on getting underground. Pair it with Mount Victoria and the Devonport ferry for an easy half day.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Pedestrians 6am to 10pm, vehicles 6am to 8pm; free; dogs on leash",
+    "sourceUrl": "https://www.maunga.nz/maunga/maungauika/",
+    "confidence": "high"
+  },
+  {
+    "name": "Takarunga / Mount Victoria, Devonport",
+    "slug": "takarunga-mount-victoria-devonport",
+    "lat": -36.826789,
+    "lng": 174.799019,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.maunga.nz/maunga/takarunga/",
+    "description": "Devonport's own volcano rises behind the village and gives a 360 degree view of the harbour, the city skyline, the Harbour Bridge and Rangitoto. There are remains of an 1885 gun fort near the top, and it's a favourite spot for sunset and city lights after dark.\n\nThe summit road is closed to private vehicles, so it's a short, steep walk up from the car park inside the Kerr Street entrance, a short walk from the ferry terminal. People with limited mobility can get a same-day access code for the barrier by calling 09 379 1340. It's open from 7am to 8.30pm in summer and 7am to 7pm in winter, and dogs can be off the lead if they're under control.\nLocal tip: Bring a jacket, as the summit is exposed and much windier than the village below.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Summer 7am to 8.30pm, winter 7am to 7pm; free; no private cars; mobility access code via 09 379 1340",
+    "sourceUrl": "https://www.maunga.nz/maunga/takarunga/",
+    "confidence": "high"
+  },
+  {
+    "name": "Devonport Ferry",
+    "slug": "devonport-ferry",
+    "lat": -36.833369,
+    "lng": 174.795631,
+    "category": [
+      "Water",
+      "Attractions"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Cheap",
+    "description": "The 12 minute ferry from the downtown Ferry Building on Quay Street across the harbour to Devonport is the cheapest way to get out on the Waitematā, with views back to the city and the Harbour Bridge. Boats run about every 30 minutes, and from the Devonport terminal, Mount Victoria, North Head and Cheltenham Beach are all within walking distance.\n\nTag on and off with an AT HOP card or a contactless bank card or phone, and contactless fares cap at $20 a day. Otherwise buy a paper day trip ticket before boarding, $23 for adults and $13 for children, for a same-day return. Under 5s ride free, and children 5 to 15 with a registered AT HOP card ride free at weekends and on public holidays.\nLocal tip: Sit outside on the way over for the best views, then walk Mount Victoria, North Head and Cheltenham Beach in a loop before catching the ferry home.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Sailings daily from the downtown Ferry Building; AT HOP and contactless accepted; paper day trip ticket $23 adults, $13 children",
+    "sourceUrl": "https://at.govt.nz/bus-train-ferry/fares-discounts/ferry-fares",
+    "confidence": "high"
+  },
+  {
+    "name": "Wynyard Quarter and Silo Park",
+    "slug": "wynyard-quarter-silo-park",
+    "lat": -36.840339,
+    "lng": 174.755495,
+    "category": [
+      "Attractions",
+      "Food"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.wynyard-quarter.co.nz/",
+    "description": "The old industrial wharves west of the Viaduct are now a waterfront neighbourhood, and Silo Park is its heart: old silos, railway tracks and walkways turned into a free playground, climbing frames, a basketball court and a gantry lookout beside the water. Restaurants and bars line the waterfront walk, and it's an easy stroll from the Viaduct and the Maritime Museum. In summer, Silo 7 becomes an outdoor cinema at night.\n\nAuckland Fish Market at 22 Jellicoe Street is a casual seafood hall with freshly shucked oysters, sashimi and fish and chips. The eateries open from 11am to 5pm, until 7pm Thursday to Saturday, and the fishmonger from 8am. It's closed on Christmas Day.\nLocal tip: The Jellicoe Street car park is free for the first hour, and the Karanga Plaza Christmas Markets are on 5 December 2026.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Silo Park open 24 hours; free; Auckland Fish Market daily 7am to 5pm, to 7pm Thu to Sat",
+    "sourceUrl": "https://www.wynyard-quarter.co.nz/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Cheltenham Beach",
+    "slug": "cheltenham-beach",
+    "lat": -36.822018,
+    "lng": 174.80806,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "A calm, sandy harbour beach tucked beside North Head in Devonport, looking out over the Hauraki Gulf to Rangitoto and the ships coming and going from the port. It's lined with houses rather than shops, so it feels relaxed and uncrowded even on fine days.\n\nThere are public toilets part way along the beach at Balmain Reserve, and you get to the sand from the ends of Cheltenham and Matai roads and Arawa and Macky avenues. Parking is on the street only. Visitors report the water goes out a long way at low tide, with starfish in the shallows, and that it's best for swimming around high tide. It's an easy walk from the Devonport ferry terminal.\nLocal tip: Check Safeswim for water quality before you swim, especially after rain, then walk around North Head.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open 24 hours; free; toilets and changing rooms; best swimming around high tide",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJc13I_sk3DW0R-74PA6dGJMM",
+    "confidence": "medium"
+  },
+  {
+    "name": "Takapuna Beach and Milford Walk",
+    "slug": "takapuna-beach-milford-walk",
+    "lat": -36.787909,
+    "lng": 174.77561,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "The North Shore's main beach is a long stretch of sand right beside Takapuna's shops and restaurants, with views across to Rangitoto. The beachfront reserve has big shady trees, two playgrounds (one accessible), toilets and changing rooms, a Changing Places bathroom, an outdoor shower, a barbecue and a drinking fountain.\n\nThe coastal walk between Milford Reserve and the southern end of Takapuna Beach takes about 1.5 hours and passes fossils of ancient forest preserved by lava flows and the secluded swimming beach at Thorne Bay. It's rocky and slippery in places, crosses private land, and isn't suitable for wheelchairs or pushchairs.\nLocal tip: Do the Milford walk at low tide, when the rocks are exposed and the path is dry, and finish with a swim at Takapuna.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open 24 hours; free; Milford to Takapuna walk about 1.5 hours, best at low tide",
+    "sourceUrl": "https://aucklandcouncil.govt.nz/en/parks-recreation/get-outdoors/find-a-walk/milford-to-takapuna-walk.html",
+    "confidence": "high"
+  },
+  {
+    "name": "Mission Bay",
+    "slug": "mission-bay",
+    "lat": -36.847322,
+    "lng": 174.831754,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "One of Auckland's most popular city beaches sits on Tāmaki Drive east of the CBD, with a sandy beach, a big fountain that lights up at night, a seawall and benches looking out to Rangitoto. The park has a playground, toilets, changing rooms, picnic tables and barbecues, and a beach wheelchair accessway onto the sand. Across the road is a strip of cafés, bars, ice cream shops and a cinema.\n\nIt's a sheltered harbour beach that suits families, and the waterfront is a pleasant place for a walk and an ice cream. Reviewers find the food across the road fairly touristy and on the pricey side for what you get.\nLocal tip: Bring a picnic instead of buying lunch, and check the Safeswim website before swimming after heavy rain.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open 24 hours; free; check Safeswim water quality after rain",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ8SECod5JDW0RXWKwMbxxgdg",
+    "confidence": "medium"
+  },
+  {
+    "name": "Long Bay Regional Park",
+    "slug": "long-bay-regional-park",
+    "lat": -36.689543,
+    "lng": 174.750982,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "At the northern edge of the North Shore suburbs, Long Bay is a big regional park with a 1km sandy beach that's good for swimming and walking, backed by wide lawns and picnic spots. Lifeguards patrol the main beach in peak summer, and the park borders the Long Bay-Okura Marine Reserve, so fishing is banned.\n\nThe Coastal Track heads north over the headland past quieter Granny's Bay to the Okura River, about 3 hours return. There are toilets, changing rooms and beach showers near the beach. The gates are open from 6am to 9pm in daylight saving and 6am to 7pm the rest of the year.\nLocal tip: It gets very busy on summer weekends, so arrive early, or walk over the headland to Granny's Bay for a swim away from the crowds.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Gates 6am to 9pm; free; toilets and changing rooms",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJl4GTOM86DW0RoJ-cJGLvAA8",
+    "confidence": "medium"
+  },
+  {
+    "name": "Karekare Beach and Falls",
+    "slug": "karekare-beach-and-falls",
+    "lat": -36.987911,
+    "lng": 174.473059,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "A wild black sand beach just south of Piha, reached by a narrow, winding road through the bush. It's a short walk from the car park to the surf, and it feels remote and empty even on a Saturday.\n\nKarekare Falls, about 30m high, are only about five minutes from the car park: walk along Lone Kauri Road past the bridge and the track is on your left, leading to a pool at the base of the falls. The track to the top of the falls is closed to protect kauri. Lifeguards patrol the beach in summer, but the surf is strong, so swim only between the flags.\nLocal tip: Parking is tight on summer weekends, so arrive early. Freedom camping isn't allowed in the Karekare Reserve car park.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; swim between the flags; no freedom camping at Karekare Reserve car park",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJEQCnc2tvDW0RwKmXGlVegg8",
+    "confidence": "medium"
+  },
+  {
+    "name": "Kitekite Falls",
+    "slug": "kitekite-falls",
+    "lat": -36.952261,
+    "lng": 174.484194,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "A 40m, three-tiered waterfall in the bush behind Piha, reached by an easy, gradual track from the car park at the end of Glen Esk Road. The walk takes about 30 to 40 minutes each way through native forest, and there are two stream crossings near the falls that need some balance, so a walking stick helps.\n\nSteps lead up to pools at the top of the falls as well as down to the base. The track was upgraded to protect kauri from kauri dieback, so stay on the gravel paths and boardwalks and follow the instructions at the start. The Knutzen Track loop is closed while a new bridge is built.\nLocal tip: Don't cross the stream after heavy rain, as the valley floods, and photograph the map at the start, as mobile reception is unreliable.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open daily; free; about 45 minutes each way from Glen Esk Road; may close temporarily after heavy rain; stay on track (kauri dieback)",
+    "sourceUrl": "https://aucklandcouncil.govt.nz/parks-recreation/get-outdoors/aklpaths/Pages/path-detail.aspx?ItemId=379",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Wainamu and Te Henga Dunes",
+    "slug": "lake-wainamu-te-henga-dunes",
+    "lat": -36.889764,
+    "lng": 174.468782,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "A freshwater lake hidden behind huge black sand dunes near Te Henga (Bethells Beach). From the car park on Bethells Road by the Waitī Stream bridge, you can wade up the shallow stream, about 30 minutes on the flat, or climb over the dunes as a short cut, then swim in the lake.\n\nThe track from the car park to the lake was restored in 2025 and is open, but the 6.9km loop around the lake has been closed since slips in 2023 and is being repaired in sections. Kids love running down the dunes, and Te Henga's rugged surf beach is just down the road.\nLocal tip: The car park fills quickly in summer, so come early, wear shoes for the hot sand, and bring a body board or float for the lake.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open daily; free; lake access track open, loop track closed for repairs (2026); no freedom camping at Te Henga Park",
+    "sourceUrl": "https://ourauckland.aucklandcouncil.govt.nz/news/2026/05/auckland-regional-parks-track-repairs-and-updates-may-2026/",
+    "confidence": "high"
+  },
+  {
+    "name": "Arataki Visitor Centre",
+    "slug": "arataki-visitor-centre",
+    "lat": -36.946889,
+    "lng": 174.606587,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "The gateway to the Waitākere Ranges sits high at 300 Scenic Drive, with big windows and a viewing platform looking out over the forested ranges to the Manukau Harbour. Staff give free advice on which tracks are open, which matters here because several tracks in the ranges are closed for repairs or kauri protection.\n\nEntry and parking are free, and there's a shop with local souvenirs and shoe-cleaning stations for the tracks. The Arataki Nature Trail, an easy 40 minute loop through native forest, starts right outside. It's open daily from 9am to 5pm, except Christmas Day and Boxing Day.\nLocal tip: Stop here on the way to Piha or Karekare to check which tracks are open and grab a map.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily 9am to 5pm; free; 300 Scenic Drive",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ_Wl-I5ZrDW0RckmjMIdFkAo",
+    "confidence": "medium"
+  },
+  {
+    "name": "Shakespear Regional Park",
+    "slug": "shakespear-regional-park",
+    "lat": -36.609401,
+    "lng": 174.824199,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "At the tip of the Whangaparāoa Peninsula, about 50 minutes' drive north of the Harbour Bridge, this farm park is protected by a pest-proof sanctuary fence, so the birdlife is rich. Look for tūī and bellbirds feeding on flowers from about August to November, kererū in the trees and pāteke (brown teal), and you may hear little spotted kiwi around dusk.\n\nThere are three beaches, including sheltered Te Haruhi Bay and Okoromai Bay, with free electric barbecues at both, and walks through bush and open farmland with coastal views. The Waterfall Gully track climbs about 1km, and a small waterfall with glow-worms is only 5 to 10 minutes from the car park.\nLocal tip: Dogs aren't allowed inside the sanctuary fence, and cars can't enter after 9pm in summer (7pm in winter), though you can always drive out. Come back on a warm December or January evening for the glow-worms, with your torch off.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Gates open 6am; no entry for vehicles after 7pm, 9pm in daylight saving; free; no dogs",
+    "sourceUrl": "https://www.sossi.org.nz/visit/",
+    "confidence": "high"
+  },
+  {
+    "name": "Hūnua Falls",
+    "slug": "hunua-falls",
+    "lat": -37.068772,
+    "lng": 175.089774,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "A 30m waterfall plunging into a wide pool on the Wairoa River, a short walk from the car park at 232 Falls Road in the Hūnua Ranges, south-east of the city. You can view it from either side of the river, and it's a lovely spot for a picnic.\n\nThe Hūnua Falls Track is a 15 minute, 800m loop that climbs through forest to a lookout platform and comes back down to the base of the falls. Large parts of the ranges are closed to protect kauri from kauri dieback, so clean your shoes before and after, and dogs aren't allowed on the falls track. The car park gate is open from 6am to 9pm in daylight saving and 6am to 7pm the rest of the year.\nLocal tip: Don't swim here, as the council advises against it because of the many safety risks at the pool.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Pedestrian access 24 hours; car park gate 6am to 9pm in summer, 6am to 7pm in winter; free; no dogs on the falls track; swimming not recommended",
+    "sourceUrl": "https://www.aucklandcouncil.govt.nz/hunuafalls",
+    "confidence": "high"
+  },
+  {
+    "name": "Auckland Botanic Gardens",
+    "slug": "auckland-botanic-gardens",
+    "lat": -37.012816,
+    "lng": 174.907714,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "Free, beautifully kept gardens on Hill Road, Manurewa, in south Auckland, with themed gardens, colourful flower beds, roses and the Potter Children's Garden, all linked by easy paths and dotted with benches. Entry and parking are free, and it's a peaceful place for a few hours' wandering at any time of year.\n\nThe gardens open daily from 6.30am and close at 8pm from October to March and 6pm from April to September. There's Café Miko, and the Huakaiwaka visitor centre (8am to 4.30pm) lends wheelchairs and mobility scooters free of charge, so it suits older visitors and families.\nLocal tip: Book a mobility scooter ahead on 09 267 1457, and head for the Potter Children's Garden if you have kids.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Daily from 7am, Google lists closing at 6pm; free; free wheelchair and mobility scooter loans",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJeay_zHtNDW0RsLWdJGLvAA8",
+    "confidence": "medium"
+  },
+  {
+    "name": "Eden Noodles Cafe",
+    "slug": "eden-noodles-cafe",
+    "lat": -36.871972,
+    "lng": 174.752126,
+    "category": [
+      "Food"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small, busy Sichuan noodle shop at 105 Dominion Road, at the city end of a long street lined with cheap Chinese eateries. Locals pack in for the dan dan noodles, spicy beef noodle soup and pork and chive dumplings in spicy sauce, all made fresh and served fast.\n\nPrices are low and portions generous, which makes it ideal for a quick lunch or dinner. It's open every day from 10.30am to 9.30pm, and you can get takeaway.\nLocal tip: Go before the lunch or dinner rush, or try one of the sister Eden Noodles Bar shops in Ponsonby, Mission Bay or Morningside.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 10.30am to 9.30pm; 105 Dominion Road",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJpREn3rdHDW0RkSvokcaClVo",
+    "confidence": "medium"
+  },
+  {
+    "name": "Chutneys South Indian Delights, Sandringham",
+    "slug": "chutneys-south-indian-sandringham",
+    "lat": -36.892037,
+    "lng": 174.736661,
+    "category": [
+      "Food"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Cheap",
+    "description": "Sandringham is lined with Indian and Sri Lankan eateries, and this food truck among the trucks on Calgary Street, just off Sandringham Road, is one of the favourites for South Indian food. Order a crisp masala dosa with sambar and chutneys, or the vada and punugulu.\n\nPrices are very affordable, and the Calgary Street trucks stay open late, well past midnight, which makes it a good stop after an evening out.\nLocal tip: It opens later in the day early in the week, so save it for dinner or a late snack on a Monday to Wednesday.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Mon to Wed 4pm to midnight; Thu from 12pm, Fri to Sun from 10am, open until midnight or later; 570 Sandringham Road",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJsdFaK6tHDW0RmGvzf5nbVbQ",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Bakers Cottage, Kingsland",
+    "slug": "the-bakers-cottage-kingsland",
+    "lat": -36.870129,
+    "lng": 174.748192,
+    "category": [
+      "Food"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Cheap",
+    "description": "A busy neighbourhood bakery café at 2 New Bond Street in Kingsland, with a big cabinet of pies, pastries, cronuts and cream donuts, and vegetarian and gluten-free options. The pies are the draw: a steak and cheese potato top costs about $8 and comes out piping hot with big chunks of steak and real gravy.\n\nIt opens early every day, from 6am until 4.30pm on weekdays and 4pm at weekends, and there's covered seating outside.\nLocal tip: If you have room after a pie, try a cronut or one of the strawberry cream donuts.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 6am to 4.30pm, Sat and Sun 6am to 4pm; 2 New Bond Street",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJf8fF5rlHDW0RNst1sZIWYPc",
+    "confidence": "medium"
+  },
+  {
+    "name": "The White Lady",
+    "slug": "the-white-lady",
+    "lat": -36.845943,
+    "lng": 174.7675,
+    "category": [
+      "Food"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.thewhitelady.co.nz/",
+    "description": "Auckland's famous late-night burger caravan has been feeding the city since 1948, starting on Shortland Street and now parked on the corner of Commerce and Fort Streets. Burgers are cooked to order, with the patty still made to the original 1948 recipe, and favourites include the steak burger with scotch fillet, the old-school egg burger and the Hawaiian.\n\nIt opens at 6.30pm on weeknights and runs into the early hours, and it stays open right through from Friday evening until the early hours of Monday. It's takeaway only, with no seating.\nLocal tip: It's a classic Kiwi late-night feed rather than gourmet food, so save it for after a night out.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "From 6.30pm nightly until about 3am to 4am; through the night on Fri and Sat; takeaway only",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJjQNN8_tHDW0RGmdsYbil7nI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Otara Flea Market",
+    "slug": "otara-flea-market",
+    "lat": -36.961067,
+    "lng": 174.872157,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Cheap",
+    "description": "Every Saturday morning the car park behind the Otara Town Centre, off Newbury Street, fills with stalls selling cheap fruit and vegetables, clothes and bargains, and it's one of the best places in Auckland to eat Pacific Island food. Look for island doughnuts, hāngī, poke, coconut bread, fried bread and steak rolls.\n\nIt runs from 6am until about midday or 1pm and is at its best early. It doesn't run on public holidays.\nLocal tip: Arrive by 8am for the freshest produce and hot doughnuts, bring cash and your own shopping bags, and park early, as it gets busy.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Saturdays 6am to about 12pm; free entry; cash handy",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJjVMpCTpMDW0RSzZJV0r77nk",
+    "confidence": "medium"
+  },
+  {
+    "name": "Pakuranga Night Market",
+    "slug": "pakuranga-night-market",
+    "lat": -36.913522,
+    "lng": 174.872015,
+    "category": [
+      "Food"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://aucklandnightmarkets.co.nz/",
+    "description": "Auckland Night Markets run in shopping centre car parks in different suburbs on different nights, and Pakuranga is one of the best known. On Saturday nights the car park under The Warehouse at Pakuranga Plaza fills with close to 100 stalls cooking food from across Asia and beyond, from dumplings and satay skewers to seafood, plus buskers and performers.\n\nIt's cheap, busy and fun, and runs on Saturdays from 5pm until late. The same organisers run markets at Kelston (Monday), Albany (Tuesday), Botany and Highbury (Wednesday), Henderson (Thursday), Papatoetoe (Friday) and Silverdale (Sunday).\nLocal tip: Go with friends and share plates so you can try more stalls, and expect to go home smelling of the grills.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Saturdays 5pm to 11pm; free entry; Reeves Road, Pakuranga",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJyU2ywe5LDW0Rktkw6jwa7p0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Uncle Man's K'Road",
+    "slug": "uncle-mans-k-road",
+    "lat": -36.857447,
+    "lng": 174.758181,
+    "category": [
+      "Food"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Cheap",
+    "description": "A popular Malaysian eatery at 277 Karangahape Road, the original Uncle Man's, known for big portions at fair prices. The roti canai is made fresh in front of you and served with beef rendang or chicken curry, and the menu runs to nasi goreng, kuey teow goreng, curry puffs and Malaysian teas. It's listed as halal.\n\nIt's open every day for lunch from 11am to 3.30pm and for dinner from 4.30pm to 8.30pm.\nLocal tip: Watch the roti being stretched and flipped at the counter, and order a curry puff on the side.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 11am to 3.30pm and 4.30pm to 8.30pm; 277 Karangahape Road",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ3xR_eOlHDW0Rv3s-OPn_VJA",
+    "confidence": "medium"
+  },
+  {
+    "name": "Te Haruhi Bay Campground, Shakespear",
+    "slug": "te-haruhi-bay-campground-shakespear",
+    "lat": -36.614652,
+    "lng": 174.829914,
+    "category": [
+      "Stay"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Cheap",
+    "description": "An Auckland Council campground on flat grass behind the dunes at Te Haruhi Bay, inside the fenced Shakespear Regional Park sanctuary. The beach and walking tracks are on your doorstep, and campers rave about the dawn chorus.\n\nIt costs $18 per adult and $7 per child a night, infants are free, and it takes tents, campervans and caravans. There are flush toilets, two cold outdoor showers and drinking water, but no power, and dogs and fires aren't allowed. The maximum stay is seven nights from 20 September to 1 June. Certified self-contained vehicles can also book the separate Shakespear parking area for $22.50 per vehicle, for up to three nights, but it has no water, toilets or bins.\nLocal tip: Book online well ahead for summer, as bookings open six months out, and the gate code comes with your confirmation.",
+    "hoursNote": "$18 adult, $7 child per night; book ahead; check in and out 11am; max 7 nights (20 Sep to 1 Jun); no dogs or fires; cold showers; no power",
+    "sourceUrl": "https://www.aucklandcouncil.govt.nz:443/parks-recreation/stay-at-park/Pages/accommodation-details.aspx?itemID=68",
+    "confidence": "high"
+  },
+  {
+    "name": "Western Springs Freedom Camping",
+    "slug": "western-springs-freedom-camping",
+    "lat": -36.868393,
+    "lng": 174.726847,
+    "category": [
+      "Stay"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Free",
+    "description": "One of the few free overnight spots near central Auckland: a roadside car park at 820 Great North Road, opposite Western Springs Reserve and near MOTAT. Up to five certified self-contained vehicles can stay, using the marked spaces where there are any.\n\nYou can stay one night only, must leave by 9am the next morning, and can only stay one night in any two week period. Elsewhere in Auckland, certified self-contained vehicles can camp on most roadsides for up to two nights, but not in council reserves, regional parks or paid car parks, and tents aren't allowed in public places.\nLocal tip: Only green self-containment warrants are valid now, which means a fixed toilet, and the fine for breaking the rules is $400. Arrive in the early evening to get one of the five spaces.",
+    "hoursNote": "Certified self-contained only; 5 vehicles; 1 night; leave by 9am; one night in any two weeks",
+    "sourceUrl": "https://www.aucklandcouncil.govt.nz/en/parks-recreation/freedom-camping-auckland/freedom-camping-waitemata.html",
+    "confidence": "high"
+  },
+  {
+    "name": "Muriwai Beach Campground",
+    "slug": "muriwai-beach-campground",
+    "lat": -36.827206,
+    "lng": 174.427978,
+    "category": [
+      "Stay"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.muriwaibeachcampground.co.nz/",
+    "description": "A tidy campground behind the dunes at Muriwai, a short walk from the black sand beach and the tracks up to the gannet colony. Unpowered sites are $26 per adult and $13 per child a night, powered sites start from $64 a night for two, and cabins for two cost $120 to $140.\n\nThere's a kitchen, toilets and hot showers, and dogs are welcome on the campground but not in the cabins. Book online or call 09 411 9262. The office is open from 9am to 7pm in summer and 9am to 5.30pm in winter.\nLocal tip: There's a minimum stay of two nights at peak-season weekends and three over Christmas and long weekends, so come midweek for a single night.",
+    "hoursNote": "Unpowered $26 adult, $13 child; powered from $64 for two; office 9am to 7pm in summer, 9am to 5.30pm in winter; dogs allowed (not in cabins)",
+    "sourceUrl": "https://www.muriwaibeachcampground.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Verandahs Parkside Lodge",
+    "slug": "verandahs-parkside-lodge",
+    "lat": -36.858183,
+    "lng": 174.751507,
+    "category": [
+      "Stay"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.verandahs.co.nz/",
+    "description": "A small independent hostel in two restored kauri villas at 6 Hopetoun Street in Freemans Bay, with a garden backing onto Western Park. Ponsonby Road is 30 seconds away, K Road three minutes and the CBD about 12 minutes on foot. It's clean, friendly and relaxed rather than a party hostel, and guests often come back.\n\nDorms are small, with three or four beds, and there are single, twin, double and family rooms, some with ensuites. Bedding and wifi are included, and there's a fully equipped kitchen. Reception is open from 8am to 12pm and 2pm to 7pm in summer (6pm in winter).\nLocal tip: There's a supermarket two minutes' walk away, so stock up and cook to save money.",
+    "hoursNote": "Reception 8am to 12pm and 2pm to 7pm; dorms of 3 to 5 beds and private rooms; 6 Hopetoun Street",
+    "sourceUrl": "https://www.verandahs.co.nz/rooms",
+    "confidence": "high"
+  },
+  {
+    "name": "Attic Backpackers",
+    "slug": "attic-backpackers",
+    "lat": -36.8503,
+    "lng": 174.763096,
+    "category": [
+      "Stay"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Cheap",
+    "description": "A friendly, well-run hostel on level 4 at 31 Wellesley Street West, right in the CBD, so you can walk almost everywhere. Guests praise how clean it is, the huge, well-equipped kitchen and the calm, respectful atmosphere, and there's a rooftop deck.\n\nDorms range from twin rooms to 14 beds, including female-only dorms. Reception is open from 9am to 9pm, check-in is from 2.30pm and check-out by 10am. Guests report the kitchen closes for cleaning from 10am to 12pm, and some dorms have no lockers.\nLocal tip: It's a good first stop in New Zealand if you want a social but quiet base. Bring a padlock in case your room has no lockers.",
+    "hoursNote": "Kitchen closed 10am to 12pm and 11pm to 6am; 4th floor, 31 Wellesley Street West",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJPf_rUOVHDW0Rr8AECSCpi04",
+    "confidence": "medium"
+  },
+  {
+    "name": "ibis budget Auckland Airport",
+    "slug": "ibis-budget-auckland-airport",
+    "lat": -36.998436,
+    "lng": 174.788805,
+    "category": [
+      "Stay"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://all.accor.com/hotel/7865/index.gb.shtml",
+    "description": "The budget pick for a first or last night at Auckland Airport, at 2 Leonard Isitt Drive, about a kilometre from the terminals. It's a short walk from the international terminal, and the Yellow Bus runs between the hotel and both terminals for a fee. Reception is open 24 hours, which helps with late arrivals and early flights.\n\nThe 198 rooms are modern, with ensuite bathrooms, air conditioning and blackout blinds, ranging from twin rooms to king rooms with an overhead bunk and family rooms for four. Rates listed on newzealand.com run from about $99 to $199 a night. There's an à la carte continental breakfast and a kids' play corner, wifi costs extra, and parking is free for the night of your stay.\nLocal tip: Shops and food outlets are within walking distance, so you can sort out dinner without moving the car.",
+    "hoursNote": "24 hour reception; about 1km from the terminals; Yellow Bus to the terminals for a fee; free parking for the night of your stay; from about $99 a night",
+    "sourceUrl": "https://www.aucklandairport.co.nz/information/accommodation",
+    "confidence": "high"
+  },
+  {
+    "name": "Auckland Airport Kiwi Hotel",
+    "slug": "auckland-airport-kiwi-hotel",
+    "lat": -36.965564,
+    "lng": 174.786049,
+    "category": [
+      "Stay"
+    ],
+    "region": "auckland",
+    "area": "auckland",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://vrhotels.co.nz/airport-kiwi-hotel/",
+    "description": "A no-frills airport hotel run by VR Hotels at 150 McKenzie Road in Māngere, about 8 minutes' drive from the terminals. Its big selling point is free airport transfers to and from the international and domestic terminals, and the front desk is open 24 hours, which helps with late arrivals and early flights.\n\nRooms range from queen and twin rooms to family rooms and suites for up to six, all with air conditioning, and rates listed on newzealand.com run from about $89 to $149 a night. There's an on-site restaurant for breakfast, lunch and dinner, a guest laundry, free fibre wifi and free parking. Reviewers praise the friendly staff and the shuttle, though many find the building dated. Check-in is from 3pm and check-out by 10am.\nLocal tip: Send the hotel your flight details before you travel so the free shuttle can pick you up, and don't mix it up with the separate Auckland Airport Kiwi Motel just down the road at 144 McKenzie Road.",
+    "hoursNote": "24 hour front desk; check-in 3pm, check-out 10am; free airport transfers (send arrival details ahead); free parking; from about $89 a night",
+    "sourceUrl": "https://vrhotels.co.nz/airport-kiwi-hotel/",
+    "confidence": "medium"
+  }
+]

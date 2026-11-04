@@ -1,0 +1,289 @@
+[
+  {
+    "name": "Waitomo Glowworm Caves",
+    "slug": "waitomo-glowworm-caves",
+    "lat": -38.260701,
+    "lng": 175.103606,
+    "category": [
+      "Attractions",
+      "Water"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.waitomo.com/glowworms-and-caves/waitomo-glowworm-caves",
+    "description": "The best-known glowworm trip in the country: a guided walk through the limestone chambers, then a quiet boat ride through the glowworm grotto on the underground river. The whole tour takes about 45 minutes and leaves several times a day from the visitor centre at 39 Waitomo Village Road, open from 9am to 5pm. Pre-booking is essential.\n\nAdults pay $85, children $39 and a family of two adults and two children $217. Combo tickets pair it with Ruakuri Cave or Aranui Cave. Paths have handrails but can be wet and slippery, and the cave isn't wheelchair accessible, though Ruakuri is.\nLocal tip: Check in 30 minutes before your tour or you can lose your ticket. The boat ride itself is short, so if you want more time with the glowworms, add Ruakuri Cave on a combo.",
+    "recommendedDurationSlots": 3,
+    "featured": 1,
+    "hoursNote": "Daily from 9am; tour about 45 min; pre-book and check in 30 min before departure; not wheelchair accessible",
+    "sourceUrl": "https://www.waitomo.com/glowworms-and-caves/waitomo-glowworm-caves",
+    "confidence": "high"
+  },
+  {
+    "name": "Ruakuri Cave",
+    "slug": "ruakuri-cave",
+    "lat": -38.268727,
+    "lng": 175.07948,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.waitomo.com/glowworms-and-caves/ruakuri-cave",
+    "description": "The walking cave of the Waitomo tours. You go in down a dramatic spiral entrance, then follow lit walkways past limestone formations, crystal tapestries and glowworms, in a cave run on solar power. Unlike the Glowworm Caves, it's fully wheelchair and pushchair accessible, for chairs up to 65cm wide.\n\nAdults pay $122, children $46 and a family of two adults and two children $296. Tours run daily from 10am, with the last at 3.30pm and extra tours over summer, and you should allow about two hours. Check in at the Ruakuri Visitor Centre on Tumutumu Road, a short drive from the Glowworm Caves, 30 minutes before your tour. The centre is cashless, and large backpacks, tripods and extension sticks aren't allowed on regular tours.\nLocal tip: Pair it with the Glowworm Caves on a combo ticket, and walk the free Ruakuri Bushwalk just down the road afterwards.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Daily, tours 10am to 3.30pm (extra tours possible in summer); pre-book; check in 30 min early at Tumutumu Road; cashless",
+    "sourceUrl": "https://www.waitomo.com/glowworms-and-caves/ruakuri-cave",
+    "confidence": "high"
+  },
+  {
+    "name": "The Legendary Black Water Rafting Co",
+    "slug": "legendary-black-water-rafting-co",
+    "lat": -38.263957,
+    "lng": 175.125853,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.waitomo.com/black-water-rafting",
+    "description": "Wetsuit, helmet, headlamp and an inner tube: on the Black Labyrinth you float down an underground river in Ruakuri Cave, slide into fast water and jump off small waterfalls, then drift in the dark under glowworms. It takes three hours and needs moderate fitness, but no caving experience.\n\nThe Black Labyrinth costs $199 for adults and $154 for youth aged 12 to 15, with a 45kg minimum weight. The bigger Black Abyss takes five hours, needs a good level of fitness and costs $332, adding an abseil and a zip line through a glowworm cave. Both leave from the base at 585 Waitomo Caves Road, open daily from 8am to 4.30pm except Christmas Day. The base is cashless, so bring a card for the café and shop.\nLocal tip: Bring togs, a towel and a change of clothes, plus shower gel if you want a proper wash afterwards. The caving gear is supplied.",
+    "recommendedDurationSlots": 7,
+    "hoursNote": "Base open daily 8am to 4.30pm; pre-book; check in 30 min early; Labyrinth 12+ and 45 kg minimum, Abyss 16+; cashless",
+    "sourceUrl": "https://www.waitomo.com/black-water-rafting/legendary-black-water-rafting-co-black-labyrinth",
+    "confidence": "high"
+  },
+  {
+    "name": "Spellbound Glowworm and Cave Tours",
+    "slug": "spellbound-glowworm-cave-tours",
+    "lat": -38.31291,
+    "lng": 175.081231,
+    "category": [
+      "Attractions",
+      "Water"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.glowworm.co.nz/",
+    "description": "A small-group alternative to the big Waitomo caves, with no more than 12 people per tour. A minibus takes you across farmland to the Mangawhitikau Glowworm Cave, where you spend about 20 minutes on a boat on flat water in the dark under thousands of glowworms.\n\nThe Essential tour (one cave) costs $79 for adults and $25 for children 14 and under. The Explorer, about 2.5 hours, adds the Cave of the Spirit, with its formations and fossils, and a refreshment break, from $99 for adults. Tours meet at 334 Boddies Road, Oparure, about 15km from Waitomo Village, not in the village itself, and you need to be able to walk unaided for up to 45 minutes.\nLocal tip: Arrive 20 minutes early, as the minibus leaves on time, and leave the tripod behind, as there are fixed stands for long-exposure phone photos.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Up to 6 tours a day; max 12 per group; meet at 334 Boddies Rd 20 min early; must walk unaided for 45 min; no prams, wheelchairs or tripods",
+    "sourceUrl": "https://glowworm.co.nz/tour/glowworm-and-cave-explorer",
+    "confidence": "high"
+  },
+  {
+    "name": "Ruakuri Bushwalk",
+    "slug": "ruakuri-bushwalk",
+    "lat": -38.265155,
+    "lng": 175.079656,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Free",
+    "description": "A free 45 minute loop in the Ruakuri Scenic Reserve, about 4km from Waitomo Village. It follows the Waitomo Stream past limestone bluffs and outcrops to a viewing platform over the Ruakuri Natural Bridge, a cavernous tunnel hung with stalactites and stalagmites.\n\nThis is the place to see glowworms for free. They show up after dark, best beside the main bridge. There are many stairs, steep sections and low ceilings, so it suits people with good mobility, and it gets muddy and slippery after rain. A grassy picnic area and toilets are at the car park off Tumutumu Road, or you can walk out from the village on the Waitomo Walkway.\nLocal tip: Come back at night with a torch, then switch it off at the bridge and let your eyes adjust. Keep to the track, as there are deep holes, cave entrances and fast streams close by.",
+    "recommendedDurationSlots": 2,
+    "featured": 2,
+    "hoursNote": "Open any time; free; 45 min loop with many stairs; torch needed at night; toilets at car park; no mountain bikes",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/tracks-and-walks/waikato/waitomo-pureora/ruakuri-walk",
+    "confidence": "high"
+  },
+  {
+    "name": "Mangapohue Natural Bridge",
+    "slug": "mangapohue-natural-bridge",
+    "lat": -38.261438,
+    "lng": 174.89935,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Free",
+    "description": "A short, easy walk off Te Anga Road, 25km west of Waitomo Village, along a boardwalk through a narrow limestone gorge to a 17m high natural arch over the Mangapohue Stream. The arch is all that's left of an ancient cave system, and the track carries on up steps and under the bridge, where you can see stalactite-like formations on its ceiling.\n\nThe loop takes about 20 minutes, and the boardwalk through the gorge is pushchair friendly before the track turns to steps past the bridge. It's free.\nLocal tip: Stay inside the reserve, as there's no public access onto the neighbouring farm, and do it on the same drive as Piripiri Cave and Marokopa Falls further along Te Anga Road.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; free; 20 min loop; Te Anga Road, 25 km west of Waitomo Village; picnic area at car park",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/tracks-and-walks/waikato/waitomo-pureora/mangapohue-natural-bridge",
+    "confidence": "high"
+  },
+  {
+    "name": "Piripiri Cave",
+    "slug": "piripiri-cave",
+    "lat": -38.254981,
+    "lng": 174.863288,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Free",
+    "description": "One of the few free caves open to the public around Waitomo, 29km west of the village on Te Anga Road. A five minute walk climbs through native bush past limestone outcrops, then a staircase drops down to a viewing platform inside the large, unlit cave.\n\nThere are a lot of steps (one visitor counted about 100), they can be slippery, and you need a torch to get in and out, so wear good shoes or boots. Roadside parking is limited.\nLocal tip: Bring a proper head torch rather than relying on your phone, and pair it with Mangapohue Natural Bridge and Marokopa Falls, which are a few minutes apart on the same road.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; free; torch essential; steep steps, wear good shoes; Te Anga Road, 29 km west of Waitomo",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/waikato/places/waitomo-area/tracks/piripiri-cave-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Marokopa Falls",
+    "slug": "marokopa-falls",
+    "lat": -38.261623,
+    "lng": 174.851703,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Free",
+    "description": "A 35m waterfall where the Marokopa River pours over undercut greywacke rock into a deep pool, 31km west of Waitomo and 15km short of Marokopa on Te Anga Road. A short, easy track through native forest and tree ferns leads to the viewing platform.\n\nAllow 20 to 30 minutes return from the small car park beside the road. There are some stairs, the track can be muddy after rain, and the falls are at their most powerful after heavy rain.\nLocal tip: Stay behind the barriers, as DOC asks. The rough scramble some people make down to the pool isn't a formed track.",
+    "recommendedDurationSlots": 1,
+    "featured": 3,
+    "hoursNote": "Open any time; free; 20 to 30 min return; Te Anga Road, 31 km west of Waitomo; do not go past barriers",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/waikato/places/waitomo-area/tracks/marokopa-falls-walk",
+    "confidence": "high"
+  },
+  {
+    "name": "Kiritehere Beach",
+    "slug": "kiritehere-beach",
+    "lat": -38.323705,
+    "lng": 174.710136,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Free",
+    "description": "A wild, remote west coast beach about 10 minutes' drive past Marokopa, with a stream running across the sand, rock pools and small caves in the cliffs. It's roughly an hour from Waitomo, with no shops, fuel or mobile coverage, so bring food and water.\n\nAbout 1km southwest of the car park, the shore platform and cliffs are packed with fossil shells around 220 million years old, mostly the extinct clam Monotis. There's a long drop toilet, but freedom camping is banned here, as the area includes the Kiritehere cemetery reserve, so stay at the Marokopa Holiday Park instead.\nLocal tip: Go at low tide for the fossils and rock pools, and swim in the stream rather than the unpatrolled surf.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open any time; free; no freedom camping; long drop toilet; no shops, fuel or mobile coverage; fossils best at low tide",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJi6cFA2BEE20RHJymENPlyu0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Ōtorohanga Kiwi House",
+    "slug": "otorohanga-kiwi-house",
+    "lat": -38.179794,
+    "lng": 175.213394,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.kiwihouse.org.nz/",
+    "description": "A native wildlife park where you can see North Island brown kiwi in daylight in darkened nocturnal houses, then walk through a huge dome aviary and past tuatara, kea, longfin eels and the Mahoenui giant wētā. Free keeper talks run through the day, with kiwi talks at 10.30am, 1.30pm and 3.30pm.\n\nIt's open daily from 9am to 5pm, except Christmas Day. Adults pay $29.50, children 5 to 15 $13.50 and a family of two adults and three children $75, and under 5s are free. Tickets can be used any day within a year. A weekday behind-the-scenes tour at 11.15am costs $45 for adults and $35 for children, including entry, for up to 12 people.\nLocal tip: Give your eyes a few minutes to adjust in the kiwi houses, as it's very dark and sightings aren't guaranteed.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Daily 9am to 5pm, closed 25 Dec; 20 Alex Telfer Drive, Ōtorohanga",
+    "sourceUrl": "https://www.kiwihouse.org.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Huhu Café",
+    "slug": "huhu-cafe-waitomo",
+    "lat": -38.260357,
+    "lng": 175.110764,
+    "category": [
+      "Food"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.huhucafe.co.nz/",
+    "description": "One of the few proper sit-down places to eat in Waitomo Village, a short walk from the Glowworm Caves, with a deck looking over the village and bush-clad hills. Chef and owner Cassandra Davis-Ware runs a menu from noon into the evening using local produce where possible, with a wine match for every dish, Atomic fair trade coffee and New Zealand craft beer and cider. Reviewers rate the steak, lamb and short ribs.\n\nPrices are mid-range rather than cheap, but there's little else open in the village at night. Hours are shorter in the cooler months.\nLocal tip: Book ahead for dinner and check the current hours before you drive in.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "From noon; Google currently lists Thu 5 to 8pm, Fri and Sat 12 to 9pm, Sun 12 to 8pm, closed Mon to Wed; website says winter hours vary",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJY3rVZ9S5bG0RDZvYBRMf1aU",
+    "confidence": "medium"
+  },
+  {
+    "name": "Village Green Bakery & Cafe",
+    "slug": "village-green-bakery-otorohanga",
+    "lat": -38.185938,
+    "lng": 175.211449,
+    "category": [
+      "Food"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Cheap",
+    "description": "A busy small-town bakery at 44 Maniapoto Street, Ōtorohanga's main street, best known for its flaky steak, mushroom and cheese pies, which visitors rate among the best they've had. There's also a cabinet of sandwiches and sweets, plus simple hot food such as fried chicken and chips, ordered at the counter.\n\nIt's a cheap, quick stop on the way to or from Waitomo or the Kiwi House, and reviewers say it's cheaper than most bakeries.\nLocal tip: It's closed on Sundays, even though a window sticker still says open seven days.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 6.30am to 5pm, Sat 8am to 4.30pm, closed Sun",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJIf5xvufAbG0RIHlDnduWtN8",
+    "confidence": "medium"
+  },
+  {
+    "name": "Te Kūiti Shearer Statue Freedom Camping",
+    "slug": "te-kuiti-shearer-statue-freedom-camping",
+    "lat": -38.337037,
+    "lng": 175.168395,
+    "category": [
+      "Stay"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Free",
+    "description": "Free council freedom camping beside the giant shearer statue on Rora Street, Te Kūiti's main street. Up to six certified self-contained vehicles can stay in the marked area, and tents aren't allowed. Waitomo District rules apply: no more than two nights in a row, on no more than two occasions a month, leave by 9am, and no fires.\n\nShops and public toilets are close by, and State Highway 3 and the railway run right alongside, so expect trucks and freight trains overnight. If it's full, self-contained vehicles can also use the Rora Street North site, under the same rules.\nLocal tip: Under national rules, vehicles that rely on a portable toilet no longer count as self-contained, and the fine for breaking the rules is usually $400.",
+    "hoursNote": "Certified self-contained only; max 6 vehicles; max 2 consecutive nights; leave by 9am; no tents or fires",
+    "sourceUrl": "https://www.waitomo.govt.nz/media/qoxekpx0/freedom-camping-bylaw-2023-adopted-28-november-2023.pdf",
+    "confidence": "high"
+  },
+  {
+    "name": "Marokopa Holiday Park",
+    "slug": "marokopa-holiday-park",
+    "lat": -38.303785,
+    "lng": 174.721239,
+    "category": [
+      "Stay"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://go-penny.com/locations/marokopa-holiday-park",
+    "description": "A self-service campground in the tiny coastal settlement of Marokopa, at the far end of the road from Waitomo, run by Warren and Gail Keegan. Unpowered sites are $35 a night and powered sites $45, per site for up to six people, and there are two basic fishing cabins at $50 (bring your own bedding) and pods at $60 for adults only.\n\nEverything runs on Penny: book in the app or online, and use your key for the gate, hot showers ($4 for 4 minutes), the kitchen cooktops, laundry and power points. Filtered drinking water is available, and dogs are welcome if kept under control. Reviewers find it flat, clean and quiet, apart from passing quad bikes.\nLocal tip: Sort out a Penny key before you arrive (from 1447a Marokopa Road), and fill up with fuel before you leave Waitomo, as there's none out on the coast.",
+    "hoursNote": "Book and pay via Penny; unpowered $35, powered $45 per site; showers $4 for 4 min; dogs allowed under control",
+    "sourceUrl": "https://go-penny.com/locations/marokopa-holiday-park",
+    "confidence": "high"
+  },
+  {
+    "name": "Waitomo Village Chalets",
+    "slug": "waitomo-village-chalets",
+    "lat": -38.261961,
+    "lng": 175.108996,
+    "category": [
+      "Stay"
+    ],
+    "region": "waikato",
+    "area": "waitomo",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small hostel and chalet complex, the home of Kiwipaka backpackers, on Hotel Access Road within walking distance of the Glowworm Caves, the pub and the village places to eat. It has private chalets with ensuites, double and twin rooms, two twin rooms with ensuites in the lodge and four-bed dorms.\n\nThere's a large shared kitchen, dining and lounge area with a sunny deck, wifi, a TV room and parking, and continental breakfast is available. It's one of the few reasonably priced beds in Waitomo Village, and recent guests are full of praise for the hosts.\nLocal tip: Book direct and ask about a rate for two or more nights, and book well ahead in summer, as beds in the village are limited.",
+    "hoursNote": "Dorms and private rooms; phone 07 878 3395; book ahead in summer",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJw9uo1NW5bG0R6iZdmIC_XgQ",
+    "confidence": "medium"
+  }
+]

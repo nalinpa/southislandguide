@@ -1,0 +1,421 @@
+[
+  {
+    "name": "Napier Art Deco Walk",
+    "slug": "napier-art-deco-walk",
+    "lat": -39.491213,
+    "lng": 176.913043,
+    "category": [
+      "Culture",
+      "Walks"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.artdeconapier.com/",
+    "description": "Napier was flattened by the 1931 Hawke's Bay earthquake and the fires that followed, and the city centre was rebuilt in the Art Deco style of the time. The result is a compact, flat town centre full of 1930s facades and decorative details that's easy to explore on foot.\n\nThe Art Deco Trust runs guided walks from the Art Deco Centre in Memorial Square, covering about 2km on flat ground with some steps. The 10am walk takes 1.5 hours, from $35, and starts with a 20 minute film about the earthquake. The 2pm walk runs 2.5 hours in summer (1 October to 31 March, $37.50) and 1.5 hours in winter, and in summer there's also a 2 hour walk at 4.30pm on selected days, from $36.50. If you'd rather go it alone, a self-guided walk download costs $10.\nLocal tip: Look up as you walk, as most of the detail is above the shop verandahs. The Art Deco Festival, when the city fills with vintage cars and 1930s costume, runs 18 to 21 February 2027.",
+    "recommendedDurationSlots": 4,
+    "featured": 1,
+    "hoursNote": "Guided walks daily at 10am, 2pm and 4.30pm from the Art Deco Centre, Memorial Square, from $35; self-guided download $10; centre open 9am to 5pm Oct to Mar, 9.30am to 2.30pm Apr to Sep",
+    "sourceUrl": "https://www.artdeconapier.com/walking-tours/",
+    "confidence": "high"
+  },
+  {
+    "name": "Marine Parade",
+    "slug": "napier-marine-parade",
+    "lat": -39.490195,
+    "lng": 176.919585,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Free",
+    "description": "Napier's seafront promenade runs along Hawke Bay beside the city centre, with a walking and cycling path, gardens and lawns between the road and the beach. Highlights include the Art Deco Sound Shell next to the i-SITE, the Tom Parker Fountain, the statue of Pania of the Reef from a local Māori legend, the Spirit of Napier statue unveiled in 1971, and the Sunken Garden.\n\nThere's plenty to keep children busy, with a junior bike track, a pump track, the Bay Skate park and Par2 MiniGolf beside the Sunken Garden. The National Aquarium is at the southern end and Ocean Spa at the northern end, and the waterfront path carries on to Ahuriri. The i-SITE at 100 Marine Parade is open daily from 9am to 5pm.\nLocal tip: Don't swim off Marine Parade, as council signs warn of a steep drop off and strong undertow, and people have drowned here. Swim at Ocean Spa or the patrolled Ahuriri Beach on Hardinge Road instead.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; i-SITE at 100 Marine Parade open 9am to 5pm daily",
+    "sourceUrl": "https://www.napiernz.com/marine-parade/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ocean Spa Napier",
+    "slug": "ocean-spa-napier",
+    "lat": -39.486784,
+    "lng": 176.919733,
+    "category": [
+      "Water",
+      "Attractions"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.oceanspanapier.co.nz/",
+    "description": "Napier's seaside pool complex at the northern end of Marine Parade. There's an open air heated pool looking out over the bay, hot spa pools and a heated 25m, four lane lap pool, plus a gym and The Bach Café.\n\nCasual entry is $20 for adults, $14 for seniors, $12 for children 3 to 14, $4 for under 3s, and $58 for a family of two adults and two children. It's open 5.30am to 9.30pm Monday to Saturday and 7.30am to 9.30pm on Sundays and public holidays, with last entry at 9pm, and closed Christmas Day.\nLocal tip: The lap pool closes at 8pm, and the spa pools at 9pm (8pm on Mondays for cleaning), so come earlier in the evening if you want a hot soak. The public sauna is closed for maintenance for now.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Mon to Sat 5.30am to 9.30pm, Sun and public holidays 7.30am to 9.30pm; last entry 9pm; adults $20, children $12, family $58; closed Christmas Day",
+    "sourceUrl": "https://www.oceanspanapier.co.nz/entry-fees/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kahukura Hawke's Bay Museum (MTG)",
+    "slug": "kahukura-hawkes-bay-museum",
+    "lat": -39.489088,
+    "lng": 176.919051,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.hawkesbaymuseum.com/",
+    "description": "The region's museum and art gallery, long known as MTG Hawke's Bay and now going by Kahukura Hawke's Bay Museum, sits at 1 Tennyson Street at the edge of the Art Deco centre. Entry to the exhibitions is free, and it's open daily from 9.30am to 5pm.\n\nThe highlight for most visitors is Shockwave: Hawke's Bay's Great Quake, 1931, which tells the story of the earthquake that destroyed Napier and explains why the city looks the way it does. Other galleries include Kuru Taonga: Voices of Kahungunu and Art of The Outfit, and there's a shop and the Century Theatre, entered from Herschell Street.\nLocal tip: Visit before an Art Deco walk, as the earthquake gallery gives you the background to everything you'll see.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open daily 9.30am to 5pm; free entry to exhibitions; 1 Tennyson Street",
+    "sourceUrl": "https://www.hawkesbaymuseum.com/",
+    "confidence": "high"
+  },
+  {
+    "name": "National Aquarium of New Zealand",
+    "slug": "national-aquarium-of-new-zealand",
+    "lat": -39.500579,
+    "lng": 176.918988,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.nationalaquarium.co.nz/",
+    "description": "A large aquarium at the southern end of Marine Parade, and a good choice for families and wet days. The walk through tunnel has stingrays, kingfish, hāpuku and snapper swimming over and around you (the last sharks were released in 2023), and the little penguins are a favourite. There's a café and a shop, both closing at 4.30pm.\n\nAdults are $31.50, children 3 to 14 are $17, under 3s are free, and a family pass for two adults and two children is $90. It's open daily from 9am to 5pm, with last entry at 4.30pm, and closed Christmas Day. Little penguin feeding is at 9.30am, 1.30pm and 3.30pm, reef fish feeding at 10am, and divers hand feed the fish in the Oceanarium at 2pm. A 50th anniversary exhibition runs from 28 November 2026 to 8 February 2027.\nLocal tip: Time your visit around a penguin feed or the 2pm dive, and allow at least two hours.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Daily 9am to 5pm, last entry 4.30pm; closed Christmas Day; adults $31.50, children $17, family $90",
+    "sourceUrl": "https://www.nationalaquarium.co.nz/visit/",
+    "confidence": "high"
+  },
+  {
+    "name": "Bluff Hill Lookout",
+    "slug": "bluff-hill-lookout-napier",
+    "lat": -39.478888,
+    "lng": 176.917766,
+    "category": [
+      "Scenic"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Free",
+    "description": "A clifftop lookout on Bluff Hill, just north of central Napier, looking straight down on the Port of Napier and out across Hawke Bay. You get wide views over the harbour and coast, and you can watch the ships, cranes and log yards at work below, with panels explaining how the port works. The lookout is built over an old WWII coastal defence gun emplacement, and there are toilets at the car park.\n\nYou can drive up Lighthouse Road, or walk up through the streets and the bush of Karetoki Whare (Sturm's Gully) Reserve. The walk from Marine Parade via Coote Road and Priestley Terrace is about 4.4km return and takes about 50 minutes, with some steep sections.\nLocal tip: Walk up from Marine Parade if you have the legs for it, and take your time at the top to watch a ship being loaded.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open 7am to 9pm daily; free; about 12 car parks; narrow road unsuitable for campervans; toilets",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJS5eoeyNNaG0Rp9D1J1sXBFI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Ahuriri Waterfront and Perfume Point",
+    "slug": "ahuriri-waterfront-perfume-point",
+    "lat": -39.480179,
+    "lng": 176.895186,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Free",
+    "description": "Ahuriri sits on the harbour just west of Bluff Hill. A flat shared walking and cycling path, part of the Hawke's Bay Trails, runs along the waterfront past the fishing boats and the marina, with bars and restaurants along West Quay, and links back to Marine Parade and the city.\n\nAt the end of the quay is Perfume Point, with an old lighthouse and five giant chairs for photos, installed in 2021. Next to it is Ahuriri Beach, a small, safe swimming beach patrolled by surf lifeguards in summer, with a boardwalk out to the point. Spriggs Park next door has playgrounds, outdoor showers and barbecues, and there's parking at the Nelson Quay and Hardinge Road car park.\nLocal tip: Come for an evening walk to watch the boats coming and going, then finish with a drink on West Quay.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; toilets and parking at Perfume Point",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ86LSl9GyaW0RNpcBmPtdbk0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Te Mata Peak",
+    "slug": "te-mata-peak",
+    "lat": -39.701951,
+    "lng": 176.909302,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.tematapark.co.nz/",
+    "description": "Hawke's Bay's best viewpoint, a 399m peak rising behind Havelock North, about 10 minutes' drive from the village, with 360 degree views over Hastings, Napier, the plains and the coast. Te Mata Park was gifted to the community in 1927 and is free to visit, and sheep graze its slopes.\n\nYou can drive to the summit, but take the road slowly. Walkers start from the Main Gates car park, which has toilets, a shelter, picnic tables and maps. The trails range from the easy 1.3km Pīwakawaka (Green) Loop (40 minutes) to the advanced Rongokako (Blue) Trail and Giant (Red) Circuit, each about 5.5km and 2 hours 15 minutes. Dogs can be off lead under control. Peak House café, on the road below the summit, opens Thursday and Friday 10am to 3pm and weekends 9am to 3pm.\nLocal tip: Walk up from the Main Gates if you can, or drive up for sunset, and note that the upper road above Peak House is closed to vehicles from 10pm to 5.30am.",
+    "recommendedDurationSlots": 4,
+    "featured": 2,
+    "hoursNote": "Open daily; free; summit road above Peak House closed to vehicles 10pm to 5.30am; dogs allowed off lead under control; toilets at Main Gates car park",
+    "sourceUrl": "https://www.tematapark.co.nz/walking-trails/",
+    "confidence": "high"
+  },
+  {
+    "name": "Hawke's Bay Farmers' Market",
+    "slug": "hawkes-bay-farmers-market",
+    "lat": -39.628782,
+    "lng": 176.863976,
+    "category": [
+      "Food"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Cheap",
+    "description": "Hawke's Bay's main farmers' market, held every Sunday morning from 8.30am to 12.30pm under the trees in Waikoko Gardens at the Tōmoana Showgrounds on Kenilworth Road, Hastings. Stalls sell fresh fruit and vegetables, meat, bread, eggs and preserves, and there's a local coffee roaster.\n\nIt's a good place for a cheap breakfast and picnic supplies. If you're in Napier on a Saturday, the Napier Urban Farmers' Market runs from 8.30am to 12.30pm. It has been at a temporary site during 2026 and is due back in Clive Square during November, and it doesn't run on public holidays.\nLocal tip: Arrive early for the best produce, and wear sturdy shoes after rain, as the grass gets soft and muddy.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Sundays 8.30am to 12.30pm; Waikoko Gardens, Tōmoana Showgrounds, Kenilworth Road, Hastings",
+    "sourceUrl": "https://hawkesbayfarmersmarket.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Cape Kidnappers Gannet Colony (Gannet Safaris Overland)",
+    "slug": "cape-kidnappers-gannet-safaris",
+    "lat": -39.640502,
+    "lng": 176.988593,
+    "category": [
+      "Nature",
+      "Adventure"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.gannetsafaris.co.nz/",
+    "description": "Cape Kidnappers, at the southern end of Hawke Bay, has a colony of more than 20,000 gannets nesting on the open clifftops, and you can get close to the birds. Gannet Safaris Overland drives you there in a 4WD across the private Cape Kidnappers Station, with no long walk needed. Tours run daily from 1 August to 30 April at 9am and 1.30pm from 396 Clifton Road, Te Awanga, and take 3 hours. Adults are $99 and children $49.50.\n\nNesting starts in mid September and the first chicks hatch in early November, and DOC says early November to late February is the best time to visit. You can also walk to the colony along the beach from Clifton, about 19km return and at least 5 hours, but only around low tide and with real rockfall and landslide risk from the cliffs. DOC says to start no sooner than 3 hours after high tide and leave the Cape no later than 1.5 hours after low tide. The track up to the plateau colony is closed from July until the week before Labour Weekend, and the old tractor tours along the beach stopped in 2023.\nLocal tip: Book ahead in summer, and bring a windproof layer, as it can be blowy on the clifftops even on a warm day.",
+    "recommendedDurationSlots": 6,
+    "featured": 3,
+    "hoursNote": "Tours 1 Aug to 30 Apr, daily 9am and 1.30pm, 3 hours; adults $99, children $49.50; beach walk low tide only; plateau track closed July to the week before Labour Weekend",
+    "sourceUrl": "https://www.gannetsafaris.co.nz/tours-and-prices/",
+    "confidence": "high"
+  },
+  {
+    "name": "Napier City Bike Hire and Hawke's Bay Trails",
+    "slug": "napier-city-bike-hire-hawkes-bay-trails",
+    "lat": -39.490509,
+    "lng": 176.919116,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.bikehirenapier.co.nz/",
+    "description": "Hawke's Bay Trails is a network of about 200km of mostly flat cycle trails, graded easy to intermediate, around Napier, the coast and the wine country, fully reopened in 2025 after a two year cyclone rebuild. The Water Ride follows the coast and the Ahuriri Estuary and suits families, the Landscapes Ride heads through Haumoana, Te Awanga and Clifton towards Cape Kidnappers, and the Wineries Ride loops through Bridge Pa, the Gimblett Gravels and the Ngatarawa Triangle.\n\nNapier City Bike Hire and Tours is at 117 Marine Parade, across from the i-SITE, and open 9am to 5pm daily. E-bikes start from $75, and the self-guided Waterways to Wineries ride (16km or 30km, visiting up to three wineries) includes transport. They can also deliver bikes to your accommodation for a small fee. Until April 2027 the Water Ride stopbank between Awatoto and Brookfields is closed, with a signed detour via Johns Road and the Napier iWay.\nLocal tip: Choose an e-bike if you're visiting wineries, and use the pick up so you don't have to ride back. Check the Hawke's Bay Trails alerts page for detours before you set off.",
+    "recommendedDurationSlots": 8,
+    "featured": 4,
+    "hoursNote": "Open daily 9am to 5pm, 117 Marine Parade; e-bikes from $75; trails open year round",
+    "sourceUrl": "https://www.bikehirenapier.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Mission Estate Winery",
+    "slug": "mission-estate-winery",
+    "lat": -39.518408,
+    "lng": 176.844853,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.missionestate.co.nz/",
+    "description": "New Zealand's oldest winery, founded in 1851 and marking 175 years in 2026, set in the hills of Taradale. The cellar door is in the Grande Maison, a restored former seminary, with views over the vineyard towards the coast.\n\nA self-guided tasting of four wines is $15, a hosted Premium tasting of six wines, with stories of the estate's history, is $20 and takes 30 to 40 minutes, and a pre-booked Platinum tasting is $50. If you're not tasting, you're welcome to walk the grounds, see the home vineyard and visit the display in the cellar. There's also a restaurant. The cellar door is open Monday to Saturday 9am to 5pm and Sunday 10am to 4.30pm, and closed Good Friday and Christmas Day.\nLocal tip: Book a hosted tasting for weekends, holidays and the busy stretch from Labour Weekend to Easter, and arrive before last tastings at 4.30pm (3.45pm on Sundays).",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Cellar door Mon to Sat 9am to 5pm, Sun 10am to 4.30pm; tastings $15 to $50 per person; closed Good Friday and Christmas Day",
+    "sourceUrl": "https://www.missionestate.co.nz/cellar-door/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ocean Beach, Hawke's Bay",
+    "slug": "ocean-beach-hawkes-bay",
+    "lat": -39.742174,
+    "lng": 177.00983,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Free",
+    "description": "A long, undeveloped white sand surf beach south of Cape Kidnappers, reached by a narrow road with views up and down the coast. It's popular for swimming, surfing, fishing and diving for kaimoana.\n\nLifeguards from the Ocean Beach Kiwi Surf Life Saving Club patrol on weekends and public holidays from late September to late April, and daily over the peak of summer, so swim between the flags. The club warns that people have drowned around the lagoon area over the years. There are public toilets but no shops, so bring food and water. Keen walkers can head about 7.5km south to Waimārama or 8km north to Whakapau Bluff, each about 4.5 hours return, but check the tide times first.\nLocal tip: The access road is mostly one lane wide with passing bays, so drive slowly. It isn't one of Hastings' overnight parking sites, so don't plan to stay the night.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; patrolled over the summer holidays; toilets; no shops; no overnight camping",
+    "sourceUrl": "https://www.hawkesbaynz.com/visit/us/ocean-beach",
+    "confidence": "high"
+  },
+  {
+    "name": "Waimārama Beach",
+    "slug": "waimarama-beach",
+    "lat": -39.818016,
+    "lng": 176.995406,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Free",
+    "description": "A sandy, family friendly surf beach about 20 minutes' drive from Havelock North, looking out to Motu-o-Kura (Bare Island) about 2km offshore. The beach is generally very safe for swimming and is patrolled by the Waimārama Surf Life Saving Club, usually from November to the end of March.\n\nBeside the surf club in the Waimārama Domain there are public toilets, barbecues, a playground and parking, and the general store sells takeaways and supplies. The settlement is a small mix of permanent homes, holiday baches and a campground. A seasonal bylaw has banned vehicles from about 1km of beach near the township between 8am and 8pm from late October to late April, and a 20km/h limit applies on all Hastings beaches.\nLocal tip: To reach the Domain, turn left into Airini Road, pass the store, then turn right into Moori Road and right again.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; patrolled usually Nov to end of Mar; toilets, barbecues and playground at the Domain; alcohol ban",
+    "sourceUrl": "https://www.hawkesbaynz.com/visit/us/waimarama-beach",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Tūtira",
+    "slug": "lake-tutira",
+    "lat": -39.223541,
+    "lng": 176.893526,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.hbrc.govt.nz/hawkes-bay/regional-parks/tutira-regional-park/",
+    "description": "A calm, pretty lake beside State Highway 2 about 40km north of Napier, in Tūtira Regional Park. The lake has been a bird sanctuary since 1929, and on still days it reflects the surrounding hills like a mirror. There's a shelter, picnic area and toilets, making it an easy stop on the drive north.\n\nThe Waikōpiro Loop is a 1.1km, 20 minute walk around the smaller neighbouring lake, and longer tracks such as the Table Mountain Track climb to views across the lake to the Kaweka Range. Galbraith's Track and the area north of the campground are closed for forestry harvest. Kayaks and other non-motorised boats are allowed, but the regional council advises the lakes aren't suitable for swimming because of algal blooms and duck itch.\nLocal tip: The tracks can be boggy in wet months, the causeway between the lakes can flood in heavy rain, and the Tūtira Walkway closes for lambing from 1 August to 30 September.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open all the time; free; not suitable for swimming (algal blooms, duck itch); no motorboats; Table Mountain walkway closed for lambing 1 Aug to 30 Sep",
+    "sourceUrl": "https://www.hbrc.govt.nz/hawkes-bay/regional-parks/tutira-regional-park/",
+    "confidence": "high"
+  },
+  {
+    "name": "Continental Fish Supply",
+    "slug": "continental-fish-supply-napier",
+    "lat": -39.497892,
+    "lng": 176.918107,
+    "category": [
+      "Food"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Cheap",
+    "description": "A no frills fish and chip shop at 474 Hastings Street in Napier South, a block back from the beachfront.\n\nIt's closed on Mondays, and listings disagree on its hours the rest of the week, with some showing a break in the afternoon, so phone 06 835 7249 before you go.\nLocal tip: Order, then carry it over to Marine Parade to eat looking out over the bay.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Tue to Sun 11.30am to 8.30pm; closed Mon; 474 Hastings Street, Napier South",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJNw52AWlNaG0RcPBFfdAqetg",
+    "confidence": "medium"
+  },
+  {
+    "name": "Dajko's Kilim Cafe",
+    "slug": "dajkos-kilim-cafe-napier",
+    "lat": -39.49176,
+    "lng": 176.918274,
+    "category": [
+      "Food"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Cheap",
+    "description": "A popular family run Turkish café at 193 Hastings Street in central Napier, a short walk from the Art Deco streets and Marine Parade. Reviewers praise the tender kebabs, chicken iskender, ćevapi and good vegetarian dishes, and say the servings are very generous for the price.\n\nIt's open Wednesday to Sunday from 11.30am to 8.30pm and Tuesday from 3pm, and closed on Mondays. It also delivers through Delivereasy.\nLocal tip: Portions are big, so come hungry, or order delivery to your accommodation after a long day.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Wed to Sun 11.30am to 8.30pm, Tue 3pm to 8.30pm; closed Mon; 193 Hastings Street",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJKwVXot5MaG0R1vT0Vv7enp0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Rush Munro's Ice Creamery",
+    "slug": "rush-munros-ice-creamery",
+    "lat": -39.643203,
+    "lng": 176.844068,
+    "category": [
+      "Food"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Cheap",
+    "description": "Hawke's Bay's best known ice cream, made in Hastings since 1926 from natural, real fruit recipes. After many years at its garden site on Heretaunga Street West, it moved in November 2022 to Albert Square, on the corner of Heretaunga Street East and Karamu Road in central Hastings.\n\nFlavours include boysenberry, and there's plenty of outdoor seating, some of it covered, beside the park. Listings disagree on its opening hours, so check before you go.\nLocal tip: It makes an easy stop on the way back from the Sunday farmers' market at the Tōmoana Showgrounds.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 11am to 5pm, Sat and Sun 11am to 6pm; Albert Square, 100 Karamu Road South, Hastings",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJfdjqjDzKaW0Rwji45UQT03I",
+    "confidence": "medium"
+  },
+  {
+    "name": "Perfume Point Freedom Camping",
+    "slug": "perfume-point-freedom-camping",
+    "lat": -39.47798,
+    "lng": 176.896069,
+    "category": [
+      "Stay"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Free",
+    "description": "Napier's most scenic free camping spot, at Perfume Point at the end of Ahuriri's waterfront, with harbour views and the giant chairs on your doorstep. There are only four signed spaces, for certified self-contained vehicles up to about 7m long, with a limit of two nights, and public toilets in the reserve.\n\nUnder Napier's 2025 freedom camping bylaw, only certified self-contained vehicles may freedom camp in the city, which since 7 June 2026 means a green warrant. Besides Perfume Point, the designated sites are the Marine Parade pump track (up to three nights), the northern Marine Parade car park (four spaces, two nights) and the National Aquarium car park (four spaces, 5.30pm to 7.30am, two nights). Westshore and the Foreshore Reserve are now off limits.\nLocal tip: The four spaces go quickly in summer, so arrive early or have a Marine Parade site as a backup.",
+    "hoursNote": "Certified self-contained only; 4 spaces; max 2 nights; toilets; other Napier sites on Marine Parade and at the National Aquarium",
+    "sourceUrl": "https://hawkesbaynz.com/plan-your-stay/accommodation/freedom-camping/freedom-camping-in-napier",
+    "confidence": "medium"
+  },
+  {
+    "name": "Clifton Road Reserve Freedom Camping",
+    "slug": "clifton-road-reserve-freedom-camping",
+    "lat": -39.619146,
+    "lng": 176.960919,
+    "category": [
+      "Stay"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Free",
+    "description": "Hastings District Council's largest freedom camping area, on the beachfront reserve along Clifton Road between Haumoana and Te Awanga, close to the Cape Kidnappers gannet tours and the Landscapes cycle trail. It's for certified self-contained vehicles only, which since 7 June 2026 means a green warrant, first come, first served.\n\nThere are two flush toilets open 24 hours and drinking water. The limit is two nights per calendar month at any one site. Other council sites nearby include Haumoana Domain and Evers-Swindell Reserve at Clive.\nLocal tip: Security staff check the site daily, so make sure your warrant is current and on display.",
+    "hoursNote": "Certified self-contained only; signs show max 2 nights; flush toilets and drinking water; shop about 500m away",
+    "sourceUrl": "https://hawkesbaynz.com/plan-your-stay/accommodation/freedom-camping/freedom-camping-in-hastings",
+    "confidence": "medium"
+  },
+  {
+    "name": "Lake Tūtira Campground",
+    "slug": "lake-tutira-campground",
+    "lat": -39.229808,
+    "lng": 176.900615,
+    "category": [
+      "Stay"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.hbrc.govt.nz/hawkes-bay/regional-parks/tutira-regional-park/",
+    "description": "A peaceful, basic Hawke's Bay Regional Council campground in a flat, fenced, tree lined paddock by Lake Tūtira, about 40km north of Napier off State Highway 2. It suits tents, campervans and caravans. It costs $15 per vehicle per night, paid online before you arrive, as mobile reception is limited, so keep proof of payment.\n\nFacilities are compost toilets and cold taps for hand washing only, with no kitchen or showers, so bring your own drinking water. Fires, dogs and other pets aren't allowed, and the campground closes from 1 July to 30 September for lambing. The area north of the campground is closed for forestry harvest. DOC also has a free basic campsite with a picnic shelter at the park gateway, open all year.\nLocal tip: Bring spare toilet paper as well as water, as supplies can run out, and note the causeway between the lakes can flood in heavy rain.",
+    "hoursNote": "$15 per vehicle per night, pay online in advance; closed 1 Jul to 30 Sep; compost toilets; no drinking water, kitchen or showers; no fires or pets",
+    "sourceUrl": "https://www.hbrc.govt.nz/hawkes-bay/regional-parks/tutira-regional-park/",
+    "confidence": "high"
+  },
+  {
+    "name": "Crash Palace Napier",
+    "slug": "crash-palace-napier",
+    "lat": -39.487929,
+    "lng": 176.916865,
+    "category": [
+      "Stay"
+    ],
+    "region": "hawkes-bay",
+    "area": "hawkes-bay",
+    "active": false,
+    "price": "Cheap",
+    "description": "A backpackers at 11 Shakespeare Road at the foot of Bluff Hill, about 400m from the Art Deco streets, the museum and Marine Parade. It has dorms and private rooms, some doubles with their own bathroom, rooftop terraces and a pool table room.\n\nReviewers like the friendly staff and central position, while some have found the shared kitchen and bathrooms could be cleaner. Check in is from 2pm and check out by 10am, and guests must be 18 or over with photo ID and a credit card.\nLocal tip: Listings disagree on the latest arrival time, so let them know if you'll be checking in after 9pm.",
+    "hoursNote": "Reception 8am to 8pm, Sun 9am to 5pm; no check-in after 9pm; dorms and private rooms; 11 Shakespeare Road",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJI7W7sdhMaG0R3d2-O0eiqmU",
+    "confidence": "medium"
+  }
+]

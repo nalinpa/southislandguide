@@ -1,0 +1,593 @@
+[
+  {
+    "name": "Te Papa Tongarewa",
+    "slug": "te-papa-tongarewa",
+    "lat": -41.290456,
+    "lng": 174.782089,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.tepapa.govt.nz/",
+    "description": "New Zealand's national museum sits on the waterfront and covers Māori and Pacific culture, natural history, art and the stories of how the country was settled. The big draw is Gallipoli: The Scale of Our War, with huge, lifelike figures made by Wētā Workshop, now extended until 2032. The nature galleries are full of hands-on displays that keep kids busy for hours.\n\nEntry is free for New Zealanders and people living in New Zealand. International visitors aged 16 and over pay $35, and some special exhibitions cost extra. It's open every day from 10am to 6pm, except Christmas Day.\nLocal tip: Allow at least half a day and don't try to see everything. Pick two or three floors, and come back another day for the rest.",
+    "recommendedDurationSlots": 6,
+    "featured": 1,
+    "hoursNote": "Daily 10am to 6pm, closed Christmas Day; free for NZ residents; international visitors 16+ pay $35",
+    "sourceUrl": "https://www.tepapa.govt.nz/visit/plan-your-visit",
+    "confidence": "high"
+  },
+  {
+    "name": "Mount Victoria Lookout",
+    "slug": "mount-victoria-lookout",
+    "lat": -41.296057,
+    "lng": 174.79431,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "description": "The best free view in Wellington. The lookout on Mount Victoria is 196m up and gives a 360 degree view over the city, the harbour, the airport and the hills beyond. Its Māori name, Tangi Te Keo, comes from the legend of Whataitai, a taniwha who became stranded trying to reach the open sea.\n\nYou can drive up Alexandra Road or take the number 20 bus to the top, but walking is more fun. Tracks through the Town Belt start from Oriental Parade and Majoribanks Street and take about an hour up. The forested slopes were used in the first Lord of the Rings film, where the hobbits hide from the Black Riders.\nLocal tip: Go at sunset on a calm evening and bring a jacket, since it's usually much windier at the top than down in town.",
+    "recommendedDurationSlots": 3,
+    "featured": 2,
+    "hoursNote": "Open 24 hours; free; bus 20 to the top; car access via Alexandra Road",
+    "sourceUrl": "https://www.newzealand.com/nz/feature/mount-victoria/",
+    "confidence": "high"
+  },
+  {
+    "name": "Wellington Cable Car",
+    "slug": "wellington-cable-car",
+    "lat": -41.28424,
+    "lng": 174.775153,
+    "category": [
+      "Attractions",
+      "Scenic"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.wellingtoncablecar.co.nz/",
+    "description": "Wellington's red cable car has climbed from Lambton Quay up to Kelburn since 1902. The ride takes about five minutes, rises 120m and passes through tunnels lit with colourful light displays, and cars leave every 10 minutes.\n\nAt the top there's a lookout over the city and harbour, the free Cable Car Museum with the old winding machinery and two restored cars, and the top entrance to the Botanic Garden. Adults pay $7 one way or $13 return, and children aged 5 to 15 pay $3.50 or $6.50. A family return is $29 for two adults and up to four children, or $22 for one adult and up to three. SuperGold cardholders ride free off peak. Snapper cards aren't accepted.\nLocal tip: Buy a one-way ticket up and walk back down through the Botanic Garden, since it's downhill nearly all the way to town.",
+    "recommendedDurationSlots": 2,
+    "featured": 3,
+    "hoursNote": "Mon to Thu 7.30am to 8pm, Fri 7.30am to 9pm, Sat 8.30am to 9pm, Sun 8.30am to 7pm; closed Christmas Day; Snapper not accepted",
+    "sourceUrl": "https://www.wellingtoncablecar.co.nz/timetable-fares",
+    "confidence": "high"
+  },
+  {
+    "name": "Zealandia Te Māra a Tāne",
+    "slug": "zealandia-te-mara-a-tane",
+    "lat": -41.290829,
+    "lng": 174.753432,
+    "category": [
+      "Nature",
+      "Attractions"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.visitzealandia.com/",
+    "description": "A fenced wildlife sanctuary in a forested valley in Karori, where native birds, reptiles and insects live free of introduced predators. Walking the tracks around the lake and through the bush, you hear constant birdsong, and tuatara and kākā are often seen close to the paths. On weekends, weather permitting, a free boat crosses the lower reservoir, and guided night tours go looking for kiwi and glowworms.\n\nDay entry for New Zealanders is $27 for adults, $11 for children aged 5 to 17 and $59 for a family, and international visitors pay $39, $18 and $85. Pre-schoolers are free, and a ticket covers two consecutive days. It's open from 9am to 5pm, with last entry at 4pm.\nLocal tip: Take the free electric shuttle from outside Tākina on Wakefield Street or from the top of the Cable Car. Parking is limited, and the Karori tunnel has a 3.05m height limit for campervans.",
+    "recommendedDurationSlots": 6,
+    "featured": 4,
+    "hoursNote": "Daily 9am to 5pm, last entry 4pm, closed Christmas Day; NZ adult $27, international adult $39",
+    "sourceUrl": "https://www.visitzealandia.com/visit/plan-your-visit/tickets-and-tours/general-admission/",
+    "confidence": "high"
+  },
+  {
+    "name": "Wellington Botanic Garden ki Paekākā",
+    "slug": "wellington-botanic-garden",
+    "lat": -41.282936,
+    "lng": 174.766602,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "website": "https://wellingtongardens.nz/our-gardens/wellington-botanic-garden-ki-paekaka",
+    "description": "Twenty-five hectares of native bush, big old trees and formal gardens on the hillside between Kelburn and Thorndon. The Lady Norwood Rose Garden is at its best from November to March, and there's a duck pond, a play area with a dual flying fox and slides, and the Treehouse Visitor Centre, with a balcony over the treetops.\n\nEntry is free, and the grounds are open from dawn to dusk. The Picnic Café in the Rose Garden is open from 8.30am to 4pm daily. The Begonia House is closed for renovations.\nLocal tip: Ride the Cable Car to the top entrance and wander down to the Rose Garden, since the only car park inside the garden is paid and limited to two hours.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Grounds dawn to dusk, free; Treehouse Visitor Centre weekdays 9am to 4pm, weekends 10am to 4pm Sept to April; Begonia House closed",
+    "sourceUrl": "https://wellingtongardens.nz/our-gardens/wellington-botanic-garden-ki-paekaka",
+    "confidence": "high"
+  },
+  {
+    "name": "New Zealand Parliament Tours",
+    "slug": "new-zealand-parliament-tours",
+    "lat": -41.277585,
+    "lng": 174.777523,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.parliament.nz/",
+    "description": "Free guided tours take you inside New Zealand's Parliament, past the Beehive and through Parliament House, including the corridor of former prime ministers' portraits and, when it's not in use, the debating chamber. Guides explain how laws are made and the history of the buildings, and you see artworks from the Parliamentary Collection.\n\nTours run daily between 10am and 4pm, and numbers are strictly limited, so book online in advance. Arrive 15 minutes early for security screening, and note that one adult must accompany up to four children aged 12 and under. Some stops can change or close at short notice, especially on days the House is sitting.\nLocal tip: Travel light. Bags go through security, and you need time to check in your belongings before the short video that starts each tour.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Free tours of about 1 hour, daily between 10am and 4pm; book ahead; arrive 15 min early for security",
+    "sourceUrl": "https://www.newzealand.com/ca/plan/business/tours-at-parliament",
+    "confidence": "medium"
+  },
+  {
+    "name": "Wellington Museum",
+    "slug": "wellington-museum",
+    "lat": -41.285279,
+    "lng": 174.778095,
+    "category": [
+      "Culture"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.museumswellington.org.nz/wellington-museum/",
+    "description": "A small, well-loved museum in a historic building on Queens Wharf that tells Wellington's story, from Māori creation legends to the present day. The Wahine Theatre covers the 1968 Wahine ferry disaster, through the eyes of filmmaker Gaylene Preston, and the maritime gallery tells the story of Paddy the Wanderer, the waterfront dog.\n\nA Millennium Ago tells Māori creation stories with clever theatre illusions, and The Attic is a quirky steampunk space full of the city's odder stories. Entry is free for New Zealand residents, and international visitors pay $16 for adults and $10 for children. It's open from 10am to 5pm every day.\nLocal tip: Allow more than an hour, since there's much more packed into the building than it looks from outside, and the Wahine film alone is worth the stop.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily 10am to 5pm; free for NZ residents; entry fee for international visitors",
+    "sourceUrl": "https://www.museumswellington.org.nz/wellington-museum/",
+    "confidence": "high"
+  },
+  {
+    "name": "Wētā Workshop Experiences",
+    "slug": "weta-workshop-experiences",
+    "lat": -41.306394,
+    "lng": 174.824287,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.wetaworkshop.com/tours/wellington/experiences/tour",
+    "description": "The Miramar workshop that made props, armour and creatures for The Lord of the Rings, Avatar and many other films runs 90 minute guided tours. You see real props, costumes and weapons up close, watch a sculpting demonstration, and look through windows into the working workshop.\n\nTours start from $59 when booked online, family passes cover children aged 5 to 14, and tickets include two free digital souvenir photos. Allow about two hours, including time in the Wētā Cave shop. Photos are only allowed in some rooms, because the workshop is in active production.\nLocal tip: It's about 20 minutes' drive from the city and street parking is tight, so arrive early, or take the number 2 bus to Darlington Road.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open daily 8.45am to 5.45pm except Christmas Day; tours about 90 min, from $59 online",
+    "sourceUrl": "https://www.wetaworkshop.com/tours/wellington/experiences/tour",
+    "confidence": "high"
+  },
+  {
+    "name": "Old St Paul's",
+    "slug": "old-st-pauls",
+    "lat": -41.276252,
+    "lng": 174.780385,
+    "category": [
+      "Culture"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.visitheritage.co.nz/visit/wellington/old-st-pauls",
+    "description": "A wooden Gothic Revival church in Thorndon, consecrated in 1866 and built from native timbers, including rimu roof trusses. The warm timber interior, the stained glass windows and the flags, including one for the United States Marine Corps 2nd Division, stationed in Wellington during World War Two, make it one of the city's most beautiful buildings.\n\nIt's no longer a parish church but remains consecrated, and Heritage New Zealand cares for it. It's open daily from 10am to 4pm, with entry by donation, and it sometimes closes for private functions. It's closed on Good Friday and Christmas Day, and until 1pm on Anzac Day.\nLocal tip: Pair it with a Parliament tour and He Tohu at the National Library, since all three are a short walk apart in Thorndon.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Daily 10am to 4pm; entry by donation; closed Good Friday and Christmas Day, opens 1pm Anzac Day",
+    "sourceUrl": "https://www.newzealand.com/nz/plan/business/old-st-pauls",
+    "confidence": "medium"
+  },
+  {
+    "name": "He Tohu at the National Library",
+    "slug": "he-tohu-national-library",
+    "lat": -41.276806,
+    "lng": 174.778786,
+    "category": [
+      "Culture"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "website": "https://natlib.govt.nz/he-tohu",
+    "description": "He Tohu displays three of New Zealand's founding documents in a curved document room at the National Library, inspired by a waka huia, or treasure box: He Whakaputanga, the 1835 Declaration of Independence, Te Tiriti o Waitangi, the 1840 Treaty of Waitangi, and the 1893 Women's Suffrage Petition. Interactive displays and audio guides explain the history around each one.\n\nEntry is free. It's open from 9am to 5pm on weekdays and 9am to 1pm on Saturdays, and free guided tours run from 12pm to 1pm, Tuesday to Thursday. Book a tour by emailing contact@hetohu.nz.\nLocal tip: Do the guided tour if your dates allow, since the guides bring the documents' stories to life far better than the panels alone.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Mon to Fri 9am to 5pm, Sat 9am to 1pm, closed Sun; free; guided tours Tue to Thu 12pm",
+    "sourceUrl": "https://www.newzealand.com/int/plan/business/national-library-of-new-zealand-/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Space Place at Carter Observatory",
+    "slug": "space-place-carter-observatory",
+    "lat": -41.28426,
+    "lng": 174.76703,
+    "category": [
+      "Attractions"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.museumswellington.org.nz/space-place/",
+    "description": "Wellington's observatory and planetarium sits in the Botanic Garden, a short walk from the top of the Cable Car. Shows on the domed planetarium screen range from the Apollo missions to how Māori and European explorers found their way to Aotearoa, and on clear nights you can look through the telescopes, including the historic Thomas Cooke telescope.\n\nAdults are $16, children aged 4 to 14 are $10, and a family of two adults and two children is $49. Hours change with the school calendar. In term time it's closed on Mondays and open only in the evenings on Tuesdays and Wednesdays, with late nights until 10.30pm or 11pm from Thursday to Saturday. In the summer holidays it opens on Mondays too.\nLocal tip: Telescope viewing depends on the weather, so phone ahead on 04 910 3140 before making an evening trip up the hill.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Term time: closed Mon; Tue and Wed 5pm to 10.30pm; Thu 10am to 10.30pm; Fri and Sat 10am to 11pm; Sun 10am to 5pm. Open Mondays in summer holidays",
+    "sourceUrl": "https://www.museumswellington.org.nz/space-place/",
+    "confidence": "high"
+  },
+  {
+    "name": "Wellington Zoo",
+    "slug": "wellington-zoo",
+    "lat": -41.31958,
+    "lng": 174.784543,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://wellingtonzoo.com/",
+    "description": "A compact hillside zoo in Newtown, south of the city centre, with lions, giraffes, chimpanzees, a snow leopard, otters and meerkats among its residents. Keeper talks run through the day, and close encounters with some animals can be booked for an extra cost.\n\nAdults are $28, children $14 and concessions $22, under 3s are free, and family passes start at $49 for one adult and two children. It's open from 9.30am to 5pm, 364 days a year. The number 23 bus from Wellington Station stops outside, and free parking is limited.\nLocal tip: Some paths are steep, so wear comfortable shoes, and arrive early in the school holidays to get a park.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Daily 9.30am to 5pm, 364 days a year; adult $28, child $14; bus 23 stops outside",
+    "sourceUrl": "https://wellingtonzoo.com/visit/plan-your-day/",
+    "confidence": "high"
+  },
+  {
+    "name": "Cuba Street and the Bucket Fountain",
+    "slug": "cuba-street-bucket-fountain",
+    "lat": -41.292256,
+    "lng": 174.776293,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "description": "Wellington's most colourful street was laid out in 1842, and its central block became the pedestrian Cuba Mall in 1969, a few years after the trams stopped. Today it's lined with op shops, quirky boutiques, tattoo studios, street art, cafés, bars and plenty of cheap places to eat.\n\nThe Bucket Fountain in the mall opened in 1969 and tips water from bucket to bucket into a pool below. Its designer factored in splashing the people walking past, so stand back if you want to stay dry.\nLocal tip: Walk the whole length, from the mall up to Abel Smith Street, where the Friday night market sets up.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open all hours; free; Bucket Fountain in Cuba Mall",
+    "sourceUrl": "https://wellington.govt.nz/news-and-events/news-and-information/our-wellington/2024/02/history-of-the-bucket-fountain",
+    "confidence": "high"
+  },
+  {
+    "name": "Wellington Waterfront Walk",
+    "slug": "wellington-waterfront-walk",
+    "lat": -41.288573,
+    "lng": 174.778918,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "description": "A flat harbourside path runs from Queens Wharf past Te Papa and Chaffers Marina to Oriental Bay. Along the way are the City to Sea Bridge, with its large Māori carvings, Whairepo Lagoon, where rowers and dragon boats train, the Frank Kitts Park playground, and sculptures such as Solace in the Wind, a figure leaning out over the water.\n\nIt's free and open all hours, with cafés, ice cream and benches along the way. Look out for the plaque to Paddy the Wanderer, the dog cared for by waterside workers, seamen and taxi drivers from 1928 to 1939.\nLocal tip: On a Sunday morning, start at the Harbourside Market beside Te Papa and walk east to Oriental Bay with breakfast in hand.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open all hours; free; flat path from Queens Wharf to Oriental Bay",
+    "sourceUrl": "https://www.newzealand.com/nz/feature/wellington-central-waterfront/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Pariwhero Red Rocks Coastal Walk",
+    "slug": "red-rocks-coastal-walk",
+    "lat": -41.357489,
+    "lng": 174.726508,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "description": "A rugged walk along Wellington's wild south coast, from the Te Kopahou Visitor Centre at the end of Ōwhiro Bay Parade to Pariwhero/Red Rocks and on to Devil's Gate at Te Rimurapa/Sinclair Head. The return trip is 7.4km and takes 2 to 3 hours on a mostly flat but stony 4WD track, with views across Cook Strait to the South Island on a clear day.\n\nLegend says the rocks were stained red by blood from Māui's nose, or by Kupe cutting himself on pāua. In winter, kekeno (fur seals) haul out around Sinclair Head, so keep your distance and never walk between a seal and the sea. Dogs must be on a lead and kept 20m from wildlife, and there are toilets at the visitor centre.\nLocal tip: Go on a Sunday, when the track is closed to vehicles from 9am to 6pm, and wear sturdy shoes, since the gravel and rocks are hard going.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Open all hours; free; 7.4 km return, 2 to 3 hours; closed to vehicles Sundays 9am to 6pm; dogs on leash",
+    "sourceUrl": "https://wellington.govt.nz/recreation/outdoors/walks-and-walkways/beyond-the-city/red-rocks-coastal-walk",
+    "confidence": "high"
+  },
+  {
+    "name": "Ōtari-Wilton's Bush",
+    "slug": "otari-wiltons-bush",
+    "lat": -41.267843,
+    "lng": 174.757776,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "website": "https://wellingtongardens.nz/our-gardens/otari-wiltons-bush/",
+    "description": "Ōtari is the only public botanic garden in New Zealand dedicated solely to native plants, with about 1,200 species, hybrids and cultivars around a core of original forest that farmer Job Wilton fenced off and protected in the 1800s. About 11km of tracks range from gentle garden paths to steep climbs that link up with the Skyline Walkway.\n\nThe Canopy Walkway is wheelchair friendly, and the Troup Picnic Area has toilets, drinking water and free electric barbecues. Entry is free, the gardens are open from dawn to dusk, and the number 14 bus runs from Lambton Quay.\nLocal tip: Bring lunch to cook on the free barbecues, then walk it off on one of the forest loops under the big trees.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open dawn to dusk; free; visitor centre 7.30am to 4pm; bus 14 from Lambton Quay",
+    "sourceUrl": "https://wellingtongardens.nz/our-gardens/otari-wiltons-bush/",
+    "confidence": "high"
+  },
+  {
+    "name": "Matiu/Somes Island",
+    "slug": "matiu-somes-island",
+    "lat": -41.258174,
+    "lng": 174.865914,
+    "category": [
+      "Nature",
+      "Water"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://eastbywest.co.nz/ferry-services/matiu-somes-island/",
+    "description": "A small island reserve in the middle of Wellington Harbour, reached by East by West ferry from Queens Wharf or Days Bay. A gentle track loops the 24.8 hectare island, home to tuatara, kākāriki, North Island robins and little blue penguins, and passes relics of its past as a lighthouse station, quarantine station, wartime internment camp and defence post.\n\nReturn ferry fares from Queens Wharf are $42 for adults and $24 for children aged 5 to 16, including a $6 visitor fee, and give you about 2 to 2.5 hours on the island, or just over 3 hours on the 1pm weekend sailing. There's no food or drinking water on the island, everyone goes through a biosecurity check of bags and shoes on arrival, and you get a full refund if the ferry is cancelled for weather.\nLocal tip: Pack a picnic and plenty of water, and check your bags for seeds, soil and stowaway insects before you leave, so the biosecurity check is quick.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Island open daily 8.30am to 5pm; ferry return $42 adult, $24 child; sailings can be cancelled in bad weather",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/wellington-kapiti/places/matiu-somes-island/",
+    "confidence": "high"
+  },
+  {
+    "name": "Oriental Bay Beach",
+    "slug": "oriental-bay-beach",
+    "lat": -41.290834,
+    "lng": 174.792475,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "description": "Wellington's most popular beach is a sandy strip along Oriental Parade, about a 10 minute walk from downtown. On warm days it fills with swimmers and sunbathers, and the promenade is busy with walkers, runners and dogs. The Carter Fountain in the bay shoots water up to 16m high at set times in calm weather, and switches off when the wind picks up.\n\nToilets, changing rooms and cold showers are at Freyberg Pool, and there's angle parking along the parade. Cafés and ice cream are across the road, and the Southern Walkway and the Mount Victoria tracks start nearby.\nLocal tip: Check the LAWA Can I Swim Here website before a dip, especially after heavy rain, then grab fish and chips from Mt Vic Chippery to eat on the sand.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all hours; free; toilets and cold showers at Freyberg Pool; check LAWA for water quality",
+    "sourceUrl": "https://wellington.govt.nz/recreation/outdoors/beaches-and-coast/central-city/oriental-bay-beach",
+    "confidence": "high"
+  },
+  {
+    "name": "Days Bay Ferry and Beach",
+    "slug": "days-bay-ferry-beach",
+    "lat": -41.281595,
+    "lng": 174.90658,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://eastbywest.co.nz/",
+    "description": "Catch the East by West ferry from Queens Wharf for a 25 minute ride across the harbour to Days Bay, a sheltered beach on the eastern shore with a historic wharf, the big lawns of Williams Park and a few cafés. The views back to the city are excellent.\n\nIn summer, kids jump off the wharf and swim out to the floating pontoon, and the Butterfly Creek track climbs through native bush behind the bay to a harbour lookout. Fares are $17 one way or $34 return for adults, and half that for children aged 5 to 16. Weekdays have 16 sailings each way, and weekends and public holidays have 7, starting at 9am.\nLocal tip: The weekend timetable is much thinner, so check when the last boat back leaves before you settle in at a café.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Weekdays 16 sailings from 6.10am, weekends 7 sailings from 9am (timetable to 31 Dec 2026); adult $17 one way; weather cancellations possible",
+    "sourceUrl": "https://eastbywest.co.nz/ferry-services/queens-wharf-days-bay-trips/",
+    "confidence": "high"
+  },
+  {
+    "name": "Taputeranga Marine Reserve, Island Bay",
+    "slug": "taputeranga-marine-reserve-island-bay",
+    "lat": -41.345057,
+    "lng": 174.776333,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "description": "An 855 hectare marine reserve along the south coast around Island Bay, opened in 2008, where fishing and taking anything is banned. More than 180 fish species have been recorded on this coast, along with octopus, crayfish, starfish and about 400 kinds of seaweed, and fur seals and dolphins are sometimes seen from shore.\n\nThe snorkel trail at 192 The Esplanade, Island Bay, has a reef close to shore and is the easiest way in, and snorkel gear can be hired in Island Bay. The Moa Point treatment plant failed in February 2026, and since 25 February swimming near the shore has been allowed again from Ōwhiro Bay to Breaker Bay, except at Tarakena Bay. Check LAWA first, and stay out of the water during rain and for 48 hours after it.\nLocal tip: Even if you don't get wet, the rock pools and the coastal road between Island Bay and Ōwhiro Bay make a good walk on a calm day.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all hours; free; no fishing or taking anything; check LAWA before swimming while Moa Point plant repairs continue",
+    "sourceUrl": "https://doc.govt.nz/taputeranga-marine-reserve",
+    "confidence": "high"
+  },
+  {
+    "name": "Petone Beach and Settlers Museum",
+    "slug": "petone-beach-settlers-museum",
+    "lat": -41.229266,
+    "lng": 174.87928,
+    "category": [
+      "Walks",
+      "Culture"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "description": "Petone's long sandy beach at the top of the harbour has a flat foreshore path, picnic spots and free parking along The Esplanade. It's popular for walks, dog walking and sunsets, though most locals come for a stroll rather than a swim.\n\nThe free Petone Settlers Museum on the foreshore tells the story of the early British settlers who landed here and of local Māori, with audio and video displays. It's open from 10am to 4pm, Wednesday to Sunday. Jackson Street, a block back from the beach, is lined with cafés and independent shops.\nLocal tip: Petone station is a short train ride from Wellington on the Hutt Valley line, so you can leave the car behind and finish with lunch on Jackson Street.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Beach open all hours; free; Settlers Museum Wed to Sun 10am to 4pm, free",
+    "sourceUrl": "https://huttcity.govt.nz/arts-and-culture/museums/petone-settlers-museum/visit",
+    "confidence": "medium"
+  },
+  {
+    "name": "Harbourside Market",
+    "slug": "harbourside-market",
+    "lat": -41.291201,
+    "lng": 174.783298,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Cheap",
+    "description": "Wellington's big Sunday market sets up on the corner of Cable and Barnett Streets, right beside Te Papa. Growers, many of them from Horowhenua and Ōtaki, sell fresh fruit and vegetables at good prices, and a ring of food trucks and stalls cooks breakfast and lunch from around the world.\n\nIt runs every Sunday from 7.30am to 2pm, except on Christmas Day, New Year's Day and Anzac Day. It's a great place to stock up the chilly bin or campervan fridge cheaply before heading on.\nLocal tip: Get there early for the best produce, then take your breakfast along the waterfront towards Oriental Bay.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Sundays 7.30am to 2pm; closed Christmas Day, New Year's Day and Anzac Day",
+    "sourceUrl": "https://wellington.govt.nz/news-and-events/events-and-festivals/harbourside-market",
+    "confidence": "high"
+  },
+  {
+    "name": "Welly Night Market",
+    "slug": "welly-night-market",
+    "lat": -41.296502,
+    "lng": 174.774219,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Cheap",
+    "description": "Wellington's night market has returned in a new spot at 45A Abel Smith Street, on the old trailer hire corner at the top of Cuba Street. It's a small, casual gathering of food trucks and stalls, with savoury dishes and desserts from many cuisines at prices from cheap to mid-range.\n\nFriday from 5pm to 10pm is the regular night. A second night is listed as Thursday in some places and Saturday afternoon to evening in others, so check the market's social media before you go.\nLocal tip: Go with friends and split up. Everyone picks a different stall, then you meet back at the tables to share.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Fridays 5pm to 10pm; second night varies (Thursday or Saturday), check before going",
+    "sourceUrl": "https://www.theurbanlist.com/wellington/a-list/best-markets-wellington",
+    "confidence": "medium"
+  },
+  {
+    "name": "Midnight Espresso",
+    "slug": "midnight-espresso",
+    "lat": -41.294587,
+    "lng": 174.774867,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Cheap",
+    "description": "A Cuba Street institution for decades, Midnight Espresso is a funky, art-covered café that opens at 7.30am and stays open until midnight, or 1am on Fridays and Saturdays. The cabinet is full of big cakes, slices and pies, with plenty of vegan options, and there's a cooked menu of breakfasts and comfort food.\n\nOrder at the counter. Seating is all indoors and fills up at busy times, and the coffee is consistently well rated.\nLocal tip: Come after dinner, when most cafés have closed. It's the classic late-night spot for a hot chocolate and a slab of cake.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 7.30am to midnight, Fri and Sat to 1am",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJpUeBQ9ivOG0RfJfyJsdczAo",
+    "confidence": "medium"
+  },
+  {
+    "name": "Little Penang",
+    "slug": "little-penang",
+    "lat": -41.292206,
+    "lng": 174.774697,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Cheap",
+    "description": "A long-running favourite for Malaysian Nyonya food, now on Victoria Street. Generous plates of nasi lemak, char kway teow, laksa, Nyonya curry and mee goreng come out fast at reasonable prices, the roti is made fresh, and there are Malaysian kuih to take away.\n\nIt's open for lunch and dinner from Monday to Friday, all day on Saturday from 11am to 9pm, and closed on Sundays. Friday nights are very busy, but tables turn over quickly.\nLocal tip: Go at lunchtime for the quickest service, and order a plain roti on the side, whatever else you choose.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Mon to Fri 11am to 2.30pm and 5pm to 9pm, Sat 11am to 9pm, closed Sun",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJm3CSbNevOG0RMfo4dzlxr28",
+    "confidence": "medium"
+  },
+  {
+    "name": "Aunty Mena's",
+    "slug": "aunty-menas",
+    "lat": -41.293991,
+    "lng": 174.775473,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Cheap",
+    "description": "A Cuba Street favourite for cheap, filling vegetarian and vegan food, with a long menu of Malaysian and Asian dishes such as laksa, mee goreng, tom yum noodle soup, and rice with vegetables and tofu. Most mains are around $17 to $18, and the portions are big.\n\nService is quick, and the room is simple and relaxed. It's open from midday to 9pm, Monday to Saturday, and closed on Sundays.\nLocal tip: Bring cash or be ready to pay by bank transfer, since diners report that cards aren't accepted.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Mon to Sat 12pm to 9pm, closed Sun; cash or bank transfer",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJDaepN9ivOG0RPql830ClCb4",
+    "confidence": "medium"
+  },
+  {
+    "name": "Mt Vic Chippery",
+    "slug": "mt-vic-chippery",
+    "lat": -41.29406,
+    "lng": 174.784383,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Cheap",
+    "description": "Proper fish and chips on Majoribanks Street in Mount Victoria, a short walk from Courtenay Place and Oriental Bay. Pick your fish from the board, battered or crumbed, with hand-cut or kūmara chips, beer-battered mussels and homemade tartare sauce. There's a separate fryer for gluten-free fish and chips.\n\nIt's open from 4pm to 8pm, Monday to Thursday, and from midday to 8pm, Friday to Sunday, for eating in or takeaway.\nLocal tip: Take it down to the beach at Oriental Bay. One serve of hand-cut chips is easily enough for two.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Mon to Thu 4pm to 8pm, Fri to Sun 12pm to 8pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJCY5wRcWvOG0RO9pROkUcxvY",
+    "confidence": "medium"
+  },
+  {
+    "name": "Garage Project Aro Taproom",
+    "slug": "garage-project-aro-taproom",
+    "lat": -41.295448,
+    "lng": 174.766864,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Moderate",
+    "description": "Garage Project is one of New Zealand's best-known craft breweries, and its small taproom in Aro Valley pours a long, changing list of its own beers, from Belgian-style blondes to big stouts and sours. Tasting flights are the easy way to try several, and the food is simple bar snacks and toasties.\n\nThe taproom at 91 Aro Street is open from 3pm, Tuesday to Friday, and from midday at weekends, closing at 9pm, and it's closed on Mondays. A short walk down the street, the cellar door at 68 Aro Street sells cans and fills flagons to take away.\nLocal tip: Ask for a dealer's choice flight. The bar staff know the range well and will steer you to something you'd never have ordered.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Taproom Tue to Fri 3pm to 9pm, Sat and Sun 12pm to 9pm, closed Mon; cellar door at 68 Aro St",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJDbRJNiSwOG0RIosrHaS97Jo",
+    "confidence": "medium"
+  },
+  {
+    "name": "Evans Bay Marina Freedom Camping",
+    "slug": "evans-bay-marina-freedom-camping",
+    "lat": -41.311901,
+    "lng": 174.796535,
+    "category": [
+      "Stay"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "description": "Wellington's main free campervan spot, in the Evans Bay Marina car park on Evans Bay Parade, Hataitai, with 52 designated parks for certified self-contained vehicles. There are flushing toilets open around the clock, a public dump station at 517 Evans Bay Parade, and buses, shops and restaurants nearby.\n\nIt's all concrete and next to a busy road, so expect some traffic noise, but the harbour views, sunrises and passing ferries make up for it. As everywhere in Wellington, the limit is four consecutive nights in one area per calendar month, and breaking the rules can bring a $400 fine.\nLocal tip: It's often full by early afternoon in summer, so arrive late in the morning, when campers pull out to catch the ferry.",
+    "hoursNote": "Certified self-contained only; 52 parks; max 4 consecutive nights per calendar month; toilets; dump station at 517 Evans Bay Parade",
+    "sourceUrl": "https://wellington.govt.nz/recreation/outdoors/camping-in-wellington",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Kopahou Visitor Centre Freedom Camping",
+    "slug": "te-kopahou-visitor-centre-freedom-camping",
+    "lat": -41.348309,
+    "lng": 174.749888,
+    "category": [
+      "Stay"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Free",
+    "description": "A free council camping spot in the Te Kopahou Visitor Centre car park at the end of Ōwhiro Bay Parade, right at the start of the Red Rocks walk. There are 16 designated parks for certified self-contained vehicles, and it isn't suitable for vehicles over 7m or for caravans.\n\nThe visitor centre has toilets and changing facilities, and the coast here is wild and open, with views to the South Island on a clear day. The limit is four consecutive nights in one area per calendar month.\nLocal tip: Start the Red Rocks walk early in the morning, straight from your van, before the day visitors and 4WDs arrive.",
+    "hoursNote": "Certified self-contained only; 16 parks; no vehicles over 7m or caravans; max 4 consecutive nights per calendar month",
+    "sourceUrl": "https://wellington.govt.nz/recreation/outdoors/camping-in-wellington",
+    "confidence": "high"
+  },
+  {
+    "name": "The Marion Hostel",
+    "slug": "the-marion-hostel",
+    "lat": -41.294211,
+    "lng": 174.776705,
+    "category": [
+      "Stay"
+    ],
+    "region": "wellington",
+    "area": "wellington",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.marionhostel.co.nz/",
+    "description": "A modern, spotless hostel on Marion Street in Te Aro, two minutes' walk from Cuba Street and close to central bus stops, with consistently excellent guest reviews. Towels, lockers and extra blankets are provided, and there are free bikes to use.\n\nThe kitchen is well equipped, with free tea, coffee, milk and hot chocolate, and there are free pancakes or waffles on weekend mornings, free yoga classes, games, TV lounges and a rooftop area. Laundry costs extra.\nLocal tip: Ask at reception what free activities are on that week, since they sometimes run a city walk or a games night.",
+    "hoursNote": "Reception 6.30am to 8pm; free weekend pancakes or waffles; laundry about $16 wash and dry",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJL9CtOGuvOG0RNOnGetq1Bhg",
+    "confidence": "medium"
+  }
+]

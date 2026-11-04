@@ -1,0 +1,307 @@
+[
+  {
+    "name": "Bridge to Nowhere Jet Boat Tour",
+    "slug": "bridge-to-nowhere-jet-boat-tour",
+    "lat": -39.477759,
+    "lng": 175.04423,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.whanganuiriveradventures.co.nz/",
+    "description": "Whanganui River Adventures, a local whānau business, runs you 32km up the Whanganui River from Pipiriki into Whanganui National Park, about 55 minutes by jet boat to Mangapurua Landing. From there it's an easy 40 minute walk through the bush to the Bridge to Nowhere, a concrete bridge opened in 1936 for soldiers who took up farms in the valley after World War I. After a big flood in 1942, the government refused to pay for repairs and closed the valley that year.\n\nThe tour takes 4.5 hours and leaves Pipiriki at 10am, daily in summer and on Wednesdays plus a Saturday or Sunday in winter. Adults pay $205 (minimum two adults), children 5 to 15 pay $102.50 and under 5s go free. Tea, coffee, hot chocolate and biscuits are included, but lunch isn't. For a longer day on the water, the same company jet boats you 13km upriver and you paddle a canoe back to Pipiriki, for $165 per adult between October and April. Children need to be 7 or older for the canoe trips.\nLocal tip: Bring your own lunch, a warm jacket, sunglasses and good walking shoes, as it gets cold on the river even on a sunny day. Book ahead and check in 30 minutes before departure.",
+    "recommendedDurationSlots": 9,
+    "featured": 1,
+    "hoursNote": "Departs Pipiriki 10am; daily in summer, Wednesday plus Saturday or Sunday in winter; adults $205; book ahead",
+    "sourceUrl": "https://www.whanganuiriveradventures.co.nz/the-bridge-to-nowhere/",
+    "confidence": "high"
+  },
+  {
+    "name": "Whanganui River Road",
+    "slug": "whanganui-river-road",
+    "lat": -39.82908,
+    "lng": 175.138348,
+    "category": [
+      "Scenic",
+      "Culture"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Free",
+    "description": "A 64km sealed road that follows the Whanganui River from near Upokongaro up to Pipiriki, past small riverside settlements and marae. It's narrow and winding, so take it slowly and allow most of a day with stops. The Aramoana lookout near the start looks over the river valley to Mt Ruapehu, and further up are the Ātene viewpoint walk (1 to 2 hours return), Koriniti marae with its small Hikurangi museum, the 1854 Kawana Flour Mill, the café at Matahiwi and the church at Jerusalem.\n\nThere are toilets at Kawana Mill, Matahiwi, Rānana, the Jerusalem convent and Pipiriki, and tap water at fairly regular stops. Freedom camping has been banned along the whole road since 1 November 2025, so book a bed at Matahiwi, the Jerusalem convent or the Pipiriki campground, or stay back in Whanganui. Phone reception is patchy at best.\nLocal tip: Respect the marae and urupā (cemeteries) you pass, and only go onto a marae if you're invited. Fill up with fuel and food in Whanganui before you set off, as Pipiriki only has a tiny shop.",
+    "recommendedDurationSlots": 14,
+    "featured": 2,
+    "hoursNote": "Open year round; sealed but narrow and winding; no freedom camping anywhere on the road",
+    "sourceUrl": "https://www.mountainstosea.nz/whanganui-river-road/",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Whare o Rehua Sarjeant Gallery",
+    "slug": "te-whare-o-rehua-sarjeant-gallery",
+    "lat": -39.931012,
+    "lng": 175.053445,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.sarjeant.org.nz/",
+    "description": "Whanganui's public art gallery sits on Pukenamu Queens Park above the town centre. It reopened in November 2024 after the heritage building was earthquake strengthened and a new wing, Te Pātaka o Tā Te Atawhai Archie John Taiaroa, doubled its size. Inside you'll find a nationally significant collection alongside changing exhibitions of New Zealand, Māori and international art.\n\nEntry is free, with donations welcome, and it's open daily from 10am to 5pm. The café runs from 10am to 4pm. A self-guided look takes about 45 minutes, and guided tours for groups of 6 to 21 cost $23 per person on weekdays or $30 at weekends, booked four weeks ahead.\nLocal tip: The Whanganui Regional Museum is a short walk across the park and is also free, so do both in one visit.",
+    "recommendedDurationSlots": 4,
+    "featured": 3,
+    "hoursNote": "Daily 10am to 5pm; free; closed Christmas Day and Good Friday; opens 1pm on Anzac Day",
+    "sourceUrl": "https://www.sarjeant.org.nz/visit",
+    "confidence": "high"
+  },
+  {
+    "name": "Whanganui Regional Museum",
+    "slug": "whanganui-regional-museum",
+    "lat": -39.931838,
+    "lng": 175.052187,
+    "category": [
+      "Culture"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Free",
+    "website": "https://wrm.org.nz/",
+    "description": "A free museum on Pukenamu Queens Park covering the natural and human history of the Whanganui region. The Māori Court holds the 21.8m waka Te Mata o Hoturoa, and you'll also find a big moa collection and the Lindauer Gallery of Gottfried Lindauer's portraits of Whanganui rangatira.\n\nIt's open from 10am to 4.30pm daily, except Good Friday and Christmas Day, and koha is always appreciated. A one hour highlights tour costs $20 per person by appointment (06 349 1110). Wheelchair and pram access is through the Watt Street entrance.\nLocal tip: Check the website for its Saturday Sounds live music sessions and lunchtime talks, which run for koha.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily 10am to 4.30pm; free; closed Good Friday and Christmas Day",
+    "sourceUrl": "https://wrm.org.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Durie Hill Elevator and War Memorial Tower",
+    "slug": "durie-hill-elevator-and-war-memorial-tower",
+    "lat": -39.936131,
+    "lng": 175.058003,
+    "category": [
+      "Attractions",
+      "Scenic"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.duriehillelevator.co.nz/",
+    "description": "A staffed public elevator, opened in 1919, that rises 66m inside Durie Hill at the end of a 213m tunnel from Anzac Parade, across the river from the town centre. At the top it's a short walk to the War Memorial Tower, where 176 steps lead to wide views over the city, the river and out to sea, and to Mt Ruapehu on a clear day.\n\nThe elevator costs $2.50 for adults and $1 for ages 5 to 18 each way, and under 5s, bikes and dogs ride free. You pay in the car by cash, eftpos or card. It runs from 7.30am to 6pm on weekdays and 9.30am to 5pm on weekends and public holidays, and it's closed on Christmas Day. The tower is free to climb.\nLocal tip: Ring the bell at either landing to call the car, and avoid the staff breaks from 11.30am to 11.45am and 4pm to 4.15pm, when it doesn't run.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Elevator weekdays 7.30am to 6pm, weekends and public holidays 9.30am to 5pm; closed Christmas Day; tower free",
+    "sourceUrl": "https://www.duriehillelevator.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Rotokawau Virginia Lake",
+    "slug": "rotokawau-virginia-lake",
+    "lat": -39.914243,
+    "lng": 175.03309,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Free",
+    "description": "A lake reserve a few minutes' drive north-west of the town centre, with a 25 minute woodland walk around the water past the statue of Tainui, a band rotunda and twin bridges. Next to the lake is the Winter Garden, an Art Deco era conservatory with colourful themed displays.\n\nIt's free, with picnic tables, barbecues, drinking fountains and toilets. The Higginbottom Fountain, a copper and steel floating lily installed in 1971, lights up its 15 jets in a 40 minute display every evening when the streetlights come on.\nLocal tip: Bring a gold coin, as dropping it in the slot starts the fountain lights at other times of day.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Reserve always open; free; fountain lights up every evening when the streetlights come on",
+    "sourceUrl": "https://whanganui.govt.nz/Services/Parks-and-Reserves/Find-a-Park/Rotokawau-Virginia-Lake",
+    "confidence": "high"
+  },
+  {
+    "name": "Whanganui River Market",
+    "slug": "whanganui-river-market",
+    "lat": -39.933444,
+    "lng": 175.057169,
+    "category": [
+      "Food",
+      "Attractions"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Cheap",
+    "description": "A Saturday morning market on the riverbank at 7 Taupo Quay, next to the i-SITE, on the historic site of early Māori trading. More than 100 stalls cover a farmers' market of local producers plus street food, plants, art, crafts and vintage and retro finds.\n\nIt marked 21 years in March 2026. It's free to wander, and the food stalls make it a good breakfast stop, with wood-fired pizza, porridge, crepes and cinnamon buns.\nLocal tip: Come hungry, then walk it off along the riverside path in front of the i-SITE.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Saturdays 8.30am to 1pm; 7 Taupo Quay",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ1ZaNnaMDQG0RF0F_hXYO7l0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Bason Botanic Gardens",
+    "slug": "bason-botanic-gardens",
+    "lat": -39.881917,
+    "lng": 174.952427,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Free",
+    "website": "https://basonbotanicgardens.org.nz/",
+    "description": "A large botanic garden at 552 Rapanui Road, about 15 minutes' drive from the city on the way to Kai Iwi Beach. The glasshouses hold orchids and begonias, Millennium Hill has Mediterranean plantings, and outside there are camellias, succulents, bush walks, a Japanese tea house and a disc golf course.\n\nThere's no entry charge, and the free barbecues and picnic areas make it a popular spot for a cheap lunch. The gardens open daily from 8am until the evening, with later closing in summer, and the conservatory is open from 9am to 4.30pm.\nLocal tip: Pack a picnic and stop here on the way to or from Kai Iwi Beach.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Gardens daily 8am to dusk; conservatory 9am to 4.30pm; free; free gas barbecues",
+    "sourceUrl": "https://basonbotanicgardens.org.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Kai Iwi Beach",
+    "slug": "kai-iwi-beach",
+    "lat": -39.885854,
+    "lng": 174.899902,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Free",
+    "description": "A family beach at Mowhanau, about 14km west of Whanganui via Rapanui Road, with driftwood, high cliffs and big sunsets over the Tasman Sea. Lifeguards patrol it in summer, so swim between the flags.\n\nThere's a playground with a flying fox over the stream, a grassy picnic area, wood-burning barbecues and a large toilet block with changing rooms and cold showers. The cliffs are prone to slipping, and the council says to stay well clear of them. The clifftop Mowhanau Lookout car park has closed for good because of erosion.\nLocal tip: The streams across the sand look like a safe paddle for small children, but they carry permanent health warnings, so keep swimming to the sea.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Always open; lifeguard patrols in summer; keep clear of the cliffs",
+    "sourceUrl": "https://www.whanganui.govt.nz/Community-and-Places/Beaches",
+    "confidence": "high"
+  },
+  {
+    "name": "St Joseph's Church, Jerusalem",
+    "slug": "st-josephs-church-jerusalem",
+    "lat": -39.552978,
+    "lng": 175.077291,
+    "category": [
+      "Culture"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Free",
+    "description": "A Catholic church over a century old at Hiruhārama (Jerusalem) on the River Road, below Pipiriki. Suzanne Aubert came here in 1883, and the Sisters of Compassion she founded were formally recognised here in 1892. Inside there's a carved altar in Māori design and kōwhaiwhai panels on the walls, and outside a rosary way garden. The poet James K. Baxter later based his community here.\n\nThe church and convent were restored and formally reopened with a Mass and blessing in March 2026, and the church is open to passing visitors. The Sisters of Compassion still care for the buildings, and the old convent has self-catering beds, mostly in dorms, that must be booked ahead on 06 342 8190. Bring your own linen.\nLocal tip: This is a small living community and a sacred place, so keep noise down, park considerately and stay around the church and garden.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Church open to visitors; convent beds by booking only, phone 06 342 8190; toilets at the convent",
+    "sourceUrl": "https://suzanneaubert.co.nz/a-visit-to-jerusalem",
+    "confidence": "medium"
+  },
+  {
+    "name": "Kawana Flour Mill",
+    "slug": "kawana-flour-mill",
+    "lat": -39.596539,
+    "lng": 175.149089,
+    "category": [
+      "Culture"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Free",
+    "description": "A water-powered flour mill built in 1854 near Matahiwi on the River Road, about 56km north of Whanganui. The Pestall family ran it until it closed in 1913, and it was restored in the late 1970s and reopened by Sir Keith Holyoake in 1980.\n\nBeside it is the two-room miller's cottage, moved to higher ground after the 1904 flood and brought back next to the mill in 1979. The mill is free to visit, donations are welcome, and there's a long drop toilet, drinking water and space for a picnic.\nLocal tip: Fill your water bottle here, and close the mill door behind you when you leave.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Self-guided; free, donations welcome; long drop toilet on site",
+    "sourceUrl": "https://whanganuiheritagetrust.org.nz/our-work-resources/places-to-visit/kawana-flour-mill-and-miller-s-cottage",
+    "confidence": "high"
+  },
+  {
+    "name": "Matahiwi Cafe",
+    "slug": "matahiwi-cafe",
+    "lat": -39.605582,
+    "lng": 175.161232,
+    "category": [
+      "Food"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://matahiwicoffee.com/",
+    "description": "The main food stop on the River Road, about 40km north of Whanganui, in the old Matahiwi School building. Expect home baking, a bite to eat, coffee and cold drinks, with a gallery of local art alongside.\n\nIt's open Wednesday to Sunday from 9am to 3pm. There are also simple cabins ($110 a night for a double, $65 per person in the three-bed cabin, linen included) and tent sites at $20 per person, with a shared kitchen, showers and toilets. Breakfast, packed lunches and dinner can be arranged.\nLocal tip: Time your drive around its hours, and if you'll get there outside them, ring ahead on 06 342 8112, as they can be flexible.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Wednesday to Sunday 9am to 3pm; cabins and tent sites by booking",
+    "sourceUrl": "https://matahiwicoffee.com/",
+    "confidence": "high"
+  },
+  {
+    "name": "Durie Hill Fish and Chip Shop",
+    "slug": "durie-hill-fish-and-chip-shop",
+    "lat": -39.938027,
+    "lng": 175.069021,
+    "category": [
+      "Food"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Cheap",
+    "description": "A classic local fish and chip shop at 63 Portal Street, up on Durie Hill and about a 10 minute walk from the War Memorial Tower. Reviewers rate the crisp batter on the fish, the blue cod, the golden, non-greasy chips and the kūmara chips, and Don's Bacon burger is a favourite.\n\nIt's open from 4.30pm to 7.30pm Tuesday to Sunday, staying open until 8pm on Fridays, and it's closed on Mondays. Queues build at peak times.\nLocal tip: Phone your order through on 06 345 0313 at busy times, then take it up to the Durie Hill lookout for the sunset.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Tuesday to Sunday 4.30pm to 7.30pm (8pm Fridays); closed Mondays",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJhXqaSwsDQG0RunCA1KCnbWg",
+    "confidence": "medium"
+  },
+  {
+    "name": "Castlecliff Beach Freedom Camping",
+    "slug": "castlecliff-beach-freedom-camping",
+    "lat": -39.939736,
+    "lng": 174.977322,
+    "category": [
+      "Stay"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.whanganui.govt.nz/Services/Freedom-Camping",
+    "description": "Free council freedom camping for certified self-contained vehicles at Castlecliff Beach, a little over 10 minutes' drive from the city centre. Under the bylaw that took effect on 1 November 2025, you must use the marked freedom camping parks in the upper car parks next to the Duncan Pavilion, for up to four nights in any four week period.\n\nThe beach is patrolled by lifeguards in summer and has a big playground and a skate park, with public toilets at the pavilion. Grey and black water must go to an approved dump station.\nLocal tip: Display your self-containment certification at all times, and don't light fires or put up washing lines, as breaking the rules can mean a $400 fine.",
+    "hoursNote": "Certified self-contained only; marked parks by Duncan Pavilion; max 4 nights in any 4 weeks; toilets; no fires",
+    "sourceUrl": "https://www.whanganui.govt.nz/files/assets/public/v/1/bylaws/freedom-camping-bylaw-2025.pdf",
+    "confidence": "high"
+  },
+  {
+    "name": "Pipiriki Campground",
+    "slug": "pipiriki-campground",
+    "lat": -39.477759,
+    "lng": 175.04423,
+    "category": [
+      "Stay"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.whanganuiriveradventures.co.nz/pipiriki-camping-ground/",
+    "description": "A small family-run campground at Pipiriki, at the top of the River Road, run by Whanganui River Adventures and the handiest base for the Bridge to Nowhere jet boat. The river is about a five minute walk away, and reviewers praise the clean facilities and hot showers.\n\nTent and campervan sites are $25 per adult and $12.50 per child, plus $10 for one of only four powered sites. Cabin beds start at $55 per person if you bring your own bedding, or a double with linen is $140 a night. There's a shared kitchen and lounge, a coin laundry and a small shop selling ice cream and drinks.\nLocal tip: There's no dump station, so empty your tanks in Whanganui first. It closed for winter from 1 June to 1 September in 2025, so check dates before a cool season trip.",
+    "hoursNote": "Office 8.30am to 5pm; closed in winter (June to August in 2025); $25 per adult; no dump station",
+    "sourceUrl": "https://www.whanganuiriveradventures.co.nz/pipiriki-camping-ground/",
+    "confidence": "high"
+  },
+  {
+    "name": "42B College House",
+    "slug": "42b-college-house",
+    "lat": -39.926961,
+    "lng": 175.046958,
+    "category": [
+      "Stay"
+    ],
+    "region": "manawatu-whanganui",
+    "area": "whanganui",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://42b.co.nz/",
+    "description": "A homely budget lodge in a big house at 42b Campbell Street, a short walk from Victoria Avenue and the supermarkets. Reviewers like the friendly owners, the large, well-stocked kitchen, the garden and the spacious rooms.\n\nIt has private rooms rather than dorms. Singles are $42 with a shared bathroom or $54 with a private one, twins and doubles are $65, and a family room is $95. Wifi and parking are free, and bedding is included in the singles, twins and doubles.\nLocal tip: Ask for the free pickup from the bus stop when you book, and if you're flying in, an airport pickup costs $10.",
+    "hoursNote": "Reception 8am to 8.30pm; check-in from 1pm, check-out 11am; singles from $42",
+    "sourceUrl": "https://42b.co.nz/accommodations/",
+    "confidence": "medium"
+  }
+]

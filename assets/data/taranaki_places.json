@@ -1,0 +1,379 @@
+[
+  {
+    "name": "Pouākai Tarns via Mangorei Track",
+    "slug": "pouakai-tarns-mangorei-track",
+    "lat": -39.203654,
+    "lng": 174.056179,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Free",
+    "description": "The classic shot of Taranaki Maunga reflected in a small alpine tarn, reached by the Mangorei Track from the end of Mangorei Road, about 20 minutes' drive from New Plymouth. DOC allows 2 hours 30 minutes one way, and you need good fitness, as most of the climb is wooden steps and batten boardwalk through forest and alpine scrub before you come out onto the open Pouākai Range.\n\nThe tarns are about 700m past Pouākai Hut, a 34-bunk hut that opened in August 2025 and must be booked ahead. Day walkers can use its deck and toilets, but bring your own toilet paper. The main tarn is small and fragile, so stay on the boardwalk and out of the water. On a still, clear morning it gives you the famous mirror shot, but cloud often rolls in later in the day, and snow and ice are common up high in winter.\nLocal tip: Start early for the best chance of a clear, windless view, and pack a waterproof jacket and warm layers even in summer, as the weather on the maunga changes fast.",
+    "recommendedDurationSlots": 10,
+    "featured": 1,
+    "hoursNote": "Open all year; 2 hr 30 min one way; intermediate fitness; free car park at the Mangorei Road end; snow and ice common in winter",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/taranaki/places/te-papa-kura-o-taranaki/things-to-do/tracks/mangorei-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Rewa Rewa Bridge and Coastal Walkway",
+    "slug": "te-rewa-rewa-bridge-coastal-walkway",
+    "lat": -39.037771,
+    "lng": 174.11233,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Free",
+    "description": "New Plymouth's Coastal Walkway runs 13.2km along the sea edge from Port Taranaki to Bell Block Beach, a wide shared path for walking and cycling, with beach access, playgrounds and cafés along the way. In the city centre it passes the Wind Wand, Len Lye's 45m kinetic sculpture that sways in the breeze.\n\nThe highlight is Te Rewa Rewa Bridge over the Waiwhakaiho River, opened in 2010. It was designed to touch lightly on the Rewa Rewa side out of respect for the people buried there, and on a clear day Taranaki Maunga sits framed in its white arch. Allow about an hour each way on foot from the Wind Wand, or park at Lake Rotomanu and walk over. Bikes are for hire at Breakwater Bay.\nLocal tip: For the framed mountain shot, cross to the Rewa Rewa side and look back through the arch. Keep left on the path, as cyclists come through fast.",
+    "recommendedDurationSlots": 6,
+    "featured": 2,
+    "hoursNote": "Open 24 hours; free; shared path for walkers and cyclists; about 13km end to end",
+    "sourceUrl": "https://www.taranaki.co.nz/explore/listing/new-plymouth-coastal-walkway",
+    "confidence": "high"
+  },
+  {
+    "name": "Forgotten World Highway and Moki Tunnel",
+    "slug": "forgotten-world-highway-moki-tunnel",
+    "lat": -39.019839,
+    "lng": 174.801678,
+    "category": [
+      "Scenic",
+      "Adventure"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Free",
+    "description": "State Highway 43 winds about 150km from Stratford to Taumarunui over four saddles, through farmland, native bush and the Tāngarākau Gorge, carrying an average of only 170 vehicles a day. The last gravel stretch, about 12km through the gorge, was sealed in February 2025, so the whole road is now sealed, though it's still narrow and winding. Allow at least two and a half hours of driving, and more with stops.\n\nThe Moki Tunnel, nicknamed the Hobbit's Hole, is a narrow tunnel about 180m long, dug with steam-powered jackhammers in the mid-1930s. Its floor was lowered by 2m in 1985 so stock trucks could fit through. Other stops include the village of Whangamōmona, about 65km from Stratford, and Mount Damper Falls, a short drive and walk off the highway. There's no fuel on the route and mobile coverage is patchy.\nLocal tip: Fill up with fuel in Stratford or Taumarunui, and check the NZTA journey planner for roadworks before you set off.",
+    "recommendedDurationSlots": 8,
+    "featured": 3,
+    "hoursNote": "Open all year; about 150km Stratford to Taumarunui; fully sealed but narrow and winding; no fuel on the route",
+    "sourceUrl": "https://www.stratford.govt.nz/our-district/discover-stratford/forgotten-world-highway",
+    "confidence": "high"
+  },
+  {
+    "name": "Pukekura Park",
+    "slug": "pukekura-park",
+    "lat": -39.063518,
+    "lng": 174.080056,
+    "category": [
+      "Nature",
+      "Attractions"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.npdc.govt.nz/leisure-and-culture/pukekura-park/",
+    "description": "A 52 hectare park a short walk from central New Plymouth, opened in 1876 and marking 150 years in 2026. Paths loop around lakes, through bush gullies and past a 10m waterfall, and the Bowl of Brooklands is the outdoor amphitheatre where WOMAD is held.\n\nEntry is free. Highlights include the Fernery and Display Houses (8.30am to 4pm), the Tea House on the Lake (9am to 4pm) and the free Brooklands Zoo, with monkeys, otters, an aviary and a mini farmyard, open from 9.30am to 4pm. From 19 December 2026 to 24 January 2027 the park hosts the free TSB Festival of Lights, with light installations, live music and whānau-friendly entertainment.\nLocal tip: Head to Brooklands Zoo first, as it closes at 4pm, and check the Festival of Lights programme when it comes out on 23 November.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Park open daily; free; Brooklands Zoo 9.30am to 4pm, free; Festival of Lights 19 Dec 2026 to 24 Jan 2027",
+    "sourceUrl": "https://festivaloflights.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Govett-Brewster Art Gallery and Len Lye Centre",
+    "slug": "govett-brewster-len-lye-centre",
+    "lat": -39.058494,
+    "lng": 174.070106,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://govettbrewster.com/",
+    "description": "The Len Lye Centre, with its wavy, mirrored facade, is joined to the Govett-Brewster Art Gallery on Queen Street in central New Plymouth. It holds the collection of Len Lye, the modernist filmmaker and kinetic artist behind the Wind Wand on the waterfront, alongside changing contemporary art exhibitions.\n\nEntry is $17 for visitors, $12 for seniors and students, and free for under 16s and New Plymouth District residents. It's open daily from 10am to 5pm, except Christmas Day, Boxing Day and New Year's Day.\nLocal tip: On a wet day, pair it with Puke Ariki, which is free and a short walk away.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily 10am to 5pm; closed 25 and 26 Dec and 1 Jan; visitors $17, seniors and students $12, under 16s free",
+    "sourceUrl": "https://govettbrewster.com/visit",
+    "confidence": "high"
+  },
+  {
+    "name": "Puke Ariki",
+    "slug": "puke-ariki",
+    "lat": -39.057115,
+    "lng": 174.072121,
+    "category": [
+      "Culture"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Free",
+    "website": "https://pukeariki.com/",
+    "description": "New Plymouth's museum, library and i-SITE visitor centre on the waterfront, with the museum and library linked by a bridge over Ariki Street. The museum tells Taranaki's story, from its people to the maunga, with plenty of interactive displays that keep kids busy.\n\nEntry to all parts of the museum is free, and the museum and i-SITE are open daily from 10am to 5pm, except Christmas Day, Boxing Day and New Year's Day. Arborio restaurant in the foyer looks over the Coastal Walkway, the Daily News Café is on the library's first floor, and Len Lye's Wind Wand is just across the road.\nLocal tip: Parking under the museum costs $3 an hour from 9am to 5pm, Monday to Saturday, and has room for campervans. Council car parks are free on Sundays.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Museum and i-SITE daily 10am to 5pm; free entry; closed 25 and 26 Dec and 1 Jan",
+    "sourceUrl": "https://pukeariki.com/museum/visit-the-museum/",
+    "confidence": "high"
+  },
+  {
+    "name": "Paritutu Rock",
+    "slug": "paritutu-rock",
+    "lat": -39.059696,
+    "lng": 174.023387,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Free",
+    "description": "A steep 156m rock between Back Beach and Ngāmotu Beach, beside Port Taranaki, with one of the best views in New Plymouth from the top, over the city, the coastline, the Sugar Loaf Islands just offshore and, on a clear day, Taranaki Maunga.\n\nThe climb takes about 15 minutes. A wooden staircase leads to a near-vertical rock section where you pull yourself up on a fixed chain, so you need both hands free and sturdy shoes. It's free and open all the time, with parking at the base off Centennial Drive.\nLocal tip: Give it a miss in strong wind or rain, when the rock gets slippery, and take your time coming back down the chain section.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open 24 hours; free; about 15 to 20 minutes up; chain section needs both hands; sturdy shoes advised",
+    "sourceUrl": "https://www.taranaki.co.nz/explore/listing/paritutu",
+    "confidence": "high"
+  },
+  {
+    "name": "Sugar Loaf Islands Boat Trip",
+    "slug": "sugar-loaf-islands-boat-trip",
+    "lat": -39.059149,
+    "lng": 174.049009,
+    "category": [
+      "Water",
+      "Attractions"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.chaddyscharters.co.nz/",
+    "description": "A one hour trip with Chaddy's Charters from Breakwater Bay out to the Sugar Loaf Islands on Rescue III, a 1950s wooden Liverpool class lifeboat from the UK. The islands are home to New Zealand's most northerly fur seal colony, and you get views back to the city and Taranaki Maunga.\n\nTrips start from $50 and only run when the weather and tides suit, with a minimum of six adults, so check times and book ahead. Chaddy's also hires out bikes for the Coastal Walkway, plus kayaks and paddleboards, by the hour, half day or full day.\nLocal tip: Arrive 20 minutes early for your life jacket fitting, and ring ahead if the weather looks doubtful, as the office is usually closed early in the week outside the summer holidays.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Office Tue to Sun 10am to 4pm; trips weather and tide dependent; minimum 6 adults; seasonal, book ahead",
+    "sourceUrl": "https://www.chaddyscharters.co.nz/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Ōākura Beach",
+    "slug": "oakura-beach",
+    "lat": -39.11585,
+    "lng": 173.947488,
+    "category": [
+      "Water"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Free",
+    "description": "A relaxed surf village and family beach 15 minutes south of New Plymouth, the first stop on Surf Highway 45. The beach suits families and beginner surfers, and surf lifesavers patrol it in summer, so swim between the flags.\n\nThe village and holiday park are a short walk from the sand. On New Year's Day the beach carnival draws thousands of people and raises money for the surf club.\nLocal tip: The beachfront is a no freedom camping area under the council bylaw, so if you're in a campervan, book a site at the holiday park instead.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all year; free; patrolled by surf lifesavers in summer; no freedom camping on the beachfront",
+    "sourceUrl": "https://www.taranaki.co.nz/explore/listing/oakura-beach",
+    "confidence": "high"
+  },
+  {
+    "name": "Ōpunake Beach and Surf Highway 45",
+    "slug": "opunake-beach-surf-highway-45",
+    "lat": -39.458115,
+    "lng": 173.856954,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Free",
+    "description": "Ōpunake is the main town on Surf Highway 45, the 105km coastal road from New Plymouth to Hāwera around the western side of Taranaki Maunga. Its black sand beach is known for safe swimming, with surf lifesavers on weekends and public holidays in summer and paid lifeguards in the school holidays, and there are rock pools at the north-west end at low tide.\n\nBeside the beach there are picnic tables, barbecues, a playground and a splash pool. In town, follow the mural trail past more than 20 murals, look for the bronze statue of runner Peter Snell, catch a film at the restored Everybody's Theatre, or walk part of the 7km Ōpunake Loop Trail along the clifftops.\nLocal tip: On the drive, detour to the original Cape Egmont Lighthouse at the end of Cape Road, Pungarehu. A replica stands at the Cape Egmont Boat Club on Bayly Road, so don't mix them up.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all year; free; patrolled weekends and public holidays in summer, paid lifeguards in school holidays",
+    "sourceUrl": "https://www.taranaki.co.nz/explore/listing/opunake-beach",
+    "confidence": "high"
+  },
+  {
+    "name": "Wilkies Pools and Dawson Falls",
+    "slug": "wilkies-pools-dawson-falls",
+    "lat": -39.323645,
+    "lng": 174.103371,
+    "category": [
+      "Walks",
+      "Water"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Free",
+    "description": "On the southern side of the maunga, the Dawson Falls road end sits at the top of Manaia Road, about 30 minutes' drive from Stratford. From the visitor centre an easy track reaches Wilkies Pools in about 20 minutes, a chain of smooth rock pools and small cascades, and the first 900m suits buggies and wheelchairs.\n\nThe full Wilkies loop takes about 1 hour 20 minutes but means rock hopping across the unbridged Kapuni Stream, which can be impassable after heavy rain, so families may prefer to come back the same way. The Kapuni Loop, about an hour, passes the 18m Dawson Falls (Te Rere o Noke). The visitor centre is open Thursday to Sunday from 9am to 3.30pm, with 24 hour toilets in the car park, and Dawson Falls Lodge and its café are closed for redevelopment.\nLocal tip: Bring togs on a hot day for a very cold dip, and pack your own food, as there's nowhere to buy any up here.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Tracks open all year; visitor centre Thu to Sun from 9am, daily in school holidays; no dogs; lodge and café closed",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/taranaki/places/te-papa-kura-o-taranaki/things-to-do/tracks/wilkies-pools-loop-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Manganui Gorge Bridge",
+    "slug": "manganui-gorge-bridge",
+    "lat": -39.305593,
+    "lng": 174.089893,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Free",
+    "description": "A 100m suspension bridge hanging 49.5m above the Manganui Gorge, opened in May 2024 as part of the Taranaki Crossing upgrades. It's about 20 minutes' walk uphill (about 900m) from the Stratford Plateau car park at the top of Pembroke Road, and on a clear day the car park looks straight up at the maunga.\n\nThe track is rated easy but is alpine, rocky and uneven in places, with some big drop-offs, so keep children close, and it can be very icy in winter. Carry on another 5 to 10 minutes past the bridge to reach the Manganui ski area.\nLocal tip: Check the mountain forecast first, as the bridge can be unsafe to cross in strong wind, and be ready to turn back.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open all year; free; about 20 min each way from Stratford Plateau; may be unsafe in strong wind; icy in winter",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/taranaki/places/te-papa-kura-o-taranaki/things-to-do/tracks/manganui-gorge-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Three Sisters and Elephant Rock",
+    "slug": "three-sisters-elephant-rock",
+    "lat": -38.81858,
+    "lng": 174.581237,
+    "category": [
+      "Scenic",
+      "Water"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Free",
+    "description": "Sea stacks and arches at the mouth of the Tongapōrutu River in North Taranaki, reached on foot at low tide from the end of Clifton Road. There were once four sisters, and erosion has left two. Elephant Rock lost its trunk in 2016.\n\nGo only at low tide, preferably on a calm sea, as you have to wade across the Tongapōrutu River to reach the beach. Look for the caves, tunnels and arches, and the Māori rock carvings in a cave just south of the river mouth, including a foot with six toes. The Three Sisters Burger Bar opens from October to May.\nLocal tip: Check the tide times before you drive up, and wear sandals or go barefoot, as you'll get wet crossing the river.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Low tide and calm seas only; check tide times; river crossing and slippery mud; free parking at the road end",
+    "sourceUrl": "https://www.taranaki.co.nz/explore/listing/three-sisters-and-elephant-rock",
+    "confidence": "high"
+  },
+  {
+    "name": "Whangamōmona Hotel",
+    "slug": "whangamomona-hotel",
+    "lat": -39.144805,
+    "lng": 174.73589,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.whangamomonahotel.co.nz/",
+    "description": "The old pub at the heart of Whangamōmona, a village of fewer than 200 people about 65km from Stratford on the Forgotten World Highway. Locals declared the Republic of Whangamōmona on 1 November 1989, in protest at being moved into the Manawatū-Whanganui region, and the hotel is the place for a souvenir passport, a cold drink and a hearty country meal.\n\nIt's open seven days from 10am till late, and you can stay in heritage rooms above the pub, The Lodge or The Post Office. Republic Day, with its quirky contests and presidential vote, is held every second January, with the next one due in January 2027.\nLocal tip: It's the only place to eat for a long stretch of the highway, so time your lunch stop here.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open 7 days, 10am till late; meals, bar and rooms; passport stamps available",
+    "sourceUrl": "https://www.whangamomonahotel.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Wild Pear Kitchen",
+    "slug": "wild-pear-kitchen",
+    "lat": -39.056252,
+    "lng": 174.079772,
+    "category": [
+      "Food"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small, very popular plant-based café at 178 Devon Street East, a few minutes' walk from the city centre. The cabinet is full of vegan and vegetarian food, with fresh salads made daily, sandwiches, chef's specials and raw slices, plus a smoothie bar, plant-based milkshakes and coffee.\n\nIt's open for breakfast and lunch, Tuesday to Friday from 7.30am to 3.30pm and Saturday from 8am to 2.30pm, and closed on Sunday and Monday. Reviewers consistently rate it as good value.\nLocal tip: Grab a takeaway salad and a slice for a picnic in Pukekura Park, about a 10 minute walk away.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Tue to Fri 7.30am to 3.30pm; Sat 8am to 2.30pm; closed Sun and Mon",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ28Q2ev9PFG0RS03MmQeTnlo",
+    "confidence": "medium"
+  },
+  {
+    "name": "Port Fish Shop",
+    "slug": "port-fish-shop",
+    "lat": -39.062888,
+    "lng": 174.044739,
+    "category": [
+      "Food"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Cheap",
+    "description": "An old-fashioned fish and chip shop at 2C Breakwater Road at the port end of town, handy after climbing Paritutu or a boat trip from Breakwater Bay. Locals rate the crisp, non-greasy chips, fresh fish and burgers with homemade beef patties, and there are whitebait sandwiches too.\n\nIt's open every day for lunch from 11am to 2pm and again for dinner from 4.30pm. Prices are standard for a New Zealand takeaway, and one reviewer paid just under $10 for a loaded egg burger.\nLocal tip: Take your order to Ngāmotu Beach, a few minutes away, where the water is usually calm.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily for lunch and dinner; mostly 11am to 2pm and 4pm to 9pm, open through the afternoon on weekends",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJhRgnjOxOFG0RXwYe2NIAgwE",
+    "confidence": "medium"
+  },
+  {
+    "name": "Lake Rotomanu Freedom Camping",
+    "slug": "lake-rotomanu-freedom-camping",
+    "lat": -39.042364,
+    "lng": 174.11448,
+    "category": [
+      "Stay"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Free",
+    "description": "A free council freedom camping area beside Lake Rotomanu in Fitzroy, a short walk from Te Rewa Rewa Bridge, the Coastal Walkway and the beach. It's one of only two places in New Plymouth District where non-self-contained vehicles can camp, with four marked bays, and you can stay one night (up to 24 hours) in any 30 days.\n\nUnder the 2024 bylaw this area is set aside for non-self-contained vehicles, so certified self-contained vehicles can't use it, though they can stay up to three nights in 30 days elsewhere where camping is allowed. Tents aren't allowed and fires are banned. There are flush toilets, but don't count on drinking water. Enforcement is strict, and reviewers report fines of $200 to $400 for breaking the rules.\nLocal tip: Arrive by mid afternoon in summer and at weekends to get a bay, and expect boat and jet ski noise on the lake from about 8am.",
+    "hoursNote": "Free; non-self-contained 1 night in 30 days, marked bays only; self-contained max 3 nights in 30 days; no tents; flush toilets",
+    "sourceUrl": "https://www.npdc.govt.nz/media/loklku2f/ecm_9391100_v1_freedom-camping-bylaw-2024.pdf",
+    "confidence": "high"
+  },
+  {
+    "name": "Stratford Plateau Freedom Camping",
+    "slug": "stratford-plateau-freedom-camping",
+    "lat": -39.307709,
+    "lng": 174.100041,
+    "category": [
+      "Stay"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Free",
+    "description": "A DOC freedom camping site in the car park at the top of Pembroke Road, at about 1,100m on the eastern side of Taranaki Maunga, with views of the mountain and sometimes a sunrise above the clouds. It's for certified self-contained vehicles only, with a limit of four nights in a calendar month.\n\nThere are long drop toilets but no drinking water, and dogs aren't allowed in the national park. It gets cold at night up here, and level spots are limited.\nLocal tip: Pack warm bedding, and walk to the Manganui Gorge Bridge at first light, before the cloud comes in.",
+    "hoursNote": "Certified self-contained only; max 4 nights per calendar month; long drops; no drinking water; no dogs",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-stay/freedom-camping/prohibited-conservation-areas",
+    "confidence": "high"
+  },
+  {
+    "name": "Whangamōmona Camping Ground",
+    "slug": "whangamomona-camping-ground",
+    "lat": -39.148344,
+    "lng": 174.740378,
+    "category": [
+      "Stay"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Cheap",
+    "description": "A friendly, old-style community campground in the old school grounds at Whangamōmona, on the Forgotten World Highway and a short walk from the hotel. It has powered and unpowered sites on a paddock ringed by shade trees, hot showers, an old kitchen and laundry, a playground, and resident ponies, chickens and ducks.\n\nReviewers describe the facilities as dated but clean, and one couple paid about $30 a night for a site. It's very quiet, apart from the rooster.\nLocal tip: Bring cash, as it's cash only, and phone ahead in summer on 06 762 5881.",
+    "hoursNote": "Powered and unpowered sites; about $30 for two people; hot showers; kitchen; 300m from the hotel",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ7Q7_GaXZFG0RDBl-aCsqZJc",
+    "confidence": "medium"
+  },
+  {
+    "name": "Ducks and Drakes Backpackers",
+    "slug": "ducks-and-drakes-backpackers",
+    "lat": -39.05885,
+    "lng": 174.080745,
+    "category": [
+      "Stay"
+    ],
+    "region": "taranaki",
+    "area": "taranaki",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.ducksanddrakes.co.nz/",
+    "description": "A well-reviewed backpackers and boutique motel in a 1920s former private hotel at 48 Lemon Street, an easy walk from central New Plymouth. The backpackers has dorms of 3 to 6 beds and private rooms, with a shared kitchen, a fireplace lounge, a dining room and outdoor space, and there are motel suites and garden cottages with their own kitchens.\n\nIt also runs its own licensed shuttle to Taranaki Maunga and the Pouākai Crossing, with daily departures, pickups from central New Plymouth accommodation and park and ride from the Mangorei Road car park. Rates listed on newzealand.com range from about $25 to $160 a night, depending on the room.\nLocal tip: Book the mountain shuttle when you book your bed, and let them know if you'll arrive after 8pm. Families with children under 12 need a cottage, as the main hostel isn't suitable for them.",
+    "hoursNote": "Office about 9am to 8pm; dorms and private rooms; daily mountain shuttle; main hostel not for under 12s",
+    "sourceUrl": "https://www.ducksanddrakes.co.nz/",
+    "confidence": "high"
+  }
+]

@@ -1,0 +1,365 @@
+[
+  {
+    "name": "Huka Falls",
+    "slug": "huka-falls",
+    "lat": -38.648636,
+    "lng": 176.09005,
+    "category": [
+      "Nature",
+      "Scenic"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Free",
+    "description": "Taupō's best-known sight, five minutes' drive north of the town centre. The Waikato River is normally about 100m wide, but here it's squeezed through a hard volcanic canyon only about 15m wide before it plunges into a churning pool. Nearly a quarter of a million litres go over every second, enough to fill an Olympic pool in about 11 seconds, and the water is a startling clear blue.\n\nFrom the car park you cross a bridge over the falls to an easy, wheelchair-accessible walk with several lookouts, and walking tracks run along both banks. You can also walk in along the river from Spa Park in town, or see the falls from below on a jet boat or river cruise.\nLocal tip: DOC locks the car park from 5.30pm to 8.30am and charges a $30 release fee if you're caught inside, so check the time before you head off on a longer walk.",
+    "recommendedDurationSlots": 2,
+    "featured": 1,
+    "hoursNote": "Open daily; free; car park locked 5.30pm to 8.30am ($30 release fee); toilets at car park",
+    "sourceUrl": "https://www.lovetaupo.com/en/discover/highlights/huka-falls/",
+    "confidence": "high"
+  },
+  {
+    "name": "Spa Park Hot Stream and Huka Falls Walk",
+    "slug": "spa-park-hot-stream-huka-falls-walk",
+    "lat": -38.66941,
+    "lng": 176.085485,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Free",
+    "description": "A free natural hot stream on the edge of town. The Otumuheke Stream runs warm through Spa Thermal Park and spills into the cold, fast Waikato River, and you sit in the shallow pools where the two meet. The temperature changes with where you sit and how high the river is. There are changing rooms, lockers and toilets beside the stream, more toilets at the car park and a coffee kiosk.\n\nThe Spa Park to Huka Falls walk starts from the same car park and follows the river about 3km each way through bush to Huka Falls, crossing the hot stream about five minutes in. DOC grades it easiest, and you should allow 1.5 to 2 hours return. The track is for walkers only, and cyclists use the Rotary Ride instead.\nLocal tip: Walk to the falls first and soak on the way back, and check the vehicle gate closing time when you park. The Waikato River is deep and fast, so stay in the stream pools.",
+    "recommendedDurationSlots": 6,
+    "featured": 2,
+    "hoursNote": "Free; car park gates open 7am to 8pm daily; walk about 3km each way, walkers only; changing rooms and toilets",
+    "sourceUrl": "https://www.doc.govt.nz/link/08223f4524b0490199305cf4f1e7750a.aspx",
+    "confidence": "high"
+  },
+  {
+    "name": "Aratiatia Rapids",
+    "slug": "aratiatia-rapids",
+    "lat": -38.617549,
+    "lng": 176.138035,
+    "category": [
+      "Attractions",
+      "Scenic"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Free",
+    "website": "https://aratiatiarapids.co.nz",
+    "description": "Most of the time only a trickle runs through this rocky gorge on the Waikato River, about 10km north of Taupō off State Highway 5 on Aratiatia Road. Several times a day the gates of the Aratiatia dam open, sirens sound, and the gorge fills with roaring rapids for 15 minutes. It's free to watch.\n\nReleases are at 10am, 12pm and 2pm all year, with an extra 4pm release from 1 October to 31 March. You can watch from the bridge by the car park, or take the short track that starts about 50m from the bridge to two lookouts downstream, about 10 minutes' walk.\nLocal tip: Arrive 15 to 30 minutes early and head to the lookouts for the best view of the gorge filling. Keep out of the riverbed and spillway at all times, as water can be released without a siren.",
+    "recommendedDurationSlots": 2,
+    "featured": 3,
+    "hoursNote": "Free; releases 10am, 12pm and 2pm year round, plus 4pm from 1 Oct to 31 Mar; each release lasts 15 minutes",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/central-north-island/places/taupo-area/things-to-do/aratiatia-rapids-lookout-walk",
+    "confidence": "high"
+  },
+  {
+    "name": "Ōrākei Kōrako Geothermal Park and Cave",
+    "slug": "orakei-korako-geothermal-park-cave",
+    "lat": -38.474055,
+    "lng": 176.143475,
+    "category": [
+      "Nature",
+      "Attractions"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.orakeikorako.co.nz/",
+    "description": "A quieter geothermal valley about 25 minutes' drive north of Taupō, reached by a short boat ride across Lake Ohakuri from the visitor centre. The self-guided walk on boardwalks and steps passes huge coloured silica terraces, boiling springs, mud pools and up to 23 active geysers, and visitors say the loop takes about an hour to 90 minutes.\n\nThe walk ends at Ruatapu Cave, which drops more than 36m into the volcanic rock to a small hot pool, the Pool of Mirrors (Waiwhakaata). Entry, including the boat, is $63 for adults, $25 for children 16 and under and $152 for a family, and under 6s are free. The MudCake Café at the visitor centre does coffee and baking.\nLocal tip: Go on a sunny day for the best terrace colours, and get there well before the last boats leave at 4pm.",
+    "recommendedDurationSlots": 5,
+    "featured": 4,
+    "hoursNote": "Daily; boat runs on demand from 8am, last trips 4pm; adults $63, children $25, family $152",
+    "sourceUrl": "https://www.orakeikorako.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Craters of the Moon",
+    "slug": "craters-of-the-moon",
+    "lat": -38.644302,
+    "lng": 176.071439,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.cratersofthemoon.co.nz/",
+    "description": "A steaming geothermal field at Wairakei, just north of Taupō, run by the Craters of the Moon Trust. An easy 40 minute loop of fine gravel and boardwalk takes you past hissing steam vents and craters, the largest about 40m across. An upper walkway adds about 20 minutes and a lot of steps to reach a lookout over the whole field.\n\nEntry is $15.30 for adults, $10.20 for seniors, $5.10 for children 5 to 15 and $30.60 for a family, under 5s are free, and Taupō locals pay half price. It's open from 9.30am to 5pm every day except Christmas Day. Tickets are sold at the kiosk at the start, and there's a new coffee shop on site. Dogs aren't allowed.\nLocal tip: Last entry is strictly 4pm. The main loop is fine for pushchairs, but the lookout track isn't.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open 9.30am to 5pm daily except Christmas Day; last entry 4pm; no dogs",
+    "sourceUrl": "https://www.cratersofthemoon.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Hukafalls Jet",
+    "slug": "hukafalls-jet",
+    "lat": -38.629208,
+    "lng": 176.102512,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.hukafallsjet.com/",
+    "description": "The jet boat ride up the Waikato River to the foot of Huka Falls, leaving from Wairakei Tourist Park at 200 Karetoto Road. The 30 minute trip runs at up to 80km/h past sheer cliffs, native bush and hot water streams, with the company's signature 360 degree spins, and stops at the base of the falls so you can look up at the water pouring over.\n\nAn individual pass is $179 for adults and $99 for children, and a family pass for two adults and two children is $457. It runs all year, from 8.30am to 5pm (5.30pm in December and January, 4pm in winter).\nLocal tip: Book ahead in summer and check in 15 minutes before your trip, and sit near the front for the best view of the falls.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily; Oct to Apr 8.30am to 5pm (5.30pm in Dec and Jan), May to Sep 9am to 4pm; trips about every 30 minutes",
+    "sourceUrl": "https://www.hukafallsjet.com/prices/individual/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ernest Kemp Rock Carvings Cruise",
+    "slug": "ernest-kemp-rock-carvings-cruise",
+    "lat": -38.686644,
+    "lng": 176.064882,
+    "category": [
+      "Water",
+      "Culture"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.ernestkemp.co.nz/",
+    "description": "The Ngātoroirangi Mine Bay Māori rock carvings tower 14m above the lake at Mine Bay and can only be reached by water. This heritage-style boat is one of the easiest ways to see them, leaving from Berth 2 at the Taupō Boat Harbour, with the skipper giving commentary on the carvings and the lake.\n\nThe 2 hour cruise leaves at 10.30am and 2pm daily, all year, and includes a swim stop when conditions allow. Adults pay $59, seniors $55 and a family of two adults and two children $145. Tea, coffee and cookies are free on board, there's seating inside and out, and well-behaved dogs are welcome.\nLocal tip: Book online in summer, and have your camera ready as the skipper brings the boat in close to the carvings.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "2 hour cruises 10.30am and 2pm daily year round; shorter cruises at other times in summer and on winter weekends; Berth 2, Taupō Boat Harbour",
+    "sourceUrl": "https://www.ernestkemp.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "AC Baths Hot Pools",
+    "slug": "ac-baths-hot-pools",
+    "lat": -38.677741,
+    "lng": 176.094508,
+    "category": [
+      "Water"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Cheap",
+    "description": "The council's pool complex is the cheapest way to soak in warm water in Taupō. There's a large outdoor leisure pool with a bombing zone, a Tarzan swing, a small slide and two toddler pools, plus an outdoor 25m training pool, an indoor 25m competition pool, indoor learners' pools, a sauna for over 18s and two enclosed hydroslides.\n\nEntry is $13 for adults, $7.50 for seniors and students, $6.50 for children and $31 for a family, and unlimited hydroslide rides are $9 extra. It's open from 6am to 8pm on weekdays and 7am to 7pm at weekends and on public holidays, with a café and free parking, about five minutes' drive from the town centre.\nLocal tip: The hydroslides only run at weekends and in school and public holidays, from 10.30am to 6pm, and the family pass doesn't cover them.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Mon to Fri 6am to 8pm; Sat, Sun and public holidays 7am to 7pm; open all year",
+    "sourceUrl": "https://www.taupodc.govt.nz/recreation/swimming-pools/ac-baths/2entry-fees-and-membership",
+    "confidence": "high"
+  },
+  {
+    "name": "Taupō Lakefront and Love Taupō Sign",
+    "slug": "taupo-lakefront-love-taupo-sign",
+    "lat": -38.69092,
+    "lng": 176.071222,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Free",
+    "description": "The big Love Taupō letters sit on the lakefront on Lake Terrace, a short walk from the town centre, with Lake Taupō behind them. On a clear day, especially in winter, you can see the snow-capped volcanoes of Tongariro National Park across the water.\n\nNearly a kilometre of lakefront reserve runs along here, with shallow water, playgrounds, picnic spots, toilets, a drinking fountain and a free electric barbecue. There are no lifeguards. The Hole in One Challenge is next door.\nLocal tip: Come early in the morning or at sunset for a photo without a queue, and park carefully on the kerb rather than stopping in the traffic lane.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open 24 hours; free; kerbside parking on Lake Terrace",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJUy5k45rwa20RNGllZnIrS2A",
+    "confidence": "medium"
+  },
+  {
+    "name": "Lake Taupō Hole in One Challenge",
+    "slug": "lake-taupo-hole-in-one-challenge",
+    "lat": -38.691598,
+    "lng": 176.07235,
+    "category": [
+      "Attractions"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.holein1.co.nz",
+    "description": "A Taupō institution on the lakefront at 61 Lake Terrace. You hit golf balls at a floating green 104m out in the lake, and a hole in one wins $10,000. Landing in the smaller bunkers wins vouchers for local activities such as a parasail flight, a jet boat ride or a scenic cruise, and every ball that lands on the pontoon earns you a free one.\n\nThe Classic starts from $25 and the air-powered Ball Blaster from $10, each about 10 minutes, and no golf experience is needed. It's open daily from 7am, weather permitting, and the café on the water's edge does coffee and cabinet food.\nLocal tip: Aim for the pontoon rather than the flag, as the free balls add up, and the staff will show beginners how to hold a club.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open daily from 7am, weather dependent; 61 Lake Terrace",
+    "sourceUrl": "https://www.holein1.co.nz",
+    "confidence": "high"
+  },
+  {
+    "name": "Hot Water Beach, Taupō",
+    "slug": "hot-water-beach-taupo",
+    "lat": -38.70384,
+    "lng": 176.086992,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Free",
+    "description": "A stretch of lakeshore at Waipahihi, south-east of the town centre, where geothermal springs seep up through the sand and lake bed. You can feel warm and hot patches in the sand and the shallows, and steam often rises off the water, even on cool days.\n\nSome spots are very hot, so test the water with your hand first and watch children closely. There are no lifeguards and no facilities apart from a free electric barbecue. The sealed Great Lake Pathway runs past from the Taupō Boat Harbour, about 1.5 hours' walk or 30 to 40 minutes by bike.\nLocal tip: Park opposite the Mobil on the corner of Lake Terrace and Napier Road, or on Lowell Place, as the beach isn't well signposted from the road.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open 24 hours; free; unpatrolled; some water is very hot",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ70pf0Yjxa20Rl4Hxair3ZaI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Mt Tauhara Summit Track",
+    "slug": "mt-tauhara-summit-track",
+    "lat": -38.704944,
+    "lng": 176.140316,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Free",
+    "description": "A steep climb up the mountain behind Taupō to a trig at 1,088m, with views over Lake Taupō, the Central Plateau and Tongariro National Park. The track starts at 94 Mountain Road, off State Highway 5 about 10 minutes from town, and is about 2.8km each way. Allow 2 to 3 hours return.\n\nThe first 20 minutes cross steep pasture with stiles, then the track climbs through forest on dirt, roots, steps and rough sections. The mountain is culturally significant to local Māori, so stay on the track. No dogs are allowed and there are no toilets.\nLocal tip: Wear proper shoes and take a warm layer, and carry on past the trig to the rocky outcrop for the widest view.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Free; about 2.8km each way, 2 to 3 hours return; no dogs; no toilets; check gate times at the car park",
+    "sourceUrl": "https://www.lovetaupo.com/en/operators/mt-tauhara/",
+    "confidence": "high"
+  },
+  {
+    "name": "Acacia Bay",
+    "slug": "acacia-bay",
+    "lat": -38.713111,
+    "lng": 176.026048,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Free",
+    "description": "A sheltered bay on the western side of the lake, a short drive from town, and one of the best spots for a swim. There's a small beach with shallow, clear water, a wooden jetty that's good for jumping off, a boat ramp, grassy picnic areas, a toilet and a free electric barbecue.\n\nIt's popular with families and gets busy on hot summer days, so arrive early. There are no lifeguards. The Ngātoroirangi Mine Bay rock carvings are along the coast nearby, but you can only see them from the water.\nLocal tip: Bring a picnic for the evening, but keep it away from the swans, which will help themselves.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open 24 hours; free; toilet; boat ramp; no lifeguards",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJkaNtMwDxa20RUozMY-9iJVI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Kinloch Beach and W2K Track",
+    "slug": "kinloch-beach-w2k-track",
+    "lat": -38.663318,
+    "lng": 175.919412,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Free",
+    "description": "Kinloch is a small lakeside village on the north-western shore of Lake Taupō, about 20 to 25 minutes' drive from town. Its beach has very clear, usually calm water, with grassy lakeside reserve, barbecues, public toilets and a community book and toy shed. The Kinloch Store at 2 Mata Place sells coffee, wood-fired pizza, burgers, fish and chips and groceries.\n\nThe beach is the end of the W2K track, a 14km walking and mountain biking trail from Whakaipo Bay. It climbs gently through native forest to lookouts over the lake, then drops down steep cliffs into Whangamata Bay. DOC allows 4 hours 30 minutes one way on foot or 2 hours by bike, and you can start from either end.\nLocal tip: Fill your water bottle before you head up the track, and if you're in a campervan, there's a free 24 hour dump station at Mata Place.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open 24 hours; free; W2K track 14km one way; free 24 hour dump station at Mata Place",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJJ9dp79CLa20RFl86Aja2XIo",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Fish Box",
+    "slug": "the-fish-box-taupo",
+    "lat": -38.718764,
+    "lng": 176.080763,
+    "category": [
+      "Food"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Cheap",
+    "description": "A well-reviewed fish and chip shop at 2/3 Rainbow Drive, Rainbow Point, at the southern end of town near the lakefront. It focuses on sustainably sourced, traceable seafood, cooked fresh to order, and you choose your fish from the board, often snapper, gurnard, trevally and tarakihi, in a light, crispy batter with generous chips. There's a paua burger too.\n\nPrices are fair for the portions, and the lakefront reserves nearby make good spots to eat.\nLocal tip: Order online or through its app and set a pickup time to skip the wait, and try two or three fish to compare if you only know snapper.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 11am to 8pm; 2/3 Rainbow Drive, Rainbow Point",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ4zw7fGTwa20RzVo5YVwXG4w",
+    "confidence": "medium"
+  },
+  {
+    "name": "L'Arté Café and Gallery",
+    "slug": "larte-cafe-gallery",
+    "lat": -38.702309,
+    "lng": 176.004964,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Moderate",
+    "description": "A café and ceramics gallery at 255 Mapara Road, above Acacia Bay, a few kilometres out of town, set in a garden full of mosaic paths, sculptures and an outdoor mosaic living room. The gallery sits beside the owner's working pottery studio and sells handmade ceramics and quirky homeware.\n\nThe café serves Allpress coffee, New Zealand wine and beer, and food made fresh on site, with made-to-order breakfasts and lunches plus cabinet food, including gluten-free options. It's a handy stop on the way to Whakaipo Bay or the W2K track, and it can get busy at lunchtime.\nLocal tip: Ring ahead on 027 263 3671 to check hours, as it's usually closed early in the week and the café closes before the garden and gallery.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Wed to Sun 8am to 4pm; café closes 3pm weekdays; closed Mon and Tue",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJs4VU-tDza20R20rR7cM37bk",
+    "confidence": "medium"
+  },
+  {
+    "name": "Reid's Farm (Hipapatua Reserve) Freedom Camping",
+    "slug": "reids-farm-hipapatua-freedom-camping",
+    "lat": -38.662751,
+    "lng": 176.080369,
+    "category": [
+      "Stay"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Free",
+    "description": "Taupō's best-known free camping area, on the bank of the Waikato River off Huka Falls Road, about 10 minutes' drive from town and close to Huka Falls. It's one of three council areas where vehicles that aren't self-contained can stay, and the limit is three nights and four days. Spaces are first come, first served.\n\nThere are basic toilets but no drinking water, so fill up in town. The larger lower area closes each winter for maintenance and reopens on 1 October, while the smaller upper area stays open. Breaking the rules can mean a $400 fine, and alcohol is banned from noon on 27 December to 7am on 4 January.\nLocal tip: Arrive early in summer, as it fills fast, and lock up and keep valuables out of sight. The river is beautiful but fast and cold, so take care if you swim.",
+    "hoursNote": "Free; self contained not required; max 3 nights and 4 days; non flush toilets; no drinking water; lower area closed in winter until 1 Oct; $400 fine for breaches",
+    "sourceUrl": "https://www.taupodc.govt.nz/recreation/freedom-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Whakaipo Bay Campsite",
+    "slug": "whakaipo-bay-campsite",
+    "lat": -38.687587,
+    "lng": 175.966028,
+    "category": [
+      "Stay"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Free",
+    "description": "A free DOC camping area beside Lake Taupō, about 10km from town through Acacia Bay and along Mapara Road, reached on a well-maintained pumice road. It's for certified self-contained vehicles only, and tents and vehicles that aren't self-contained aren't allowed.\n\nThe beach next to the camping area has clear water for swimming, and the W2K walking and biking track to Kinloch starts from the shelter at the western end of the bay. Facilities are basic, with no rubbish bins, so pack your rubbish out and bring your own drinking water.\nLocal tip: Check the sign at the entrance for the current maximum stay, and call in at L'Arté on Mapara Road on the way for coffee.",
+    "hoursNote": "Free; certified self-contained vehicles only; no tents; basic toilets; no bins; bring drinking water; unsealed access road",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/central-north-island/places/taupo-area/things-to-do/whakaipo-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Finlay Jack's Backpackers",
+    "slug": "finlay-jacks-backpackers",
+    "lat": -38.683981,
+    "lng": 176.074501,
+    "category": [
+      "Stay"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "taupo",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.finlayjacks.co.nz/",
+    "description": "A well-reviewed backpackers at 20 Taniwha Street, an easy walk to the town centre, supermarkets and the lakefront. It has pod beds, which guests rate as private and comfortable, plus private rooms and a family unit.\n\nThere's a fully equipped kitchen, a courtyard with a barbecue, laundry, bike hire, a TV lounge with Netflix, a games room, a piano, free tea and coffee, parking and wheelchair access, and late check-in can be arranged.\nLocal tip: It can be lively in the evenings, so ask for a private room or bring earplugs if you want an early night before a big walk.",
+    "hoursNote": "Reception about 8.30am to 7pm; late check in available; pods and private rooms; parking on site",
+    "sourceUrl": "https://www.finlayjacks.co.nz/",
+    "confidence": "medium"
+  }
+]

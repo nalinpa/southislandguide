@@ -1,0 +1,307 @@
+[
+  {
+    "name": "Hobbiton Movie Set",
+    "slug": "hobbiton-movie-set",
+    "lat": -37.87209,
+    "lng": 175.68291,
+    "category": [
+      "Attractions"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.hobbitontours.com/",
+    "description": "The Shire film set from The Lord of the Rings and The Hobbit trilogies, a 12 acre set on the Alexander family's farm near Matamata. A guide walks you around the hobbit holes, you go inside one on Bagshot Row, and the tour finishes with a free drink from the Hobbit Southfarthing range at The Green Dragon Inn. Bag End itself is a facade, and you can't go past its gate.\n\nThe Signature Tour takes about 2.5 hours including the coach ride from The Shire's Rest, 501 Buckland Road, where you check in 20 minutes before departure. Adults are $130, youth 11 to 17 are $65, a family pass for two adults and two youth is $332, and children 10 and under are free but still need a ticket. One tour a day also leaves from the Matamata i-SITE, and you should allow 3.5 to 4 hours from there.\nLocal tip: Book early, especially for summer and school holidays. Dates open at least 10 months ahead and there's no waitlist, so keep checking the website for cancellations if your day is full.",
+    "recommendedDurationSlots": 6,
+    "featured": 1,
+    "hoursNote": "Tours depart daily, booking essential; check in 20 min before departure at The Shire's Rest; children 10 and under free with a ticket",
+    "sourceUrl": "https://www.hobbitontours.com/experiences/hobbiton-movie-set-tour/",
+    "confidence": "high"
+  },
+  {
+    "name": "Matamata i-SITE (Hobbit Gatehouse)",
+    "slug": "matamata-i-site-hobbit-gatehouse",
+    "lat": -37.809372,
+    "lng": 175.772048,
+    "category": [
+      "Attractions"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Free",
+    "website": "https://matamatanz.co.nz/",
+    "description": "Matamata's visitor centre, at 45 Broadway on the corner of Hetana Street, is a gatehouse built in 2012 in the style of the nearby Hobbiton Movie Set, and it's a favourite photo stop. Staff give local advice, hand out maps and book Hobbiton tours.\n\nIt's open daily from 9am to 4pm, except Christmas Day. One Hobbiton coach a day leaves from here, so you can park in town and skip the drive out to the farm. The i-SITE sits in Hetana Street Reserve, which has public toilets and a skate park.\nLocal tip: With only one Hobbiton departure a day from here, book it well ahead.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Daily 9am to 4pm; free; Hobbiton tours depart from here (book ahead)",
+    "sourceUrl": "https://matamatanz.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Wairere Falls Track",
+    "slug": "wairere-falls-track",
+    "lat": -37.737421,
+    "lng": 175.862838,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Free",
+    "description": "Wairere Falls drop 153m off the Kaimai Range, and tourism sites call them the highest waterfall in the North Island. The track starts at the end of Goodwin Road, about 10 minutes' drive from Matamata, and climbs through native bush, over bridges and up wooden steps to a lookout at the base of the cliff in about 45 minutes. From there it's a very steep 90 minutes more to a platform at the top of the falls, with views across the Waikato. Allow 3 to 4 hours return.\n\nThe upper track has been closed for rockfall since July 2025, and the whole track, car park and toilets have been closed since 7 September 2026 while DOC replaces platforms, a bridge and steps. DOC hopes to reopen in full by the end of November 2026. Rockfall is still a risk, so don't walk it during or after heavy rain. No dogs.\nLocal tip: Check the DOC website before you drive out, as the reopening date could slip, and don't ignore the closure signs, as DOC says trespassers are delaying the work.",
+    "recommendedDurationSlots": 7,
+    "hoursNote": "Closed from 7 Sept 2026 for works; DOC aims to reopen end of Nov 2026; 3 to 4 hr return; no dogs; avoid in heavy rain",
+    "sourceUrl": "https://www.doc.govt.nz/news/media-releases/2026-media-releases/ignoring-closure-will-shut-wairere-falls-for-longer/",
+    "confidence": "high"
+  },
+  {
+    "name": "Firth Tower Reserve and Museum",
+    "slug": "firth-tower-museum",
+    "lat": -37.801435,
+    "lng": 175.80767,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://mpdc.govt.nz/firth-tower",
+    "description": "A tower built in 1881 and 1882 by Auckland entrepreneur Josiah Clifton Firth, who ran the 56,000 acre Matamata Estate, is the centrepiece of this council reserve at 266 Tower Road, just east of Matamata. Around it the Matamata Historical Society has gathered 13 old local buildings, including a homestead, the 1893 Gordon School schoolroom and a 1914 chapel, each set up with displays on early life in the district.\n\nThe tower itself is closed because of earthquake damage, but the museum is open Monday and Thursday to Sunday, 10am to 4pm. Adults are $10, and children and seniors $5. Certified self-contained motorhomes can stay overnight for $20, or $25 with power, for up to four nights, first come, first served, with an honesty box after hours.\nLocal tip: Allow a couple of hours, as the hosts are full of local stories. It's also a quiet overnight stop for motorhomes heading to Hobbiton.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Buildings open Mon and Thu to Sun 10am to 4pm; closed Tue, Wed and public holidays; motorhome sites $15, powered $20",
+    "sourceUrl": "https://mpdc.govt.nz/firth-tower",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Aroha Domain and Mokena Geyser",
+    "slug": "te-aroha-domain-mokena-geyser",
+    "lat": -37.544972,
+    "lng": 175.715419,
+    "category": [
+      "Culture",
+      "Nature"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Free",
+    "website": "https://mpdc.govt.nz/te-aroha-domain",
+    "description": "Te Aroha grew up around these hot springs, and from the 1890s to the 1910s it was one of New Zealand's most popular spa resorts. The council calls the Domain the most intact Edwardian spa in the country, with gardens, a restored lakelet and foot pool, old bath houses, and bowling and croquet greens at the foot of Mt Te Aroha.\n\nThe star is Mokena Geyser, understood to be the only hot soda water geyser in the Southern Hemisphere, which goes off about every 40 minutes. The old Cadman Bath House is now the Te Aroha and Districts Museum. The Swim Zone pools in the Domain, including the historic No. 2 Bath House, are listed at $8 for adults and $5 for children, and open weekdays 10am to 6pm and weekends 10am to 7pm.\nLocal tip: Parking inside the Domain is limited, so use the long term car park at Boundary and Church streets. The Mt Te Aroha track starts right beside the geyser.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Domain open 24 hours; free; geyser erupts regularly; Swim Zone pools from about $7",
+    "sourceUrl": "https://mpdc.govt.nz/te-aroha-domain",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Aroha Mineral Spas",
+    "slug": "te-aroha-mineral-spas",
+    "lat": -37.543855,
+    "lng": 175.715887,
+    "category": [
+      "Water"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.tearohamineralspas.co.nz/",
+    "description": "Private wooden hot tubs at 5b Boundary Street in the Te Aroha Domain, filled with mineral water drawn straight from Mokena Geyser. Each booking gets its own tub, and you can adjust the water temperature yourself.\n\nA 30 minute soak costs $24 per adult Monday to Thursday (not public holidays) and $30 Friday to Sunday, with longer 45 and 60 minute sessions too. Children are $11, and towels are $5 to hire. There's a minimum of two adults per tub, and bookings are essential. It's open from 10am to 9pm, and until 9.30pm on Fridays and Saturdays.\nLocal tip: Book a late afternoon or evening slot after walking up to Whakapipi Lookout on the Mt Te Aroha track.",
+    "recommendedDurationSlots": 2,
+    "featured": 2,
+    "hoursNote": "Daily 10am to 9pm, to 9.30pm Fri and Sat; bookings essential; minimum 2 adults; $24 to $30 per adult per 30 min",
+    "sourceUrl": "https://www.tearohamineralspas.co.nz/services",
+    "confidence": "high"
+  },
+  {
+    "name": "Mt Te Aroha Summit Track",
+    "slug": "mt-te-aroha-summit-track",
+    "lat": -37.54364,
+    "lng": 175.715927,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Free",
+    "description": "A steep climb from Te Aroha Domain to the summit of Mt Te Aroha, nearly 1km above sea level and topped by a big broadcast tower. The track is 3.9km one way and starts beside Mokena Geyser. The first 45 minutes to Whakapipi Lookout is the easier part, with views over the Hauraki Plains. Above a small saddle it's about two more hours of steep, rough track, clambering over boulders in places.\n\nDOC grades it advanced and allows 3 hours one way. On a clear day the summit views are huge, but cloud often rolls in and it can be far colder than in town. There's no water on the track, so carry 2 to 3 litres, and stay on the marked track, as old mine shafts can be hidden in the bush. No dogs.\nLocal tip: If your legs are done at the top, the gravel service road is easier on the knees, but it comes out at the Tui Road car park, so you'll have a walk back into town.",
+    "recommendedDurationSlots": 10,
+    "hoursNote": "Open all year; 3.9 km one way, about 3 hr up; advanced and steep; no dogs; Whakapipi Lookout 45 min",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/bay-of-plenty/places/kaimai-mamaku-conservation-park/things-to-do/tracks/te-aroha-summit-track",
+    "confidence": "high"
+  },
+  {
+    "name": "Hauraki Rail Trail, Te Aroha",
+    "slug": "hauraki-rail-trail-te-aroha",
+    "lat": -37.5423,
+    "lng": 175.708713,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.haurakirailtrail.co.nz/",
+    "description": "Te Aroha is a hub on the Hauraki Rail Trail, one of the New Zealand Great Rides. Ride north 23km to Paeroa in 2 to 3 hours, or south 37km to Matamata in 2 to 4 hours past horse studs, goat farms, Stanley Landing and Firth Tower, with views of Wairere Falls. Both sections are Grade 1, the easiest, and free to ride.\n\nBiking Hiking Shuttles, at 651 Te Aroha Gordon Road about 7km from town, runs shuttles and bike packages so you can ride one way. Dogs on a lead are allowed between Te Aroha and Matamata, but only in urban areas between Paeroa and Te Aroha. The cycleway toilets between Te Aroha and Matamata have no toilet paper, so carry your own. The Te Aroha i-SITE is at 102 Whitaker Street.\nLocal tip: Book bikes and shuttles ahead in summer, and finish with a soak at the mineral spas in the Domain.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Open all year; free; Te Aroha to Paeroa 23 km, Te Aroha to Matamata 37 km; Grade 1; carry toilet paper",
+    "sourceUrl": "https://mpdc.govt.nz/hauraki-rail-trail",
+    "confidence": "high"
+  },
+  {
+    "name": "Lake Karāpiro, Mighty River Domain",
+    "slug": "lake-karapiro-mighty-river-domain",
+    "lat": -37.929631,
+    "lng": 175.540019,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.lakekarapiro.co.nz/",
+    "description": "Lake Karāpiro is a hydro lake on the Waikato River just south east of Cambridge, and the Mighty River Domain on its shore is a rowing venue that has hosted international regattas. On quieter days it's a relaxed lakeside park for a swim, a picnic or watching the rowers, and the Podium Cafe is open daily from 8am to 4pm, depending on weather and season.\n\nWaipā District Council runs a campground here with powered and non-powered sites, cabins and chalets, and a dump station ($6 a use). Camping isn't available during the big regattas: 10 to 13 December 2026, 28 to 31 January 2027, 25 to 28 February 2027 and 12 to 21 March 2027.\nLocal tip: It's only about 10 minutes from Cambridge, so check the regatta calendar and come on a race day if you want to watch the rowing.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Domain open daily; free to visit; campground charges apply; no camping during major regattas Dec 2026 to Mar 2027",
+    "sourceUrl": "https://www.lakekarapiro.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Awa River Ride, Cambridge",
+    "slug": "te-awa-river-ride-cambridge",
+    "lat": -37.895434,
+    "lng": 175.454669,
+    "category": [
+      "Adventure",
+      "Walks"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Free",
+    "description": "A shared walking and cycling path that follows the Waikato River for about 65km, from Ngāruawāhia through Hamilton and Cambridge to Lake Karāpiro. It's wide, smooth and mostly flat, graded 1 to 2, with a few sections on the road.\n\nThe stretch from Cambridge to Lake Karāpiro is about 8km, flat as you leave Cambridge, with a few short, steep hills near the lake. The Avanti Bike Shop at the Avantidrome hires bikes and e-bikes by the hour, half day or full day, with standard bikes listed from $15 an hour and e-bikes from $20.\nLocal tip: Hire an e-bike if you're heading out to the lake, as it takes the sting out of the short climbs at the Karāpiro end.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all year; free; Grade 1 to 2; some road sections; bike hire at the Avantidrome",
+    "sourceUrl": "https://www.waikatonz.com/cycling/te-awa-river-ride/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Sanctuary Mountain Maungatautari",
+    "slug": "sanctuary-mountain-maungatautari",
+    "lat": -38.055534,
+    "lng": 175.560667,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.sanctuarymountain.co.nz/",
+    "description": "A forested mountain south of Cambridge surrounded by a pest proof fence, where native forest birds thrive free of predators. From the visitor centre at 99 Tari Road, Pukeatua, a self-guided Sanctuary Explorer Pass ($34 per adult) lets you walk the tracks of the Southern Enclosure, Te Tūī a Tāne, which include a 16m tower to climb. It's open daily from 9am to 4pm, except Christmas Day.\n\nGuided Ancient Forest tours start from $72. Fit walkers can cross the whole mountain on the 11km Wairere Traverse (about 5 hours) on weekends using the Over the Mountain shuttle, from $30. It leaves at 7.30am and 9am, needs booking by midday the day before, and isn't for under 12s. Visitor numbers are capped at 300 a day, so book ahead. A small café sells drinks, cookies, ice creams and snacks, but no meals.\nLocal tip: Arrive in the morning, when the forest is full of birdsong, and check the website on windy days, as the Southern Enclosure can close at short notice in high winds.",
+    "recommendedDurationSlots": 5,
+    "featured": 3,
+    "hoursNote": "Visitor centre daily 9am to 4pm except Christmas Day; last entry 4pm; Day Pass from $34 adult; book ahead",
+    "sourceUrl": "https://www.sanctuarymountain.co.nz/experiences/",
+    "confidence": "high"
+  },
+  {
+    "name": "Double D's Takeaway",
+    "slug": "double-ds-takeaway-matamata",
+    "lat": -37.809661,
+    "lng": 175.773974,
+    "category": [
+      "Food"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Cheap",
+    "description": "Double D's Lunchbar and Takeaway is a takeaway at 82 Broadway in the middle of Matamata, handy for fish and chips or a burger after a day at Hobbiton.\n\nListings disagree on its opening hours, so phone ahead on 07 888 8514 before you go.\nLocal tip: For an early breakfast or lunch, Quality Inn Bakery at 38 Arawa Street opens at 4.30am on weekdays and 6am on Saturdays, and is closed on Sundays.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Mon to Thu 3pm to 9pm; Fri to Sun 11.30am to 9pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJd3m37PKxbW0RMw3XyPYXfo0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Backyard Eatery",
+    "slug": "backyard-eatery-te-aroha",
+    "lat": -37.54261,
+    "lng": 175.712065,
+    "category": [
+      "Food"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small eatery on Whitaker Street, Te Aroha's main street, trading as Backyard Pies and making its own gourmet pies, with takeaway and home delivery.\n\nListings disagree on its opening hours, so check before you go.\nLocal tip: Grab a pie to take on the Mt Te Aroha track or the rail trail.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 10am to 8pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJB2JbmA-ZbW0RsugQwpASKl8",
+    "confidence": "medium"
+  },
+  {
+    "name": "Leamington Fast Foods and Fresh Fish Supply",
+    "slug": "leamington-fast-foods-cambridge",
+    "lat": -37.906015,
+    "lng": 175.475698,
+    "category": [
+      "Food"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Cheap",
+    "description": "A fish and chip shop on Shakespeare Street in Leamington, the part of Cambridge on the south side of the Waikato River, on the way out to Lake Karāpiro.\n\nCheck its current opening hours before you go.\nLocal tip: Pick up fish and chips here on the way out to the lake for a picnic at the Domain.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Tue 4pm to 9pm; Wed to Sat 12pm to 9pm; Sun 12pm to 2.30pm and 5pm to 9pm; closed Mon",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJudvI83b9bG0Rj6kolo3Zwbo",
+    "confidence": "medium"
+  },
+  {
+    "name": "Hetana Street Reserve Freedom Camping, Matamata",
+    "slug": "hetana-street-reserve-freedom-camping-matamata",
+    "lat": -37.810081,
+    "lng": 175.771732,
+    "category": [
+      "Stay"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Free",
+    "description": "Matamata-Piako District Council allows freedom camping at a few restricted sites, and Hetana Street Reserve, around the i-SITE in central Matamata, is the handiest for Hobbiton. It's for certified self-contained vehicles only, with public toilets on the reserve and shops, cafés and takeaways a short walk away.\n\nDistrict rules allow a maximum of four nights in one place in any month, and you can't camp within 500m of a spot you used in the past month. Tents aren't allowed, and since 7 June 2026 only vehicles with a green self-containment warrant count. Fines start from $400. The town dump station is on Rockford Street.\nLocal tip: Spaces are limited, so arrive by late afternoon. If it's full, Pohlen Park is another council site in town, and Firth Tower charges $20 a night for self-contained motorhomes.",
+    "hoursNote": "Certified self-contained only; max 4 nights in one place per month; limited spaces; toilets; dump station Rockford St",
+    "sourceUrl": "https://mpdc.govt.nz/policies-a-bylaws/freedom-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Moana Roa Reserve Freedom Camping, Lake Karāpiro",
+    "slug": "moana-roa-reserve-freedom-camping-karapiro",
+    "lat": -37.952428,
+    "lng": 175.631129,
+    "category": [
+      "Stay"
+    ],
+    "region": "waikato",
+    "area": "matamata",
+    "active": false,
+    "price": "Free",
+    "description": "A lakeside reserve off State Highway 1 at Lake Karāpiro, where Waipā District Council allows certified self-contained vehicles to stay for up to two nights in a row, with a cap of 15 campers. Tents and vehicles without a green self-containment warrant aren't allowed on the lakeside reserves.\n\nThere are toilets and a boat ramp, but no water, power or dump station, and reviewers mention road noise from State Highway 1.\nLocal tip: Keeley Reserve on State Highway 1 has the same rules if Moana Roa is full, and so does Horahora Domain, which takes up to 30. The free public dump station is on Matos Segedin Drive in Cambridge.",
+    "hoursNote": "Certified self-contained only; max 2 consecutive nights; 15 vehicles per night; toilets; no bins",
+    "sourceUrl": "https://waipadc.govt.nz/your-waipa/enjoy-waipa/freedomcamping",
+    "confidence": "high"
+  }
+]

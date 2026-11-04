@@ -1,0 +1,378 @@
+[
+  {
+    "name": "Tongariro Alpine Crossing",
+    "slug": "tongariro-alpine-crossing",
+    "lat": -39.144703,
+    "lng": 175.58112,
+    "category": [
+      "Walks",
+      "Adventure"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/central-north-island/places/tongariro-national-park/things-to-do/tracks/tongariro-alpine-crossing/",
+    "description": "New Zealand's best-known day walk crosses the volcanic heart of Tongariro National Park, climbing from Mangatepōpō (1,120m) to Red Crater, the highest point at 1,886m, then down past the Emerald Lakes to Ketetahi Road (760m). It's about 20km one way, and DOC says to allow 7 to 8 hours from November to April and 9 hours in winter. There are toilets every 1 to 2 hours along the track.\n\nThere's no parking at Mangatepōpō for Crossing walkers in summer, so take a shuttle. DOC puts fares at about $40, and booking your walk on the DOC website is free and required if you use a shuttle or guide. Two fires burned land near the start in late 2025, and Ngāti Hikairo ki Tongariro have placed a 10-year rāhui over the burnt area, so stay on the track. From May to late October it's an alpine trip that needs crampons, an ice axe, a helmet, avalanche gear and the skills to use them, and shuttles generally don't run.\nLocal tip: The descent from Red Crater to the Emerald Lakes is loose scree, so walking poles help. In summer DOC posts a \"Not Recommended Today\" advisory at 6am when the weather's bad, and Taranaki Falls or Tama Lakes make good alternatives.",
+    "recommendedDurationSlots": 18,
+    "featured": 1,
+    "hoursNote": "Summer season about Nov to Apr; free DOC booking, required for shuttle users; no Crossing parking at Mangatepopo in summer; winter needs alpine gear",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/central-north-island/places/tongariro-national-park/things-to-do/tracks/tongariro-alpine-crossing/",
+    "confidence": "high"
+  },
+  {
+    "name": "Taranaki Falls Walk",
+    "slug": "taranaki-falls-walk",
+    "lat": -39.197437,
+    "lng": 175.564364,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Free",
+    "description": "An easy 2 hour loop from Whakapapa Village to Taranaki Falls, which drop 20m over the edge of an andesite lava flow that erupted from Ruapehu about 15,000 years ago. The track starts 100m below the Tongariro National Park Visitor Centre on Ngauruhoe Place, with mountain views along the way.\n\nThe lower track is more sheltered on windy days, running through tussock and alpine shrubland before entering beech forest, and the upper track crosses open tussock. After the falls there's a flight of 100 steps. It's free, and dogs aren't allowed in the national park.\nLocal tip: Fit walkers can carry on from the falls on the Tama Lakes Track to Lower Tama Lake, about 5 to 6 hours return from the village.",
+    "recommendedDurationSlots": 4,
+    "featured": 2,
+    "hoursNote": "Open any time; 2 hr loop from Whakapapa Village; starts 100 m below the visitor centre; free",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/central-north-island/places/tongariro-national-park/things-to-do/tracks/taranaki-falls-walking-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Silica Rapids Walk",
+    "slug": "silica-rapids-walk",
+    "lat": -39.220239,
+    "lng": 175.530914,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Free",
+    "description": "A varied walk from Whakapapa Village through beech forest and over boardwalks across wetland to the Silica Rapids, where creamy white terraces form as mineral-rich water speeds up and drops aluminium and silicate minerals on the stream bed. On the way the stream runs over a gold-stained bed, coloured by iron oxide clays, and after heavy rain Punaruku Falls tumbles over an old lava flow.\n\nDOC times it at 2 hours 30 minutes return from Whakapapa Village, starting by the top end of Whakapapa Holiday Park, or 1 hour 30 minutes return from the Bruce Road start, 250m above the visitor centre. Look for kōura (freshwater crayfish) in the seepage ponds near the wetland boardwalk. It's free.\nLocal tip: Go back the way you came rather than walking down Bruce Road, which is narrow and has no footpath.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open any time; 2.5 hr return from Whakapapa Village or 1.5 hr return from Bruce Road; free",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/central-north-island/places/tongariro-national-park/things-to-do/tracks/silica-rapids-walking-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Tawhai Falls (Gollum's Pool)",
+    "slug": "tawhai-falls-gollums-pool",
+    "lat": -39.172977,
+    "lng": 175.514716,
+    "category": [
+      "Nature",
+      "Water"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Free",
+    "description": "A 15 minute walk from State Highway 48, about 4km from the Tongariro National Park Visitor Centre, to a waterfall pouring over an old lava flow into a clear blue pool. It's widely known as Gollum's Pool, from The Lord of the Rings. The track leads to a viewpoint near the top of the falls, with more steps down to the river's edge.\n\nThe river flows fast, the rocks are slippery and it floods quickly in wet weather, so keep children close and stay away when the water looks high, murky or loud. It's free.\nLocal tip: The car park is small and fills up, so come early or late in the day, and don't park on the state highway.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; 15 min walk; small car park on SH48; free",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/central-north-island/places/tongariro-national-park/things-to-do/tracks/tawhai-falls-track/",
+    "confidence": "high"
+  },
+  {
+    "name": "Sky Waka Gondola, Whakapapa",
+    "slug": "sky-waka-gondola-whakapapa",
+    "lat": -39.236526,
+    "lng": 175.556071,
+    "category": [
+      "Scenic",
+      "Attractions"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.whakapapa.com/",
+    "description": "The Sky Waka gondola at the top of Bruce Road carries you 1.8km up Mt Ruapehu to Knoll Ridge Chalet at 2,020m, which bills itself as New Zealand's highest dining spot. In summer you can step off for the views, a coffee or a meal, and five of the six summer hiking trails start at the top.\n\nA summer gondola pass costs $39 for adults, or $29 for NZ residents. Two of the 50 cabins have glass floors, and you can upgrade on site for $15 a person or $40 for the whole cabin. Summer sightseeing runs through to April 2027, weather permitting.\nLocal tip: Check the Whakapapa mountain report on the morning you go, as the gondola stops in bad weather, and bring a warm layer, as it's much cooler at the top.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Summer season Oct 2026 to Apr 2027, daily about 9am to 4pm, last ride up about 3.30pm, weather permitting; adults $39, NZ residents $29",
+    "sourceUrl": "https://whakapapa.com/summer",
+    "confidence": "high"
+  },
+  {
+    "name": "Mangawhero Falls",
+    "slug": "mangawhero-falls",
+    "lat": -39.319875,
+    "lng": 175.502263,
+    "category": [
+      "Nature",
+      "Scenic"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Free",
+    "description": "A 5 to 10 minute return walk to a tall waterfall right beside Ohakune Mountain Road, starting from the car park 16km up the road from Ohakune. DOC rates it the easiest grade, and it's a popular stop with Lord of the Rings fans.\n\nIn winter, spectacular icicles form around the falls. It's free, and you can visit whenever the mountain road is open.\nLocal tip: Walk a little way down from the top viewpoint and look through the trees for a wider view of the whole fall.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open any time; 5 to 10 min return; car park 16 km up Ohakune Mountain Road; free",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/central-north-island/places/tongariro-national-park/things-to-do/tracks/mangawhero-falls-walk/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ohakune Old Coach Road",
+    "slug": "ohakune-old-coach-road",
+    "lat": -39.346119,
+    "lng": 175.377487,
+    "category": [
+      "Adventure",
+      "Walks"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.mountainstosea.nz/ohakune-old-coach-road/",
+    "description": "A walking and mountain biking trail of about 15km between Ohakune Railway Station and Horopito, on a historic coach road through farmland and native forest. The highlight is the Hāpuawhenua Viaduct, 284m long, up to 45m high and built on a curve, which you can cross, plus a curved old railway tunnel.\n\nIt's graded intermediate (Grade 3) for bikes, with gravel, bumpy historic cobbles, mud and some steep, narrow sections, and DOC allows 4 hours 30 minutes to walk it one way. Horopito is 170m higher than Ohakune, so most riders take a shuttle to Horopito and ride back towards town. Book shuttles ahead. There are toilets by the Hāpuawhenua picnic area, but no bins.\nLocal tip: Bring a torch for the tunnel and enough food and water for the day, as there's none on the trail, and take all your rubbish out.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Open any time; about 15 km one way; Grade 3 bike trail; book shuttles to Horopito ahead; free",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/central-north-island/places/tongariro-national-park/things-to-do/tracks/ohakune-old-coach-road/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ohakune Big Carrot and Adventure Park",
+    "slug": "ohakune-big-carrot-adventure-park",
+    "lat": -39.420081,
+    "lng": 175.403426,
+    "category": [
+      "Attractions"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Free",
+    "description": "Ohakune is carrot growing country, and its 7.5m carrot is the town's best-known photo stop. It stands in the free Carrotland Adventure Park at 4a Rangataua Road, with a pirate ship to climb, pump tracks for bikes, swings, slides, climbing ropes and gardens beside the Mangateitei Stream.\n\nA cast of giant vegetable characters, from Perla the Potato to Sir Lancelot the Brussels sprout, and photo spots such as the Carrot Rocket add to the fun, and there's also an endurance course. It's free and open any time.\nLocal tip: Bring bikes or scooters if you have them, as the pump tracks cater for all skill levels.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open any time; free; 4a Rangataua Road, Ohakune",
+    "sourceUrl": "https://www.visitruapehu.com/events-in-ruapehu/pirate-ship-unveiling-at-ohakune-carrotland-adventure-park",
+    "confidence": "medium"
+  },
+  {
+    "name": "National Army Museum",
+    "slug": "national-army-museum-waiouru",
+    "lat": -39.481053,
+    "lng": 175.669905,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.armymuseum.co.nz/",
+    "description": "New Zealand's army museum at Waiouru tells the story of the country's soldiers through personal stories, medals, weapons and interactive displays, from 19th century conflicts through both world wars to recent peacekeeping. Tanks and artillery stand outside the entrance.\n\nIt's open daily from 9am to 4.30pm, except Christmas Day. Self-guided entry is $15 for adults, $10 for students and seniors, $5 for children and $35 for a family. A 20 minute talk with entry costs $17 for adults, and a 1 hour guided tour $19. The Mess Tent Café is open from 8am to 4pm, which makes it a good break on the Desert Road.\nLocal tip: The 20 minute talks suit children and run at 10.30am, 11.30am, 1pm and 2.30pm on weekdays, and at 10.30am and 2.30pm at weekends.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Daily 9am to 4.30pm, closed Christmas Day; adults $15, children $5, family $35; café 8am to 4pm",
+    "sourceUrl": "https://www.armymuseum.co.nz/visit/prices-hours-guided-tours/",
+    "confidence": "high"
+  },
+  {
+    "name": "Tokaanu Thermal Pools",
+    "slug": "tokaanu-thermal-pools",
+    "lat": -38.967206,
+    "lng": 175.764406,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Cheap",
+    "description": "An old-school, budget-friendly hot pool complex at Tokaanu, near Tūrangi at the southern end of Lake Taupō. The private natural mineral pools run at 39°C to 41°C, the large public pool is fresh, chlorinated water at about 36°C to 38°C, and there's a 36°C pool for preschoolers beside it.\n\nPublic pool entry is $8 for adults, $7 for seniors and $6 for children under 16, and the private pools are $12, $10 and $8. Under fives go free with a paying adult. Right next door, the free Tokaanu Thermal Walk, a 500m loop, passes steaming mineral pools in sinter basins and spluttering mud pots, and you can sometimes spot rainbow trout in the Tokaanu Stream.\nLocal tip: The big public pool has had long maintenance closures in recent years, so ring ahead on 07 386 8575 if that's the one you want.",
+    "recommendedDurationSlots": 3,
+    "featured": 3,
+    "hoursNote": "Daily 10am to 8pm, closed Christmas Day; public pool adults $8, children $6; private pools a little more",
+    "sourceUrl": "https://lovetaupo.com/en/operators/tokaanu-thermal-pools",
+    "confidence": "medium"
+  },
+  {
+    "name": "Tongariro River Trail",
+    "slug": "tongariro-river-trail",
+    "lat": -38.999311,
+    "lng": 175.812651,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Free",
+    "description": "A 13.2km loop along both banks of the Tongariro River at Tūrangi, one of the world's best-known trout rivers. It's easy and mostly flat and takes 2 to 3 hours to walk. Start at the Tūrangi i-SITE, take the underpass beneath SH1 to Taupahi Reserve, head south past Major Jones Bridge to Red Hut Bridge, then come back down the other bank.\n\nThe Tongariro National Trout Centre is on the route ($22 adults, $12 children, 10am to 3pm daily, closed Mondays in winter), with a historic hatchery, an underwater viewing chamber and a native freshwater aquarium. The banks are undercut and can collapse, so keep children close and stay on the formed track, and keep dogs on a lead during the whio (blue duck) nesting season from August to October.\nLocal tip: Short on time? Walk out from town to Major Jones Bridge and back instead of doing the full loop.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open any time; 13.2 km loop, 2 to 3 hr walk; dogs on leash Aug to Oct; Trout Centre 10am to 3pm",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/central-north-island/places/turangi-area/things-to-do/tongariro-river-trail/",
+    "confidence": "high"
+  },
+  {
+    "name": "Forgotten World Adventures Rail Carts",
+    "slug": "forgotten-world-adventures-rail-carts",
+    "lat": -38.883459,
+    "lng": 175.257645,
+    "category": [
+      "Adventure",
+      "Scenic"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.forgottenworldadventures.co.nz/",
+    "description": "Self-drive rail carts on 142km of disused heritage railway from Taumarunui, through hand-cut tunnels, bush and remote farm country beside the Forgotten World Highway. The best-known trip, The Republic, is a full-day guided run of 82km to Whangamōmona through 21 tunnels, the longest 1.5km.\n\nThe half-day Tokirima Taster starts from $385, and The Republic costs $499 for adults and $315 for children 15 and under, with rail-side food and drinks and transfers included. There are also combos with a Whanganui River jet boat and multi-day trips. The 2026/27 season runs from 10 October 2026 to 15 May 2027, and The Republic leaves Taumarunui at 7.30am.\nLocal tip: Book well ahead, and ask about staying the night at the Whangamōmona Hotel, which the company offers as an overnight option.",
+    "recommendedDurationSlots": 16,
+    "hoursNote": "Season 10 Oct 2026 to 15 May 2027; departs Taumarunui; half day from $385, full day $499; book ahead",
+    "sourceUrl": "https://forgottenworldadventures.co.nz/routes-and-trails/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ma & Mel's",
+    "slug": "ma-and-mels-whakapapa",
+    "lat": -39.19865,
+    "lng": 175.537542,
+    "category": [
+      "Food"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Cheap",
+    "description": "A food and coffee cart in Whakapapa Village on State Highway 48, with views of the Chateau Tongariro and the volcanoes. Reviewers rate the coffee, pies, sausage rolls, spinach and feta rolls, cinnamon scrolls and other baking, and it's a handy cheap stop in the village.\n\nReviewers rave about the butter chicken pie and the friendly service, and there's a playground next door, so it suits families on the way to or from the mountain.\nLocal tip: It closes mid-afternoon, so grab lunch here before heading up to the Sky Waka or out on the Taranaki Falls walk.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Daily 8.30am to 3.30pm (Google listing); Whakapapa Village, SH48",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJAw4EdAABa20Ro95KwX7aW0k",
+    "confidence": "medium"
+  },
+  {
+    "name": "CamoKai Takeaways",
+    "slug": "camokai-takeaways-national-park",
+    "lat": -39.171782,
+    "lng": 175.400369,
+    "category": [
+      "Food"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small kerbside takeaway at 13 Carroll Street in National Park village, serving burgers, fries, fish and chips, cold drinks and desserts, with mountain views while you eat. Reviewers call it good, honest food at fair prices, and it's popular with walkers after a big day on the Crossing.\n\nIt only opens a few evenings a week, from 5pm to 8pm, so check its days before you count on it.\nLocal tip: Order the corn fritters, which reviewers rate highly, and get there before about 6.30pm, as it gets busy.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Tue, Wed, Fri and Sat 5pm to 8pm (Google listing); 13 Carroll Street, National Park village",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJOcUYn3Ada20RulUUavAjVAw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Utopia Cafe",
+    "slug": "utopia-cafe-ohakune",
+    "lat": -39.417805,
+    "lng": 175.398416,
+    "category": [
+      "Food"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Cheap",
+    "description": "A busy, friendly café at 47 Clyde Street, Ohakune's main road, known for hearty breakfasts. The big breakfast gets steady praise as good value and very filling, and there are waffles, smoothies, burgers, gluten-free dishes and house-made biscuits and cakes too.\n\nIt's open daily from 8am to 3pm with easy parking on the main road, which makes it a good stop before the Old Coach Road or on the drive south.\nLocal tip: It fills up quickly at weekends and in the ski season, so come early or allow extra time.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 8am to 3pm (Google listing); 47 Clyde Street, Ohakune",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJjwSmSaDvam0Rv6OyEKF5kFU",
+    "confidence": "medium"
+  },
+  {
+    "name": "Time For Food Cafe",
+    "slug": "time-for-food-cafe-turangi",
+    "lat": -38.988398,
+    "lng": 175.8094,
+    "category": [
+      "Food"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Cheap",
+    "description": "A good value, no-fuss café at 35 Tūrangi Town Centre serving cooked breakfasts, fluffy pancakes, nachos, burgers and seafood chowder. Reviewers like the generous plates, friendly staff and Kiwi music.\n\nIt's open daily from 8am, just off State Highway 1, so it's a handy stop before or after the Desert Road. There's outdoor seating, and you can get takeaways.\nLocal tip: Pair it with a soak at Tokaanu Thermal Pools, a short drive west of town.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 8am to 3pm (Google listing); 35 Tūrangi Town Centre",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJo2AIp328a20RuJ2vL29Vydw",
+    "confidence": "medium"
+  },
+  {
+    "name": "Mangahuia Campsite",
+    "slug": "mangahuia-campsite",
+    "lat": -39.181777,
+    "lng": 175.469482,
+    "category": [
+      "Stay"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Cheap",
+    "description": "A DOC campsite off State Highway 47, 6km east of National Park village, reached on a gravel road and set in bush beside a stream on the edge of Tongariro National Park. There are 21 sites, 15 of them suitable for campervans, and you're allocated a site when you arrive.\n\nIt costs $18 per adult and $9 per child (5 to 17) a night, and under fives are free. Book online before you arrive, as no spaces are kept for walk-ins. Same-day online bookings close at 8pm, and the DOC Campsite Pass is accepted if you book online. Reviewers mention vault toilets and non-drinking water, so bring your own drinking water.\nLocal tip: Reviewers have heard kiwi calling at night here, and it's a handy base for the Crossing, Tawhai Falls and the Whakapapa walks.",
+    "hoursNote": "Book online; $18 adult, $9 child a night; 21 sites; vault toilets; bring drinking water",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/central-north-island/places/tongariro-national-park/things-to-do/campsites/mangahuia-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Mangawhero Campsite",
+    "slug": "mangawhero-campsite",
+    "lat": -39.392244,
+    "lng": 175.429908,
+    "category": [
+      "Stay"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small DOC campsite in forest on the flanks of Mt Ruapehu, 2km up Ohakune Mountain Road from town and reached on a gravel road. There are 12 sites, 6 of them suitable for campervans.\n\nIt costs $18 per adult and $9 per child (5 to 17) a night, and under fives are free. Book online before you arrive, as no spaces are kept for walk-ins, and same-day online bookings close at 8pm. Reviewers mention a pit toilet, a non-drinking water tap and picnic tables, weak mobile reception and no bins.\nLocal tip: The Mangawhero Forest Walk starts close by, and the Old Coach Road and Mangawhero Falls are both a short drive away.",
+    "hoursNote": "Book online before you arrive; $18 adult, $9 child a night; 12 sites; pit toilet; no bins",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/central-north-island/places/tongariro-national-park/things-to-do/campsites/mangawhero-campsite/",
+    "confidence": "high"
+  },
+  {
+    "name": "Ruatiti Domain",
+    "slug": "ruatiti-domain",
+    "lat": -39.312422,
+    "lng": 175.19886,
+    "category": [
+      "Stay"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Free",
+    "description": "A large, free council camping ground beside the Manganui o te Ao River west of Raetihi, reached by a long, narrow country road. It's one of only two places in Ruapehu District where tents and non-self-contained vehicles can freedom camp.\n\nThere are toilets, tap water from a spring (the council advises boiling it), several barbecues, big grassy sites and river pools nearby, but no power, dump station or mobile reception. Dogs aren't allowed from 1 November to 30 April and must be on a lead the rest of the year, and alcohol is banned from midnight on 30 December to midnight on 2 January.\nLocal tip: Stock up in Raetihi or Ohakune before you go, as there are no shops out here.",
+    "hoursNote": "Free; tents and non self contained vehicles allowed; toilets; boil tap water; no dogs 1 Nov to 30 Apr",
+    "sourceUrl": "https://www.ruapehudc.govt.nz/our-facilities/parks-reserves-and-camping/camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Manowhenua Lodge",
+    "slug": "manowhenua-lodge",
+    "lat": -39.171464,
+    "lng": 175.395292,
+    "category": [
+      "Stay"
+    ],
+    "region": "taupo-ruapehu",
+    "area": "tongariro",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.manowhenualodge.co.nz",
+    "description": "A family-run lodge in National Park village, formerly Skihaus, owned since 2019 by lifelong locals Thomas and Tracey. It has double, twin, triple and shared rooms for up to six, and sleeps up to 50. Reviewers praise the spotless kitchen and bathrooms, comfortable beds, quiet nights and the hosts' tips on walks and shuttles.\n\nBathrooms are shared. In season it sells packages that bundle a night's stay with a return Tongariro Alpine Crossing shuttle, from $108 for a dorm bed, $240 for a private double for two and $390 for a private room for four, with extra nights discounted.\nLocal tip: Book your bed and Crossing shuttle together, and ask the hosts for other walks if the Crossing isn't recommended on your day.",
+    "hoursNote": "Shared bathrooms; dorm and private rooms; Crossing shuttle packages in season",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ4Wyp8vUca20RgeYhH8UCWJo",
+    "confidence": "medium"
+  }
+]

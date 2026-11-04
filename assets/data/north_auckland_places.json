@@ -1,0 +1,306 @@
+[
+  {
+    "name": "Puhoi Pub",
+    "slug": "puhoi-pub",
+    "lat": -36.51222,
+    "lng": 174.660484,
+    "category": [
+      "Food",
+      "Culture"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Moderate",
+    "description": "The Puhoi Pub Hotel & Stables has held a licence in this small river village since 1879, and the current building dates from 1900. Puhoi was settled by Bohemian pioneers in 1863, and the pub's walls and ceilings are covered in their bush-clearing tools, Czech beer bottles above the bar, named prize bull horns and decades of oddments left by travellers.\n\nExpect classic pub food rather than fine dining. For something cheaper, the Puhoi General Store just up the road at 109 Pūhoi Road does barista coffee and fish and chips, from 7am to 7pm.\nLocal tip: Walk off lunch on DOC's Puhoi Track, part of Te Araroa, which starts beside the toilet block at the Puhoi Domain car park across the bridge. The loop takes about 40 minutes, starts with a steep climb up steps, and gets muddy in winter.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 10am to 9pm, Fridays to 10pm; live music some weekends",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJU76qL-0gDW0RAZcHjU4Vwr8",
+    "confidence": "medium"
+  },
+  {
+    "name": "Puhoi River Kayaks",
+    "slug": "puhoi-river-kayaks",
+    "lat": -36.514364,
+    "lng": 174.662472,
+    "category": [
+      "Water",
+      "Adventure"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://puhoikayaks.co.nz/",
+    "description": "Paddle about 8km down the tidal Puhoi River from Puhoi village to the beach at Wenderholm Regional Park. It's flat water with no rapids or waterfalls, takes 1.5 to 2 hours, and suits first-timers.\n\nPuhoi River Kayaks charges $59 for a single, $118 for a double and $180 for a Canadian canoe for the full river run, including buoyancy aids and a courtesy shuttle to get your driver back to the car. Hourly hire around the village costs $40 for a single. The direction you paddle depends on the tide, so they'll give you the best time for your day, and trips are cancelled in bad weather. The season runs from late winter to May, and you pay on the day.\nLocal tip: Book ahead and finish with a swim at Wenderholm. The base is at 84 Puhoi Road, across from the church.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Season runs from late winter to May; trip times set by the tide; bookings essential; 84 Puhoi Road",
+    "sourceUrl": "https://puhoikayaks.co.nz/puhoi-river-kayak-hire/",
+    "confidence": "high"
+  },
+  {
+    "name": "Wenderholm Regional Park",
+    "slug": "wenderholm-regional-park",
+    "lat": -36.532104,
+    "lng": 174.711468,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Free",
+    "website": "https://aucklandcouncil.govt.nz/en/parks-recreation/find-park-beach/park-detail/3411.html",
+    "description": "Wenderholm sits at the mouth of the Puhoi River between forested headlands, with a long, clean sandy beach, a big estuary behind it, wide lawns, picnic spots and electric barbecues. Its forest is one of Auckland's best examples of mainland coastal forest.\n\nThe Perimeter Path is about 4.6km and takes 1.5 to 2.5 hours, climbing steeply to the Maungatauhoro lookout with views over the Hauraki Gulf to Kawau Island. It's slippery in places near the Waiwera estuary, so wear proper shoes. Schischka Campground beside the Puhoi estuary can be booked through Auckland Council. The gates open from 6am to 9pm in daylight saving and 6am to 7pm the rest of the year, fires aren't allowed and you take your rubbish home.\nLocal tip: Look inside the historic Couldrey House, open from 1pm to 4pm at weekends and every afternoon from Boxing Day to Easter Monday.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Gates open 6am, close 9pm in daylight saving time and 7pm otherwise; free; no fires; take your rubbish home",
+    "sourceUrl": "https://www.aucklandcouncil.govt.nz/parks-recreation/get-outdoors/aklpaths/Pages/path-detail.aspx?ItemId=288",
+    "confidence": "high"
+  },
+  {
+    "name": "Sullivans Bay Campground",
+    "slug": "sullivans-bay-campground",
+    "lat": -36.508757,
+    "lng": 174.721626,
+    "category": [
+      "Stay"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Cheap",
+    "description": "The only vehicle-based campground in Mahurangi West Regional Park, at 192 Ngarewa Drive, right behind Sullivans Bay, a sandy beach that's good for swimming, picnics and water sports. It takes a maximum of 30 people, so it books out early for summer.\n\nSites are $18 per adult and $7 per child a night, infants are free, and the limit is seven nights. It's open from 18 October to 1 June. Tents, campervans, caravans and buses up to 8m are allowed, and self-contained vehicles need a current certificate. There's treated drinking water, vault toilets, and rubbish and recycling bins, but no showers or power, and no dogs or fires. Check-in and check-out are at 11am, and there's no access after the park gates close (9pm in daylight saving, 7pm otherwise).\nLocal tip: Walk the Cudlip Point Loop Track to the south or the Mita Bay Loop Track to the north for harbour views.",
+    "hoursNote": "Open 18 Oct to 1 Jun, closed for winter; book ahead; gate code sent with booking; max 7 nights; no fires",
+    "sourceUrl": "https://www.aucklandcouncil.govt.nz/parks-recreation/stay-at-park/Pages/accommodation-details.aspx?itemID=54",
+    "confidence": "high"
+  },
+  {
+    "name": "Matakana Village Farmers Market",
+    "slug": "matakana-village-farmers-market",
+    "lat": -36.35158,
+    "lng": 174.717836,
+    "category": [
+      "Food"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.matakanavillage.co.nz/farmers-market",
+    "description": "Every Saturday morning, year round, rain or shine, Matakana Village at 2 Matakana Valley Road fills with stalls selling fresh, local and artisan produce: cheeses, flowers, baking and hot brunch food, with live local music by the river. The boutique shops around the village are open too, and there's a kids' playground.\n\nIt runs from 8am to 1pm. It's small but very popular, and prices are what you'd expect for artisan food, so treat it as a brunch and browse stop rather than a big shop. It makes an easy stop on the way to Goat Island or Tāwharanui.\nLocal tip: Arrive close to 8am to beat the crowds and the parking squeeze, and bring your own bags, as it's a zero-waste market.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Saturdays 8am to 1pm; 2 Matakana Valley Road",
+    "sourceUrl": "https://www.matakanavillage.co.nz/farmers-market",
+    "confidence": "high"
+  },
+  {
+    "name": "Goat Island Marine Reserve",
+    "slug": "goat-island-marine-reserve",
+    "lat": -36.270302,
+    "lng": 174.796158,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/auckland/places/cape-rodney-okakari-point-marine-reserve-goat-island/",
+    "featured": 1,
+    "description": "Te Hāwere-a-Maki / Goat Island, about 3km from Leigh, is the heart of the Cape Rodney to Okakari Point Marine Reserve, New Zealand's first marine reserve, set up in 1975. With nothing taken for decades, the fish are plentiful and unafraid. Snapper often follow snorkellers around, and you can see fish from the shore when the water is clear. Snorkel straight off the beach over rocks, seaweed forests and sponge gardens, and take nothing from the reserve.\n\nGoat Island Dive hires snorkel gear and runs guided snorkel trips. If you'd rather stay dry, the Glass Bottom Boat runs 45 minute commentated trips around the island from the beach, $40 for adults and $20 for children 15 and under. There are toilets and changing rooms at the car park, and dogs aren't allowed. DOC intends to bring in paid parking here from 1 December 2026, with the first 10 minutes free.\nLocal tip: Arrive early on summer weekends, as the car park fills fast, and check the boat's operating status from 8am. DOC advises against swimming or snorkelling in east or north-east winds over 20 knots or swell over 1m.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Open all the time; free; no dogs; glass bottom boat trips weather dependent, check its website at 9am on the day",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/auckland/places/cape-rodney-okakari-point-marine-reserve-goat-island/",
+    "confidence": "high"
+  },
+  {
+    "name": "Leigh Eats",
+    "slug": "leigh-eats",
+    "lat": -36.290539,
+    "lng": 174.80491,
+    "category": [
+      "Food"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Cheap",
+    "description": "A friendly takeaway and eatery at 18 Cumberland Street in Leigh, close to Goat Island, known for fish and chips with crisp batter and snapper from Leigh Fisheries. It's the natural stop after a morning in the water.\n\nThe burgers are a strong second choice, and the Kiwi burger comes with egg and beetroot. There's ika mata (raw fish in coconut cream) too, seating inside and a wall of dog photos. It's closed on Mondays, open from 8am to 3pm on Tuesday and Wednesday and into the evening Thursday to Sunday. A surcharge applies on public holidays and for credit cards.\nLocal tip: Bring your own water bottle, as there's no free water, and expect a queue on summer weekends.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Tue and Wed 8am to 3pm; Thu to Sun 8am to 8pm; closed Mon",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJh9Mn96_PDG0RfE6LTXbBrzI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Tāwharanui Regional Park",
+    "slug": "tawharanui-regional-park",
+    "lat": -36.37152,
+    "lng": 174.829835,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Free",
+    "website": "https://aucklandcouncil.govt.nz/en/parks-recreation/find-park-beach/park-detail/228.html",
+    "featured": 2,
+    "description": "At the eastern tip of the Tāwharanui Peninsula, this regional park has white sand beaches, rolling pasture, native coastal forest and regenerating wetlands, all run as an open sanctuary with ongoing pest control. It's one of the most loved beach days north of Auckland.\n\nThe beaches are good for swimming and rock-pooling, and the waters along the north coast are a marine reserve, protected since 1981, so no fishing there. Around 50 fish species live on the reefs, crayfish are plentiful, and bottlenose dolphins and orca often visit. Walking tracks loop over the hills with views out to Hauturu / Little Barrier Island. There are toilets at the beach car park but no rubbish bins, and no dogs or pets are allowed anywhere in the park, even in vehicles. The gates open from 6am to 9pm in daylight saving and 6am to 7pm the rest of the year.\nLocal tip: Stay until dusk if you can. With predators kept down, kiwi can often be heard calling after dark.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Gates open 6am, close 9pm in daylight saving time and 7pm otherwise; free; no dogs or pets; no fishing in the marine reserve",
+    "sourceUrl": "https://aucklandcouncil.govt.nz/en/parks-recreation/find-park-beach/park-detail/228.html",
+    "confidence": "high"
+  },
+  {
+    "name": "Tāwharanui Campground",
+    "slug": "tawharanui-campground",
+    "lat": -36.367376,
+    "lng": 174.826376,
+    "category": [
+      "Stay"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.aucklandcouncil.govt.nz/en/parks-recreation/stay-at-park/find-accommodation/accommodation-details/79.html",
+    "description": "A big, basic beachfront campground on the north coast of Tāwharanui, split into six areas by native plantings, with marked paths through the dunes to the beach. Tents can pitch anywhere in the tent areas, and there's a separate area for vehicles towards Comet Rock.\n\nSites are $18 per adult and $7 per child a night, infants are free, and it takes up to 290 people (100 from 2 June to 19 September). The maximum stay is seven nights, and check-in and check-out are at 11am. Facilities are vault toilets and treated drinking water taps, with no showers, power or rubbish bins, and no dogs or fires. From 17 December to 31 January, groups are limited to 10 people.\nLocal tip: Book as soon as the six-month window opens for summer weekends, and bring a solar shower and bags to take your rubbish home.",
+    "hoursNote": "Book up to 6 months ahead; gate code sent with booking; max 7 nights; limited to 100 people from 2 Jun to 19 Sep; no fires",
+    "sourceUrl": "https://www.aucklandcouncil.govt.nz/en/parks-recreation/stay-at-park/find-accommodation/accommodation-details/79.html",
+    "confidence": "high"
+  },
+  {
+    "name": "Omaha Beach",
+    "slug": "omaha-beach",
+    "lat": -36.339613,
+    "lng": 174.779884,
+    "category": [
+      "Water"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Free",
+    "description": "A long, wide beach of soft white sand, about 4km long and an hour north of Auckland. The gentle surf suits learners and bodyboarders, and it's good for a swim or a long walk. Kiteboarders head to the estuary on the western side of the peninsula instead.\n\nThe surf club on William Fraser Reserve has a newer toilet block with changing rooms and outdoor showers, and volunteer lifeguards patrol at weekends and on public holidays from Labour Weekend to Easter Monday. The Omaha Superette (7am to 7pm in summer) does sandwiches and gelato, and there's a café nearby.\nLocal tip: Swim between the flags when the club is patrolling, and keep clear of the roped-off areas on the sand spit at the northern end, where NZ dotterels nest.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; toilets and showers at the main car park",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJp0kZQftHDW0Rhh6LViOwMDU",
+    "confidence": "medium"
+  },
+  {
+    "name": "Pakiri Beach Horse Rides",
+    "slug": "pakiri-beach-horse-rides",
+    "lat": -36.241288,
+    "lng": 174.71628,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.horseride-nz.co.nz/",
+    "description": "Pakiri is a long, quiet beach of white sand north of Leigh, about 90 minutes from central Auckland, and riding along it is one of the best ways to see it. Pakiri Beach Horse Rides runs guided rides from a relaxed hour up to a full day or longer, along the sand, through the dunes and along the river.\n\nYou give your weight and riding experience when you book, so the guides can match you with a horse. Prices aren't on the operator's site, but Bookme lists the 2 hour Sand and Surf ride at $135 a person (no under 12s) and the 3 hour Poutawa River ride for confident riders at $295. It's at 317 Rahuikiri Road, Tomarata.\nLocal tip: Coastal weather can differ from the forecast, so call 2 to 3 hours before your ride, and leave a message if no one answers. If you use GPS, enter Tomarata after Pakiri.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Booking needed; rides from 1 hour to a full day; weather dependent; 317 Rahuikiri Road",
+    "sourceUrl": "https://www.horseride-nz.co.nz/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Te Ārai Regional Park",
+    "slug": "te-arai-regional-park",
+    "lat": -36.160024,
+    "lng": 174.647278,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.aucklandcouncil.govt.nz/tearai",
+    "description": "A wild, quiet stretch of coast between Pakiri and Mangawhai, reached by a potholed gravel road. Te Ārai Point has a headland to explore and an old quarry you can swim in, and the long southern beach, once known as Forestry, is popular with surfers. Behind the dunes are lakes, wetlands and a network of walking tracks.\n\nThere are toilets at the Te Ārai Point car park but no lifeguards, so only swim if you're confident in surf. Certified self-contained vehicles up to 8m can book one of 10 spaces in the CSC parking area for $22.50 a night, for up to three nights. It has no water, power or toilets, and dogs aren't allowed. The main gates open from 6am to 9pm in daylight saving and 6am to 7pm otherwise.\nLocal tip: Come for sunrise, as the beach faces east, and stay for the stars. Keep out of the roped-off shorebird nesting areas from about September to February.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Gates open 6am, close 9pm in daylight saving time and 7pm otherwise; CSC parking must be booked, max 3 nights",
+    "sourceUrl": "https://www.aucklandcouncil.govt.nz/parks-recreation/stay-at-park/Pages/accommodation-details.aspx?itemID=81",
+    "confidence": "high"
+  },
+  {
+    "name": "Mangawhai Cliffs Walkway",
+    "slug": "mangawhai-cliffs-walkway",
+    "lat": -36.079641,
+    "lng": 174.59731,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/waipu-area/things-to-do/mangawhai-cliffs-walkway/",
+    "featured": 3,
+    "description": "A popular coastal walk from the Mangawhai Heads car park at the end of Wintle Street. Walk 1.2km north along the surf beach to the track sign, then climb the 3km cliff track (about 1 hour 10 minutes) to a lookout north to Bream Head and down steep steps to a natural rock arch. Go back over the top, or along the rocky beach at low to mid tide. The full loop is about 9km and takes 2 to 3 hours.\n\nThe cliff edges are steep, with loose gravel in places, and the track is exposed, so take water and a hat. There's no drinking water or bins at the car park, mobile coverage is patchy, and dogs aren't allowed. The surf lifesaving club and toilets are by the car park, and it gets very busy from November to April.\nLocal tip: For the beach loop, start 2 to 3 hours before low tide, and if water is surging through the arch, go back the way you came.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Open all the time; free; beach return only at low to mid tide; Cove Road link track closed 1 Sep to 31 Oct for lambing; car park busy Nov to Apr",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/northland/places/waipu-area/things-to-do/mangawhai-cliffs-walkway/",
+    "confidence": "high"
+  },
+  {
+    "name": "Head Rock Bakery",
+    "slug": "head-rock-bakery",
+    "lat": -36.094428,
+    "lng": 174.587477,
+    "category": [
+      "Food"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Cheap",
+    "description": "A busy little bakery at 7 Wood Street in the Mangawhai Heads shops, a short drive from the surf beach and the start of the cliffs walk. It opens before dawn every day, so it suits an early surf or a pre-walk breakfast, and it closes at 4pm.\n\nRegulars rate the potato top and roast pork pies and the raspberry and cream cheese muffins, and the coffee is better than most bakeries'. There are tables outside.\nLocal tip: Keep a hand on your pie if you sit outside, as the seagulls here are bold.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Daily 5.30am to 4pm; 7 Wood Street, Mangawhai Heads",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJg6JPA5-VDG0RcITXfLogdv0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Mangawhai Backpackers",
+    "slug": "mangawhai-backpackers",
+    "lat": -36.090123,
+    "lng": 174.58399,
+    "category": [
+      "Stay"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small, homely hostel, also known as The Coastal Cow, at 299 Molesworth Drive in Mangawhai Heads, with shared and private rooms. Reviewers praise the welcoming host, the fireplace and comfy lounge, the hot showers and the quiet, relaxed feel.\n\nRates run from $30 to $90 a night from May to November and $35 to $120 from December to April, depending on the room. There's a fully equipped kitchen, free wifi, linen supplied and six car parks on site. It's a short walk to the estuary, cafés and shops. If you're in a campervan instead, Kaipara District Council only allows freedom camping in certified self-contained vehicles, for up to two nights in one spot, leaving by 9am and not returning within two weeks, and no tents on public land.\nLocal tip: Book ahead in summer, as it's small and fills up.",
+    "hoursNote": "Shared and private rooms; $30 to $120 a night; linen supplied; 299 Molesworth Drive",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJyVT0ZaKVDG0RphdzCb5TSEM",
+    "confidence": "medium"
+  },
+  {
+    "name": "Parry Kauri Park Freedom Camping",
+    "slug": "parry-kauri-park-freedom-camping",
+    "lat": -36.416066,
+    "lng": 174.669915,
+    "category": [
+      "Stay"
+    ],
+    "region": "auckland",
+    "area": "north-auckland",
+    "active": false,
+    "price": "Free",
+    "description": "A small, free Auckland Council freedom camping spot at Parry Kauri Park, 32 Tudor Collins Drive on the edge of Warkworth, handy for a night before Matakana, Leigh or Goat Island. There are three marked spaces for certified self-contained vehicles, with a limit of two nights, and no more than two nights in any four weeks. You must leave by 9am on the third day.\n\nNext to the car park, a flat 800m boardwalk loop winds through big kauri trees and is free, and the Warkworth Museum on site is open daily from 10am to 3pm ($12 adults, $5 children).\nLocal tip: If the three spaces are taken, Whisper Cove at Snells Beach has two more under the same rules. Only green self-containment warrants are accepted now, and the fine for breaking the rules is $400.",
+    "hoursNote": "Certified self-contained only; 3 spaces; max 2 nights in 4 weeks; leave by 9am on day 3",
+    "sourceUrl": "https://aucklandcouncil.govt.nz/en/parks-recreation/freedom-camping-auckland/freedom-camping-rodney.html",
+    "confidence": "high"
+  }
+]

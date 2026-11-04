@@ -1,0 +1,285 @@
+[
+  {
+    "name": "Kāpiti Island Day Trip",
+    "slug": "kapiti-island-day-trip",
+    "lat": -40.893448,
+    "lng": 174.979842,
+    "category": [
+      "Nature",
+      "Water"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.kapitiisland.com/",
+    "description": "Kāpiti Island is a protected nature reserve about 5km off Paraparaumu Beach, and the only way to land is with an approved operator. Kapiti Island Nature Tours runs two day trips from the Kapiti Boating Club, with boats leaving from 8am. The Rangatira Experience gives you 5.5 hours on the island for $169 per adult and $99 per child, and the Waiorua Half-Day Experience at the northern end gives you 4.5 hours for $139 and $79. Both include the return ferry, the DOC permit and an introductory talk with a guide.\n\nFrom Rangatira, the Rangatira Loop takes about an hour past whaling relics, a historic whare and a wetland boardwalk, and the Wilkinson Track climbs to the island's 521m high point in about 2 hours, passing a hīhī feeding station on the way. At Waiorua, the Okupe Valley Loop takes about 1.5 hours and looks over Okupe Lagoon. Look out for kākā, takahē and kōkako, and keep your bags closed, as the weka and kākā are nosy. There's no shop on the island, so bring lunch and water, and pets aren't allowed.\nLocal tip: Book well ahead for summer, and check with the operator on the morning of your trip, as the skipper can cancel in rough weather. Bags are unpacked and checked for pests before you board, so clean your boots and pack food in sealed containers.",
+    "recommendedDurationSlots": 14,
+    "featured": 1,
+    "hoursNote": "Daily, weather permitting; ferries leave from 8am at Kapiti Boating Club, Paraparaumu Beach; booking essential",
+    "sourceUrl": "https://www.kapitiisland.com/day-trips/",
+    "confidence": "high"
+  },
+  {
+    "name": "Paekākāriki Escarpment Track",
+    "slug": "paekakariki-escarpment-track",
+    "lat": -41.031451,
+    "lng": 174.896915,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Free",
+    "description": "This short, tough stretch of Te Araroa climbs the coastal escarpment between Paekākāriki and Pukerua Bay, reaching about 220m above the railway line and the sea. It's 9.1km of track, or about 10km station to station, and takes 3 to 4 hours, with about 1,200 steep steps and two swing bridges along the way.\n\nThe views take in Kāpiti Island, the Tasman Sea and, on a clear day, the South Island. There are toilets at Paekākāriki Station on weekends, in the village and at the Pukerua Bay shops, but there's no water or toilets on the track itself. Dogs and bikes aren't allowed, and you must stay out of the rail corridor below, where you risk a $20,000 fine. The track is narrow and exposed in places, so skip it on very windy days.\nLocal tip: Most people walk south from Paekākāriki and catch the train one stop back from Pukerua Bay, so you don't need a second car. Check the train times before you set off.",
+    "recommendedDurationSlots": 8,
+    "featured": 2,
+    "hoursNote": "Open all hours; 3 to 4 hours one way; no dogs or bikes; no water or toilets; keep out of the rail corridor ($20,000 fine)",
+    "sourceUrl": "https://www.wellingtonnz.com/visit/trails/escarpment-track",
+    "confidence": "high"
+  },
+  {
+    "name": "Queen Elizabeth Park",
+    "slug": "queen-elizabeth-park-paekakariki",
+    "lat": -40.95765,
+    "lng": 174.968573,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.gw.govt.nz/qep",
+    "description": "A big, free regional park of dunes, wetlands and beach between Paekākāriki and Raumati South. Te Ara o Whareroa, a sealed path of about 6km, runs from Poplar Avenue in Raumati South to Tilley Road in Paekākāriki and takes about 2 hours on foot, and it's popular with walkers and cyclists. Shorter loops wind through the dunes and wetlands. The park is always open on foot, and the vehicle gates open from 6am to 9pm from October to March and 6am to 6pm from April to September.\n\nAt the Paekākāriki end there are picnic spots and a beach patrolled by surf lifeguards, so swim between the flags. At the Mackays Crossing entrance, volunteers from the Wellington Tramway Museum run restored trams 2km down to Whareroa Beach on Saturdays, Sundays and public holidays from 11am, about every 30 minutes, with the last tram to the beach at 4pm. A day ticket costs $12 for adults, $6 for children aged 5 to 15 and $30 for a family, with unlimited rides.\nLocal tip: Dogs can go off the lead in most of the park if they're under control, but check the trail map first, as some loops, including Te Ara o Tipapa, are off limits to dogs.",
+    "recommendedDurationSlots": 6,
+    "featured": 3,
+    "hoursNote": "Always open on foot; vehicle gates 6am to 9pm Oct to Mar, 6am to 6pm Apr to Sep; trams Sat, Sun and public holidays 11am to 4pm",
+    "sourceUrl": "https://www.gw.govt.nz/qep",
+    "confidence": "high"
+  },
+  {
+    "name": "Ōtaki Beach",
+    "slug": "otaki-beach",
+    "lat": -40.739798,
+    "lng": 175.116154,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Free",
+    "description": "A long, open stretch of sand a few minutes' drive west of Ōtaki township, looking across to Kāpiti Island. The Ōtaki Surf Life Saving Club patrols the beach in summer, so swim between the flags, and there are public toilets in the Ōtaki Beach Pavilion beside the surf club.\n\nFor most of the year it's a quiet spot for a long walk or a swim. One weekend a year, the free Ōtaki Kite Festival takes over the beach, with kite flyers from New Zealand and Australia, plus food trucks, market stalls and performers.\nLocal tip: Walk at low tide, when the sand is at its widest and firmest, and time it to finish at sunset.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all hours; lifeguard patrols in summer; kite festival one weekend a year (free entry)",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ1xawdd-RQG0RTeAQ_mA_qTk",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Pots, Ōtaki Gorge",
+    "slug": "the-pots-otaki-gorge",
+    "lat": -40.822693,
+    "lng": 175.200268,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Free",
+    "description": "A favourite local swimming hole on the Ōtaki River, at about 777 Ōtaki Gorge Road, where clear, deep green pools sit between big boulders and native bush. A short grassy path leads down from the small carpark to the water.\n\nThe water is cold even in summer, and there are rocks to climb and jump from into the deeper pools. There are no toilets, so go before you leave town, and very little shade, so bring sunscreen and a hat. The carpark fills up fast on hot summer weekends.\nLocal tip: Check the depth before you jump, as the pools change after floods, and give it a miss for a few days after heavy rain, when the river runs high and murky.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all hours; no toilets; little shade; carpark fills on summer weekends",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJTRtK8s2VQG0Rxp708_uhsj8",
+    "confidence": "medium"
+  },
+  {
+    "name": "Ōtaki Forks",
+    "slug": "otaki-forks",
+    "lat": -40.871749,
+    "lng": 175.230378,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Free",
+    "website": "https://doc.govt.nz/parks-and-recreation/places-to-go/wellington-kapiti/places/tararua-forest-park/otaki-forks-area",
+    "description": "The main western gateway to Tararua Forest Park, 19km inland from Ōtaki at the end of Ōtaki Gorge Road, where the Waiotauru River meets the Ōtaki. It's about 1.5 hours' drive from Wellington, and the road reopened in July 2025 after a slip at Blue Bluff closed it for almost five years.\n\nThere are two easy short walks here, both part of Te Araroa. The Arcus Loop (about 50 minutes) starts at Boielle Flat, crosses the Waiotauru River on a footbridge and gives you views over the river and campground. The Fenceline Walk (1.5 to 2 hours) starts at the Ōtaki Forks carpark and climbs through regenerating forest above the campsite, with views over the Waiotauru Valley. Take care at the slip about 10 minutes in. There are swimming holes in the Waiotauru River close to the campsite.\nLocal tip: The road is gravel, narrow in places, with steep sections, few turning points and a shallow concrete ford, so take it slowly. There's no phone or internet reception, so tell someone where you're going, and stop for a swim at The Pots on the way back down.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Open all hours; narrow gravel road with a ford; no phone reception; take your rubbish home",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/wellington-kapiti/places/tararua-forest-park/otaki-forks-area",
+    "confidence": "high"
+  },
+  {
+    "name": "Southward Car Museum",
+    "slug": "southward-car-museum",
+    "lat": -40.892348,
+    "lng": 175.030101,
+    "category": [
+      "Attractions"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://www.southwardcarmuseum.co.nz/",
+    "description": "More than 400 vehicles and exhibits over three floors, built from Sir Len Southward's collection, at 250 Otaihanga Road between Paraparaumu and Waikanae. Alongside the cars you'll find motorbikes, aircraft, the powerboat The Redhead and a Wurlitzer organ.\n\nIt's open every day from 9am to 4.30pm, with last entry at 4pm, and closed on Good Friday and Christmas Day. Entry is $23 for adults, $18 for seniors and students, $6 for children aged 5 to 15 and $52 for two adults and up to three children, and your ticket is valid all day if you want to pop out for lunch and come back. There's an indoor kids' area with LEGO, a fenced playground outside, the Coffee Stop (until 3.30pm) and free parking with room for campervans.\nLocal tip: Allow two to three hours if you're into cars, and save it for a wet day, as it's one of the biggest indoor attractions on the coast.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Daily 9am to 4.30pm, last entry 4pm; closed Good Friday and Christmas Day; adults $23",
+    "sourceUrl": "https://www.southwardcarmuseum.co.nz/admission",
+    "confidence": "high"
+  },
+  {
+    "name": "Ngā Manu Nature Reserve",
+    "slug": "nga-manu-nature-reserve",
+    "lat": -40.860267,
+    "lng": 175.059832,
+    "category": [
+      "Nature",
+      "Attractions"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://ngamanu.org.nz/",
+    "description": "A 14 hectare reserve near Waikanae that protects the largest remnant of lowland swamp forest on the Kāpiti Coast, including a 400-year-old kahikatea, swamp maire and pukatea. Flat paths wind through the forest, the aviaries hold kea, kākā, kererū and kākāriki, and the nocturnal house has kiwi and tuatara.\n\nIt's open daily from 10am to 5pm, except Christmas Day. Entry is $17 for adults, $8 for children, $14 for concessions and $37 for two adults with up to three children. The big draw is the tuna (eel) feed at 2pm, with an extra 12pm session on weekends, and there's a free guided forest walk on Saturdays and Sundays at 12.15pm.\nLocal tip: Bring a picnic to eat at the tables under the old native trees, then catch the 2pm eel feed.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Daily 10am to 5pm except Christmas Day; eel feeding 2pm daily, plus 12pm weekends and holidays",
+    "sourceUrl": "https://ngamanu.org.nz/pages/day-at-nga-manu",
+    "confidence": "high"
+  },
+  {
+    "name": "Beach Road Deli",
+    "slug": "beach-road-deli-paekakariki",
+    "lat": -40.988499,
+    "lng": 174.951871,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Moderate",
+    "description": "A busy little café and deli at 5 Beach Road in Paekākāriki, near the railway station and the start of the Escarpment Track. It does coffee, a long bagel menu, hearty sandwiches and fresh salads, a cabinet of sweet treats, and house rolls and pizza dough made with a sourdough-style starter. There are plenty of vegan and gluten-free options, and shelves of pantry goods and local makers' work to browse.\n\nOn Friday nights the pizza oven goes on and the deli stays open until 8pm, and locals rate the well-loaded pizzas. The rest of the week it opens at 8am and closes mid-afternoon.\nLocal tip: Grab a pizza on a Friday evening and carry it down Beach Road to the beach for sunset.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Mon to Thu 8am to 3pm, Fri 8am to 8pm (pizza night), Sat and Sun 8am to 4pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ42Ovv5KnQG0RyF_iAspTql4",
+    "confidence": "medium"
+  },
+  {
+    "name": "Fedup Restaurant and Takeaway",
+    "slug": "fedup-paraparaumu-beach",
+    "lat": -40.89423,
+    "lng": 174.979412,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Cheap",
+    "description": "A casual fish and chip shop and restaurant at 40 Marine Parade, Paraparaumu Beach, just across the road from the sand. Food is cooked to order, and reviewers rate the generous portions, the crisp kūmara chips and the blue cod.\n\nRecent online menu prices are $6.70 for a piece of battered fish or a scoop of chips, $8.60 for kūmara chips, $10.90 for a fish burger and $17.80 for a premium blue cod fillet, crumbed or battered. You can eat in for the same price as takeaway.\nLocal tip: Take your order across the road and eat it on the beach, with Kāpiti Island right in front of you.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 11am to 8pm; eat in or takeaway",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJwwqwWv6gQG0RSbiIBwXS-cs",
+    "confidence": "medium"
+  },
+  {
+    "name": "Olde Beach Bakery, Waikanae Beach",
+    "slug": "olde-beach-bakery-waikanae",
+    "lat": -40.865701,
+    "lng": 175.026322,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Cheap",
+    "description": "A popular bakery and café at 3 Ono Street in the Waikanae Beach shops, a short walk from the sand. The cabinet is stacked with flaky pies such as creamy mushroom, chicken curry and mince and cheese, plus Turkish sandwiches, cinnamon rolls, filled doughnuts and scones, and the coffee's good.\n\nTurn right past the old-school chain curtain to find a sheltered courtyard for eating in the sun. It's open every day from 6.30am to 4pm, and there's a second Olde Beach Bakery in Paekākāriki.\nLocal tip: Go early, while the full range of pies is still in the cabinet.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 6.30am to 4pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJgQ9vNhyiQG0RxACfIgwJ00k",
+    "confidence": "medium"
+  },
+  {
+    "name": "Oz's Bread Shop",
+    "slug": "ozs-bread-shop-otaki",
+    "lat": -40.762585,
+    "lng": 175.15543,
+    "category": [
+      "Food"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Cheap",
+    "description": "An old-school bakery in the highway shops at 200 Main Highway, Ōtaki, where Oz Pidduck has been baking for more than 40 years and still starts work at 3am. It's known for steak and cheese pies, cream doughnuts and custard squares, plus filled rolls, sandwiches, cakes and bread.\n\nPrices are fair and it's an easy stop on a drive up the coast. Next door, the same owners run Dice, with paninis, bagels, toasted wraps, smoothies, coffee and real fruit ice creams.\nLocal tip: Ōtaki is the last place to buy food before The Pots and Ōtaki Forks, so stock up on pies and rolls here before you head up the gorge.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Tue to Fri 6am to 4pm, Sat and Sun 7am to 4pm; closed Mondays",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ6f___xtWR20RFyvFb1PeBzI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Paraparaumu Beach Freedom Camping",
+    "slug": "paraparaumu-beach-freedom-camping",
+    "lat": -40.897612,
+    "lng": 174.978352,
+    "category": [
+      "Stay"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Free",
+    "description": "Free council parking for certified self-contained vehicles on the Paraparaumu Beach waterfront, facing Kāpiti Island. There are two small carparks on Marine Parade, opposite numbers 62 and 68, with three spaces each for vehicles up to 8m.\n\nYou can stay up to two nights, or one night from 1 December to the end of February, and you can't come back for 28 days. Your vehicle must display a current self-containment warrant, and spaces are first come, first served. The beach shops, fish and chips and the Kāpiti Island ferry are a short walk away, with public toilets at MacLean Park. The nearest dump stations are commercial ones at Mobil on Amohia Street and BP at 108 Kāpiti Road in Paraparaumu.\nLocal tip: Don't stay overnight in the Kapiti Boating Club carpark, which is a no-camping area. If the Marine Parade spaces are full, the MacLean Street carpark beside the Kāpiti Court Motel has three more, with a two night limit all year.",
+    "hoursNote": "Certified self-contained only; 6 spaces, max 8 m; max 2 nights (1 night 1 Dec to end Feb); 28 day return",
+    "sourceUrl": "https://kapiticoast.govt.nz/explore-kapiti/recreation/freedom-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Ōtaki Beach Freedom Camping",
+    "slug": "otaki-beach-freedom-camping",
+    "lat": -40.736915,
+    "lng": 175.1163,
+    "category": [
+      "Stay"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Free",
+    "description": "Free council parking for certified self-contained vehicles beside the Ōtaki Surf Life Saving Club at Ōtaki Beach. There are two spaces in the park area north of the surf club, for vehicles up to 8m, and four in the carpark south of the club, opposite Tasman Road, for vehicles up to 10m.\n\nThe limit is two nights, or one night from 1 December to the end of February, and you can't come back for 28 days. Your vehicle must display a current self-containment warrant. Stick to the signed spaces, as the surf club area itself is listed as a no-camping zone. There are public toilets in the Ōtaki Beach Pavilion by the surf club.\nLocal tip: The council's dump station option is the Ōtaki Refuse Transfer Station at 1 Riverbank Road, in town.",
+    "hoursNote": "Certified self-contained only; 6 spaces (2 up to 8 m, 4 up to 10 m); max 2 nights (1 night 1 Dec to end Feb); 28 day return",
+    "sourceUrl": "https://kapiticoast.govt.nz/explore-kapiti/recreation/freedom-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Ōtaki Forks Campsite",
+    "slug": "otaki-forks-campsite",
+    "lat": -40.881705,
+    "lng": 175.222218,
+    "category": [
+      "Stay"
+    ],
+    "region": "wellington",
+    "area": "kapiti",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://doc.govt.nz/parks-and-recreation/places-to-go/wellington-kapiti/places/tararua-forest-park/things-to-do/campsites/otaki-forks-campsite",
+    "description": "A big, grassy DOC campsite at School House Flat, at the end of Ōtaki Gorge Road in Tararua Forest Park, 19km east of Ōtaki. It has 150 unpowered sites over open terraces, two large cooking shelters, three toilet blocks and three paths down to the Waiotauru River, with swimming holes nearby.\n\nIt costs $10 per adult and $5 per child (5 to 17) a night, under 5s are free, and the DOC Campsite Pass is accepted. This is the summer campsite, open from the October long weekend until Easter, and in winter camping moves to nearby Boielles Campsite. Book online before you arrive, as there's no phone reception and no spaces are held for walk-ins. Same-day online bookings close at 8pm.\nLocal tip: There are no rubbish bins and fires are banned, so bring a gas cooker and take all your rubbish home, food scraps included. The 19km road in is gravel and narrow in places, with a shallow ford, so take it slowly in a campervan.",
+    "hoursNote": "Summer season, Labour Weekend to Easter; $10 adult, $5 child; book online; no fires; no rubbish bins; no reception",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/wellington-kapiti/places/tararua-forest-park/things-to-do/campsites/otaki-forks-campsite",
+    "confidence": "high"
+  }
+]

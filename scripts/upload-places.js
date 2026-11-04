@@ -36,6 +36,10 @@ const PRICES = new Set(["Free", "Cheap", "Moderate", "Expensive"]);
 const REGIONS = new Set([
   "canterbury", "kaikoura", "marlborough", "nelson-tasman", "west-coast",
   "aoraki-mackenzie", "queenstown-wanaka", "fiordland", "dunedin-otago", "southland-catlins",
+  // North Island, loaded switched off (2026-11-04). Not in lib/guideContent.ts until
+  // the island goes live, so the guide doesn't show empty region tabs.
+  "northland", "auckland", "coromandel", "waikato", "bay-of-plenty", "rotorua",
+  "taupo-ruapehu", "gisborne", "hawkes-bay", "taranaki", "manawatu-whanganui", "wellington",
 ]);
 
 const args = process.argv.slice(2);

@@ -1,0 +1,341 @@
+[
+  {
+    "name": "Mount Main Beach (Hinekite)",
+    "slug": "mount-main-beach",
+    "lat": -37.63117,
+    "lng": 176.178984,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Free",
+    "description": "Mount Maunganui's surf beach, Hīnekite, runs along Marine Parade from the foot of Mauao towards Moturiki, with white sand, clear water and a long grassy reserve behind it. It's the main reason most people come to the Mount: swimming, surfing, sunrise walks and fish and chips on the sand, with cafés and takeaways across the street.\n\nMauao itself, and the holiday park and Mount Hot Pools at its base, have been closed since a landslide on 22 January 2026 that killed six people at the campground. The rāhui over the beach has been lifted and Marine Parade, The Mall and Maunganui Road are open, but a 30m fenced exclusion zone stays in place around the base and shore of Mauao. The council is aiming to reopen some Mauao tracks by summer, with no firm date yet.\nLocal tip: Swim between the flags when lifeguards are on patrol, keep out of the fenced zone at the Mauao end, and come early on summer weekends, as parking along Marine Parade fills fast.",
+    "recommendedDurationSlots": 4,
+    "featured": 1,
+    "hoursNote": "Open all the time; free; 30m exclusion zone around the base of Mauao; Mauao tracks closed since Jan 2026",
+    "sourceUrl": "https://www.tauranga.govt.nz/mauao-landslide",
+    "confidence": "high"
+  },
+  {
+    "name": "Moturiki Island (Leisure Island) Walk",
+    "slug": "moturiki-island-walk",
+    "lat": -37.630729,
+    "lng": 176.185082,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Free",
+    "description": "A small rocky island at the end of Main Beach, joined to the sand by a man made land bridge opposite Hopukiore (Mount Drury), so you can walk straight onto it from Marine Parade. A short loop track crosses the island, with sea views back along the coast and across to Mauao.\n\nIt's about 1km return and takes 20 to 30 minutes on an easy gravel and grass path, though the rocks at the far end are slippery. Access closes in big swells. With the Mauao tracks closed, this is the best short walk at the Mount for now.\nLocal tip: Look for the blowhole at the northern tip, which works best on an incoming mid to high tide with some swell, and check the rock pools for crabs, anemones and small fish.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open all the time; free; uneven gravel path; can close in dangerous sea swells",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJE-5YqZrebW0R_QBsmamPztM",
+    "confidence": "medium"
+  },
+  {
+    "name": "Pilot Bay",
+    "slug": "pilot-bay",
+    "lat": -37.634494,
+    "lng": 176.177041,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Free",
+    "description": "The calm harbour side of the Mount isthmus, a few minutes' walk across from Main Beach. The water is calm and sheltered and the sand shelves gently, which makes it good for small children, and a boardwalk runs the length of the bay.\n\nKayak and paddleboard hire is available locally on fine days. The council says the Pilot Bay boat ramp is open but sits in an active landslide risk area at the foot of Mauao, so access near the ramp can be restricted at short notice.\nLocal tip: Swim at the town end of the bay, away from the Mauao exclusion zone and the boat ramp, and skip swimming for 48 hours after heavy rain, when water quality drops.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open all the time; free; toilets; boat ramp area can close at short notice due to landslide risk",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJheXvxZ3ebW0RMSdRcx2s-X8",
+    "confidence": "medium"
+  },
+  {
+    "name": "Tauranga Waterfront and The Strand",
+    "slug": "tauranga-waterfront-the-strand",
+    "lat": -37.68288,
+    "lng": 176.170717,
+    "category": [
+      "Attractions",
+      "Walks"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Free",
+    "description": "Tauranga's city centre faces the harbour, and the rebuilt waterfront along The Strand is the place to stroll, eat and let the kids burn off energy. The playground, opened in December 2024, has an 8m waka tower, a nature trail, water play, swings and slides, with a basketball half court next door, and locals jump off the upgraded Beacon Wharf on hot days.\n\nCafés, bars and restaurants line The Strand across the road, and the path runs north to Bobby's Fresh Fish Market and views of the railway bridge. In summer the Waterworld inflatable water park operates off the waterfront, listed at $17 for an hour or $60 for a family pass.\nLocal tip: Shade is limited, so bring hats and sunscreen, then grab fish and chips from Bobby's at the north end and eat them by the water.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open all the time; free; playground and toilets; inflatable water park in summer (paid)",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJba-BqODbbW0Rir8vl3mSiiA",
+    "confidence": "medium"
+  },
+  {
+    "name": "Pāpāmoa Beach",
+    "slug": "papamoa-beach",
+    "lat": -37.696646,
+    "lng": 176.286435,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Free",
+    "description": "The long surf beach that carries on south east from Mount Maunganui, backed by dunes and far less busy than Main Beach. It's a good place for a long beach walk, a swim or a surf without the Mount crowds.\n\nThe Pāpāmoa Surf Life Saving Club, at Pāpāmoa Domain on Papamoa Beach Road, patrols a swimming area between the flags in summer. Overnight parking isn't allowed at Pāpāmoa Domain under the council's freedom camping bylaw, and fines start at $400.\nLocal tip: Swim only between the flags, as the surf here can have rips, and check patrol times before you go.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; patrolled area between the flags at busy times; no overnight camping at Pāpāmoa Domain",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJS_cy9E92bm0RFBERofIu-eI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Pāpāmoa Hills Cultural Heritage Regional Park",
+    "slug": "papamoa-hills-regional-park",
+    "lat": -37.742639,
+    "lng": 176.290996,
+    "category": [
+      "Walks",
+      "Culture"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Free",
+    "description": "A steep climb to a 224m trig with wide views over Pāpāmoa and the coast. The hills are covered in old pā sites, and 1,630 archaeological features such as terraces, storage pits and defensive ditches have been recorded here. The park is governed jointly by the regional council and mana whenua.\n\nSlips closed the park in January 2026, and it partly reopened on 3 April 2026. The Pūraho Track and the Karangaumu alternative track both reach the summit, and the Summerhills Track from Reid Road has reopened too, but the Pāpāmoa, Te Ihu o Ruarangi, Te Hōuāwe and Te Kaingapākura tracks are still closed. Allow about 45 minutes to the top. There are toilets at the car park but no drinking water, and the park is a working farm with cattle and sheep. It's open sunrise to sunset, with gates locked overnight.\nLocal tip: Bring water and go early on a summer morning before the heat. Dogs aren't allowed at any time, and use the new car park rather than parking on the Poplar Lane roadside.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Sunrise to sunset, gates locked overnight; free; some tracks closed after Jan 2026 slips; no dogs; no drinking water",
+    "website": "https://www.boprc.govt.nz/living-in-the-bay/our-places/regional-parks/papamoa-hills-cultural-heritage-regional-park/",
+    "sourceUrl": "https://www.boprc.govt.nz/your-council/news/news-and-media-releases/media-releases-2026/april-2026/partial-re-opening-of-papamoa-hills-cultural-heritage-regional-park-following-weather-related-damage/",
+    "confidence": "high"
+  },
+  {
+    "name": "McLaren Falls Park",
+    "slug": "mclaren-falls-park",
+    "lat": -37.807396,
+    "lng": 176.046482,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Free",
+    "description": "A 190 hectare council park beside Lake McLaren, a short drive south west of Tauranga, with lakeside picnic bays, big old trees and easy walks. The waterfall track is a short, easy stroll, partly suitable for wheelchairs and mobility scooters, and after dark glowworms light up the banks on both sides of it.\n\nThere's also the Falls Cafe, Marshalls Animal Park, an 18 basket disc golf course and a StoryWalk trail, and trout fishing in the lake with a licence. Gas barbecues are fine, but open fires, braziers and charcoal barbecues aren't, and dogs aren't allowed, even in vehicles. The Ponga Grove Track is closed, there's a diversion around a slip on the Lakeside Track, and the park can close during orange or red weather warnings.\nLocal tip: The park gates close at 7.30pm in summer and 5.30pm in winter, so the easiest way to see the glowworms is to camp here. Use a red light rather than a white torch and keep quiet on the track.",
+    "recommendedDurationSlots": 6,
+    "featured": 2,
+    "hoursNote": "7.30am to 7.30pm in daylight saving, 7.30am to 5.30pm in winter; free; no dogs, even in vehicles; no open fires",
+    "website": "https://www.tauranga.govt.nz/Parks-and-recreation/Parks/McLaren-Falls-Park",
+    "sourceUrl": "https://www.tauranga.govt.nz/Parks-and-recreation/Parks/McLaren-Falls-Park",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Rere o Ōmanawa (Ōmanawa Falls)",
+    "slug": "omanawa-falls",
+    "lat": -37.844897,
+    "lng": 176.082389,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Free",
+    "description": "A single drop of about 35m into a deep bush gorge in the Ōmanawa Valley, inland from Tauranga. The site was closed for years for safety reasons and reopened in December 2023 after the council built a forest walkway, more than 750 stairs and three lookout platforms with information panels.\n\nThe walk from the car park to the first lookout, Wairere Tapu, takes about 16 minutes, or about 45 minutes return. Going on to the lower lookouts means several hundred more stairs and needs a moderate to high level of fitness. There are toilets at the car park. The falls are sacred to Ngāti Hangarau, there's no public access to the water's edge, and swimming, alcohol and rock climbing aren't allowed. Only service dogs are permitted. It's open 8am to 7.30pm in summer and 8am to 5.30pm in winter.\nLocal tip: Check the closing time before you set off, and leave enough time to climb back up the stairs before the car park closes.",
+    "recommendedDurationSlots": 3,
+    "featured": 3,
+    "hoursNote": "8am to 7.30pm in daylight saving, 8am to 5.30pm in winter; free; no swimming; no dogs",
+    "website": "https://www.tauranga.govt.nz/Parks-and-recreation/Parks/Te-Rere-o-Omanawa-Omanawa-Falls",
+    "sourceUrl": "https://www.tauranga.govt.nz/Parks-and-recreation/Parks/Te-Rere-o-Omanawa-Omanawa-Falls",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Puna Quarry Park",
+    "slug": "te-puna-quarry-park",
+    "lat": -37.703644,
+    "lng": 176.046392,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Free",
+    "description": "A 32 hectare garden park built in an old quarry that was worked from 1911 to 1970, signposted off State Highway 2 west of Te Puna. It's now native and exotic gardens with waterways, picnic spots and sculptures by local artists, plus a small butterfly house.\n\nThe main loop takes 45 to 60 minutes return, with side tracks to viewpoints that look out from the Coromandel ranges to the eastern Bay of Plenty. The main paths are chip sealed and fine for all terrain pushchairs, but the eastern forest tracks are very steep. Entry is free (donations welcome), it's open daily in daylight hours, dogs on a lead are allowed, and there are toilets near the car park.\nLocal tip: Keep dogs on the lead and close by, as rabbit poison is laid in the area. The gates run on a timer, but you can still walk in when they're closed.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open daily, about 7am to 7pm; free entry; gravel and uneven paths",
+    "sourceUrl": "https://www.westernbay.govt.nz/recreation/walking-tracks-and-trails/te-puna-quarry-park",
+    "confidence": "high"
+  },
+  {
+    "name": "Dolphin Seafaris",
+    "slug": "dolphin-seafaris",
+    "lat": -37.671099,
+    "lng": 176.179009,
+    "category": [
+      "Water",
+      "Adventure"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.nzdolphin.com/",
+    "description": "A day trip out of Tauranga Harbour into the Bay of Plenty to find wild common dolphins, with the chance to get in the water with them. Swimming is never guaranteed, as the crew only puts people in when the dolphins aren't feeding, travelling or resting and there are no young in the pod. The operator also lists little blue penguins among the wildlife you might see.\n\nTours leave from Berth D1 at Tauranga Bridge Marina, 101 Te Awanui Drive, with free parking all day. Summer trips run daily from November to the end of April. You check in at 8.30am for a 9am departure and are back around 3pm, 5 to 6 hours later. Booking sites list $165 for adults, $125 for children and $550 for a family. Wetsuits, snorkel gear and hot drinks are included, and swimmers must be at least 7. If no dolphins are found you get a free return trip.\nLocal tip: Bring your own lunch and a warm layer, and book early in your stay, as trips need a minimum number of passengers and can be cancelled for weather. Cancel 48 hours ahead for a refund.",
+    "recommendedDurationSlots": 10,
+    "hoursNote": "Departs 9am in summer (check in 8.30am), weather permitting; about 5 hours; minimum 10 passengers; swimmers 7+",
+    "sourceUrl": "https://www.nzdolphin.com/faqs",
+    "confidence": "medium"
+  },
+  {
+    "name": "Bobby's Fresh Fish Market",
+    "slug": "bobbys-fresh-fish-market",
+    "lat": -37.680577,
+    "lng": 176.170983,
+    "category": [
+      "Food"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Cheap",
+    "description": "Tauranga's best known fish and chip shop, a working fish market at 1 Dive Crescent by the fishing quay at the north end of The Strand. It's been trading since 1996, says it never sells frozen fish, and you can pick your own fish, such as snapper or tarakihi, from the window instead of the fish of the day.\n\nIt's open Tuesday to Sunday from 8am to 6pm and closed on Mondays, and it draws big crowds of locals, tourists and cruise passengers. A deli counter sells smoked fish, smoked mussels and seafood salad.\nLocal tip: Take your order to the waterfront to eat, and guard it from the seagulls.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Tue to Sun 8am to 6pm; closed Mondays",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJO3Qh_ePbbW0RdFpX22f4_tE",
+    "confidence": "medium"
+  },
+  {
+    "name": "Mount Fish & Chips",
+    "slug": "mount-fish-and-chips",
+    "lat": -37.635963,
+    "lng": 176.182293,
+    "category": [
+      "Food"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small, no frills takeaway at 80 Maunganui Road in the Mount village. Reviewers rate it for fresh fish in a light, crisp batter, kūmara chips, battered jumbo oysters and pineapple rings in cinnamon sugar.\n\nThere's one table inside and a few plastic chairs outside, so most people take it to the beach. It's open Wednesday to Monday from 11am to 8.30pm and closed on Tuesdays. Expect around a 20 minute wait at busy times, and staff will tell you how long when you order.\nLocal tip: Order, then wander down to Main Beach while it cooks, and try the fish without vinegar first, as the staff say it masks the taste of fresh fish.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Wed to Mon 11am to 8.30pm; closed Tuesdays",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJuSywZJnebW0Ra727TcpWAqs",
+    "confidence": "medium"
+  },
+  {
+    "name": "Tauranga Farmers Market",
+    "slug": "tauranga-farmers-market",
+    "lat": -37.692636,
+    "lng": 176.164602,
+    "category": [
+      "Food"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Cheap",
+    "description": "A Saturday morning market at Tauranga Primary School, on the corner of Cameron Road and Fifth Avenue, where Bay of Plenty growers and makers sell straight to the public. It has run since 2003 and goes ahead all year, rain or shine, from 7.45am to 12pm.\n\nExpect stalls of vegetables and fruit, dairy, bread and baking, seafood and coffee, plus live music and a playground and open space for kids. It's a cheap way to put together breakfast and a picnic lunch.\nLocal tip: Arrive early for the best baking, and bring your own bag for produce.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Saturdays 7.45am to 12pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJBRsbN8XbbW0RdSBfQ1TW52o",
+    "confidence": "medium"
+  },
+  {
+    "name": "Katsuya Japanese Cuisine",
+    "slug": "katsuya-japanese-cuisine",
+    "lat": -37.685201,
+    "lng": 176.169761,
+    "category": [
+      "Food"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small Japanese lunch spot at 26 Devonport Road in the Tauranga city centre, rated 4.8 from more than 130 Google reviews. The menu covers katsu sets and donburi, Japanese curry, ramen and sides like takoyaki and agedashi tofu.\n\nIt's in the cheapest price bracket, and there's outdoor seating. It's open Monday to Friday from 11am to 6pm and closed on weekends, and public holiday hours may vary.\nLocal tip: Plan it as a weekday lunch or early dinner stop, and phone 07 579 6098 to check on public holidays.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Mon to Fri 11am to 6pm; closed weekends",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJey6Io-3bbW0R39nKX4UzkPo",
+    "confidence": "medium"
+  },
+  {
+    "name": "Memorial Park Freedom Camping",
+    "slug": "memorial-park-freedom-camping",
+    "lat": -37.698121,
+    "lng": 176.164366,
+    "category": [
+      "Stay"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Free",
+    "description": "One of about 25 council freedom camping areas around Tauranga, in a waterside park between Seventh and Eleventh avenues, close to the city centre. It has six spaces, available every night, for certified self-contained vehicles only, which since 7 June 2026 means a green warrant. You can stay up to two nights per calendar month at any one site, and fines run from $400 to $1,200.\n\nThe park has two playgrounds, mini golf, a miniature railway and free barbecues beside the harbour. Toilets are at the rowing club and behind the QE Youth Centre.\nLocal tip: Freedom camping is banned on Marine Parade, The Mall and the Maunganui Road car park at the Mount, and at Pāpāmoa Domain, so base yourself here or at another listed site and drive over for the day.",
+    "hoursNote": "Certified self-contained only; 6 spaces; max 2 nights per calendar month per site; fines from $400",
+    "sourceUrl": "https://www.tauranga.govt.nz/exploring/travel/freedom-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "TECT Park Freedom Camping",
+    "slug": "tect-park-freedom-camping",
+    "lat": -37.946637,
+    "lng": 176.154075,
+    "category": [
+      "Stay"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Free",
+    "description": "A free council camping area in TECT All Terrain Park on Whataroa Road, Ngawaro, in the hills inland from Tauranga. It's the only place in the district where tents are allowed as well as certified self-contained vehicles. Spaces are first come, first served, with self-contained vehicles using the main area by the facility block and the equestrian car park.\n\nToilets are free. Hot showers, laundry, hotplates and dishwashing run on the Penny system, and a Penny Digital Key costs $5 from Western Bay of Plenty District Council offices and some local retailers, but isn't sold at the park. There's also a disc golf putter course.\nLocal tip: Tents are limited to two nights and vehicles to three nights in any four weeks, and vehicles need a green self-containment warrant. Sort out your Penny key before you arrive if you want a hot shower.",
+    "hoursNote": "Tents and certified self-contained vehicles; first come, first served; tents max 2 nights; showers and laundry via Penny key ($5)",
+    "sourceUrl": "https://www.westernbay.govt.nz/recreation/camping-and-freedom-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "McLaren Falls Park Campsites",
+    "slug": "mclaren-falls-park-campsites",
+    "lat": -37.815764,
+    "lng": 176.039956,
+    "category": [
+      "Stay"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Cheap",
+    "description": "Cheap council camping by Lake McLaren, with Top Flat and Pin Oak Flat open (Hamilton Point and Rotary Grove are closed). There are no powered or numbered sites. You book and pay online, as it's cashless, then take any free spot on arrival. Campervans don't need to be self-contained because there are toilets, and campers get showers at Pin Oak Flat, filtered drinking water and free barbecues for portable gas.\n\nAdults pay $20 a night from Labour Weekend to 19 December and from 7 February to Easter, $30 in the peak from 20 December to 6 February, and $15 in winter. Children 5 to 16 are $5 ($10 in the peak), and under 5s are free. The maximum stay is three nights, after which you must stay away for seven days, and you leave by 12pm. There's no dump station, and dogs aren't allowed.\nLocal tip: You must arrive before the park gates close at 7.30pm in summer, and staying the night is the easy way to walk the glowworm track after dark.",
+    "hoursNote": "Book online; adults $15 to $30 per night by season; max 3 nights; arrive before 7.30pm (summer); no power; no dump station; no dogs",
+    "website": "https://www.tauranga.govt.nz/Parks-and-recreation/Parks/McLaren-Falls-Park/McLaren-Falls-camping-accommodation-and-bookings",
+    "sourceUrl": "https://www.tauranga.govt.nz/Parks-and-recreation/Parks/McLaren-Falls-Park/McLaren-Falls-camping-accommodation-and-bookings",
+    "confidence": "high"
+  },
+  {
+    "name": "Wanderlust NZ Backpackers",
+    "slug": "wanderlust-nz-backpackers",
+    "lat": -37.68374,
+    "lng": 176.16988,
+    "category": [
+      "Stay"
+    ],
+    "region": "bay-of-plenty",
+    "area": "tauranga",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.wanderlustnz.co.nz",
+    "description": "A well run, independent backpackers at 105 The Strand, in a building that opened as the Commercial Hotel in 1900, right across from the harbour and around the corner from the bus station. It has mixed and female only dorms plus private ensuite rooms, and the 12 bed dorm has a power point and USB charger at each bed.\n\nThere are kitchens with harbour views, a long balcony and a rooftop terrace, free wifi, laundry, a lift and luggage storage. Listed rates run from $42 a night for a dorm bed up to $180 for the best private rooms. Reception is open 8am to 9pm, with a night warden for late check ins, and solo guests must be 18 or over with photo ID and a credit card.\nLocal tip: Public holiday weekends need a two night minimum, so book ahead.",
+    "hoursNote": "From $42 per night (dorm); reception 8am to 9pm; 2 night minimum on public holiday weekends",
+    "sourceUrl": "https://www.newzealand.com/nz/plan/business/wanderlustnz/",
+    "confidence": "high"
+  }
+]

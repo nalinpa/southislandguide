@@ -1,0 +1,318 @@
+[
+  {
+    "name": "Ōhope Beach",
+    "slug": "ohope-beach",
+    "lat": -37.963568,
+    "lng": 177.036015,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Free",
+    "description": "About 11km of golden sand running from West End to the entrance of Ōhiwa Harbour, with gentle rolling waves that suit swimming, learning to surf and paddleboarding. The AA has called it New Zealand's most loved beach, and outside the summer holidays it rarely feels crowded.\n\nThe Whakatāne Surf Life Saving Club patrols the beach from its base on Mair Street. West End, at the Whakatāne end, stays shallow a long way out at low tide, which suits small children, and Salt Spray Surf School runs lessons there.\nLocal tip: Check safeswim.org.nz for patrol days and times before you go, and swim between the flags when they're up.",
+    "recommendedDurationSlots": 6,
+    "featured": 1,
+    "hoursNote": "Open all the time; free; surf lifeguard patrols in summer, check safeswim.org.nz for days and times",
+    "sourceUrl": "https://aa.co.nz/travel/must-dos-this-summer/visit-new-zealands-most-loved-beach-ohope-beach",
+    "confidence": "medium"
+  },
+  {
+    "name": "Ngā Tapuwae o Toi Walkway (Kōhī Point)",
+    "slug": "nga-tapuwae-o-toi-kohi-point-walkway",
+    "lat": -37.951626,
+    "lng": 176.997113,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Free",
+    "description": "The Kōhī Point section of Ngā Tapuwae o Toi, the Footsteps of Toi, climbs from the edge of Whakatāne onto the cliff tops and follows them east towards Ōhope. You get wide views over the town, Moutohorā and, on a clear day, Whakaari, and the track passes several old pā sites, including Kapu-te-rangi, one of the oldest known pā in the country.\n\nDOC allows about 1 hour 30 minutes from Mokorua Gorge to Toi Pā. The section between Ōtarawairere Bay and West End at Ōhope has been closed by slips since October 2022, so you can't currently walk through to Ōhope or do the full loop. The council approved a volunteer led restoration in July 2026, but there's no reopening date. You can still reach Ōtarawairere Bay on the track off Ōtarawairere Road.\nLocal tip: Walk out to Toi Pā and back, and watch for wasps from January to April. Ōtarawairere Bay can't be reached at high tide, so check the Whakatāne tide times on MetService if you're heading there.",
+    "recommendedDurationSlots": 7,
+    "featured": 2,
+    "hoursNote": "Open all the time; free; Ōtarawairere Bay impassable at high tide; allow about 3.5 hours one way to Ōhope West End",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/bay-of-plenty/places/whakatane-area/things-to-do/nga-tapuwae-o-toi-walkway/",
+    "confidence": "high"
+  },
+  {
+    "name": "Wairaka Statue and Whakatāne Heads",
+    "slug": "wairaka-statue-whakatane-heads",
+    "lat": -37.943115,
+    "lng": 177.009888,
+    "category": [
+      "Culture",
+      "Scenic"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Free",
+    "description": "The bronze statue of Wairaka stands on Turuturu Rock at the mouth of the Whakatāne River and is easy to see from Muriwai Drive. It honours the daughter of Toroa, captain of the Mataatua waka. When the waka began drifting out to sea, she broke the tapu on women handling canoes, paddled it back to shore and cried \"Kia Whakatāne au i ahau\", which gave the town its name.\n\nThe statue, by the sculptor Jim Allen, was commissioned by Sir William Sullivan as a memorial to Lady Sullivan and unveiled in 1965. The Warren Cole and River Edge walkway runs 4.3km one way along the river from Landing Road to the Heads.\nLocal tip: Come at sunset for photos of the statue against the sky, and expect diversions on the river walkway while stopbank work is under way.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open all the time; free; viewed from Muriwai Drive",
+    "sourceUrl": "https://www.whakatane.com/activities/lady-rock",
+    "confidence": "high"
+  },
+  {
+    "name": "Tio Ōhiwa Oyster Farm and Takeaways",
+    "slug": "tio-ohiwa-oyster-farm",
+    "lat": -37.98226,
+    "lng": 177.064789,
+    "category": [
+      "Food"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.ohiwaoysters.com/",
+    "description": "A Māori owned oyster farm and takeaway shop at 111 Wainui Road on the edge of Ōhiwa Harbour, just past Ōhope, run by the Geddes whānau since 2023. Order fresh or battered oysters and fish and chips, then eat at the outside tables looking over the harbour.\n\nIt's open daily from 10am to 6pm. The farm also runs the Shuck'n'Cruise oyster tour and harbour cruise from 342 Harbour Road, about 2.5 hours, listed at $150 for adults and $69 for children 12 and under. Sources disagree on which months it runs, so check when you book.\nLocal tip: Phone your order through ahead on 07 312 4565 on a busy summer weekend.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 10am to 6pm; takeaway; phone 07 312 4565",
+    "sourceUrl": "https://www.ohiwaoysters.com/",
+    "confidence": "high"
+  },
+  {
+    "name": "Gibbo's Fresh Fish",
+    "slug": "gibbos-fresh-fish",
+    "lat": -37.95961,
+    "lng": 176.982018,
+    "category": [
+      "Food"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Cheap",
+    "description": "A fish shop and takeaway at 16 King Street in the Kopeopeo shops, a short drive from central Whakatāne, selling fresh fish from its own boats and cooking fish and chips to order. Reviewers say portions are generous and prices fair.\n\nThere are a few outside tables if you want to eat straight away. It's closed on Mondays, and listings disagree on the other days and times, so phone 07 308 6185 before you go.\nLocal tip: Take your order to Whakatāne Heads and eat it looking out over the river mouth.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 10am to 8pm (Google listing)",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ5yUzSrUAb20RnWvVFpzom9c",
+    "confidence": "medium"
+  },
+  {
+    "name": "White Island Flights",
+    "slug": "white-island-flights",
+    "lat": -37.924604,
+    "lng": 176.917921,
+    "category": [
+      "Scenic",
+      "Adventure"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.whiteislandflights.co.nz/",
+    "description": "Tourist landings on Whakaari / White Island stopped after the 2019 eruption, so a scenic flight is the best way to see this active marine volcano up close. Flights leave from Whakatāne Airport, 216 Aerodrome Road, fly over Moutohorā and circle the steaming crater, with the pilot giving live commentary through headsets.\n\nThe whole experience takes about an hour, and you may spot dolphins on the way. Flights run all year, weather permitting, and solo bookings may be waitlisted until other seats are filled.\nLocal tip: Keep a spare day up your sleeve in case the weather over the island grounds your flight.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Daily, about 7am to 8pm in summer and 8am to 5pm in winter; weather dependent; departs Whakatāne Airport, 216 Aerodrome Road",
+    "sourceUrl": "https://www.newzealand.com/uk/plan/business/white-island-flights/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Moutohorā (Whale Island) Tours with Diveworks",
+    "slug": "diveworks-moutohora-whale-island-tours",
+    "lat": -37.94937,
+    "lng": 177.002593,
+    "category": [
+      "Nature",
+      "Water"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Expensive",
+    "website": "https://www.diveworks-charters.com/",
+    "description": "Moutohorā, the island you see off Whakatāne, is a wildlife sanctuary you can only land on with a permit or a guided operator. Diveworks, a family owned charter, runs a guided walk on the island, where you learn about the kiwi, tuatara and tīeke (saddleback) living there. It also runs a separate trip to snorkel with seals and swim with dolphins from November to April.\n\nThe island walk is $140 for adults, $70 for children 5 to 13 and $20 for under 5s, including the DOC landing fee, and runs from about 9.30am to 2pm. The dolphin and seal trip is $200 for swimmers and $180 for watchers. Trips are cancelled if the wind is over 20 knots or the swell over 1m.\nLocal tip: Bring your own lunch, and confirm the meeting point when you book, as the old waterfront building at 2 The Strand has been demolished. You can book in person at the Whakatāne i-SITE, open weekdays and Saturday mornings.",
+    "recommendedDurationSlots": 8,
+    "hoursNote": "Bookings essential; weather dependent; phone 0800 354 7737 or book at the Whakatāne i-SITE, 144 The Strand",
+    "sourceUrl": "https://www.diveworks-charters.com/",
+    "confidence": "high"
+  },
+  {
+    "name": "Motu Trails Dunes Trail",
+    "slug": "motu-trails-dunes-trail",
+    "lat": -37.99634,
+    "lng": 177.287215,
+    "category": [
+      "Adventure",
+      "Walks"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.motutrails.co.nz/",
+    "description": "The Dunes Trail is the easy, coastal part of the Motu Trails. It runs 9km one way from Ōpōtiki along the coast, mostly on compacted gravel, is graded easy (grade 2), and takes 2 to 3 hours by bike or on foot, with plenty of beach access points for a picnic or a swim. Dogs are allowed if under control.\n\nThe other Motu Trails are much bigger rides: the Motu Road is 67km over 1 to 2 days (grade 3), and the Pakihi Track is a 20km advanced mountain bike ride (grade 4). The Ōpōtiki i-SITE hires bikes, and Motu Trails Hire and Shuttle runs from December to May.\nLocal tip: Start at the suspension bridge in Memorial Park, where there are toilets in the middle of the playing field, with more at Hukuwai Beach 2.5km along. Expect about ten squeeze gates on the way.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Open all the time; free; 9 km, grade 2 (easy); allow 2 to 3 hours",
+    "sourceUrl": "https://www.motutrails.co.nz/experience/explore-the-trails",
+    "confidence": "high"
+  },
+  {
+    "name": "The Bakehouse Ōpōtiki",
+    "slug": "the-bakehouse-opotiki",
+    "lat": -38.006762,
+    "lng": 177.284699,
+    "category": [
+      "Food"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Cheap",
+    "description": "A bakery café on Church Street in central Ōpōtiki, and a good place to stock up before the long drive around the East Cape. It's open from 5am to 5pm every day, so it suits an early start, with takeaway and outdoor seating.\n\nPublic holiday hours may vary, so phone 07 315 6330 if you're travelling on one.\nLocal tip: Buy an extra pie or two for later, as places to eat are spread out once you head east along State Highway 35.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open daily 5am to 5pm (Google listing)",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJzcmA5z50b20R-4NYBzVIREk",
+    "confidence": "medium"
+  },
+  {
+    "name": "The Moko's Kai Kart",
+    "slug": "mokos-kai-kart-te-kaha",
+    "lat": -37.735995,
+    "lng": 177.683133,
+    "category": [
+      "Food"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Cheap",
+    "description": "A roadside food cart at Te Kaha on the East Cape road, cooking fish and chips, burgers, hotcakes and coffee. Reviewers mention crispy batter and cheap prices, with meals around $10, and there's a grassy area with picnic tables.\n\nIt's open Wednesday to Sunday and public holidays from 9am to 5pm, and closed on Mondays and Tuesdays. Te Kaha Reserve, on the bay, is just over a kilometre away if you'd rather eat by the water.\nLocal tip: Plan your lunch stop around its days if you're driving the coast early in the week.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Wed to Sun 9am to 5pm, closed Mon and Tue (Google listing); a small cart, so hours can change",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJIQKwS1FlZW0RPyWscHIjmwI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Christ Church Raukokore",
+    "slug": "christ-church-raukokore",
+    "lat": -37.639179,
+    "lng": 177.87839,
+    "category": [
+      "Culture",
+      "Scenic"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Free",
+    "description": "A small Anglican church standing on its own near the shore of Papatea Bay, at 9948 State Highway 35, and one of the most photographed sights on the East Coast. It was designed by Duncan Stirling and built in 1894 and 1895, and it's a Category 1 Historic Place with strong links to Te Whānau-ā-Apanui. Stirling married the local chief Mihi Kōtukutuku here in 1896.\n\nIt sits right beside the highway, so it's an easy stop to stretch your legs on the drive around the coast. Heritage New Zealand lists it as having no public access, so enjoy it from the roadside.\nLocal tip: It's a working church and a place of worship, so take your photos from the roadside and keep noise down, especially on a Sunday.",
+    "recommendedDurationSlots": 1,
+    "featured": 3,
+    "hoursNote": "Grounds open all the time; free; interior sometimes open; working church beside SH35",
+    "sourceUrl": "https://www.heritage.org.nz/list-details/3471/Listing",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Waha o Rerekohu Pōhutukawa",
+    "slug": "te-waha-o-rerekohu-pohutukawa",
+    "lat": -37.632501,
+    "lng": 178.367272,
+    "category": [
+      "Nature",
+      "Culture"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Free",
+    "description": "Thought to be the largest pōhutukawa in New Zealand, Te Waha o Rerekohu at 20 Moana Parade, Te Araroa, is at least six centuries old. When it was measured in 1950, its branches spread more than 37m, and it stands right by the beach.\n\nIt's free to visit at any time, with street parking and the small town centre about five minutes' walk away. Te Araroa is also the gateway to the East Cape. State Highway 35 between Hicks Bay and Te Araroa reopened around the clock in April 2026 after storm slips, but parts are still single lane with stop/go traffic and NZTA says it can close at short notice.\nLocal tip: The East Cape Lighthouse track has been closed since a 2023 landslide, so don't plan your day around it. East Cape Road itself is open if you want to drive out for the coastal views.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open all the time; free; SH35 to Te Araroa reopened full time in March 2026 after slips, so expect roadworks and check NZTA before you go",
+    "sourceUrl": "https://www.tairawhitigisborne.co.nz/listings/operator/1392/te-waha-o-rerekohu-pohutukawa-tree",
+    "confidence": "high"
+  },
+  {
+    "name": "West End Reserve Freedom Camping, Ōhope",
+    "slug": "west-end-reserve-freedom-camping-ohope",
+    "lat": -37.957745,
+    "lng": 177.023432,
+    "category": [
+      "Stay"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Free",
+    "description": "A free council camping area in the car park behind the toilets at the far end of West End Road, the Whakatāne end of Ōhope Beach, a few steps from the sand. It's for certified self-contained vehicles only, which since 7 June 2026 means a green warrant. You must display it, park in the marked area and stay no more than three nights in a row in any four weeks.\n\nCamping here is banned from the start of the third week of December to 31 March. The council's other camping areas include Port Ōhope Reserve at the far eastern end of Harbour Road, McAlister Street car park and Maraetōtara Reserve, and fines run from $400 to $800.\nLocal tip: Check the council's freedom camping page for which sites are open before you arrive in summer, as this one closes over the peak season.",
+    "hoursNote": "Certified self-contained only; max 3 nights in any 4 weeks; toilets, cold shower, water tap; fines $400 to $800",
+    "sourceUrl": "https://www.whakatane.govt.nz/node/122",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Ahiaua (Pipi Beds) Reserve Freedom Camping",
+    "slug": "te-ahiaua-pipi-beds-freedom-camping",
+    "lat": -37.99362,
+    "lng": 177.202591,
+    "category": [
+      "Stay"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Free",
+    "description": "A free Ōpōtiki District Council camping area on the coast at Waiotahe, about 9km west of Ōpōtiki off State Highway 2. Ōpōtiki's bylaw allows vehicles that aren't self-contained at its permitted sites, so you don't need a green warrant here.\n\nYou must stay in the marked south east part of the reserve, for no more than three nights in any four weeks, and fires aren't allowed. It's first come, first served, there are toilets, and the fine for breaking the rules is $400.\nLocal tip: The council dump station is at Waiotahe on State Highway 2, about 11km before Ōpōtiki, and takes toilet waste only.",
+    "hoursNote": "Non-self-contained vehicles allowed; marked area only; max 3 nights in any 4 weeks; no fires; toilets and bins",
+    "sourceUrl": "https://odc.govt.nz/our-district/visiting/responsible-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Kaha Reserve Freedom Camping (Maraetai Bay)",
+    "slug": "te-kaha-reserve-freedom-camping",
+    "lat": -37.727605,
+    "lng": 177.694255,
+    "category": [
+      "Stay"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Free",
+    "description": "A free council camping area beside Maraetai Bay at Te Kaha, about 68km east of Ōpōtiki on State Highway 35. As at the other Ōpōtiki District sites, vehicles don't need to be self-contained, but you must camp in the marked south central area, stay no more than three nights in any four weeks and light no fires.\n\nThere are public toilets, and it's first come, first served, with no bookings.\nLocal tip: The general store at the entrance to Te Kaha Holiday Park is open seven days, with a takeaway café and an off-licence.",
+    "hoursNote": "Non-self-contained vehicles allowed; marked area only; max 3 nights in any 4 weeks; no fires; toilets nearby",
+    "sourceUrl": "https://odc.govt.nz/our-district/visiting/responsible-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Waihau Bay Holiday Park",
+    "slug": "waihau-bay-holiday-park",
+    "lat": -37.61847,
+    "lng": 177.948891,
+    "category": [
+      "Stay"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Cheap",
+    "description": "A relaxed holiday park at 10804 State Highway 35, Waihau Bay, with unlimited tent sites and 50 powered sites, and a safe, sandy beach just across the road. There are plenty of showers, plus an outdoor one.\n\nThe Misty Ocean Cafe and General Store is open all year, and the park has a smokehouse and a fish cleaning shelter, so it's a good base for fishing. It's about 1.5 hours' drive from Ōpōtiki.\nLocal tip: Bring your catch back to the smokehouse, and phone ahead on 07 325 3844 in the summer holidays.",
+    "hoursNote": "Tent, powered and bach options; free hot showers; camp store and cafe; phone 07 325 3844",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJlZ002fQ9ZW0RKx7ZdcdYbI4",
+    "confidence": "medium"
+  },
+  {
+    "name": "Central Oasis Backpackers",
+    "slug": "central-oasis-backpackers-opotiki",
+    "lat": -38.006435,
+    "lng": 177.285399,
+    "category": [
+      "Stay"
+    ],
+    "region": "bay-of-plenty",
+    "area": "whakatane-east-cape",
+    "active": false,
+    "price": "Cheap",
+    "description": "A small backpackers at 30 King Street in central Ōpōtiki, also listed as Oasis Accommodation, and a handy last stop before heading around the East Cape.\n\nPhone 07 315 5165 to book.\nLocal tip: Stay here to ride the Dunes Trail, which starts at the suspension bridge in Memorial Park.",
+    "hoursNote": "Reception 9am to 8pm (Google listing); simple rooms; shared kitchen",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJqSY5xz50b20R4DSnqz1bW2o",
+    "confidence": "medium"
+  }
+]

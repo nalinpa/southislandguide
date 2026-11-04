@@ -1,0 +1,306 @@
+[
+  {
+    "name": "Titirangi (Kaiti Hill) Lookout",
+    "slug": "titirangi-kaiti-hill-lookout",
+    "lat": -38.680279,
+    "lng": 178.034884,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Free",
+    "description": "Titirangi is the hill above the port at Kaiti, a 35 hectare reserve with four lookout points over Gisborne, the rivers meeting the sea, Poverty Bay and, on a clear day, Māhia Peninsula. The hill was once a pā, and the flat ground at its base is where Captain Cook and his crew first came ashore.\n\nYou can drive to the summit on Titirangi Drive or Queens Drive, where there are toilets, picnic areas, a playground and an old WWII gun emplacement. To walk up, start from Kaiti Beach Road opposite the port. The 2.4km loop of domain tracks takes 45 minutes to an hour, with a steep staircase or a gentler graded path beside it. From early 2027 the council will close both summit roads to vehicles from 10pm to 6am, but walkers and cyclists can still go up at any hour.\nLocal tip: Bring fish and chips up for sunset, or come at sunrise, when the sun comes up out of the Pacific right in front of you.",
+    "recommendedDurationSlots": 2,
+    "featured": 3,
+    "hoursNote": "Open 24 hours; free; toilets at the summit; walk up from Kaiti Beach Road or drive up",
+    "sourceUrl": "https://tairawhitigisborne.co.nz/see-and-do/trails-and-treks/must-do-walks-in-tairawhiti",
+    "confidence": "high"
+  },
+  {
+    "name": "Tairāwhiti Museum",
+    "slug": "tairawhiti-museum",
+    "lat": -38.663704,
+    "lng": 178.028662,
+    "category": [
+      "Culture"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://tairawhitimuseum.org.nz/",
+    "description": "The region's museum and art gallery, at 10 Stout Street just across the river from the city centre. It's bigger than it looks, with Māori taonga, local history, changing art exhibitions and a maritime gallery that covers Gisborne's surf history.\n\nLook for the wheelhouse and captain's cabin from the Star of Canada, a ship that ran aground off Kaiti Beach in 1912, and Wyllie Cottage outside, the oldest European house still standing in the area. Entry is $5 for adults, and free for children 12 and under and for local residents. It's open Monday to Saturday 10am to 4pm and Sundays and public holidays 1.30pm to 4pm. The Exhibit Cafe inside is open weekdays from 9am to 2pm.\nLocal tip: Come on a Saturday and pair it with the farmers' market across Stout Street, which opens at 9.30am, before the museum opens at 10am.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Mon to Sat 10am to 4pm; Sun and public holidays 1.30pm to 4pm; adults $5, children 12 and under and locals free; closed Good Friday, Christmas Day and Boxing Day",
+    "sourceUrl": "https://tairawhitimuseum.org.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Waikanae Beach",
+    "slug": "waikanae-beach-gisborne",
+    "lat": -38.671018,
+    "lng": 178.015288,
+    "category": [
+      "Water",
+      "Walks"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Free",
+    "description": "Gisborne's town beach, a wide sweep of sand a short walk from the city centre, good for swimming, learning to surf and long walks. A boardwalk and the Oneroa pathway run along the foreshore to the Midway surf club, about 1.7km away, past a big playground, tennis courts, toilets and plenty of parking.\n\nWaikanae, Midway and Wainui have had paid council lifeguards on weekdays through the peak of summer, with surf club volunteers at weekends, so swim between the flags. At Midway, Kiwa Pools replaced the old Olympic Pool in 2023, and its outdoor 33m pool, dive pool and hydroslide open in summer.\nLocal tip: Surfing with Sarah runs lessons all year, usually at Roberts Road or the Oneroa car park, if you want to learn on Gisborne's gentle town waves.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; lifeguards on summer weekdays plus volunteer patrols at weekends; toilets and parking",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJcyFXyS54Zm0RsuzqADbiVKY",
+    "confidence": "medium"
+  },
+  {
+    "name": "Wainui Beach",
+    "slug": "wainui-beach",
+    "lat": -38.677415,
+    "lng": 178.083261,
+    "category": [
+      "Water",
+      "Scenic"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Free",
+    "description": "A long, open surf beach on the eastern edge of Gisborne, with sandy breaks and several peaks that suit intermediate and experienced surfers. The Stock Route access off Oneroa Road, known locally as Stockies, has a car park and public toilet at the top, and the surf club is at 11 Moana Road.\n\nPaid lifeguards patrol on weekdays in December and January, with volunteer patrols at weekends from December to March. Makorori Beach, just north around the headland on State Highway 35, has long peeling waves, and its northern end has smaller, softer surf that suits beginners. The Makorori Headland reserve was closed after slips in 2023, so check it's open before planning a walk there.\nLocal tip: Wainui has strong rips and can get rough, so swim between the flags when lifeguards are on, and stay in the shallows when they aren't.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Open all the time; free; lifeguards in peak summer; strong rips, swim between the flags",
+    "sourceUrl": "https://tairawhitigisborne.co.nz/itineraries/perfect-day-surfing-in-tairawhiti",
+    "confidence": "medium"
+  },
+  {
+    "name": "Gisborne Farmers' Market",
+    "slug": "gisborne-farmers-market",
+    "lat": -38.66436,
+    "lng": 178.029602,
+    "category": [
+      "Food"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.gisbornefarmersmarket.co.nz/",
+    "description": "A Saturday morning market where local growers and makers sell fruit and vegetables, meat, seafood, cheese, wine, honey, baking and hot food, with good coffee and live performers every week. It's held from 9.30am to 12.30pm in the Old Army Hall car park, on the corner of Stout and Fitzherbert streets, across from the museum.\n\nIt's a good place to stock up on local produce before heading up the coast or out to Rere and Eastwoodhill. There's EFTPOS cash out at the information stall, and dogs aren't allowed.\nLocal tip: Arrive just before the 9.30am opening for the best choice, then cross the road to the Tairāwhiti Museum when it opens at 10am.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Saturdays 9.30am to 12.30pm; Old Army Hall carpark, corner of Stout and Fitzherbert Streets",
+    "sourceUrl": "https://www.gisbornefarmersmarket.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Makaraka Fish Shop",
+    "slug": "makaraka-fish-shop",
+    "lat": -38.649123,
+    "lng": 177.965749,
+    "category": [
+      "Food"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Cheap",
+    "description": "A local fish and chip shop at 107 Main Road in Makaraka, on the western edge of Gisborne, on the way out to Rere and Eastwoodhill.\n\nIt's open Tuesday to Saturday from 11.30am to 7.30pm and Sunday from 12pm to 7.30pm, and closed on Mondays. Public holiday hours may vary. Fish and chips are best eaten outdoors, so take your order to Waikanae or Midway Beach, or up Titirangi for the view.\nLocal tip: It shuts at 7.30pm, so phone your order through on 06 867 7786 if you're coming back late from Rere.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Tue to Sat 11.30am to 7.30pm; Sun 12pm to 7.30pm; closed Mon",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ4RrUBDF2Zm0RFkFYzmiRXho",
+    "confidence": "medium"
+  },
+  {
+    "name": "Rere Rockslide and Rere Falls",
+    "slug": "rere-rockslide-and-rere-falls",
+    "lat": -38.538774,
+    "lng": 177.590539,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Free",
+    "description": "A 60m tract of smooth, sloping rock in the Wharekōpae River that you ride down on a boogie board, tube or air mattress into the pool at the bottom. It's about 50km inland from Gisborne along Wharekōpae Road, past Eastwoodhill, and it's free and open all year.\n\nRere Falls, a couple of minutes' drive back along the same road, is a wide curtain of water a minute's walk from the car park, with toilets, free parking and a picnic area. Water quality is often poor, and LAWA rates the rockslide's long term grade as Poor, so avoid it for a few days after rain and check LAWA's Can I Swim Here page first. LAWA also warns that the rocks are sharp and slippery, and someone has drowned here.\nLocal tip: Wear aqua shoes and old shorts, and take care climbing back up the slippery rock.",
+    "recommendedDurationSlots": 4,
+    "featured": 1,
+    "hoursNote": "Open all the time; free; bring a boogie board or tube; avoid after rain and check LAWA water quality",
+    "sourceUrl": "https://aa.co.nz/travel/editorial/rere-rock-slide",
+    "confidence": "medium"
+  },
+  {
+    "name": "Eastwoodhill Arboretum",
+    "slug": "eastwoodhill-arboretum",
+    "lat": -38.562546,
+    "lng": 177.718269,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.eastwoodhill.org.nz/",
+    "description": "The National Arboretum of New Zealand, at 2392 Wharekōpae Road in the hills at Ngātapa, about 35km and 30 minutes' drive north west of Gisborne. It has over 25,000 species of exotic and native trees, shrubs and climbers, and about 25km of trails ranging from flat, tree lined paths to a steep climb up Mt Arateitei, with many tracks suitable for mobility scooters.\n\nAdult entry is $18. Pay at the visitor centre, or by QR code, cash honesty box or bank transfer when the desk is unstaffed. The park is open daily from 9am to 4pm (closed Christmas Day), and there's a café and playground at the visitor centre, plus a studio, twin room, bunks and self-contained RV sites to stay in. Dogs and other pets aren't allowed.\nLocal tip: Take a map, as the six colour-coded walks are easy to lose track of, and carry on to Rere on the same road.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Park open 9am to 4pm daily; closed Christmas Day; no after-hours access; entry fee, visitor centre hours vary",
+    "sourceUrl": "https://www.eastwoodhill.org.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Tolaga Bay Wharf",
+    "slug": "tolaga-bay-wharf",
+    "lat": -38.382627,
+    "lng": 178.318911,
+    "category": [
+      "Scenic",
+      "Attractions"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Free",
+    "description": "At about 660m, the historic wharf at Tolaga Bay is one of the longest in New Zealand, reaching far out over the sea at the southern end of the bay. Take the Wharf Road turnoff from State Highway 35, 2km south of Tolaga Bay township and about 52km north of Gisborne.\n\nThe wharf closed after damage from Cyclone Hale in January 2023, and only the inner half has reopened, so a fence stops you at the halfway point. There's no funding yet to repair the outer half. It's still a lovely walk, especially at sunset, but it can be slippery when wet. There are toilets near the wharf.\nLocal tip: Walk the Cook's Cove Walkway, which starts just before the wharf, in the morning, then come back for a wharf walk in the evening light.",
+    "recommendedDurationSlots": 2,
+    "featured": 2,
+    "hoursNote": "Open all the time; free; walkable to the halfway gate only; toilets near the wharf",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ-_lsXFE3ZG0RDZKQOk9lstQ",
+    "confidence": "medium"
+  },
+  {
+    "name": "Cook's Cove Walkway",
+    "slug": "cooks-cove-walkway",
+    "lat": -38.385391,
+    "lng": 178.318613,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Free",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/east-coast/places/tolaga-bay-area/things-to-do/cooks-cove-walkway",
+    "description": "A 5.8km return DOC walk from Wharf Road, Tolaga Bay, over farmland and through light bush to the cove where Captain Cook stopped in 1769. About 20 minutes in, a lookout around 120m above the sea gives the first view of the cove, Mitre Rocks and Pourewa Island.\n\nAt the cove there's a 1966 memorial to Cook's visit, panels on Te Aitanga-a-Hauiti and the Endeavour crew, and Te Kotere o te Whenua, the hole in the wall rock arch. Allow about 2.5 hours return. There are steep sections, the track gets muddy and slippery when wet, and there's no drinking water. Toilets are near the wharf and at the cove. Dogs, bikes, camping, fires, fishing gear and firearms aren't allowed. The track closes each year from 1 August to Labour Weekend for lambing.\nLocal tip: Carry plenty of water, then finish with a walk out along the wharf in the evening light.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Closed 1 Aug to Labour Weekend for lambing, open the rest of the year; 5.8 km return, about 2.5 hr; free; no bikes, camping or fires; toilets at wharf and cove",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/east-coast/places/tolaga-bay-area/things-to-do/cooks-cove-walkway",
+    "confidence": "high"
+  },
+  {
+    "name": "Black Market, Tolaga Bay",
+    "slug": "black-market-tolaga-bay",
+    "lat": -38.374004,
+    "lng": 178.296466,
+    "category": [
+      "Food"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Cheap",
+    "description": "A café in Tolaga Bay township with good coffee, brunches and fresh baking, and a handy stop on the drive up the coast.\n\nCheck current opening hours before you go.\nLocal tip: Stop in on the way back from the wharf and Cook's Cove.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Tue to Fri from 10.30am to late afternoon; Sat and Sun 10am to 3pm; closed Mon",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJH-EJnKE3ZG0ROC73qT3asCM",
+    "confidence": "medium"
+  },
+  {
+    "name": "Tokomaru Bay",
+    "slug": "tokomaru-bay",
+    "lat": -38.106469,
+    "lng": 178.352447,
+    "category": [
+      "Scenic",
+      "Culture"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Free",
+    "description": "A quiet settlement on State Highway 35 north of Tolaga Bay with a long, sweeping beach. At Waima, at the northern end of the bay, the historic wharf (rebuilt from 1937 to 1940) stands beside the ruins of the old freezing works, which closed in 1952, and both are a short walk apart.\n\nThe wharf is in poor repair, so take care if you walk on it. Te Puka Tavern at 153 Beach Road serves meals and drinks on the water's edge, and Café 35 is open daily with pāua pies. The council's two freedom camping areas here are open only from 1 May to Labour Weekend, so they're now closed until May 2027.\nLocal tip: Te Puka's hours vary between listings, so check before counting on a meal there.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Wharf closed as unsafe, view from the shore; free; freedom camping here only 1 May to Labour Weekend",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJQXsEkO9aZG0Rq7trIFFSuTI",
+    "confidence": "medium"
+  },
+  {
+    "name": "Mōrere Hot Springs",
+    "slug": "morere-hot-springs",
+    "lat": -38.986578,
+    "lng": 177.79103,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Cheap",
+    "description": "Hot springs in native bush beside State Highway 2 at Mōrere, about 52km south of Gisborne and 40km north east of Wairoa, where water from the springs is piped to public and private pools. They're run as Ngā Hua o Mōrere, under the joint leadership of Rongomaiwahine, Rakaipaaka and DOC.\n\nThere are pools near the entrance, and the upper Nikau Pools (two hot and one cold plunge pool) are about 10 minutes up a bush track with a stream crossing. Walks in the Mōrere Scenic Reserve range from 10 minutes to three hours. Entry is $20 for adults, $14 for kaumātua and seniors, and $12 for children 5 to 18. It's open Thursday to Monday and closed on public holidays.\nLocal tip: Sources disagree on opening times, so check the Facebook page before driving out.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Thu to Mon, closed Tue and Wed; check hours on their Facebook page before driving out; adults $20, children $12",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/east-coast/places/morere-springs-area/nga-hua-o-morere",
+    "confidence": "medium"
+  },
+  {
+    "name": "Mokotahi Hill Lookout, Māhia",
+    "slug": "mokotahi-hill-lookout-mahia",
+    "lat": -39.088326,
+    "lng": 177.866518,
+    "category": [
+      "Scenic",
+      "Walks"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Free",
+    "description": "Mokotahi is the steep headland at the southern end of Māhia Beach on the Māhia Peninsula. Turn off State Highway 2 at Nuhaka and follow the signs to Māhia Beach. A short track with more than 250 steps climbs to the top in 10 to 15 minutes, with wide views over Māhia Beach, Opoutama and the northern waters of Hawke's Bay.\n\nThe Ormond family gifted the hill to the QEII National Trust, which now protects it. It's a significant site for Rongomaiwahine and Ngāti Kahungunu, with remnants of pits and terraces still visible.\nLocal tip: Use the signposted car park off Newcastle Street, between Māhia Beach and Taylor's Bay.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open all the time; free; short, steep track with steps; small carpark",
+    "sourceUrl": "https://hawkesbaynz.com/see-and-do/great-outdoors/sports-and-recreation/lookouts-and-selfie-spots/mokotahi-hill",
+    "confidence": "medium"
+  },
+  {
+    "name": "Kaiti Beach Freedom Camping",
+    "slug": "kaiti-beach-freedom-camping",
+    "lat": -38.681857,
+    "lng": 178.030008,
+    "category": [
+      "Stay"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Free",
+    "description": "A free council camping area in the Kaiti Beach car park below Titirangi, right on the beach and within walking distance of the city centre. It's for certified self-contained vehicles only, which since 7 June 2026 means a green warrant, parked within the painted blue lines. Tents aren't allowed.\n\nThe limit is three nights, and you can't come back to within 1km for more than three nights in any four weeks. Fines run up to $800. There's a public toilet, and some noise from the port. Free dump stations are at Hallrite Plumbing, 71 Awapuni Road, and Gisborne Mobil, 49 Wainui Road, and the Bright Street toilets in town have hot showers.\nLocal tip: Arrive by early afternoon, as it fills up. If it's full, the council's other spots include the Midway Beach surf club car park, the Bright Street car park, Makorori and the Motu rest area.",
+    "hoursNote": "Certified self-contained only (green warrant); max 3 nights; park within the blue lines; toilet; no tents; fines up to $800",
+    "sourceUrl": "https://gdc.govt.nz/recreation/freedom-camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Anaura Bay DOC Campsite",
+    "slug": "anaura-bay-doc-campsite",
+    "lat": -38.232883,
+    "lng": 178.30849,
+    "category": [
+      "Stay"
+    ],
+    "region": "gisborne",
+    "area": "gisborne",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/east-coast/places/anaura-bay-area/things-to-do/anaura-bay-campsite/",
+    "description": "A DOC campsite behind the white sand beach at Anaura Bay, north of Tolaga Bay. Turn off State Highway 35 onto Anaura Road about 67km north of Gisborne and follow it for 8.7km.\n\nIt's open from Labour Weekend to early April and costs $15 per adult and $7.50 per child aged 5 to 17 a night, with under 5s free. Book online, as no spaces are held for walk ins. Facilities are basic. There are no toilets, so you need your own chemical toilet (dump stations are available all season), and water is limited, so bring plenty.\nLocal tip: It books out over Christmas and New Year, so book early. At other times same day online bookings are taken until 8pm if there's space. In a tsunami warning, the nearest high ground is about a 10 minute walk north.",
+    "hoursNote": "Season 23 Oct 2026 to 6 Apr 2027; $15 adult, $7.50 child (5 to 17), under 5 free; book online; no toilets, bring a chemical toilet; limited water",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/east-coast/places/anaura-bay-area/things-to-do/anaura-bay-campsite/",
+    "confidence": "high"
+  }
+]

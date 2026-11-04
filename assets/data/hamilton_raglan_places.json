@@ -1,0 +1,363 @@
+[
+  {
+    "name": "Hamilton Gardens",
+    "slug": "hamilton-gardens",
+    "lat": -37.805742,
+    "lng": 175.304881,
+    "category": [
+      "Attractions",
+      "Culture"
+    ],
+    "region": "waikato",
+    "area": "hamilton",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://hamiltongardens.co.nz/",
+    "description": "Hamilton's best-known attraction is a collection of themed gardens beside the Waikato River, each built around a different culture or period of garden history, with buildings and details to match. The newest, the Medieval Garden, is now open.\n\nEntry to the Enclosed Gardens is $27.50, or $32.50 with an audio guide, and it's free for Hamilton residents with proof of address. Under 16s are free but still need a ticket. A 75 minute Highlights Tour costs $45, including entry. The Enclosed Gardens are open from 10am to 6pm daily except Christmas Day, and the park gates open from 6.15am to 9pm. The café, rose gardens, Rhododendron Lawn, Camellia Garden, playground, Turtle Lake and parking are free for everyone.\nLocal tip: Last entry to the Enclosed Gardens is 5.30pm and most people need at least two hours, so arrive by early afternoon.",
+    "recommendedDurationSlots": 6,
+    "featured": 1,
+    "hoursNote": "Enclosed Gardens 10am to 6pm daily, last entry 5.30pm, closed Christmas Day; park gates 6.15am to 9pm; $27.50 non-Hamilton residents, under 16s free",
+    "sourceUrl": "https://hamiltongardens.co.nz/plan-your-visit-to-hamilton-gardens/tickets-and-pricing",
+    "confidence": "high"
+  },
+  {
+    "name": "Waikato River Path, Hamilton",
+    "slug": "waikato-river-path-hamilton",
+    "lat": -37.789145,
+    "lng": 175.28686,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "waikato",
+    "area": "hamilton",
+    "active": false,
+    "price": "Free",
+    "description": "A free, easy path along the Waikato River through the middle of Hamilton, running about 10km from Pukete in the north, where it links with the Pukete Farm Park bike track, to Hamilton Gardens in the south. It's shared by walkers and cyclists, graded 1 to 2, well signposted, and you can join it at many points along the river.\n\nFerrybank, right below the Waikato Museum, is a handy place to start, with a jetty and steps down to the water. Benches and grassy spots along the way are good for a picnic or watching the river slide past.\nLocal tip: Head south along the river from Ferrybank and finish at Hamilton Gardens, where the café, rose gardens and lawns are free to visit.",
+    "recommendedDurationSlots": 3,
+    "hoursNote": "Open all year; free; shared with cyclists; Grade 1 to 2",
+    "sourceUrl": "https://www.waikatonz.com/cycling/hamilton-city-river-rides/",
+    "confidence": "high"
+  },
+  {
+    "name": "Hamilton Lake Domain (Lake Rotoroa)",
+    "slug": "hamilton-lake-domain",
+    "lat": -37.797237,
+    "lng": 175.278852,
+    "category": [
+      "Walks",
+      "Nature"
+    ],
+    "region": "waikato",
+    "area": "hamilton",
+    "active": false,
+    "price": "Free",
+    "description": "Lake Rotoroa, better known as Hamilton Lake, is a short hop from the city centre and is ringed by a 3.8km walkway that takes about an hour. The path is mostly flat and suits pushchairs, with a boardwalk section, lakeside planting and grassy picnic areas.\n\nThere are playgrounds and a café along the way, and it's a favourite with runners and dog walkers. It's free, and the main car parks are off Ruakiwi Road and at Lake Crescent (Innes Common).\nLocal tip: Come for a walk around sunset on a clear evening, when the light on the water is at its best.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open all year; free; 3.8 km loop, about 1 hour",
+    "sourceUrl": "https://waikatonz.com/walking-and-hiking-trails/hamilton-lake-domain",
+    "confidence": "high"
+  },
+  {
+    "name": "Hamilton Zoo",
+    "slug": "hamilton-zoo",
+    "lat": -37.774325,
+    "lng": 175.216883,
+    "category": [
+      "Attractions",
+      "Nature"
+    ],
+    "region": "waikato",
+    "area": "hamilton",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://hamiltonzoo.co.nz/",
+    "description": "A well-kept zoo with good paths on the western edge of Hamilton, home to a mix of exotic and native animals, including tigers, chimpanzees, giraffes, rhinos, parrots, native birds and reptiles.\n\nIt's open daily from 9.30am to 4.30pm, with last entry at 3.30pm, and closed on Christmas Day. Adults pay $27.50, children 3 to 15 $14, and a family of two adults and three or four children $80, and under 3s are free. Prepaid tickets are valid for 90 days. Keeper-led Animal Encounters cost extra and don't include entry, from $39 for the macaws to $59 for the lemurs, rhinos or siamangs and $99 for the tigers, with a minimum age of 5.\nLocal tip: Book an Animal Encounter ahead if you want one, and arrive by early afternoon, as last entry is 3.30pm.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Daily 9.30am to 4.30pm, last entry 3.30pm; closed Christmas Day",
+    "sourceUrl": "https://hamiltonzoo.co.nz/ticket-info",
+    "confidence": "high"
+  },
+  {
+    "name": "Waikato Museum Te Whare Taonga o Waikato",
+    "slug": "waikato-museum",
+    "lat": -37.789841,
+    "lng": 175.286382,
+    "category": [
+      "Culture",
+      "Attractions"
+    ],
+    "region": "waikato",
+    "area": "hamilton",
+    "active": false,
+    "price": "Free",
+    "website": "https://tewharetaonga.nz/",
+    "description": "Hamilton's museum and art gallery, Te Whare Taonga o Waikato, sits just off the river path at 1 Grantham Street in the city centre and cares for about 30,000 objects across art, social history, tangata whenua and science. General entry is free, with koha welcome, and it's open daily from 10am to 5pm except Christmas Day.\n\nThe standout is Te Winika, a 200-year-old waka taua (war canoe) gifted by the late Māori Queen, Te Arikinui Dame Te Atairangikaahu, and on permanent display. Shaping Hamilton nearby covers the city's early history, and Exscite is a hands-on science centre for kids, with an entry charge.\nLocal tip: Pair a visit with a walk on the river path, which runs right below the museum at Ferrybank.",
+    "recommendedDurationSlots": 4,
+    "hoursNote": "Daily 10am to 5pm, closed 25 December; free entry; Exscite and some exhibitions charge",
+    "sourceUrl": "https://tewharetaonga.nz/visit",
+    "confidence": "high"
+  },
+  {
+    "name": "Grey St Chippery",
+    "slug": "grey-st-chippery-hamilton",
+    "lat": -37.793177,
+    "lng": 175.293512,
+    "category": [
+      "Food"
+    ],
+    "region": "waikato",
+    "area": "hamilton",
+    "active": false,
+    "price": "Cheap",
+    "description": "A no-frills fish and chip shop at 316 Grey Street in Hamilton East, between the city centre and Hamilton Gardens. Reviewers praise the light, crisp batter, fresh fish and big scoops of chips, and several mention a $10 burger and chips deal.\n\nIt's takeaway only and closes between lunch and dinner, from 11.30am to 2pm and 4pm to 8.30pm, so check which day it's closed before you go.\nLocal tip: Take your order to the riverbank or the free lawns at Hamilton Gardens for a cheap picnic.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Tue to Sun 11.30am to 2pm and 4pm to 8.30pm; closed Mondays",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJbbK1wskYbW0RIdVU_kJzKyM",
+    "confidence": "medium"
+  },
+  {
+    "name": "Hakarimata Summit Track",
+    "slug": "hakarimata-summit-track",
+    "lat": -37.663204,
+    "lng": 175.142473,
+    "category": [
+      "Walks",
+      "Scenic"
+    ],
+    "region": "waikato",
+    "area": "hamilton",
+    "active": false,
+    "price": "Free",
+    "description": "The Hakarimata stairs are a popular Waikato leg workout: 1,349 steps climbing 335m from Brownlee Avenue, about 1km north of Ngāruawāhia, to the 374m summit. The track starts along the Waterworks Walk, then branches right just before the dam and climbs a long flight of steps and stairs.\n\nAt the top a lookout tower gives views to the coast, across the Waikato basin and, on a clear day, to Ruapehu. DOC allows about three hours, and it's free.\nLocal tip: Go early, as the Brownlee Avenue car park fills fast, and don't stop on the narrow parts of the Waterworks Walk between the waterfall and the stairs, where DOC warns of falling rocks.",
+    "recommendedDurationSlots": 6,
+    "hoursNote": "Open all year; free; 1,349 steps; about 3 hours return; no overnight camping at the car park",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/waikato/places/hakarimata-scenic-reserve/tracks/hakarimata-summit-track",
+    "confidence": "high"
+  },
+  {
+    "name": "The Point Freedom Camping, Ngāruawāhia",
+    "slug": "the-point-freedom-camping-ngaruawahia",
+    "lat": -37.662515,
+    "lng": 175.146565,
+    "category": [
+      "Stay"
+    ],
+    "region": "waikato",
+    "area": "hamilton",
+    "active": false,
+    "price": "Free",
+    "description": "Waikato District Council's freedom camping area in Ngāruawāhia is at The Point (Te Huinga o Ngā Wai), a riverside park where the Waikato and Waipā rivers meet. It's for certified self-contained vehicles only, in a designated area that fits roughly five to eight vehicles, and it can't be used when the area is needed for events.\n\nYou can stay up to three nights in a month. There are toilets nearby, a playground and river views, but reviewers report some noise from traffic and the occasional late-night car stereo.\nLocal tip: Freedom camping is banned at many popular spots around Raglan, including the Papahua Domain car park, so self-contained travellers often base themselves here instead. The Hakarimata stairs are a short drive away.",
+    "hoursNote": "Certified self-contained only; designated area only; 10pm to 9am; max 3 nights per month; closed for events",
+    "sourceUrl": "https://www.waikatodistrict.govt.nz/recreation/camping",
+    "confidence": "high"
+  },
+  {
+    "name": "Ngarunui Beach",
+    "slug": "ngarunui-beach",
+    "lat": -37.818471,
+    "lng": 174.828343,
+    "category": [
+      "Water",
+      "Nature"
+    ],
+    "region": "waikato",
+    "area": "raglan",
+    "active": false,
+    "price": "Free",
+    "description": "Raglan's main ocean beach is a wide sweep of black sand about 5km west of town, reached from Wainui Road or Riria Kereopa Memorial Drive. From the clifftop car park a lookout gives a view over the surf, and a well-made path leads gently down to the sand.\n\nVolunteer lifeguards from the Raglan Surf Life Saving Club patrol in summer, and last season they were on duty seven days a week from November to 20 March. Surf schools teach here, and boards and wetsuits can be hired near the car park.\nLocal tip: Always swim between the flags, as lifeguards made 93 rescues here last season, and bring jandals, as the black sand gets very hot in summer.",
+    "recommendedDurationSlots": 6,
+    "featured": 2,
+    "hoursNote": "Lifeguard patrols in summer (daily November to late March last season); long drop toilets; no freedom camping",
+    "sourceUrl": "https://raglan.net.nz/raglan-beaches/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Manu Bay",
+    "slug": "manu-bay-raglan",
+    "lat": -37.820958,
+    "lng": 174.816382,
+    "category": [
+      "Scenic",
+      "Water"
+    ],
+    "region": "waikato",
+    "area": "raglan",
+    "active": false,
+    "price": "Free",
+    "description": "About 8km west of town on Wainui Road, past Ngarunui Beach, Manu Bay is home to the long, peeling left-hand break that featured in the 1966 surf film The Endless Summer. It's a magnet for experienced surfers and gets crowded when the swell is up.\n\nUnless you surf well, the best way to enjoy it is from the roadside and rocks, which give a grandstand view of the action. Just past it is Whale Bay (Te Whaanga), with more challenging breaks, where you can walk the rocks, picnic and watch the sunset.\nLocal tip: Come late in the afternoon on a decent swell for the best show and the sunset.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Open all year; free; best for experienced surfers; no freedom camping",
+    "sourceUrl": "https://raglan.net.nz/raglan-beaches/",
+    "confidence": "medium"
+  },
+  {
+    "name": "Raglan Surf School",
+    "slug": "raglan-surf-school",
+    "lat": -37.818835,
+    "lng": 174.830097,
+    "category": [
+      "Adventure",
+      "Water"
+    ],
+    "region": "waikato",
+    "area": "raglan",
+    "active": false,
+    "price": "Moderate",
+    "website": "https://raglansurfschool.co.nz/",
+    "description": "Billed as New Zealand's first surf school, Raglan Surf School is based at Ngarunui Beach. Group lessons cost from $94 and last about two hours, with an instructor in the water beside you covering paddling, standing up and surf safety.\n\nReviews are consistently strong, and plenty of first-timers are standing up by the end of their first lesson. Private lessons, family and group lessons, and board and wetsuit rentals are also on offer.\nLocal tip: Book a day or two ahead in summer and the school holidays, then hire a board afterwards to keep practising while it's all fresh.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "Daily 9am to 5.30pm; group lessons from $94, about 2 hours",
+    "sourceUrl": "https://raglansurfingschool.rezdy.com/321396/surf-lesson-group",
+    "confidence": "medium"
+  },
+  {
+    "name": "Wairēinga / Bridal Veil Falls",
+    "slug": "bridal-veil-falls-waireinga",
+    "lat": -37.908518,
+    "lng": 174.89625,
+    "category": [
+      "Nature",
+      "Walks"
+    ],
+    "region": "waikato",
+    "area": "raglan",
+    "active": false,
+    "price": "Free",
+    "description": "A 55m waterfall in native forest south of Raglan, 4km along Kawhia Road off Te Mata Road. An easy 10 minute walk beside the Pakoka River leads to the viewing platforms at the top of the falls.\n\nFrom there, steep stairs drop about another 10 minutes to a midway viewpoint and a bridge at the base, looking across the pool to the falls. There are about 260 steps between the top and the bottom, so save some energy for the climb back. Swimming isn't allowed because of water quality, and the track is no longer suitable for wheelchairs after storm damage.\nLocal tip: Go after rain when the falls are at full flow, and come early or late, as the car park is small.",
+    "recommendedDurationSlots": 2,
+    "featured": 3,
+    "hoursNote": "Open all year; free; 20 minutes one way to the base; no swimming; not wheelchair accessible",
+    "sourceUrl": "https://doc.govt.nz/parks-and-recreation/places-to-go/waikato/places/raglan-area/tracks/waireinga-bridal-veil-falls",
+    "confidence": "high"
+  },
+  {
+    "name": "Mt Karioi Track",
+    "slug": "mt-karioi-track",
+    "lat": -37.84301,
+    "lng": 174.773511,
+    "category": [
+      "Walks",
+      "Adventure"
+    ],
+    "region": "waikato",
+    "area": "raglan",
+    "active": false,
+    "price": "Free",
+    "description": "Karioi is the 756m mountain that rises behind Raglan's surf coast. The Mt Karioi Track climbs from Te Toto Gorge, 13km from town on Whaanga Road, and is an advanced tramping track. Allow 2.5 to 3 hours one way to a lookout over Raglan Harbour and 3 to 3.5 hours to the summit, with chains and ladders on the rocky sections.\n\nThe Wairake Track, from the end of Karioi Road off Ruapuke Road, takes 2 to 3 hours one way. It starts with a 40 minute walk across private farmland, which is open in daylight only. Dogs aren't allowed on either track, and both follow steep-sided ridges.\nLocal tip: Carry plenty of water, as DOC warns it's hard to find up there, especially in summer, and save it for a dry spell, as the rocky sections get slippery.",
+    "recommendedDurationSlots": 13,
+    "hoursNote": "Advanced; about 6 to 7 hours return to the summit from Te Toto Gorge; no dogs; Wairake Track daylight only",
+    "sourceUrl": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/waikato/places/karioi-area/tracks/karioi-summit-tracks/",
+    "confidence": "high"
+  },
+  {
+    "name": "Te Toto Gorge Lookout",
+    "slug": "te-toto-gorge-lookout",
+    "lat": -37.84239,
+    "lng": 174.772445,
+    "category": [
+      "Scenic"
+    ],
+    "region": "waikato",
+    "area": "raglan",
+    "active": false,
+    "price": "Free",
+    "description": "A short stop with a big view: the lookout above Te Toto Gorge looks down the steep gorge to the cliffs and pounding surf of the west coast. It's about 13km from Raglan along Whaanga Road, and the last 4km are narrow and unsealed.\n\nThe lookout is under a minute's walk from the car park and has a bench, which makes it a good picnic spot. The Mt Karioi Track also starts here.\nLocal tip: Take the gravel slowly and be ready to pull over for oncoming cars, and time your visit for late afternoon to catch the sunset over the sea.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Open all year; free; last 4 km of road unsealed and narrow",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ1UJDUf_ZEm0RwrRF4PPYKTY",
+    "confidence": "medium"
+  },
+  {
+    "name": "Raglan Kayak & Paddleboard",
+    "slug": "raglan-kayak-paddleboard",
+    "lat": -37.799497,
+    "lng": 174.866786,
+    "category": [
+      "Water",
+      "Adventure"
+    ],
+    "region": "waikato",
+    "area": "raglan",
+    "active": false,
+    "price": "Moderate",
+    "description": "Guided sea kayak trips leave from the Bow Street jetty in town and cross the harbour to the limestone pancake rocks, hidden coves and secluded bays, which you can only reach from the water.\n\nThe two hour Limestone Express costs $109 for adults and $89 for children under 16, with a minimum age of 8, and includes a briefing, safety gear and dry bags. Trips need at least two people to go ahead. Guides are well reviewed for looking after beginners, and paddlers sometimes spot stingrays near the rocks.\nLocal tip: Trips depend on the weather, so book early in your stay to leave room to reschedule if conditions are poor.",
+    "recommendedDurationSlots": 5,
+    "hoursNote": "2 hour guided tours from Bow Street jetty; weather dependent; minimum age 8",
+    "sourceUrl": "https://bookme.co.nz/things-to-do/new-zealand/activity/the-limestone-express-guided-kayak-adventure-raglan/10321",
+    "confidence": "medium"
+  },
+  {
+    "name": "Raglan Roast",
+    "slug": "raglan-roast",
+    "lat": -37.800235,
+    "lng": 174.868358,
+    "category": [
+      "Food"
+    ],
+    "region": "waikato",
+    "area": "raglan",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.raglanroast.co.nz/",
+    "description": "The original Raglan Roast is a tiny hole in the wall on Volcom Lane, where two barefoot surfers with an old roaster and a blowtorch started roasting their own beans and serving their strong Brown Lightning blend from the window of an old surf shop.\n\nThere's a short, coffee-focused menu, and you can buy freshly roasted beans to take home, with 250g bags of Brown Lightning from $14. The company now has stores around the country, but this is where it started.\nLocal tip: It opens at 6am on weekdays and 7am at weekends, so it's the spot to fuel up before a dawn surf.",
+    "recommendedDurationSlots": 1,
+    "hoursNote": "Mon to Fri 6am to 5pm; Sat and Sun 7am to 5pm",
+    "sourceUrl": "https://www.raglanroast.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Raglan Fish",
+    "slug": "raglan-fish",
+    "lat": -37.794549,
+    "lng": 174.87997,
+    "category": [
+      "Food"
+    ],
+    "region": "waikato",
+    "area": "raglan",
+    "active": false,
+    "price": "Cheap",
+    "description": "Fish and chips on Raglan wharf at 92 Wallis Street, with outdoor tables looking over the harbour. The menu runs from battered snapper, tarakihi and gurnard to whole deep-fried flounder and oysters, and they sell fresh fillets to cook yourself.\n\nPortions are big and prices fair, though the wait can stretch past 30 minutes on busy weekends and holidays. You order at a self-service kiosk or by phone, and it's open daily from 10am to 7pm.\nLocal tip: Phone your order through on 07 825 7544 at busy times, then wander out along the wharf while you wait.",
+    "recommendedDurationSlots": 2,
+    "hoursNote": "Daily 10am to 7pm",
+    "sourceUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ5YG7dG3UEm0RLANZjSgmBO0",
+    "confidence": "medium"
+  },
+  {
+    "name": "Raglan Backpackers",
+    "slug": "raglan-backpackers",
+    "lat": -37.800869,
+    "lng": 174.867909,
+    "category": [
+      "Stay"
+    ],
+    "region": "waikato",
+    "area": "raglan",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.raglanbackpackers.co.nz/",
+    "description": "A friendly, sociable hostel on the waterfront at 6 Wi Neera Street, about a minute's walk from the main street. Rooms open onto a courtyard with hammocks, and there's a shared kitchen, lounge and garden.\n\nBeds in the eight-share courtyard dorms start at $44 a night and in the six-share Seaview room at $46. The hostel also hires out surfboards, wetsuits, kayaks and paddleboards, with rentals and surf lesson packages from $30, and runs yoga classes.\nLocal tip: Book ahead for summer, and catch the sunset over the harbour from the waterfront on a clear evening.",
+    "hoursNote": "Dorm beds from $44 per night; book ahead in summer",
+    "sourceUrl": "https://www.raglanbackpackers.co.nz/",
+    "confidence": "high"
+  },
+  {
+    "name": "Raglan Holiday Park Papahua",
+    "slug": "raglan-holiday-park-papahua",
+    "lat": -37.802608,
+    "lng": 174.862823,
+    "category": [
+      "Stay"
+    ],
+    "region": "waikato",
+    "area": "raglan",
+    "active": false,
+    "price": "Cheap",
+    "website": "https://www.raglanholidaypark.co.nz/",
+    "description": "Raglan's main campground sits on the Papahua peninsula at 61 Marine Parade, almost surrounded by water, and is linked to the town centre by a footbridge. It has tent sites, powered and unpowered sites, bunkrooms, cabins, self-contained units and motel units.\n\nThere are modern shared kitchens, electric barbecues and picnic tables, a games room with pool and table tennis, a playground, a jumping pillow and wifi, with a boat ramp close by. The beach is a two minute stroll away, and the footbridge is a popular summer jumping spot.\nLocal tip: Freedom camping is banned in the Papahua Domain car park outside, so this is the easy option for vans and tents in town. Book ahead for summer.",
+    "hoursNote": "Office from 8.30am daily, closing 6pm to 8pm depending on day and season; no dogs; book ahead in summer",
+    "sourceUrl": "https://www.raglanholidaypark.co.nz/",
+    "confidence": "medium"
+  }
+]

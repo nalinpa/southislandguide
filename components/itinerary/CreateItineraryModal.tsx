@@ -223,7 +223,7 @@ export function CreateItineraryModal({
     <Modal visible={visible} transparent animationType="slide">
       <View style={styles.overlay}>
         <View style={styles.wrapper}>
-          <CardShell status="basic" style={styles.card}>
+          <CardShell status="basic" shrink style={styles.card}>
             <View style={styles.header}>
               <AppText style={styles.title}>{trip ? "Edit Trip" : "New Trip"}</AppText>
               <TouchableOpacity

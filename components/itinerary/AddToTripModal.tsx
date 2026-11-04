@@ -148,7 +148,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     <Modal visible={!!site} transparent animationType="slide">
       <View style={styles.overlay}>
         <View style={styles.wrapper}>
-          <CardShell status="basic" style={styles.card}>
+          <CardShell status="basic" shrink style={styles.card}>
             <View style={styles.header}>
               <Text style={styles.title}>Add to Trip</Text>
               <TouchableOpacity

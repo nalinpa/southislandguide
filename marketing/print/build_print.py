@@ -343,6 +343,21 @@ def qr_modules(svg_path):
     return n, runs
 
 
+def draw_qr_code(pg, x, y, code, svg_path):
+    """Draw only the dark modules of the QR symbol, code x code mm, at (x, y); the caller provides the
+    white quiet zone around it. Returns the module size in mm."""
+    n, runs = qr_modules(svg_path)
+    quiet = 4
+    u = code / (n - 2 * quiet)
+    c = pg.c
+    path = c.beginPath()
+    for rx, ry, rw in runs:
+        path.rect(pg.X(x + (rx - quiet) * u), pg.Y(y + (ry + 1 - quiet) * u), rw * u * mm, u * mm)
+    c.setFillColorCMYK(*BLACK)
+    c.drawPath(path, stroke=0, fill=1)
+    return u
+
+
 def draw_qr(pg, x, y, size, svg_path):
     """Draw the QR symbol (with its own white quiet zone) as one K100 vector path filling a
     size x size mm square; returns (code size in mm without the quiet zone, module size in mm)."""
@@ -454,16 +469,7 @@ def build(pg, k, clear):
     for y, text in lines:
         lsb = XB.tt["hmtx"][XB.tt.getBestCmap()[ord(text[0])]][1] / XB.upm
         pg.text("ExtraBold", 56 * k, M - lsb * em + 0.0098 * em, y, text, WHITE, tracking_em=-0.02)
-    ip_w = pg.text("ExtraBold", 36 * k, M, ip_bl, "for iPhone", WHITE, tracking_em=-0.02)
-    # App Store badge: right-aligned on the "for iPhone" line, centred on its cap height
-    bh = 12 * k
-    bw = bh * 119.66407 / 40
-    bx, by = tw - M - bw, ip_bl - XB.cap * ip_em / 2 - bh / 2
-    planner_end = M + XB.width(lines[-1][1], -0.02) * em
-    assert M + ip_w + bh / 4 <= bx, "badge clear space from 'for iPhone'"
-    assert planner_end + bh / 4 <= bx or by - bh / 4 >= lines[-1][0] + 0.22 * em, "badge clear space from the headline"
-    assert by + bh + bh / 4 <= band_bottom, "badge inside the band"
-    draw_badge(pg, bx, by, bh)
+    pg.text("ExtraBold", 36 * k, M, ip_bl, "for iPhone", WHITE, tracking_em=-0.015)
 
     # ================= left column: signpost (diamond, name plate, yellow QR plate on one grey post)
     sign_w = 64 * k
@@ -479,14 +485,14 @@ def build(pg, k, clear):
     pg.rect(xc - post_w / 2, post_top, post_w, th + BLEED - post_top, fill=POST_GREY)  # ends exactly at the bleed edge
     draw_icon(pg, sign_x, sign_top, sign_w, border=True, post=False, plate_mm=em_of(36), plate_weight="ExtraBold")
 
-    qp_x, qp_top, qp_w = M, plate_bottom + 2 * k, plate_w
+    qp_x, qp_top, qp_w = M, plate_bottom + 2.5 * k, plate_w
     inset, line = 1.2 * k, 0.8 * k
     edge = inset + line
     em = em_of(36)
     bl1 = qp_top + edge + 3 * k + XB.cap * em
-    bl2 = bl1 + em
+    bl2 = bl1 + 1.08 * em
     tile = qp_w - 2 * edge - 3 * k  # white tile = QR + clear zone; 1.5 mm of yellow at the sides and bottom
-    qs = min(62 * k, tile - 2 * clear)
+    qs = tile - 2 * clear           # a 60 mm code with the brief's clear white around it
     tile_y = bl2 + 2.5 * k
     qp_bottom = tile_y + tile + 1.5 * k + edge
     assert qs >= 60 * k, ("QR too small", qs)
@@ -496,19 +502,19 @@ def build(pg, k, clear):
             stroke=BLACK, sw=line, r=0.8 * k)
     for bl_, t in ((bl1, "Scan to"), (bl2, "download.")):
         assert XB.width(t) * em <= qp_w - 2 * edge - 4 * k, t
-        pg.text("ExtraBold", 36 * k, xc, bl_, t, BLACK, align="center")
+        pg.text("ExtraBold", 36 * k, xc, bl_, t, BLACK, align="center", tracking_em=-0.015)
     tx = xc - tile / 2
     pg.rect(tx, tile_y, tile, tile, fill=WHITE)
-    code, module = draw_qr(pg, tx, tile_y, tile, QR_FILES["poster"])  # the tile is the code's quiet zone
-    assert code >= 40 * k, ("printed code at least 4 cm on the poster", code)
+    module = draw_qr_code(pg, tx + clear, tile_y + clear, qs, QR_FILES["poster"])
+    code = qs
 
     # ================= right column: phone (whole; 70 mm screen keeps the 828 px screenshot at 300 ppi),
     # proof line and address as its caption
-    img = screen_image()
-    pw = 76 * k
-    px = tw - M - pw
+    img = screen_image_true()
+    pw = 60 * k
+    px = tw - M - 76 * k                            # the right column's left edge
     assert px - (M + qp_w) >= 10 * k, "gap between the signpost and the phone"
-    b = 3 * k
+    b = 2.6 * k
     sw_ = pw - 2 * b
     aspect = img.size[1] / img.size[0] if img else 1792 / 828
     ih = sw_ * aspect
@@ -528,20 +534,26 @@ def build(pg, k, clear):
         c.clipPath(clip, stroke=0, fill=0)
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
-    cem = em_of(26)
-    cbl = ptop + ih + 2 * b + 2 * k + XB.cap * cem
+    # caption (proof line, address) and the App Store badge, the badge's foot on the QR plate's foot
+    cem = em_of(30)
+    lsb_ = lambda t: XB.tt["hmtx"][XB.tt.getBestCmap()[ord(t[0])]][1] / XB.upm * cem
+    bh = 16 * k
+    bw = bh * 119.66407 / 40
+    by = qp_bottom - bh
+    gbl = by - bh / 4 - 0.216 * cem                 # address baseline: its descender clears the badge's space
+    pitch = 1.08 * cem
+    cbl = gbl - 2 * pitch
+    assert cbl - XB.cap * cem >= ptop + ih + 2 * b + 4 * k, ("caption clear of the phone", cbl)
     for t in ("500+ places,", "26 trips."):
-        assert XB.width(t) * cem <= pw, t
-        pg.text("ExtraBold", 26 * k, px, cbl, t, BLACK)
-        cbl += cem * 1.05
-    gem = em_of(26)
-    natural = cbl - cem * 1.05 + 0.05 * cem + 3 * k + XB.cap * gem
-    assert natural <= tile_y + tile + 0.3 * k, ("caption longer than the QR column", natural, tile_y + tile)
-    gbl = tile_y + tile  # last caption baseline aligned with the bottom of the QR tile
-    assert gbl + 0.25 * gem <= th - SAFE, ("guide.kiwi inside the safe area", gbl + 0.25 * gem)
-    pg.text("ExtraBold", 26 * k, px, gbl, URL, TEAL)
-    print(f"  band {band_bottom:.1f}  sign top {sign_top:.1f}  phone bottom {ptop + ih + 2 * b:.1f}  "
-          f"tile bottom {tile_y + tile:.1f}  plate bottom {qp_bottom:.1f}  guide bl {gbl:.1f}")
+        assert px + XB.width(t, -0.015) * cem <= tw - M, t
+        pg.text("ExtraBold", 30 * k, px - lsb_(t), cbl, t, BLACK, tracking_em=-0.015)
+        cbl += pitch
+    assert px + XB.width(URL, -0.015) * cem <= tw - M, URL
+    pg.text("ExtraBold", 30 * k, px - lsb_(URL), gbl, URL, TEAL, tracking_em=-0.015)
+    assert by + bh + bh / 4 <= th - SAFE + bh / 4 and px + bw + bh / 4 <= tw - M + bh / 4, "badge clear space"
+    draw_badge(pg, px, by, bh)
+    print(f"  band {band_bottom:.1f}  sign top {sign_top:.1f}  phone {pw:.0f} wide, bottom {ptop + ih + 2 * b:.1f}  "
+          f"tile bottom {tile_y + tile:.1f}  plate bottom {qp_bottom:.1f}  caption {cbl - 2 * pitch:.1f}/{gbl:.1f}  badge {by:.1f}-{by + bh:.1f}  code {code:.1f}")
     return code
 
 

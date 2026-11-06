@@ -445,7 +445,7 @@ def build(pg, k, clear):
     pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=WHITE)
 
     # ================= header band
-    em = em_of(26)
+    em = em_of(30)
     padx = pady = 4.8 * k  # equal padding: 2.8 mm of yellow inside the frame all round
     tag_top = 11 * k
     tag_w = XB.width("Free for 2026:", -0.01) * em + 2 * padx
@@ -465,7 +465,7 @@ def build(pg, k, clear):
     pg.rect(-BLEED, -BLEED, W, band_bottom + BLEED, fill=TEAL)
     pg.rect(M, tag_top, tag_w, tag_h, fill=YELLOW, r=1.5 * k)
     pg.rect(M + 1.2 * k, tag_top + 1.2 * k, tag_w - 2.4 * k, tag_h - 2.4 * k, stroke=BLACK, sw=0.8 * k, r=0.8 * k)
-    pg.text("ExtraBold", 26 * k, M + padx, tag_bl, "Free for 2026:", BLACK, tracking_em=-0.01)
+    pg.text("ExtraBold", 30 * k, M + padx, tag_bl, "Free for 2026:", BLACK, tracking_em=-0.01)
     for y, text in lines:
         lsb = XB.tt["hmtx"][XB.tt.getBestCmap()[ord(text[0])]][1] / XB.upm
         pg.text("ExtraBold", 56 * k, M - lsb * em + 0.0098 * em, y, text, WHITE, tracking_em=-0.02)

@@ -362,6 +362,37 @@ SCREEN = os.path.join(HERE, "assets", "screen-map.png")  # app screenshot shown 
 _SCREEN_CMYK = None
 
 
+_SCREEN_RGB = None
+
+
+def screen_rgb():
+    """The screenshot as RGB with the test-device distance pill painted out (cached)."""
+    global _SCREEN_RGB
+    if _SCREEN_RGB is None and os.path.exists(SCREEN):
+        src = Image.open(SCREEN).convert("RGB")
+        if os.path.basename(SCREEN) == "screen-map.png":
+            from PIL import ImageDraw
+            sx, sy = src.size[0] / 828, src.size[1] / 1792
+            panel = src.getpixel((int(560 * sx), int(1480 * sy)))
+            ImageDraw.Draw(src).rectangle([580 * sx, 1434 * sy, 802 * sx, 1516 * sy], fill=panel)
+        _SCREEN_RGB = src
+    return _SCREEN_RGB
+
+
+def screen_crop_cmyk(box):
+    """A crop of the screenshot (pixel box) separated with full grey replacement: K = 1 - max(RGB),
+    CMY rescaled, so dark colours keep their hue (the app's teal prints teal) and ink stays <= 300%."""
+    src = screen_rgb()
+    if src is None:
+        return None
+    rgb = np.asarray(src.crop(box), dtype=np.float32) / 255.0
+    k = 1.0 - rgb.max(axis=2, keepdims=True)
+    denom = np.maximum(1.0 - k, 1e-6)
+    cmy = np.where(k < 0.999, (1.0 - rgb - k) / denom, 0.0)
+    cmyk = np.concatenate([cmy, k], axis=2)
+    return Image.fromarray((np.clip(cmyk, 0, 1) * 255 + 0.5).astype(np.uint8), mode="CMYK")
+
+
 def screen_image():
     """The screenshot as a CMYK image (simple conversion; the printer may re-separate with their profile)."""
     global _SCREEN_CMYK
@@ -622,8 +653,9 @@ RICH_BLACK = (0.6, 0.4, 0.4, 1.0)  # 240% field black for the night poster; K100
 
 
 def build_night(pg, k, clear):
-    """A4 poster B, a kiwi crossing sign at night. Rich-black field; the headline centred in white
-    with the offer in yellow; one large signpost centred and standing on a full-bleed yellow band
+    """A4 poster B2, a kiwi crossing sign at night. Rich-black field; headline centred in white on
+    three lines with the offer in yellow and the proof line below; the signpost with a white keyline
+    and the app on a phone beside its name plate, both standing on a full-bleed yellow band
     that carries the call to action, the App Store badge, the address and a 60 mm QR code."""
     tw, th = pg.tw, pg.th
     W = tw + 2 * BLEED
@@ -638,58 +670,88 @@ def build_night(pg, k, clear):
     n_mod, _ = qr_modules(QR_FILES["poster"])
     u = 60 * k / (n_mod - 8)
     tile = n_mod * u
-    pad = 9 * k
+    pad = 8 * k
     band_top = th - 2 * pad - tile
     ty = band_top + pad
     tx = X1 - tile
 
-    # ---- headline block, centred on the field: offer (yellow), two headline lines, proof line
-    F, H, P, TF, TH = 34, 42, 30, 0.0, -0.016
-    fem, hem, pem = em_of(F), em_of(H), em_of(P)
+    # ---- headline block, centred: two sizes only (50 pt headline; 40 pt offer, proof, call to action, address)
+    H, S, TH, TS = 50, 40, -0.016, -0.005
+    hem, sem = em_of(H), em_of(S)
     cx = tw / 2
-    bl0 = M + XB.cap * fem
+    bl0 = M + XB.cap * sem
     bl1 = bl0 + 5 * k + XB.cap * hem
-    bl2 = bl1 + 1.04 * hem
-    bl3 = bl2 + XB.desc * hem + 5 * k + B.cap * pem
-    assert XB.width("travel planner for iPhone", TH) * hem <= tw - 2 * M, "headline line 2"
-    pg.text("ExtraBold", F, cx, bl0, "Free for 2026:", YELLOW, tracking_em=TF, align="center")
-    pg.text("ExtraBold", H, cx, bl1, "New Zealand", WHITE, tracking_em=TH, align="center")
-    pg.text("ExtraBold", H, cx, bl2, "travel planner for iPhone", WHITE, tracking_em=TH, align="center")
-    pg.text("Bold", P, cx, bl3, "500+ places, 26 trips.", WHITE, tracking_em=0.0, align="center")
-    block_bottom = bl3 + B.desc * pem
+    bl2 = bl1 + 1.0 * hem
+    bl3 = bl2 + 1.0 * hem
+    bl4 = bl3 + XB.desc * hem + 4 * k + B.cap * sem
+    for t in ("New Zealand", "travel planner", "for iPhone"):
+        assert XB.width(t, TH) * hem <= tw - 2 * M, t
+    pg.text("ExtraBold", S, cx, bl0, "Free for 2026:", YELLOW, tracking_em=TS, align="center")
+    for y, t in ((bl1, "New Zealand"), (bl2, "travel planner"), (bl3, "for iPhone")):
+        pg.text("ExtraBold", H, cx, y, t, WHITE, tracking_em=TH, align="center")
+    pg.text("Bold", S, cx, bl4, "500+ places, 26 trips.", WHITE, tracking_em=0.0, align="center")
+    block_bottom = bl4 + B.desc * sem
 
-    # ---- the signpost: as large as the space allows, centred, its post standing on the band
+    # ---- sign and phone as one group, centred, 4 mm apart, both standing on the band
     sign_top = block_bottom + 7 * k
-    plate_bottom = band_top - 9 * k
+    plate_bottom = band_top - 8 * k
     s_ = (plate_bottom - sign_top) / (1210 - VB_Y)
     sign_w = s_ * VB_W
-    sign_x = cx - (512 - VB_X) * s_
     plate_w = 1000 * s_
-    plate_pt = 0.84 * plate_w / (XB.width("Kiwi Guide", -2 / 128) * 25.4 / 72 * k)
+    overlap = -4 * k                               # a 4 mm gap: the plate must not cover the place card
+    ph = band_top + 0.2 - sign_top                 # the phone stands on the band, like the post
+    b = 2.0 * k
+    crop = (10, 450, 630, 1792)                    # the lower map with the Cardrona Hotel card, zoomed 1.34x
+    img = screen_crop_cmyk(crop)
+    aspect = (crop[3] - crop[1]) / (crop[2] - crop[0])
+    sw_ = (ph - 2 * b) / aspect
+    pw = sw_ + 2 * b
+    group_w = plate_w - overlap + pw
+    gx = cx - group_w / 2
+    sign_x = gx + (VB_X - 12) * s_                 # plate's left edge on the group's left edge
+    px = gx + plate_w - overlap
+    assert px + pw <= X1 + 0.01, ("phone inside the margin", px + pw)
+    ppi = (crop[2] - crop[0]) / (sw_ / 25.4)
+    assert ppi >= 300, ("screenshot resolution", ppi)
+    pg.rect(px, sign_top, pw, ph, fill=BLACK, r=0.165 * pw)
+    pg.rect(px + 0.8 * k, sign_top + 0.8 * k, pw - 1.6 * k, ph - 1.6 * k, stroke=WHITE, sw=0.5 * k, r=0.15 * pw)  # frame edge on the field
+    sx, sy = px + b, sign_top + b
+    c = pg.c
+    c.saveState()
+    clip = c.beginPath()
+    clip.roundRect(pg.X(sx), pg.Y(sy + sw_ * aspect), sw_ * mm, sw_ * aspect * mm, 0.12 * sw_ * mm)
+    c.clipPath(clip, stroke=0, fill=0)
+    if img is not None:
+        c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + sw_ * aspect), sw_ * mm, sw_ * aspect * mm)
+    c.restoreState()
     pg.rect(sign_x + (484 - VB_X) * s_, sign_top + (880 - VB_Y) * s_, 56 * s_,
             band_top + 2 - (sign_top + (880 - VB_Y) * s_), fill=POST_GREY)
+    # white keyline round the diamond so the sign's edge reads on the black field
+    key = 1.0 * k
+    f = 1 + key / (420 * 1.2608 * s_)
+    tf_ = lambda pt: (pg.X(sign_x + (pt[0] - VB_X) * s_), pg.Y(sign_top + (pt[1] - VB_Y) * s_))
+    pg.svg_path(SIGN_D, Matrix(f"translate(512 512) scale({f:.5f}) translate(-512 -512) " + OUTER + " rotate(45 512 512)"), tf_, WHITE)
+    plate_pt = 0.84 * plate_w / (XB.width("Kiwi Guide", -2 / 128) * 25.4 / 72 * k)
     draw_icon(pg, sign_x, sign_top, sign_w, border=True, post=False, plate_mm=em_of(plate_pt), plate_weight="ExtraBold")
 
     # ---- band: call to action, badge and address on the left; the code on its white tile, right
     pg.rect(-BLEED, band_top, W, th + BLEED - band_top, fill=YELLOW)
     code, module = draw_qr(pg, tx, ty, tile, QR_FILES["poster"])
     assert abs(code - 60 * k) < 0.05, code
-    C, A, TC = 44, 30, -0.01
-    cem, aem = em_of(C), em_of(A)
-    c1 = ty + XB.cap * cem
-    c2 = c1 + 1.04 * cem
+    c1 = ty + XB.cap * sem
+    c2 = c1 + 1.04 * sem
     for y, t in ((c1, "Scan to"), (c2, "download.")):
-        assert M + XB.width(t, TC) * cem <= tx - 4 * k, t
-        pg.text("ExtraBold", C, M - lsb(XB, t, cem), y, t, BLACK, tracking_em=TC)
-    abl = ty + tile  # address baseline on the tile's bottom edge
-    pg.text("Bold", A, M - lsb(B, "k", aem), abl, URL, BLACK, tracking_em=0.0)
+        assert M + XB.width(t, TS) * sem <= tx - 4 * k, t
+        pg.text("ExtraBold", S, M - lsb(XB, t, sem), y, t, BLACK, tracking_em=TS)
+    abl = ty + tile
+    pg.text("Bold", S, M - lsb(B, "k", sem), abl, URL, BLACK, tracking_em=0.0)
     bh = 14 * k
     bw = bh * 119.66407 / 40
-    by = (c2 + abl - B.cap * aem) / 2 - bh / 2
-    assert M + bw + bh / 4 <= tx and by - c2 >= bh / 4 and (abl - B.cap * aem) - (by + bh) >= bh / 4, "badge clear space"
+    by = (c2 + abl - B.cap * sem) / 2 - bh / 2
+    assert M + bw + bh / 4 <= tx and by - c2 >= bh / 4 and (abl - B.cap * sem) - (by + bh) >= bh / 4, "badge clear space"
     draw_badge(pg, M, by, bh)
     print(f"  night: block to {block_bottom:.1f}  sign {sign_w:.1f} wide at {sign_top:.1f}-{plate_bottom:.1f} (plate {plate_w:.1f}, {plate_pt:.0f} pt)  "
-          f"band {band_top:.1f}  tile {ty:.1f}-{ty + tile:.1f}  code {code:.1f} module {module:.2f}")
+          f"phone {pw:.1f}x{ph:.1f} at x {px:.1f} ({ppi:.0f} ppi)  band {band_top:.1f}  tile {ty:.1f}-{ty + tile:.1f}  code {code:.1f}")
     return code
 
 

@@ -469,7 +469,16 @@ def build(pg, k, clear):
     for y, text in lines:
         lsb = XB.tt["hmtx"][XB.tt.getBestCmap()[ord(text[0])]][1] / XB.upm
         pg.text("ExtraBold", 56 * k, M - lsb * em + 0.0098 * em, y, text, WHITE, tracking_em=-0.02)
-    pg.text("ExtraBold", 36 * k, M, ip_bl, "for iPhone", WHITE, tracking_em=-0.015)
+    ip_w = pg.text("ExtraBold", 36 * k, M, ip_bl, "for iPhone", WHITE, tracking_em=-0.015)
+    # App Store badge: right-aligned on the "for iPhone" line, centred on its cap height
+    bh = 14 * k
+    bw = bh * 119.66407 / 40
+    bx, by = tw - M - bw, ip_bl - XB.cap * ip_em / 2 - bh / 2
+    planner_end = M + XB.width(lines[-1][1], -0.02) * em
+    assert M + ip_w + bh / 4 <= bx, "badge clear space from 'for iPhone'"
+    assert planner_end + bh / 4 <= bx or by - bh / 4 >= lines[-1][0] + 0.22 * em, "badge clear space from the headline"
+    assert by + bh + bh / 4 <= band_bottom, "badge inside the band"
+    draw_badge(pg, bx, by, bh)
 
     # ================= left column: signpost (diamond, name plate, yellow QR plate on one grey post)
     sign_w = 64 * k
@@ -511,8 +520,8 @@ def build(pg, k, clear):
     # ================= right column: phone (whole; 70 mm screen keeps the 828 px screenshot at 300 ppi),
     # proof line and address as its caption
     img = screen_image_true()
-    pw = 60 * k
-    px = tw - M - 76 * k                            # the right column's left edge
+    pw = 72 * k
+    px = tw - M - pw                                # the right column: phone and caption share both edges
     assert px - (M + qp_w) >= 10 * k, "gap between the signpost and the phone"
     b = 2.6 * k
     sw_ = pw - 2 * b
@@ -534,24 +543,20 @@ def build(pg, k, clear):
         c.clipPath(clip, stroke=0, fill=0)
         c.drawImage(ImageReader(img), pg.X(sx), pg.Y(sy + ih), sw_ * mm, ih * mm)
         c.restoreState()
-    # caption (proof line, address) and the App Store badge, the badge's foot on the QR plate's foot
-    cem = em_of(30)
+    # caption: proof line and address on one pitch, the last baseline on the QR tile's foot
+    cem = em_of(29)
     lsb_ = lambda t: XB.tt["hmtx"][XB.tt.getBestCmap()[ord(t[0])]][1] / XB.upm * cem
-    bh = 16 * k
-    bw = bh * 119.66407 / 40
-    by = qp_bottom - bh
-    gbl = by - bh / 4 - 0.216 * cem                 # address baseline: its descender clears the badge's space
+    gbl = tile_y + tile
     pitch = 1.08 * cem
     cbl = gbl - 2 * pitch
-    assert cbl - XB.cap * cem >= ptop + ih + 2 * b + 4 * k, ("caption clear of the phone", cbl)
+    assert cbl - XB.cap * cem >= ptop + ih + 2 * b + 4 * k, ("caption clear of the phone", cbl - XB.cap * cem - (ptop + ih + 2 * b))
     for t in ("500+ places,", "26 trips."):
         assert px + XB.width(t, -0.015) * cem <= tw - M, t
-        pg.text("ExtraBold", 30 * k, px - lsb_(t), cbl, t, BLACK, tracking_em=-0.015)
+        pg.text("ExtraBold", 29 * k, px - lsb_(t), cbl, t, BLACK, tracking_em=-0.015)
         cbl += pitch
     assert px + XB.width(URL, -0.015) * cem <= tw - M, URL
-    pg.text("ExtraBold", 30 * k, px - lsb_(URL), gbl, URL, TEAL, tracking_em=-0.015)
-    assert by + bh + bh / 4 <= th - SAFE + bh / 4 and px + bw + bh / 4 <= tw - M + bh / 4, "badge clear space"
-    draw_badge(pg, px, by, bh)
+    assert gbl + 0.216 * cem <= th - SAFE, "address inside the safe area"
+    pg.text("ExtraBold", 29 * k, px - lsb_(URL), gbl, URL, TEAL, tracking_em=-0.015)
     print(f"  band {band_bottom:.1f}  sign top {sign_top:.1f}  phone {pw:.0f} wide, bottom {ptop + ih + 2 * b:.1f}  "
           f"tile bottom {tile_y + tile:.1f}  plate bottom {qp_bottom:.1f}  caption {cbl - 2 * pitch:.1f}/{gbl:.1f}  badge {by:.1f}-{by + bh:.1f}  code {code:.1f}")
     return code

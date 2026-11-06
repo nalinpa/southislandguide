@@ -681,7 +681,7 @@ def build_night(pg, k, clear):
     n_mod, _ = qr_modules(QR_FILES["poster"])
     u = 60 * k / (n_mod - 8)
     tile = n_mod * u
-    pad = 8 * k
+    pad = 8.2 * k
     band_top = th - pad - tile - 6 * k - B.desc * sem - B.cap * sem - pad
     pbl = band_top + pad + B.cap * sem                 # proof baseline
     ty = pbl + B.desc * sem + 6 * k
@@ -757,6 +757,7 @@ def build_night(pg, k, clear):
         assert M + XB.width(t, TS) * sem <= tx - 4 * k, t
         pg.text("ExtraBold", S, M - lsb(XB, t, sem), y, t, BLACK, tracking_em=TS)
     abl = ty + tile
+    assert abl + 0.216 * sem <= th - SAFE, ("address descender inside the safe area", abl + 0.216 * sem)
     pg.text("Bold", S, M - lsb(B, "k", sem), abl, URL, BLACK, tracking_em=0.0)
     bh = 20 * k
     bw = bh * 119.66407 / 40

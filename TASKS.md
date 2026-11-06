@@ -143,22 +143,23 @@ Owner, 2026-10-23: after launch. With no signal, the map tab shows pins and the 
 
 ### After launch — Apple and Google sign-in
 Owner, 2026-10-25: not in the first release, which signs in by email only. The steps are in [docs/plans/launch.md, After launch: Apple and Google sign-in](docs/plans/launch.md#after-launch-apple-and-google-sign-in).
-- [ ] **Wait for Apple:** the probe (Sign-in, above) answers `invalid_request` instead of `invalid_client`.
+- [ ] **Wait for Apple:** the probe (Sign-in, above) answers `invalid_request` instead of `invalid_client`. Still `invalid_client` on 2026-11-06.
 - [ ] **Phone test:** a fresh Apple sign-up and sign-in, account deletion with the token revoked, and Google sign-in with the EAS web client ID set.
 - [ ] **Ship both together in a new store version**, never Google alone: put `<SocialSignInButtons>` back on the login screen, and update the privacy labels and review notes.
 
 ### After launch — review fixes, round 2
 Owner, 2026-10-30: round 1 of the pre-build review fixes is done; round 2 waits until after launch.
-- [ ] **Run [prompts/fix-39-after-launch-review-fixes.md](prompts/fix-39-after-launch-review-fixes.md)** (items 12–20): bad live data crashing a screen, the error screen's message and Restart button, Sentry tracing at 0.2, Sign In on the expired-session and guest Saved Places screens, the account-delete retry, a resumed offline trip save failing silently, a stray `console.error`, and a TASKS line for Timaru's hub.
-- [ ] **Engine first, owner: `CardShell` `shrink` prop** in `@blacksands/ui` (item 21 in the same prompt). Without it the Create Trip and Add to Trip modals can push "Create Trip" off screen on an iPhone SE. After it's published, the app passes `shrink` to both modals.
+- [x] **Run [prompts/fix-39-after-launch-review-fixes.md](prompts/fix-39-after-launch-review-fixes.md)** (items 12–20): bad live data crashing a screen, the error screen's message and Restart button, Sentry tracing at 0.2, Sign In on the expired-session and guest Saved Places screens, the account-delete retry, a resumed offline trip save failing silently, a stray `console.error`, and a TASKS line for Timaru's hub.
+- [x] **Engine first, owner: `CardShell` `shrink` prop** in `@blacksands/ui` (item 21 in the same prompt). Without it the Create Trip and Add to Trip modals can push "Create Trip" off screen on an iPhone SE. After it's published, the app passes `shrink` to both modals.
 
 ### After launch — first weeks
 Added 2026-10-30.
-- [ ] **Watch Sentry daily for the first week.** New crashes are under Issues; screen timings are under Traces. Tracing samples every session (`tracesSampleRate: 1.0`) until fix-39 lowers it to 0.2, so keep an eye on the free plan's span allowance.
+- [ ] **Watch Sentry daily for the first week.** New crashes are under Issues; screen timings are under Traces. Tracing samples one session in five (`tracesSampleRate: 0.2`, from update 1).
 - [ ] **Expo package updates: `npx expo install --fix`.** On 2026-10-30, expo-doctor listed 12 packages behind what SDK 57 expects. Most are patch updates (`expo` 57.0.25 → .31, `react-native` 0.86.2 → .3, `expo-router` .23 → .29, `jest-expo` and eight `expo-*`). They were left for 1.0 because the build was tested on these versions.
   - **Careful with `@shopify/flash-list`:** we have 2.3.2, which is newer than the 2.0.2 Expo expects, so `--fix` would downgrade it. Check what the engine components need first, and exclude it (`expo.install.exclude` in package.json) if they need 2.3.
   - It needs a new store build and a full phone check.
-- [ ] **Rebrand the share screen** (owner, 2026-11-01). Give the share card and `app/share-frame.tsx` the Kiwi Guide look: the kiwi sign icon and the brand teal `#095C65`. Today the footer already says "Kiwi Guide", but the gradient comes from `tokens.colors.text` and the region label is hard-coded "South Island" in `components/share/CaptureCanvas.tsx`. The label has to follow the place's island once the North Island ships (below). Needs a new build.
+- [x] **Rebrand the share screen** (owner, 2026-11-01; done 2026-11-04, ships over the air). The card's footer has the app icon, the label says "New Zealand" for both islands, and long place names shrink to fit three lines. The screen shows the framed card at the top, with the buttons under it.
+- [ ] **guide.kiwi on the share card** once the domain works (owner, 2026-11-04). Put the URL in the footer of `components/share/CaptureCanvas.tsx`, as its own over-the-air update.
 - [ ] **Stats without an analytics SDK (optional).**
   - Free, no code: App Store Connect → Analytics (downloads, sessions, retention, crashes), the Firebase console's Authentication list (sign-ups by date), and the Cloudflare dashboard's Worker metrics (api requests, all apps together).
   - For more: a read-only `scripts/stats.js` using Firestore `count()` queries (about 1 read per 1,000 docs) and the Firebase Auth user list, reporting accounts, trips (total and this week), reviews and saved places.
@@ -174,7 +175,7 @@ Owner, 2026-10-31: wants to be able to email users for feedback or news. Account
 - [ ] **Users who signed up before the box** haven't agreed. A one-time in-app prompt could ask them.
 - [ ] **Every feedback or news email has an unsubscribe link.**
 - [ ] **Privacy label:** add "Developer's Advertising or Marketing" to Email Address if news emails are sent. Feedback requests alone don't need it.
-- [ ] **Cheaper feedback, no consent needed:** the engine's `useReviewPrompt` for App Store ratings, or an in-app "How's your trip going?" card that opens Contact us.
+- [ ] **Cheaper feedback, no consent needed:** an in-app "How's your trip going?" card that opens Contact us. (App Store ratings are already asked for on the 5th open and the first trip, through the engine's `useReviewPrompt`.)
 
 ### After launch — the North Island
 Owner, 2026-10-30: North Island areas come after launch, and that's why the app is now "Kiwi Guide". Not planned in detail yet. Internal ids stay `southislandguide` (bundle id, slug, Firebase and EAS projects, api key).
@@ -187,7 +188,6 @@ Owner, 2026-10-30: North Island areas come after launch, and that's why the app 
 - **Store text changes when it ships:** the description, promotional text and keywords. The subtitle "New Zealand road trip planner" can stay.
 - **In the app, these assume the South Island:**
   - the login tagline "Ultimate South Island trip planner"
-  - the share card's region label, hard-coded "South Island" in `components/share/CaptureCanvas.tsx`, which needs to follow the place's island
   - the "South Island in 7/10/14/21 Days" suggested trips
   - the guide's region list in `lib/guideContent.ts`
   - the town picker's regions in `lib/areas.ts`

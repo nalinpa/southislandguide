@@ -37,8 +37,9 @@ export default function ShareFrameScreen() {
     [params, dateLabel],
   );
 
+  // A new photo drops the old frame, so the box shows "Framing…" rather than the last card.
   useEffect(() => {
-    if (!photoUri) setPreviewUri(null);
+    setPreviewUri(null);
   }, [photoUri]);
 
   const refreshPreview = useCallback(() => {
@@ -58,7 +59,8 @@ export default function ShareFrameScreen() {
         setPreviewUri(uri);
       } catch (error) {
         Sentry.captureException(error);
-        setPreviewUri(null);
+        setPhotoUri(null);
+        Alert.alert("Couldn't frame that photo.", "Please try another one.");
       } finally {
         setRendering(false);
       }
@@ -112,24 +114,20 @@ export default function ShareFrameScreen() {
       <CaptureCanvas ref={shareCardRef} payload={payload} photoUri={photoUri} onImageLoad={refreshPreview} />
 
       <Stack gap="lg">
-        <AppText variant="screenTitle" numberOfLines={2}>
-          {params.entityName || "Share"}
-        </AppText>
+        <AppText variant="screenTitle">{params.entityName || "Share"}</AppText>
 
-        <CardShell header={<AppText variant="label" status="hint">YOUR PHOTO</AppText>}>
-          <Row gap="sm">
-            <AppButton variant="secondary" size="sm" icon={ImageIcon} onPress={() => pickImage(false)} style={styles.pickerBtn}>
-              Gallery
-            </AppButton>
-            <AppButton variant="secondary" size="sm" icon={Camera} onPress={() => pickImage(true)} style={styles.pickerBtn}>
-              Camera
-            </AppButton>
-          </Row>
-
+        {/* The framed card sits at the top, so it's on screen as soon as a photo is in. */}
+        <CardShell>
           <Pressable onPress={() => !photoUri && pickImage(false)} style={styles.previewBox}>
             {photoUri ? (
               <>
-                <Image source={{ uri: photoUri }} style={styles.fill} resizeMode="cover" />
+                {previewUri ? (
+                  <Image source={{ uri: previewUri }} style={styles.fill} resizeMode="cover" />
+                ) : (
+                  <Stack align="center" justify="center" style={styles.fill}>
+                    <AppText status="hint">Framing…</AppText>
+                  </Stack>
+                )}
                 <View style={styles.removeBtn}>
                   <AppIconButton
                     icon={Trash2}
@@ -149,24 +147,15 @@ export default function ShareFrameScreen() {
               </Stack>
             )}
           </Pressable>
-        </CardShell>
 
-        <CardShell header={<AppText variant="label" status="hint">YOUR FRAME</AppText>}>
-          <View style={styles.previewBox}>
-            {rendering ? (
-              <Stack align="center" justify="center" style={styles.fill}>
-                <AppText status="hint">Framing…</AppText>
-              </Stack>
-            ) : previewUri ? (
-              <Image source={{ uri: previewUri }} style={styles.fill} resizeMode="cover" />
-            ) : (
-              <Stack align="center" justify="center" style={styles.fill}>
-                <AppText status="hint" style={styles.centerText}>
-                  Add a photo above to generate your frame
-                </AppText>
-              </Stack>
-            )}
-          </View>
+          <Row gap="sm">
+            <AppButton variant="secondary" size="sm" icon={ImageIcon} onPress={() => pickImage(false)} style={styles.pickerBtn}>
+              Gallery
+            </AppButton>
+            <AppButton variant="secondary" size="sm" icon={Camera} onPress={() => pickImage(true)} style={styles.pickerBtn}>
+              Camera
+            </AppButton>
+          </Row>
 
           {shareSuccess ? (
             <Row gap="xs" align="center" justify="center">
@@ -178,7 +167,7 @@ export default function ShareFrameScreen() {
               variant="primary"
               icon={Share2}
               onPress={onShare}
-              disabled={!previewUri}
+              disabled={!previewUri || rendering}
               loading={sharing}
               loadingLabel="Sharing…"
               fullWidth
@@ -211,5 +200,4 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.6)",
     borderRadius: 20,
   },
-  centerText: { textAlign: "center", paddingHorizontal: 24 },
 });

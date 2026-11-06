@@ -31,8 +31,9 @@ export const CaptureCanvas = forwardRef<View, CaptureCanvasProps>(
 
         {/* Top gradient overlay with site name */}
         <LinearGradient colors={[shade(0.92), shade(0.6), "transparent"]} style={styles.topOverlay}>
-          <Text style={styles.cityLabel}>South Island</Text>
-          <Text style={styles.siteName} numberOfLines={2}>
+          <Text style={styles.cityLabel}>New Zealand</Text>
+          {/* Long names shrink to fit three lines rather than trail off. */}
+          <Text style={styles.siteName} numberOfLines={3} adjustsFontSizeToFit minimumFontScale={0.5}>
             {payload.siteName}
           </Text>
         </LinearGradient>
@@ -45,7 +46,10 @@ export const CaptureCanvas = forwardRef<View, CaptureCanvasProps>(
 
         {/* Footer strip */}
         <View style={styles.footer}>
-          <Text style={styles.brandLabel}>Kiwi Guide</Text>
+          <View style={styles.brand}>
+            <Image source={require("@/assets/icon.png")} style={styles.brandIcon} />
+            <Text style={styles.brandLabel}>Kiwi Guide</Text>
+          </View>
           <View style={styles.dateBadge}>
             <Text style={styles.dateText}>{payload.dateLabel}</Text>
           </View>
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: 520,
+    height: 600,
     justifyContent: "flex-start",
     paddingHorizontal: 64,
     paddingTop: 140,
@@ -87,7 +91,6 @@ const styles = StyleSheet.create({
     fontSize: 96,
     fontWeight: "900",
     letterSpacing: -2,
-    lineHeight: 100,
     textTransform: "uppercase",
   },
 
@@ -139,6 +142,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 64,
   },
+  brand: { flexDirection: "row", alignItems: "center", gap: 20 },
+  brandIcon: { width: 64, height: 64, borderRadius: 14 },
   brandLabel: {
     color: "#FFFFFF",
     fontSize: 34,

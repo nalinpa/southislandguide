@@ -106,7 +106,6 @@ describe("before a photo is chosen", () => {
 
     expect(view.getByText("Sumner Beach")).toBeTruthy();
     expect(view.getByText("Tap to add photo")).toBeTruthy();
-    expect(view.getByText("Add a photo above to generate your frame")).toBeTruthy();
   });
 
   it("won't let the card be posted with nothing in it", async () => {
@@ -143,6 +142,15 @@ describe("choosing a photo", () => {
 
     await waitFor(() => expect(view.getByLabelText("Remove photo")).toBeTruthy());
     expect(view.queryByText("Tap to add photo")).toBeNull();
+  });
+
+  // The frame takes the photo's place in the one box, so it's on screen straight away.
+  it("shows Framing… until the frame is ready", async () => {
+    const view = await render(<ShareFrameScreen />);
+
+    await fireEvent.press(view.getByText("Gallery"));
+
+    await waitFor(() => expect(view.getByText("Framing…")).toBeTruthy());
   });
 
   it("goes back to asking for a photo once it is removed", async () => {
@@ -217,7 +225,8 @@ describe("rendering the frame", () => {
     await letTheFrameRender();
 
     expect(Sentry.captureException).toHaveBeenCalled();
-    expect(view.getByText("Add a photo above to generate your frame")).toBeTruthy();
+    expect(alertSpy).toHaveBeenCalledWith("Couldn't frame that photo.", "Please try another one.");
+    expect(view.getByText("Tap to add photo")).toBeTruthy();
   });
 });
 

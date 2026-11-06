@@ -10,3 +10,6 @@ GoogleService-Info.plist
 
 # Reference images for design tools (third-party artwork, not ours to commit)
 design-refs/
+
+# The saved map's tiles, built by scripts/build-offline-map.js and served by Firebase Hosting
+offline-map-site/

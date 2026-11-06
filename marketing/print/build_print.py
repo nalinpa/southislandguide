@@ -314,7 +314,50 @@ def labelled_box(pg, x, y, w, h, label, size_pt, color, sw, r=0.0, weight="Extra
     pg.text(weight, size_pt, x + w / 2, y + h / 2 + cap / 2, label, color, align="center")
 
 
-URL = "guide.kiwi"
+URL = "kiwiguide.app"
+QR_FILES = {"poster": os.path.join(HERE, "qr", "poster.svg"),  # https://kiwiguide.app/go/poster (ct=poster)
+            "card": os.path.join(HERE, "qr", "card.svg")}      # https://kiwiguide.app/go/card (ct=card)
+
+
+def qr_modules(svg_path):
+    """Read a `qrcode` (npm) SVG: returns (symbol size in modules incl. its 4-module quiet zone,
+    list of dark runs as (x, y, width) in modules). The SVG draws each row as 1-unit strokes."""
+    import re
+    txt = open(svg_path, encoding="utf-8").read()
+    n = int(re.search(r'viewBox="0 0 (\d+) \1"', txt).group(1))
+    d = re.search(r'<path stroke="#000000" d="([^"]+)"', txt).group(1)
+    toks = re.findall(r"[MmHh]|-?\d*\.?\d+", d)
+    runs, x, y, i, cmd = [], 0.0, 0.0, 0, None
+    while i < len(toks):
+        if toks[i] in "MmHh":
+            cmd = toks[i]
+            i += 1
+        if cmd == "M":
+            x, y = float(toks[i]), float(toks[i + 1]); i += 2
+        elif cmd == "m":
+            x, y = x + float(toks[i]), y + float(toks[i + 1]); i += 2
+        elif cmd in "Hh":
+            w = float(toks[i]) - (x if cmd == "H" else 0); i += 1
+            runs.append((x, y - 0.5, w))
+            x += w
+    return n, runs
+
+
+def draw_qr(pg, x, y, size, svg_path):
+    """Draw the QR symbol (with its own white quiet zone) as one K100 vector path filling a
+    size x size mm square; returns (code size in mm without the quiet zone, module size in mm)."""
+    n, runs = qr_modules(svg_path)
+    quiet = 4
+    u = size / n
+    pg.rect(x, y, size, size, fill=WHITE)
+    c = pg.c
+    path = c.beginPath()
+    for rx, ry, rw in runs:
+        path.rect(pg.X(x + rx * u), pg.Y(y + (ry + 1) * u), rw * u * mm, u * mm)
+    c.setFillColorCMYK(*BLACK)
+    c.drawPath(path, stroke=0, fill=1)
+    assert min(rx for rx, _, _ in runs) >= quiet and min(ry for _, ry, _ in runs) >= quiet, "4-module quiet zone"
+    return (n - 2 * quiet) * u, u
 SCREEN = os.path.join(HERE, "assets", "screen-map.png")  # app screenshot shown on the phone
 _SCREEN_CMYK = None
 
@@ -419,7 +462,8 @@ def build(pg, k, clear):
         pg.text("ExtraBold", 36 * k, xc, bl_, t, BLACK, align="center")
     tx = xc - tile / 2
     pg.rect(tx, tile_y, tile, tile, fill=WHITE)
-    labelled_box(pg, xc - qs / 2, tile_y + (tile - qs) / 2, qs, qs, "QR", 36 * k, BLACK, 0.5 * k)
+    code, module = draw_qr(pg, tx, tile_y, tile, QR_FILES["poster"])  # the tile is the code's quiet zone
+    assert code >= 40 * k, ("printed code at least 4 cm on the poster", code)
 
     # ================= right column: phone (whole; 70 mm screen keeps the 828 px screenshot at 300 ppi),
     # proof line and address as its caption
@@ -461,7 +505,7 @@ def build(pg, k, clear):
     pg.text("ExtraBold", 26 * k, px, gbl, URL, TEAL)
     print(f"  band {band_bottom:.1f}  sign top {sign_top:.1f}  phone bottom {ptop + ih + 2 * b:.1f}  "
           f"tile bottom {tile_y + tile:.1f}  plate bottom {qp_bottom:.1f}  guide bl {gbl:.1f}")
-    return qs
+    return code
 
 
 def build_card(pg, k, clear):
@@ -556,7 +600,8 @@ def build_card(pg, k, clear):
     # ---- yellow band: call to action, badge, address (left); QR on its white tile (right)
     pg.rect(-BLEED, band_top, W, th + BLEED - band_top, fill=YELLOW)
     pg.rect(tx, ty, tile, tile, fill=WHITE)
-    labelled_box(pg, tx + clear, ty + clear, qs, qs, "QR", 14, BLACK, 0.3)
+    code, module = draw_qr(pg, tx, ty, tile, QR_FILES["card"])  # the tile is the code's quiet zone
+    assert code >= 25.0, ("printed code at least 25 mm on the card", code)
     c1 = ty + XB.cap * cem
     c2 = c1 + 1.12 * cem
     for y, t in ((c1, "Scan to"), (c2, "download.")):
@@ -570,7 +615,7 @@ def build_card(pg, k, clear):
     draw_badge(pg, M, by, bh)
     print(f"  card: hero {hero_top:.1f}  sign {sign_w:.1f} wide to {plate_bottom:.1f}  phone {pw:.1f}x{ph:.1f}  "
           f"band {band_top:.1f}  tile {ty:.1f}-{ty + tile:.1f}  screen {img.size[0] / (sw_ / 25.4) if img else 0:.0f} ppi")
-    return qs
+    return code
 
 
 PIECES = {  # name: (trim w, trim h, scale k vs A4, QR clear zone mm, builder)

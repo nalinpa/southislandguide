@@ -618,9 +618,85 @@ def build_card(pg, k, clear):
     return code
 
 
+RICH_BLACK = (0.6, 0.4, 0.4, 1.0)  # 240% field black for the night poster; K100 stays for text and the kiwi
+
+
+def build_night(pg, k, clear):
+    """A4 poster B, a kiwi crossing sign at night. Rich-black field; the headline centred in white
+    with the offer in yellow; one large signpost centred and standing on a full-bleed yellow band
+    that carries the call to action, the App Store badge, the address and a 60 mm QR code."""
+    tw, th = pg.tw, pg.th
+    W = tw + 2 * BLEED
+    M = 14 * k
+    X1 = tw - M
+    em_of = lambda size: size * k * 25.4 / 72
+    XB, B = FONTS["ExtraBold"], FONTS["Bold"]
+    lsb = lambda f, t, e: f.tt["hmtx"][f.tt.getBestCmap()[ord(t[0])]][1] / f.upm * e
+    pg.rect(-BLEED, -BLEED, W, th + 2 * BLEED, fill=RICH_BLACK)
+
+    # ---- yellow ground band: a 60 mm code with its own 4-module quiet zone on a white tile
+    n_mod, _ = qr_modules(QR_FILES["poster"])
+    u = 60 * k / (n_mod - 8)
+    tile = n_mod * u
+    pad = 9 * k
+    band_top = th - 2 * pad - tile
+    ty = band_top + pad
+    tx = X1 - tile
+
+    # ---- headline block, centred on the field: offer (yellow), two headline lines, proof line
+    F, H, P, TF, TH = 34, 42, 30, 0.0, -0.016
+    fem, hem, pem = em_of(F), em_of(H), em_of(P)
+    cx = tw / 2
+    bl0 = M + XB.cap * fem
+    bl1 = bl0 + 5 * k + XB.cap * hem
+    bl2 = bl1 + 1.04 * hem
+    bl3 = bl2 + XB.desc * hem + 5 * k + B.cap * pem
+    assert XB.width("travel planner for iPhone", TH) * hem <= tw - 2 * M, "headline line 2"
+    pg.text("ExtraBold", F, cx, bl0, "Free for 2026:", YELLOW, tracking_em=TF, align="center")
+    pg.text("ExtraBold", H, cx, bl1, "New Zealand", WHITE, tracking_em=TH, align="center")
+    pg.text("ExtraBold", H, cx, bl2, "travel planner for iPhone", WHITE, tracking_em=TH, align="center")
+    pg.text("Bold", P, cx, bl3, "500+ places, 26 trips.", WHITE, tracking_em=0.0, align="center")
+    block_bottom = bl3 + B.desc * pem
+
+    # ---- the signpost: as large as the space allows, centred, its post standing on the band
+    sign_top = block_bottom + 7 * k
+    plate_bottom = band_top - 9 * k
+    s_ = (plate_bottom - sign_top) / (1210 - VB_Y)
+    sign_w = s_ * VB_W
+    sign_x = cx - (512 - VB_X) * s_
+    plate_w = 1000 * s_
+    plate_pt = 0.84 * plate_w / (XB.width("Kiwi Guide", -2 / 128) * 25.4 / 72 * k)
+    pg.rect(sign_x + (484 - VB_X) * s_, sign_top + (880 - VB_Y) * s_, 56 * s_,
+            band_top + 2 - (sign_top + (880 - VB_Y) * s_), fill=POST_GREY)
+    draw_icon(pg, sign_x, sign_top, sign_w, border=True, post=False, plate_mm=em_of(plate_pt), plate_weight="ExtraBold")
+
+    # ---- band: call to action, badge and address on the left; the code on its white tile, right
+    pg.rect(-BLEED, band_top, W, th + BLEED - band_top, fill=YELLOW)
+    code, module = draw_qr(pg, tx, ty, tile, QR_FILES["poster"])
+    assert abs(code - 60 * k) < 0.05, code
+    C, A, TC = 44, 30, -0.01
+    cem, aem = em_of(C), em_of(A)
+    c1 = ty + XB.cap * cem
+    c2 = c1 + 1.04 * cem
+    for y, t in ((c1, "Scan to"), (c2, "download.")):
+        assert M + XB.width(t, TC) * cem <= tx - 4 * k, t
+        pg.text("ExtraBold", C, M - lsb(XB, t, cem), y, t, BLACK, tracking_em=TC)
+    abl = ty + tile  # address baseline on the tile's bottom edge
+    pg.text("Bold", A, M - lsb(B, "k", aem), abl, URL, BLACK, tracking_em=0.0)
+    bh = 14 * k
+    bw = bh * 119.66407 / 40
+    by = (c2 + abl - B.cap * aem) / 2 - bh / 2
+    assert M + bw + bh / 4 <= tx and by - c2 >= bh / 4 and (abl - B.cap * aem) - (by + bh) >= bh / 4, "badge clear space"
+    draw_badge(pg, M, by, bh)
+    print(f"  night: block to {block_bottom:.1f}  sign {sign_w:.1f} wide at {sign_top:.1f}-{plate_bottom:.1f} (plate {plate_w:.1f}, {plate_pt:.0f} pt)  "
+          f"band {band_top:.1f}  tile {ty:.1f}-{ty + tile:.1f}  code {code:.1f} module {module:.2f}")
+    return code
+
+
 PIECES = {  # name: (trim w, trim h, scale k vs A4, QR clear zone mm, builder)
     "kiwi-guide_A6-card": (105, 148, 1.0, 4.5, "card"),
     "kiwi-guide_A4-poster": (210, 297, 1.0, 4.5, "poster"),
+    "kiwi-guide_A4-poster-night": (210, 297, 1.0, 4.5, "night"),
     # A3 (297 x 420, k = sqrt(2), clear 4.5 * sqrt(2)) is on hold until a higher-resolution screenshot is available
 }
 
@@ -655,7 +731,7 @@ def main():
             path = os.path.join(OUT, f"{name}_{suffix}.pdf")
             pg = Page(path, tw, th, marks, title)
             pg.begin_art()
-            qs = (build_card if kind == "card" else build)(pg, k, clear)
+            qs = {"card": build_card, "night": build_night}.get(kind, build)(pg, k, clear)
             pg.end_art()
             pg.finish()
             strip_unused_font(path)

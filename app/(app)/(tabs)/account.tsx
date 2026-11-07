@@ -1,6 +1,6 @@
 // app/(app)/(tabs)/account.tsx
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Alert } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Alert, Switch } from "react-native";
 import { router } from "expo-router";
 import { ArrowRight, ChevronRight } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { useSavedSites } from "@/lib/hooks/useSavedSites";
+import { useEmailOptIn } from "@/lib/hooks/useEmailOptIn";
 import { LoadingState } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
 import { LightStatusBar } from "@/components/layout/LightStatusBar";
@@ -43,6 +44,7 @@ export default function AccountScreen() {
   const insets = useSafeAreaInsets();
   const { itineraries, loading: itinerariesLoading } = useItineraries();
   const { savedSiteIds, loading: savedLoading } = useSavedSites();
+  const { optedIn, loading: optInLoading, setOptedIn } = useEmailOptIn();
   const { start: startTour } = useTour();
   const tourAudience = useTourAudience();
 
@@ -126,6 +128,19 @@ export default function AccountScreen() {
               <ItinerariesCard />
               <View style={styles.divider} />
               <SavedItemsCard />
+              <View style={styles.divider} />
+              {/* The answer given at sign-up (the box under the password), changeable here.
+                  Signed in only: a guest has no email to send to. */}
+              <View style={styles.linkRow}>
+                <Text style={styles.switchText}>Email me about feedback and news</Text>
+                <Switch
+                  value={optedIn}
+                  onValueChange={setOptedIn}
+                  disabled={optInLoading}
+                  trackColor={{ true: tokens.colors.accent }}
+                  accessibilityLabel="Email me about feedback and news"
+                />
+              </View>
               <View style={styles.divider} />
               <DangerZoneCard />
             </>
@@ -218,4 +233,6 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   linkRowText: { fontSize: 15, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1 },
+  // flex: the words wrap before they push the switch off an iPhone SE's edge.
+  switchText: { flex: 1, marginRight: tokens.space.md, fontSize: 15, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1 },
 });

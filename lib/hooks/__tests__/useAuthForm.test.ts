@@ -6,6 +6,11 @@ jest.mock("firebase/auth", () => ({
   createUserWithEmailAndPassword: jest.fn(),
   sendPasswordResetEmail: jest.fn(),
 }));
+const mockSaveEmailOptIn = jest.fn();
+jest.mock("@/lib/hooks/useEmailOptIn", () => ({
+  saveEmailOptIn: (...args: any[]) => mockSaveEmailOptIn(...args),
+}));
+jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
 
 import {
   signInWithEmailAndPassword,
@@ -23,6 +28,7 @@ describe("useAuthForm", () => {
     mockSignIn.mockReset();
     mockSignUp.mockReset();
     mockReset.mockReset();
+    mockSaveEmailOptIn.mockReset();
   });
 
   describe("canSubmit", () => {
@@ -88,7 +94,8 @@ describe("useAuthForm", () => {
     });
 
     it("creates an account in signup mode", async () => {
-      mockSignUp.mockResolvedValue(undefined);
+      mockSignUp.mockResolvedValue({ user: { uid: "new-user" } });
+      mockSaveEmailOptIn.mockResolvedValue(undefined);
       const { result } = await renderHook(() => useAuthForm("signup"));
       await act(async () => {
         result.current.setEmail("a@b.com");
@@ -99,6 +106,69 @@ describe("useAuthForm", () => {
       await act(async () => result.current.submit());
 
       expect(mockSignUp).toHaveBeenCalledWith({}, "a@b.com", "pw");
+    });
+
+    // The box starts unticked, and a no is recorded too, with its date.
+    it("records no for email when the box was left unticked", async () => {
+      mockSignUp.mockResolvedValue({ user: { uid: "new-user" } });
+      mockSaveEmailOptIn.mockResolvedValue(undefined);
+      const { result } = await renderHook(() => useAuthForm("signup"));
+      expect(result.current.emailOptIn).toBe(false);
+      await act(async () => {
+        result.current.setEmail("a@b.com");
+        result.current.setPassword("pw");
+        result.current.setConfirm("pw");
+      });
+
+      await act(async () => result.current.submit());
+
+      expect(mockSaveEmailOptIn).toHaveBeenCalledWith("new-user", false);
+    });
+
+    it("records yes for email when the box was ticked", async () => {
+      mockSignUp.mockResolvedValue({ user: { uid: "new-user" } });
+      mockSaveEmailOptIn.mockResolvedValue(undefined);
+      const { result } = await renderHook(() => useAuthForm("signup"));
+      await act(async () => {
+        result.current.setEmail("a@b.com");
+        result.current.setPassword("pw");
+        result.current.setConfirm("pw");
+        result.current.setEmailOptIn(true);
+      });
+
+      await act(async () => result.current.submit());
+
+      expect(mockSaveEmailOptIn).toHaveBeenCalledWith("new-user", true);
+    });
+
+    // The account exists by then, so no signal for the save mustn't look like a failed sign-up.
+    it("still signs up when saving the email answer fails", async () => {
+      mockSignUp.mockResolvedValue({ user: { uid: "new-user" } });
+      mockSaveEmailOptIn.mockRejectedValue(new Error("offline"));
+      const { result } = await renderHook(() => useAuthForm("signup"));
+      await act(async () => {
+        result.current.setEmail("a@b.com");
+        result.current.setPassword("pw");
+        result.current.setConfirm("pw");
+      });
+
+      await act(async () => result.current.submit());
+
+      expect(result.current.err).toBeNull();
+      expect(require("@sentry/react-native").captureException).toHaveBeenCalled();
+    });
+
+    it("asks nothing about email when signing in", async () => {
+      mockSignIn.mockResolvedValue(undefined);
+      const { result } = await renderHook(() => useAuthForm("login"));
+      await act(async () => {
+        result.current.setEmail("a@b.com");
+        result.current.setPassword("pw");
+      });
+
+      await act(async () => result.current.submit());
+
+      expect(mockSaveEmailOptIn).not.toHaveBeenCalled();
     });
 
     it("sends a reset email and sets a notice in reset mode", async () => {

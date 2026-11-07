@@ -30,6 +30,10 @@ jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips
 const mockSavedSites = { savedSiteIds: new Set<string>(), loading: false };
 jest.mock("@/lib/hooks/useSavedSites", () => ({ useSavedSites: () => mockSavedSites }));
 
+// Has its own tests (useEmailOptIn.test.tsx); here the switch only has to reflect and set it.
+const mockEmailOptIn = { optedIn: false, loading: false, setOptedIn: jest.fn() };
+jest.mock("@/lib/hooks/useEmailOptIn", () => ({ useEmailOptIn: () => mockEmailOptIn }));
+
 // The opening tour (lib/tour), run again from here.
 const mockStartTour = jest.fn();
 jest.mock("@/lib/tour/TourContext", () => ({ useTour: () => ({ start: mockStartTour }) }));
@@ -63,7 +67,35 @@ beforeEach(() => {
   mockTrips.loading = false;
   mockSavedSites.savedSiteIds = new Set();
   mockSavedSites.loading = false;
+  mockEmailOptIn.optedIn = false;
+  mockEmailOptIn.loading = false;
   mockAudience = "paid";
+});
+
+describe("email for feedback and news", () => {
+  it("shows the answer from sign-up and changes it", async () => {
+    const view = await render(<AccountScreen />);
+    const toggle = view.getByLabelText("Email me about feedback and news");
+    expect(toggle.props.value).toBe(false);
+
+    await fireEvent(toggle, "valueChange", true);
+
+    expect(mockEmailOptIn.setOptedIn).toHaveBeenCalledWith(true);
+  });
+
+  it("shows yes when they said yes", async () => {
+    mockEmailOptIn.optedIn = true;
+    const view = await render(<AccountScreen />);
+
+    expect(view.getByLabelText("Email me about feedback and news").props.value).toBe(true);
+  });
+
+  it("isn't offered to a guest, who has no email to send to", async () => {
+    mockSession.status = "guest";
+    const view = await render(<AccountScreen />);
+
+    expect(view.queryByLabelText("Email me about feedback and news")).toBeNull();
+  });
 });
 
 it("waits for the session rather than guessing the tier", async () => {

@@ -6,9 +6,9 @@ Written 2026-10-23. Line numbers were right on that date and drift; confirm each
 
 **Goal:** With no signal, the map tab shows roads, towns and terrain under the pins and the blue dot, instead of a blank grid, for anyone who saved the map beforehand.
 
-**Architecture:** A script downloads LINZ topographic map tiles for the South Island once and puts them on Firebase Hosting, along with a list of the tiles. The app downloads that set into the phone's cache folder on request, from a row on the Account tab. When the phone is offline, the map draws those files through react-native-maps' `UrlTile` in `offlineMode`, which reads only files on the phone. When online, the map stays Apple Maps, as it is today.
+**Architecture:** A script downloads LINZ topographic map tiles for the whole country once and puts them in a Cloudflare R2 bucket, along with a list of the tiles. The app downloads that set into the phone's cache folder on request, from a row on the Account tab. When the phone is offline, the map draws those files through react-native-maps' `UrlTile` in `offlineMode`, which reads only files on the phone. When online, the map stays Apple Maps, as it is today.
 
-**Tech stack:** react-native-maps 1.27.2 `UrlTile` (`tileCachePath`, `offlineMode`, `maximumNativeZ`, iOS Apple Maps), expo-file-system 57 (`File`, `Directory`, `Paths`), NetInfo, zustand, TanStack Query, Firebase Hosting, LINZ Data Service tiles (CC BY 4.0).
+**Tech stack:** react-native-maps 1.27.2 `UrlTile` (`tileCachePath`, `offlineMode`, `maximumNativeZ`, iOS Apple Maps), expo-file-system 57 (`File`, `Directory`, `Paths`), NetInfo, zustand, TanStack Query, Cloudflare R2, LINZ Data Service tiles (CC BY 4.0).
 
 **Spec:** this file. Background: the conversation of 2026-10-23 on whether the app works without phone signal (Milford and mobile coverage posts).
 
@@ -23,10 +23,10 @@ Written 2026-10-23. Line numbers were right on that date and drift; confirm each
 
 | Question | Decision |
 |---|---|
-| Map look | **Owner to confirm.** Recommended: LINZ topo maps. NZ Topo250 (LDS layer 50798) up to zoom 11, NZ Topo50 (layer 50767) from zoom 12. They show state highway numbers, towns, tracks and huts, which is what someone on the Milford road needs. The alternative is LINZ aerial photos: one source, but no names on anything. Either one changes only `tileUrl` in the script. |
-| Area | The map's own bounds, `MAP_BOUNDS` in `components/map/MapRegion.ts` (-47.5 to -40.3, 166.2 to 174.6). The whole island in one download, no towns picked out. People in towns usually have signal and Apple Maps; the gaps are between towns. |
-| Highest zoom | **Set after Task 1's dry run, by size.** The rectangle holds 3,851 tiles up to zoom 11 and 15,006 up to zoom 12. Tiles over the sea are a few hundred bytes, so the size is mostly land. Zoom 12 if the set is 150 MB or less, else zoom 11. |
-| Where the tiles are hosted | Firebase Hosting on project `southislandguide`, under `/offline-map/v1/`. Each phone downloads from us, not from LINZ, so no LINZ key ships in the app (LINZ asks that keys not be shown to the public). **Owner to check the project is on the Blaze plan.** Spark allows 360 MB a day in total, about two saves. On Blaze it's about US$0.15 a GB: 1,000 saves of 120 MB is about $18. |
+| Map look | **Topo, owner 2026-11-07.** LINZ topo maps. NZ Topo250 (LDS layer 50798) up to zoom 11, NZ Topo50 (layer 50767) from zoom 12. They show state highway numbers, towns, tracks and huts, which is what someone on the Milford road needs. The alternative is LINZ aerial photos: one source, but no names on anything. Either one changes only `tileUrl` in the script. |
+| Area | **The whole country, owner 2026-11-07:** -47.5 to -34.3, 166.2 to 178.7 (`BOUNDS` in `scripts/build-offline-map.js`), so nobody has to save again when the North Island goes live. One download, no towns picked out. People in towns usually have signal and Apple Maps; the gaps are between towns. |
+| Highest zoom | **Set after Task 1's first `--apply`, by size.** The rectangle holds 9,849 tiles up to zoom 11 and 38,793 up to zoom 12 (the South Island alone was 3,851 and 15,006). Tiles over the sea are a few hundred bytes, so the size is mostly land. Zoom 12 if the set is 250 MB or less and saving takes under about 10 minutes on Wi-Fi, else zoom 11. |
+| Where the tiles are hosted | **Cloudflare R2, owner 2026-11-07** (was Firebase Hosting): a public bucket on a blacksands.app address, e.g. `https://tiles.blacksands.app/offline-map/v1/`. R2 charges nothing for downloads, and with `Cache-Control: immutable` most requests are answered from Cloudflare's cache. Each phone downloads from us, not from LINZ, so no LINZ key ships in the app (LINZ asks that keys not be shown to the public). |
 | Where on the phone | `Paths.cache` (Library/Caches). Not `Paths.document`: iOS backs that up to iCloud, and Apple's storage rules reject apps that put content that can be downloaded again there. iOS may clear the cache when storage runs low, so "saved" is checked against the folder each time, not only remembered. |
 | When the saved map shows | Only when the phone is offline (the map screen's own `isOffline`). Online, Apple Maps is clearer and has names. |
 | Cellular | Saving on mobile data asks first: "Not on Wi-Fi. Saving the map uses about N MB of data." |
@@ -110,18 +110,14 @@ git add scripts/lib/offlineTiles.js scripts/build-offline-map.js scripts/__tests
 git commit -m "feat(map): script to build the saved map's tiles from LINZ"
 ```
 
-### Task 2: Host the tiles
-
-**Files:**
-- Modify: `firebase.json` (add `hosting`)
+### Task 2: Host the tiles (Cloudflare R2, owner 2026-11-07)
 
 **Interfaces:**
-- Produces: `https://southislandguide.web.app/offline-map/v1/manifest.json` and `.../offline-map/v1/{z}/{x}/{y}.png`. Confirm the site's real address in the Firebase console first. If it differs, Task 3's `OFFLINE_MAP_URL` uses what the console shows.
+- Produces: `https://tiles.blacksands.app/offline-map/v1/manifest.json` and `.../offline-map/v1/{z}/{x}/{y}.png`. If the owner picks another address, Task 3's `OFFLINE_MAP_URL` uses it.
 
-- [ ] **Step 1: Add hosting.** In `firebase.json`: `"hosting": { "public": "offline-map-site", "headers": [{ "source": "/offline-map/**", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] }] }`. A new set goes under `/v2/`, never over `/v1/`.
-- [ ] **Step 2: Owner deploys.** `firebase deploy --only hosting`. This publishes, so it's the owner's go.
-- [ ] **Step 3: Check.** `curl -sI https://southislandguide.web.app/offline-map/v1/11/1979/1308.png` should return `200` and `content-type: image/png`. `curl -s .../manifest.json | head -c 200` should show `{"bytes":`.
-- [ ] **Step 4: Commit.** `git add firebase.json && git commit -m "chore(map): host the saved map's tiles"`
+- [ ] **Step 1: Owner, Cloudflare dashboard.** R2 → create a bucket, `kiwiguide-offline-map`. Its Settings → Custom Domains → connect `tiles.blacksands.app` (blacksands.app is already on Cloudflare). Then Manage R2 API Tokens → create one with Object Read & Write on that bucket only; keep its Access Key ID, Secret and the account's S3 endpoint for Step 2, never in the repo or chat.
+- [ ] **Step 2: Owner uploads.** With rclone set up for R2 (`rclone config`, provider Cloudflare, the token from Step 1): `rclone copy offline-map-site r2:kiwiguide-offline-map --header-upload "Cache-Control: public, max-age=31536000, immutable" --transfers 32 --progress`. It's tens of thousands of small files, so `wrangler r2 object put`, one file per command, is too slow. A new set goes under `/v2/`, never over `/v1/`.
+- [ ] **Step 3: Check.** `curl -sI https://tiles.blacksands.app/offline-map/v1/11/1979/1308.png` should return `200`, `content-type: image/png` and the Cache-Control above. `curl -s https://tiles.blacksands.app/offline-map/v1/manifest.json | head -c 200` should show `{"bytes":`.
 
 ### Task 3: Saving the map on the phone
 
@@ -132,7 +128,7 @@ git commit -m "feat(map): script to build the saved map's tiles from LINZ"
 **Interfaces:**
 - Consumes: Task 2's URLs.
 - Produces:
-  - `OFFLINE_MAP_URL = "https://southislandguide.web.app/offline-map/v1"`
+  - `OFFLINE_MAP_URL = "https://tiles.blacksands.app/offline-map/v1"`
   - `OFFLINE_MAP_ABOUT_MB: number`: the size from Task 1, rounded to 10.
   - `OFFLINE_MAP_MAX_Z: number`: the highest zoom saved, the same as the script's `MAX_Z`, with a comment naming the script.
   - `offlineMapDir(): Directory`: `new Directory(Paths.cache, "offline-map")`.
@@ -183,7 +179,7 @@ git commit -m "feat(map): script to build the saved map's tiles from LINZ"
 
   | State | Title | Line under it | Button |
   |---|---|---|---|
-  | Not saved | Map for no signal | About {OFFLINE_MAP_ABOUT_MB} MB. Roads, towns and tracks across the South Island, for when there's no signal. | Save map for no signal |
+  | Not saved | Map for no signal | About {OFFLINE_MAP_ABOUT_MB} MB. Roads, towns and tracks across New Zealand, for when there's no signal. | Save map for no signal |
   | Saving | Saving the map… {pct}% | Keep the app open until it's done. | Stop |
   | Partly saved | Map partly saved ({pct}%) | Carry on when you have Wi-Fi. | Carry on |
   | No signal | Map for no signal | Needs signal to save. | Save map for no signal |

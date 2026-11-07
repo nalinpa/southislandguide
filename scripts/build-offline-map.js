@@ -6,8 +6,8 @@
  *
  * LINZ topographic maps (CC BY 4.0) for the map's whole rectangle, zoom MIN_Z to MAX_Z,
  * into offline-map-site/offline-map/v1/{z}/{x}/{y}.png, with manifest.json beside them:
- * { bytes, tiles }. Firebase Hosting serves that folder and phones download from it, so no
- * LINZ key ships in the app. Tiles already in the folder aren't downloaded again, so
+ * { bytes, tiles }. A Cloudflare R2 bucket serves that folder and phones download from it,
+ * so no LINZ key ships in the app. Tiles already in the folder aren't downloaded again, so
  * raising MAX_Z downloads only the new zoom. A tile LINZ still answers with an error on the
  * second try is left out of the folder and the list, and named at the end; a run again
  * tries it again.
@@ -20,10 +20,12 @@ const fs = require("fs");
 const path = require("path");
 const { tilesFor, tileUrl } = require("./lib/offlineTiles");
 
-// The map's own bounds, MAP_BOUNDS in components/map/MapRegion.ts, copied because that
-// file is the app's TypeScript. Change both together.
-// ponytail: South Island only. A North Island set is its own bounds and its own folder.
-const BOUNDS = { minLat: -47.5, maxLat: -40.3, minLng: 166.2, maxLng: 174.6 };
+// Both islands, Stewart Island to Cape Reinga and Fiordland to East Cape, in one set (owner,
+// 2026-11-07), so the map needn't be saved again when the North Island goes live. Wider
+// than the app's MAP_BOUNDS (components/map/MapRegion.ts), which is the South Island's.
+// ponytail: one rectangle, so the Tasman between the islands is in it too. Sea tiles are
+// small; drop identical ones if the count makes saving too slow.
+const BOUNDS = { minLat: -47.5, maxLat: -34.3, minLng: 166.2, maxLng: 178.7 };
 // At zoom 6 the island about fills a phone's width; 5 leaves room to zoom out.
 const MIN_Z = 5;
 // 11 until the owner picks by size after a run (the plan's Decisions table): 12 if the

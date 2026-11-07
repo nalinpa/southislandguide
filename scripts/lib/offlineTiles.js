@@ -31,12 +31,14 @@ function tilesFor(bounds, minZ, maxZ) {
 }
 
 // LINZ's address for one tile. The subdomain (a to d) comes from the tile, so a run spreads
-// its requests across all four and the same tile always asks the same one.
+// its requests across all four and the same tile always asks the same one. LINZ's own
+// data-cdn.linz.govt.nz: tiles-cdn.koordinates.com's certificate doesn't cover the tiles-a
+// to -d names, so every request there failed (ERR_TLS_CERT_ALTNAME_INVALID, 2026-11-07).
 function tileUrl(tile, key) {
   const [z, x, y] = tile.split("/").map(Number);
   const layer = z <= 11 ? TOPO250 : TOPO50;
   const sub = "abcd"[(x + y) % 4];
-  return `https://tiles-${sub}.tiles-cdn.koordinates.com/services;key=${key}/tiles/v4/layer=${layer}/EPSG:3857/${z}/${x}/${y}.png`;
+  return `https://tiles-${sub}.data-cdn.linz.govt.nz/services;key=${key}/tiles/v4/layer=${layer}/EPSG:3857/${z}/${x}/${y}.png`;
 }
 
 module.exports = { tilesFor, tileUrl };

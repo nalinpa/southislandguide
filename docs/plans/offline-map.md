@@ -62,7 +62,7 @@ Written 2026-10-23. Line numbers were right on that date and drift; confirm each
 
 **Interfaces:**
 - Produces: `tilesFor(bounds: {minLat, maxLat, minLng, maxLng}, minZ: number, maxZ: number): string[]`, each tile as `"z/x/y"`, Web Mercator XYZ (y counted from the top).
-- Produces: `tileUrl(tile: string, key: string): string`. Topo250 for z ≤ 11, Topo50 for z ≥ 12: `https://tiles-{a-d}.tiles-cdn.koordinates.com/services;key=${key}/tiles/v4/layer=${layer}/EPSG:3857/${z}/${x}/${y}.png`. The subdomain letter is picked from the tile so requests spread.
+- Produces: `tileUrl(tile: string, key: string): string`. Topo250 for z ≤ 11, Topo50 for z ≥ 12: `https://tiles-{a-d}.data-cdn.linz.govt.nz/services;key=${key}/tiles/v4/layer=${layer}/EPSG:3857/${z}/${x}/${y}.png`. The subdomain letter is picked from the tile so requests spread.
 - Produces on disk, with `--apply`: `offline-map-site/offline-map/v1/{z}/{x}/{y}.png` and `offline-map-site/offline-map/v1/manifest.json` = `{ "bytes": number, "tiles": string[] }`. Tiles LINZ answers with an error are left out of both.
 
 - [ ] **Step 1: Write the failing tests**

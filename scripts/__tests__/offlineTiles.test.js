@@ -18,3 +18,7 @@ test("Topo250 up to zoom 11, Topo50 from 12", () => {
   expect(tileUrl("12/3958/2617", "K")).toMatch(/layer=50767\//);
   expect(tileUrl("12/3958/2617", "K")).toContain("key=K");
 });
+
+test("asks LINZ's own tile servers, whose certificate covers tiles-a to -d", () => {
+  expect(tileUrl("11/1979/1308", "K")).toMatch(/^https:\/\/tiles-[a-d]\.data-cdn\.linz\.govt\.nz\/services;key=K\//);
+});

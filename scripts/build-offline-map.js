@@ -114,6 +114,8 @@ async function main() {
   // The list is what's in the folder, so tiles from an earlier run count and failed ones don't.
   const size = new Map(tiles.filter((t) => fs.existsSync(fileOf(t))).map((t) => [t, fs.statSync(fileOf(t)).size]));
   const saved = [...size.keys()];
+  // An empty list would let a phone "save" a map with nothing in it.
+  if (!saved.length) throw new Error(`No tiles downloaded (${count(failed.length)} failed, e.g. ${failed[0]}). manifest.json not written.`);
   const bytes = saved.reduce((sum, t) => sum + size.get(t), 0);
   for (const [z, list] of byZoom(saved))
     console.log(`z${z}: ${count(list.length)} tiles, ${mb(list.reduce((sum, t) => sum + size.get(t), 0))} MB`);

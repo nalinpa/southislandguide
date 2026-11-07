@@ -51,6 +51,14 @@ jest.mock("react-native-safe-area-context", () => ({
 jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
 
 jest.mock("@/lib/firebase", () => ({ auth: {} }));
+// The save has its own tests (useEmailOptIn.test.tsx); here only what reaches it matters.
+// Firestore is stubbed because the module's label is real, and it imports Firestore.
+jest.mock("firebase/firestore", () => ({ doc: jest.fn(), getDoc: jest.fn(), setDoc: jest.fn(), serverTimestamp: jest.fn() }));
+const mockSaveEmailOptIn = jest.fn();
+jest.mock("@/lib/hooks/useEmailOptIn", () => ({
+  ...jest.requireActual("@/lib/hooks/useEmailOptIn"),
+  saveEmailOptIn: (...args: any[]) => mockSaveEmailOptIn(...args),
+}));
 jest.mock("firebase/auth", () => ({
   signInWithEmailAndPassword: jest.fn(),
   createUserWithEmailAndPassword: jest.fn(),
@@ -82,6 +90,7 @@ import {
 import * as Sentry from "@sentry/react-native";
 
 import LoginScreen from "@/app/(auth)/login";
+import { EMAIL_OPT_IN_LABEL } from "@/lib/hooks/useEmailOptIn";
 import { tokens } from "@/lib/ui/tokens";
 
 const mockSignIn = signInWithEmailAndPassword as jest.Mock;
@@ -96,7 +105,8 @@ beforeEach(() => {
   jest.clearAllMocks();
   mockSession.status = "loggedOut";
   mockSignIn.mockResolvedValue({});
-  mockSignUp.mockResolvedValue({});
+  mockSignUp.mockResolvedValue({ user: { uid: "new-user" } });
+  mockSaveEmailOptIn.mockResolvedValue(undefined);
   mockResetEmail.mockResolvedValue(undefined);
 });
 
@@ -104,7 +114,7 @@ describe("render", () => {
   it("names the app and shows the email form straight away, with guest entry", async () => {
     const view = await render(<LoginScreen />);
     expect(view.getByText("Kiwi Guide")).toBeTruthy();
-    expect(view.getByText("Ultimate South Island trip planner")).toBeTruthy();
+    expect(view.getByText("New Zealand road trip planner")).toBeTruthy();
     expect(view.getByLabelText("Email")).toBeTruthy();
     expect(view.getByLabelText("Password")).toBeTruthy();
     expect(view.getByRole("button", { name: "Sign in" })).toBeTruthy();
@@ -137,7 +147,7 @@ describe("render", () => {
   it("sets the subtitle in white, large enough to read over the photo", async () => {
     const view = await render(<LoginScreen />);
 
-    expect(view.getByText("Ultimate South Island trip planner")).toHaveStyle({
+    expect(view.getByText("New Zealand road trip planner")).toHaveStyle({
       color: "#FFFFFF",
       fontSize: 20,
     });
@@ -239,6 +249,37 @@ describe("email sign-up", () => {
 
     expect(mockSignUp).not.toHaveBeenCalled();
     expect(view.getByText("Passwords don't match")).toBeTruthy();
+  });
+
+  // Consent is given, not assumed: the box starts unticked, and a no is recorded too.
+  it("asks about email with an unticked box, and records no when it's left", async () => {
+    const view = await render(<LoginScreen />);
+    await fireEvent.press(view.getByText("Create an account"));
+
+    const box = view.getByRole("checkbox", { name: EMAIL_OPT_IN_LABEL });
+    expect(box.props.accessibilityState.checked).toBe(false);
+    await fill(view, { Email: "new@ora.nz", Password: "hunter22", "Confirm password": "hunter22" });
+    await fireEvent.press(view.getByRole("button", { name: "Create account" }));
+
+    await waitFor(() => expect(mockSaveEmailOptIn).toHaveBeenCalledWith("new-user", false));
+  });
+
+  it("records yes when the email box is ticked", async () => {
+    const view = await render(<LoginScreen />);
+    await fireEvent.press(view.getByText("Create an account"));
+
+    await fireEvent.press(view.getByRole("checkbox", { name: EMAIL_OPT_IN_LABEL }));
+    expect(view.getByRole("checkbox", { name: EMAIL_OPT_IN_LABEL }).props.accessibilityState.checked).toBe(true);
+    await fill(view, { Email: "new@ora.nz", Password: "hunter22", "Confirm password": "hunter22" });
+    await fireEvent.press(view.getByRole("button", { name: "Create account" }));
+
+    await waitFor(() => expect(mockSaveEmailOptIn).toHaveBeenCalledWith("new-user", true));
+  });
+
+  it("shows no email box when signing in", async () => {
+    const view = await render(<LoginScreen />);
+
+    expect(view.queryByRole("checkbox")).toBeNull();
   });
 
   it("goes back to signing in", async () => {

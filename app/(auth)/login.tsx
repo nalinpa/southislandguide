@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Sentry from "@sentry/react-native";
 import { Screen, AppText, AuthPanel } from "@/lib/uiKit";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
+import { EMAIL_OPT_IN_LABEL } from "@/lib/hooks/useEmailOptIn";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { tokens } from "@/lib/ui/tokens";
 
@@ -103,7 +104,7 @@ export default function LoginScreen() {
                 >
                   Kiwi Guide
                 </AppText>
-                <AppText style={styles.tagline}>Ultimate South Island trip planner</AppText>
+                <AppText style={styles.tagline}>New Zealand road trip planner</AppText>
               </View>
             </View>
 
@@ -123,6 +124,7 @@ export default function LoginScreen() {
                 onChangeConfirm={f.setConfirm}
                 onSubmit={() => void f.submit()}
                 onGuest={handleGuestEntry}
+                optIn={{ label: EMAIL_OPT_IN_LABEL, value: f.emailOptIn, onChange: f.setEmailOptIn }}
                 tone="dark"
                 radius={0}
                 colors={{

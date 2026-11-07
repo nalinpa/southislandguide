@@ -16,6 +16,7 @@ import { UserInfoCard } from "@/components/account/UserInfoCard";
 import { ItinerariesCard } from "@/components/account/ItinerariesCard";
 import { SavedItemsCard } from "@/components/account/SavedItemsCard";
 import { DangerZoneCard } from "@/components/account/DangerZoneCard";
+import { OfflineMapCard } from "@/components/account/OfflineMapCard";
 import { useTour } from "@/lib/tour/TourContext";
 import { useTourAudience } from "@/lib/tour/TourAutoStart";
 
@@ -121,6 +122,11 @@ export default function AccountScreen() {
               </TouchableOpacity>
             </>
           )}
+
+          {/* The map saved for no signal (docs/plans/offline-map.md). Guests too: the gaps
+              in mobile coverage are the same for them. */}
+          <View style={styles.divider} />
+          <OfflineMapCard />
 
           {isAuthed && (
             <>

@@ -19,6 +19,7 @@ jest.mock("react-native-map-clustering", () => {
     }),
   };
 });
+const mockUrlTileProps: any = { current: null };
 jest.mock("react-native-maps", () => {
   const React = require("react");
   const { View } = require("react-native");
@@ -26,12 +27,21 @@ jest.mock("react-native-maps", () => {
     __esModule: true,
     default: () => null,
     Marker: ({ children, onPress }: any) => React.createElement(View, { onPress }, children),
+    UrlTile: (props: any) => {
+      mockUrlTileProps.current = props;
+      return null;
+    },
   };
 });
+// lib/offlineMap keeps its saved flag there; only its constants are used here.
+jest.mock("@react-native-async-storage/async-storage", () =>
+  require("@react-native-async-storage/async-storage/jest/async-storage-mock"),
+);
 
 import React from "react";
 import { render } from "@testing-library/react-native";
 
+import { OFFLINE_MAP_MAX_Z, OFFLINE_MAP_URL } from "@/lib/offlineMap";
 import { SitesMapView, initialRegionFrom } from "@/components/map/SitesMapView";
 import type { SitesMapViewHandle } from "@/components/map/SitesMapView";
 import { isOnIsland, nearestArea } from "@/components/map/MapRegion";
@@ -46,6 +56,7 @@ const region = { latitude: -38.1, longitude: 176.2, latitudeDelta: 0.2, longitud
 beforeEach(() => {
   jest.clearAllMocks();
   mockClusterProps.current = null;
+  mockUrlTileProps.current = null;
 });
 
 describe("initialRegionFrom", () => {
@@ -167,6 +178,50 @@ describe("the map", () => {
     );
 
     expect(mockMapRef.animateToRegion).not.toHaveBeenCalled();
+  });
+});
+
+// The map saved for no signal (docs/plans/offline-map.md): with no signal Apple Maps is a
+// blank grid, so the tiles saved on the phone are drawn under the pins instead.
+describe("the saved map", () => {
+  it("draws the saved tiles from the phone", async () => {
+    const view = await render(
+      <SitesMapView
+        sites={sites}
+        initialRegion={region}
+        selectedSiteId={null}
+        mapType="standard"
+        onPressSite={jest.fn()}
+        offlineTilesDir="file:///c/offline-map"
+      />,
+    );
+
+    expect(mockUrlTileProps.current).toEqual(
+      expect.objectContaining({
+        tileCachePath: "file:///c/offline-map",
+        offlineMode: true,
+        maximumNativeZ: OFFLINE_MAP_MAX_Z,
+        urlTemplate: `${OFFLINE_MAP_URL}/{z}/{x}/{y}.png`,
+      }),
+    );
+    // CC BY 4.0 asks for the credit wherever the map shows.
+    expect(view.getByText("Map: LINZ, CC BY 4.0")).toBeTruthy();
+  });
+
+  it("no saved tiles online", async () => {
+    const view = await render(
+      <SitesMapView
+        sites={sites}
+        initialRegion={region}
+        selectedSiteId={null}
+        mapType="standard"
+        onPressSite={jest.fn()}
+        offlineTilesDir={null}
+      />,
+    );
+
+    expect(mockUrlTileProps.current).toBeNull();
+    expect(view.queryByText("Map: LINZ, CC BY 4.0")).toBeNull();
   });
 });
 

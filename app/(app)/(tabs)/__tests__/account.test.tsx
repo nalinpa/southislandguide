@@ -34,6 +34,21 @@ jest.mock("@/lib/hooks/useSavedSites", () => ({ useSavedSites: () => mockSavedSi
 const mockEmailOptIn = { optedIn: false, loading: false, setOptedIn: jest.fn() };
 jest.mock("@/lib/hooks/useEmailOptIn", () => ({ useEmailOptIn: () => mockEmailOptIn }));
 
+// The map for no signal: the hook has its own tests (useOfflineMap.test.tsx), and the size
+// is a fixed number here so the words don't change when the real set's size goes in.
+const mockOfflineMap = {
+  saved: false,
+  progress: null as { done: number; total: number } | null,
+  error: null as "no-signal" | "stopped" | null,
+  save: jest.fn(),
+  stop: jest.fn(),
+  remove: jest.fn(),
+};
+jest.mock("@/lib/hooks/useOfflineMap", () => ({ useOfflineMap: () => mockOfflineMap }));
+jest.mock("@/lib/offlineMap", () => ({ OFFLINE_MAP_ABOUT_MB: 60 }));
+const mockNet = { type: "wifi" };
+jest.mock("@react-native-community/netinfo", () => ({ useNetInfo: () => mockNet }));
+
 // The opening tour (lib/tour), run again from here.
 const mockStartTour = jest.fn();
 jest.mock("@/lib/tour/TourContext", () => ({ useTour: () => ({ start: mockStartTour }) }));
@@ -70,6 +85,10 @@ beforeEach(() => {
   mockEmailOptIn.optedIn = false;
   mockEmailOptIn.loading = false;
   mockAudience = "paid";
+  mockOfflineMap.saved = false;
+  mockOfflineMap.progress = null;
+  mockOfflineMap.error = null;
+  mockNet.type = "wifi";
 });
 
 describe("email for feedback and news", () => {
@@ -304,5 +323,41 @@ describe("Show me around", () => {
     const view = await render(<AccountScreen />);
 
     expect(view.queryByText("Show me around")).toBeNull();
+  });
+});
+
+// The map saved for no signal (docs/plans/offline-map.md). Everyone, guests too: the gaps in
+// mobile coverage are the same for them.
+describe("Map for no signal", () => {
+  beforeEach(() => {
+    mockSession.status = "guest";
+    mockSession.uid = undefined;
+  });
+
+  it("offers a guest the map for no signal", async () => {
+    const view = await render(<AccountScreen />);
+
+    expect(view.getByText("Map for no signal")).toBeTruthy();
+    expect(view.getByRole("button", { name: "Save map for no signal" })).toBeTruthy();
+  });
+
+  it("asks first on mobile data", async () => {
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    mockNet.type = "cellular";
+    const view = await render(<AccountScreen />);
+
+    await fireEvent.press(view.getByRole("button", { name: "Save map for no signal" }));
+
+    expect(alertSpy).toHaveBeenCalledWith("Not on Wi-Fi", "Saving the map uses about 60 MB of data.", expect.any(Array));
+    expect(mockOfflineMap.save).not.toHaveBeenCalled();
+    alertSpy.mockRestore();
+  });
+
+  it("saves straight away on Wi-Fi", async () => {
+    const view = await render(<AccountScreen />);
+
+    await fireEvent.press(view.getByRole("button", { name: "Save map for no signal" }));
+
+    expect(mockOfflineMap.save).toHaveBeenCalled();
   });
 });

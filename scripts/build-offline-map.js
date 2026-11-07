@@ -29,7 +29,8 @@ const BOUNDS = { minLat: -47.5, maxLat: -34.3, minLng: 166.2, maxLng: 178.7 };
 // At zoom 6 the island about fills a phone's width; 5 leaves room to zoom out.
 const MIN_Z = 5;
 // 11 until the owner picks by size after a run (the plan's Decisions table): 12 if the
-// set is 150 MB or less. The app's OFFLINE_MAP_MAX_Z must match.
+// set is 250 MB or less and saving takes under about 10 minutes on Wi-Fi. The app's
+// OFFLINE_MAP_MAX_Z (lib/offlineMap.ts) must match.
 const MAX_Z = 11;
 
 // ponytail: one set, v1. Hosting tells phones v1 never changes, so a rebuilt set goes

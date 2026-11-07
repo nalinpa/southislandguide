@@ -10,10 +10,11 @@ import React, {
 } from "react";
 import { StyleSheet, View, Text, LayoutChangeEvent, Platform } from "react-native";
 import ClusterMapView from "react-native-map-clustering";
-import MapView, { Marker, Region, MapType } from "react-native-maps";
+import MapView, { Marker, Region, MapType, UrlTile } from "react-native-maps";
 
 import { SiteMarker } from "@/components/map/SiteMarker";
 import { tokens } from "@/lib/ui/tokens";
+import { OFFLINE_MAP_MAX_Z, OFFLINE_MAP_URL } from "@/lib/offlineMap";
 import type { SiteCategory } from "@/lib/models";
 export { initialRegionFrom } from "./MapRegion";
 import { MAP_BOUNDS } from "./MapRegion";
@@ -116,9 +117,12 @@ const SitesMapViewInner = forwardRef<
     selectedSiteId: string | null;
     mapType: MapType;
     onPressSite: (id: string) => void;
+    // The folder of map tiles saved on the phone (lib/offlineMap.ts), drawn under the pins
+    // when set. The map screen sets it only when there's no signal.
+    offlineTilesDir?: string | null;
   }
 >(function SitesMapView(
-  { sites, initialRegion, selectedSiteId, mapType, onPressSite },
+  { sites, initialRegion, selectedSiteId, mapType, onPressSite, offlineTilesDir },
   ref,
 ) {
   const mapRef = useRef<MapView>(null);
@@ -204,51 +208,71 @@ const SitesMapViewInner = forwardRef<
     });
   }, [sites, selectedSiteId, onPressSite]);
 
+  // Always in the View, whether or not the credit is: wrapping the map only while offline
+  // would remount it each time the signal came or went, throwing away where the person had
+  // panned to.
   return (
-    <ClusterMapView
-      ref={mapRef}
-      style={styles.flex1}
-      initialRegion={initialRegion}
-      mapType={mapType}
-      showsUserLocation
-      showsMyLocationButton={false}
-      toolbarEnabled={false}
-      onMapReady={handleMapReady}
-      onRegionChangeComplete={(region: Region) => {
-        currentRegionRef.current = region;
-      }}
-      // iOS: minZoomLevel/maxZoomLevel run react-native-maps' legacy zoom clamp, which
-      // re-sets the region inside regionDidChange. When MapKit jumps instead of animating
-      // (map not rendering yet, e.g. tab returning from background) that recurses until
-      // a stack overflow (Sentry, build 10). cameraZoomRange uses MapKit's own limits.
-      // Zoomed right out, the whole South Island fits (it's about 850 km end to end);
-      // the old limits (60 km / zoom 10) only took in Christchurch.
-      // ponytail: distances are camera metres, roughly zoom 5 / zoom 19 — tune on device.
-      {...Platform.select({
-        ios: { cameraZoomRange: { minCenterCoordinateDistance: 100, maxCenterCoordinateDistance: 2_000_000 } },
-        default: { minZoomLevel: 5, maxZoomLevel: 20 },
-      })}
-      moveOnMarkerPress={false}
-      showsTraffic={false}
-      showsBuildings={false}
-      showsPointsOfInterests={false}
-      pointsOfInterestFilter={[]}
-      renderCluster={(cluster: any) => {
-        const { id, geometry, onPress, properties } = cluster;
-        const { point_count } = properties;
-        const [lng, lat] = geometry.coordinates;
-        return (
-          <SiteClusterMarker
-            key={`cluster-${id}`}
-            coordinate={{ latitude: lat, longitude: lng }}
-            count={point_count}
-            onPress={onPress}
+    <View style={styles.flex1}>
+      <ClusterMapView
+        ref={mapRef}
+        style={styles.flex1}
+        initialRegion={initialRegion}
+        mapType={mapType}
+        showsUserLocation
+        showsMyLocationButton={false}
+        toolbarEnabled={false}
+        onMapReady={handleMapReady}
+        onRegionChangeComplete={(region: Region) => {
+          currentRegionRef.current = region;
+        }}
+        // iOS: minZoomLevel/maxZoomLevel run react-native-maps' legacy zoom clamp, which
+        // re-sets the region inside regionDidChange. When MapKit jumps instead of animating
+        // (map not rendering yet, e.g. tab returning from background) that recurses until
+        // a stack overflow (Sentry, build 10). cameraZoomRange uses MapKit's own limits.
+        // Zoomed right out, the whole South Island fits (it's about 850 km end to end);
+        // the old limits (60 km / zoom 10) only took in Christchurch.
+        // ponytail: distances are camera metres, roughly zoom 5 / zoom 19 — tune on device.
+        {...Platform.select({
+          ios: { cameraZoomRange: { minCenterCoordinateDistance: 100, maxCenterCoordinateDistance: 2_000_000 } },
+          default: { minZoomLevel: 5, maxZoomLevel: 20 },
+        })}
+        moveOnMarkerPress={false}
+        showsTraffic={false}
+        showsBuildings={false}
+        showsPointsOfInterests={false}
+        pointsOfInterestFilter={[]}
+        renderCluster={(cluster: any) => {
+          const { id, geometry, onPress, properties } = cluster;
+          const { point_count } = properties;
+          const [lng, lat] = geometry.coordinates;
+          return (
+            <SiteClusterMarker
+              key={`cluster-${id}`}
+              coordinate={{ latitude: lat, longitude: lng }}
+              count={point_count}
+              onPress={onPress}
+            />
+          );
+        }}
+      >
+        {/* MapKit draws it under the pins and the blue dot. offlineMode reads only the files
+            on the phone; closer in than maximumNativeZ it enlarges the saved tiles, blurry
+            but not a blank grid. */}
+        {offlineTilesDir ? (
+          <UrlTile
+            urlTemplate={`${OFFLINE_MAP_URL}/{z}/{x}/{y}.png`}
+            tileCachePath={offlineTilesDir}
+            offlineMode
+            maximumNativeZ={OFFLINE_MAP_MAX_Z}
+            minimumZ={5}
+            tileSize={256}
           />
-        );
-      }}
-    >
-      {renderedMarkers}
-    </ClusterMapView>
+        ) : null}
+        {renderedMarkers}
+      </ClusterMapView>
+      {/* CC BY 4.0 asks for credit wherever the LINZ map shows. */}
+      {offlineTilesDir ? <Text style={styles.credit}>Map: LINZ, CC BY 4.0</Text> : null}
+    </View>
   );
 });
 
@@ -256,6 +280,7 @@ export const SitesMapView = React.memo(SitesMapViewInner);
 
 const styles = StyleSheet.create({
   flex1: { flex: 1 },
+  credit: { position: "absolute", left: 8, bottom: 4, fontSize: 10, color: tokens.colors.textMuted },
   cluster: {
     width: 40,
     height: 40,

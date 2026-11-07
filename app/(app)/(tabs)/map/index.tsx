@@ -13,6 +13,8 @@ import { tokens } from "@/lib/ui/tokens";
 import { hooksBag } from "@/lib/hooksBag";
 import { useEntitlementGate } from "@/lib/hooks/useEntitlementGate";
 import { useItineraries } from "@/lib/hooks/useItineraries";
+import { useOfflineMap } from "@/lib/hooks/useOfflineMap";
+import { offlineMapDir } from "@/lib/offlineMap";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { usePurchaseContext } from "@/lib/iap/PurchaseProvider";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
@@ -45,6 +47,7 @@ export default function MapScreen() {
   const { locations, loading, err } = hooksBag.useLocations();
   const netInfo = useNetInfo();
   const isOffline = netInfo.isConnected === false || netInfo.isInternetReachable === false;
+  const { saved: offlineMapSaved } = useOfflineMap();
   const { loc, err: locErr, status: locStatus } = hooksBag.useUserLocation({ autoRequest: true });
   const { selectedLocationId: selectedSiteId, setSelectedLocationId: setSelectedSiteId } = hooksBag.useMapStore();
   const { itineraries, addFlow } = useItineraries();
@@ -257,6 +260,12 @@ export default function MapScreen() {
         selectedSiteId={selectedSiteId}
         mapType={mapType}
         onPressSite={handleSitePress}
+        // The map saved on the Account tab, drawn only with no signal: online, Apple Maps
+        // is clearer and has names.
+        // ponytail: only when fully offline. One bar of signal that can't load Apple's tiles
+        // still shows a blank grid; a "Saved" map type beside satellite is the upgrade if
+        // testers hit it.
+        offlineTilesDir={isOffline && offlineMapSaved ? offlineMapDir().uri : null}
       />
 
       {/* box-none: only the things in the stack take touches. The stack itself is

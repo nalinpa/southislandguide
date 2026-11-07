@@ -13,12 +13,13 @@ jest.mock("@/components/map/SitesMapView", () => {
   return {
     __esModule: true,
     initialRegionFrom: () => ({ latitude: -43.53, longitude: 172.63, latitudeDelta: 0.15, longitudeDelta: 0.15 }),
-    SitesMapView: React.forwardRef(({ sites, mapType, onPressSite }: any, ref: any) => {
+    SitesMapView: React.forwardRef(({ sites, mapType, onPressSite, offlineTilesDir }: any, ref: any) => {
       React.useImperativeHandle(ref, () => ({ recenter: jest.fn(), focusOn: jest.fn() }));
       return React.createElement(
         View,
         null,
         React.createElement(Text, null, "Map (" + mapType + ") with " + sites.length + " markers"),
+        offlineTilesDir ? React.createElement(Text, null, "Saved map from " + offlineTilesDir) : null,
         sites.map((s: any) =>
           React.createElement(
             TouchableOpacity,
@@ -120,6 +121,11 @@ jest.mock("@/lib/hooksBag", () => ({
 const mockNet = { isConnected: true as boolean | null, isInternetReachable: true as boolean | null };
 jest.mock("@react-native-community/netinfo", () => ({ useNetInfo: () => mockNet }));
 
+// The map saved for no signal: whether it's on the phone (useOfflineMap.test.tsx), and where.
+const mockOfflineMap = { saved: false };
+jest.mock("@/lib/hooks/useOfflineMap", () => ({ useOfflineMap: () => mockOfflineMap }));
+jest.mock("@/lib/offlineMap", () => ({ offlineMapDir: () => ({ uri: "file:///c/offline-map" }) }));
+
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
 jest.mock("expo-router", () => ({
   get router() {
@@ -185,6 +191,23 @@ beforeEach(() => {
   mockBag.locStatus = "granted";
   mockNet.isConnected = true;
   mockNet.isInternetReachable = true;
+  mockOfflineMap.saved = false;
+});
+
+// Online, Apple Maps is clearer and has names; the saved map is only for no signal.
+describe("the saved map", () => {
+  it.each([
+    [false, false, false],
+    [false, true, false],
+    [true, false, false],
+    [true, true, true],
+  ])("passes the folder only when offline and saved (offline %s, saved %s)", async (offline, saved, passed) => {
+    mockNet.isConnected = !offline;
+    mockOfflineMap.saved = saved;
+    const view = await render(<MapScreen />);
+
+    expect(view.queryByText("Saved map from file:///c/offline-map") !== null).toBe(passed);
+  });
 });
 
 describe("loading and failure", () => {

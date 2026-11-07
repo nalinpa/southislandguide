@@ -137,7 +137,9 @@ Notes kept from before:
 
 ### After launch — saved map for no signal
 Owner, 2026-10-23: after launch. With no signal, the map tab shows pins and the blue dot on a blank grid wherever Apple Maps hasn't already got the map on the phone (Milford road, Haast, the Catlins). Everything else (places, trips, guide) already works offline once the app has been opened with signal. The plan is [docs/plans/offline-map.md](docs/plans/offline-map.md): LINZ topo tiles for the whole island, hosted on Firebase Hosting, saved from a row on the Account tab, and drawn by react-native-maps' `UrlTile` in `offlineMode` when the phone is offline. No new native packages, so it can ship over the air.
-- [ ] **Before Task 1**, owner: topo or aerial look (topo recommended); is the Firebase project on Blaze (Spark allows only 360 MB a day of hosting); a free LINZ Data Service key in `LINZ_API_KEY`.
+- [x] **Decided 2026-11-07 (owner), for 1.0.1:** topo, the whole country in one set, hosted on Cloudflare R2 (`tiles.blacksands.app`) instead of Firebase. Task 1's script is in (`7ebe55b`, `11cf848`), and so is the app side, Tasks 3–5 (`431e037`). **Don't ship 1.0.1 until the tiles are hosted** (Task 2): the Account row would offer a map that can't be downloaded. Then the plan's Task 6 phone check, and check the credit wording against LINZ's attribution page.
+- [x] **Tiles downloaded 2026-11-07:** 9,849 tiles, 77.7 MB, zoom 5 to 11 (zoom 12 would be 300 MB or more). The key has only the WMTS scope. `OFFLINE_MAP_ABOUT_MB` is 80.
+- [ ] **Owner: Task 2**, the R2 bucket, its address and the rclone upload (plan, Task 2).
 - [ ] **Free check first** (5 min): download Fiordland in the Apple Maps app, turn on airplane mode, open our map near Milford. If iOS lets our map use that download, the plan may not be needed; a line in the guide does it.
 - **Until then, the launch posts say:** "Open the app with signal before you leave town. Your trip, places and guide work with no signal after that. For turn-by-turn directions, download the area in Apple Maps or Google Maps." Don't claim offline maps.
 
@@ -155,10 +157,11 @@ Owner, 2026-10-30: round 1 of the pre-build review fixes is done; round 2 waits 
 ### After launch — first weeks
 Added 2026-10-30.
 - [ ] **Watch Sentry daily for the first week.** New crashes are under Issues; screen timings are under Traces. Tracing samples one session in five (`tracesSampleRate: 0.2`, from update 1).
-- [ ] **Expo package updates: `npx expo install --fix`.** On 2026-10-30, expo-doctor listed 12 packages behind what SDK 57 expects. Most are patch updates (`expo` 57.0.25 → .31, `react-native` 0.86.2 → .3, `expo-router` .23 → .29, `jest-expo` and eight `expo-*`). They were left for 1.0 because the build was tested on these versions.
+- [x] **Expo package updates: `npx expo install --fix`** (done 2026-11-07 in `5010d6d`, flash-list excluded, for 1.0.1). On 2026-10-30, expo-doctor listed 12 packages behind what SDK 57 expects. Most are patch updates (`expo` 57.0.25 → .31, `react-native` 0.86.2 → .3, `expo-router` .23 → .29, `jest-expo` and eight `expo-*`). They were left for 1.0 because the build was tested on these versions.
   - **Careful with `@shopify/flash-list`:** we have 2.3.2, which is newer than the 2.0.2 Expo expects, so `--fix` would downgrade it. Check what the engine components need first, and exclude it (`expo.install.exclude` in package.json) if they need 2.3.
   - It needs a new store build and a full phone check.
 - [x] **Rebrand the share screen** (owner, 2026-11-01; done 2026-11-04, ships over the air). The card's footer has the app icon, the label says "New Zealand" for both islands, and long place names shrink to fit three lines. The screen shows the framed card at the top, with the buttons under it.
+- [x] **Over-the-air updates arrive sooner** (2026-11-07, `c692645`, in 1.0.1): the app also looks for an update when it comes back to the foreground, and restarts into a downloaded one on a return after 15+ minutes away.
 - [ ] **guide.kiwi on the share card** once the domain works (owner, 2026-11-04). Put the URL in the footer of `components/share/CaptureCanvas.tsx`, as its own over-the-air update.
 - [ ] **Stats without an analytics SDK (optional).**
   - Free, no code: App Store Connect → Analytics (downloads, sessions, retention, crashes), the Firebase console's Authentication list (sign-ups by date), and the Cloudflare dashboard's Worker metrics (api requests, all apps together).
@@ -170,8 +173,9 @@ Added 2026-10-30.
 ### After launch — emailing users for feedback and news
 Owner, 2026-10-31: wants to be able to email users for feedback or news. Account emails need no consent. Feedback or news needs an opt-in: NZ's Unsolicited Electronic Messages Act requires consent and a working unsubscribe, and EU users need an explicit opt-in. Plan before building.
 - [ ] **Privacy policy line, before submitting:** run [prompts/privacy-email-line.md](prompts/privacy-email-line.md). It's a website edit, no build.
-- [ ] **Signup opt-in:** an unticked box, "Email me now and then to ask for feedback and share Kiwi Guide news". Save yes or no with the date on the user's record. The signup form is likely an engine component, so make it an opt-in variant there (engine first).
-- [ ] **Profile switch** so users can change it later.
+- [~] **Signup opt-in — built 2026-11-07, for 1.0.1:** an unticked box, "Email me now and then to ask for feedback and share Kiwi Guide news", from `AuthPanel`'s new `optIn` (`@blacksands/components` 0.8.0, `3f277ab`, owner publishes). Sign-up saves `emailOptIn { value, at }` on `users/{uid}`, yes or no (`841de99`). No api or rules change: the user can already write that record, and account deletion removes it.
+- [x] **Profile switch:** "Email me about feedback and news" on the Account tab, signed in only (`841de99`).
+- [ ] **Exporting the list:** a read-only script for the emails of users with `emailOptIn.value` true (Firebase Auth has the emails), when the first email goes out.
 - [ ] **Users who signed up before the box** haven't agreed. A one-time in-app prompt could ask them.
 - [ ] **Every feedback or news email has an unsubscribe link.**
 - [ ] **Privacy label:** add "Developer's Advertising or Marketing" to Email Address if news emails are sent. Feedback requests alone don't need it.
@@ -187,7 +191,7 @@ Owner, 2026-10-30: North Island areas come after launch, and that's why the app 
     - **App Store guideline 4.3 (spam):** separate apps from the same developer with overlapping content can be rejected as duplicates, at their next update if not before. If they're kept, keep them clearly different (one city, for example) or stop updating them.
 - **Store text changes when it ships:** the description, promotional text and keywords. The subtitle "New Zealand road trip planner" can stay.
 - **In the app, these assume the South Island:**
-  - the login tagline "Ultimate South Island trip planner"
+  - the Account tab's headline "Your guide to the South Island"
   - the "South Island in 7/10/14/21 Days" suggested trips
   - the guide's region list in `lib/guideContent.ts`
   - the town picker's regions in `lib/areas.ts`

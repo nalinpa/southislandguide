@@ -9,11 +9,10 @@ export const OFFLINE_MAP_URL = "https://tiles.blacksands.app/offline-map/v1";
 // The highest zoom saved: MAX_Z in scripts/build-offline-map.js, which must match. Past it
 // the map enlarges these tiles, so close in they're blurry but never missing.
 export const OFFLINE_MAP_MAX_Z = 11;
-// The set's size in MB, rounded to 10, from manifest.json's bytes (the script prints it).
-// ponytail: a placeholder until the first --apply. Replace it with Task 1's real total,
-// rounded to 10, before shipping: it's the size the Account row and the mobile-data
-// warning quote.
-export const OFFLINE_MAP_ABOUT_MB = 60;
+// The set's size in MB, rounded to 10, from manifest.json's bytes (the script prints it):
+// 77.7 MB, 9,849 tiles, zoom 5 to 11 (2026-11-07). The Account row and the mobile-data
+// warning quote it, so change it with any rebuilt set.
+export const OFFLINE_MAP_ABOUT_MB = 80;
 
 export type OfflineMapManifest = { bytes: number; tiles: string[] };
 

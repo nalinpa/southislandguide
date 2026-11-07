@@ -28,9 +28,9 @@ const { tilesFor, tileUrl } = require("./lib/offlineTiles");
 const BOUNDS = { minLat: -47.5, maxLat: -34.3, minLng: 166.2, maxLng: 178.7 };
 // At zoom 6 the island about fills a phone's width; 5 leaves room to zoom out.
 const MIN_Z = 5;
-// 11 until the owner picks by size after a run (the plan's Decisions table): 12 if the
-// set is 250 MB or less and saving takes under about 10 minutes on Wi-Fi. The app's
-// OFFLINE_MAP_MAX_Z (lib/offlineMap.ts) must match.
+// 11: the whole country to zoom 11 is 77.7 MB in 9,849 tiles (2026-11-07). Zoom 12 adds
+// about 29,000 Topo50 tiles, an estimated 300 MB or more, past the plan's 250 MB limit.
+// The app's OFFLINE_MAP_MAX_Z (lib/offlineMap.ts) must match.
 const MAX_Z = 11;
 
 // ponytail: one set, v1. Hosting tells phones v1 never changes, so a rebuilt set goes

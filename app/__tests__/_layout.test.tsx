@@ -29,6 +29,11 @@ jest.mock("@/lib/hooksBag", () => ({
 jest.mock("@/lib/hooks/useAppOpenCount", () => ({
   useAppOpenCount: () => mockOpenCount,
 }));
+// Has its own tests (useUpdateOnReturn.test.ts); here it only has to be called.
+const mockUseUpdateOnReturn = jest.fn();
+jest.mock("@/lib/hooks/useUpdateOnReturn", () => ({
+  useUpdateOnReturn: () => mockUseUpdateOnReturn(),
+}));
 jest.mock("@/lib/providers/AppProviders", () => ({
   AppProviders: ({ children }: any) => children,
 }));

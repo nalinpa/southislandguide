@@ -13,6 +13,7 @@ import { AppProviders } from "@/lib/providers/AppProviders";
 import { OfflineBanner } from "@/lib/uiKit";
 import { hooksBag } from "@/lib/hooksBag";
 import { useAppOpenCount } from "@/lib/hooks/useAppOpenCount";
+import { useUpdateOnReturn } from "@/lib/hooks/useUpdateOnReturn";
 import { TourProvider } from "@/lib/tour/TourContext";
 import { TourAutoStart } from "@/lib/tour/TourAutoStart";
 import { SpotlightOverlay } from "@/lib/tour/SpotlightOverlay";
@@ -35,6 +36,7 @@ function RootLayout() {
   const ref = useNavigationContainerRef();
   const openCount = useAppOpenCount();
   const { requestReview } = hooksBag.useReviewPrompt();
+  useUpdateOnReturn();
 
   useEffect(() => {
     if (ref) {

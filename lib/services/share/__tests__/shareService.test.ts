@@ -1,15 +1,12 @@
-jest.mock("expo-file-system/legacy", () => ({ deleteAsync: jest.fn() }));
 jest.mock("expo-sharing", () => ({ isAvailableAsync: jest.fn(), shareAsync: jest.fn() }));
 jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
 
 import { Share as RNShare } from "react-native";
-import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import * as Sentry from "@sentry/react-native";
 import { shareService } from "@/lib/services/share/shareService";
 
 const mockShare = jest.spyOn(RNShare, "share").mockImplementation(() => Promise.resolve({} as never));
-const mockDeleteAsync = FileSystem.deleteAsync as jest.Mock;
 const mockIsAvailable = Sharing.isAvailableAsync as jest.Mock;
 const mockShareAsync = Sharing.shareAsync as jest.Mock;
 const mockCaptureException = Sentry.captureException as jest.Mock;
@@ -17,7 +14,6 @@ const mockCaptureException = Sentry.captureException as jest.Mock;
 describe("shareService.shareImageUriAsync", () => {
   beforeEach(() => {
     mockShare.mockReset();
-    mockDeleteAsync.mockReset().mockResolvedValue(undefined);
     mockIsAvailable.mockReset();
     mockShareAsync.mockReset();
     mockCaptureException.mockReset();
@@ -66,38 +62,6 @@ describe("shareService.shareImageUriAsync", () => {
     const result = await shareService.shareImageUriAsync("file:///pic.png");
 
     expect(mockCaptureException).toHaveBeenCalledWith(expect.any(Error));
-    expect(result).toEqual({ ok: false, mode: "image", error: "Share cancelled or failed." });
-  });
-
-  it("keeps the file when both share paths fail, for the retry", async () => {
-    mockIsAvailable.mockResolvedValue(false);
-    mockShare.mockRejectedValue(new Error("cancelled"));
-
-    await shareService.shareImageUriAsync("file:///pic.png");
-    await Promise.resolve();
-
-    expect(mockDeleteAsync).not.toHaveBeenCalled();
-  });
-
-  it("cleans up the temp file after a share", async () => {
-    mockIsAvailable.mockResolvedValue(true);
-    mockShareAsync.mockResolvedValue(undefined);
-
-    await shareService.shareImageUriAsync("file:///pic.png");
-    await Promise.resolve();
-
-    expect(mockDeleteAsync).toHaveBeenCalledWith("file:///pic.png", { idempotent: true });
-  });
-
-  it("swallows cleanup errors instead of throwing", async () => {
-    mockIsAvailable.mockResolvedValue(true);
-    mockShareAsync.mockResolvedValue(undefined);
-    mockDeleteAsync.mockRejectedValue(new Error("no such file"));
-
-    await expect(shareService.shareImageUriAsync("file:///pic.png")).resolves.toEqual({
-      ok: true,
-      mode: "image",
-      shared: true,
-    });
+    expect(result).toEqual({ ok: false, mode: "image", error: "Couldn't share." });
   });
 });

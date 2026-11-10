@@ -1,5 +1,4 @@
 import { Share as RNShare } from "react-native";
-import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import * as Sentry from "@sentry/react-native";
 
@@ -28,22 +27,14 @@ async function shareImageAsync(fileUri: string): Promise<boolean> {
   }
 }
 
-async function safeUnlink(uri: string) {
-  try {
-    await FileSystem.deleteAsync(uri, { idempotent: true });
-  } catch (e) {
-    Sentry.captureException(e);
-    // ignore
-  }
-}
-
 export const shareService = {
+  // ponytail: no delete after sharing. The card is a react-native-view-shot temp file in
+  // tmp/ReactNative, which React Native empties on the first capture of each run
+  // (RCTTempFilePath). Expo's legacy deleteAsync can't delete there anyway: outside the
+  // caches and documents folders it refuses every path (Sentry 7835228824).
   async shareImageUriAsync(fileUri: string): Promise<ShareResult> {
     const ok = await shareImageAsync(fileUri);
-    // Kept after a failure: the screen still offers the same file to try again.
-    if (ok) void safeUnlink(fileUri);
-
     if (ok) return { ok: true, mode: "image", shared: true };
-    return { ok: false, mode: "image", error: "Share cancelled or failed." };
+    return { ok: false, mode: "image", error: "Couldn't share." };
   },
 };

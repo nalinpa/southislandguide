@@ -238,37 +238,20 @@ describe("posting", () => {
     return view;
   };
 
-  it("shares the rendered frame and confirms it", async () => {
+  // iOS's share sheet reports a cancel the same as a send, so after it closes the screen
+  // stays put, ready to share again, and never claims the card was sent.
+  it("shares the rendered frame and stays put, claiming nothing", async () => {
     const view = await withRenderedFrame();
 
     await fireEvent.press(view.getByText("Post to Social"));
-    await act(async () => {});
-
-    expect(mockShare.shareImageUriAsync).toHaveBeenCalledWith("file:///frame.png");
-    await waitFor(() => expect(view.getByText("Shared! Heading back…")).toBeTruthy());
-  });
-
-  it("leaves the screen on its own after confirming", async () => {
-    const view = await withRenderedFrame();
-    await fireEvent.press(view.getByText("Post to Social"));
-    await act(async () => {});
-
     await act(async () => {
       jest.advanceTimersByTime(2000);
     });
 
-    expect(mockRouter.back).toHaveBeenCalled();
-  });
-
-  it("stays put, with no success message, when the share sheet is dismissed", async () => {
-    mockShare.shareImageUriAsync.mockResolvedValue({ ok: false });
-    const view = await withRenderedFrame();
-
-    await fireEvent.press(view.getByText("Post to Social"));
-    await act(async () => {});
-
-    expect(view.queryByText("Shared! Heading back…")).toBeNull();
+    expect(mockShare.shareImageUriAsync).toHaveBeenCalledWith("file:///frame.png");
+    expect(view.queryByText(/Shared!/)).toBeNull();
     expect(mockRouter.back).not.toHaveBeenCalled();
+    expect(view.getByText("Post to Social")).toBeTruthy();
   });
 
   it("reports a share failure instead of claiming success", async () => {
@@ -279,6 +262,6 @@ describe("posting", () => {
     await act(async () => {});
 
     expect(Sentry.captureException).toHaveBeenCalled();
-    expect(view.queryByText("Shared! Heading back…")).toBeNull();
+    expect(view.queryByText(/Shared!/)).toBeNull();
   });
 });

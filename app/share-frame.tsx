@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Alert, Image, Pressable, StyleSheet, View } from "react-native";
 import * as Linking from "expo-linking";
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { captureRef } from "react-native-view-shot";
 import * as ImagePicker from "expo-image-picker";
-import { Camera, Image as ImageIcon, Trash2, Share2, Check } from "lucide-react-native";
+import { Camera, Image as ImageIcon, Trash2, Share2 } from "lucide-react-native";
 import * as Sentry from "@sentry/react-native";
 
 import { Screen, AppText, AppButton, AppIconButton, CardShell, Stack, Row } from "@/lib/uiKit";
@@ -18,7 +18,6 @@ export default function ShareFrameScreen() {
   const [previewUri, setPreviewUri] = useState<string | null>(null);
   const [rendering, setRendering] = useState(false);
   const [sharing, setSharing] = useState(false);
-  const [shareSuccess, setShareSuccess] = useState(false);
 
   const shareCardRef = useRef<View>(null);
   const params = useLocalSearchParams<{ entityId: string; entityName: string }>();
@@ -95,12 +94,11 @@ export default function ShareFrameScreen() {
     if (!previewUri) return;
     setSharing(true);
     try {
-      const res = await shareService.shareImageUriAsync(previewUri);
-      if (res.ok) {
-        setShareSuccess(true);
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        setTimeout(() => router.back(), 1800);
-      }
+      // ponytail: no "Shared!" — iOS's share sheet reports a cancel the same as a send
+      // (expo-sharing resolves on every dismissal), so the screen just stays put and the
+      // app they shared to confirms it. RN's Share.share can tell, but never resolves when
+      // someone picks an app and then cancels inside it.
+      await shareService.shareImageUriAsync(previewUri);
     } catch (error) {
       Sentry.captureException(error);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
@@ -157,24 +155,17 @@ export default function ShareFrameScreen() {
             </AppButton>
           </Row>
 
-          {shareSuccess ? (
-            <Row gap="xs" align="center" justify="center">
-              <Check size={18} color={tokens.colors.success} />
-              <AppText status="success">Shared! Heading back…</AppText>
-            </Row>
-          ) : (
-            <AppButton
-              variant="primary"
-              icon={Share2}
-              onPress={onShare}
-              disabled={!previewUri || rendering}
-              loading={sharing}
-              loadingLabel="Sharing…"
-              fullWidth
-            >
-              Post to Social
-            </AppButton>
-          )}
+          <AppButton
+            variant="primary"
+            icon={Share2}
+            onPress={onShare}
+            disabled={!previewUri || rendering}
+            loading={sharing}
+            loadingLabel="Sharing…"
+            fullWidth
+          >
+            Post to Social
+          </AppButton>
         </CardShell>
       </Stack>
     </Screen>

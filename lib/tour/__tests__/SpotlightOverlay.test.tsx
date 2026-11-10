@@ -1,6 +1,7 @@
 // The tour's dim, cut-out and card. The SVG and the animation library are stood in for:
 // what is checked is the card, its buttons, where it sits, and what a screen reader gets.
-jest.mock("expo-router", () => ({ router: { navigate: jest.fn(), push: jest.fn() } }));
+jest.mock("expo-router", () => ({ router: { navigate: jest.fn(), push: jest.fn() }, usePathname: () => mockPathname() }));
+const mockPathname = jest.fn(() => "/");
 jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 20, bottom: 0, left: 0, right: 0 }),
 }));

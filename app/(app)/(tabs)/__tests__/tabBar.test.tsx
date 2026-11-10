@@ -81,6 +81,16 @@ describe("tab bar", () => {
     expect(mockNavigate).toHaveBeenCalledWith("itinerary/index");
   });
 
+  // As React Navigation's own tab bar: navigating to the focused tab changed the tab
+  // history but not the screen, leaving Sentry's navigation span open for 15 s.
+  it("doesn't navigate to the tab that's already on screen", async () => {
+    const view = await render(<TabsLayout />);
+
+    await fireEvent.press(view.getByText("Explore"));
+
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
   // The place and guide screens are tab screens opened from every tab. With the default
   // ("firstRoute"), back from any of them went to Explore.
   it("keeps a tab history, so back returns to the screen before", async () => {

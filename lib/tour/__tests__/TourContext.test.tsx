@@ -1,7 +1,8 @@
 // The tour's engine: steps, start / next / skip, moving between screens, and where each
 // step's target is. Started from Rotorua's test; here each person walks only the steps
 // for them (guest, free or paid: lib/tour/tourSteps.ts).
-jest.mock("expo-router", () => ({ router: { navigate: jest.fn(), push: jest.fn() } }));
+jest.mock("expo-router", () => ({ router: { navigate: jest.fn(), push: jest.fn() }, usePathname: () => mockPathname() }));
+const mockPathname = jest.fn(() => "/");
 
 import React from "react";
 import { renderHook, act } from "@testing-library/react-native";
@@ -88,6 +89,18 @@ describe("TourContext", () => {
     expect(mockNavigate).toHaveBeenLastCalledWith("/(app)/(tabs)/itinerary");
     await act(async () => result.current.next());
     expect(mockNavigate).toHaveBeenLastCalledWith("/(app)/(tabs)/map");
+  });
+
+  // Navigating to the tab already on screen left Sentry's navigation span open for 15 s.
+  it("doesn't navigate to the tab that's already on screen", async () => {
+    mockPathname.mockReturnValue("/sites");
+    const { result } = await renderHook(() => useTour(), { wrapper });
+
+    await act(async () => result.current.start("guest"));
+
+    expect(result.current.step?.id).toBe("welcome");
+    expect(mockNavigate).not.toHaveBeenCalled();
+    mockPathname.mockReturnValue("/");
   });
 
   it("a step with a route opens the route a screen registered for it", async () => {

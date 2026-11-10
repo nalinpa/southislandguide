@@ -1,7 +1,7 @@
 // The opening tour's engine, copied from Rotorua's lib/tour/TourContext.tsx. Changed here:
 // start() takes who is looking, and the tour walks only their steps (tourSteps.ts).
 import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 
 import { stepsFor, TOUR_TAB_ROUTES, type TourAudience, type TourStep } from "./tourSteps";
 
@@ -49,14 +49,20 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
+  // Navigating to the tab already on screen changes the tab history but not the screen,
+  // which leaves Sentry's navigation span open until its 15 s timeout: every new user's
+  // tour opened with one (the welcome step is on Explore, where the app opens). Skipped.
+  const pathname = usePathname();
   const goToStep = useCallback(
     (list: TourStep[], index: number) => {
       const target = list[index];
-      if (target?.tabKey) router.navigate(TOUR_TAB_ROUTES[target.tabKey] as never);
-      else if (target?.routeKey && stepRoutes[target.routeKey]) router.push(stepRoutes[target.routeKey] as never);
+      const tabRoute = target?.tabKey ? TOUR_TAB_ROUTES[target.tabKey] : undefined;
+      if (tabRoute) {
+        if (tabRoute.replace(/\/\([^/]+\)/g, "") !== pathname) router.navigate(tabRoute as never);
+      } else if (target?.routeKey && stepRoutes[target.routeKey]) router.push(stepRoutes[target.routeKey] as never);
       setStepIndex(index);
     },
-    [stepRoutes],
+    [stepRoutes, pathname],
   );
 
   const start = useCallback(

@@ -61,14 +61,16 @@ describe("areas", () => {
   });
 
   // A town with no region here goes under the one most of its places say, which is how the
-  // Catlins ended up under Otago. Every town in the bundled place files has its own.
+  // Catlins ended up under Otago. Every town in the bundled place files has its own. Places
+  // switched off (active: false) don't count: the North Island's are loaded but off, and
+  // get their regions when they're switched on.
   it("gives every town in the place files a region", () => {
     const fs = require("fs");
     const path = require("path");
     const dir = path.join(__dirname, "../../assets/data");
     const towns = new Set<string>();
     for (const f of fs.readdirSync(dir).filter((f: string) => f.endsWith("_places.json") || f === "christchurch_places_all.json"))
-      for (const p of JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"))) if (p.area) towns.add(p.area);
+      for (const p of JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"))) if (p.area && p.active !== false) towns.add(p.area);
     expect([...towns].filter((t) => !AREA_REGIONS[t])).toEqual([]);
   });
 

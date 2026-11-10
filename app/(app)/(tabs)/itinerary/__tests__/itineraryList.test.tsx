@@ -1,8 +1,7 @@
-// The Trips tab. In 1.0 there's no paid unlock: the real useEntitlementGate stub treats every
-// user as entitled, so it's used unmocked here and these tests pin what 1.0 users get — a
-// guest sees a sign-in card, a signed-in user always sees the trip list (never
-// rotorua-guide's inline single-trip view, which is the free tier's), and "Create new trip"
-// stays until the PLANNER.MAX_ITINERARIES cap. The CreateItineraryModal is never locked.
+// The Trips tab. There's no paid unlock: the real useEntitlementGate stub treats every user as
+// entitled, so it's used unmocked here. A guest sees a sign-in card; with one trip (the cap,
+// PLANNER.MAX_ITINERARIES) the tab opens it inline; someone with more, from before the cap
+// was 1, gets the list. The CreateItineraryModal is never locked.
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
 
@@ -49,6 +48,11 @@ const mockTrips = {
 };
 jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
 
+// A guest's suggested trip looks its places up here; none are known, so it shows no towns.
+jest.mock("@/lib/hooks/usePlaceLookup", () => ({
+  usePlaceLookup: () => ({ places: () => undefined, list: [], ready: true, count: 0, err: "", refresh: jest.fn() }),
+}));
+
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
 jest.mock("expo-router", () => ({
   get router() {
@@ -60,6 +64,7 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
+import { Alert } from "react-native";
 import { fireEvent, render } from "@testing-library/react-native";
 
 import ItineraryListPage from "@/app/(app)/(tabs)/itinerary/index";
@@ -100,6 +105,26 @@ describe("guest", () => {
 
     expect(view.getByText("Sign In to Plan a Trip")).toBeTruthy();
     expect(view.queryByText("Create new trip")).toBeNull();
+  });
+
+  // Mockup B (owner, 2026-11-10): the real suggested trip, locked, under the card.
+  it("shows a locked suggested trip under the card", async () => {
+    const view = await render(<ItineraryListPage />);
+
+    expect(view.getByText("A suggested trip")).toBeTruthy();
+    expect(view.getByText("South Island in 7 Days")).toBeTruthy();
+    expect(view.getByText("7 days")).toBeTruthy();
+    expect(view.getAllByLabelText(/, locked$/)).toHaveLength(7);
+  });
+
+  it("asks a guest to sign in when they tap a day", async () => {
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    const view = await render(<ItineraryListPage />);
+
+    await fireEvent.press(view.getByText("Day 3"));
+
+    expect(alertSpy).toHaveBeenCalledWith("Sign In Required", "Sign in to plan your trip.", expect.any(Array));
+    alertSpy.mockRestore();
   });
 
   it("points a guest at the login screen", async () => {
@@ -181,25 +206,34 @@ describe("no trips yet", () => {
 });
 
 describe("with trips", () => {
-  it("lists a single trip rather than opening it inline (every 1.0 user is entitled)", async () => {
+  it("opens a single trip inline instead of a list of one", async () => {
     mockTrips.itineraries = [makeTrip("t1")];
+    const view = await render(<ItineraryListPage />);
+
+    expect(view.getByText("Detail view for t1")).toBeTruthy();
+    expect(view.queryByText("Christchurch Trip t1")).toBeNull();
+  });
+
+  it("lists trips when there's more than one", async () => {
+    mockTrips.itineraries = [makeTrip("t1"), makeTrip("t2")];
     const view = await render(<ItineraryListPage />);
 
     expect(view.getByText("Trips")).toBeTruthy();
     expect(view.getByText("Christchurch Trip t1")).toBeTruthy();
-    expect(view.queryByText("Detail view for t1")).toBeNull();
+    expect(view.getByText("Christchurch Trip t2")).toBeTruthy();
   });
 
   it("shows each trip's dates and length", async () => {
-    mockTrips.itineraries = [makeTrip("t1")];
+    mockTrips.itineraries = [makeTrip("t1"), makeTrip("t2")];
     const view = await render(<ItineraryListPage />);
 
-    expect(view.getByText(/1 Oct — 3 Oct · 3 days/)).toBeTruthy();
+    expect(view.getAllByText(/1 Oct — 3 Oct · 3 days/)).toHaveLength(2);
   });
 
   it("shows one date and a singular day for a day trip", async () => {
     mockTrips.itineraries = [
       makeTrip("t1", { endDate: "2026-10-01", days: [{ id: "day_1", date: "2026-10-01", items: [] }] }),
+      makeTrip("t2"),
     ];
     const view = await render(<ItineraryListPage />);
 
@@ -215,35 +249,17 @@ describe("with trips", () => {
     expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/itinerary/t2");
   });
 
-  it("offers another trip while under the cap", async () => {
-    mockTrips.itineraries = [makeTrip("t1")];
-    const view = await render(<ItineraryListPage />);
-
-    await fireEvent.press(view.getByText("Create new trip"));
-    await fireEvent.press(view.getByText("Create Modal"));
-
-    expect(mockRouter.replace).toHaveBeenCalledWith("/(app)/(tabs)/itinerary/trip-new");
-  });
-
   it("stops offering new trips at the cap", async () => {
-    mockTrips.itineraries = Array.from({ length: PLANNER.MAX_ITINERARIES }, (_, i) => makeTrip("t" + i));
+    mockTrips.itineraries = Array.from({ length: PLANNER.MAX_ITINERARIES + 1 }, (_, i) => makeTrip("t" + i));
     const view = await render(<ItineraryListPage />);
 
     expect(view.queryByText("Create new trip")).toBeNull();
   });
 
   it("titles the list in white on the brand bar", async () => {
-    mockTrips.itineraries = [makeTrip("t1")];
+    mockTrips.itineraries = [makeTrip("t1"), makeTrip("t2")];
     const view = await render(<ItineraryListPage />);
 
     expect(view.getByText("Trips")).toHaveStyle({ color: "#FFFFFF" });
-  });
-
-  // Starting another trip is the screen's main action, so it takes the highlight.
-  it("offers a new trip in the highlight colour", async () => {
-    mockTrips.itineraries = [makeTrip("t1")];
-    const view = await render(<ItineraryListPage />);
-
-    expect(view.getByText("Create new trip")).toHaveStyle({ color: tokens.colors.highlight });
   });
 });

@@ -1,6 +1,6 @@
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, type ReactNode } from "react";
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, type ImageSourcePropType } from "react-native";
-import { Car, ChevronRight, MapPin } from "lucide-react-native";
+import { Car, ChevronRight, Lock, MapPin } from "lucide-react-native";
 
 import { cardLift, tokens } from "@/lib/ui/tokens";
 import { areaName } from "@/lib/areas";
@@ -18,6 +18,11 @@ type TripOverviewProps = {
   /** A town's picture (lib/areaImages.ts), or null when it has none. */
   imageFor: (areaId: string) => ImageSourcePropType | null;
   onOpenDay: (dayId: string) => void;
+  /** Above the trip's name, inside the scroll (the guest's sign-in card). */
+  header?: ReactNode;
+  /** A sample, not a trip of theirs (the guest's suggested trip): no dates, as it isn't
+   *  booked, and a lock in place of each row's arrow. A tap still calls onOpenDay. */
+  locked?: boolean;
 };
 
 function localIsoDate(d: Date): string {
@@ -38,7 +43,7 @@ function dateParts(iso: string, length: "short" | "long"): string {
 // A day that starts in a different town from where the one before ended opens with that
 // drive, and says so: the planner doesn't know where the traveller sleeps, and this is
 // where they see what that costs across the trip.
-export function TripOverview({ title, days, places, imageFor, onOpenDay }: TripOverviewProps) {
+export function TripOverview({ title, days, places, imageFor, onOpenDay, header, locked = false }: TripOverviewProps) {
   const summary = useMemo(() => tripSummary(days, places), [days, places]);
   const today = localIsoDate(new Date());
 
@@ -54,17 +59,19 @@ export function TripOverview({ title, days, places, imageFor, onOpenDay }: TripO
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
+      {header}
       <View style={styles.heading}>
         <Text style={styles.tripTitle}>{title}</Text>
         {days.length > 0 ? (
           <Text style={styles.tripDates}>
-            {formatTripDates(days[0].date, days[days.length - 1].date)} · {days.length} {days.length === 1 ? "day" : "days"}
+            {locked ? "" : `${formatTripDates(days[0].date, days[days.length - 1].date)} · `}
+            {days.length} {days.length === 1 ? "day" : "days"}
           </Text>
         ) : null}
       </View>
       {days.map((day, index) => {
         const { placeCount, areas, openingDrive, driveSlots, overflows } = summary[index];
-        const isToday = day.date === today;
+        const isToday = !locked && day.date === today;
         const towns = areas.map(areaName);
         const meta =
           `${placeCount} ${placeCount === 1 ? "place" : "places"}` +
@@ -77,12 +84,13 @@ export function TripOverview({ title, days, places, imageFor, onOpenDay }: TripO
 
         const spoken = [
           `Day ${index + 1}`,
-          dateParts(day.date, "long"),
+          locked ? null : dateParts(day.date, "long"),
           isToday ? "today" : null,
           towns.length ? towns.join(" then ") : null,
           ...(placeCount === 0 ? ["nothing planned yet"] : meta.split(" · ")),
           opening ? opening.charAt(0).toLowerCase() + opening.slice(1) : null,
           overflows ? "runs past 10 PM" : null,
+          locked ? "locked" : null,
         ]
           .filter(Boolean)
           .join(", ");
@@ -113,7 +121,8 @@ export function TripOverview({ title, days, places, imageFor, onOpenDay }: TripO
             <View style={styles.main}>
               <View style={styles.titleRow}>
                 <Text style={styles.title}>
-                  Day {index + 1} · {dateParts(day.date, "short")}
+                  Day {index + 1}
+                  {locked ? "" : ` · ${dateParts(day.date, "short")}`}
                 </Text>
                 {/* "You are here", so it takes the highlight. */}
                 {isToday ? <Text style={styles.today}>Today</Text> : null}
@@ -137,7 +146,11 @@ export function TripOverview({ title, days, places, imageFor, onOpenDay }: TripO
 
               {overflows ? <Text style={styles.overflow}>Runs past 10 PM</Text> : null}
             </View>
-            <ChevronRight size={20} color={tokens.colors.text2} />
+            {locked ? (
+              <Lock size={18} color={tokens.colors.textMuted} strokeWidth={2.25} />
+            ) : (
+              <ChevronRight size={20} color={tokens.colors.text2} />
+            )}
           </TouchableOpacity>
         );
       })}

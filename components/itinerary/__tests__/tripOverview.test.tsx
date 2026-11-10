@@ -37,7 +37,10 @@ const localIso = (d: Date) =>
 
 // Day 1 is Wed 14 Oct 2020 unless a date is given: a fixed past year, so no row is ever
 // "today" by accident.
-const show = (days: ItineraryItem[][], opts: { dates?: string[]; onOpenDay?: (id: string) => void } = {}) =>
+const show = (
+  days: ItineraryItem[][],
+  opts: { dates?: string[]; onOpenDay?: (id: string) => void; locked?: boolean; header?: React.ReactNode } = {},
+) =>
   render(
     <TripOverview
       title="South Island Trip"
@@ -48,6 +51,8 @@ const show = (days: ItineraryItem[][], opts: { dates?: string[]; onOpenDay?: (id
       places={places}
       imageFor={(area) => (area === "timaru" ? null : { uri: "img:" + area })}
       onOpenDay={opts.onOpenDay ?? jest.fn()}
+      locked={opts.locked}
+      header={opts.header}
     />,
   );
 
@@ -193,5 +198,40 @@ describe("TripOverview", () => {
 
     expect(scrollTo).toHaveBeenCalledWith({ y: 400 - 16, animated: false });
   });
-});
 
+  // A guest's suggested trip: a sample, not booked, so no dates, and a lock for an arrow.
+  describe("locked", () => {
+    it("shows no dates, only the day numbers and the length", async () => {
+      const view = await show([[at("a", "chc-a")], [at("b", "dun-a")]], { locked: true });
+
+      expect(view.getByText("Day 1")).toBeTruthy();
+      expect(view.getByText("Day 2")).toBeTruthy();
+      expect(view.getByText("2 days")).toBeTruthy();
+      expect(view.queryByText(/Oct/)).toBeNull();
+    });
+
+    it("puts a lock on each row, says so, and still reports a tap", async () => {
+      const onOpenDay = jest.fn();
+      const view = await show([[at("a", "chc-a")], [at("b", "dun-a")]], { locked: true, onOpenDay });
+
+      expect(view.getAllByLabelText(/, locked$/)).toHaveLength(2);
+      expect(view.getByLabelText(/^Day 1, Christchurch, .*locked$/)).toBeTruthy();
+      await fireEvent.press(view.getByText("Day 2"));
+      expect(onOpenDay).toHaveBeenCalledWith("day_2");
+    });
+
+    it("is never today, even on today's date", async () => {
+      const view = await show([[at("a", "chc-a")]], { locked: true, dates: [localIso(new Date())] });
+
+      expect(view.queryByText("Today")).toBeNull();
+    });
+  });
+
+  it("shows a header above the trip's name", async () => {
+    const { Text } = require("react-native");
+    const view = await show([[at("a", "chc-a")]], { header: <Text>Sign-in card</Text> });
+
+    expect(view.getByText("Sign-in card")).toBeTruthy();
+    expect(view.getByText("South Island Trip")).toBeTruthy();
+  });
+});

@@ -236,6 +236,22 @@ describe("overlapping dates", () => {
     expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
   });
 
+  // Start a New Trip saves over the open trip, so its own dates are no clash.
+  it("saves over the trip it replaces, whose dates don't count", async () => {
+    const today = new Date();
+    const iso = (d: Date) => d.toISOString().slice(0, 10);
+    const wide = new Date(today);
+    wide.setDate(wide.getDate() + 30);
+    mockTrips.itineraries = [{ id: "t1", title: "Existing Trip", startDate: iso(today), endDate: iso(wide), days: [] }];
+    mockTrips.saveItinerary = jest.fn().mockResolvedValue(undefined);
+    const view = await openModal({ replaceId: "t1" });
+
+    await fireEvent.press(view.getByText("Create Trip"));
+
+    await waitFor(() => expect(props.onCreated).toHaveBeenCalledWith("t1"));
+    expect(mockTrips.saveItinerary).toHaveBeenCalledWith(expect.objectContaining({ id: "t1" }));
+  });
+
   it("explains the server's own overlap rejection", async () => {
     mockTrips.saveItinerary = jest.fn().mockRejectedValue(new ApiError(409, "overlap"));
     const view = await openModal();

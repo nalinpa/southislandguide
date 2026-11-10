@@ -94,7 +94,7 @@ describe("useItineraries", () => {
     const loading = await renderHook(() => useItineraries(), { wrapper });
     expect(loading.result.current.addFlow).toBeNull();
 
-    for (const [count, flow] of [[0, "create"], [1, "choose"], [3, "pick"]] as const) {
+    for (const [count, flow] of [[0, "create"], [1, "pick"], [3, "pick"]] as const) {
       mockGetMyItineraries.mockResolvedValue(Array.from({ length: count }, (_, i) => itin({ id: `t${i}` })));
       const { result } = await renderHook(() => useItineraries(), { wrapper });
       await waitFor(() => expect(result.current.addFlow).toBe(flow));

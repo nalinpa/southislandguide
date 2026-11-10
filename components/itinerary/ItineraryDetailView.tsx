@@ -8,14 +8,14 @@
 // router.push/replace-based auto-redirect could leave the tab stuck showing
 // a permanent loading state after navigating away and back.
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, AppState, Alert, Modal, PanResponder } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, AppState, Alert, Modal, PanResponder, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useFocusEffect } from "expo-router";
 import { randomUUID } from "expo-crypto";
-import { Plus, MoreHorizontal, X } from "lucide-react-native";
+import { Plus, MoreHorizontal, X, Navigation } from "lucide-react-native";
 import * as Sentry from "@sentry/react-native";
 
-import { Screen, LoadingState, ErrorCard, AppText, AppIconButton, components } from "@/lib/uiKit";
+import { Screen, LoadingState, ErrorCard, AppText, AppButton, AppIconButton, components } from "@/lib/uiKit";
 import { TopBar } from "@/components/layout/TopBar";
 import { EditItemModal } from "@/components/itinerary/EditItemModal";
 import { PremiumFeatureModal } from "@/components/itinerary/PremiumFeatureModal";
@@ -43,6 +43,7 @@ import {
   type DayLeg,
 } from "@/lib/utils/itineraryPhysics";
 import { areaName } from "@/lib/areas";
+import { dayRouteUrl } from "@/lib/utils/dayRoute";
 import { areaImage } from "@/lib/areaImages";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
@@ -163,6 +164,8 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     const dayIndex = localTrip.days.findIndex((d) => d.id === activeDay?.id);
     return dayLegs(localItems, places, dayStartSiteId(localTrip.days, dayIndex));
   }, [localItems, localTrip, activeDay?.id, places]);
+  // The open day as one Google Maps drive (tester, 2026-11-09).
+  const routeUrl = useMemo(() => dayRouteUrl(localItems, places), [localItems, places]);
   const legAfter = useMemo(() => new Map(legs.map((leg) => [leg.key, leg])), [legs]);
 
   const freeGaps = useMemo(() => {
@@ -382,6 +385,9 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   // The trip being edited (name, start date, length), as it stood on screen when the
   // editor opened.
   const [editingTrip, setEditingTrip] = useState<Itinerary | null>(null);
+  // Start a New Trip: one trip each (PLANNER.MAX_ITINERARIES), so a new one, suggested or
+  // blank, is saved over this one.
+  const [startingNew, setStartingNew] = useState(false);
 
   const handleConfirmDeleteItinerary = async () => {
     if (!localTrip) return;
@@ -816,6 +822,18 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
           style={styles.timelineScroll}
           scrollEnabled={!isDragging}
         >
+          {routeUrl && (
+            <View style={styles.routeRow}>
+              <AppButton
+                variant="secondary"
+                size="sm"
+                icon={Navigation}
+                onPress={() => void Linking.openURL(routeUrl)}
+              >
+                {`Drive Day ${(localTrip?.days.findIndex((d) => d.id === activeDay?.id) ?? 0) + 1} in Google Maps`}
+              </AppButton>
+            </View>
+          )}
           <View testID="timeline" style={styles.timelineContainer} {...daySwipe.panHandlers}>
             {/* tokens.space.md is the container's paddingTop, above the 8 AM row. */}
             {nowTop != null && (
@@ -943,6 +961,15 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
           onCreated={() => setEditingTrip(null)}
         />
       )}
+      {startingNew && (
+        <CreateItineraryModal
+          visible
+          showTemplateOption
+          replaceId={localTrip.id}
+          onClose={() => setStartingNew(false)}
+          onCreated={() => setStartingNew(false)}
+        />
+      )}
 
       <DeleteTripModal
         visible={showDeleteConfirm}
@@ -967,6 +994,26 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                 }}
               >
                 <Text style={styles.menuRowText}>Edit Trip</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.menuRow, styles.menuRowDivider]}
+                activeOpacity={0.6}
+                accessibilityRole="button"
+                onPress={() => {
+                  setShowTripMenu(false);
+                  Alert.alert("Start a New Trip?", `It replaces ${localTrip.title || "My Trip"} and its places.`, [
+                    { text: "Cancel", style: "cancel" },
+                    {
+                      text: "Continue",
+                      onPress: () => {
+                        flushSave();
+                        setStartingNew(true);
+                      },
+                    },
+                  ]);
+                }}
+              >
+                <Text style={styles.menuRowText}>Start a New Trip</Text>
               </TouchableOpacity>
               {itineraries.length > 1 && (
                 <TouchableOpacity
@@ -1052,6 +1099,7 @@ const styles = StyleSheet.create({
   addDayBtn: { flexDirection: "row", alignItems: "center", paddingHorizontal: 14, paddingVertical: 10, gap: 6 },
   addDayText: { fontSize: 14, fontWeight: "700", color: "#FFFFFF" },
   timelineScroll: { flex: 1 },
+  routeRow: { paddingHorizontal: tokens.space.md, paddingTop: tokens.space.md },
   timelineContainer: { position: "relative", paddingTop: tokens.space.md, paddingBottom: 100 },
   gridRow: { flexDirection: "row", height: SLOT_HEIGHT, alignItems: "flex-start" },
   // From the time column's right edge (70, see timeLabelContainer) across the

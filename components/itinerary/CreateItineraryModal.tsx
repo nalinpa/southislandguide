@@ -24,6 +24,9 @@ type CreateItineraryModalProps = {
   showTemplateOption?: boolean;
   /** Set: edits this trip (name, start date, length) instead of creating one. */
   trip?: Itinerary;
+  /** Set: the new trip is saved over this one (the trip menu's Start a New Trip). One write
+   *  under the same id, so its dates can't clash with themselves and a cancel loses nothing. */
+  replaceId?: string;
 };
 
 function tomorrow(): Date {
@@ -60,6 +63,7 @@ export function CreateItineraryModal({
   onCreated,
   showTemplateOption = false,
   trip,
+  replaceId,
 }: CreateItineraryModalProps) {
   const { itineraries, saveItinerary, isSaving } = useItineraries();
   const netInfo = useNetInfo();
@@ -179,7 +183,7 @@ export function CreateItineraryModal({
     const newStart = isoDate(startDate);
     const newEnd = isoDate(endDate);
     const conflict = itineraries.find(
-      (itin) => newStart <= itin.endDate && newEnd >= itin.startDate,
+      (itin) => itin.id !== replaceId && newStart <= itin.endDate && newEnd >= itin.startDate,
     );
     if (conflict) {
       setErrorMsg(`Dates overlap with "${conflict.title}". Choose different dates.`);
@@ -203,12 +207,13 @@ export function CreateItineraryModal({
 
     try {
       const savedId = await saveItinerary({
+        ...(replaceId ? { id: replaceId } : {}),
         title: resolvedTitle,
         startDate: isoDate(startDate),
         endDate: isoDate(endDate),
         days,
       });
-      onCreated(savedId ?? "");
+      onCreated(replaceId ?? savedId ?? "");
       onClose();
     } catch (err) {
       if (err instanceof ApiError && err.status === 409) {
@@ -455,7 +460,7 @@ export function CreateItineraryModal({
               {selectedTemplate === null && (
                 <>
                   <Row gap="xs" align="center">
-                    <AppText style={styles.label}>Number of Days</AppText>
+                    <AppText style={styles.label}>Trip Length</AppText>
                     {locked && <Lock size={12} color={tokens.colors.textMuted} />}
                   </Row>
                   <View style={[styles.stepperRow, locked && styles.inputLocked]}>

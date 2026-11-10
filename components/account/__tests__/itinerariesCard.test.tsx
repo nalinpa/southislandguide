@@ -20,13 +20,13 @@ describe("ItinerariesCard", () => {
 
     mockTrips.addFlow = "pick";
     const atLimit = await render(<ItinerariesCard />);
-    expect(atLimit.getByText("Up to 3 trips at a time.")).toBeTruthy();
+    expect(atLimit.getByText("One trip at a time.")).toBeTruthy();
     expect(atLimit.queryByText("New Trip")).toBeNull();
     await atLimit.unmount();
 
     mockTrips.addFlow = null;
     const unknown = await render(<ItinerariesCard />);
     expect(unknown.queryByText("New Trip")).toBeNull();
-    expect(unknown.queryByText("Up to 3 trips at a time.")).toBeNull();
+    expect(unknown.queryByText("One trip at a time.")).toBeNull();
   });
 });

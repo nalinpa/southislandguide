@@ -60,7 +60,9 @@ export function ItinerariesCard() {
       {/* Nothing until the trips are known: an empty list before they load, or after a failed
           load, showed "New Trip" to someone already at the limit. */}
       {addFlow === "pick" ? (
-        <Text style={styles.limitText}>Up to {PLANNER.MAX_ITINERARIES} trips at a time.</Text>
+        <Text style={styles.limitText}>
+          {PLANNER.MAX_ITINERARIES === 1 ? "One trip at a time." : `Up to ${PLANNER.MAX_ITINERARIES} trips at a time.`}
+        </Text>
       ) : addFlow ? (
         <TouchableOpacity style={styles.createBtn} onPress={() => setIsCreating(true)} activeOpacity={0.6}>
           <Plus size={13} color={tokens.colors.accent} strokeWidth={2.5} />

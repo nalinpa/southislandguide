@@ -105,8 +105,12 @@ jest.mock("@/components/itinerary/CreateItineraryModal", () => {
   const React = require("react");
   const { Text } = require("react-native");
   return {
-    CreateItineraryModal: ({ visible, trip }: any) =>
-      visible ? React.createElement(Text, null, `Editing ${trip.title}, ${trip.days.length} days`) : null,
+    CreateItineraryModal: ({ visible, trip, replaceId, showTemplateOption }: any) =>
+      !visible
+        ? null
+        : replaceId
+          ? React.createElement(Text, null, `New trip over ${replaceId}${showTemplateOption ? ", with suggested trips" : ""}`)
+          : React.createElement(Text, null, `Editing ${trip.title}, ${trip.days.length} days`),
   };
 });
 jest.mock("@/components/itinerary/PremiumFeatureModal", () => {
@@ -165,8 +169,8 @@ jest.mock("expo-router", () => {
 });
 
 import React from "react";
-import { Alert, ScrollView } from "react-native";
-import { fireEvent, render, waitFor, within } from "@testing-library/react-native";
+import { Alert, Linking, ScrollView } from "react-native";
+import { act, fireEvent, render, waitFor, within } from "@testing-library/react-native";
 
 import { ItineraryDetailView } from "@/components/itinerary/ItineraryDetailView";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
@@ -343,6 +347,25 @@ describe("the trip", () => {
     expect(view.getByText("Wai-O-Tapu")).toBeTruthy();
   });
 
+  // The open day as one Google Maps drive (tester, 2026-11-09).
+  it("opens the day's stops as a drive in Google Maps", async () => {
+    const openURL = jest.spyOn(Linking, "openURL").mockResolvedValue(true);
+    const lookup = mockLookup.places;
+    mockLookup.places = (id: string) => (id === "site-1" ? { area: "rotorua", lat: -38.36, lng: 176.37 } as any : lookup(id));
+    const view = await openTrip();
+
+    await fireEvent.press(view.getByText("Drive Day 1 in Google Maps"));
+
+    expect(openURL).toHaveBeenCalledWith(expect.stringContaining("https://www.google.com/maps/dir/?api=1&destination=-38.36%2C176.37"));
+    mockLookup.places = lookup;
+    openURL.mockRestore();
+  });
+
+  it("has no Google Maps drive for a day with nowhere to drive to", async () => {
+    const view = await openTrip();
+    expect(view.queryByText(/in Google Maps/)).toBeNull();
+  });
+
   it("invites the user to go browsing when a day is empty", async () => {
     const view = await openTrip({ jumpToDay: "day_2" });
 
@@ -498,6 +521,23 @@ describe("the trip menu", () => {
     await fireEvent.press(view.getByText("Edit Trip"));
 
     expect(view.getByText("Editing Hot Pools Weekend, 3 days")).toBeTruthy();
+  });
+
+  // One trip each: a new one, suggested or blank, is saved over this one, after asking.
+  it("starts a new trip over this one, after asking", async () => {
+    const view = await openTrip();
+    await fireEvent.press(view.getByLabelText("Trip options"));
+
+    await fireEvent.press(view.getByText("Start a New Trip"));
+
+    expect(alertSpy).toHaveBeenCalledWith(
+      "Start a New Trip?",
+      "It replaces Hot Pools Weekend and its places.",
+      expect.any(Array),
+    );
+    expect(view.queryByText(/New trip over/)).toBeNull();
+    await act(async () => takeAlertButton("Continue"));
+    expect(view.getByText("New trip over t1, with suggested trips")).toBeTruthy();
   });
 
   it("offers Switch Trip only when there is another trip to switch to", async () => {

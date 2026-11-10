@@ -145,7 +145,7 @@ Owner, 2026-10-23: after launch. With no signal, the map tab shows pins and the 
 
 ### After launch — Apple and Google sign-in
 Owner, 2026-10-25: not in the first release, which signs in by email only. The steps are in [docs/plans/launch.md, After launch: Apple and Google sign-in](docs/plans/launch.md#after-launch-apple-and-google-sign-in).
-- [ ] **Wait for Apple:** the probe (Sign-in, above) answers `invalid_request` instead of `invalid_client`. Still `invalid_client` on 2026-11-06.
+- [ ] **Wait for Apple:** the probe (Sign-in, above) answers `invalid_request` instead of `invalid_client`. Still `invalid_client` on 2026-11-09 (Rotorua's `app.blacksands.rtrguide` gets `invalid_request` the same day).
 - [ ] **Phone test:** a fresh Apple sign-up and sign-in, account deletion with the token revoked, and Google sign-in with the EAS web client ID set.
 - [ ] **Ship both together in a new store version**, never Google alone: put `<SocialSignInButtons>` back on the login screen, and update the privacy labels and review notes.
 
@@ -157,18 +157,80 @@ Owner, 2026-10-30: round 1 of the pre-build review fixes is done; round 2 waits 
 ### After launch — first weeks
 Added 2026-10-30.
 - [ ] **Watch Sentry daily for the first week.** New crashes are under Issues; screen timings are under Traces. Tracing samples one session in five (`tracesSampleRate: 0.2`, from update 1).
+- [x] **Stop the 15-second "Route Change" traces** (done 2026-11-09, in 1.1: the tour and the tab bar skip navigating to the tab already on screen) (from a user's trace, 2026-11-08). Sentry noise only; users see nothing, and every screen in that trace was fast (place 74 ms, Trips 77 ms, map 332 ms, Explore about 620 ms on first open). The cause: navigating to the tab you're already on. With `backBehavior="history"` that rebuilds the tab history, so the state changes but the screen doesn't. In that case Sentry's navigation integration leaves its "navigation.processing" span open, and core's `childSpanTimeout` (15 s) closes the transaction. Two places do it:
+  - **The opening tour, likeliest:** its first step ("welcome", `tabKey: "sites"`) calls `router.navigate` to Explore while the user is already on Explore (`goToStep` in `lib/tour/TourContext.tsx`), so every new user's tour starts with one. In the user's trace the stray transaction ended on Trips, the tour's sixth step, and Trips then Map follow it, as in the tour.
+  - **Tapping the tab you're on:** `TabBar`'s `onSelect` in `app/(app)/(tabs)/_layout.tsx` calls `navigation.navigate()` without checking.
+  - Fix: skip the navigate when that tab is already focused, in both (`onSelect` still emits `tabPress`, as React Navigation's own tab bar does). Over the air. `useDispatchedActionData` doesn't help: the action changes state, so Sentry doesn't count it as a no-op.
 - [x] **Expo package updates: `npx expo install --fix`** (done 2026-11-07 in `5010d6d`, flash-list excluded, for 1.0.1). On 2026-10-30, expo-doctor listed 12 packages behind what SDK 57 expects. Most are patch updates (`expo` 57.0.25 → .31, `react-native` 0.86.2 → .3, `expo-router` .23 → .29, `jest-expo` and eight `expo-*`). They were left for 1.0 because the build was tested on these versions.
   - **Careful with `@shopify/flash-list`:** we have 2.3.2, which is newer than the 2.0.2 Expo expects, so `--fix` would downgrade it. Check what the engine components need first, and exclude it (`expo.install.exclude` in package.json) if they need 2.3.
   - It needs a new store build and a full phone check.
 - [x] **Rebrand the share screen** (owner, 2026-11-01; done 2026-11-04, ships over the air). The card's footer has the app icon, the label says "New Zealand" for both islands, and long place names shrink to fit three lines. The screen shows the framed card at the top, with the buttons under it.
 - [x] **Over-the-air updates arrive sooner** (2026-11-07, `c692645`, in 1.0.1): the app also looks for an update when it comes back to the foreground, and restarts into a downloaded one on a return after 15+ minutes away.
-- [ ] **guide.kiwi on the share card** once the domain works (owner, 2026-11-04). Put the URL in the footer of `components/share/CaptureCanvas.tsx`, as its own over-the-air update.
+- [x] **The app's web address on the share card** (owner, 2026-11-04; done 2026-11-10, in 1.1). The domain is kiwiguide.app, not guide.kiwi: it sits under "KIWI GUIDE" in the footer of `components/share/CaptureCanvas.tsx`.
 - [ ] **Stats without an analytics SDK (optional).**
   - Free, no code: App Store Connect → Analytics (downloads, sessions, retention, crashes), the Firebase console's Authentication list (sign-ups by date), and the Cloudflare dashboard's Worker metrics (api requests, all apps together).
   - For more: a read-only `scripts/stats.js` using Firestore `count()` queries (about 1 read per 1,000 docs) and the Firebase Auth user list, reporting accounts, trips (total and this week), reviews and saved places.
   - Trips don't record which suggested trip they came from (the api's create parser drops extra fields), so "started from a suggested trip" can only be guessed by matching a trip's first day against the templates.
   - Counting place-list requests per route needs Workers Logs (`[observability]` in enginev1/api's `wrangler.toml`, deployed on the owner's go). With the app's 24-hour `staleTime`, list requests per day roughly equal daily active phones.
   - Opening-tour completion and share taps can't be counted without an SDK.
+
+### After launch — drive times between stops
+Found 2026-11-09, writing the Reddit post from the 14-day Christchurch trip. Owner: not sure how to fix yet.
+- [ ] **Some legs between towns are far off.** A drive between two areas is hub to hub (`area-drive-minutes.json`), or a far-out place's own time to a hub (`far-place-minutes.json`). A place within one slot (under 30 min) of its hub isn't far-out, so its own distance from the hub is lost: too long when the stop is on the way, too short when it's beyond the hub. The app plans each day on these times, so day 4 and day 12 of the West Coast and south trips run later than they show (day 12 by about 50 min). Four legs, app against road (OSRM, 2026-11-09):
+  - Ōkārito Trig walk → Fox Glacier South Side walk: **25 min, about 50 by road.** Ōkārito is 1 slot from the Franz Josef hub (SnakeBite), so this counts as Franz Josef to Fox.
+  - Makarora Country Café → Lake Hāwea: **1 h 05, about 40.** Makarora is far-out, but its own time goes to the Wānaka hub, then back out to Hāwea, which is on the way.
+  - Jones Family Fruit Stall (Cromwell) → Kawarau Bridge Bungy: **55 min, about 25.** Counted from the Cromwell hub to the Queenstown hub (the gondola), though the bridge comes before Queenstown.
+  - Elephant Rocks → Tasman Glacier view and Blue Lakes: **1 h 40, about 2 h 30.** Waitaki Valley hub (Waitaki Braids Cafe) to the Mount Cook hub, with nothing added for Elephant Rocks' way to its hub.
+- **Fix options, not decided:**
+  - (a) Place-to-place minutes for just the legs the suggested trips use: a few hundred lookups, a `legs` mode in `scripts/generate-drive-times.js`, and a small minutes file that `getLeg` (`lib/utils/transitMatrix.ts`) checks first. That fixes the suggested trips exactly, but not trips users build.
+  - (b) Keep minutes, not half-hour slots, in the town tables (`towns --all`; the script rounds up to slots when it writes them), so far-out can start at 15 min and more places get their own times. It also lets the app show real minutes for in-town hops instead of "<30 min". It costs more lookups, and doesn't fix the on-the-way cases (Makarora, the bungy).
+  - Quote the lookups first (the free 10,000 a month came back on 1 Nov 2026). Then re-bake any trip that `lib/__tests__/itineraryTemplates.test.ts` fails.
+- **Related:** the trip view's "N h driving" per day (`tripSummary` in `lib/utils/itineraryPhysics.ts`) counts only drives between areas, and not day 1's drive out of the start town. Most days of that trip read 1 to 2 h short (day 1: 1.5 h for about 3.5; day 4: 30 min for about 2 h).
+
+### After launch — tester feedback, 2026-11-09
+From a tester's written feedback. They liked the day view's drive blocks and the guide. Owner, 2026-11-09: everything goes after launch. Picks made when planning: phone calendar, Google Maps day route, swap the pop-up colours, one trip per user (cap 1, with Start a New Trip to replace it), ship all of it on main (no OTA to 1.0.0). **Owner, 2026-11-09: the next release is 1.1 (`version` 1.1.0), and these went into it the same day:** the pop-up colours, Trip Length, one trip per user with Start a New Trip, the share message, the Google Maps day route, plus Add to Trip for guests and opening on Explore (below). Calendar and saved passwords are still to do. Their message breaks off at "And then when adding", so ask them how it ends.
+- [x] **Map pop-up: Add to Trip should be the orange button, not Directions.** "It's a trip planner, so why is Directions the highlighted button?" `btnDirections` in `components/map/MapOverlay.tsx` has `tokens.colors.highlight`, and `btnAddToTrip` is white. Swap them: Add to Trip goes orange with a white label, Directions takes the white `btnDetails` look. The place screen already makes Add to Trip the main button. Over the air.
+- [x] **"Number of Days" → "Trip Length"** on the blank-trip stepper (`components/itinerary/CreateItineraryModal.tsx:458`). The tester suggested "Trip duration". "Trip Length" doesn't clash with Add to Trip's "Duration". Over the air.
+- [x] **One trip per user: cap 3 → 1** (done 2026-11-09. Built differently from the note below: Start a New Trip asks first, then saves the new trip *over* the open one (`CreateItineraryModal`'s `replaceId`), one write under the same id. Creating then deleting would clash with the trip's own dates, locally and in the api's 409.) (owner, 2026-11-09: "people will really only have 1 trip"). Fixes "Add to Trip asks 'existing or new trip?' every time; I'd think this app is for a single trip". The app already has a one-trip mode, ported from Rotorua for unpaid users. It never runs because the entitlement stub makes everyone entitled. The cap is in the app only, since the api has no trip limit. It also suits the paid unlock: free gets one trip, paid could add more. Over the air.
+  - **`PLANNER.MAX_ITINERARIES: 1`** (`lib/constants/gameplay.ts`). With 1+ trips `addFlow` becomes `"pick"`, so Add to Trip opens `AddToTripModal` straight away with the trip preselected, and the choice sheet never shows.
+  - **Trips tab:** show the one trip directly for everyone. `itineraries.length === 1 && !isEntitled` becomes `itineraries.length === 1` (`app/(app)/(tabs)/itinerary/index.tsx:76`). Otherwise it's a list of one card.
+  - **Account card:** "Up to {MAX} trips at a time." would read "Up to 1 trips". Change it to "One trip at a time." (`components/account/ItinerariesCard.tsx:63`).
+  - **Suggested trips still reachable:** suggested trips are only offered on New Trip (Edit Trip has templates off), so someone whose first trip came from a place's Add to Trip couldn't try "South Island in 10 Days" without deleting.
+    - Add a trip-menu row **"Start a New Trip"** (`ItineraryDetailView.tsx`, after Edit Trip). It opens `CreateItineraryModal` with `showTemplateOption`.
+    - On `onCreated(newId)`, an Alert asks "Replace <old trip>?". Yes deletes the old one (`deleteItinerary`) and opens the new one; No keeps both.
+    - Cancelling the create loses nothing, because the old trip goes only after the new one exists.
+  - **Tests:**
+    - `useItineraries.test`: 1 trip gives `"pick"`.
+    - `itinerariesCard.test`: the new copy.
+    - `itineraryList.test`: one trip shows directly when entitled.
+    - `itineraryDetailView.test`: Start a New Trip replaces only after the create.
+    - Rename the map and siteDetail "under the trip limit" test titles if they mislead.
+- [x] **Cancelling the photo share still says "Shared!".** (done 2026-11-09) `expo-sharing`'s iOS `shareAsync` resolves the same way on cancel and on send (`SharingModule.swift`: `promise.resolve(nil)` always). So `shareService.ts` returns ok, and `app/share-frame.tsx` shows "Shared! Heading back…" and leaves.
+  - RN's `Share.share` reports `dismissedAction`. But its iOS handler never resolves if someone picks an app and then cancels inside it (`RCTActionSheetManager.mm`), which would leave the button stuck on "Sharing…".
+  - Fix: stop claiming success. Drop `shareSuccess`, the success row, the haptic and the auto-back. The screen stays put after the sheet closes. Change the error text to "Couldn't share." Update shareService and shareFrame tests. Over the air.
+- [ ] **Apple's generated password isn't offered for saving.** iOS only offers "Save password?" for a domain the app is linked to. Three parts, in a store build:
+  - **Engine first** (`enginev1/components/src/AuthPanel.tsx`, owner publishes): the email field gets `textContentType="username"` (keep the email keyboard) and `autoComplete="email"`. The password field gets `autoComplete` `"new-password"` / `"current-password"` by mode. Then bump `@blacksands/components`.
+  - **App:** `ios.associatedDomains: ["webcredentials:kiwiguide.app"]` in `app.config.ts`. It's native, so it needs a new build. EAS syncs the capability.
+  - **Website** (`kiwiguide-site`): `public/.well-known/apple-app-site-association` with `{"webcredentials":{"apps":["<TEAMID>.app.blacksands.southislandguide"]}}`, plus a `_headers` entry giving it `Content-Type: application/json`, then `npx wrangler deploy`. The Team ID is in Apple Developer → Membership. Check it at `https://app-site-association.cdn-apple.com/a/v1/kiwiguide.app`.
+- [ ] **Add the trip to a calendar, Google included.** "I'd prefer Google: all my meetings are in it." iOS can't write to Google Calendar without Google sign-in. The phone calendar can, if their Google account is added on the iPhone (Settings → Calendar → Accounts). Needs a store build.
+  - `npx expo install expo-calendar`, with a plugin and permission text ("Kiwi Guide adds your trip's stops and drives to the calendar you choose."). Use full access: write-only can't list calendars, so they couldn't pick the Google one. Check the build's Info.plist has `NSCalendarsFullAccessUsageDescription`.
+  - New `lib/tripExport.ts` with:
+    - `tripCalendarEvents(trip, places)`: one event per stop (name, location "name, area", notes "Day N of <trip> · Kiwi Guide") and one "Drive to <area>" event per drive, from `dayLegs()` + `dayStartSiteId()`. Slot 0 = 08:00, 30 min per slot, via dayjs `tz` in `Pacific/Auckland`, with `timeZone: "Pacific/Auckland"` on each event.
+    - `exportTripToCalendar()`: deletes the trip's earlier event ids (AsyncStorage `kiwiguide.calendarEvents.<tripId>`) first, so a re-run replaces them instead of duplicating.
+  - A trip menu row "Add to Calendar" (`ItineraryDetailView.tsx`) that runs `flushSave()`, asks permission (if refused, an Alert with Open Settings), then lists writable calendars in `ActionSheetIOS`, with no new sheet. When done: "Added N stops and drives to <calendar>". If no Google calendar is listed, add a hint to add the Google account.
+  - Tests: times on a normal day and across NZ daylight saving (5 Apr 2027), drive events, and a re-export deleting the old ids.
+  - Ruled out: an .ics file (iPhone Google Calendar can't import one) and the Google Calendar API (needs Google sign-in plus Google's sensitive-scope verification, weeks). Google Maps lists have no API, and My Maps imports are web only.
+- [x] **"Drive Day N in Google Maps" button** at the top of the days view (done 2026-11-09, in `lib/utils/dayRoute.ts`). `dayRouteUrl(items, places)` builds `https://www.google.com/maps/dir/?api=1&destination=<last stop>&waypoints=<earlier stops>&travelmode=driving`:
+  - No origin, so the route starts from where they are.
+  - Stops in slot order, with back-to-back repeats dropped.
+  - At most 9 waypoints, Google's cap.
+  - It opens the Google Maps app if installed. Over the air.
+  - Tests: order, the cap, and an empty day.
+- [x] **Open on Explore, not the login screen** (owner, 2026-11-09). Everyone starts as a guest (`SessionProvider`), and `app/index.tsx` goes to Explore. Signing out or deleting the account still lands on login.
+- [x] **Add to Trip for guests** (2026-11-09): the place screen and the map pop-up show it to guests, and a tap asks them to sign in, as Save and Review do. The opening tour's guest steps are unchanged.
+  - [x] After signing in, a guest goes back to the screen that asked (2026-11-10): `leaveLogin()` in `app/(auth)/login.tsx` goes back when there's a screen under the login one, else to Explore. The `(auth)` layout no longer redirects a signed-in user itself. "Continue as guest" leaves the same way.
+- [x] **Trips tab for a guest shows a locked suggested trip** (owner, 2026-11-10, mockup B in [Guest Trips Mockups](https://claude.ai/artifact/BbLtoCyq1knh5awTeMXtFT)). The sign-in card, then "South Island in 7 Days" from Christchurch, drawn by `TripOverview` with its new `header` and `locked` options: no dates, a lock on each row, and a tap asks them to sign in. After signing in the Trips tab is empty; copying that suggested trip in for them would be its own step.
+- [ ] **Login screen feels basic** ("then the home page showed the polish"). Goes with the post-launch design sweep, not before.
 
 ### After launch — emailing users for feedback and news
 Owner, 2026-10-31: wants to be able to email users for feedback or news. Account emails need no consent. Feedback or news needs an opt-in: NZ's Unsolicited Electronic Messages Act requires consent and a working unsubscribe, and EU users need an explicit opt-in. Plan before building.

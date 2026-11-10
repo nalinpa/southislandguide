@@ -234,7 +234,7 @@ From a tester's written feedback. They liked the day view's drive blocks and the
 
 ### After launch — emailing users for feedback and news
 Owner, 2026-10-31: wants to be able to email users for feedback or news. Account emails need no consent. Feedback or news needs an opt-in: NZ's Unsolicited Electronic Messages Act requires consent and a working unsubscribe, and EU users need an explicit opt-in. Plan before building.
-- [ ] **Privacy policy line, before submitting:** run [prompts/privacy-email-line.md](prompts/privacy-email-line.md). It's a website edit, no build.
+- [x] **Privacy policy line, before submitting:** live on blacksands.app/kiwi-guide (dated 31 October 2026) and kiwiguide.app/privacy, checked 2026-11-10. It was [prompts/privacy-email-line.md](prompts/privacy-email-line.md).
 - [~] **Signup opt-in — built 2026-11-07, for 1.0.1:** an unticked box, "Email me now and then to ask for feedback and share Kiwi Guide news", from `AuthPanel`'s new `optIn` (`@blacksands/components` 0.8.0, `3f277ab`, owner publishes). Sign-up saves `emailOptIn { value, at }` on `users/{uid}`, yes or no (`841de99`). No api or rules change: the user can already write that record, and account deletion removes it.
 - [x] **Profile switch:** "Email me about feedback and news" on the Account tab, signed in only (`841de99`).
 - [ ] **Exporting the list:** a read-only script for the emails of users with `emailOptIn.value` true (Firebase Auth has the emails), when the first email goes out.

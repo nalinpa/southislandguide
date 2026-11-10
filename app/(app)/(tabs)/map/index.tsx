@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView, Keyboard } from "react-native";
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView, Keyboard, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
@@ -91,6 +91,14 @@ export default function MapScreen() {
   );
 
   const handleAddToItinerary = useCallback(() => {
+    // A guest is asked to sign in, as on the place screen.
+    if (session.status !== "authed") {
+      Alert.alert("Sign In Required", "Sign in to plan your trip.", [
+        { text: "Cancel", style: "cancel" },
+        { text: "Sign In", onPress: () => router.push("/(auth)/login") },
+      ]);
+      return;
+    }
     if (!entitledProductIds.has(FULL_GUIDE_PRODUCT_ID)) {
       setShowPremiumAdd(true);
       return;
@@ -99,7 +107,7 @@ export default function MapScreen() {
     if (addFlow === "create") setIsCreatingItinerary(true);
     else if (addFlow === "choose") setShowTripChoice(true);
     else if (addFlow === "pick") setIsAddingToTrip(true);
-  }, [addFlow, entitledProductIds]);
+  }, [addFlow, entitledProductIds, session.status]);
 
   const mapSites = useMemo(() => {
     // The same search as Explore's: name, description or category.
@@ -417,7 +425,7 @@ export default function MapScreen() {
           mapViewRef.current?.focusOn(selectedSite.lat, selectedSite.lng);
         }}
         onAddToItinerary={
-          session.status !== "guest" && selectedSite && canAddToItinerary(selectedSite)
+          selectedSite && canAddToItinerary(selectedSite)
             ? handleAddToItinerary
             : undefined
         }

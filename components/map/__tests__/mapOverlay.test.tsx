@@ -188,13 +188,14 @@ describe("the selected site", () => {
 
   // Orange buttons carry a white label everywhere, so they use the full-strength
   // highlight: white on the lighter on-dark orange is only 1.7:1.
-  it("makes Directions the highlighted action with a white label, and Details the plain one", async () => {
+  // A trip planner's main action is Add to Trip (tester, 2026-11-09), so Directions is plain.
+  it("makes Directions a plain white button like Details", async () => {
     const view = await openSheet();
 
-    expect(view.getByRole("button", { name: "Directions" })).toHaveStyle({
+    expect(view.getByRole("button", { name: "Directions" })).not.toHaveStyle({
       backgroundColor: tokens.colors.highlight,
     });
-    expect(view.getByText("Directions")).toHaveStyle({ color: "#FFFFFF" });
+    expect(view.getByText("Directions")).toHaveStyle({ color: tokens.colors.text });
     expect(view.getByRole("button", { name: "Details" })).not.toHaveStyle({
       backgroundColor: tokens.colors.highlight,
     });
@@ -217,11 +218,19 @@ describe("add to itinerary", () => {
 
   // Solid white, not an outline: on the teal sheet the outline was the faintest thing
   // there, for the one action that builds a trip.
-  it("is a solid white button", async () => {
+  it("is the highlighted action, with a white label", async () => {
     const view = await openSheet({ onAddToItinerary: jest.fn() });
 
-    expect(view.getByRole("button", { name: "Add to Trip" })).toHaveStyle({ backgroundColor: "#FFFFFF" });
-    expect(view.getByText("Add to Trip")).toHaveStyle({ color: tokens.colors.text });
+    expect(view.getByRole("button", { name: "Add to Trip" })).toHaveStyle({ backgroundColor: tokens.colors.highlight });
+    expect(view.getByText("Add to Trip")).toHaveStyle({ color: "#FFFFFF" });
+  });
+
+  // As a second row it sat below the fold at the sheet's opening height.
+  it("shares the first row with Directions and Details, first in line", async () => {
+    const view = await openSheet({ onAddToItinerary: jest.fn() });
+
+    const row = view.getAllByText(/^(Add to Trip|Directions|Details)$/).map((t: any) => t.props.children);
+    expect(row).toEqual(["Add to Trip", "Directions", "Details"]);
   });
 
   it("is offered when it is supplied", async () => {
@@ -237,8 +246,8 @@ describe("add to itinerary", () => {
     const onAddToItinerary = jest.fn();
     const view = await openSheet({ onAddToItinerary, isOffline: true });
 
-    expect(view.getByText("Reconnect to Add")).toBeTruthy();
-    await fireEvent.press(view.getByText("Reconnect to Add"));
+    expect(view.getByText("Offline")).toBeTruthy();
+    await fireEvent.press(view.getByText("Offline"));
     expect(onAddToItinerary).not.toHaveBeenCalled();
   });
 });

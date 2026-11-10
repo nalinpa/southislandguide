@@ -128,6 +128,9 @@ function SiteDetail({ id }: { id: string }) {
     return false;
   };
 
+  // A guest's button stays live so the tap can ask them to sign in.
+  const addDisabled = session.status === "authed" && (isOffline || !addFlow);
+
   const handleToggleSave = () => {
     if (!signedIn("Sign in to save places.")) return;
     toggleSavedSite({ siteId: id, isSaving: !isSaved });
@@ -263,19 +266,19 @@ function SiteDetail({ id }: { id: string }) {
         </Pressable>
       </SafeAreaView>
 
-      {/* Signed-in only, matching the map overlay: a guest has nowhere to save
-          a trip. Hidden for Stay via canAddToItinerary() — the same rule the
-          map uses, so the two can't drift.
+      {/* A guest sees it too and is asked to sign in, as for Save and Review: it's
+          the app's main action, and everyone now starts as a guest. Hidden for Stay
+          via canAddToItinerary() — the same rule the map uses, so the two can't drift.
           ponytail: no premium gate here — v1 has no paid unlock (see the stub
           in lib/hooks/useEntitlementGate.ts). rotorua-guide's version opens
           PremiumFeatureModal first; add that back when commerce lands. */}
-      {session.status === "authed" && canAddToItinerary(site) && (
+      {(session.status === "authed" || session.status === "guest") && canAddToItinerary(site) && (
         <SafeAreaView edges={["bottom"]} style={styles.itineraryFloatingWrap} pointerEvents="box-none">
           <Pressable
             {...addTarget}
-            style={[styles.itineraryButton, (isOffline || !addFlow) && styles.itineraryButtonDisabled]}
-            disabled={isOffline || !addFlow}
-            onPress={startAddToItinerary}
+            style={[styles.itineraryButton, addDisabled && styles.itineraryButtonDisabled]}
+            disabled={addDisabled}
+            onPress={() => signedIn("Sign in to plan your trip.") && startAddToItinerary()}
             accessibilityRole="button"
           >
             <AppText style={styles.itineraryButtonText}>

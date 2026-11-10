@@ -134,6 +134,7 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
+import { Alert } from "react-native";
 import { act, fireEvent, render } from "@testing-library/react-native";
 
 import MapScreen from "@/app/(app)/(tabs)/map/index";
@@ -449,14 +450,19 @@ describe("what opens selected", () => {
 });
 
 describe("adding to an itinerary", () => {
-  it("isn't offered to a guest at all", async () => {
+  it("asks a guest to sign in, opening nothing", async () => {
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
     mockSession.status = "guest";
     mockSession.uid = undefined;
+    mockTrips.addFlow = null;
     mockMapStore.selectedLocationId = "s3";
     const view = await render(<MapScreen />);
 
-    expect(view.getByText("Overlay: Riverside Market")).toBeTruthy();
-    expect(view.queryByText("Add to Trip")).toBeNull();
+    await fireEvent.press(view.getByText("Add to Trip"));
+
+    expect(alertSpy).toHaveBeenCalledWith("Sign In Required", "Sign in to plan your trip.", expect.any(Array));
+    expect(view.queryByText("Create Trip Modal")).toBeNull();
+    alertSpy.mockRestore();
   });
 
   it("isn't offered for a Stay", async () => {

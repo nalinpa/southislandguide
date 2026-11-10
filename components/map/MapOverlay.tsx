@@ -203,32 +203,37 @@ export function MapOverlayCard({
             )}
           </View>
         </View>
+        {/* One row, so Add to Trip shows at the sheet's opening height (22%): as a second
+            row it sat below the fold (owner, 2026-11-10). Labels shrink a little rather than
+            wrap on an iPhone SE, where each button is about 105 pt. */}
         <View style={styles.actions}>
-          <Pressable onPress={onOpen} style={styles.btnDetails} accessibilityRole="button">
-            <Text style={styles.btnDetailsText}>Details</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => getDirections(site.lat, site.lng, site.name)}
-            style={styles.btnDirections}
-            accessibilityRole="button"
-          >
-            <Navigation size={14} color="#FFFFFF" strokeWidth={2.25} />
-            <Text style={styles.btnDirectionsText}>Directions</Text>
-          </Pressable>
-        </View>
-        {onAddToItinerary && (
-          <View style={styles.actionsSecondary}>
+          {onAddToItinerary && (
             <Pressable
               onPress={onAddToItinerary}
               disabled={isOffline}
               accessibilityRole="button"
               style={[styles.btnAddToTrip, isOffline && styles.btnAddToTripDisabled]}
             >
-              <CalendarPlus size={16} color={tokens.colors.accent} strokeWidth={2.25} />
-              <Text style={styles.btnAddToTripText}>{isOffline ? "Reconnect to Add" : "Add to Trip"}</Text>
+              <CalendarPlus size={15} color="#FFFFFF" strokeWidth={2.25} />
+              <Text style={styles.btnAddToTripText} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85}>
+                {isOffline ? "Offline" : "Add to Trip"}
+              </Text>
             </Pressable>
-          </View>
-        )}
+          )}
+          <Pressable
+            onPress={() => getDirections(site.lat, site.lng, site.name)}
+            style={styles.btnDirections}
+            accessibilityRole="button"
+          >
+            <Navigation size={14} color={tokens.colors.text} strokeWidth={2.25} />
+            <Text style={styles.btnDirectionsText} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85}>
+              Directions
+            </Text>
+          </Pressable>
+          <Pressable onPress={onOpen} style={styles.btnDetails} accessibilityRole="button">
+            <Text style={styles.btnDetailsText} numberOfLines={1}>Details</Text>
+          </Pressable>
+        </View>
       </>
     );
   };
@@ -366,30 +371,28 @@ const styles = StyleSheet.create({
   distancePillText: { fontSize: 13, fontWeight: "700", color: tokens.colors.highlightOnDark },
   loadingRow: { flexDirection: "row", alignItems: "center", gap: 8, paddingBottom: 4 },
   loadingLabel: { fontSize: 10, fontWeight: "700", letterSpacing: 2, color: "rgba(255,255,255,0.5)" },
-  actions: { flexDirection: "row", gap: 10, paddingHorizontal: 20, paddingBottom: 8 },
+  actions: { flexDirection: "row", gap: 8, paddingHorizontal: 20, paddingBottom: 8 },
   btnDetails: {
     flex: 1, paddingVertical: 14, borderRadius: 10,
     backgroundColor: "rgba(255,255,255,0.92)", alignItems: "center", justifyContent: "center",
   },
   btnDetailsText: { fontSize: 14, fontWeight: "600", color: tokens.colors.text, letterSpacing: 0.1 },
+  // White, like Details: a trip planner's main action is Add to Trip, below
+  // (tester, 2026-11-09: "why is Directions the highlighted button?").
+  btnDirections: {
+    flex: 1, flexDirection: "row", gap: 5, paddingVertical: 14, paddingHorizontal: 6, borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,0.92)", alignItems: "center", justifyContent: "center",
+  },
+  btnDirectionsText: { flexShrink: 1, fontSize: 14, fontWeight: "600", color: tokens.colors.text, letterSpacing: 0.1 },
   // The sheet's main action: the full-strength highlight with a white label
   // (5.2:1), like every other orange button. Teal on the teal sheet would
   // vanish, and white on the lighter on-dark orange is only 1.7:1.
-  btnDirections: {
-    flex: 1, flexDirection: "row", gap: 6, paddingVertical: 14, borderRadius: 10,
-    backgroundColor: tokens.colors.highlight, alignItems: "center", justifyContent: "center",
-  },
-  btnDirectionsText: { fontSize: 14, fontWeight: "700", color: "#FFFFFF", letterSpacing: 0.1 },
-  actionsSecondary: { paddingHorizontal: 20, paddingBottom: 8, marginTop: 4 },
-  // Solid white with a dark label: the brightest thing on the teal sheet after
-  // the orange Directions button. As a thin white outline it was the faintest,
-  // for the one action that builds a trip.
   btnAddToTrip: {
-    flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8,
-    paddingVertical: 15, borderRadius: 10, backgroundColor: "#FFFFFF",
+    flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 5,
+    paddingVertical: 14, paddingHorizontal: 6, borderRadius: 10, backgroundColor: tokens.colors.highlight,
   },
   btnAddToTripDisabled: { opacity: 0.5 },
-  btnAddToTripText: { fontSize: 15, fontWeight: "700", color: tokens.colors.text, letterSpacing: 0.1 },
+  btnAddToTripText: { flexShrink: 1, fontSize: 14, fontWeight: "700", color: "#FFFFFF", letterSpacing: 0.1 },
   nearbySection: { paddingTop: 4 },
   nearbySep: {
     height: StyleSheet.hairlineWidth, backgroundColor: "rgba(255,255,255,0.12)",

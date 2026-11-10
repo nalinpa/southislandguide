@@ -261,11 +261,21 @@ describe("highlight", () => {
 });
 
 describe("adding to an itinerary", () => {
-  it("is not offered to a guest, who has nowhere to save a trip", async () => {
+  it("asks a guest to sign in, opening nothing", async () => {
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
     mockSession.status = "guest";
     mockSession.uid = undefined;
+    mockTrips.addFlow = null;
     await openDetail();
-    expect(screen.queryByText("+ Add to Trip")).toBeNull();
+
+    await fireEvent.press(screen.getByText("+ Add to Trip"));
+
+    expect(alertSpy).toHaveBeenCalledWith("Sign In Required", "Sign in to plan your trip.", [
+      { text: "Cancel", style: "cancel" },
+      { text: "Sign In", onPress: expect.any(Function) },
+    ]);
+    expect(screen.queryByText("Create Trip Modal")).toBeNull();
+    alertSpy.mockRestore();
   });
 
   it("is not offered for a Stay", async () => {
@@ -453,12 +463,11 @@ describe("the tour", () => {
     expect(target("placeSave")).toHaveTextContent("Save");
   });
 
-  it("has no add button to point at for a guest", async () => {
+  it("points at + Add to Trip for a guest too", async () => {
     mockSession.status = "guest";
     mockSession.uid = undefined;
     await openDetail();
 
-    expect(target("placeAdd")).toBeNull();
-    expect(target("placeSave")).toBeTruthy();
+    expect(target("placeAdd")).toHaveTextContent("+ Add to Trip");
   });
 });

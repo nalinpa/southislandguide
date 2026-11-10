@@ -71,7 +71,7 @@ jest.mock("@/lib/providers/SessionProvider", () => ({
   useSession: () => ({ session: mockSession, enableGuest: mockEnableGuest }),
 }));
 
-const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
+const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => false) };
 jest.mock("expo-router", () => ({
   get router() {
     return mockRouter;
@@ -350,5 +350,16 @@ describe("already signed in", () => {
     await render(<LoginScreen />);
 
     await waitFor(() => expect(mockRouter.replace).toHaveBeenCalledWith("/(app)/(tabs)/sites"));
+  });
+
+  // A guest asked to sign in from a place goes back to that place, not to Explore.
+  it("goes back to the screen that asked for sign-in", async () => {
+    mockRouter.canGoBack.mockReturnValueOnce(true);
+    mockSession.status = "authed";
+    mockSession.uid = "uid-1";
+    await render(<LoginScreen />);
+
+    await waitFor(() => expect(mockRouter.back).toHaveBeenCalled());
+    expect(mockRouter.replace).not.toHaveBeenCalled();
   });
 });

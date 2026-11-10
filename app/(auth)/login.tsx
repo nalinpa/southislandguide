@@ -24,6 +24,14 @@ const PHOTO_SHARE = 0.47;
 // on top, fading into the deep teal of the app's top bars, and the engine's AuthPanel on
 // the teal, showing straight away. Email is the only way in, so there is no "Sign in with
 // email" step to open it.
+// Back to where sign-in was asked for: every "Sign In" in the app (a place's Add to Trip,
+// Save, the Trips tab) pushes this screen over it. With nothing under it (after signing
+// out), on to Explore.
+function leaveLogin() {
+  if (router.canGoBack()) router.back();
+  else router.replace("/(app)/(tabs)/sites");
+}
+
 export default function LoginScreen() {
   const f = useAuthForm("login");
   const { session, enableGuest } = useSession();
@@ -32,9 +40,7 @@ export default function LoginScreen() {
 
   useEffect(() => {
     // Guest is not redirected here — see app/(auth)/_layout.tsx for why.
-    if (session.status === "authed") {
-      router.replace("/(app)/(tabs)/sites");
-    }
+    if (session.status === "authed") leaveLogin();
   }, [session.status]);
 
   // ponytail: email-only for 1.0. Apple's servers reject this App ID's Sign in
@@ -52,7 +58,7 @@ export default function LoginScreen() {
   const handleGuestEntry = async () => {
     if (session.status !== "loggedOut" && session.status !== "guest") return;
     await enableGuest();
-    router.replace("/(app)/(tabs)/sites");
+    leaveLogin();
   };
 
   return (

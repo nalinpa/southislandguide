@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Redirect, Slot } from "expo-router";
+import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useSession } from "@/lib/providers/SessionProvider";
 
@@ -16,9 +16,8 @@ export default function AuthLayout() {
     return null;
   }
 
-  if (session.status === "authed") {
-    return <Redirect href="/(app)/(tabs)/sites" />;
-  }
+  // Signed in: the login screen itself leaves, back to the screen that asked for sign-in
+  // (leaveLogin in login.tsx). A redirect here replaced it with Explore first.
 
   // Deliberately no redirect for "guest" — a guest landing here is signing in
   // on purpose (every "Sign In" button in the app just pushes this route

@@ -113,6 +113,9 @@ jest.mock("@/components/itinerary/CreateItineraryModal", () => {
           : React.createElement(Text, null, `Editing ${trip.title}, ${trip.days.length} days`),
   };
 });
+// The calendar export has its own tests (lib/__tests__/tripCalendar.test.ts).
+const mockAddTripToCalendar = jest.fn();
+jest.mock("@/lib/tripCalendar", () => ({ addTripToCalendar: (...args: any[]) => mockAddTripToCalendar(...args) }));
 jest.mock("@/components/itinerary/PremiumFeatureModal", () => {
   const React = require("react");
   const { Text } = require("react-native");
@@ -521,6 +524,20 @@ describe("the trip menu", () => {
     await fireEvent.press(view.getByText("Edit Trip"));
 
     expect(view.getByText("Editing Hot Pools Weekend, 3 days")).toBeTruthy();
+  });
+
+  it("adds the trip to a calendar, as it stands on screen", async () => {
+    const view = await openTrip();
+    await fireEvent.press(view.getByLabelText("Trip options"));
+
+    await fireEvent.press(view.getByText("Add to Calendar"));
+
+    expect(mockAddTripToCalendar).toHaveBeenCalledWith(
+      { id: "t1", title: "Hot Pools Weekend" },
+      expect.arrayContaining([expect.objectContaining({ id: "day_1" })]),
+      mockLookup.places,
+    );
+    expect(view.queryByText("Add to Calendar")).toBeNull();
   });
 
   // One trip each: a new one, suggested or blank, is saved over this one, after asking.

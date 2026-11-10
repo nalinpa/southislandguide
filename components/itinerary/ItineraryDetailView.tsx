@@ -44,6 +44,7 @@ import {
 } from "@/lib/utils/itineraryPhysics";
 import { areaName } from "@/lib/areas";
 import { dayRouteUrl } from "@/lib/utils/dayRoute";
+import { addTripToCalendar } from "@/lib/tripCalendar";
 import { areaImage } from "@/lib/areaImages";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
@@ -994,6 +995,23 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                 }}
               >
                 <Text style={styles.menuRowText}>Edit Trip</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.menuRow, styles.menuRowDivider]}
+                activeOpacity={0.6}
+                accessibilityRole="button"
+                onPress={() => {
+                  setShowTripMenu(false);
+                  // The trip as it stands on screen, with the open day's edits saved first.
+                  flushSave();
+                  void addTripToCalendar(
+                    { id: localTrip.id, title: localTrip.title },
+                    tripRef.current ? currentDays() : localTrip.days,
+                    places,
+                  );
+                }}
+              >
+                <Text style={styles.menuRowText}>Add to Calendar</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.menuRow, styles.menuRowDivider]}

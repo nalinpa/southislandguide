@@ -47,6 +47,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     "expo-apple-authentication",
     "expo-sharing",
     [
+      // Add to Calendar on a trip. Full access, not write-only: write-only can't show the
+      // calendar list, so nobody could pick their Google calendar. No reminders.
+      "expo-calendar",
+      {
+        calendarPermission: "Kiwi Guide adds your trip's places and drives to the calendar you choose.",
+        remindersPermission: false,
+      },
+    ],
+    [
       "expo-image-picker",
       {
         photosPermission: "Kiwi Guide accesses your photos so you can build a share card.",

@@ -50,6 +50,7 @@ it("bakes the place, the region and the date into the card", async () => {
   expect(view.getByText("New Zealand")).toBeTruthy();
   expect(view.getByText("Sep 2026")).toBeTruthy();
   expect(view.getByText("Kiwi Guide")).toBeTruthy();
+  expect(view.getByText("kiwiguide.app")).toBeTruthy();
 });
 
 it("never carries rotorua-guide's branding", async () => {

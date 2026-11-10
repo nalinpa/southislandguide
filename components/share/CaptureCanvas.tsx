@@ -48,7 +48,11 @@ export const CaptureCanvas = forwardRef<View, CaptureCanvasProps>(
         <View style={styles.footer}>
           <View style={styles.brand}>
             <Image source={require("@/assets/icon.png")} style={styles.brandIcon} />
-            <Text style={styles.brandLabel}>Kiwi Guide</Text>
+            <View style={styles.brandText}>
+              <Text style={styles.brandLabel}>Kiwi Guide</Text>
+              {/* Where someone who sees the post finds the app (owner, 2026-11-10). */}
+              <Text style={styles.brandUrl}>kiwiguide.app</Text>
+            </View>
           </View>
           <View style={styles.dateBadge}>
             <Text style={styles.dateText}>{payload.dateLabel}</Text>
@@ -144,12 +148,21 @@ const styles = StyleSheet.create({
   },
   brand: { flexDirection: "row", alignItems: "center", gap: 20 },
   brandIcon: { width: 64, height: 64, borderRadius: 14 },
+  brandText: { gap: 2 },
   brandLabel: {
     color: "#FFFFFF",
     fontSize: 34,
+    lineHeight: 40,
     fontWeight: "900",
     letterSpacing: 6,
     textTransform: "uppercase",
+  },
+  brandUrl: {
+    color: "rgba(255,255,255,0.7)",
+    fontSize: 24,
+    lineHeight: 28,
+    fontWeight: "700",
+    letterSpacing: 1,
   },
   dateBadge: {
     borderWidth: 2,

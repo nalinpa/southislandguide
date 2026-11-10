@@ -13,8 +13,8 @@ import { render } from "@testing-library/react-native";
 
 import Index from "@/app/index";
 
-it("sends the first launch to the login screen", async () => {
+it("sends the first launch to Explore", async () => {
   const view = await render(<Index />);
 
-  expect(view.getByText("Redirect to /(auth)/login")).toBeTruthy();
+  expect(view.getByText("Redirect to /(app)/(tabs)/sites")).toBeTruthy();
 });

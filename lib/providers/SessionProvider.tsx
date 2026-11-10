@@ -18,7 +18,9 @@ const SessionContext = createContext<SessionContextValue | null>(null);
 
 export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null | undefined>(undefined);
-  const [isGuest, setIsGuest] = useState(false);
+  // Guest from the start: the app opens on Explore, and sign-in waits until it's needed.
+  // Signing out or deleting the account turns this off, which lands on the login screen.
+  const [isGuest, setIsGuest] = useState(true);
 
   useEffect(() => onAuthStateChanged(auth, setUser), []);
 

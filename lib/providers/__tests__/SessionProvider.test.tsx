@@ -37,10 +37,10 @@ describe("SessionProvider / useSession", () => {
     expect(result.current.session).toEqual({ status: "loading" });
   });
 
-  it("moves to loggedOut when the auth callback reports no user", async () => {
+  it("starts as a guest when the auth callback reports no user", async () => {
     const { result } = await renderHook(() => useSession(), { wrapper: SessionProvider });
     await act(async () => authCallback(null));
-    expect(result.current.session).toEqual({ status: "loggedOut" });
+    expect(result.current.session).toEqual({ status: "guest" });
   });
 
   it("moves to authed with the uid when a user signs in", async () => {
@@ -52,6 +52,7 @@ describe("SessionProvider / useSession", () => {
   it("enableGuest moves a signed-out session to guest", async () => {
     const { result } = await renderHook(() => useSession(), { wrapper: SessionProvider });
     await act(async () => authCallback(null));
+    await act(async () => result.current.disableGuest());
     await act(async () => result.current.enableGuest());
     expect(result.current.session).toEqual({ status: "guest" });
   });

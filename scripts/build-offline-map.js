@@ -125,7 +125,16 @@ async function download(set, todo, key) {
   return failed;
 }
 
+// The zoom 12 folder ignores itself. Not a line in the root .gitignore: that file is part
+// of the app's fingerprint, so editing it changes the runtime version and over-the-air
+// updates stop matching the builds on phones (2026-11-11).
+function ignoreInGit(dir) {
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, ".gitignore"), "*\n");
+}
+
 async function applySet(name, set, key) {
+  if (name === "detailed") ignoreInGit(set.dir);
   const todo = allTiles(set).filter((tile) => !fs.existsSync(fileOf(set, tile)));
   console.log(`${name}: downloading ${count(todo.length)} tiles, ${PARALLEL} at a time`);
   const failed = await download(set, todo, key);

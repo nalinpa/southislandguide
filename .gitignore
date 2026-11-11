@@ -13,5 +13,3 @@ design-refs/
 
 # The saved map's tiles, built by scripts/build-offline-map.js and served by Firebase Hosting
 offline-map-site/
-# Zoom 12 tiles, kept out of the hosted folder: phones get them only inside v2's packs
-offline-map-tiles-z12/

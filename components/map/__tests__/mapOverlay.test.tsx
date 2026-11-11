@@ -225,12 +225,16 @@ describe("add to itinerary", () => {
     expect(view.getByText("Add to Trip")).toHaveStyle({ color: "#FFFFFF" });
   });
 
-  // As a second row it sat below the fold at the sheet's opening height.
-  it("shares the first row with Directions and Details, first in line", async () => {
+  // Owner, 2026-11-11: Add to Trip and Details on the first row, which shows at the sheet's
+  // opening height, and Directions on its own row under them.
+  it("shares the first row with Details, with Directions on the row under them", async () => {
     const view = await openSheet({ onAddToItinerary: jest.fn() });
 
-    const row = view.getAllByText(/^(Add to Trip|Directions|Details)$/).map((t: any) => t.props.children);
-    expect(row).toEqual(["Add to Trip", "Directions", "Details"]);
+    const rowOf = (label: string) => view.getByRole("button", { name: label }).parent;
+    expect(rowOf("Add to Trip")).toBe(rowOf("Details"));
+    expect(rowOf("Directions")).not.toBe(rowOf("Details"));
+    const order = view.getAllByText(/^(Add to Trip|Directions|Details)$/).map((t: any) => t.props.children);
+    expect(order).toEqual(["Add to Trip", "Details", "Directions"]);
   });
 
   it("is offered when it is supplied", async () => {

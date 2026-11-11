@@ -203,9 +203,9 @@ export function MapOverlayCard({
             )}
           </View>
         </View>
-        {/* One row, so Add to Trip shows at the sheet's opening height (22%): as a second
-            row it sat below the fold (owner, 2026-11-10). Labels shrink a little rather than
-            wrap on an iPhone SE, where each button is about 105 pt. */}
+        {/* Add to Trip and Details on the first row, which shows at the sheet's opening
+            height (22%), and Directions on its own row under them (owner, 2026-11-11).
+            Before 2026-11-10 Add to Trip had that second row, below the fold. */}
         <View style={styles.actions}>
           {onAddToItinerary && (
             <Pressable
@@ -220,18 +220,20 @@ export function MapOverlayCard({
               </Text>
             </Pressable>
           )}
+          <Pressable onPress={onOpen} style={styles.btnDetails} accessibilityRole="button">
+            <Text style={styles.btnDetailsText} numberOfLines={1}>Details</Text>
+          </Pressable>
+        </View>
+        <View style={styles.actions}>
           <Pressable
             onPress={() => getDirections(site.lat, site.lng, site.name)}
             style={styles.btnDirections}
             accessibilityRole="button"
           >
             <Navigation size={14} color={tokens.colors.text} strokeWidth={2.25} />
-            <Text style={styles.btnDirectionsText} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85}>
+            <Text style={styles.btnDirectionsText} numberOfLines={1}>
               Directions
             </Text>
-          </Pressable>
-          <Pressable onPress={onOpen} style={styles.btnDetails} accessibilityRole="button">
-            <Text style={styles.btnDetailsText} numberOfLines={1}>Details</Text>
           </Pressable>
         </View>
       </>
@@ -377,7 +379,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.92)", alignItems: "center", justifyContent: "center",
   },
   btnDetailsText: { fontSize: 14, fontWeight: "600", color: tokens.colors.text, letterSpacing: 0.1 },
-  // White, like Details: a trip planner's main action is Add to Trip, below
+  // White, like Details: a trip planner's main action is Add to Trip, above it
   // (tester, 2026-11-09: "why is Directions the highlighted button?").
   btnDirections: {
     flex: 1, flexDirection: "row", gap: 5, paddingVertical: 14, paddingHorizontal: 6, borderRadius: 10,

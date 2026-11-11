@@ -153,11 +153,15 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   const fitsAt = (d: string, slot: number) => fits.get(`${d}:${slot}`)?.ok ?? true;
   const dayFits = (d: string) => times.some((t) => fitsAt(d, t.startSlot));
   const days = selectedTrip?.days ?? [];
-  // The user's pick, else the gap's day, else the first day with room.
-  const day = days.find((d) => d.id === (dayId ?? pending?.dayId)) ?? days.find((d) => dayFits(d.id)) ?? days[0];
+  // The user's pick, else the gap's day if it has room, else the first day that has.
+  const day =
+    days.find((d) => d.id === dayId) ??
+    days.find((d) => d.id === pending?.dayId && dayFits(d.id)) ??
+    days.find((d) => dayFits(d.id)) ??
+    days[0];
   const slot =
     startSlot ??
-    (day && pending?.dayId === day.id ? pending.slot : undefined) ??
+    (day && pending?.dayId === day.id && fitsAt(day.id, pending.slot) ? pending.slot : undefined) ??
     (day ? times.find((t) => fitsAt(day.id, t.startSlot))?.startSlot : undefined) ??
     times[0].startSlot;
   const chosen = day ? fits.get(`${day.id}:${slot}`) : undefined;
@@ -286,12 +290,14 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                   <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillRow}>
                     {days.map((d, idx) => {
                       const active = day?.id === d.id;
-                      // A day with no room stays tappable, to read why.
+                      // A day with no room can't be picked (owner, 2026-11-11).
                       const room = dayFits(d.id);
                       return (
                         <TouchableOpacity
                           key={d.id}
                           style={[styles.pill, active && styles.pillActive, !room && styles.pillDim]}
+                          disabled={!room}
+                          accessibilityState={{ selected: active, disabled: !room }}
                           onPress={() => setDayId(d.id)}
                         >
                           <Text style={[styles.pillText, active && styles.pillTextActive]}>Day {idx + 1}</Text>
@@ -315,6 +321,8 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                     <TouchableOpacity
                       key={t.key}
                       style={[styles.pill, active && styles.pillActive, full && styles.pillDim]}
+                      disabled={full}
+                      accessibilityState={{ selected: active, disabled: full }}
                       onPress={() => setStartSlot(t.startSlot)}
                     >
                       <Text style={[styles.pillText, active && styles.pillTextActive]}>{t.label}</Text>

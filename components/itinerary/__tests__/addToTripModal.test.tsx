@@ -250,22 +250,34 @@ describe("which days have room", () => {
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
 
     expect(view.getAllByText("Full")).toHaveLength(1);
+    // Morning can't be picked, so the place goes in at midday.
     await fireEvent.press(view.getByText("Morning"));
-    expect(view.getByText("Morning has no room on this day. Try another time or day.")).toBeTruthy();
-
-    await fireEvent.press(view.getByText("Midday"));
     await fireEvent.press(view.getByText("Add"));
+
     await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    const added = mockTrips.saveItinerary.mock.calls[0][0].days[0].items.find((i: any) => i.siteId === "site-1");
+    expect(added.slotIndex).toBeGreaterThanOrEqual(6);
+    expect(added.slotIndex).toBeLessThan(12);
   });
 
   it("marks every part of a full day", async () => {
-    mockTrips.itineraries = [tripWithDays(fullDay, [])];
+    mockTrips.itineraries = [tripWithDays(fullDay)];
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
-    expect(view.queryByText("Full")).toBeNull();
-
-    await fireEvent.press(view.getByText("Day 1"));
 
     expect(view.getAllByText("Full")).toHaveLength(4);
+  });
+
+  it("doesn't let a day with no room be picked", async () => {
+    mockTrips.itineraries = [tripWithDays(fullDay, [])];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+
+    await fireEvent.press(view.getByText("Day 1"));
+    await fireEvent.press(view.getByText("Add"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    const saved = mockTrips.saveItinerary.mock.calls[0][0].days;
+    expect(saved[0].items).toHaveLength(1);
+    expect(saved[1].items).toHaveLength(1);
   });
 
   it("finds room again when the visit is made shorter", async () => {
@@ -352,35 +364,34 @@ describe("refusals", () => {
     expect(onClose).not.toHaveBeenCalled();
   });
 
-  it("refuses a place there is no time to drive to, and names the drive", async () => {
+  it("won't put a place on a day with no time for the drive to it", async () => {
     // Day 2 has room, so the sheet isn't in its "no day has room" state.
     mockTrips.itineraries = [tripWithDays([makeStop("a", "chc-a", 0, 18)], [])];
     const view = await render(<AddToTripModal site={dunedinPlace} onClose={onClose} />);
 
-    // The reason is there as soon as the day is picked. It used to need a tap on Add.
+    // Day 1 says so up front and can't be picked. It used to take a tap on Add to find out.
+    expect(view.getByText(`${dayLabel("2026-10-01")} · No room`)).toBeTruthy();
     await fireEvent.press(view.getByText("Day 1"));
-    expect(
-      view.getByText("There isn't time for the drive to Dunedin on this day. Try a different day or a shorter visit."),
-    ).toBeTruthy();
     await fireEvent.press(view.getByText("Add"));
 
-    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    expect(mockTrips.saveItinerary.mock.calls[0][0].days[0].items).toHaveLength(1);
+    expect(mockTrips.saveItinerary.mock.calls[0][0].days[1].items[0].siteId).toBe("dun-a");
   });
 
   // The new place becomes day 1's last, so day 2 now has to open with the drive back.
-  it("refuses a place that leaves the next day no room for the drive it then opens with", async () => {
+  it("won't put a place at a time that leaves the next day no room for the drive it then opens with", async () => {
     mockTrips.itineraries = [tripWithDays([makeStop("a", "dun-b", 2)], [makeStop("b", "dun-a", 0, 20)])];
     const view = await render(<AddToTripModal site={christchurchPlace} onClose={onClose} />);
 
+    // Evening can't be picked. In the morning the place comes before Dunedin, which stays
+    // the day's last, so Day 2 is unchanged.
     await fireEvent.press(view.getByText("Evening"));
     await fireEvent.press(view.getByText("Add"));
 
-    await waitFor(() =>
-      expect(
-        view.getByText("Day 2 would no longer fit after the drive from Christchurch. Make room on Day 2 first."),
-      ).toBeTruthy(),
-    );
-    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    const day1 = mockTrips.saveItinerary.mock.calls[0][0].days[0].items;
+    expect(day1.map((i: any) => i.siteId)).toEqual(["chc-a", "dun-b"]);
   });
 
   it("waits for the place list, so nothing is added without the drive check", async () => {

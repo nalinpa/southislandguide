@@ -24,6 +24,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     bundleIdentifier: "app.blacksands.southislandguide",
     supportsTablet: false,
     usesAppleSignIn: true,
+    // So iOS offers to save the password at sign-up and fills it at sign-in. kiwiguide.app
+    // vouches for the app in /.well-known/apple-app-site-association (kiwiguide-site).
+    associatedDomains: ["webcredentials:kiwiguide.app"],
     // Env override exists so CI can point at a secret file instead of the repo copy.
     googleServicesFile: process.env.GOOGLE_SERVICES_FILE ?? "./GoogleService-Info.plist",
     infoPlist: {

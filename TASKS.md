@@ -146,7 +146,7 @@ Owner, 2026-10-23: after launch. With no signal, the map tab shows pins and the 
 
 ### After launch — Apple and Google sign-in
 Owner, 2026-10-25: not in the first release, which signs in by email only. The steps are in [docs/plans/launch.md, After launch: Apple and Google sign-in](docs/plans/launch.md#after-launch-apple-and-google-sign-in).
-- [ ] **Wait for Apple:** the probe (Sign-in, above) answers `invalid_request` instead of `invalid_client`. Still `invalid_client` on 2026-11-09 (Rotorua's `app.blacksands.rtrguide` gets `invalid_request` the same day).
+- [ ] **Wait for Apple:** the probe (Sign-in, above) answers `invalid_request` instead of `invalid_client`. Still `invalid_client` on 2026-11-11 (Rotorua's `app.blacksands.rtrguide` gets `invalid_request` the same day).
 - [ ] **Phone test:** a fresh Apple sign-up and sign-in, account deletion with the token revoked, and Google sign-in with the EAS web client ID set.
 - [ ] **Ship both together in a new store version**, never Google alone: put `<SocialSignInButtons>` back on the login screen, and update the privacy labels and review notes.
 
@@ -213,7 +213,15 @@ From a tester's written feedback. They liked the day view's drive blocks and the
 - [x] **Cancelling the photo share still says "Shared!".** (done 2026-11-09) `expo-sharing`'s iOS `shareAsync` resolves the same way on cancel and on send (`SharingModule.swift`: `promise.resolve(nil)` always). So `shareService.ts` returns ok, and `app/share-frame.tsx` shows "Shared! Heading back…" and leaves.
   - RN's `Share.share` reports `dismissedAction`. But its iOS handler never resolves if someone picks an app and then cancels inside it (`RCTActionSheetManager.mm`), which would leave the button stuck on "Sharing…".
   - Fix: stop claiming success. Drop `shareSuccess`, the success row, the haptic and the auto-back. The screen stays put after the sheet closes. Change the error text to "Couldn't share." Update shareService and shareFrame tests. Over the air.
-- [ ] **Apple's generated password isn't offered for saving.** iOS only offers "Save password?" for a domain the app is linked to. Three parts, in a store build:
+- [ ] **Apple's generated password isn't offered for saving.** iOS only offers "Save password?" for a domain the app is linked to. Three parts, in a store build. **Going into 1.1 (owner, 2026-11-11):**
+  - Done 2026-11-11:
+    - The site file is live at kiwiguide.app and on Apple's CDN (Team ID `F2XZ7YY2X7`; kiwiguide-site `2070ae9`).
+    - The engine change is committed as `@blacksands/components` 0.8.1 (`6d9f128`).
+    - `associatedDomains` is in `app.config.ts`.
+  - Left:
+    - The owner publishes 0.8.1, then the app updates to it.
+    - The phone check on the new dev build: sign up and get "Save password?", sign in with it filled, and see a kiwiguide.app entry in Settings → Passwords.
+  - Since this is native, a dev-branch OTA for the old dev build must leave it out, as the calendar is left out.
   - **Engine first** (`enginev1/components/src/AuthPanel.tsx`, owner publishes): the email field gets `textContentType="username"` (keep the email keyboard) and `autoComplete="email"`. The password field gets `autoComplete` `"new-password"` / `"current-password"` by mode. Then bump `@blacksands/components`.
   - **App:** `ios.associatedDomains: ["webcredentials:kiwiguide.app"]` in `app.config.ts`. It's native, so it needs a new build. EAS syncs the capability.
   - **Website** (`kiwiguide-site`): `public/.well-known/apple-app-site-association` with `{"webcredentials":{"apps":["<TEAMID>.app.blacksands.southislandguide"]}}`, plus a `_headers` entry giving it `Content-Type: application/json`, then `npx wrangler deploy`. The Team ID is in Apple Developer → Membership. Check it at `https://app-site-association.cdn-apple.com/a/v1/kiwiguide.app`.

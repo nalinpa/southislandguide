@@ -74,6 +74,11 @@ export default function MapScreen() {
     [itineraries],
   );
   const tripOn = mapFilter === "trip";
+  // Off once the trip has no places (its last one removed, or signed out): the button goes,
+  // and the map would otherwise stay empty with nothing to turn it off.
+  useEffect(() => {
+    if (tripOn && tripSiteIds.size === 0) setMapFilter(null);
+  }, [tripOn, tripSiteIds]);
   // The chips and the filter button are for categories; My Trip has its own button.
   const categoryOn = !!mapFilter && !tripOn;
   const [showFilters, setShowFilters] = useState(false);

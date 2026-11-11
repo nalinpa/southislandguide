@@ -322,6 +322,23 @@ describe("category chips", () => {
     expect(markers(view)).toHaveLength(4);
   });
 
+  it("turn My Trip off when the trip loses its last place, so the pins come back", async () => {
+    mockTrips.itineraries = [{ id: "t1", days: [{ id: "d1", items: [{ siteId: "s1" }] }] }];
+    const view = await render(<MapScreen />);
+    await fireEvent.press(view.getByRole("button", { name: "My Trip" }));
+    expect(markers(view)).toEqual(["Sumner Beach"]);
+
+    mockTrips.itineraries = [{ id: "t1", days: [{ id: "d1", items: [] }] }];
+    await view.rerender(<MapScreen />);
+    expect(markers(view)).toHaveLength(4);
+    expect(view.queryByText("My Trip")).toBeNull();
+
+    // Back again, it starts off.
+    mockTrips.itineraries = [{ id: "t1", days: [{ id: "d1", items: [{ siteId: "s3" }] }] }];
+    await view.rerender(<MapScreen />);
+    expect(markers(view)).toHaveLength(4);
+  });
+
   it("don't include My Trip, which has its own button", async () => {
     mockTrips.itineraries = [{ id: "t1", days: [{ id: "d1", items: [{ siteId: "s1" }] }] }];
     const view = await render(<MapScreen />);

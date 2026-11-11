@@ -1,6 +1,6 @@
 // The signed-in user's trips. Written against south-island's hook, which keeps
-// rotorua-guide's offline write queue and optimistic delete, and adds the first-trip
-// review prompt (expo-store-review via hooksBag.useReviewPrompt).
+// rotorua-guide's offline write queue and optimistic delete, and adds the review prompt
+// at a trip's fifth stop (expo-store-review via hooksBag.useReviewPrompt).
 const mockRequestReview = jest.fn();
 jest.mock("@react-native-community/netinfo", () => require("@react-native-community/netinfo/jest/netinfo-mock"));
 jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
@@ -47,6 +47,8 @@ const itin = (overrides: Partial<Itinerary> = {}): Itinerary => ({
   updatedAt: "2026-01-01T00:00:00Z",
   ...overrides,
 });
+
+const stop = (i: number) => ({ id: "item-" + i, siteId: "site-" + i, siteName: "Place " + i, slotIndex: i * 2, durationSlots: 2, timeLabel: "", durationLabel: "" });
 
 const newClient = () =>
   new QueryClient({
@@ -367,61 +369,74 @@ describe("useItineraries", () => {
     }
   });
 
-  it("asks for a review when the first trip is created", async () => {
-    signedIn();
-    mockGetMyItineraries.mockResolvedValue([]);
-    mockSaveItinerary.mockResolvedValue("new-id");
-
-    const { result } = await renderHook(() => useItineraries(), { wrapper });
-    await waitFor(() => expect(result.current.loading).toBe(false));
-
+  // Owner, 2026-11-11: once the trip has 5 stops, not on the first trip.
+  const withStops = (n: number) =>
+    itin({ days: [{ id: "day-1", date: "2026-01-01", items: Array.from({ length: n }, (_, i) => stop(i)) }] });
+  const addStop = async (result: any, n: number) => {
     await act(async () => {
-      await result.current.saveItinerary({ title: "First trip" });
+      await result.current.saveItinerary({ id: "itin-1", days: withStops(n).days });
     });
+  };
+
+  it("asks for a review when the trip reaches 5 stops", async () => {
+    signedIn();
+    mockGetMyItineraries.mockResolvedValue([withStops(4)]);
+    mockSaveItinerary.mockResolvedValue("itin-1");
+    const { result } = await renderHook(() => useItineraries(), { wrapper });
+    await waitFor(() => expect(result.current.itineraries).toHaveLength(1));
+
+    await addStop(result, 5);
 
     expect(mockRequestReview).toHaveBeenCalledTimes(1);
   });
 
-  it("does not ask for a review when a second trip is created", async () => {
+  it("does not ask again past 5 stops", async () => {
     signedIn();
-    mockGetMyItineraries.mockResolvedValue([itin()]);
-    mockSaveItinerary.mockResolvedValue("new-id");
+    mockGetMyItineraries.mockResolvedValue([withStops(5)]);
+    mockSaveItinerary.mockResolvedValue("itin-1");
+    const { result } = await renderHook(() => useItineraries(), { wrapper });
+    await waitFor(() => expect(result.current.itineraries).toHaveLength(1));
 
+    await addStop(result, 6);
+
+    expect(mockRequestReview).not.toHaveBeenCalled();
+  });
+
+  it("does not ask when a suggested trip replaces one, jumping past 5", async () => {
+    signedIn();
+    mockGetMyItineraries.mockResolvedValue([withStops(2)]);
+    mockSaveItinerary.mockResolvedValue("itin-1");
+    const { result } = await renderHook(() => useItineraries(), { wrapper });
+    await waitFor(() => expect(result.current.itineraries).toHaveLength(1));
+
+    await addStop(result, 30);
+
+    expect(mockRequestReview).not.toHaveBeenCalled();
+  });
+
+  it("does not ask for a review when a trip is created", async () => {
+    signedIn();
+    mockGetMyItineraries.mockResolvedValue([]);
+    mockSaveItinerary.mockResolvedValue("new-id");
+    const { result } = await renderHook(() => useItineraries(), { wrapper });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    await act(async () => {
+      await result.current.saveItinerary({ title: "First trip", days: withStops(5).days });
+    });
+
+    expect(mockRequestReview).not.toHaveBeenCalled();
+  });
+
+  it("does not ask for a review when the fifth stop fails to save", async () => {
+    signedIn();
+    mockGetMyItineraries.mockResolvedValue([withStops(4)]);
+    mockSaveItinerary.mockRejectedValue(new Error("nope"));
     const { result } = await renderHook(() => useItineraries(), { wrapper });
     await waitFor(() => expect(result.current.itineraries).toHaveLength(1));
 
     await act(async () => {
-      await result.current.saveItinerary({ title: "Second trip" });
-    });
-
-    expect(mockRequestReview).not.toHaveBeenCalled();
-  });
-
-  it("does not ask for a review when an existing trip is updated", async () => {
-    signedIn();
-    mockGetMyItineraries.mockResolvedValue([]);
-    mockSaveItinerary.mockResolvedValue("itin-1");
-
-    const { result } = await renderHook(() => useItineraries(), { wrapper });
-    await waitFor(() => expect(result.current.loading).toBe(false));
-
-    await act(async () => {
-      await result.current.saveItinerary({ id: "itin-1", title: "Updated" });
-    });
-
-    expect(mockRequestReview).not.toHaveBeenCalled();
-  });
-
-  it("does not ask for a review when creating the first trip fails", async () => {
-    signedIn();
-    mockGetMyItineraries.mockResolvedValue([]);
-    mockSaveItinerary.mockRejectedValue(new Error("nope"));
-
-    const { result } = await renderHook(() => useItineraries(), { wrapper });
-    await waitFor(() => expect(result.current.loading).toBe(false));
-
-    await act(async () => {
-      await result.current.saveItinerary({ title: "First trip" }).catch(() => {});
+      await result.current.saveItinerary({ id: "itin-1", days: withStops(5).days }).catch(() => {});
     });
 
     expect(mockRequestReview).not.toHaveBeenCalled();

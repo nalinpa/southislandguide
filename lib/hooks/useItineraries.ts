@@ -1,5 +1,4 @@
 import { useQuery, useMutation, useQueryClient, type QueryClient } from "@tanstack/react-query";
-import { useRef } from "react";
 import { Alert } from "react-native";
 import { ApiError } from "@blacksands/client";
 import * as Sentry from "@sentry/react-native";
@@ -9,6 +8,8 @@ import { useSession } from "@/lib/providers/SessionProvider";
 import { hooksBag } from "@/lib/hooksBag";
 import { PLANNER } from "@/lib/constants/gameplay";
 import type { Itinerary } from "@/lib/models";
+
+const stopCount = (days?: Itinerary["days"]) => days?.reduce((n, d) => n + d.items.length, 0);
 
 // The two trip writes. Offline they pause and send on reconnect, in order: one scope,
 // because each save sends the whole days array and a stale one landing last would clobber
@@ -82,12 +83,6 @@ export function useItineraries() {
           ? "choose"
           : "pick";
 
-  // The trip count at the time of the last render. Kept in a ref so the mutation's
-  // onSuccess always sees the latest value, not the one captured when the mutation
-  // was created. Used to fire the review prompt on the first trip.
-  const tripCountRef = useRef(itineraries.length);
-  tripCountRef.current = itineraries.length;
-
   const saveMutation = useMutation({
     ...tripWrites.save,
     // Into the cached list now, not after the refetch: a save waiting for signal would
@@ -99,17 +94,20 @@ export function useItineraries() {
       await queryClient.cancelQueries({ queryKey });
       const previous = queryClient.getQueryData<Itinerary[]>(queryKey);
       queryClient.setQueryData<Itinerary[]>(queryKey, (old) => old?.map((i) => (i.id === data.id ? { ...i, ...data } : i)));
-      return { previous };
+      return { previous, prevStops: stopCount(previous?.find((i) => i.id === data.id)?.days) };
     },
     // Refreshed without waiting: the failure is reported at once, not after the refetch.
     onError: (_err, _data, context) => {
       if (context?.previous) queryClient.setQueryData(queryKey, context.previous);
       queryClient.invalidateQueries({ queryKey });
     },
-    onSuccess: async (_data, variables) => {
-      // Ask for a review on the very first trip creation, before the refetch
-      // so the prompt isn't held up by network I/O.
-      if (!variables.id && tripCountRef.current === 0) requestReview();
+    onSuccess: async (_data, variables, context) => {
+      // A review once the trip reaches 5 stops, one Add to Trip at a time (owner,
+      // 2026-11-11: asking on the first trip was too early, and with one trip each that
+      // was everyone's first place). Not on creating a trip, which has no id yet, and not
+      // on Start a New Trip saving a suggested trip over this one, which jumps straight
+      // past 5. Before the refetch, so the prompt isn't held up by the network.
+      if (context?.prevStops === 4 && stopCount(variables.days) === 5) requestReview();
       await queryClient.invalidateQueries({ queryKey });
     },
   });

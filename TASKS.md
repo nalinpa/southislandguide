@@ -139,7 +139,8 @@ Notes kept from before:
 Owner, 2026-10-23: after launch. With no signal, the map tab shows pins and the blue dot on a blank grid wherever Apple Maps hasn't already got the map on the phone (Milford road, Haast, the Catlins). Everything else (places, trips, guide) already works offline once the app has been opened with signal. The plan is [docs/plans/offline-map.md](docs/plans/offline-map.md): LINZ topo tiles for the whole island, hosted on Firebase Hosting, saved from a row on the Account tab, and drawn by react-native-maps' `UrlTile` in `offlineMode` when the phone is offline. No new native packages, so it can ship over the air.
 - [x] **Decided 2026-11-07 (owner), for 1.0.1:** topo, the whole country in one set, hosted on Cloudflare R2 (`tiles.blacksands.app`) instead of Firebase. Task 1's script is in (`7ebe55b`, `11cf848`), and so is the app side, Tasks 3–5 (`431e037`). **Don't ship 1.0.1 until the tiles are hosted** (Task 2): the Account row would offer a map that can't be downloaded. Then the plan's Task 6 phone check, and check the credit wording against LINZ's attribution page.
 - [x] **Tiles downloaded 2026-11-07:** 9,849 tiles, 77.7 MB, zoom 5 to 11 (zoom 12 would be 300 MB or more). The key has only the WMTS scope. `OFFLINE_MAP_ABOUT_MB` is 80.
-- [ ] **Owner: Task 2**, the R2 bucket, its address and the rclone upload (plan, Task 2).
+- [x] **Task 2, tiles hosted 2026-11-11:** bucket `kiwiguide-offline-map` on `tiles.blacksands.app`. All 9,850 files (9,849 tiles and the manifest) answer 200 with `Cache-Control: public, max-age=31536000, immutable`. A rebuilt set goes under `/v2/`.
+- [ ] **Owner: Task 6 phone check** on the 1.1.0 dev build (plan, Task 6), then the LINZ credit wording.
 - [ ] **Free check first** (5 min): download Fiordland in the Apple Maps app, turn on airplane mode, open our map near Milford. If iOS lets our map use that download, the plan may not be needed; a line in the guide does it.
 - **Until then, the launch posts say:** "Open the app with signal before you leave town. Your trip, places and guide work with no signal after that. For turn-by-turn directions, download the area in Apple Maps or Google Maps." Don't claim offline maps.
 
@@ -271,6 +272,12 @@ Owner, 2026-11-01. Not planned yet.
   - **Auth:** Cloudflare had no end-user sign-in product when this was written (Access is for staff logins, not app users), so this likely means our own auth on Workers, such as Better Auth on D1. Check what Cloudflare offers first.
   - **It's the shared api**, so every enginev1 app moves, or the api serves both while each app migrates.
   - Existing users have to keep their accounts: email users can't move without their password hashes (Firebase's export can supply them). Apple and Google sign-in, Apple token revocation, account deletion, and the app's offline cache all go through the new setup.
+- [ ] **The trip, live, outside the app: a widget and an App Clip** (owner, 2026-11-11). Both are native targets, so they ship in a store build, not OTA. Both likely use the `@bacons/apple-targets` config plugin; check it first.
+  - **Widget (the easier one, do it first):** today's stops on the Home Screen and Lock Screen. The app writes the trip to an App Group, and the widget reads it, so it needs no network or sign-in. A Live Activity for the day's drive would be the "live" version, but iOS ends one after 8 hours.
+  - **App Clip:** someone without the app opens a shared trip from a link or QR code. That's a share link, which reverses the photo-card-only share decision, so decide that first. It also needs:
+    - a working domain with `apple-app-site-association`
+    - a trip anyone can read without signing in (Firestore rules are owner-only today)
+    - a clip that fits Apple's size limit (15 MB, or 100 MB for iOS 17+ link invocations), which is tight for a React Native bundle
 
 ---
 

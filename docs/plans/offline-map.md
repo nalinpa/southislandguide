@@ -115,9 +115,9 @@ git commit -m "feat(map): script to build the saved map's tiles from LINZ"
 **Interfaces:**
 - Produces: `https://tiles.blacksands.app/offline-map/v1/manifest.json` and `.../offline-map/v1/{z}/{x}/{y}.png`. If the owner picks another address, Task 3's `OFFLINE_MAP_URL` uses it.
 
-- [ ] **Step 1: Owner, Cloudflare dashboard.** R2 → create a bucket, `kiwiguide-offline-map`. Its Settings → Custom Domains → connect `tiles.blacksands.app` (blacksands.app is already on Cloudflare). Then Manage R2 API Tokens → create one with Object Read & Write on that bucket only; keep its Access Key ID, Secret and the account's S3 endpoint for Step 2, never in the repo or chat.
-- [ ] **Step 2: Owner uploads.** With rclone set up for R2 (`rclone config`, provider Cloudflare, the token from Step 1): `rclone copy offline-map-site r2:kiwiguide-offline-map --header-upload "Cache-Control: public, max-age=31536000, immutable" --transfers 32 --progress`. It's tens of thousands of small files, so `wrangler r2 object put`, one file per command, is too slow. A new set goes under `/v2/`, never over `/v1/`.
-- [ ] **Step 3: Check.** `curl -sI https://tiles.blacksands.app/offline-map/v1/11/1979/1308.png` should return `200`, `content-type: image/png` and the Cache-Control above. `curl -s https://tiles.blacksands.app/offline-map/v1/manifest.json | head -c 200` should show `{"bytes":`.
+- [x] **Step 1: Owner, Cloudflare dashboard.** R2 → create a bucket, `kiwiguide-offline-map`. Its Settings → Custom Domains → connect `tiles.blacksands.app` (blacksands.app is already on Cloudflare). Then Manage R2 API Tokens → create one with Object Read & Write on that bucket only; keep its Access Key ID, Secret and the account's S3 endpoint for Step 2, never in the repo or chat.
+- [x] **Step 2: Owner uploads.** With rclone set up for R2 (`rclone config`, provider Cloudflare, the token from Step 1): `rclone copy offline-map-site r2:kiwiguide-offline-map --header-upload "Cache-Control: public, max-age=31536000, immutable" --transfers 32 --progress`. It's tens of thousands of small files, so `wrangler r2 object put`, one file per command, is too slow. A new set goes under `/v2/`, never over `/v1/`.
+- [x] **Step 3: Check.** `curl -sI https://tiles.blacksands.app/offline-map/v1/11/1979/1308.png` should return `200`, `content-type: image/png` and the Cache-Control above. `curl -s https://tiles.blacksands.app/offline-map/v1/manifest.json | head -c 200` should show `{"bytes":`.
 
 ### Task 3: Saving the map on the phone
 

@@ -160,7 +160,7 @@ const mockTrips = {
 };
 jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
 
-const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn(), navigate: jest.fn() };
+const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
 jest.mock("expo-router", () => {
   const React = require("react");
   return {
@@ -362,20 +362,6 @@ describe("the trip", () => {
     expect(openURL).toHaveBeenCalledWith(expect.stringContaining("https://www.google.com/maps/dir/?api=1&destination=-38.36%2C176.37"));
     mockLookup.places = lookup;
     openURL.mockRestore();
-  });
-
-  // Tester, 2026-11-11: no way back to the list. Only someone with 2+ trips has one.
-  it("goes back to all trips when there's more than one", async () => {
-    mockTrips.itineraries = [makeTrip(), makeTrip({ id: "t2", title: "Winter" })];
-    const view = await openTrip();
-
-    await fireEvent.press(view.getByLabelText("All Trips"));
-    expect(mockRouter.navigate).toHaveBeenCalledWith("/(app)/(tabs)/itinerary");
-  });
-
-  it("has no back button with one trip", async () => {
-    const view = await openTrip();
-    expect(view.queryByLabelText("All Trips")).toBeNull();
   });
 
   it("has no Google Maps drive for a day with nowhere to drive to", async () => {

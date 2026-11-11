@@ -145,7 +145,7 @@ describe("the selected site", () => {
 
     expect(view.getByText("Wai-O-Tapu")).toBeTruthy();
     expect(view.getByText("Details")).toBeTruthy();
-    expect(view.getByText("Directions")).toBeTruthy();
+    expect(view.getByText("Get Directions")).toBeTruthy();
   });
 
   // It used to print the raw ids: "FOOD · WEST-COAST".
@@ -166,7 +166,7 @@ describe("the selected site", () => {
   it("opens maps for directions to that site's coordinates", async () => {
     const view = await openSheet();
 
-    await fireEvent.press(view.getByText("Directions"));
+    await fireEvent.press(view.getByText("Get Directions"));
 
     expect(openUrlSpy).toHaveBeenCalledWith(expect.stringContaining("destination=-38.35,176.36"));
   });
@@ -192,10 +192,10 @@ describe("the selected site", () => {
   it("makes Directions a plain white button like Details", async () => {
     const view = await openSheet();
 
-    expect(view.getByRole("button", { name: "Directions" })).not.toHaveStyle({
+    expect(view.getByRole("button", { name: "Get Directions" })).not.toHaveStyle({
       backgroundColor: tokens.colors.highlight,
     });
-    expect(view.getByText("Directions")).toHaveStyle({ color: tokens.colors.text });
+    expect(view.getByText("Get Directions")).toHaveStyle({ color: tokens.colors.text });
     expect(view.getByRole("button", { name: "Details" })).not.toHaveStyle({
       backgroundColor: tokens.colors.highlight,
     });
@@ -232,9 +232,9 @@ describe("add to itinerary", () => {
 
     const rowOf = (label: string) => view.getByRole("button", { name: label }).parent;
     expect(rowOf("Add to Trip")).toBe(rowOf("Details"));
-    expect(rowOf("Directions")).not.toBe(rowOf("Details"));
-    const order = view.getAllByText(/^(Add to Trip|Directions|Details)$/).map((t: any) => t.props.children);
-    expect(order).toEqual(["Add to Trip", "Details", "Directions"]);
+    expect(rowOf("Get Directions")).not.toBe(rowOf("Details"));
+    const order = view.getAllByText(/^(Add to Trip|Get Directions|Details)$/).map((t: any) => t.props.children);
+    expect(order).toEqual(["Add to Trip", "Details", "Get Directions"]);
   });
 
   it("is offered when it is supplied", async () => {

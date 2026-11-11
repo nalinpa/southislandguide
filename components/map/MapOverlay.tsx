@@ -232,7 +232,7 @@ export function MapOverlayCard({
           >
             <Navigation size={14} color={tokens.colors.text} strokeWidth={2.25} />
             <Text style={styles.btnDirectionsText} numberOfLines={1}>
-              Directions
+              Get Directions
             </Text>
           </Pressable>
         </View>

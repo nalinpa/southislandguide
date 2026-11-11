@@ -52,6 +52,7 @@ beforeEach(async () => {
   mockCreated.length = 0;
   mockDeleted.length = 0;
   mockPermission.granted = true;
+  mockCalendar.createEvent.mockClear();
   mockPicker.mockClear().mockImplementation(async () => mockCalendar);
   await AsyncStorage.clear();
   alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
@@ -119,6 +120,31 @@ describe("addTripToCalendar", () => {
 
     expect(mockDeleted).toEqual(["ev1", "ev2", "ev3"]);
     expect(JSON.parse((await AsyncStorage.getItem("kiwiguide.calendarEvents.t1"))!)).toEqual(["ev4", "ev5", "ev6"]);
+  });
+
+  // Sentry KIWI-GUIDE-5: one calendar refused the trip with "Alarms cannot be changed".
+  it("tries a refused event again with no alerts, and the rest the same way", async () => {
+    mockCalendar.createEvent.mockRejectedValueOnce(new Error("Alarms cannot be changed"));
+    await addTripToCalendar(trip, tripDays(), places);
+
+    expect(mockCreated.map((e) => e.title)).toEqual(["Place a", "Drive to Dunedin", "Place b"]);
+    expect(mockCreated.every((e) => Array.isArray(e.alarms) && e.alarms.length === 0)).toBe(true);
+    expect(mockCalendar.createEvent).toHaveBeenCalledTimes(4);
+    expect(alertSpy).toHaveBeenCalledWith("Added to Your Calendar", expect.any(String));
+  });
+
+  it("leaves the earlier events alone when the calendar won't take the trip", async () => {
+    await addTripToCalendar(trip, tripDays(), places);
+    // The second calendar takes one event, then refuses, with or without alerts.
+    mockCalendar.createEvent
+      .mockImplementationOnce(async () => ({ id: "new1" }))
+      .mockRejectedValueOnce(new Error("Alarms cannot be changed"))
+      .mockRejectedValueOnce(new Error("Alarms cannot be changed"));
+    await addTripToCalendar(trip, tripDays(), places);
+
+    expect(alertSpy).toHaveBeenLastCalledWith("Couldn't Add the Trip", "That calendar won't take the trip. Pick another one.");
+    expect(mockDeleted).toEqual(["new1"]);
+    expect(JSON.parse((await AsyncStorage.getItem("kiwiguide.calendarEvents.t1"))!)).toEqual(["ev1", "ev2", "ev3"]);
   });
 
   it("says how to reach Google Calendar unless a Google one was picked", async () => {

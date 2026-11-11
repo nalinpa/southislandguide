@@ -6,8 +6,6 @@ import { ArrowRight, ChevronRight } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useSession } from "@/lib/providers/SessionProvider";
-import { useItineraries } from "@/lib/hooks/useItineraries";
-import { useSavedSites } from "@/lib/hooks/useSavedSites";
 import { useEmailOptIn } from "@/lib/hooks/useEmailOptIn";
 import { LoadingState } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
@@ -43,13 +41,9 @@ const LEGAL_ROWS = [
 export default function AccountScreen() {
   const { session } = useSession();
   const insets = useSafeAreaInsets();
-  const { itineraries, loading: itinerariesLoading } = useItineraries();
-  const { savedSiteIds, loading: savedLoading } = useSavedSites();
   const { optedIn, loading: optInLoading, setOptedIn } = useEmailOptIn();
   const { start: startTour } = useTour();
   const tourAudience = useTourAudience();
-
-  const statsLoading = itinerariesLoading || savedLoading;
 
   if (session.status === "loading") {
     return (
@@ -85,25 +79,6 @@ export default function AccountScreen() {
 
       <View style={styles.sheet}>
         <ScrollView testID="home-scroll" showsVerticalScrollIndicator={false}>
-          {isAuthed && (
-            <View style={styles.statsRow}>
-              <View style={styles.statChip}>
-                <Text style={styles.statNum}>{statsLoading ? "–" : itineraries.length}</Text>
-                <Text style={styles.statLabel}>
-                  {statsLoading ? "Trips" : itineraries.length === 1 ? "Trip" : "Trips"}
-                </Text>
-              </View>
-              <View style={styles.statDivider} />
-              <View style={styles.statChip}>
-                <Text style={styles.statNum}>{statsLoading ? "–" : savedSiteIds.size}</Text>
-                <Text style={styles.statLabel}>Saved</Text>
-              </View>
-            </View>
-          )}
-
-          {/* Under the stats only: a guest has none, and the line would sit
-              alone at the top of the sheet. */}
-          {isAuthed && <View style={styles.divider} />}
           <UserInfoCard />
 
           {/* The opening tour again, from its first step (lib/tour). Guests too: they get
@@ -222,11 +197,6 @@ const styles = StyleSheet.create({
     paddingTop: tokens.space.xs,
     overflow: "hidden",
   },
-  statsRow: { flexDirection: "row", alignItems: "center", paddingHorizontal: tokens.space.md, paddingVertical: 20 },
-  statChip: { flex: 1, alignItems: "center", gap: 3 },
-  statNum: { fontSize: 28, fontWeight: "900", color: tokens.colors.highlight, letterSpacing: -1, lineHeight: 32 },
-  statLabel: { fontSize: 10, fontWeight: "700", color: tokens.colors.text2, letterSpacing: 1, textTransform: "uppercase" },
-  statDivider: { width: 1, height: 36, backgroundColor: tokens.colors.border },
   divider: { height: StyleSheet.hairlineWidth, backgroundColor: tokens.colors.border, marginHorizontal: tokens.space.md },
   // Show me around and Photo credits: as a row in the cards (SavedItemsCard), at the
   // cards' side padding.

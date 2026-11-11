@@ -7,7 +7,6 @@ import { ChevronRight, Plus } from "lucide-react-native";
 import { AppText } from "@/lib/uiKit";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { tokens } from "@/lib/ui/tokens";
-import { PLANNER } from "@/lib/constants/gameplay";
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { formatTripDates } from "@/lib/utils/formatDates";
 
@@ -19,26 +18,20 @@ export function ItinerariesCard() {
     <>
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionLabel}>My Trips</Text>
-        {itineraries.length > 0 && (
-          <View style={styles.countBadge}>
-            <Text style={styles.countText}>{itineraries.length}</Text>
-          </View>
-        )}
+        <Text style={styles.sectionLabel}>My Trip</Text>
       </View>
 
       {itineraries.length === 0 ? (
-        <Text style={styles.emptyText}>No trips yet.</Text>
+        <Text style={styles.emptyText}>No trip yet.</Text>
       ) : (
         <View style={styles.list}>
-          {itineraries.map((itinerary, index) => (
+          {itineraries.map((itinerary) => (
             <TouchableOpacity
               key={itinerary.id}
               style={styles.row}
               onPress={() => router.push(`/(app)/(tabs)/itinerary/${itinerary.id}`)}
               activeOpacity={0.6}
             >
-              <Text style={styles.index}>{String(index + 1).padStart(2, "0")}</Text>
               <View style={styles.rowContent}>
                 <Text style={styles.rowTitle} numberOfLines={1}>
                   {itinerary.title}
@@ -57,13 +50,10 @@ export function ItinerariesCard() {
         </AppText>
       )}
 
-      {/* Nothing until the trips are known: an empty list before they load, or after a failed
-          load, showed "New Trip" to someone already at the limit. */}
-      {addFlow === "pick" ? (
-        <Text style={styles.limitText}>
-          {PLANNER.MAX_ITINERARIES === 1 ? "One trip at a time." : `Up to ${PLANNER.MAX_ITINERARIES} trips at a time.`}
-        </Text>
-      ) : addFlow ? (
+      {/* Only with no trip ("pick" is one trip, the limit; owner, 2026-11-11: no limit line
+          and no count). Nothing until the trips are known: an empty list before they load,
+          or after a failed load, showed "New Trip" to someone who already had one. */}
+      {addFlow && addFlow !== "pick" ? (
         <TouchableOpacity style={styles.createBtn} onPress={() => setIsCreating(true)} activeOpacity={0.6}>
           <Plus size={13} color={tokens.colors.accent} strokeWidth={2.5} />
           <Text style={styles.createBtnText}>New Trip</Text>
@@ -94,17 +84,6 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     color: tokens.colors.text2,
   },
-  // A count is a live fact about the user, so it takes the highlight.
-  countBadge: {
-    backgroundColor: tokens.colors.highlight,
-    minWidth: 20,
-    height: 20,
-    borderRadius: 10,
-    paddingHorizontal: 5,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  countText: { fontSize: 11, fontWeight: "700", color: "#FFFFFF" },
   emptyText: { fontSize: 14, fontWeight: "400", color: tokens.colors.textMuted, marginBottom: 16 },
   list: { marginBottom: 16, gap: 2 },
   row: {
@@ -115,12 +94,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: tokens.colors.border,
   },
-  index: { fontSize: 11, fontWeight: "700", color: tokens.colors.textMuted, letterSpacing: 1, width: 20 },
   rowContent: { flex: 1, gap: 3 },
   rowTitle: { fontSize: 15, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1 },
   rowDate: { fontSize: 12, fontWeight: "400", color: tokens.colors.text2, letterSpacing: 0.2 },
   errorText: { marginBottom: 12 },
-  limitText: { fontSize: 12, fontWeight: "400", color: tokens.colors.textMuted, letterSpacing: 0.2 },
   createBtn: { flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "flex-start", paddingVertical: 4 },
   createBtnText: { fontSize: 13, fontWeight: "600", color: tokens.colors.accent, letterSpacing: 0.2 },
 });

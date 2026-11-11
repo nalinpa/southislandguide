@@ -1,5 +1,5 @@
 // The Account tab's tier rules. A guest gets the profile card and the Open Guide promo and
-// nothing account-bound; a signed-in user also gets the stats row and the Trips / Saved /
+// nothing account-bound; a signed-in user also gets the Trips / Saved /
 // Danger Zone cards. south-island's screen differs from rotorua-guide's on purpose: no
 // top bar (the guide promo opens the page), SavedItemsCard instead of
 // SavedSitesCard, and no Restore Purchases card (no commerce until 1.4).
@@ -23,12 +23,6 @@ jest.mock("react-native-safe-area-context", () => ({
 
 const mockSession = { status: "authed", uid: "uid-1" } as any;
 jest.mock("@/lib/providers/SessionProvider", () => ({ useSession: () => ({ session: mockSession }) }));
-
-const mockTrips = { itineraries: [] as any[], loading: false };
-jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
-
-const mockSavedSites = { savedSiteIds: new Set<string>(), loading: false };
-jest.mock("@/lib/hooks/useSavedSites", () => ({ useSavedSites: () => mockSavedSites }));
 
 // Has its own tests (useEmailOptIn.test.tsx); here the switch only has to reflect and set it.
 const mockEmailOptIn = { optedIn: false, loading: false, setOptedIn: jest.fn() };
@@ -78,10 +72,6 @@ beforeEach(() => {
   jest.clearAllMocks();
   mockSession.status = "authed";
   mockSession.uid = "uid-1";
-  mockTrips.itineraries = [];
-  mockTrips.loading = false;
-  mockSavedSites.savedSiteIds = new Set();
-  mockSavedSites.loading = false;
   mockEmailOptIn.optedIn = false;
   mockEmailOptIn.loading = false;
   mockAudience = "paid";
@@ -180,15 +170,13 @@ describe("signed in", () => {
     for (const card of AUTHED_ONLY) expect(view.getByText(card)).toBeTruthy();
   });
 
-  it("counts the trips and saved places", async () => {
-    mockTrips.itineraries = [{ id: "t1" }, { id: "t2" }];
-    mockSavedSites.savedSiteIds = new Set(["s1", "s2", "s3"]);
+  // Owner, 2026-11-11: "1 trip, 3 saved" said nothing the cards below don't.
+  it("has no stats row", async () => {
     const view = await render(<AccountScreen />);
 
-    expect(view.getByText("2")).toBeTruthy();
-    expect(view.getByText("Trips")).toBeTruthy();
-    expect(view.getByText("3")).toBeTruthy();
-    expect(view.getByText("Saved")).toBeTruthy();
+    expect(view.queryByText("Saved")).toBeNull();
+    expect(view.queryByText("Trip")).toBeNull();
+    expect(view.queryByText("Trips")).toBeNull();
   });
 
   // The hero used to scroll with the page, which slid the Open Guide button up behind
@@ -202,20 +190,6 @@ describe("signed in", () => {
     expect(view.getByText("Open Guide")).toBeTruthy();
   });
 
-  it("shows the counts in the highlight colour", async () => {
-    mockTrips.itineraries = [{ id: "t1" }, { id: "t2" }];
-    const view = await render(<AccountScreen />);
-
-    expect(view.getByText("2")).toHaveStyle({ color: tokens.colors.highlight });
-  });
-
-  it("uses the singular label for one trip", async () => {
-    mockTrips.itineraries = [{ id: "t1" }];
-    const view = await render(<AccountScreen />);
-
-    expect(view.getByText("Trip")).toBeTruthy();
-  });
-
   it("links the guide for a signed-in user too", async () => {
     const view = await render(<AccountScreen />);
 
@@ -224,14 +198,6 @@ describe("signed in", () => {
     expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/guide");
   });
 
-  it("shows a dash instead of a wrong zero while counts are loading", async () => {
-    mockTrips.loading = true;
-    mockSavedSites.loading = true;
-    const view = await render(<AccountScreen />);
-
-    expect(view.getAllByText("–")).toHaveLength(2);
-    expect(view.queryByText("0")).toBeNull();
-  });
 });
 
 // The opening tour, from its first step, for whoever is looking.
@@ -359,5 +325,33 @@ describe("Map for no signal", () => {
     await fireEvent.press(view.getByRole("button", { name: "Save map for no signal" }));
 
     expect(mockOfflineMap.save).toHaveBeenCalled();
+  });
+
+  // Owner, 2026-11-11: the row's percentage alone wasn't clear.
+  it("opens a card that shows the save, and closing it doesn't stop the save", async () => {
+    const view = await render(<AccountScreen />);
+    await fireEvent.press(view.getByRole("button", { name: "Save map for no signal" }));
+    expect(view.getByRole("progressbar").props.accessibilityValue).toEqual({ min: 0, max: 100, now: 0 });
+
+    mockOfflineMap.progress = { done: 21, total: 84 };
+    await view.rerender(<AccountScreen />);
+    expect(view.getByRole("progressbar").props.accessibilityValue.now).toBe(25);
+
+    await fireEvent.press(view.getByRole("button", { name: "Close" }));
+    expect(view.queryByRole("progressbar")).toBeNull();
+    expect(mockOfflineMap.stop).not.toHaveBeenCalled();
+    expect(view.getByText("Saving the map… 25%")).toBeTruthy();
+  });
+
+  it("says when the map is saved", async () => {
+    const view = await render(<AccountScreen />);
+    await fireEvent.press(view.getByRole("button", { name: "Save map for no signal" }));
+
+    mockOfflineMap.saved = true;
+    await view.rerender(<AccountScreen />);
+    expect(view.getByText("Map saved")).toBeTruthy();
+
+    await fireEvent.press(view.getByRole("button", { name: "Done" }));
+    expect(view.queryByText("Map saved")).toBeNull();
   });
 });

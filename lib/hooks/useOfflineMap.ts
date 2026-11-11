@@ -14,6 +14,19 @@ let stopAsked = false;
 
 const SAVED_KEY = ["offlineMap", "saved"];
 
+// The count once a percent, not once a tile. Every screen using this hook redraws on a
+// change, the map tab with all its pins too, and 9,849 redraws held up the downloads
+// themselves: 71% after 15 minutes (owner, 2026-11-11).
+export function oncePerPercent(report: (done: number, total: number) => void) {
+  let shown = -1;
+  return (done: number, total: number) => {
+    const pct = Math.floor((done / total) * 100);
+    if (pct === shown) return;
+    shown = pct;
+    report(done, total);
+  };
+}
+
 // The map saved for no signal (lib/offlineMap.ts), for the Account row and the map tab.
 export function useOfflineMap() {
   const queryClient = useQueryClient();
@@ -40,7 +53,7 @@ export function useOfflineMap() {
         return;
       }
       const result = await saveOfflineMap(manifest, {
-        onProgress: (done, total) => useSaveStore.setState({ progress: { done, total } }),
+        onProgress: oncePerPercent((done, total) => useSaveStore.setState({ progress: { done, total } })),
         shouldStop: () => stopAsked,
       }).catch(() => "stopped" as const);
       if (result === "stopped") {

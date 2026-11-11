@@ -12,21 +12,27 @@ import { render } from "@testing-library/react-native";
 import { ItinerariesCard } from "@/components/account/ItinerariesCard";
 
 describe("ItinerariesCard", () => {
-  it("offers a new trip under the limit, the limit at it, and neither before the trips are known", async () => {
-    mockTrips.addFlow = "choose";
-    const under = await render(<ItinerariesCard />);
-    expect(under.getByText("New Trip")).toBeTruthy();
-    await under.unmount();
+  it("offers a new trip with none, nothing with one, and nothing before the trips are known", async () => {
+    mockTrips.addFlow = "create";
+    const none = await render(<ItinerariesCard />);
+    expect(none.getByText("My Trip")).toBeTruthy();
+    expect(none.getByText("New Trip")).toBeTruthy();
+    await none.unmount();
 
+    // Owner, 2026-11-11: no count and no "One trip at a time." line.
+    mockTrips.itineraries = [{ id: "t1", title: "Summer", startDate: "2026-12-01", endDate: "2026-12-07" }];
     mockTrips.addFlow = "pick";
-    const atLimit = await render(<ItinerariesCard />);
-    expect(atLimit.getByText("One trip at a time.")).toBeTruthy();
-    expect(atLimit.queryByText("New Trip")).toBeNull();
-    await atLimit.unmount();
+    const one = await render(<ItinerariesCard />);
+    expect(one.getByText("Summer")).toBeTruthy();
+    expect(one.queryByText("1")).toBeNull();
+    expect(one.queryByText("01")).toBeNull();
+    expect(one.queryByText(/at a time/)).toBeNull();
+    expect(one.queryByText("New Trip")).toBeNull();
+    await one.unmount();
 
+    mockTrips.itineraries = [];
     mockTrips.addFlow = null;
     const unknown = await render(<ItinerariesCard />);
     expect(unknown.queryByText("New Trip")).toBeNull();
-    expect(unknown.queryByText("One trip at a time.")).toBeNull();
   });
 });

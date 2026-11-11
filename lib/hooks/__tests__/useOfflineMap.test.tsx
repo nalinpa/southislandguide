@@ -17,7 +17,7 @@ import { QueryClient, QueryClientProvider, notifyManager, onlineManager } from "
 // outside of any act() and can leak into the next test's render. Make it synchronous for tests.
 notifyManager.setScheduler((cb) => cb());
 import { fetchOfflineMapManifest, isOfflineMapSaved, saveOfflineMap } from "@/lib/offlineMap";
-import { useOfflineMap } from "@/lib/hooks/useOfflineMap";
+import { oncePerPercent, useOfflineMap } from "@/lib/hooks/useOfflineMap";
 
 const mockFetchManifest = fetchOfflineMapManifest as jest.Mock;
 const mockSave = saveOfflineMap as jest.Mock;
@@ -72,4 +72,16 @@ it("shows partly saved after a stop", async () => {
 
   expect(result.current.error).toBe("stopped");
   expect(result.current.progress).toEqual({ done: 10, total: 40 });
+});
+
+// Each change redraws every screen using the hook, the map tab too. Once a tile slowed the
+// save to 71% in 15 minutes (owner, 2026-11-11).
+it("tells the screens once a percent, not once a tile", () => {
+  const report = jest.fn();
+  const onProgress = oncePerPercent(report);
+
+  for (let done = 0; done <= 1000; done++) onProgress(done, 1000);
+
+  expect(report).toHaveBeenCalledTimes(101);
+  expect(report).toHaveBeenLastCalledWith(1000, 1000);
 });

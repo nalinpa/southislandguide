@@ -13,7 +13,7 @@ import { tokens } from "@/lib/ui/tokens";
 // which the map tab draws when there's no signal. Two sizes: Standard, and Detailed, which is
 // sharp close in. The credit is here and over the map while it shows, as CC BY 4.0 asks.
 export function OfflineMapCard() {
-  const { level, progress, error, save, stop, remove } = useOfflineMap();
+  const { level, progress, error, pendingLevel, save, stop, remove } = useOfflineMap();
   const netInfo = useNetInfo();
   // A card over the screen while it saves (owner, 2026-11-11: the row's percentage alone
   // wasn't clear). Closing it doesn't stop the save; the row keeps the count.
@@ -46,7 +46,8 @@ export function OfflineMapCard() {
     setTarget(null);
     setShowing(true);
   };
-  const carryOn = () => startSave(target ?? "standard");
+  // After the app was closed the card has forgotten the size; the save hasn't.
+  const carryOn = () => startSave(target ?? pendingLevel ?? "standard");
 
   const askRemove = () =>
     Alert.alert("Remove the saved map?", undefined, [

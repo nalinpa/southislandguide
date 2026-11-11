@@ -7,7 +7,10 @@ jest.mock("@/lib/offlineMap", () => ({
   saveOfflineMap: jest.fn(),
   savedMapLevel: jest.fn(),
   removeOfflineMap: jest.fn(),
+  pendingSave: jest.fn(async () => null),
 }));
+const mockNet = { isConnected: true, type: "wifi" };
+jest.mock("@react-native-community/netinfo", () => ({ __esModule: true, default: { fetch: async () => mockNet } }));
 
 import React from "react";
 import { renderHook, waitFor, act } from "@testing-library/react-native";
@@ -16,8 +19,8 @@ import { QueryClient, QueryClientProvider, notifyManager, onlineManager } from "
 // react-query batches observer updates via a real setTimeout by default, which fires
 // outside of any act() and can leak into the next test's render. Make it synchronous for tests.
 notifyManager.setScheduler((cb) => cb());
-import { fetchOfflineMapManifest, savedMapLevel, saveOfflineMap } from "@/lib/offlineMap";
-import { oncePerPercent, useOfflineMap } from "@/lib/hooks/useOfflineMap";
+import { fetchOfflineMapManifest, pendingSave, savedMapLevel, saveOfflineMap } from "@/lib/offlineMap";
+import { carryOnPendingSave, oncePerPercent, useOfflineMap } from "@/lib/hooks/useOfflineMap";
 
 const mockFetchManifest = fetchOfflineMapManifest as jest.Mock;
 const mockSave = saveOfflineMap as jest.Mock;
@@ -84,4 +87,54 @@ it("tells the screens once a percent, not once a tile", () => {
 
   expect(report).toHaveBeenCalledTimes(101);
   expect(report).toHaveBeenLastCalledWith(1000, 1000);
+});
+
+// iOS closed the app mid-save, or the phone locked while it unpacked: the next open
+// carries on without a tap (owner, 2026-11-12).
+describe("a save that didn't finish", () => {
+  const mockPending = pendingSave as jest.Mock;
+  beforeEach(() => {
+    mockNet.isConnected = true;
+    mockNet.type = "wifi";
+  });
+
+  it("carries on by itself on Wi-Fi, downloading what's missing", async () => {
+    mockPending.mockResolvedValue({ level: "detailed", stopped: false });
+    const save = jest.fn();
+
+    await carryOnPendingSave(save);
+
+    expect(save).toHaveBeenCalledWith("detailed", { download: true });
+  });
+
+  it.each([
+    ["on mobile data", { type: "cellular" }, false],
+    ["with no signal", { isConnected: false }, false],
+    ["after the person tapped Stop", {}, true],
+  ])("only unpacks what has landed %s", async (_when, net, stopped) => {
+    Object.assign(mockNet, net);
+    mockPending.mockResolvedValue({ level: "standard", stopped });
+    const save = jest.fn();
+
+    await carryOnPendingSave(save);
+
+    expect(save).toHaveBeenCalledWith("standard", { download: false });
+  });
+
+  it("does nothing when no save was going", async () => {
+    mockPending.mockResolvedValue(null);
+    const save = jest.fn();
+
+    await carryOnPendingSave(save);
+
+    expect(save).not.toHaveBeenCalled();
+  });
+
+  it("remembers the size for Carry on", async () => {
+    mockPending.mockResolvedValue({ level: "detailed", stopped: true });
+    await carryOnPendingSave(jest.fn());
+    const { result } = await renderHook(() => useOfflineMap(), { wrapper });
+
+    expect(result.current.pendingLevel).toBe("detailed");
+  });
 });

@@ -150,7 +150,7 @@ Owner, 2026-10-23: after launch. With no signal, the map tab shows pins and the 
 
 ### After launch — Apple and Google sign-in
 Owner, 2026-10-25: not in the first release, which signs in by email only. The steps are in [docs/plans/launch.md, After launch: Apple and Google sign-in](docs/plans/launch.md#after-launch-apple-and-google-sign-in).
-- [ ] **Wait for Apple:** the probe (Sign-in, above) answers `invalid_request` instead of `invalid_client`. Still `invalid_client` on 2026-11-11 (Rotorua's `app.blacksands.rtrguide` gets `invalid_request` the same day).
+- [ ] **Wait for Apple:** the probe (Sign-in, above) answers `invalid_request` instead of `invalid_client`. Still `invalid_client` on 2026-11-12 (Rotorua's `app.blacksands.rtrguide` gets `invalid_request` the same day).
 - [ ] **Phone test:** a fresh Apple sign-up and sign-in, account deletion with the token revoked, and Google sign-in with the EAS web client ID set.
 - [ ] **Ship both together in a new store version**, never Google alone: put `<SocialSignInButtons>` back on the login screen, and update the privacy labels and review notes.
 
@@ -180,13 +180,21 @@ Added 2026-10-30.
   - **Off Expo's pin:** SDK 57 expects `~7.11.0` (`bundledNativeModules.json`), so add it to `expo.install.exclude` as for flash-list, or `expo install --fix` takes it back down.
   - **Breaking in 8:** native only (Sentry Cocoa 8 → 9, sentry-cli 2 → 3, iOS 15+ minimum, Android Gradle plugin 6). The app calls only `init`, `wrap`, `reactNavigationIntegration` and `captureException`.
   - **Needs a store build**, so it waits for the next one after 1.1. Before submitting, check on the phone: lock it for a minute with the app open, unlock, tap two tabs. Their initial display should read under a second, and a test error from the login title should still show with its stack.
+- [ ] **Backlog: saved map packs that finish after iOS has closed the app** (owner, 2026-11-12; with the next store build, as Sentry 8). The packs download in an iOS background session (`lib/offlineMap.ts`). If iOS ends the app while it's closed, a pack that finishes afterwards has nowhere to land, because expo-file-system's download handler lives only as long as the app's JS. The pack (40 MB or less) is downloaded again when the app next opens.
+  - Fix: a small native download handler that moves a finished pack into `Caches/offline-map-packs/` by its file name, whether or not JS is running. The app already unpacks any pack it finds there at the right size, so the JS side needs no change.
+  - Native code, so it needs a store build. Not worth a build of its own.
+  - What ships over the air instead (2026-11-12): the save is remembered and carries on when the app next opens, each pack is unpacked as it lands, and the screen stays awake while it saves.
+- [ ] **Backlog: a sharper saved map, only around the trip's places** (owner, 2026-11-12). Detailed stops at zoom 12. LINZ's Topo50 has real detail to about zoom 14 (about 7 m a pixel; past that it's the same picture enlarged). The whole South Island at zoom 13 and 14 is too big for a phone (roughly 45,000 and 180,000 tiles, 0.6 GB and 2 GB or more; estimates from zoom 12's 11,155 tiles and 168 MB). Around a trip it's small: the tiles within about 5 km of each place, about 36 tiles a place at zoom 14, so a 30-place trip is roughly 1,000 to 1,500 tiles and 20 to 40 MB.
+  - Hosting: loose zoom 13 and 14 tiles in the R2 bucket (2 to 3 GB of the 10 GB free), downloaded by tile as v1 did; a trip's worth is small enough for that. About 1,500 reads a trip against 10 million free a month.
+  - Building: a few hours of downloads from LINZ, once, with the owner's key.
+  - To decide: which zooms, how far around a place, whether the roads between places are covered too, and what happens when the trip changes. `maximumNativeZ` is one number for the whole map, so outside the trip's tiles the map would be blank past zoom 12 unless the map view is given a second layer. Over the air; no native change.
 - [x] **Expo package updates: `npx expo install --fix`** (done 2026-11-07 in `5010d6d`, flash-list excluded, for 1.0.1). On 2026-10-30, expo-doctor listed 12 packages behind what SDK 57 expects. Most are patch updates (`expo` 57.0.25 → .31, `react-native` 0.86.2 → .3, `expo-router` .23 → .29, `jest-expo` and eight `expo-*`). They were left for 1.0 because the build was tested on these versions.
   - **Careful with `@shopify/flash-list`:** we have 2.3.2, which is newer than the 2.0.2 Expo expects, so `--fix` would downgrade it. Check what the engine components need first, and exclude it (`expo.install.exclude` in package.json) if they need 2.3.
   - It needs a new store build and a full phone check.
 - [x] **Rebrand the share screen** (owner, 2026-11-01; done 2026-11-04, ships over the air). The card's footer has the app icon, the label says "New Zealand" for both islands, and long place names shrink to fit three lines. The screen shows the framed card at the top, with the buttons under it.
 - [x] **Over-the-air updates arrive sooner** (2026-11-07, `c692645`, in 1.0.1): the app also looks for an update when it comes back to the foreground, and restarts into a downloaded one on a return after 15+ minutes away.
 - [x] **The app's web address on the share card** (owner, 2026-11-04; done 2026-11-10, in 1.1). The domain is kiwiguide.app, not guide.kiwi: it sits under "KIWI GUIDE" in the footer of `components/share/CaptureCanvas.tsx`.
-- [ ] **Stats without an analytics SDK (optional).**
+- [x] **Stats without an analytics SDK (optional).** Dropped (owner, 2026-11-12): not happening.
   - Free, no code: App Store Connect → Analytics (downloads, sessions, retention, crashes), the Firebase console's Authentication list (sign-ups by date), and the Cloudflare dashboard's Worker metrics (api requests, all apps together).
   - For more: a read-only `scripts/stats.js` using Firestore `count()` queries (about 1 read per 1,000 docs) and the Firebase Auth user list, reporting accounts, trips (total and this week), reviews and saved places.
   - Trips don't record which suggested trip they came from (the api's create parser drops extra fields), so "started from a suggested trip" can only be guessed by matching a trip's first day against the templates.
@@ -287,12 +295,17 @@ From a second tester's written feedback. The plan is `~/.claude/plans/twinkly-sc
 - [x] **No way back from a trip to the list:** nothing to do. An "All Trips" button was built, then taken out (owner, 2026-11-11): everyone has one trip now, and the Trips tab opens it straight away.
 - [x] **The map couldn't show just the trip's places** (in 1.1). A "My Trip" button out on the map, under the search bar, once the trip has places. It's not behind the filter button (owner, 2026-11-11). A tap shows only the trip's places; another tap shows everything again.
 - [x] **Map pop-up rows** (owner, 2026-11-11, in 1.1): Add to Trip and Details on the first row, which shows at the sheet's opening height, and "Get Directions" full width under them.
-- [ ] **Add to Trip doesn't say which days have room** ("couldn't find a day that would take a place, and didn't know why"). After 1.1, over the air: plan §5.
-  - Days with no room show dimmed with "No room", and the modal opens on the first day that fits.
+- [x] **Add to Trip doesn't say which days have room** ("couldn't find a day that would take a place, and didn't know why"). After 1.1, over the air: plan §5. Built on `dev` and checked on the owner's phone (2026-11-12); not in a production update yet.
+  - Days with no room show dimmed with "No room", times with no room show "Full", and neither can be picked. The modal opens on the first day and time that fit.
   - The reason shows before Add is tapped.
-  - Check on a phone for lag on a 21-day trip.
-- [ ] **"Find more things to do" forgets the slot it was opened from.** After 1.1, with the room check (plan §6): a pending slot (`lib/pendingSlot.ts`) that Add to Trip opens on, with the exact time as a fifth time pill.
+- [x] **"Find more things to do" forgets the slot it was opened from.** After 1.1, with the room check (plan §6): a pending slot (`lib/pendingSlot.ts`) that Add to Trip opens on, with the exact time as a fifth time pill. Built on `dev` and checked on the owner's phone (2026-11-12); not in a production update yet.
 - **Google and Apple sign-in:** asked for again. Still blocked on Apple's `invalid_client` (2026-11-11); see "After launch — Apple and Google sign-in". Nothing to build.
+
+### After launch — places near a place
+Owner, 2026-11-11. Not planned yet.
+- [ ] **Show places near a place.** On a place's screen, a "Nearby" row of the closest other places, each opening its own screen.
+  - Straight-line distance is already there (`distanceMeters` in `lib/utils/geoDistance.ts`), and the place list is cached on the phone, so it needs no api change and can go over the air.
+  - To decide: how many and how far, whether Food and Stay are mixed in or shown apart, and whether the map pop-up gets it too.
 
 ### After launch — emailing users for feedback and news
 Owner, 2026-10-31: wants to be able to email users for feedback or news. Account emails need no consent. Feedback or news needs an opt-in: NZ's Unsolicited Electronic Messages Act requires consent and a working unsubscribe, and EU users need an explicit opt-in. Plan before building.

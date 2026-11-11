@@ -12,13 +12,21 @@ jest.mock("expo-file-system/legacy", () => ({
   createDownloadResumable: jest.fn(),
 }));
 
+jest.mock("expo-keep-awake", () => ({
+  activateKeepAwakeAsync: jest.fn(async () => {}),
+  deactivateKeepAwake: jest.fn(async () => {}),
+}));
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Directory, File, Paths } from "expo-file-system";
 import { createDownloadResumable } from "expo-file-system/legacy";
+import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
 
 import {
   OFFLINE_PACKS_URL,
   offlineMapDir,
+  fetchOfflineMapManifest,
+  pendingSave,
   removeOfflineMap,
   saveOfflineMap,
   savedMapLevel,
@@ -227,4 +235,91 @@ it("remove deletes the folders and the flags", async () => {
   expect(await AsyncStorage.getItem(V1_KEY)).toBeNull();
   expect(await AsyncStorage.getItem(LEVEL_KEY)).toBeNull();
   expect(await savedMapLevel()).toBeNull();
+});
+
+// iOS closing the app mid-save (owner, 2026-11-12): what was being saved is remembered, and
+// the next open carries on (lib/hooks/useOfflineMap.ts).
+describe("a save that doesn't finish", () => {
+  const failing = () => ({
+    downloadAsync: async () => {
+      throw new Error("The Internet connection appears to be offline.");
+    },
+    cancelAsync: async () => {},
+  });
+
+  it("is remembered until the map is saved", async () => {
+    mockResumable.mockImplementation(failing);
+    await expect(saveOfflineMap(manifest(), "detailed", quiet)).rejects.toThrow();
+    expect(await pendingSave()).toEqual({ level: "detailed", stopped: false });
+  });
+
+  it("is forgotten once saved, and when the map is removed", async () => {
+    await saveOfflineMap(manifest(), "standard", quiet);
+    expect(await pendingSave()).toBeNull();
+
+    mockResumable.mockImplementation(failing);
+    await saveOfflineMap(manifest(), "detailed", quiet).catch(() => {});
+    await removeOfflineMap();
+    expect(await pendingSave()).toBeNull();
+  });
+
+  it("is marked stopped when the person tapped Stop, and unpacking alone doesn't unmark it", async () => {
+    // A cancelled download gives nothing back, and nothing lands.
+    mockResumable.mockImplementation(() => ({ downloadAsync: async () => undefined, cancelAsync: async () => {} }));
+    expect(await saveOfflineMap(manifest(), "standard", { onProgress: jest.fn(), shouldStop: () => true })).toBe("stopped");
+    expect(await pendingSave()).toEqual({ level: "standard", stopped: true });
+
+    await saveOfflineMap(manifest(), "standard", { ...quiet, download: false });
+    expect(await pendingSave()).toEqual({ level: "standard", stopped: true });
+  });
+
+  // On mobile data the app carries on by itself only with what's already on the phone.
+  it("download: false unpacks a pack that has landed and downloads nothing", async () => {
+    const m = manifest();
+    packsDir().create({ intermediates: true, idempotent: true });
+    new File(packsDir(), "standard-1.bin").write(bins["standard-1.bin"]);
+
+    expect(await saveOfflineMap(m, "standard", { ...quiet, download: false })).toBe("stopped");
+
+    expect(downloaded()).toEqual([]);
+    expect(onPhone(MILFORD).textSync()).toBe("milford");
+    expect(onPhone(NEXT_DOOR).exists).toBe(false);
+  });
+
+  it("counts packs already done in the percentage", async () => {
+    mockResumable.mockImplementationOnce(mockResumable.getMockImplementation()!).mockImplementationOnce(failing);
+    await saveOfflineMap(manifest(), "standard", quiet).catch(() => {});
+    const onProgress = jest.fn();
+
+    await saveOfflineMap(manifest(), "standard", { onProgress, shouldStop: () => false, download: false });
+
+    // "milford" is 7 of the 11 bytes.
+    expect(onProgress).toHaveBeenCalledWith("saving", 7, 11);
+  });
+
+  it("keeps the screen awake while it saves, and lets it sleep after", async () => {
+    await saveOfflineMap(manifest(), "standard", quiet);
+
+    expect(activateKeepAwakeAsync).toHaveBeenCalledWith("offline-map");
+    expect(deactivateKeepAwake).toHaveBeenCalledWith("offline-map");
+  });
+});
+
+// Unpacking with no signal needs the list of where each tile sits.
+it("keeps the list of packs on the phone, for when there's no signal", async () => {
+  const body = JSON.stringify(manifest());
+  const realFetch = global.fetch;
+  global.fetch = jest.fn(async () => ({ ok: true, text: async () => body })) as any;
+  try {
+    expect(await fetchOfflineMapManifest()).toEqual(manifest());
+    global.fetch = jest.fn(async () => {
+      throw new TypeError("Network request failed");
+    }) as any;
+    expect(await fetchOfflineMapManifest()).toEqual(manifest());
+
+    await removeOfflineMap();
+    await expect(fetchOfflineMapManifest()).rejects.toThrow("Network request failed");
+  } finally {
+    global.fetch = realFetch;
+  }
 });

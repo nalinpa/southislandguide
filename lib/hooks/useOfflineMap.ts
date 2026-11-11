@@ -1,16 +1,45 @@
+import { useEffect } from "react";
+import NetInfo from "@react-native-community/netinfo";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { create } from "zustand";
 
-import { fetchOfflineMapManifest, removeOfflineMap, saveOfflineMap, savedMapLevel, type MapLevel, type SavePhase } from "@/lib/offlineMap";
+import {
+  fetchOfflineMapManifest,
+  pendingSave,
+  removeOfflineMap,
+  saveOfflineMap,
+  savedMapLevel,
+  type MapLevel,
+  type SavePhase,
+} from "@/lib/offlineMap";
 
-type SaveState = { progress: { phase: SavePhase; done: number; total: number } | null; error: "no-signal" | "stopped" | null };
+type SaveState = {
+  progress: { phase: SavePhase; done: number; total: number } | null;
+  error: "no-signal" | "stopped" | null;
+  // The size of a save that hasn't finished, for Carry on.
+  pendingLevel: MapLevel | null;
+};
 
 // Kept here, not in the screen, so a save carries on and keeps its count while the person
 // is on another tab.
-const useSaveStore = create<SaveState>(() => ({ progress: null, error: null }));
+const useSaveStore = create<SaveState>(() => ({ progress: null, error: null, pendingLevel: null }));
 // One save at a time: a second tap while the list of tiles is still coming does nothing.
 let saving = false;
 let stopAsked = false;
+// Looked for once each time the app starts.
+let pendingChecked = false;
+
+// A save that didn't finish (iOS closed the app, or the phone was locked while it unpacked)
+// carries on by itself when the app is next opened. On Wi-Fi it downloads what's missing;
+// on mobile data, or after the person tapped Stop, it only unpacks what has already
+// landed, and the row offers Carry on.
+export async function carryOnPendingSave(save: (to: MapLevel, options: { download: boolean }) => Promise<void>) {
+  const pending = await pendingSave();
+  if (!pending) return;
+  useSaveStore.setState({ pendingLevel: pending.level });
+  const net = await NetInfo.fetch();
+  await save(pending.level, { download: !pending.stopped && net.isConnected === true && net.type !== "cellular" });
+}
 
 const SAVED_KEY = ["offlineMap", "saved"];
 
@@ -39,13 +68,13 @@ export function useOfflineMap() {
     // Checked again each time: iOS may have emptied the cache folder since.
     staleTime: 0,
   });
-  const { progress, error } = useSaveStore();
+  const { progress, error, pendingLevel } = useSaveStore();
 
-  const save = async (to: MapLevel = "standard") => {
+  const save = async (to: MapLevel = "standard", { download = true }: { download?: boolean } = {}) => {
     if (saving) return;
     saving = true;
     stopAsked = false;
-    useSaveStore.setState({ error: null });
+    useSaveStore.setState({ error: null, pendingLevel: to });
     try {
       const manifest = await fetchOfflineMapManifest().catch(() => null);
       if (!manifest) {
@@ -60,6 +89,7 @@ export function useOfflineMap() {
       const result = await saveOfflineMap(manifest, to, {
         onProgress: (phase, done, total) => report[phase](done, total),
         shouldStop: () => stopAsked,
+        download,
       }).catch(() => "stopped" as const);
       if (result === "stopped") {
         useSaveStore.setState({ error: "stopped" });
@@ -67,11 +97,19 @@ export function useOfflineMap() {
       }
       // Saved before the count goes, so the row goes from Saving straight to Saved.
       await queryClient.invalidateQueries({ queryKey: SAVED_KEY });
-      useSaveStore.setState({ progress: null });
+      useSaveStore.setState({ progress: null, pendingLevel: null });
     } finally {
       saving = false;
     }
   };
+
+  useEffect(() => {
+    if (pendingChecked) return;
+    pendingChecked = true;
+    void carryOnPendingSave(save).catch(() => {});
+    // Once, with the first screen to use the hook.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const stop = () => {
     stopAsked = true;
@@ -79,9 +117,9 @@ export function useOfflineMap() {
 
   const remove = async () => {
     await removeOfflineMap();
-    useSaveStore.setState({ progress: null, error: null });
+    useSaveStore.setState({ progress: null, error: null, pendingLevel: null });
     await queryClient.invalidateQueries({ queryKey: SAVED_KEY });
   };
 
-  return { level, progress, error, save, stop, remove };
+  return { level, progress, error, pendingLevel, save, stop, remove };
 }

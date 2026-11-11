@@ -217,3 +217,74 @@ git commit -m "feat(map): script to build the saved map's tiles from LINZ"
 - [ ] Turn airplane mode off: back to Apple Maps.
 - [ ] Remove, then airplane mode again: blank grid as before (proves the overlay is ours).
 - [ ] Then: update the Milford and mobile coverage posts and the guide's no-signal lines to "save the map on the Account tab before you go". Add a line to `docs/plans/launch.md` "Already done".
+
+---
+
+## v2: background download, a detailed map, the credit moved (owner, 2026-11-11)
+
+From the first phone check of v1 (2026-11-11):
+- **Too slow.** 71% after 15 minutes. The Map tab subscribed to every tile's progress and redrew the whole map 9,849 times. That's fixed once a percent (`oncePerPercent` in `lib/hooks/useOfflineMap.ts`, not yet published). v2 replaces the tile-by-tile download anyway.
+- **"Could the download be done while the app is closed?"** Yes, through an iOS background download, which is already in the app: expo-file-system's legacy module and its `FileSystemBackgroundSessionHandler` are in the current build. So all of v2 ships over the air. iOS handles a few large files in the background well, but not 9,849 small ones, so the tiles are packed.
+- **Very blurry close in.** Zoom 11 is LINZ's 1:250,000 map. Owner: offer both, the smaller less detailed map and the bigger more detailed one.
+- **The credit was covered** by the bottom sheet. Owner: move it under the search bar.
+
+### Decisions
+
+| Question | Answer |
+|---|---|
+| Two sizes | **Standard:** zoom 5–11, all of NZ, as now (about 80 MB). **Detailed:** Standard plus zoom 12 (Topo50, 1:50,000) over the app's map area, `MAP_BOUNDS` (11,155 tiles, about 150 MB more, so about 230 MB). Task 1 measures the real size. Zoom 12 for the North Island goes in with the North Island release as one more pack (about 150 MB more). Until then, with Detailed saved, zooming past 11 north of `MAP_BOUNDS` shows no map, because UrlTile only enlarges tiles beyond `maximumNativeZ`. That's outside the app's places. |
+| Packs | Each set's tiles are written back to back into files of about 40 MB or less (`standard-1.bin`, …, `detailed-1.bin`, …). The manifest lists each pack's tiles as `[tile, offset, length]`. Standard is 2 packs; Detailed adds about 4. If iOS cancels a download (the app swiped away), at most one pack is lost. |
+| Background | Every pack still needed is started at once as a legacy `createDownloadResumable(…, { sessionType: BACKGROUND })`, so iOS carries on with the app closed or the phone locked. A pack is unpacked into `{z}/{x}/{y}` files when the app next runs JS: straight away if it's open, otherwise on the next open. It's marked done only after its last tile, so an unpack cut short runs again (writes are idempotent). Swiping the app away cancels the downloads; "Carry on" downloads the packs that aren't done again. |
+| Hosting | `offline-map/v2/` beside v1 in the same bucket, with the same rclone command and `Cache-Control`. v1 stays for phones still on the old code. |
+| Phones that saved v1 | Their tiles are the same z5–11 files in the same folder. The v1 flag counts as Standard saved, so there's no download again, and Detailed adds only its packs. |
+| Credit | Moves from the map's bottom left to the map screen, under the search bar and the filter pills. It's small text on a light backing, shown only while the saved map is drawn. |
+
+### Task 1: Build the packs (script)
+- `scripts/build-offline-map.js`: `MAX_Z` becomes per set. Standard: `BOUNDS` z5–11. Detailed: `MAP_BOUNDS` z12. `--apply` downloads the z12 tiles from LINZ, about 10 minutes at 4 at a time, and needs the owner's `LINZ_API_KEY`. Then `--pack` writes `offline-map-site/offline-map/v2/{standard,detailed}-N.bin` and `v2/manifest.json`:
+  `{ "sets": { "standard": { "bytes", "packs": [{ "file", "bytes", "tiles": [["5/30/19", 0, 116], …] }] }, "detailed": { … } } }`.
+- Test (`scripts/__tests__/offlineTiles.test.js`): packing two tiles gives offsets 0 and len(first), a new pack starts past the size limit, and reading back by offset gives each tile's bytes.
+- The run prints each set's MB. Those numbers go into `OFFLINE_MAP_SIZES_MB` (Task 3) and this doc.
+
+### Task 2: Host v2 (owner)
+- The same rclone command as Task 2 above (it copies `offline-map-site`, so v2 goes up beside v1). The same curl checks, on `v2/manifest.json` and one `.bin`.
+
+### Task 3: Save by packs, in the background (`lib/offlineMap.ts`)
+- `OFFLINE_MAP_URL` → `/v2`. `OFFLINE_MAP_SIZES_MB = { standard, detailed }`.
+- `savedMapLevel(): Promise<"standard" | "detailed" | null>` replaces `isOfflineMapSaved`. It reads the flag `offlineMap.saved.v2`, with the v1 flag counting as standard, and checks the folder exists.
+- `saveOfflineMap(manifest, level, { onProgress(phase, done, total), shouldStop })`:
+  - starts every pack that isn't done as a background download to `Paths.cache/offline-map-packs/`;
+  - unpacks each one as it lands (`File.open()` → `offset` + `readBytes(length)` → `new File(dir, z, x, y).write(bytes)`), yielding to the screen every 250 tiles;
+  - records the pack as done, then deletes the `.bin`.
+  - Progress is downloaded bytes across the packs, then "Unpacking" by tiles.
+  - Stop cancels the downloads.
+- `removeOfflineMap` also deletes the packs folder and both flags.
+- Tests:
+  - a pack is unpacked to the right files with the right bytes;
+  - packs that are already done aren't downloaded again;
+  - an unpack cut short leaves the pack not done;
+  - the v1 flag reads as standard;
+  - Detailed after Standard downloads only the detailed packs;
+  - Stop cancels the downloads.
+
+### Task 4: The Account card
+- With nothing saved, "Save map for no signal" opens the card with the choice:
+  - **Standard map**: "About 80 MB. Roads, towns and tracks. Blurry close in."
+  - **Detailed map**: "About 230 MB. Sharp close in, for walks and back roads."
+- Then the card shows progress:
+  - "Saving the map… 42%" with the bar, and "It keeps going if you leave the app. Don't swipe it away.";
+  - then "Unpacking the map…";
+  - then "Map saved".
+- With Standard saved, the row also offers "Get the detailed map (about 150 MB more)". Remove stays.
+- The mobile-data alert quotes the size of the level chosen.
+- `useOfflineMap` returns `level` instead of `saved`, and its progress includes the phase. It keeps `oncePerPercent`.
+
+### Task 5: The map
+- `maximumNativeZ` is 12 with Detailed saved and 11 with Standard.
+- The credit moves into `app/(app)/(tabs)/map/index.tsx`, under the search bar and the pills. It's removed from `SitesMapView`. Tests: it shows only while the saved map is drawn, and it isn't inside the bottom sheet.
+
+### Task 6: Phone check (owner, dev build, over the air)
+- Standard on Wi-Fi: lock the phone right after starting. Unlock after 2 minutes; it should have carried on. Time the whole save.
+- Detailed after Standard: only the extra downloads.
+- Airplane mode: Milford, Haast and the Catlins are sharp to zoom 12. The credit is visible under the search bar.
+- Remove, then airplane mode again somewhere not looked at recently in Apple Maps (Dusky Sound, Stewart Island): the empty grid shows. Apple keeps its own copy of what was viewed online, so step 5's places can still show Apple's map.
+- Swipe the app away during a save, then reopen it: "partly saved", and "Carry on" finishes.

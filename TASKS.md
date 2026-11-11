@@ -34,12 +34,12 @@ Reference app for every port: `rotorua-guide`.
 
 - [x] **Place facts checked (launch item A5) — done 2026-10-29.** Brief: `prompts/content-check-place-facts.md` (untracked). Rounds 1 to 10 checked every switched-on place below `high` confidence against operator, DOC and council pages (`5236f20` to `07e1d7a`); a final pass settled 178 more and kept the admin panel's edits (`a671b2f`); the owner's hand check of the last 450 items took out 276 claims, made 18 corrections, switched off 12 closed places and renamed four (`f0db89c`). Uploaded; all 558 places matched the live list. Every switched-on place now has a `confidence` and a `sourceUrl`.
 
-- [ ] **Share — ported from rotorua-guide 2026-09-30, needs a new EAS build + device check.** `app/share-frame.tsx`, `components/share/CaptureCanvas.tsx`, `lib/services/share/{shareService,types}.ts`. Card says "South Island" / "South Island Guide" and its gradient comes from `tokens.colors.text`. Added `react-native-view-shot`, `expo-image-picker`, `expo-sharing`, `expo-file-system`, `expo-linking` (via `expo install`) and the `expo-sharing` + `expo-image-picker` plugins (photo/camera permission strings) in `app.config.ts`. Typecheck clean.
+- [x] **Share — ported from rotorua-guide 2026-09-30, needs a new EAS build + device check.** (Checked on the phone; ticked 2026-11-11.) `app/share-frame.tsx`, `components/share/CaptureCanvas.tsx`, `lib/services/share/{shareService,types}.ts`. Card says "South Island" / "South Island Guide" and its gradient comes from `tokens.colors.text`. Added `react-native-view-shot`, `expo-image-picker`, `expo-sharing`, `expo-file-system`, `expo-linking` (via `expo install`) and the `expo-sharing` + `expo-image-picker` plugins (photo/camera permission strings) in `app.config.ts`. Typecheck clean.
 - [x] **App icon, Android adaptive icon and splash image** — done 2026-10-20. Snow-capped Aoraki-style peak, orange sun `#F2683C` behind its shoulder, the South Island as a dark `#095C65` map on the mid-teal `#6FAAAE` slope, on a `#03262B` tile (the scrim colour). `icon.png` is opaque 1024; `adaptive-icon.png` is the mark scaled into Android's safe circle; `splash-icon.png` is the mark alone; SVG sources are `assets/icon.svg` and `assets/icon-mark.svg`. Adaptive and splash backgrounds moved from mint to `#03262B`, since the white snow vanishes on mint. Chosen after blind tests against AllTrails: 1024 and 180 px won 5/5, 40 px 3/5.
-- [ ] **Login page image** — wired 2026-10-01, needs a device check: Aoraki over Lake Pukaki (`assets/login.webp`) full-bleed under a top/bottom teal tint. The email form now starts closed behind a white "Sign in with email" button, so the photo isn't covered; it opens in place of the Apple/Google buttons, with "Other ways to sign in" to close it. The source is 1280×686, so it's upscaled 2–3× on a phone and may look soft; a larger original (≥2000px tall) would fix that.
+- [x] **Login page image** (checked on the phone; ticked 2026-11-11) — wired 2026-10-01, needs a device check: Aoraki over Lake Pukaki (`assets/login.webp`) full-bleed under a top/bottom teal tint. The email form now starts closed behind a white "Sign in with email" button, so the photo isn't covered; it opens in place of the Apple/Google buttons, with "Other ways to sign in" to close it. The source is 1280×686, so it's upscaled 2–3× on a phone and may look soft; a larger original (≥2000px tall) would fix that.
 - [x] **Reviews — reading works** (verified 2026-09-29: `collections.reviews` = `siteReviews`, the `locationId + reviewCreatedAt` index is built and a probe query runs). **Posting still fails** until the api service-account case ships — not an index problem.
 
-- [ ] **Check every screen at 375×667pt (iPhone SE / the iPad compatibility window).** Rotorua build 15 was rejected under Guideline 4 on 2026-09-29: App Review runs iPhone-only apps on iPad in a 375×667 window, and a primary button sat under the tab bar at that height. Any screen holding a primary action must scroll or fit at 667pt. **Most at risk here: the login screen** — now scrolls (2026-10-01) and only one of the buttons or the email form shows at a time, but still check it with the keyboard up. Also check the itinerary modals and the saved-places screen. Test on an SE simulator.
+- [x] **Check every screen at 375×667pt (iPhone SE / the iPad compatibility window).** (Ticked 2026-11-11: carried on as "After launch — multi-device testing", below.) Rotorua build 15 was rejected under Guideline 4 on 2026-09-29: App Review runs iPhone-only apps on iPad in a 375×667 window, and a primary button sat under the tab bar at that height. Any screen holding a primary action must scroll or fit at 667pt. **Most at risk here: the login screen** — now scrolls (2026-10-01) and only one of the buttons or the email form shows at a time, but still check it with the keyboard up. Also check the itinerary modals and the saved-places screen. Test on an SE simulator.
 
 - [x] **Guest "Sign In" went to the map instead of login** — fixed 2026-10-01. Both `(auth)/_layout.tsx` and `login.tsx` redirected guests to the map, so every Sign In button bounced. Removed both (rotorua-guide's fix); "Continue as Guest" now navigates explicitly. Also logged as a create-app scaffold bug in enginev1/TASKS.md.
 - [~] **Report and block on reviews gave no feedback** — fixed in code 2026-10-09, **needs a device test** (signed in: report, block; guest: tap either). `SiteReviewOptionsMenu` in `sites/[siteId]/reviews.tsx` fired `report.mutate` / `block.mutate` and forgot them, and passed no `onGuestBlocked`, so a guest's tap did nothing. Now alerts "Report Received" / "User Blocked" (naming the author), "Couldn't Send Report" / "Couldn't Block User" on failure, and "Sign In Required" with a Sign In button to the login screen for a guest — rotorua-guide's behaviour. `firestore.rules`, with the `reports` and `blocks` rules, **is live: the owner checked the console on 2026-10-30 and it matches the repo exactly**. Only the device test is left.
@@ -140,8 +140,12 @@ Owner, 2026-10-23: after launch. With no signal, the map tab shows pins and the 
 - [x] **Decided 2026-11-07 (owner), for 1.0.1:** topo, the whole country in one set, hosted on Cloudflare R2 (`tiles.blacksands.app`) instead of Firebase. Task 1's script is in (`7ebe55b`, `11cf848`), and so is the app side, Tasks 3–5 (`431e037`). **Don't ship 1.0.1 until the tiles are hosted** (Task 2): the Account row would offer a map that can't be downloaded. Then the plan's Task 6 phone check, and check the credit wording against LINZ's attribution page.
 - [x] **Tiles downloaded 2026-11-07:** 9,849 tiles, 77.7 MB, zoom 5 to 11 (zoom 12 would be 300 MB or more). The key has only the WMTS scope. `OFFLINE_MAP_ABOUT_MB` is 80.
 - [x] **Task 2, tiles hosted 2026-11-11:** bucket `kiwiguide-offline-map` on `tiles.blacksands.app`. All 9,850 files (9,849 tiles and the manifest) answer 200 with `Cache-Control: public, max-age=31536000, immutable`. A rebuilt set goes under `/v2/`.
-- [ ] **Owner: Task 6 phone check** on the 1.1.0 dev build (plan, Task 6), then the LINZ credit wording.
-- [ ] **Free check first** (5 min): download Fiordland in the Apple Maps app, turn on airplane mode, open our map near Milford. If iOS lets our map use that download, the plan may not be needed; a line in the guide does it.
+- [x] **Owner: Task 6 phone check** on the 1.1.0 dev build (plan, Task 6), then the LINZ credit wording. Done 2026-11-11:
+  - It saved, and works in airplane mode.
+  - The slow save was fixed (`oncePerPercent`).
+  - The covered credit moved under the search bar, in LINZ's wording.
+  - The blur close in goes to v2's Detailed map (plan, v2).
+- [x] **Free check first** (dropped 2026-11-11: the app has its own saved map now) (5 min): download Fiordland in the Apple Maps app, turn on airplane mode, open our map near Milford. If iOS lets our map use that download, the plan may not be needed; a line in the guide does it.
 - **Until then, the launch posts say:** "Open the app with signal before you leave town. Your trip, places and guide work with no signal after that. For turn-by-turn directions, download the area in Apple Maps or Google Maps." Don't claim offline maps.
 
 ### After launch — Apple and Google sign-in
@@ -157,6 +161,16 @@ Owner, 2026-10-30: round 1 of the pre-build review fixes is done; round 2 waits 
 
 ### After launch — first weeks
 Added 2026-10-30.
+- [ ] **Add to Calendar fails on one calendar: "Alarms cannot be changed"** (Sentry KIWI-GUIDE-5, TestFlight build 7, 2026-11-11). The owner's "Home" calendar refused the trip; "Work" took it.
+  - iOS's own error (`ExpoModulesCore/AsyncFunctionDefinition.swift:126`). The app sets no alerts on the events (`lib/tripCalendar.ts`), so it's about that calendar.
+  - Likely causes, not yet checked:
+    - a calendar shared by someone else, or an Exchange one, that won't take alerts;
+    - iOS adding the phone's Default Alert Time to new events, which that calendar then refuses.
+  - To find out: which account Home is under, and whether it's shared; whether it failed on the first add or on adding the trip again; and Settings → Apps → Calendar → Default Alert Times.
+  - Fix, over the air:
+    - On this error, try again with no alerts (`alarms: []`).
+    - If the calendar still refuses, say "That calendar won't take the trip. Pick another one." instead of "Please try again".
+    - Keep the list of the trip's earlier events through a failed attempt. Today it's cleared, so events from an earlier add to another calendar stay behind as duplicates.
 - [ ] **Watch Sentry daily for the first week.** New crashes are under Issues; screen timings are under Traces. Tracing samples one session in five (`tracesSampleRate: 0.2`, from update 1).
 - [x] **Stop the 15-second "Route Change" traces** (done 2026-11-09, in 1.1: the tour and the tab bar skip navigating to the tab already on screen) (from a user's trace, 2026-11-08). Sentry noise only; users see nothing, and every screen in that trace was fast (place 74 ms, Trips 77 ms, map 332 ms, Explore about 620 ms on first open). The cause: navigating to the tab you're already on. With `backBehavior="history"` that rebuilds the tab history, so the state changes but the screen doesn't. In that case Sentry's navigation integration leaves its "navigation.processing" span open, and core's `childSpanTimeout` (15 s) closes the transaction. Two places do it:
   - **The opening tour, likeliest:** its first step ("welcome", `tabKey: "sites"`) calls `router.navigate` to Explore while the user is already on Explore (`goToStep` in `lib/tour/TourContext.tsx`), so every new user's tour starts with one. In the user's trace the stray transaction ended on Trips, the tour's sixth step, and Trips then Map follow it, as in the tour.
@@ -178,6 +192,26 @@ Added 2026-10-30.
   - Trips don't record which suggested trip they came from (the api's create parser drops extra fields), so "started from a suggested trip" can only be guessed by matching a trip's first day against the templates.
   - Counting place-list requests per route needs Workers Logs (`[observability]` in enginev1/api's `wrangler.toml`, deployed on the owner's go). With the app's 24-hour `staleTime`, list requests per day roughly equal daily active phones.
   - Opening-tour completion and share taps can't be counted without an SDK.
+
+### After launch — multi-device testing
+Owner, 2026-11-11: check the app across phone sizes, not only on the owner's phone. It replaces the 1.0 "375×667" check above.
+- [ ] **Phones to cover:**
+  - iPhone SE (375×667). App Review also runs iPhone-only apps on iPad in a window this size (Rotorua build 15 was rejected for a button under the tab bar).
+  - A standard 6.1" iPhone (390×844).
+  - A Pro Max (430×932).
+  - An iPad, which runs the app in that same 375×667 window.
+  - Also the oldest iOS the app supports, and large text (Settings → Display & Brightness → Text Size).
+- [ ] **Screens most at risk:**
+  - the map: the pop-up's two button rows at the sheet's opening height, and My Trip, the credit and the map controls side by side under the search bar;
+  - the login screen with the keyboard up;
+  - the Create Trip and Add to Trip modals (`CardShell` `shrink`);
+  - the saving-map card;
+  - the tour's cut-outs, since the home-bar inset differs by phone;
+  - the share card.
+- [ ] **How**, since there's no iOS simulator on Windows:
+  - TestFlight testers with different phones, each with a short list;
+  - or a cloud device service (BrowserStack App Live, AWS Device Farm) for the SE and the iPad;
+  - screenshots of each screen back for comparison.
 
 ### After launch — drive times between stops
 Found 2026-11-09, writing the Reddit post from the 14-day Christchurch trip. Owner: not sure how to fix yet.

@@ -308,21 +308,31 @@ describe("category chips", () => {
     expect(view.getByText("All")).toBeTruthy();
   });
 
-  // Tester, 2026-11-11: the map couldn't show just the trip's places.
-  it("offer My Trip, which shows only the trip's places", async () => {
+  // Tester, 2026-11-11: the map couldn't show just the trip's places. Owner: out on the
+  // map, not behind the filter button.
+  it("leave My Trip out on the map, where a tap shows only the trip's places", async () => {
     mockTrips.itineraries = [{ id: "t1", days: [{ id: "d1", items: [{ siteId: "s1" }, { siteId: "s3" }] }] }];
+    const view = await render(<MapScreen />);
+
+    await fireEvent.press(view.getByRole("button", { name: "My Trip" }));
+    expect(markers(view).sort()).toEqual(["Riverside Market", "Sumner Beach"]);
+    expect(view.queryByText("All")).toBeNull();
+
+    await fireEvent.press(view.getByRole("button", { name: "My Trip" }));
+    expect(markers(view)).toHaveLength(4);
+  });
+
+  it("don't include My Trip, which has its own button", async () => {
+    mockTrips.itineraries = [{ id: "t1", days: [{ id: "d1", items: [{ siteId: "s1" }] }] }];
     const view = await render(<MapScreen />);
     await openFilters(view);
 
-    await fireEvent.press(view.getByText("My Trip"));
-
-    expect(markers(view).sort()).toEqual(["Riverside Market", "Sumner Beach"]);
+    expect(view.getAllByText("My Trip")).toHaveLength(1);
   });
 
   it("have no My Trip without places in a trip", async () => {
     mockTrips.itineraries = [{ id: "t1", days: [{ id: "d1", items: [] }] }];
     const view = await render(<MapScreen />);
-    await openFilters(view);
 
     expect(view.queryByText("My Trip")).toBeNull();
   });

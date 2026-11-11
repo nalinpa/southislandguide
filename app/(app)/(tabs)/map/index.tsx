@@ -5,7 +5,7 @@ import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useNetInfo } from "@react-native-community/netinfo";
-import { Search, SlidersHorizontal, Crosshair, Layers, AlertCircle, Lock, ChevronRight, X } from "lucide-react-native";
+import { Search, SlidersHorizontal, Crosshair, Layers, AlertCircle, Lock, ChevronRight, X, CalendarDays } from "lucide-react-native";
 import type { MapType } from "react-native-maps";
 
 import { LoadingState, ErrorCard, components } from "@/lib/uiKit";
@@ -73,6 +73,9 @@ export default function MapScreen() {
     () => new Set(itineraries.flatMap((t) => t.days.flatMap((d) => d.items.map((i) => i.siteId)))),
     [itineraries],
   );
+  const tripOn = mapFilter === "trip";
+  // The chips and the filter button are for categories; My Trip has its own button.
+  const categoryOn = !!mapFilter && !tripOn;
   const [showFilters, setShowFilters] = useState(false);
   const [mapType, setMapType] = useState<MapType>("standard");
 
@@ -326,7 +329,7 @@ export default function MapScreen() {
               }}
               accessibilityRole="button"
               accessibilityLabel="Filter by category"
-              style={[styles.filterBtn, (mapFilter || showFilters) && styles.filterBtnActive]}
+              style={[styles.filterBtn, (categoryOn || showFilters) && styles.filterBtnActive]}
             >
               <SlidersHorizontal color="#FFFFFF" size={18} strokeWidth={2.25} />
             </TouchableOpacity>
@@ -357,16 +360,11 @@ export default function MapScreen() {
         {/* Hidden until asked for, to leave the map clear. They stay up while a
             category is chosen even if the button is tapped shut: otherwise
             nothing would say which filter is on, or offer a way to change it. */}
-        {(showFilters || mapFilter) && (
+        {(showFilters || categoryOn) && (
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
-            {/* My Trip only once the trip has places in it. */}
-            {([
-              { label: "All", value: null },
-              ...(tripSiteIds.size > 0 ? [{ label: "My Trip", value: "trip" }] : []),
-              ...SITE_CATEGORIES.map((c) => ({ label: SITE_CATEGORY_LABELS[c], value: c })),
-            ] as {
+            {([{ label: "All", value: null }, ...SITE_CATEGORIES.map((c) => ({ label: SITE_CATEGORY_LABELS[c], value: c }))] as {
               label: string;
-              value: SiteCategory | "trip" | null;
+              value: SiteCategory | null;
             }[]).map((cat) => {
               const active = mapFilter === cat.value;
               return (
@@ -399,6 +397,23 @@ export default function MapScreen() {
             down the screen, where the bottom sheet grows up over them and they
             covered its distance and Directions button. */}
         <View style={styles.controlsRow} pointerEvents="box-none">
+          <View style={styles.leftStack} pointerEvents="box-none">
+          {/* Out on the map, not behind the filter button (owner, 2026-11-11), once the
+              trip has places. A tap shows only them; another shows everything again. */}
+          {tripSiteIds.size > 0 && (
+            <TouchableOpacity
+              style={[styles.chip, styles.tripChip, tripOn && styles.chipActive]}
+              accessibilityRole="button"
+              accessibilityState={{ selected: tripOn }}
+              onPress={() => {
+                Haptics.selectionAsync();
+                setMapFilter(tripOn ? null : "trip");
+              }}
+            >
+              <CalendarDays size={14} color={tripOn ? "#FFFFFF" : tokens.colors.text2} strokeWidth={2.25} />
+              <Text style={[styles.chipText, tripOn && styles.chipTextActive]}>My Trip</Text>
+            </TouchableOpacity>
+          )}
           {/* CC BY 4.0 asks for credit wherever the LINZ map shows, and a link to the
               licence. Up here, not at the map's foot: the bottom sheet covered it there
               (owner, 2026-11-11). LINZ's own wording, "Sourced from the LINZ Data Service
@@ -413,6 +428,7 @@ export default function MapScreen() {
               <Text style={styles.creditText}>Map: LINZ Data Service, CC BY 4.0</Text>
             </TouchableOpacity>
           ) : null}
+          </View>
           <View style={styles.mapControls}>
           <TouchableOpacity
             style={styles.controlBtn}
@@ -563,10 +579,12 @@ const styles = StyleSheet.create({
   chipActive: { backgroundColor: tokens.colors.highlight, borderColor: tokens.colors.highlight },
   chipText: { fontSize: 13, fontWeight: "600", color: tokens.colors.text2 },
   chipTextActive: { color: "#FFFFFF" },
-  // The saved map's credit at the left, the map controls at the right.
+  // My Trip and the saved map's credit at the left, the map controls at the right.
   controlsRow: { flexDirection: "row", alignItems: "flex-start" },
+  leftStack: { marginLeft: 16, marginTop: 10, gap: 8, alignItems: "flex-start" },
+  tripChip: { flexDirection: "row", alignItems: "center", gap: 6 },
   credit: {
-    marginLeft: 16, marginTop: 10, paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10,
+    paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10,
     backgroundColor: "rgba(255,255,255,0.88)",
   },
   creditText: { fontSize: 11, color: tokens.colors.text2 },

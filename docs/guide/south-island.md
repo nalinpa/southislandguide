@@ -135,7 +135,7 @@ Cards work almost everywhere, including small-town shops, and tapping to pay is 
 
 Phone signal and maps
 
-Mobile coverage disappears quickly outside towns. Around 40 percent of New Zealand's land area has no cell-tower coverage, including much of the Milford Road and many remote roads. Before you leave town, download offline maps, save bookings and track notes to your phone, and tell anyone expecting to hear from you that you'll be out of touch. Some local mobile plans now let compatible phones send texts by satellite where there's no signal, but you generally can't reach 111 that way, so don't treat it as your safety net.
+Mobile coverage disappears quickly outside towns. Around 40 percent of New Zealand's land area has no cell-tower coverage, including much of the Milford Road and many remote roads. Before you leave town, save the map on the Profile tab, put bookings and track notes on your phone, and tell anyone expecting to hear from you that you'll be out of touch. Some local mobile plans now let compatible phones send texts by satellite where there's no signal, but you generally can't reach 111 that way, so don't treat it as your safety net.
 
 Groceries
 

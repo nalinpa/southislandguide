@@ -108,6 +108,8 @@ By 2026-10-20: places and in-town drive times for 36 towns; the first UX sweep (
 
 2026-10-20 to 22: the second UX sweep (fix-16 to fix-31); the guide for every region (A6); Queenstown, Arrowtown and Glenorchy (A1 complete at 41 towns); town hubs, town-to-town times for every pair, and far-out places' own times (fix-32); 21 suggested trips with a start-town picker (A7).
 
+2026-11-11: the guide's two map lines (mobile coverage, the Catlins) say "save the map on the Profile tab", now the app has its own saved map (1.1). The launch posts are the owner's to update.
+
 ## After launch: Apple and Google sign-in
 
 Left out of the first release (owner, 2026-10-25; E2). The buttons (`components/auth/SocialSignInButtons.tsx`) and `lib/auth` are untouched, and `usesAppleSignIn` stays in `app.config.ts` so builds keep the capability.

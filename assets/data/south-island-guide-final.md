@@ -136,7 +136,7 @@ Cards work almost everywhere, including small-town shops, and tapping to pay is 
 
 ### Phone signal and maps
 
-Mobile coverage disappears quickly outside towns. Around 40 percent of New Zealand's land area has no cell-tower coverage, including much of the Milford Road and many remote roads. Before you leave town, download offline maps, save bookings and track notes to your phone, and tell anyone expecting to hear from you that you'll be out of touch. Some local mobile plans now let compatible phones send texts by satellite where there's no signal, but you generally can't reach 111 that way, so don't treat it as your safety net.
+Mobile coverage disappears quickly outside towns. Around 40 percent of New Zealand's land area has no cell-tower coverage, including much of the Milford Road and many remote roads. Before you leave town, save the map on the Profile tab, put bookings and track notes on your phone, and tell anyone expecting to hear from you that you'll be out of touch. Some local mobile plans now let compatible phones send texts by satellite where there's no signal, but you generally can't reach 111 that way, so don't treat it as your safety net.
 
 ### Groceries
 
@@ -906,7 +906,7 @@ Rakiura Stewart Island is the country's third-largest island, and most of it is 
 
 The Catlins take far longer than the map suggests. The main road through them, part of the Southern Scenic Route between Invercargill and Balclutha, is sealed, but nearly every place worth stopping at is down a side road, and many of those are gravel. The road to McLean Falls is partly unsealed, and the 2km private road to Cathedral Caves doesn't allow towing vehicles. Parts of the coastal road between Otara and Curio Bay are gravel, and so is the road to Slope Point. Check your rental agreement before you plan the coastal loop, and give the Catlins at least a night rather than an afternoon.
 
-Farmers move sheep and cattle along these roads, so slow down and stay in your car until the stock has passed. Fuel is sold only at Ōwaka, Tokanui and Fortrose, with none at Papatōwai, and opening hours vary, so fill up in Invercargill or Balclutha before you set off. There are electric vehicle chargers at Ōwaka, Papatōwai and Fortrose. Phone coverage is limited to the main villages, Ōwaka, Papatōwai and Tokanui, so load the day's maps before you leave.
+Farmers move sheep and cattle along these roads, so slow down and stay in your car until the stock has passed. Fuel is sold only at Ōwaka, Tokanui and Fortrose, with none at Papatōwai, and opening hours vary, so fill up in Invercargill or Balclutha before you set off. There are electric vehicle chargers at Ōwaka, Papatōwai and Fortrose. Phone coverage is limited to the main villages, Ōwaka, Papatōwai and Tokanui, so save the map on the Profile tab before you leave.
 
 From Invercargill, State Highway 1 runs south to Bluff in about half an hour and north-east to Gore in about an hour.
 

@@ -4,10 +4,10 @@
     "strict": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "types": ["jest"],
+    "types": ["jest", "node"],
     "paths": {
       "@/*": ["./*"]
     }
   },
-  "exclude": ["node_modules"]
+  "exclude": ["**/node_modules"]
 }

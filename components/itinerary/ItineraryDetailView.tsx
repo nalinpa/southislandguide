@@ -45,6 +45,7 @@ import {
 import { areaName } from "@/lib/areas";
 import { dayRouteUrl } from "@/lib/utils/dayRoute";
 import { addTripToCalendar } from "@/lib/tripCalendar";
+import { setPendingSlot } from "@/lib/pendingSlot";
 import { areaImage } from "@/lib/areaImages";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
@@ -690,8 +691,11 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     const startId = dayStartSiteId(localTrip.days, dayIndex);
     return (startId ? places(startId)?.area : undefined) ?? events[0]?.area;
   };
-  const browseFrom = (slot: number) => {
+  // `addAt` is the time Add to Trip then opens on: the gap's start, unless the caller's
+  // `slot` is only there to work out the town.
+  const browseFrom = (slot: number, addAt = slot) => {
     const area = townAt(slot);
+    if (activeDay) setPendingSlot({ tripId: localTrip.id, dayId: activeDay.id, slot: addAt });
     router.push(area ? { pathname: "/(app)/(tabs)/sites", params: { area } } : "/(app)/(tabs)/sites");
   };
 
@@ -893,7 +897,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                   >
                     <TouchableOpacity
                       style={styles.emptyDayCard}
-                      onPress={() => browseFrom(MAX_GRID_SLOTS)}
+                      onPress={() => browseFrom(MAX_GRID_SLOTS, 1)}
                       activeOpacity={0.7}
                     >
                       <AppText variant="body" style={styles.emptyDayTitle}>

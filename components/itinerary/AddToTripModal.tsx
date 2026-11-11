@@ -9,18 +9,50 @@ import { CardShell, AppButton } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { usePlaceLookup } from "@/lib/hooks/usePlaceLookup";
-import { slotsToDurationLabel, tripSummary, tryEdit } from "@/lib/utils/itineraryPhysics";
+import { slotIndexToTimeLabel, slotsToDurationLabel, tripSummary, tryEdit } from "@/lib/utils/itineraryPhysics";
+import type { EditResult } from "@/lib/utils/itineraryPhysics";
+import type { PlaceLookup } from "@/lib/utils/transitMatrix";
+import { clearPendingSlot, peekPendingSlot } from "@/lib/pendingSlot";
 import { areaName } from "@/lib/areas";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { siteImage } from "@/lib/categoryImages";
-import type { ItineraryItem, SiteCategory } from "@/lib/models";
+import type { ItineraryDay, ItineraryItem, SiteCategory } from "@/lib/models";
 
-const TIME_OF_DAY = [
+const TIME_OF_DAY: { key: string; label: string; startSlot: number }[] = [
   { key: "morning", label: "Morning", startSlot: 1 },
   { key: "midday", label: "Midday", startSlot: 6 },
   { key: "afternoon", label: "Afternoon", startSlot: 12 },
   { key: "evening", label: "Evening", startSlot: 18 },
-] as const;
+];
+
+type Site = { id: string; name: string; imageUrl?: string; category?: SiteCategory };
+
+// The trip as adding the place to a day at a time would leave it, through the gate every
+// edit goes through. Used to add it, and beforehand to say which days and times have room.
+function candidateEdit(days: ItineraryDay[], dayId: string, site: Site, startSlot: number, durationSlots: number, places: PlaceLookup) {
+  const newItem: ItineraryItem = {
+    id: `item_${Date.now()}`,
+    siteId: site.id,
+    siteName: site.name,
+    slotIndex: startSlot,
+    // Both labels are filled in when the day is packed (runPhysicsEngine).
+    timeLabel: "",
+    durationLabel: "",
+    durationSlots,
+    imageUrl: site.imageUrl,
+  };
+  const items = [...(days.find((d) => d.id === dayId)?.items ?? []), newItem];
+  items.sort((a, b) => (a.slotIndex || 0) - (b.slotIndex || 0));
+  // The whole trip, not just this day: a place in another area brings a drive with
+  // it, and as the day's last place it changes the drive the next day opens with.
+  const result = tryEdit(
+    days,
+    days.map((d) => (d.id === dayId ? { ...d, items } : d)),
+    dayId,
+    places,
+  );
+  return { newItem, result };
+}
 
 const dayDate = (iso: string) =>
   new Date(iso + "T00:00:00").toLocaleDateString("en-NZ", { weekday: "short", day: "numeric", month: "short" });
@@ -31,7 +63,7 @@ type Added = { tripId: string; tripTitle: string; dayId: string; dayLabel: strin
 
 type AddToTripModalProps = {
   /** `category` is the place's first, for its default image when it has no photo. */
-  site: { id: string; name: string; imageUrl?: string; category?: SiteCategory } | null;
+  site: Site | null;
   onClose: () => void;
   initialItineraryId?: string | null;
 };
@@ -43,8 +75,11 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   const { places, ready: placesReady } = usePlaceLookup();
 
   const [itineraryId, setItineraryId] = useState<string | null>(null);
+  // Null until the user picks: the sheet then opens on the first day and time with room
+  // (tester, 2026-11-11: "couldn't find a day that would take a place"). It used to open
+  // on Day 1, Morning, and say why not only once Add was tapped, a day at a time.
   const [dayId, setDayId] = useState<string | null>(null);
-  const [timeOfDay, setTimeOfDay] = useState<(typeof TIME_OF_DAY)[number]["key"]>("morning");
+  const [startSlot, setStartSlot] = useState<number | null>(null);
   const [durationSlots, setDurationSlots] = useState(2);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   // Set once the place is saved: the modal then says so, and the user stays where they
@@ -59,9 +94,8 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     if (!site) return;
     const preselected = initialItineraryId ?? (itineraries.length === 1 ? itineraries[0].id : null);
     setItineraryId(preselected);
-    const trip = itineraries.find((i) => i.id === preselected);
-    setDayId(trip?.days[0]?.id ?? null);
-    setTimeOfDay("morning");
+    setDayId(null);
+    setStartSlot(null);
     setDurationSlots(2);
     setErrorMsg(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,43 +109,62 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     [selectedTrip, placesReady, places],
   );
 
+  // The gap "Find more things to do" was opened from, if its day is still there. Its time
+  // gets its own pill unless it's one of the four: exact, not rounded, since the packer
+  // takes the time as the earliest start and Midday could land before the stop it follows.
+  const waiting = selectedTrip ? peekPendingSlot(selectedTrip.id) : null;
+  const pending = waiting && selectedTrip?.days.some((d) => d.id === waiting.dayId) ? waiting : null;
+  const exactSlot = pending && !TIME_OF_DAY.some((t) => t.startSlot === pending.slot) ? pending.slot : null;
+  const times = useMemo(
+    () => (exactSlot === null ? TIME_OF_DAY : [{ key: "exact", label: slotIndexToTimeLabel(exactSlot), startSlot: exactSlot }, ...TIME_OF_DAY]),
+    [exactSlot],
+  );
+
+  // Whether the place fits, for every day at every time pill. Empty until the place list
+  // is in: without it the fit check would pass anything.
+  // ponytail: days × pills whole-trip packs, about 200 for a 21-day trip, on each change
+  // of duration. Check only the days near the picked one if it drags on a phone.
+  const fits = useMemo(() => {
+    const map = new Map<string, EditResult>();
+    if (!site || !selectedTrip || !placesReady) return map;
+    for (const d of selectedTrip.days)
+      for (const t of times)
+        map.set(`${d.id}:${t.startSlot}`, candidateEdit(selectedTrip.days, d.id, site, t.startSlot, durationSlots, places).result);
+    return map;
+    // By the place's id: callers build `site` afresh on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [site?.id, selectedTrip, placesReady, places, durationSlots, times]);
+
   if (!site) return null;
+
+  const fitsAt = (d: string, slot: number) => fits.get(`${d}:${slot}`)?.ok ?? true;
+  const dayFits = (d: string) => times.some((t) => fitsAt(d, t.startSlot));
+  const days = selectedTrip?.days ?? [];
+  // The user's pick, else the gap's day, else the first day with room.
+  const day = days.find((d) => d.id === (dayId ?? pending?.dayId)) ?? days.find((d) => dayFits(d.id)) ?? days[0];
+  const slot =
+    startSlot ??
+    (day && pending?.dayId === day.id ? pending.slot : undefined) ??
+    (day ? times.find((t) => fitsAt(day.id, t.startSlot))?.startSlot : undefined) ??
+    times[0].startSlot;
+  const chosen = day ? fits.get(`${day.id}:${slot}`) : undefined;
+  const refusal =
+    days.length > 0 && !days.some((d) => dayFits(d.id))
+      ? `No day has room for a visit of ${slotsToDurationLabel(durationSlots).toLowerCase()}. Try a shorter visit, or make room on a day.`
+      : chosen && !chosen.ok
+        ? chosen.reason
+        : null;
 
   const siteThumb = siteImage(site.imageUrl, site.category, "thumb", site.id);
 
   const handleAdd = async () => {
     setErrorMsg(null);
-    if (!selectedTrip || !dayId) {
+    if (!selectedTrip || !day) {
       setErrorMsg("Choose a trip and a day.");
       return;
     }
-    const day = selectedTrip.days.find((d) => d.id === dayId);
-    if (!day) return;
-
-    const startSlot = TIME_OF_DAY.find((t) => t.key === timeOfDay)!.startSlot;
-    const newItem: ItineraryItem = {
-      id: `item_${Date.now()}`,
-      siteId: site.id,
-      siteName: site.name,
-      slotIndex: startSlot,
-      // Both labels are filled in when the day is packed (runPhysicsEngine).
-      timeLabel: "",
-      durationLabel: "",
-      durationSlots,
-      imageUrl: site.imageUrl,
-    };
-
-    const items = [...day.items, newItem];
-    items.sort((a, b) => (a.slotIndex || 0) - (b.slotIndex || 0));
-
-    // The whole trip, not just this day: a place in another area brings a drive with
-    // it, and as the day's last place it changes the drive the next day opens with.
-    const result = tryEdit(
-      selectedTrip.days,
-      selectedTrip.days.map((d) => (d.id === dayId ? { ...d, items } : d)),
-      dayId,
-      places,
-    );
+    const dayId = day.id;
+    const { newItem, result } = candidateEdit(selectedTrip.days, dayId, site, slot, durationSlots, places);
     if (!result.ok) {
       setErrorMsg(result.reason);
       return;
@@ -126,6 +179,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
       setErrorMsg("Couldn't add to your trip. Try again.");
       return;
     }
+    clearPendingSlot();
     const dayIndex = selectedTrip.days.findIndex((d) => d.id === dayId);
     setAdded({
       tripId: selectedTrip.id,
@@ -200,7 +254,8 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                         style={[styles.pill, itineraryId === trip.id && styles.pillActive]}
                         onPress={() => {
                           setItineraryId(trip.id);
-                          setDayId(trip.days[0]?.id ?? null);
+                          setDayId(null);
+                          setStartSlot(null);
                         }}
                       >
                         <Text style={[styles.pillText, itineraryId === trip.id && styles.pillTextActive]} numberOfLines={1}>
@@ -216,32 +271,37 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                 <>
                   <Text style={styles.label}>Day</Text>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillRow}>
-                    {selectedTrip.days.map((day, idx) => (
-                      <TouchableOpacity
-                        key={day.id}
-                        style={[styles.pill, dayId === day.id && styles.pillActive]}
-                        onPress={() => setDayId(day.id)}
-                      >
-                        <Text style={[styles.pillText, dayId === day.id && styles.pillTextActive]}>Day {idx + 1}</Text>
-                        <Text style={[styles.pillSub, dayId === day.id && styles.pillTextActive]} numberOfLines={1}>
-                          {dayDate(day.date)}
-                          {summary[idx]?.areas.length ? ` · ${summary[idx].areas.map(areaName).join(" → ")}` : ""}
-                        </Text>
-                      </TouchableOpacity>
-                    ))}
+                    {days.map((d, idx) => {
+                      const active = day?.id === d.id;
+                      // A day with no room stays tappable, to read why.
+                      const room = dayFits(d.id);
+                      return (
+                        <TouchableOpacity
+                          key={d.id}
+                          style={[styles.pill, active && styles.pillActive, !room && styles.pillDim]}
+                          onPress={() => setDayId(d.id)}
+                        >
+                          <Text style={[styles.pillText, active && styles.pillTextActive]}>Day {idx + 1}</Text>
+                          <Text style={[styles.pillSub, active && styles.pillTextActive]} numberOfLines={1}>
+                            {dayDate(d.date)}
+                            {!room ? " · No room" : summary[idx]?.areas.length ? ` · ${summary[idx].areas.map(areaName).join(" → ")}` : ""}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
                   </ScrollView>
                 </>
               )}
 
               <Text style={styles.label}>Time of Day</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillRow}>
-                {TIME_OF_DAY.map((t) => (
+                {times.map((t) => (
                   <TouchableOpacity
                     key={t.key}
-                    style={[styles.pill, timeOfDay === t.key && styles.pillActive]}
-                    onPress={() => setTimeOfDay(t.key)}
+                    style={[styles.pill, slot === t.startSlot && styles.pillActive, !!day && !fitsAt(day.id, t.startSlot) && styles.pillDim]}
+                    onPress={() => setStartSlot(t.startSlot)}
                   >
-                    <Text style={[styles.pillText, timeOfDay === t.key && styles.pillTextActive]}>{t.label}</Text>
+                    <Text style={[styles.pillText, slot === t.startSlot && styles.pillTextActive]}>{t.label}</Text>
                   </TouchableOpacity>
                 ))}
               </ScrollView>
@@ -269,7 +329,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                 </TouchableOpacity>
               </View>
 
-              {errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
+              {(errorMsg ?? refusal) && <Text style={styles.errorText}>{errorMsg ?? refusal}</Text>}
 
               {/* Saves queue while offline, so without this the button would just spin until reconnect.
                   And nothing is added before the place list is in: without it the drive to
@@ -280,7 +340,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                   onPress={handleAdd}
                   loading={isSaving}
                   loadingLabel="Adding..."
-                  disabled={isOffline || !placesReady}
+                  disabled={isOffline || !placesReady || !!refusal}
                   fullWidth
                 >
                   {/* "Add", not "Add to Trip": that's the sheet's title, just above. */}
@@ -326,6 +386,7 @@ const styles = StyleSheet.create({
   pillActive: { backgroundColor: tokens.colors.accent, borderColor: tokens.colors.accent },
   pillText: { fontSize: 13, fontWeight: "600", color: tokens.colors.text2 },
   pillTextActive: { color: "#FFFFFF" },
+  pillDim: { opacity: 0.45 },
   pillSub: { fontSize: 11, fontWeight: "500", color: tokens.colors.text2, marginTop: 2 },
   done: { gap: tokens.space.sm, paddingTop: tokens.space.xs },
   doneTitle: { fontSize: 18, fontWeight: "800", color: tokens.colors.text },

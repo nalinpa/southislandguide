@@ -667,6 +667,10 @@ describe("the drive between areas", () => {
 
     const gaps = view.getAllByTestId("free-gap");
     await fireEvent.press(within(gaps[0]).getByText("+ Find more things to do"));
+    // The gap is kept for Add to Trip to open on (lib/pendingSlot.ts).
+    const { peekPendingSlot } = require("@/lib/pendingSlot");
+    const trip = mockTrips.itineraries[0];
+    expect(peekPendingSlot(trip.id)).toEqual(expect.objectContaining({ dayId: trip.days[0].id, slot: 4 }));
     await fireEvent.press(within(gaps[gaps.length - 1]).getByText("+ Find more things to do"));
 
     expect(mockRouter.push).toHaveBeenNthCalledWith(1, { pathname: "/(app)/(tabs)/sites", params: { area: "christchurch" } });

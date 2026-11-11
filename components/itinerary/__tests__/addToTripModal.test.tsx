@@ -40,6 +40,7 @@ import { fireEvent, render, waitFor } from "@testing-library/react-native";
 
 import { AddToTripModal } from "@/components/itinerary/AddToTripModal";
 import { PLANNER } from "@/lib/constants/gameplay";
+import { clearPendingSlot, peekPendingSlot, setPendingSlot } from "@/lib/pendingSlot";
 
 const site = { id: "site-1", name: "Wai-O-Tapu", imageUrl: "https://example.test/w.jpg" };
 const onClose = jest.fn();
@@ -54,6 +55,7 @@ const makeTrip = (id: string, dayCount = 2) => ({
 
 beforeEach(() => {
   jest.clearAllMocks();
+  clearPendingSlot();
   mockNet.isConnected = true;
   mockNet.isInternetReachable = true;
   mockTrips.isSaving = false;
@@ -223,6 +225,72 @@ describe("the day buttons", () => {
   });
 });
 
+// Tester, 2026-11-11: "couldn't find a day that would take a place, and didn't know why".
+describe("which days have room", () => {
+  const fullDay = [makeStop("full", "other", 1, PLANNER.MAX_GRID_SLOTS - 1)];
+
+  it("opens on the first day with room, and marks the full one", async () => {
+    mockTrips.itineraries = [tripWithDays(fullDay, [])];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+
+    expect(view.getByText(`${dayLabel("2026-10-01")} · No room`)).toBeTruthy();
+    expect(view.getByText(dayLabel("2026-10-02"))).toBeTruthy();
+    await fireEvent.press(view.getByText("Add"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    const saved = mockTrips.saveItinerary.mock.calls[0][0].days;
+    expect(saved[0].items).toHaveLength(1);
+    expect(saved[1].items[0].siteName).toBe("Wai-O-Tapu");
+  });
+
+  it("finds room again when the visit is made shorter", async () => {
+    // Two half-hour slots left at the end of the day: not enough for an hour after the hop.
+    mockTrips.itineraries = [tripWithDays([makeStop("most", "other", 0, PLANNER.MAX_GRID_SLOTS - 2)])];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    expect(view.getByText(/^No day has room for a visit of 1 hour\./)).toBeTruthy();
+
+    await fireEvent.press(view.getByLabelText("Shorter"));
+
+    expect(view.queryByText(/^No day has room/)).toBeNull();
+  });
+});
+
+// Tester, 2026-11-11: "Find more things to do" forgot the gap it was opened from.
+describe("the gap Find more things to do was opened from", () => {
+  it("opens on that day and exact time, and is used up once the place is added", async () => {
+    setPendingSlot({ tripId: "t1", dayId: "day_2", slot: 9 });
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+
+    expect(view.getByText("12:30 PM")).toBeTruthy();
+    await fireEvent.press(view.getByText("Add"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    expect(mockTrips.saveItinerary.mock.calls[0][0].days[1].items[0].slotIndex).toBe(9);
+    expect(peekPendingSlot("t1")).toBeNull();
+  });
+
+  it("has no extra pill when the time is one of the four", async () => {
+    setPendingSlot({ tripId: "t1", dayId: "day_2", slot: 1 });
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+
+    expect(view.queryByText("8:30 AM")).toBeNull();
+    await fireEvent.press(view.getByText("Add"));
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    expect(mockTrips.saveItinerary.mock.calls[0][0].days[1].items).toHaveLength(1);
+  });
+
+  it("is ignored for another trip, and after half an hour", () => {
+    setPendingSlot({ tripId: "t1", dayId: "day_2", slot: 9 });
+    expect(peekPendingSlot("t2")).toBeNull();
+    expect(peekPendingSlot("t1")).toEqual(expect.objectContaining({ dayId: "day_2", slot: 9 }));
+
+    const now = Date.now();
+    const clock = jest.spyOn(Date, "now").mockReturnValue(now + 31 * 60_000);
+    expect(peekPendingSlot("t1")).toBeNull();
+    clock.mockRestore();
+  });
+});
+
 describe("refusals", () => {
   it("refuses a day with no room left, instead of silently dropping the stop", async () => {
     // Fill the grid: one stop long enough that nothing else fits after it.
@@ -250,25 +318,27 @@ describe("refusals", () => {
     ];
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
 
+    // Said before Add is tapped, and Add does nothing.
+    expect(view.getByText("No day has room for a visit of 1 hour. Try a shorter visit, or make room on a day.")).toBeTruthy();
+    expect(view.getByText(`${dayLabel("2026-10-01")} · No room`)).toBeTruthy();
     await fireEvent.press(view.getByText("Add"));
 
-    await waitFor(() => expect(view.getByText("This day is full. Try a different day or shorten the visit.")).toBeTruthy());
     expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
     expect(onClose).not.toHaveBeenCalled();
   });
 
   it("refuses a place there is no time to drive to, and names the drive", async () => {
-    mockTrips.itineraries = [tripWithDays([makeStop("a", "chc-a", 0, 18)])];
+    // Day 2 has room, so the sheet isn't in its "no day has room" state.
+    mockTrips.itineraries = [tripWithDays([makeStop("a", "chc-a", 0, 18)], [])];
     const view = await render(<AddToTripModal site={dunedinPlace} onClose={onClose} />);
 
-    await fireEvent.press(view.getByText("Evening"));
+    // The reason is there as soon as the day is picked. It used to need a tap on Add.
+    await fireEvent.press(view.getByText("Day 1"));
+    expect(
+      view.getByText("There isn't time for the drive to Dunedin on this day. Try a different day or a shorter visit."),
+    ).toBeTruthy();
     await fireEvent.press(view.getByText("Add"));
 
-    await waitFor(() =>
-      expect(
-        view.getByText("There isn't time for the drive to Dunedin on this day. Try a different day or a shorter visit."),
-      ).toBeTruthy(),
-    );
     expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
   });
 

@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+  pull_request:
+    branches: [main]
+
+jobs:
+  # Typecheck, then the jest suite. One job, so npm ci runs once.
+  test:
+    runs-on: ubuntu-latest
+    env:
+      # .npmrc reads this for the @blacksands packages on GitHub Packages.
+      GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test -- --ci

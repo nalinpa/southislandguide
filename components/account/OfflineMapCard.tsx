@@ -41,7 +41,7 @@ export function OfflineMapCard() {
     ]);
 
   const [title, line, button, onPress]: [string, string, string, () => void] = saved
-    ? ["Map saved for no signal", "Shows on the map when there's no signal. Map: LINZ, CC BY 4.0.", "Remove", askRemove]
+    ? ["Map saved for no signal", "Shows on the map when there's no signal. Sourced from the LINZ Data Service and licensed for reuse under the CC BY 4.0 licence.", "Remove", askRemove]
     : error === "no-signal"
       ? ["Map for no signal", "Needs signal to save.", "Save map for no signal", startSave]
       : error === "stopped"

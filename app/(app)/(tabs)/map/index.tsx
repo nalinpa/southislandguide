@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView, Keyboard, Alert } from "react-native";
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView, Keyboard, Alert, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
@@ -48,6 +48,12 @@ export default function MapScreen() {
   const netInfo = useNetInfo();
   const isOffline = netInfo.isConnected === false || netInfo.isInternetReachable === false;
   const { saved: offlineMapSaved } = useOfflineMap();
+  // The map saved on the Account tab, drawn only with no signal: online, Apple Maps
+  // is clearer and has names.
+  // ponytail: only when fully offline. One bar of signal that can't load Apple's tiles
+  // still shows a blank grid; a "Saved" map type beside satellite is the upgrade if
+  // testers hit it.
+  const offlineTilesDir = isOffline && offlineMapSaved ? offlineMapDir().uri : null;
   const { loc, err: locErr, status: locStatus } = hooksBag.useUserLocation({ autoRequest: true });
   const { selectedLocationId: selectedSiteId, setSelectedLocationId: setSelectedSiteId } = hooksBag.useMapStore();
   const { itineraries, addFlow } = useItineraries();
@@ -268,18 +274,13 @@ export default function MapScreen() {
         selectedSiteId={selectedSiteId}
         mapType={mapType}
         onPressSite={handleSitePress}
-        // The map saved on the Account tab, drawn only with no signal: online, Apple Maps
-        // is clearer and has names.
-        // ponytail: only when fully offline. One bar of signal that can't load Apple's tiles
-        // still shows a blank grid; a "Saved" map type beside satellite is the upgrade if
-        // testers hit it.
-        offlineTilesDir={isOffline && offlineMapSaved ? offlineMapDir().uri : null}
+        offlineTilesDir={offlineTilesDir}
       />
 
       {/* box-none: only the things in the stack take touches. The stack itself is
           full width, and without this the strip beside the map controls would
           swallow drags meant for the map. */}
-      <SafeAreaView style={styles.safeArea} pointerEvents="box-none">
+      <SafeAreaView style={styles.safeArea} pointerEvents="box-none" testID="map-top-stack">
         <View style={styles.searchContainer}>
           <View style={styles.searchBox}>
             <Search color="rgba(36,26,18,0.45)" size={18} strokeWidth={1.75} />
@@ -383,7 +384,22 @@ export default function MapScreen() {
             the filter chips when those are open). They used to be pinned 40%
             down the screen, where the bottom sheet grows up over them and they
             covered its distance and Directions button. */}
-        <View style={styles.mapControls}>
+        <View style={styles.controlsRow} pointerEvents="box-none">
+          {/* CC BY 4.0 asks for credit wherever the LINZ map shows, and a link to the
+              licence. Up here, not at the map's foot: the bottom sheet covered it there
+              (owner, 2026-11-11). LINZ's own wording, "Sourced from the LINZ Data Service
+              and licensed for reuse under the CC BY 4.0 licence", is on the Account row. */}
+          {offlineTilesDir ? (
+            <TouchableOpacity
+              style={styles.credit}
+              onPress={() => void Linking.openURL("https://creativecommons.org/licenses/by/4.0/")}
+              accessibilityRole="link"
+              hitSlop={8}
+            >
+              <Text style={styles.creditText}>Map: LINZ Data Service, CC BY 4.0</Text>
+            </TouchableOpacity>
+          ) : null}
+          <View style={styles.mapControls}>
           <TouchableOpacity
             style={styles.controlBtn}
             accessibilityRole="button"
@@ -411,6 +427,7 @@ export default function MapScreen() {
               strokeWidth={1.75}
             />
           </TouchableOpacity>
+          </View>
         </View>
       </SafeAreaView>
 
@@ -532,10 +549,17 @@ const styles = StyleSheet.create({
   chipActive: { backgroundColor: tokens.colors.highlight, borderColor: tokens.colors.highlight },
   chipText: { fontSize: 13, fontWeight: "600", color: tokens.colors.text2 },
   chipTextActive: { color: "#FFFFFF" },
+  // The saved map's credit at the left, the map controls at the right.
+  controlsRow: { flexDirection: "row", alignItems: "flex-start" },
+  credit: {
+    marginLeft: 16, marginTop: 10, paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,0.88)",
+  },
+  creditText: { fontSize: 11, color: tokens.colors.text2 },
   mapControls: {
     // In the top stack's flow, at its right edge. No overflow: "hidden": on iOS
     // that clips the view's own shadow, and nothing here needs clipping.
-    alignSelf: "flex-end", marginRight: 14, marginTop: 10, backgroundColor: "rgba(255,255,255,0.97)",
+    marginLeft: "auto", marginRight: 14, marginTop: 10, backgroundColor: "rgba(255,255,255,0.97)",
     borderRadius: 20, shadowColor: "#241A12", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1,
     shadowRadius: 16, elevation: 6,
   },

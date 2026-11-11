@@ -208,9 +208,8 @@ const SitesMapViewInner = forwardRef<
     });
   }, [sites, selectedSiteId, onPressSite]);
 
-  // Always in the View, whether or not the credit is: wrapping the map only while offline
-  // would remount it each time the signal came or went, throwing away where the person had
-  // panned to.
+  // The saved map's credit is the map screen's (app/(app)/(tabs)/map/index.tsx), under the
+  // search bar: down here the bottom sheet covered it.
   return (
     <View style={styles.flex1}>
       <ClusterMapView
@@ -270,8 +269,6 @@ const SitesMapViewInner = forwardRef<
         ) : null}
         {renderedMarkers}
       </ClusterMapView>
-      {/* CC BY 4.0 asks for credit wherever the LINZ map shows. */}
-      {offlineTilesDir ? <Text style={styles.credit}>Map: LINZ, CC BY 4.0</Text> : null}
     </View>
   );
 });
@@ -280,7 +277,6 @@ export const SitesMapView = React.memo(SitesMapViewInner);
 
 const styles = StyleSheet.create({
   flex1: { flex: 1 },
-  credit: { position: "absolute", left: 8, bottom: 4, fontSize: 10, color: tokens.colors.textMuted },
   cluster: {
     width: 40,
     height: 40,

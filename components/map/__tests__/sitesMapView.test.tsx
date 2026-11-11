@@ -204,8 +204,6 @@ describe("the saved map", () => {
         urlTemplate: `${OFFLINE_MAP_URL}/{z}/{x}/{y}.png`,
       }),
     );
-    // CC BY 4.0 asks for the credit wherever the map shows.
-    expect(view.getByText("Map: LINZ, CC BY 4.0")).toBeTruthy();
   });
 
   it("no saved tiles online", async () => {
@@ -221,7 +219,6 @@ describe("the saved map", () => {
     );
 
     expect(mockUrlTileProps.current).toBeNull();
-    expect(view.queryByText("Map: LINZ, CC BY 4.0")).toBeNull();
   });
 });
 

@@ -76,7 +76,7 @@ jest.mock("@gorhom/bottom-sheet", () => ({ __esModule: true, default: () => null
 jest.mock("react-native-safe-area-context", () => {
   const React = require("react");
   const { View } = require("react-native");
-  return { SafeAreaView: ({ children, style }: any) => React.createElement(View, { style }, children) };
+  return { SafeAreaView: ({ children, style, testID }: any) => React.createElement(View, { style, testID }, children) };
 });
 
 jest.mock("expo-haptics", () => ({
@@ -134,8 +134,8 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { Alert } from "react-native";
-import { act, fireEvent, render } from "@testing-library/react-native";
+import { Alert, Linking } from "react-native";
+import { act, fireEvent, render, within } from "@testing-library/react-native";
 
 import MapScreen from "@/app/(app)/(tabs)/map/index";
 import { PLANNER } from "@/lib/constants/gameplay";
@@ -208,6 +208,21 @@ describe("the saved map", () => {
     const view = await render(<MapScreen />);
 
     expect(view.queryByText("Saved map from file:///c/offline-map") !== null).toBe(passed);
+    // CC BY 4.0 asks for the credit wherever the LINZ map shows.
+    expect(view.queryByText("Map: LINZ Data Service, CC BY 4.0") !== null).toBe(passed);
+  });
+
+  // Under the search bar, where the bottom sheet can't cover it (owner, 2026-11-11).
+  it("puts the credit in the top stack, and a tap opens the licence", async () => {
+    const openURL = jest.spyOn(Linking, "openURL").mockResolvedValue(true);
+    mockNet.isConnected = false;
+    mockOfflineMap.saved = true;
+    const view = await render(<MapScreen />);
+
+    expect(within(view.getByTestId("map-top-stack")).getByText("Map: LINZ Data Service, CC BY 4.0")).toBeTruthy();
+    await fireEvent.press(view.getByRole("link", { name: "Map: LINZ Data Service, CC BY 4.0" }));
+    expect(openURL).toHaveBeenCalledWith("https://creativecommons.org/licenses/by/4.0/");
+    openURL.mockRestore();
   });
 });
 

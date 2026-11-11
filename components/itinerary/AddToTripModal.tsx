@@ -127,9 +127,22 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   const fits = useMemo(() => {
     const map = new Map<string, EditResult>();
     if (!site || !selectedTrip || !placesReady) return map;
-    for (const d of selectedTrip.days)
-      for (const t of times)
-        map.set(`${d.id}:${t.startSlot}`, candidateEdit(selectedTrip.days, d.id, site, t.startSlot, durationSlots, places).result);
+    for (const d of selectedTrip.days) {
+      times.forEach((t, i) => {
+        const { newItem, result } = candidateEdit(selectedTrip.days, d.id, site, t.startSlot, durationSlots, places);
+        // The packer moves a place later until it fits, so asking for Morning on a day
+        // with a busy morning "fits", in the afternoon. That part of the day is full all
+        // the same (owner, 2026-11-11): full when the place would land in a later part.
+        const next = t.key === "exact" ? undefined : times[i + 1];
+        const landed = result.ok ? (result.days.find((x) => x.id === d.id)?.items.find((x) => x.id === newItem.id)?.slotIndex ?? 0) : 0;
+        map.set(
+          `${d.id}:${t.startSlot}`,
+          result.ok && next && landed >= next.startSlot
+            ? { ok: false, reason: `${t.label} has no room on this day. Try another time or day.` }
+            : result,
+        );
+      });
+    }
     return map;
     // By the place's id: callers build `site` afresh on every render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -295,15 +308,20 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
 
               <Text style={styles.label}>Time of Day</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillRow}>
-                {times.map((t) => (
-                  <TouchableOpacity
-                    key={t.key}
-                    style={[styles.pill, slot === t.startSlot && styles.pillActive, !!day && !fitsAt(day.id, t.startSlot) && styles.pillDim]}
-                    onPress={() => setStartSlot(t.startSlot)}
-                  >
-                    <Text style={[styles.pillText, slot === t.startSlot && styles.pillTextActive]}>{t.label}</Text>
-                  </TouchableOpacity>
-                ))}
+                {times.map((t) => {
+                  const active = slot === t.startSlot;
+                  const full = !!day && !fitsAt(day.id, t.startSlot);
+                  return (
+                    <TouchableOpacity
+                      key={t.key}
+                      style={[styles.pill, active && styles.pillActive, full && styles.pillDim]}
+                      onPress={() => setStartSlot(t.startSlot)}
+                    >
+                      <Text style={[styles.pillText, active && styles.pillTextActive]}>{t.label}</Text>
+                      {full && <Text style={[styles.pillSub, active && styles.pillTextActive]}>Full</Text>}
+                    </TouchableOpacity>
+                  );
+                })}
               </ScrollView>
 
               <Text style={styles.label}>Duration</Text>

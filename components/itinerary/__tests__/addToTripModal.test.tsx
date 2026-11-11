@@ -243,6 +243,31 @@ describe("which days have room", () => {
     expect(saved[1].items[0].siteName).toBe("Wai-O-Tapu");
   });
 
+  // Owner, 2026-11-11: "the days show full but the time of day doesn't".
+  it("marks a part of the day that's taken, and opens on the next one with room", async () => {
+    // 8:30 to 11:00: the morning's gone, so the place would land at midday.
+    mockTrips.itineraries = [tripWithDays([makeStop("m", "other", 1, 5)])];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+
+    expect(view.getAllByText("Full")).toHaveLength(1);
+    await fireEvent.press(view.getByText("Morning"));
+    expect(view.getByText("Morning has no room on this day. Try another time or day.")).toBeTruthy();
+
+    await fireEvent.press(view.getByText("Midday"));
+    await fireEvent.press(view.getByText("Add"));
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+  });
+
+  it("marks every part of a full day", async () => {
+    mockTrips.itineraries = [tripWithDays(fullDay, [])];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    expect(view.queryByText("Full")).toBeNull();
+
+    await fireEvent.press(view.getByText("Day 1"));
+
+    expect(view.getAllByText("Full")).toHaveLength(4);
+  });
+
   it("finds room again when the visit is made shorter", async () => {
     // Two half-hour slots left at the end of the day: not enough for an hour after the hop.
     mockTrips.itineraries = [tripWithDays([makeStop("most", "other", 0, PLANNER.MAX_GRID_SLOTS - 2)])];

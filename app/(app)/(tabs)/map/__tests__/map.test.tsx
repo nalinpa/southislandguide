@@ -308,6 +308,25 @@ describe("category chips", () => {
     expect(view.getByText("All")).toBeTruthy();
   });
 
+  // Tester, 2026-11-11: the map couldn't show just the trip's places.
+  it("offer My Trip, which shows only the trip's places", async () => {
+    mockTrips.itineraries = [{ id: "t1", days: [{ id: "d1", items: [{ siteId: "s1" }, { siteId: "s3" }] }] }];
+    const view = await render(<MapScreen />);
+    await openFilters(view);
+
+    await fireEvent.press(view.getByText("My Trip"));
+
+    expect(markers(view).sort()).toEqual(["Riverside Market", "Sumner Beach"]);
+  });
+
+  it("have no My Trip without places in a trip", async () => {
+    mockTrips.itineraries = [{ id: "t1", days: [{ id: "d1", items: [] }] }];
+    const view = await render(<MapScreen />);
+    await openFilters(view);
+
+    expect(view.queryByText("My Trip")).toBeNull();
+  });
+
   it("offer All plus every category, including ones with no places yet", async () => {
     const view = await render(<MapScreen />);
     await openFilters(view);

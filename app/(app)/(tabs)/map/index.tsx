@@ -67,7 +67,12 @@ export default function MapScreen() {
     const t = setTimeout(() => setDebouncedSearchQuery(searchQuery), 300);
     return () => clearTimeout(t);
   }, [searchQuery]);
-  const [categoryFilter, setCategoryFilter] = useState<SiteCategory | null>(null);
+  // A category, or "trip": only the places in the person's trip (tester, 2026-11-11).
+  const [mapFilter, setMapFilter] = useState<SiteCategory | "trip" | null>(null);
+  const tripSiteIds = useMemo(
+    () => new Set(itineraries.flatMap((t) => t.days.flatMap((d) => d.items.map((i) => i.siteId)))),
+    [itineraries],
+  );
   const [showFilters, setShowFilters] = useState(false);
   const [mapType, setMapType] = useState<MapType>("standard");
 
@@ -118,7 +123,11 @@ export default function MapScreen() {
   const mapSites = useMemo(() => {
     // The same search as Explore's: name, description or category.
     return visibleSites
-      .filter((s) => matchesSearch(s, debouncedSearchQuery) && (!categoryFilter || s.category.includes(categoryFilter)))
+      .filter(
+        (s) =>
+          matchesSearch(s, debouncedSearchQuery) &&
+          (!mapFilter || (mapFilter === "trip" ? tripSiteIds.has(s.id) : s.category.includes(mapFilter))),
+      )
       .map((s) => ({
         id: s.id,
         name: s.name,
@@ -126,7 +135,7 @@ export default function MapScreen() {
         lng: s.lng,
         category: s.category[0],
       }));
-  }, [visibleSites, debouncedSearchQuery, categoryFilter]);
+  }, [visibleSites, debouncedSearchQuery, mapFilter, tripSiteIds]);
 
   useEffect(() => {
     if (debouncedSearchQuery.trim() && mapSites.length === 1) {
@@ -291,7 +300,7 @@ export default function MapScreen() {
               value={searchQuery}
               onChangeText={(text) => {
                 setSearchQuery(text);
-                if (text) setCategoryFilter(null);
+                if (text) setMapFilter(null);
               }}
               returnKeyType="search"
               onSubmitEditing={() => Keyboard.dismiss()}
@@ -317,7 +326,7 @@ export default function MapScreen() {
               }}
               accessibilityRole="button"
               accessibilityLabel="Filter by category"
-              style={[styles.filterBtn, (categoryFilter || showFilters) && styles.filterBtnActive]}
+              style={[styles.filterBtn, (mapFilter || showFilters) && styles.filterBtnActive]}
             >
               <SlidersHorizontal color="#FFFFFF" size={18} strokeWidth={2.25} />
             </TouchableOpacity>
@@ -348,13 +357,18 @@ export default function MapScreen() {
         {/* Hidden until asked for, to leave the map clear. They stay up while a
             category is chosen even if the button is tapped shut: otherwise
             nothing would say which filter is on, or offer a way to change it. */}
-        {(showFilters || categoryFilter) && (
+        {(showFilters || mapFilter) && (
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
-            {([{ label: "All", value: null }, ...SITE_CATEGORIES.map((c) => ({ label: SITE_CATEGORY_LABELS[c], value: c }))] as {
+            {/* My Trip only once the trip has places in it. */}
+            {([
+              { label: "All", value: null },
+              ...(tripSiteIds.size > 0 ? [{ label: "My Trip", value: "trip" }] : []),
+              ...SITE_CATEGORIES.map((c) => ({ label: SITE_CATEGORY_LABELS[c], value: c })),
+            ] as {
               label: string;
-              value: SiteCategory | null;
+              value: SiteCategory | "trip" | null;
             }[]).map((cat) => {
-              const active = categoryFilter === cat.value;
+              const active = mapFilter === cat.value;
               return (
                 <TouchableOpacity
                   key={String(cat.value)}
@@ -363,7 +377,7 @@ export default function MapScreen() {
                   accessibilityState={{ selected: active }}
                   onPress={() => {
                     Haptics.selectionAsync();
-                    setCategoryFilter(cat.value);
+                    setMapFilter(cat.value);
                   }}
                 >
                   <Text style={[styles.chipText, active && styles.chipTextActive]}>{cat.label}</Text>

@@ -245,6 +245,22 @@ From a tester's written feedback. They liked the day view's drive blocks and the
 - [x] **Trips tab for a guest shows a locked suggested trip** (owner, 2026-11-10, mockup B in [Guest Trips Mockups](https://claude.ai/artifact/BbLtoCyq1knh5awTeMXtFT)). The sign-in card, then "South Island in 7 Days" from Christchurch, drawn by `TripOverview` with its new `header` and `locked` options: no dates, a lock on each row, and a tap asks them to sign in. After signing in the Trips tab is empty; copying that suggested trip in for them would be its own step.
 - [ ] **Login screen feels basic** ("then the home page showed the polish"). Goes with the post-launch design sweep, not before.
 
+### Tester feedback, 2026-11-11
+From a second tester's written feedback. The plan is `~/.claude/plans/twinkly-scribbling-axolotl.md`. **Owner, 2026-11-11:** the four small fixes went into 1.1; the room check and the remembered slot follow over the air after 1.1. Kept the tour at 8 steps.
+- [x] **The tour's Add to Trip cut-out missed the button** (in 1.1). `useTourTarget` now measures every 100 ms until two readings match, for up to 1.5 s. Before, it measured once.
+  - It covers every step's cut-out on any phone. Two things move a target after the first reading: the place screen sliding in, and the home-bar inset under "+ Add to Trip" (34 pt on Face ID iPhones, 0 on an SE) landing after the first layout.
+  - Phone check: replay the tour from Account. Still to do: ask for the tester's screenshot and phone model.
+- [x] **The review prompt came too early** (in 1.1). It's asked when a trip reaches 5 stops: a save going from 4 to 5 (`useItineraries`). It's no longer asked on the first trip, which with one trip each was everyone's first place. Not on creating a trip, and not on Start a New Trip jumping past 5 with a suggested trip. The 5th-open ask stays.
+- [x] **No way back from a trip to the list** (in 1.1). There's an "All Trips" back button at the start of the trip's top row, only for someone with 2+ trips from before the cap.
+- [x] **The map couldn't show just the trip's places** (in 1.1). A "My Trip" chip after "All", once the trip has places.
+- [x] **Map pop-up rows** (owner, 2026-11-11, in 1.1): Add to Trip and Details on the first row, which shows at the sheet's opening height, and Directions full width under them.
+- [ ] **Add to Trip doesn't say which days have room** ("couldn't find a day that would take a place, and didn't know why"). After 1.1, over the air: plan §5.
+  - Days with no room show dimmed with "No room", and the modal opens on the first day that fits.
+  - The reason shows before Add is tapped.
+  - Check on a phone for lag on a 21-day trip.
+- [ ] **"Find more things to do" forgets the slot it was opened from.** After 1.1, with the room check (plan §6): a pending slot (`lib/pendingSlot.ts`) that Add to Trip opens on, with the exact time as a fifth time pill.
+- **Google and Apple sign-in:** asked for again. Still blocked on Apple's `invalid_client` (2026-11-11); see "After launch — Apple and Google sign-in". Nothing to build.
+
 ### After launch — emailing users for feedback and news
 Owner, 2026-10-31: wants to be able to email users for feedback or news. Account emails need no consent. Feedback or news needs an opt-in: NZ's Unsolicited Electronic Messages Act requires consent and a working unsubscribe, and EU users need an explicit opt-in. Plan before building.
 - [x] **Privacy policy line, before submitting:** live on blacksands.app/kiwi-guide (dated 31 October 2026) and kiwiguide.app/privacy, checked 2026-11-10. It was [prompts/privacy-email-line.md](prompts/privacy-email-line.md).

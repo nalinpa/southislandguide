@@ -16,7 +16,7 @@ import { Plus, MoreHorizontal, X, Navigation } from "lucide-react-native";
 import * as Sentry from "@sentry/react-native";
 
 import { Screen, LoadingState, ErrorCard, AppText, AppButton, AppIconButton, components } from "@/lib/uiKit";
-import { TopBar } from "@/components/layout/TopBar";
+import { TopBar, TopBarBack } from "@/components/layout/TopBar";
 import { EditItemModal } from "@/components/itinerary/EditItemModal";
 import { PremiumFeatureModal } from "@/components/itinerary/PremiumFeatureModal";
 import { DeleteTripModal } from "@/components/itinerary/DeleteTripModal";
@@ -734,6 +734,13 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
           trip view instead (TripOverview), and the menu sits beside the switch. */}
       <TopBar flushBottom={view === "days"}>
         <View style={styles.switchRow}>
+          {/* Back to the list, for someone who kept 2-3 trips from before the one-trip cap
+              (tester, 2026-11-11). With one trip the Trips tab shows it straight away, so
+              there's no list to go back to. Here, not as TopBar's leading: that only shows
+              beside a title, and this bar has none. */}
+          {itineraries.length > 1 && (
+            <TopBarBack label="All Trips" onPress={() => router.navigate("/(app)/(tabs)/itinerary")} />
+          )}
           <TripViewSwitch view={view} onChange={handleChangeView} style={styles.switch} />
           <AppIconButton
             icon={MoreHorizontal}

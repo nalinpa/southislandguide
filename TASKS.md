@@ -218,8 +218,8 @@ From a tester's written feedback. They liked the day view's drive blocks and the
     - The site file is live at kiwiguide.app and on Apple's CDN (Team ID `F2XZ7YY2X7`; kiwiguide-site `2070ae9`).
     - The engine change is committed as `@blacksands/components` 0.8.1 (`6d9f128`).
     - `associatedDomains` is in `app.config.ts`.
+    - 0.8.1 is published, and the app is on it.
   - Left:
-    - The owner publishes 0.8.1, then the app updates to it.
     - The phone check on the new dev build: sign up and get "Save password?", sign in with it filled, and see a kiwiguide.app entry in Settings → Passwords.
   - Since this is native, a dev-branch OTA for the old dev build must leave it out, as the calendar is left out.
   - **Engine first** (`enginev1/components/src/AuthPanel.tsx`, owner publishes): the email field gets `textContentType="username"` (keep the email keyboard) and `autoComplete="email"`. The password field gets `autoComplete` `"new-password"` / `"current-password"` by mode. Then bump `@blacksands/components`.

@@ -251,9 +251,9 @@ From a second tester's written feedback. The plan is `~/.claude/plans/twinkly-sc
   - It covers every step's cut-out on any phone. Two things move a target after the first reading: the place screen sliding in, and the home-bar inset under "+ Add to Trip" (34 pt on Face ID iPhones, 0 on an SE) landing after the first layout.
   - Phone check: replay the tour from Account. Still to do: ask for the tester's screenshot and phone model.
 - [x] **The review prompt came too early** (in 1.1). It's asked when a trip reaches 5 stops: a save going from 4 to 5 (`useItineraries`). It's no longer asked on the first trip, which with one trip each was everyone's first place. Not on creating a trip, and not on Start a New Trip jumping past 5 with a suggested trip. The 5th-open ask stays.
-- [x] **No way back from a trip to the list** (in 1.1). There's an "All Trips" back button at the start of the trip's top row, only for someone with 2+ trips from before the cap.
-- [x] **The map couldn't show just the trip's places** (in 1.1). A "My Trip" chip after "All", once the trip has places.
-- [x] **Map pop-up rows** (owner, 2026-11-11, in 1.1): Add to Trip and Details on the first row, which shows at the sheet's opening height, and Directions full width under them.
+- [x] **No way back from a trip to the list:** nothing to do. An "All Trips" button was built, then taken out (owner, 2026-11-11): everyone has one trip now, and the Trips tab opens it straight away.
+- [x] **The map couldn't show just the trip's places** (in 1.1). A "My Trip" button out on the map, under the search bar, once the trip has places. It's not behind the filter button (owner, 2026-11-11). A tap shows only the trip's places; another tap shows everything again.
+- [x] **Map pop-up rows** (owner, 2026-11-11, in 1.1): Add to Trip and Details on the first row, which shows at the sheet's opening height, and "Get Directions" full width under them.
 - [ ] **Add to Trip doesn't say which days have room** ("couldn't find a day that would take a place, and didn't know why"). After 1.1, over the air: plan §5.
   - Days with no room show dimmed with "No room", and the modal opens on the first day that fits.
   - The reason shows before Add is tapped.

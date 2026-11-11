@@ -31,15 +31,15 @@ jest.mock("@/lib/hooks/useEmailOptIn", () => ({ useEmailOptIn: () => mockEmailOp
 // The map for no signal: the hook has its own tests (useOfflineMap.test.tsx), and the size
 // is a fixed number here so the words don't change when the real set's size goes in.
 const mockOfflineMap = {
-  saved: false,
-  progress: null as { done: number; total: number } | null,
+  level: null as "standard" | "detailed" | null,
+  progress: null as { phase: "saving" | "unpacking"; done: number; total: number } | null,
   error: null as "no-signal" | "stopped" | null,
   save: jest.fn(),
   stop: jest.fn(),
   remove: jest.fn(),
 };
 jest.mock("@/lib/hooks/useOfflineMap", () => ({ useOfflineMap: () => mockOfflineMap }));
-jest.mock("@/lib/offlineMap", () => ({ OFFLINE_MAP_ABOUT_MB: 60 }));
+jest.mock("@/lib/offlineMap", () => ({ OFFLINE_MAP_SIZES_MB: { standard: 60, detailed: 200 } }));
 const mockNet = { type: "wifi" };
 jest.mock("@react-native-community/netinfo", () => ({ useNetInfo: () => mockNet }));
 
@@ -75,7 +75,7 @@ beforeEach(() => {
   mockEmailOptIn.optedIn = false;
   mockEmailOptIn.loading = false;
   mockAudience = "paid";
-  mockOfflineMap.saved = false;
+  mockOfflineMap.level = null;
   mockOfflineMap.progress = null;
   mockOfflineMap.error = null;
   mockNet.type = "wifi";
@@ -307,12 +307,26 @@ describe("Map for no signal", () => {
     expect(view.getByRole("button", { name: "Save map for no signal" })).toBeTruthy();
   });
 
-  it("asks first on mobile data", async () => {
+  // Owner, 2026-11-11: offer both, the smaller less detailed map and the bigger sharper one.
+  it("asks which map, with each one's size", async () => {
+    const view = await render(<AccountScreen />);
+    await fireEvent.press(view.getByRole("button", { name: "Save map for no signal" }));
+
+    expect(view.getByText("About 60 MB. Roads, towns and tracks. Blurry close in.")).toBeTruthy();
+    expect(view.getByText("About 200 MB. Sharp close in, for walks and back roads.")).toBeTruthy();
+    expect(mockOfflineMap.save).not.toHaveBeenCalled();
+
+    await fireEvent.press(view.getByRole("button", { name: "Detailed map" }));
+    expect(mockOfflineMap.save).toHaveBeenCalledWith("detailed");
+  });
+
+  it("asks first on mobile data, with the size of the map chosen", async () => {
     const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
     mockNet.type = "cellular";
     const view = await render(<AccountScreen />);
 
     await fireEvent.press(view.getByRole("button", { name: "Save map for no signal" }));
+    await fireEvent.press(view.getByRole("button", { name: "Standard map" }));
 
     expect(alertSpy).toHaveBeenCalledWith("Not on Wi-Fi", "Saving the map uses about 60 MB of data.", expect.any(Array));
     expect(mockOfflineMap.save).not.toHaveBeenCalled();
@@ -323,19 +337,23 @@ describe("Map for no signal", () => {
     const view = await render(<AccountScreen />);
 
     await fireEvent.press(view.getByRole("button", { name: "Save map for no signal" }));
+    await fireEvent.press(view.getByRole("button", { name: "Standard map" }));
 
-    expect(mockOfflineMap.save).toHaveBeenCalled();
+    expect(mockOfflineMap.save).toHaveBeenCalledWith("standard");
   });
 
   // Owner, 2026-11-11: the row's percentage alone wasn't clear.
   it("opens a card that shows the save, and closing it doesn't stop the save", async () => {
     const view = await render(<AccountScreen />);
     await fireEvent.press(view.getByRole("button", { name: "Save map for no signal" }));
+    await fireEvent.press(view.getByRole("button", { name: "Standard map" }));
     expect(view.getByRole("progressbar").props.accessibilityValue).toEqual({ min: 0, max: 100, now: 0 });
 
-    mockOfflineMap.progress = { done: 21, total: 84 };
+    mockOfflineMap.progress = { phase: "saving", done: 21, total: 84 };
     await view.rerender(<AccountScreen />);
     expect(view.getByRole("progressbar").props.accessibilityValue.now).toBe(25);
+    // Owner, 2026-11-11: "could the download be done while the app is closed?"
+    expect(view.getAllByText("It keeps going if you leave the app. Don't swipe it away.").length).toBeGreaterThan(0);
 
     await fireEvent.press(view.getByRole("button", { name: "Close" }));
     expect(view.queryByRole("progressbar")).toBeNull();
@@ -343,15 +361,62 @@ describe("Map for no signal", () => {
     expect(view.getByText("Saving the map… 25%")).toBeTruthy();
   });
 
+  it("says when it's unpacking, which needs the app open", async () => {
+    mockOfflineMap.progress = { phase: "unpacking", done: 1, total: 4 };
+    const view = await render(<AccountScreen />);
+
+    expect(view.getByText("Unpacking the map…")).toBeTruthy();
+    expect(view.getByText("Keep the app open until it's done.")).toBeTruthy();
+  });
+
   it("says when the map is saved", async () => {
     const view = await render(<AccountScreen />);
     await fireEvent.press(view.getByRole("button", { name: "Save map for no signal" }));
+    await fireEvent.press(view.getByRole("button", { name: "Standard map" }));
 
-    mockOfflineMap.saved = true;
+    mockOfflineMap.level = "standard";
     await view.rerender(<AccountScreen />);
     expect(view.getByText("Map saved")).toBeTruthy();
 
     await fireEvent.press(view.getByRole("button", { name: "Done" }));
     expect(view.queryByText("Map saved")).toBeNull();
+  });
+
+  describe("with the standard map saved", () => {
+    beforeEach(() => {
+      mockOfflineMap.level = "standard";
+    });
+
+    it("offers the detailed map, by how much more it is, beside Remove", async () => {
+      const view = await render(<AccountScreen />);
+
+      expect(view.getByRole("button", { name: "Remove" })).toBeTruthy();
+      await fireEvent.press(view.getByRole("button", { name: "Get the detailed map (about 140 MB more)" }));
+
+      expect(mockOfflineMap.save).toHaveBeenCalledWith("detailed");
+      // Still saving, not "Map saved" for the standard one already there.
+      expect(view.queryByText("Map saved")).toBeNull();
+      expect(view.getByRole("progressbar")).toBeTruthy();
+    });
+
+    it("on mobile data, quotes only the extra", async () => {
+      const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+      mockNet.type = "cellular";
+      const view = await render(<AccountScreen />);
+
+      await fireEvent.press(view.getByRole("button", { name: /Get the detailed map/ }));
+
+      expect(alertSpy).toHaveBeenCalledWith("Not on Wi-Fi", "Saving the map uses about 140 MB of data.", expect.any(Array));
+      alertSpy.mockRestore();
+    });
+  });
+
+  it("with the detailed map saved, only Remove is offered", async () => {
+    mockOfflineMap.level = "detailed";
+    const view = await render(<AccountScreen />);
+
+    expect(view.getByText("Map saved for no signal")).toBeTruthy();
+    expect(view.queryByRole("button", { name: /Get the detailed map/ })).toBeNull();
+    expect(view.getByRole("button", { name: "Remove" })).toBeTruthy();
   });
 });

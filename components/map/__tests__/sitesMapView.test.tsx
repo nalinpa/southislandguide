@@ -200,10 +200,26 @@ describe("the saved map", () => {
       expect.objectContaining({
         tileCachePath: "file:///c/offline-map",
         offlineMode: true,
-        maximumNativeZ: OFFLINE_MAP_MAX_Z,
+        maximumNativeZ: OFFLINE_MAP_MAX_Z.standard,
         urlTemplate: `${OFFLINE_MAP_URL}/{z}/{x}/{y}.png`,
       }),
     );
+  });
+
+  it("the detailed map is sharp one zoom closer in", async () => {
+    await render(
+      <SitesMapView
+        sites={sites}
+        initialRegion={region}
+        selectedSiteId={null}
+        mapType="standard"
+        onPressSite={jest.fn()}
+        offlineTilesDir="file:///c/offline-map"
+        offlineLevel="detailed"
+      />,
+    );
+
+    expect(mockUrlTileProps.current.maximumNativeZ).toBe(12);
   });
 
   it("no saved tiles online", async () => {

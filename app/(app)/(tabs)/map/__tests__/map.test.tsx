@@ -122,7 +122,7 @@ const mockNet = { isConnected: true as boolean | null, isInternetReachable: true
 jest.mock("@react-native-community/netinfo", () => ({ useNetInfo: () => mockNet }));
 
 // The map saved for no signal: whether it's on the phone (useOfflineMap.test.tsx), and where.
-const mockOfflineMap = { saved: false };
+const mockOfflineMap = { level: null as "standard" | "detailed" | null };
 jest.mock("@/lib/hooks/useOfflineMap", () => ({ useOfflineMap: () => mockOfflineMap }));
 jest.mock("@/lib/offlineMap", () => ({ offlineMapDir: () => ({ uri: "file:///c/offline-map" }) }));
 
@@ -192,7 +192,7 @@ beforeEach(() => {
   mockBag.locStatus = "granted";
   mockNet.isConnected = true;
   mockNet.isInternetReachable = true;
-  mockOfflineMap.saved = false;
+  mockOfflineMap.level = null;
 });
 
 // Online, Apple Maps is clearer and has names; the saved map is only for no signal.
@@ -204,7 +204,7 @@ describe("the saved map", () => {
     [true, true, true],
   ])("passes the folder only when offline and saved (offline %s, saved %s)", async (offline, saved, passed) => {
     mockNet.isConnected = !offline;
-    mockOfflineMap.saved = saved;
+    mockOfflineMap.level = saved ? "standard" : null;
     const view = await render(<MapScreen />);
 
     expect(view.queryByText("Saved map from file:///c/offline-map") !== null).toBe(passed);
@@ -216,7 +216,7 @@ describe("the saved map", () => {
   it("puts the credit in the top stack, and a tap opens the licence", async () => {
     const openURL = jest.spyOn(Linking, "openURL").mockResolvedValue(true);
     mockNet.isConnected = false;
-    mockOfflineMap.saved = true;
+    mockOfflineMap.level = "standard";
     const view = await render(<MapScreen />);
 
     expect(within(view.getByTestId("map-top-stack")).getByText("Map: LINZ Data Service, CC BY 4.0")).toBeTruthy();

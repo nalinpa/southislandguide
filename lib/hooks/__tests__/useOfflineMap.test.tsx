@@ -5,7 +5,7 @@
 jest.mock("@/lib/offlineMap", () => ({
   fetchOfflineMapManifest: jest.fn(),
   saveOfflineMap: jest.fn(),
-  isOfflineMapSaved: jest.fn(),
+  savedMapLevel: jest.fn(),
   removeOfflineMap: jest.fn(),
 }));
 
@@ -16,12 +16,12 @@ import { QueryClient, QueryClientProvider, notifyManager, onlineManager } from "
 // react-query batches observer updates via a real setTimeout by default, which fires
 // outside of any act() and can leak into the next test's render. Make it synchronous for tests.
 notifyManager.setScheduler((cb) => cb());
-import { fetchOfflineMapManifest, isOfflineMapSaved, saveOfflineMap } from "@/lib/offlineMap";
+import { fetchOfflineMapManifest, savedMapLevel, saveOfflineMap } from "@/lib/offlineMap";
 import { oncePerPercent, useOfflineMap } from "@/lib/hooks/useOfflineMap";
 
 const mockFetchManifest = fetchOfflineMapManifest as jest.Mock;
 const mockSave = saveOfflineMap as jest.Mock;
-const mockIsSaved = isOfflineMapSaved as jest.Mock;
+const mockIsSaved = savedMapLevel as jest.Mock;
 
 function wrapper({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({
@@ -32,18 +32,18 @@ function wrapper({ children }: { children: React.ReactNode }) {
 
 beforeEach(() => {
   jest.clearAllMocks();
-  mockIsSaved.mockResolvedValue(false);
+  mockIsSaved.mockResolvedValue(null);
 });
 
 // The one time the saved map is needed. TanStack pauses queries offline unless told not to,
 // and this one only reads the phone.
 it("reads saved while offline", async () => {
-  mockIsSaved.mockResolvedValue(true);
+  mockIsSaved.mockResolvedValue("standard");
   onlineManager.setOnline(false);
   try {
     const { result } = await renderHook(() => useOfflineMap(), { wrapper });
 
-    await waitFor(() => expect(result.current.saved).toBe(true));
+    await waitFor(() => expect(result.current.level).toBe("standard"));
   } finally {
     onlineManager.setOnline(true);
   }
@@ -61,9 +61,9 @@ it("no signal when saving", async () => {
 
 // The person tapped Stop, or the app went to the background: the row says how far it got.
 it("shows partly saved after a stop", async () => {
-  mockFetchManifest.mockResolvedValue({ bytes: 1, tiles: [] });
-  mockSave.mockImplementation(async (_manifest, { onProgress }) => {
-    onProgress(10, 40);
+  mockFetchManifest.mockResolvedValue({ sets: {} });
+  mockSave.mockImplementation(async (_manifest, _level, { onProgress }) => {
+    onProgress("saving", 10, 40);
     return "stopped";
   });
   const { result } = await renderHook(() => useOfflineMap(), { wrapper });
@@ -71,7 +71,7 @@ it("shows partly saved after a stop", async () => {
   await act(() => result.current.save());
 
   expect(result.current.error).toBe("stopped");
-  expect(result.current.progress).toEqual({ done: 10, total: 40 });
+  expect(result.current.progress).toEqual({ phase: "saving", done: 10, total: 40 });
 });
 
 // Each change redraws every screen using the hook, the map tab too. Once a tile slowed the

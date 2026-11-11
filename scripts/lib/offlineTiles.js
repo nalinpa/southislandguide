@@ -41,4 +41,29 @@ function tileUrl(tile, key) {
   return `https://tiles-${sub}.data-cdn.linz.govt.nz/services;key=${key}/tiles/v4/layer=${layer}/EPSG:3857/${z}/${x}/${y}.png`;
 }
 
-module.exports = { tilesFor, tileUrl };
+// Tiles written back to back into packs of at most `limit` bytes (v2: iOS downloads a few
+// big files in the background, not thousands of small ones). `entries` is [tile, Buffer]
+// pairs; each pack is { data, tiles: [[tile, offset, length], …] }. A tile bigger than the
+// limit gets a pack to itself.
+function packTiles(entries, limit) {
+  const packs = [];
+  let parts = [];
+  let tiles = [];
+  let offset = 0;
+  const close = () => {
+    if (tiles.length) packs.push({ data: Buffer.concat(parts), tiles });
+    parts = [];
+    tiles = [];
+    offset = 0;
+  };
+  for (const [tile, png] of entries) {
+    if (offset && offset + png.length > limit) close();
+    tiles.push([tile, offset, png.length]);
+    parts.push(png);
+    offset += png.length;
+  }
+  close();
+  return packs;
+}
+
+module.exports = { tilesFor, tileUrl, packTiles };

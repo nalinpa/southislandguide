@@ -244,6 +244,7 @@ From the first phone check of v1 (2026-11-11):
   `{ "sets": { "standard": { "bytes", "packs": [{ "file", "bytes", "tiles": [["5/30/19", 0, 116], …] }] }, "detailed": { … } } }`.
 - Test (`scripts/__tests__/offlineTiles.test.js`): packing two tiles gives offsets 0 and len(first), a new pack starts past the size limit, and reading back by offset gives each tile's bytes.
 - The run prints each set's MB. Those numbers go into `OFFLINE_MAP_SIZES_MB` (Task 3) and this doc.
+- **Built and uploaded 2026-11-11:** standard 77.7 MB in 2 packs, detailed 168.1 MB in 5 packs (11,155 tiles), so Detailed is 245.8 MB in all: "about 250 MB", and "about 170 MB more" after Standard. The zoom 12 tiles are kept in `offline-map-tiles-z12/`, outside the hosted folder. v2's files are served as never changing, so a rebuilt set goes to v3.
 
 ### Task 2: Host v2 (owner)
 - The same rclone command as Task 2 above (it copies `offline-map-site`, so v2 goes up beside v1). The same curl checks, on `v2/manifest.json` and one `.bin`.

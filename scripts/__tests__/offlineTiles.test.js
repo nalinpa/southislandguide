@@ -1,6 +1,28 @@
 // The saved map's tile list and where each tile comes from (scripts/build-offline-map.js).
 // The bounds are the map's own, MAP_BOUNDS in components/map/MapRegion.ts.
-const { tilesFor, tileUrl } = require("../lib/offlineTiles");
+const { tilesFor, tileUrl, packTiles } = require("../lib/offlineTiles");
+
+test("packs tiles back to back, and starts a new pack past the size limit", () => {
+  const entries = [
+    ["5/30/19", Buffer.from("aaaa")],
+    ["5/30/20", Buffer.from("bbbbbb")],
+    ["5/31/19", Buffer.from("cc")],
+  ];
+  const packs = packTiles(entries, 10);
+
+  expect(packs.map((p) => p.tiles)).toEqual([
+    [["5/30/19", 0, 4], ["5/30/20", 4, 6]],
+    [["5/31/19", 0, 2]],
+  ]);
+  // Reading back by offset gives each tile's bytes.
+  const read = packs.flatMap((p) => p.tiles.map(([tile, offset, length]) => [tile, p.data.subarray(offset, offset + length).toString()]));
+  expect(read).toEqual([["5/30/19", "aaaa"], ["5/30/20", "bbbbbb"], ["5/31/19", "cc"]]);
+});
+
+test("a tile bigger than the limit gets a pack to itself", () => {
+  const packs = packTiles([["5/30/19", Buffer.from("a")], ["5/30/20", Buffer.from("bbbbbbbbbbbb")], ["5/31/19", Buffer.from("c")]], 10);
+  expect(packs.map((p) => p.tiles.length)).toEqual([1, 1, 1]);
+});
 const BOUNDS = { minLat: -47.5, maxLat: -40.3, minLng: 166.2, maxLng: 174.6 };
 
 test("covers the island's rectangle at each zoom", () => {

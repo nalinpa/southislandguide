@@ -47,13 +47,13 @@ export default function MapScreen() {
   const { locations, loading, err } = hooksBag.useLocations();
   const netInfo = useNetInfo();
   const isOffline = netInfo.isConnected === false || netInfo.isInternetReachable === false;
-  const { saved: offlineMapSaved } = useOfflineMap();
+  const { level: offlineMapLevel } = useOfflineMap();
   // The map saved on the Account tab, drawn only with no signal: online, Apple Maps
   // is clearer and has names.
   // ponytail: only when fully offline. One bar of signal that can't load Apple's tiles
   // still shows a blank grid; a "Saved" map type beside satellite is the upgrade if
   // testers hit it.
-  const offlineTilesDir = isOffline && offlineMapSaved ? offlineMapDir().uri : null;
+  const offlineTilesDir = isOffline && offlineMapLevel ? offlineMapDir().uri : null;
   const { loc, err: locErr, status: locStatus } = hooksBag.useUserLocation({ autoRequest: true });
   const { selectedLocationId: selectedSiteId, setSelectedLocationId: setSelectedSiteId } = hooksBag.useMapStore();
   const { itineraries, addFlow } = useItineraries();
@@ -292,6 +292,7 @@ export default function MapScreen() {
         mapType={mapType}
         onPressSite={handleSitePress}
         offlineTilesDir={offlineTilesDir}
+        offlineLevel={offlineMapLevel}
       />
 
       {/* box-none: only the things in the stack take touches. The stack itself is

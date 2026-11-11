@@ -14,7 +14,7 @@ import MapView, { Marker, Region, MapType, UrlTile } from "react-native-maps";
 
 import { SiteMarker } from "@/components/map/SiteMarker";
 import { tokens } from "@/lib/ui/tokens";
-import { OFFLINE_MAP_MAX_Z, OFFLINE_MAP_URL } from "@/lib/offlineMap";
+import { OFFLINE_MAP_MAX_Z, OFFLINE_MAP_URL, type MapLevel } from "@/lib/offlineMap";
 import type { SiteCategory } from "@/lib/models";
 export { initialRegionFrom } from "./MapRegion";
 import { MAP_BOUNDS } from "./MapRegion";
@@ -120,9 +120,11 @@ const SitesMapViewInner = forwardRef<
     // The folder of map tiles saved on the phone (lib/offlineMap.ts), drawn under the pins
     // when set. The map screen sets it only when there's no signal.
     offlineTilesDir?: string | null;
+    // Which size is saved: Detailed is sharp one zoom closer in.
+    offlineLevel?: MapLevel | null;
   }
 >(function SitesMapView(
-  { sites, initialRegion, selectedSiteId, mapType, onPressSite, offlineTilesDir },
+  { sites, initialRegion, selectedSiteId, mapType, onPressSite, offlineTilesDir, offlineLevel },
   ref,
 ) {
   const mapRef = useRef<MapView>(null);
@@ -262,7 +264,7 @@ const SitesMapViewInner = forwardRef<
             urlTemplate={`${OFFLINE_MAP_URL}/{z}/{x}/{y}.png`}
             tileCachePath={offlineTilesDir}
             offlineMode
-            maximumNativeZ={OFFLINE_MAP_MAX_Z}
+            maximumNativeZ={OFFLINE_MAP_MAX_Z[offlineLevel ?? "standard"]}
             minimumZ={5}
             tileSize={256}
           />

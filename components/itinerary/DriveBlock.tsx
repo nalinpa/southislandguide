@@ -40,7 +40,8 @@ export function driveDropSlot(startSlot: number, dy: number, slotHeight: number,
 export function DriveBlock({ fromLabel, toLabel, startSlot, slots, earliest, latest, onMove, onDragStart, onDragEnd }: DriveBlockProps) {
   const H = PLANNER.SLOT_HEIGHT;
   const time = slotIndexToTimeLabel(startSlot);
-  const duration = slotsToDurationLabel(slots);
+  // Lower case: it follows "About" mid-line ("About 1 hour", as "About 30 min").
+  const duration = slotsToDurationLabel(slots).toLowerCase();
   const lo = earliest ?? startSlot;
   const hi = latest ?? startSlot;
   const movable = !!onMove;
@@ -91,7 +92,7 @@ export function DriveBlock({ fromLabel, toLabel, startSlot, slots, earliest, lat
     <Animated.View
       testID="drive-block"
       accessible
-      accessibilityLabel={`Drive from ${fromLabel} to ${toLabel}, about ${duration.toLowerCase()}, leaving ${time}`}
+      accessibilityLabel={`Drive from ${fromLabel} to ${toLabel}, about ${duration}, leaving ${time}`}
       {...(movable
         ? {
             accessibilityRole: "adjustable" as const,

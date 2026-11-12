@@ -15,7 +15,7 @@ describe("DriveBlock", () => {
 
     expect(view.getByText("Drive to Dunedin")).toBeTruthy();
     expect(view.getByText("Christchurch to Dunedin")).toBeTruthy();
-    expect(view.getByText("1:30 PM · About 4.5 Hours")).toBeTruthy();
+    expect(view.getByText("1:30 PM · About 4.5 hours")).toBeTruthy();
   });
 
   it("drops the middle line when it is only one slot tall", async () => {

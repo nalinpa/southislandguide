@@ -123,7 +123,7 @@ describe("creating a blank trip", () => {
   it("uses the name that was typed", async () => {
     const view = await openModal();
 
-    await fireEvent.changeText(view.getByPlaceholderText("Optional — defaults to South Island Trip"), "  Hot Pools Weekend  ");
+    await fireEvent.changeText(view.getByPlaceholderText("Optional. Defaults to South Island Trip"), "  Hot Pools Weekend  ");
     await fireEvent.press(view.getByText("Create Trip"));
 
     await waitFor(() => expect(mockTrips.saveItinerary.mock.calls[0][0].title).toBe("Hot Pools Weekend"));

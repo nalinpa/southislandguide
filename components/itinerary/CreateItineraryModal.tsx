@@ -252,7 +252,7 @@ export function CreateItineraryModal({
               <AppText style={styles.label}>Trip Name</AppText>
               <TextInput
                 style={styles.input}
-                placeholder="Optional — defaults to South Island Trip"
+                placeholder="Optional. Defaults to South Island Trip"
                 placeholderTextColor={tokens.colors.textMuted}
                 value={title}
                 onChangeText={setTitle}

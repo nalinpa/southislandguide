@@ -122,6 +122,8 @@ Reference app for every port: `rotorua-guide`.
 - **Auto trip planner** (owner's idea, 2026-10-21): the user picks towns and days, the app fills in the trip, run as part of the opening tour, with a charge at the end to keep the trip. Parked: "not yet, do the default (suggested) trips first". It brings back the paid unlock, so it belongs with the section below. When it comes back, start by walking through what a new user does and sees up to the moment they're asked to pay. The suggested trips are the groundwork it would reuse.
 
 ### After launch — the paid unlock
+**Order (owner, 2026-11-12): the paid unlock comes after the auto trip planner and the North Island.** So the planner is built free first, with no charge to keep a trip, until the unlock arrives.
+
 Moved out of the launch 2026-10-20: the launch is free (owner, 2026-10-19). The full list (its decisions, C1–C3, D1, D2, the IAP product, Rotorua's IAP checks, and the order) is in [docs/plans/launch.md, After launch](docs/plans/launch.md#after-launch-the-paid-unlock). In short:
 - **C1** the real unlock (`expo-iap`, Rotorua's `useEntitlementGate` and `PurchaseProvider`; new EAS build) · **C2** free tier rules · **C3** paywall and locked place card
 - **D1** keep `area` on locked places (`TEASER_FIELDS`), live before any place is premium · **D2** the storefront in the registry, and the webhook
@@ -180,10 +182,22 @@ Added 2026-10-30.
   - **Off Expo's pin:** SDK 57 expects `~7.11.0` (`bundledNativeModules.json`), so add it to `expo.install.exclude` as for flash-list, or `expo install --fix` takes it back down.
   - **Breaking in 8:** native only (Sentry Cocoa 8 → 9, sentry-cli 2 → 3, iOS 15+ minimum, Android Gradle plugin 6). The app calls only `init`, `wrap`, `reactNavigationIntegration` and `captureException`.
   - **Needs a store build**, so it waits for the next one after 1.1. Before submitting, check on the phone: lock it for a minute with the app open, unlock, tap two tabs. Their initial display should read under a second, and a test error from the login title should still show with its stack.
+- [ ] **Backlog: drop traces with impossible times before they're sent** (from traces on 2026-11-12). One session had every screen's "initial display", and so its whole transaction, at 5.18 hours (`(auth)`, Explore, map, Trips, a place). Sentry noise only: tap to screen mounted was 2–48 ms. Same shape as the 1.29 min trace in the Sentry 8 item above (every screen off by the same amount), so likely the same cause, with the app in the background for five hours. These values spoil the p95 under Traces.
+  - Fix: `beforeSendTransaction` in `Sentry.init` (`app/_layout.tsx`) returns `null` for a transaction longer than about 60 s. A few lines, over the air.
+  - Do it whether or not Sentry 8 fixes the cause: 8 needs a store build, and this covers any other source.
+- [ ] **Backlog: a 15-second "Route Change" trace is back** (from traces on 2026-11-12). The same "navigation cancelled or screen mounted" span closed at 15 s, as in the item fixed on 2026-11-09 above. It opened the 5.18 hour session, before `(auth)` and Explore.
+  - First, check the trace's release in Sentry. If it's 1.0.x, it's the old cause and already fixed in 1.1. Nothing to do.
+  - If it's 1.1 or later, there's a third source. Its place in the trace points at start-up (the redirect in `app/index.tsx`, or the tour's first step), not a tab tap. Not checked. Needs a repro on a phone.
+  - The same span also shows in the Kai Auckland app's traces, which share this Sentry project, so the cause may be in the engine.
 - [ ] **Backlog: saved map packs that finish after iOS has closed the app** (owner, 2026-11-12; with the next store build, as Sentry 8). The packs download in an iOS background session (`lib/offlineMap.ts`). If iOS ends the app while it's closed, a pack that finishes afterwards has nowhere to land, because expo-file-system's download handler lives only as long as the app's JS. The pack (40 MB or less) is downloaded again when the app next opens.
   - Fix: a small native download handler that moves a finished pack into `Caches/offline-map-packs/` by its file name, whether or not JS is running. The app already unpacks any pack it finds there at the right size, so the JS side needs no change.
   - Native code, so it needs a store build. Not worth a build of its own.
   - What ships over the air instead (2026-11-12): the save is remembered and carries on when the app next opens, each pack is unpacked as it lands, and the screen stays awake while it saves.
+- [ ] **Backlog: iPhone Duo support, which needs Expo SDK 58** (owner, 2026-11-12). The app is on SDK 57 (`expo ~57.0.32`); 58 is out (58.0.24 that day). Expo says apps built with SDK 58 are ready for iPhone Duo, and that it also needs Xcode 27.1 (the EAS build image must have it).
+  - An SDK upgrade changes native code, so it's a store build and a new runtime: no over-the-air update reaches older builds after it. Do it with the other store-build items (Sentry 8, the saved-map download handler).
+  - The app's tab bar is its own (`TabBar` in `app/(app)/(tabs)/_layout.tsx`). Expo says custom JS headers and tab bars draw the classic way, inside the safe areas, not by iPhone Duo conventions. Decide whether that's enough or the tab bar moves to Expo Router's own.
+  - Update `react-native-safe-area-context` with it (side insets on the Duo), then check every screen in the iPhone Duo simulator, folded and open. There's no simulator on Windows, so that's EAS builds on a device or a Mac.
+  - Read first: expo.dev/changelog/sdk-58, expo.dev/blog/supporting-iphone-duo, expo.dev/blog/how-to-upgrade-to-sdk-58.
 - [ ] **Backlog: a sharper saved map, only around the trip's places** (owner, 2026-11-12). Detailed stops at zoom 12. LINZ's Topo50 has real detail to about zoom 14 (about 7 m a pixel; past that it's the same picture enlarged). The whole South Island at zoom 13 and 14 is too big for a phone (roughly 45,000 and 180,000 tiles, 0.6 GB and 2 GB or more; estimates from zoom 12's 11,155 tiles and 168 MB). Around a trip it's small: the tiles within about 5 km of each place, about 36 tiles a place at zoom 14, so a 30-place trip is roughly 1,000 to 1,500 tiles and 20 to 40 MB.
   - Hosting: loose zoom 13 and 14 tiles in the R2 bucket (2 to 3 GB of the 10 GB free), downloaded by tile as v1 did; a trip's worth is small enough for that. About 1,500 reads a trip against 10 million free a month.
   - Building: a few hours of downloads from LINZ, once, with the owner's key.
@@ -306,6 +320,7 @@ Owner, 2026-11-11. Not planned yet.
 - [ ] **Show places near a place.** On a place's screen, a "Nearby" row of the closest other places, each opening its own screen.
   - Straight-line distance is already there (`distanceMeters` in `lib/utils/geoDistance.ts`), and the place list is cached on the phone, so it needs no api change and can go over the air.
   - To decide: how many and how far, whether Food and Stay are mixed in or shown apart, and whether the map pop-up gets it too.
+  - **Owner, 2026-11-12: it belongs in trip building.** After a place is added to a trip, the traveller sees what's near it and can add those too. Not planned yet. To decide: where it shows (straight after Add to Trip, or under the place in the day's list), whether a nearby place goes into the same day's next free part, and whether the place screen still gets its own row.
 
 ### After launch — emailing users for feedback and news
 Owner, 2026-10-31: wants to be able to email users for feedback or news. Account emails need no consent. Feedback or news needs an opt-in: NZ's Unsolicited Electronic Messages Act requires consent and a working unsubscribe, and EU users need an explicit opt-in. Plan before building.
@@ -313,7 +328,7 @@ Owner, 2026-10-31: wants to be able to email users for feedback or news. Account
 - [~] **Signup opt-in — built 2026-11-07, for 1.0.1:** an unticked box, "Email me now and then to ask for feedback and share Kiwi Guide news", from `AuthPanel`'s new `optIn` (`@blacksands/components` 0.8.0, `3f277ab`, owner publishes). Sign-up saves `emailOptIn { value, at }` on `users/{uid}`, yes or no (`841de99`). No api or rules change: the user can already write that record, and account deletion removes it.
 - [x] **Profile switch:** "Email me about feedback and news" on the Account tab, signed in only (`841de99`).
 - [ ] **Exporting the list:** a read-only script for the emails of users with `emailOptIn.value` true (Firebase Auth has the emails), when the first email goes out.
-- [ ] **Users who signed up before the box** haven't agreed. A one-time in-app prompt could ask them.
+- [x] **Users who signed up before the box** haven't agreed. A one-time in-app prompt could ask them. Dropped (owner, 2026-11-12): no prompt; they can turn it on with the Profile switch.
 - [ ] **Every feedback or news email has an unsubscribe link.**
 - [ ] **Privacy label:** add "Developer's Advertising or Marketing" to Email Address if news emails are sent. Feedback requests alone don't need it.
 - [ ] **Cheaper feedback, no consent needed:** an in-app "How's your trip going?" card that opens Contact us. (App Store ratings are already asked for on the 5th open and the first trip, through the engine's `useReviewPrompt`.)

@@ -31,6 +31,8 @@ jest.mock("@/assets/data/far-place-minutes.json", () => ({
   mirror: { "te-anau": 40 },
   lumsden: { "milford-sound": 200 },
 }));
+// Two pairs checked by hand: one inside Christchurch, one from Christchurch to Timaru.
+jest.mock("@/assets/data/leg-minutes.json", () => ({ "chc-b|chc-c": 45, "chc-c|tim-a": 80 }));
 
 import { getLeg, type PlaceLookup } from "@/lib/utils/transitMatrix";
 
@@ -56,6 +58,14 @@ const AREA: Record<string, string | undefined> = {
 const places: PlaceLookup = (id) => (id in AREA ? { area: AREA[id] } : undefined);
 
 describe("getLeg", () => {
+  it("takes a hand-checked pair's minutes over every table, the same both ways", () => {
+    expect(getLeg("chc-b", "chc-c", places)).toEqual({ slots: 2, drive: null });
+    expect(getLeg("chc-c", "chc-b", places)).toEqual({ slots: 2, drive: null });
+    // Hub to hub is 120 minutes, 4 slots; the checked 80 is 3.
+    const drive = { fromArea: "christchurch", toArea: "timaru" };
+    expect(getLeg("chc-c", "tim-a", places)).toEqual({ slots: 3, drive });
+  });
+
   it("needs no travel between a place and itself", () => {
     expect(getLeg("chc-a", "chc-a", places)).toEqual({ slots: 0, drive: null });
   });

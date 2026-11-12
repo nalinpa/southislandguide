@@ -1,6 +1,7 @@
 import { TRANSIT } from "@/assets/data/transit";
 import AREA_HUBS_JSON from "@/assets/data/area-hubs.json";
 import FAR_PLACE_MINUTES_JSON from "@/assets/data/far-place-minutes.json";
+import LEG_MINUTES_JSON from "@/assets/data/leg-minutes.json";
 import { areaDriveMinutes } from "@/lib/areas";
 import { distanceMeters } from "@/lib/utils/geoDistance";
 import type { Site } from "@/lib/models";
@@ -10,6 +11,10 @@ import type { Site } from "@/lib/models";
 // (areas --apply, far --apply); empty until then, which leaves every leg hub to hub.
 const AREA_HUBS: Record<string, string> = AREA_HUBS_JSON;
 const FAR_PLACE_MINUTES: Record<string, Record<string, number>> = FAR_PLACE_MINUTES_JSON;
+// Minutes for one pair of places, checked by hand against the road (owner, 2026-11-12:
+// the legs of the suggested trips where hub to hub read wrong). Keyed "a|b" with the ids
+// in order, the same both ways. A pair listed here wins over everything below.
+const LEG_MINUTES: Record<string, number> = LEG_MINUTES_JSON;
 
 // Trip items carry only a place id, so whoever works out travel hands in a way to look a
 // place up: the live place list (lib/hooks/usePlaceLookup.ts), never a bundled copy,
@@ -66,6 +71,11 @@ export function getLeg(fromSiteId: string, toSiteId: string, places: PlaceLookup
 
   const fromArea = places(fromSiteId)?.area;
   const toArea = places(toSiteId)?.area;
+  const checked = LEG_MINUTES[[fromSiteId, toSiteId].sort().join("|")];
+  if (checked !== undefined) {
+    const drive = fromArea && toArea && fromArea !== toArea ? { fromArea, toArea } : null;
+    return { slots: Math.max(1, Math.ceil(checked / 30)), drive };
+  }
   const minutes = fromArea && toArea && fromArea !== toArea ? crossAreaMinutes(fromSiteId, fromArea, toSiteId, toArea) : undefined;
   if (fromArea && toArea && minutes !== undefined) {
     return { slots: Math.max(1, Math.ceil(minutes / 30)), drive: { fromArea, toArea } };

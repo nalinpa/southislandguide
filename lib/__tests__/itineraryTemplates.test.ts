@@ -14,6 +14,7 @@
 jest.mock("@/assets/data/area-drive-minutes.json", () => jest.requireActual("../../assets/data/area-drive-minutes.json"));
 jest.mock("@/assets/data/area-hubs.json", () => jest.requireActual("../../assets/data/area-hubs.json"));
 jest.mock("@/assets/data/far-place-minutes.json", () => jest.requireActual("../../assets/data/far-place-minutes.json"));
+jest.mock("@/assets/data/leg-minutes.json", () => jest.requireActual("../../assets/data/leg-minutes.json"));
 import abelTasman from "@/assets/data/abel_tasman_motueka_places.json";
 import arthursPass from "@/assets/data/arthurs_pass_castle_hill_places.json";
 import buller from "@/assets/data/buller_westport_places.json";

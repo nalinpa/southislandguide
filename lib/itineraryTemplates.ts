@@ -338,13 +338,13 @@ const KAIKOURA_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Kaikōura inland through Hanmer Springs to Christchurch: 10:00 AM to 5:30 PM.
+// Kaikōura inland through Hanmer Springs to Christchurch: 10:30 AM to 6:00 PM.
 const KAIKOURA_TO_CHRISTCHURCH_DAY: ItineraryTemplateDay = {
   items: [
-    { siteId: "conical-hill-walk", siteName: "Conical Hill Walk", slotIndex: 4, durationSlots: 2 },
-    { siteId: "pjs-pies", siteName: "PJ's Pies", slotIndex: 7, durationSlots: 1 },
-    { siteId: "hanmer-springs-thermal-pools-and-spa", siteName: "Hanmer Springs Thermal Pools & Spa", slotIndex: 9, durationSlots: 4 },
-    { siteId: "little-high-eatery", siteName: "Little High Eatery", slotIndex: 17, durationSlots: 2 },
+    { siteId: "conical-hill-walk", siteName: "Conical Hill Walk", slotIndex: 5, durationSlots: 2 },
+    { siteId: "pjs-pies", siteName: "PJ's Pies", slotIndex: 8, durationSlots: 1 },
+    { siteId: "hanmer-springs-thermal-pools-and-spa", siteName: "Hanmer Springs Thermal Pools & Spa", slotIndex: 10, durationSlots: 4 },
+    { siteId: "little-high-eatery", siteName: "Little High Eatery", slotIndex: 18, durationSlots: 2 },
   ],
 };
 
@@ -446,7 +446,7 @@ const HOKITIKA_TO_FRANZ_JOSEF_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Franz Josef to Fox: 9:00 AM to 6:00 PM.
+// Franz Josef to Fox: 9:00 AM to 6:30 PM.
 const FRANZ_JOSEF_TO_FOX_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "franz-josef-glacier-valley-walk", siteName: "Franz Josef Glacier Valley Walk", slotIndex: 2, durationSlots: 3 },
@@ -454,7 +454,7 @@ const FRANZ_JOSEF_TO_FOX_DAY: ItineraryTemplateDay = {
     { siteId: "lake-mapourika", siteName: "Lake Mapourika", slotIndex: 6, durationSlots: 1 },
     { siteId: "snakebite-brewery", siteName: "SnakeBite Brewery", slotIndex: 9, durationSlots: 2 },
     { siteId: "okarito-trig-walk", siteName: "Ōkārito Trig Walk", slotIndex: 12, durationSlots: 3 },
-    { siteId: "fox-glacier-south-side-walk", siteName: "Fox Glacier South Side Walk", slotIndex: 16, durationSlots: 4 },
+    { siteId: "fox-glacier-south-side-walk", siteName: "Fox Glacier South Side Walk", slotIndex: 17, durationSlots: 4 },
   ],
 };
 
@@ -566,14 +566,14 @@ const GOLDEN_BAY_DAY: ItineraryTemplateDay = {
 };
 
 // Golden Bay back over Tākaka Hill (or from Mārahau, in the 21-day trips) and down the
-// Buller Gorge to Westport: 9:00 AM to 6:00 PM.
+// Buller Gorge to Westport: 9:30 AM to 6:30 PM.
 const GOLDEN_BAY_TO_WESTPORT_DAY: ItineraryTemplateDay = {
   items: [
     // Brunch, and food for the road: nothing on the gorge road is open every day.
-    { siteId: "toad-hall-motueka", siteName: "TOAD Hall", slotIndex: 2, durationSlots: 2 },
-    { siteId: "kawatiri-historic-railway-walk", siteName: "Kawatiri Historic Railway Walk", slotIndex: 8, durationSlots: 1 },
-    { siteId: "cape-foulwind-walkway-seal-colony", siteName: "Cape Foulwind Walkway and Seal Colony", slotIndex: 14, durationSlots: 3 },
-    { siteId: "star-tavern-cape-foulwind", siteName: "Star Tavern", slotIndex: 18, durationSlots: 2 },
+    { siteId: "toad-hall-motueka", siteName: "TOAD Hall", slotIndex: 3, durationSlots: 2 },
+    { siteId: "kawatiri-historic-railway-walk", siteName: "Kawatiri Historic Railway Walk", slotIndex: 9, durationSlots: 1 },
+    { siteId: "cape-foulwind-walkway-seal-colony", siteName: "Cape Foulwind Walkway and Seal Colony", slotIndex: 15, durationSlots: 3 },
+    { siteId: "star-tavern-cape-foulwind", siteName: "Star Tavern", slotIndex: 19, durationSlots: 2 },
   ],
 };
 
@@ -591,20 +591,21 @@ const CHRISTCHURCH_TO_KAIKOURA_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Kaikōura up the coast to Picton: 10:00 AM to 6:00 PM. Nothing in Picton is open for
+// Kaikōura up the coast to Picton: 10:00 AM to 6:30 PM. Nothing in Picton is open for
 // dinner, so the day ends on the Snout Track.
 const KAIKOURA_TO_PICTON_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "ohau-point-seal-colony", siteName: "Ōhau Point Seal Colony", slotIndex: 4, durationSlots: 1 },
     { siteId: "the-store-kekerengu", siteName: "The Store, Kekerengu", slotIndex: 6, durationSlots: 2 },
     { siteId: "monkey-bay-walk-rarangi", siteName: "Monkey Bay Walk, Rārangi", slotIndex: 11, durationSlots: 2 },
-    { siteId: "snout-track-picton", siteName: "The Snout Track", slotIndex: 14, durationSlots: 6 },
+    { siteId: "snout-track-picton", siteName: "The Snout Track", slotIndex: 15, durationSlots: 6 },
   ],
 };
 
-// Dunedin up the coast and inland up the Waitaki to Mount Cook: 9:30 AM to 6:00 PM.
+// Dunedin up the coast and inland up the Waitaki to Mount Cook: 9:30 AM to 6:30 PM.
 // Ends on the short Blue Lakes walk rather than Kea Point. With the Moeraki Boulders in
-// (owner, 2026-10-25) it starts at 5.30pm, which is dusk in midwinter.
+// (owner, 2026-10-25) and the road time checked by hand (2026-11-12) it starts at 6pm,
+// which is dark in midwinter.
 const DUNEDIN_TO_MOUNT_COOK_DAY: ItineraryTemplateDay = {
   items: [
     // The reserve is open 7.30am to 5.30pm.
@@ -615,7 +616,7 @@ const DUNEDIN_TO_MOUNT_COOK_DAY: ItineraryTemplateDay = {
     { siteId: "scotts-brewing-co", siteName: "Scotts Brewing Co", slotIndex: 9, durationSlots: 2 },
     // Daylight hours.
     { siteId: "elephant-rocks-anatini", siteName: "Elephant Rocks and Anatini Whale Fossil", slotIndex: 13, durationSlots: 2 },
-    { siteId: "tasman-glacier-view-blue-lakes", siteName: "Tasman Glacier View and Blue Lakes", slotIndex: 19, durationSlots: 1 },
+    { siteId: "tasman-glacier-view-blue-lakes", siteName: "Tasman Glacier View and Blue Lakes", slotIndex: 20, durationSlots: 1 },
   ],
 };
 
@@ -704,15 +705,15 @@ const WESTPORT_TO_KAITERITERI_DAY: ItineraryTemplateDay = {
   ],
 };
 
-// Golden Bay over Tākaka Hill to Nelson, then the Sounds road to Picton: 9:00 AM to 6:30 PM.
+// Golden Bay over Tākaka Hill to Nelson, then the Sounds road to Picton: 9:00 AM to 7:00 PM.
 const GOLDEN_BAY_TO_PICTON_DAY: ItineraryTemplateDay = {
   items: [
     { siteId: "the-grove-scenic-reserve", siteName: "The Grove Scenic Reserve", slotIndex: 2, durationSlots: 2 },
-    { siteId: "toad-hall-motueka", siteName: "TOAD Hall", slotIndex: 6, durationSlots: 2 },
+    { siteId: "toad-hall-motueka", siteName: "TOAD Hall", slotIndex: 7, durationSlots: 2 },
     // Open 10am to 4.30pm.
-    { siteId: "founders-heritage-park", siteName: "Founders Heritage Park", slotIndex: 11, durationSlots: 3 },
-    { siteId: "pelorus-bridge-scenic-reserve", siteName: "Pelorus Bridge Scenic Reserve", slotIndex: 17, durationSlots: 2 },
-    { siteId: "queen-charlotte-drive-cullen-point", siteName: "Queen Charlotte Drive and Cullen Point Lookout", slotIndex: 20, durationSlots: 1 },
+    { siteId: "founders-heritage-park", siteName: "Founders Heritage Park", slotIndex: 12, durationSlots: 3 },
+    { siteId: "pelorus-bridge-scenic-reserve", siteName: "Pelorus Bridge Scenic Reserve", slotIndex: 18, durationSlots: 2 },
+    { siteId: "queen-charlotte-drive-cullen-point", siteName: "Queen Charlotte Drive and Cullen Point Lookout", slotIndex: 21, durationSlots: 1 },
   ],
 };
 

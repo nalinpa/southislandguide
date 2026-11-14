@@ -4,6 +4,10 @@ import { FileSystemSessionType, createDownloadResumable } from "expo-file-system
 // Not in package.json: it comes with the expo package and is in every build. Adding it
 // there would change the fingerprint, and updates would stop matching the builds on phones.
 import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
+import { requireOptionalNativeModule } from "expo";
+
+// modules/map-pack-landing: missing in builds before 1.2 and under Jest, so optional.
+const packLanding = requireOptionalNativeModule<{ downloadsStarted(): void }>("MapPackLanding");
 
 // The map saved for no signal (docs/plans/offline-map.md, v2): LINZ topo tiles built by
 // scripts/build-offline-map.js and served from our Cloudflare R2 bucket, so no LINZ key
@@ -139,9 +143,9 @@ export async function pendingSave(): Promise<{ level: MapLevel; stopped: boolean
 // what was being saved is remembered (pendingSave) for the next time the app opens.
 // `download: false` only unpacks what has already landed: for carrying on by itself on
 // mobile data, where a download must be asked for.
-// ponytail: if iOS ends the app while it's closed, a pack that finishes afterwards has
-// nowhere to land and is downloaded again. A native download handler fixes that; it
-// needs a store build (TASKS.md, backlog).
+// If iOS ends the app while it's closed, a pack that finishes afterwards is moved into
+// packsDir by the app's own module (modules/map-pack-landing, from 1.2), and unpacked here
+// as a landed pack on the next open. Before 1.2 it was downloaded again.
 export async function saveOfflineMap(
   manifest: OfflineMapManifest,
   level: MapLevel,
@@ -217,6 +221,8 @@ export async function saveOfflineMap(
       ),
     }));
     downloading = downloads.length;
+    // Before the first session opens: from now on iOS's wake-ups are expo-file-system's.
+    if (downloads.length) packLanding?.downloadsStarted();
     const watch = setInterval(() => {
       if (stopped || !shouldStop()) return;
       stopped = true;

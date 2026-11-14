@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Modal, TouchableOpacity } from "react-native";
 import { X, Sparkles } from "lucide-react-native";
 
 import { CardShell, AppButton } from "@/lib/uiKit";
-import { tokens } from "@/lib/ui/tokens";
+import { pair, tokens } from "@/lib/ui/tokens";
 import { PURCHASE_CHECK_MESSAGE, PURCHASE_CHECK_TITLE } from "@/lib/constants/commerce";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
 import { usePurchaseContext } from "@/lib/iap/PurchaseProvider";
@@ -47,7 +47,7 @@ export function PremiumFeatureModal({
             <TouchableOpacity style={styles.closeButton} onPress={onClose} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
               <X color={tokens.colors.text2} size={22} />
             </TouchableOpacity>
-            <Sparkles color={tokens.colors.accent} size={28} style={styles.icon} />
+            <Sparkles color={tokens.colors.selected} size={28} style={styles.icon} />
             <Text style={styles.title}>{unverified ? PURCHASE_CHECK_TITLE : title}</Text>
             <Text style={styles.message}>{unverified ? PURCHASE_CHECK_MESSAGE : message}</Text>
             {purchaseError?.productId === FULL_GUIDE_PRODUCT_ID && (
@@ -68,7 +68,7 @@ export function PremiumFeatureModal({
 }
 
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: "rgba(36,26,18,0.75)", justifyContent: "flex-end" },
+  overlay: { flex: 1, backgroundColor: pair("rgba(36,26,18,0.75)", "rgba(0,0,0,0.8)"), justifyContent: "flex-end" },
   wrapper: { margin: tokens.space.md, marginBottom: 40 },
   card: { alignItems: "center", padding: tokens.space.lg, paddingTop: tokens.space.xl },
   closeButton: { position: "absolute", top: 12, right: 12, padding: 6 },

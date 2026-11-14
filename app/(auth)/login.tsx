@@ -151,6 +151,8 @@ export default function LoginScreen() {
                   label: tokens.colors.text,
                   link: tokens.colors.selected,
                   guest: tokens.colors.selected,
+                  // Words: the engine's default is success, which in dark mode is a fill colour.
+                  notice: tokens.colors.surf,
                 }}
               />
             </View>

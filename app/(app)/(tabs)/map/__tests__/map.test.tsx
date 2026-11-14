@@ -154,12 +154,9 @@ const makeSite = (id: string, name: string, category: string[], over: Record<str
   ...over,
 });
 
-// The filter toggle is icon-only with no accessibilityLabel, so there's no accessible name
-// to query it by. It's the last child of the row the search field sits in.
+// The filter toggle is icon-only; its accessible name is the way to find it.
 const openFilters = async (view: any) => {
-  const row = view.getByPlaceholderText("Search places...").parent;
-  const kids = row.children.filter((c: any) => typeof c !== "string");
-  await fireEvent.press(kids[kids.length - 1]);
+  await fireEvent.press(view.getByLabelText("Filter by category"));
 };
 
 // The search box debounces by 300ms before the markers rebuild.

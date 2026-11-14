@@ -9,7 +9,7 @@ import { Search, SlidersHorizontal, Crosshair, Layers, AlertCircle, Lock, Chevro
 import type { MapType } from "react-native-maps";
 
 import { LoadingState, ErrorCard, components } from "@/lib/uiKit";
-import { tokens, SWEEP_COLORS } from "@/lib/ui/tokens";
+import { darkEdge, pair, tokens, SWEEP_COLORS } from "@/lib/ui/tokens";
 import { hooksBag } from "@/lib/hooksBag";
 import { useEntitlementGate } from "@/lib/hooks/useEntitlementGate";
 import { useItineraries } from "@/lib/hooks/useItineraries";
@@ -301,11 +301,11 @@ export default function MapScreen() {
       <SafeAreaView style={styles.safeArea} pointerEvents="box-none" testID="map-top-stack">
         <View style={styles.searchContainer}>
           <View style={styles.searchBox}>
-            <Search color="rgba(36,26,18,0.45)" size={18} strokeWidth={1.75} />
+            <Search color={ON_MAP.icon} size={18} strokeWidth={1.75} />
             <TextInput
               style={styles.searchInput}
               placeholder="Search places..."
-              placeholderTextColor="rgba(36,26,18,0.38)"
+              placeholderTextColor={ON_MAP.placeholder}
               value={searchQuery}
               onChangeText={(text) => {
                 setSearchQuery(text);
@@ -324,7 +324,7 @@ export default function MapScreen() {
                 }}
                 hitSlop={8}
               >
-                <X color="rgba(36,26,18,0.45)" size={18} strokeWidth={1.75} />
+                <X color={ON_MAP.icon} size={18} strokeWidth={1.75} />
               </TouchableOpacity>
             )}
             <View style={styles.divider} />
@@ -339,6 +339,7 @@ export default function MapScreen() {
             >
               <SlidersHorizontal color={categoryOn || showFilters ? "#FFFFFF" : tokens.colors.text} size={18} strokeWidth={2.25} />
             </TouchableOpacity>
+            <View pointerEvents="none" style={[darkEdge, styles.floatEdge]} />
           </View>
         </View>
 
@@ -463,6 +464,7 @@ export default function MapScreen() {
               strokeWidth={1.75}
             />
           </TouchableOpacity>
+          <View pointerEvents="none" style={[darkEdge, styles.floatEdge]} />
           </View>
         </View>
       </SafeAreaView>
@@ -551,17 +553,32 @@ export default function MapScreen() {
   );
 }
 
+// Over the map, which follows the phone into dark. The light sides are the colours these
+// had before dark mode; the dark sides are the page's own: a dark card at the same
+// see-through-ness, the line colour, and the muted text and placeholder greys.
+const ON_MAP = {
+  icon: pair("rgba(36,26,18,0.45)", "#9DB5AF"),
+  placeholder: pair("rgba(36,26,18,0.38)", "#7F9690"),
+  chip: pair("rgba(255,255,255,0.95)", "rgba(14,42,46,0.95)"),
+  credit: pair("rgba(255,255,255,0.88)", "rgba(14,42,46,0.88)"),
+  divider: pair("rgba(36,26,18,0.18)", "#2F5257"),
+  chipEdge: pair("rgba(36,26,18,0.14)", "#2F5257"),
+  controlDivider: pair("rgba(36,26,18,0.12)", "#2F5257"),
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: tokens.colors.page },
   safeArea: { position: "absolute", top: 0, left: 0, right: 0, zIndex: 20 },
   searchContainer: { paddingHorizontal: 16, paddingTop: 12 },
   searchBox: {
-    flexDirection: "row", alignItems: "center", backgroundColor: tokens.colors.page,
+    // bgCard, white as the page is in light; in dark a step lighter than the page, with a
+    // hairline (floatEdge), since the shadow shows nothing on a dark map.
+    flexDirection: "row", alignItems: "center", backgroundColor: tokens.colors.bgCard,
     height: 48, borderRadius: 12, paddingLeft: 16, paddingRight: 6, gap: 10,
     shadowColor: "#241A12", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.13, shadowRadius: 20, elevation: 8,
   },
   searchInput: { flex: 1, fontSize: 16, color: tokens.colors.text },
-  divider: { width: StyleSheet.hairlineWidth, height: 20, backgroundColor: "rgba(36,26,18,0.18)" },
+  divider: { width: StyleSheet.hairlineWidth, height: 20, backgroundColor: ON_MAP.divider },
   // A pale box with a dark icon. With a filter on it is solid teal, as the chosen chip is:
   // that's a state ("selected"), and orange is kept for what to tap
   // (docs/plans/design-sweep.md). It's the only sign that some places are hidden.
@@ -576,8 +593,8 @@ const styles = StyleSheet.create({
   filterBtnActive: { backgroundColor: tokens.colors.accent },
   chipRow: { paddingHorizontal: 16, paddingVertical: 10, gap: 8, flexDirection: "row" },
   chip: {
-    paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20, backgroundColor: "rgba(255,255,255,0.95)",
-    borderWidth: 1, borderColor: "rgba(36,26,18,0.14)",
+    paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20, backgroundColor: ON_MAP.chip,
+    borderWidth: 1, borderColor: ON_MAP.chipEdge,
     shadowColor: "#241A12", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 8, elevation: 3,
   },
   chipActive: { backgroundColor: tokens.colors.accent, borderColor: tokens.colors.accent },
@@ -589,18 +606,19 @@ const styles = StyleSheet.create({
   tripChip: { flexDirection: "row", alignItems: "center", gap: 6 },
   credit: {
     paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10,
-    backgroundColor: "rgba(255,255,255,0.88)",
+    backgroundColor: ON_MAP.credit,
   },
   creditText: { fontSize: 11, color: tokens.colors.text2 },
   mapControls: {
     // In the top stack's flow, at its right edge. No overflow: "hidden": on iOS
     // that clips the view's own shadow, and nothing here needs clipping.
-    marginLeft: "auto", marginRight: 14, marginTop: 10, backgroundColor: tokens.colors.page,
+    marginLeft: "auto", marginRight: 14, marginTop: 10, backgroundColor: tokens.colors.bgCard,
     borderRadius: 12, shadowColor: "#241A12", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1,
     shadowRadius: 16, elevation: 6,
   },
   controlBtn: { width: 46, height: 46, alignItems: "center", justifyContent: "center" },
-  controlDivider: { height: StyleSheet.hairlineWidth, backgroundColor: "rgba(36,26,18,0.12)" },
+  floatEdge: { borderRadius: 12 },
+  controlDivider: { height: StyleSheet.hairlineWidth, backgroundColor: ON_MAP.controlDivider },
   errorPill: {
     flexDirection: "row", alignItems: "center", alignSelf: "center", backgroundColor: "rgba(36,26,18,0.82)",
     paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20, marginTop: 10, gap: 6,

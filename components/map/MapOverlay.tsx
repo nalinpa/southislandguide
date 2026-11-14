@@ -18,7 +18,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { formatDistanceMeters } from "@blacksands/hooks";
 import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
-import { tokens } from "@/lib/ui/tokens";
+import { darkEdge, lifted, tokens } from "@/lib/ui/tokens";
 import { siteImage } from "@/lib/categoryImages";
 import { SITE_CATEGORY_LABELS, type Site, type SiteCategory } from "@/lib/models";
 import { areaName } from "@/lib/areas";
@@ -324,7 +324,7 @@ export function MapOverlayCard({
                 <View
                   style={[
                     styles.nearbyDot,
-                    { backgroundColor: (CATEGORY_CONFIG[nearby.category] ?? CATEGORY_CONFIG.other).color },
+                    { backgroundColor: lifted((CATEGORY_CONFIG[nearby.category] ?? CATEGORY_CONFIG.other).color) },
                   ]}
                 />
                 <Text style={styles.nearbyName} numberOfLines={1}>
@@ -345,7 +345,10 @@ export function MapOverlayCard({
 
 const styles = StyleSheet.create({
   sheetBgStyle: { borderTopLeftRadius: 20, borderTopRightRadius: 20 },
-  sheetBg: { backgroundColor: tokens.colors.page },
+  // bgCard: white in light as the page is; in dark a step lighter than the page, with a
+  // hairline, since the shadow shows nothing on a dark map. The sheet's background is laid
+  // behind its content, so the line takes no room.
+  sheetBg: { backgroundColor: tokens.colors.bgCard, borderWidth: 1, borderColor: darkEdge.borderColor },
   // A white sheet over a pale map needs an edge: a soft shadow upwards.
   sheetLift: {
     shadowColor: "#0A1F1B",
@@ -382,7 +385,7 @@ const styles = StyleSheet.create({
   // orange button.
   btnAddToTrip: {
     flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6,
-    height: 50, paddingHorizontal: 6, borderRadius: 12, backgroundColor: tokens.colors.highlight,
+    height: 50, paddingHorizontal: 6, borderRadius: 12, backgroundColor: tokens.button.primary.bg,
   },
   btnAddToTripDisabled: { opacity: 0.5 },
   btnAddToTripText: { flexShrink: 1, fontSize: 16, fontWeight: "600", color: "#FFFFFF" },

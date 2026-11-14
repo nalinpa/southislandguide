@@ -13,7 +13,6 @@ import ClusterMapView from "react-native-map-clustering";
 import MapView, { Marker, Region, MapType, UrlTile } from "react-native-maps";
 
 import { SiteMarker } from "@/components/map/SiteMarker";
-import { tokens } from "@/lib/ui/tokens";
 import { OFFLINE_MAP_MAX_Z, OFFLINE_MAP_URL, type MapLevel } from "@/lib/offlineMap";
 import type { SiteCategory } from "@/lib/models";
 export { initialRegionFrom } from "./MapRegion";
@@ -283,7 +282,9 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: tokens.colors.accent,
+    // Fixed brand teal, not the paired accent: a cluster is drawn once into a picture, so a
+    // pair would keep whichever look was on then. With its white ring it reads on a dark map.
+    backgroundColor: "#095C65",
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,

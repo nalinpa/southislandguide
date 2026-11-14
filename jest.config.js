@@ -1,5 +1,7 @@
 module.exports = {
   preset: "jest-expo",
+  // Added to the preset's own setup files, not in place of them.
+  setupFiles: ["<rootDir>/test/lightColors.js"],
   moduleNameMapper: {
     // Tests run against fixed drive times (the ones the planner was designed around),
     // not whatever scripts/generate-drive-times.js last wrote: the times are data, and a

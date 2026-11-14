@@ -186,8 +186,8 @@ export default function ItineraryListPage() {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={() => void handleRefresh()}
-            tintColor={tokens.colors.accent}
-            colors={[tokens.colors.accent]}
+            tintColor={tokens.colors.selected}
+            colors={[tokens.colors.selected]}
           />
         }
       >
@@ -199,7 +199,7 @@ export default function ItineraryListPage() {
             activeOpacity={0.7}
           >
             <View style={styles.tripCardIcon}>
-              <Calendar size={22} color={tokens.colors.accent} />
+              <Calendar size={22} color={tokens.colors.selected} />
             </View>
             <View style={styles.tripCardInner}>
               <AppText style={styles.tripCardTitle} numberOfLines={1}>

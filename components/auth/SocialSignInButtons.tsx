@@ -12,6 +12,8 @@ import { signInWithGoogle, getGoogleSignInErrorMessage } from "@/lib/auth/google
 // never actually matched Apple's button even when both had the same box.
 // A plain Pressable built from the same style object as Apple's button is
 // the only way to guarantee identical size and shape.
+// Brand colours, fixed in dark mode too: the G's four colours and the black button are
+// Google's and Apple's rules, not this app's palette.
 function GoogleMark() {
   return (
     <Svg width={18} height={18} viewBox="0 0 18 18">

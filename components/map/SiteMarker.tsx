@@ -14,7 +14,6 @@ import {
   Check,
   type LucideIcon,
 } from "lucide-react-native";
-import { tokens } from "@/lib/ui/tokens";
 import type { SiteCategory } from "@/lib/models";
 
 // lucide's own type for its icons, so one can be handed to anything that draws an icon
@@ -111,7 +110,9 @@ const styles = StyleSheet.create({
     width: 14,
     height: 14,
     borderRadius: 7,
-    backgroundColor: tokens.colors.success,
+    // Fixed, not the paired success colour: a pin is drawn once into a picture, so a pair
+    // would keep whichever look was on then. On its white ring it reads in both.
+    backgroundColor: "#2C4A36",
     borderWidth: 1.5,
     borderColor: "#FFFFFF",
     alignItems: "center",

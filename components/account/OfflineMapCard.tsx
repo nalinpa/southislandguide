@@ -143,7 +143,7 @@ export function OfflineMapCard() {
               </>
             ) : reached && !progress ? (
               <>
-                <CheckCircle2 size={40} color={tokens.colors.accent} strokeWidth={2} />
+                <CheckCircle2 size={40} color={tokens.colors.selected} strokeWidth={2} />
                 <Text style={styles.cardTitle}>Map saved</Text>
                 <Text style={styles.cardLine}>It shows on the map when there's no signal.</Text>
                 <AppButton variant="primary" fullWidth onPress={close}>
@@ -152,7 +152,7 @@ export function OfflineMapCard() {
               </>
             ) : (
               <>
-                <ActivityIndicator size="large" color={tokens.colors.accent} />
+                <ActivityIndicator size="large" color={tokens.colors.selected} />
                 <Text style={styles.cardTitle}>{unpacking ? "Unpacking the map…" : `Saving the map… ${pct}%`}</Text>
                 <View
                   style={styles.track}
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   buttonText: { fontSize: 16, fontWeight: "600", color: tokens.colors.selected },
-  overlay: { flex: 1, backgroundColor: "rgba(3,38,43,0.55)", justifyContent: "center", padding: tokens.space.lg },
+  overlay: { flex: 1, backgroundColor: tokens.colors.dim, justifyContent: "center", padding: tokens.space.lg },
   card: { backgroundColor: tokens.colors.page, borderRadius: 20, padding: 24, alignItems: "center", gap: 12 },
   cardTitle: { fontSize: 20, fontWeight: "700", color: tokens.colors.text, letterSpacing: -0.3, textAlign: "center" },
   cardLine: { fontSize: 14, color: tokens.colors.text2, lineHeight: 21, textAlign: "center", marginBottom: 8 },

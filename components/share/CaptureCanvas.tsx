@@ -2,16 +2,19 @@ import React, { forwardRef } from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import type { ShareSitePayload } from "@/lib/services/share/types";
-import { tokens } from "@/lib/ui/tokens";
-
 interface CaptureCanvasProps {
   payload: ShareSitePayload;
   photoUri: string | null;
   onImageLoad?: () => void;
 }
 
-// The overlay fades from the palette's text colour, so the card follows the theme.
-const [r, g, b] = [1, 3, 5].map((i) => parseInt(tokens.colors.text.slice(i, i + 2), 16));
+// The card stays light in dark mode: it's a picture people post, not a screen. So its
+// colours are fixed here (the light text and teal of lib/ui/tokens.ts), not the paired tokens.
+const INK = "#0A1F1B";
+const TEAL = "#095C65";
+
+// The overlay fades from the ink colour.
+const [r, g, b] = [1, 3, 5].map((i) => parseInt(INK.slice(i, i + 2), 16));
 const shade = (alpha: number) => `rgba(${r},${g},${b},${alpha})`;
 
 // Canvas is 1080×1350 (4:5) — rendered off-screen, captured by react-native-view-shot
@@ -70,7 +73,7 @@ const BRACKET_COLOR = "rgba(255,255,255,0.35)";
 
 const styles = StyleSheet.create({
   hiddenContainer: { position: "absolute", left: -2000, top: 0 },
-  canvas: { width: 1080, height: 1350, backgroundColor: tokens.colors.text, overflow: "hidden" },
+  canvas: { width: 1080, height: 1350, backgroundColor: INK, overflow: "hidden" },
 
   topOverlay: {
     position: "absolute",
@@ -140,7 +143,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 100,
-    backgroundColor: tokens.colors.text,
+    backgroundColor: INK,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -166,7 +169,7 @@ const styles = StyleSheet.create({
   },
   dateBadge: {
     borderWidth: 2,
-    borderColor: tokens.colors.accent,
+    borderColor: TEAL,
     borderRadius: 8,
     paddingHorizontal: 24,
     paddingVertical: 10,

@@ -41,7 +41,7 @@ export function DeleteTripModal({ visible, tripTitle, onCancel, onConfirm }: Del
 }
 
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: "rgba(3,38,43,0.55)", justifyContent: "center", padding: tokens.space.lg },
+  overlay: { flex: 1, backgroundColor: tokens.colors.dim, justifyContent: "center", padding: tokens.space.lg },
   card: { backgroundColor: tokens.colors.page, borderRadius: 20, padding: 24, alignItems: "center" },
   iconWrap: {
     width: 56,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   body: { fontSize: 14, color: tokens.colors.text2, lineHeight: 22, textAlign: "center", marginBottom: 28 },
   confirmBtn: {
     width: "100%",
-    backgroundColor: tokens.colors.danger,
+    backgroundColor: tokens.colors.dangerFill,
     borderRadius: 12,
     paddingVertical: 15,
     alignItems: "center",

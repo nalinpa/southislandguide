@@ -40,7 +40,7 @@ function QuickAction({
   /** The opening tour's target (useTourTarget), when a step points at this cell. */
   tourTarget?: TourTarget;
 }) {
-  const color = active ? tokens.colors.highlight : tokens.colors.accent;
+  const color = active ? tokens.colors.highlight : tokens.colors.selected;
   return (
     <Pressable
       {...tourTarget}
@@ -122,7 +122,7 @@ export function ActionsBar({
             <Stack gap="sm">
               <Row justify="space-between" align="center">
                 <Row gap="xs" align="center">
-                  <MessageSquarePlus size={15} color={tokens.colors.accent} />
+                  <MessageSquarePlus size={15} color={tokens.colors.selected} />
                   <AppText variant="label">Your Experience</AppText>
                 </Row>
                 {hasReview && <RatingStars rating={myReviewRating ?? 0} size={14} />}

@@ -1,7 +1,7 @@
 import { createElement, type ComponentProps } from "react";
 import { createUI } from "@blacksands/ui";
 import { createComponents, boundingRegionFrom } from "@blacksands/components";
-import { formTokens, tokens } from "@/lib/ui/tokens";
+import { DARK_READY, formTokens, tokens } from "@/lib/ui/tokens";
 
 export { boundingRegionFrom };
 
@@ -42,8 +42,15 @@ export function LoadingState(props: ComponentProps<typeof uiKit.LoadingState>) {
 }
 
 // The white page. A screen not yet restyled passes background={tokens.colors.bgBase}.
+// The clock and battery: the engine's default is dark, for a white page. With dark mode on
+// they follow the phone, as the page does ("default" is iOS's own "follow the phone",
+// @blacksands/ui 0.7.1). Not before: a dark phone would get a white clock on the white page.
 export function Screen(props: ComponentProps<typeof uiKit.Screen>) {
-  return createElement(uiKit.Screen, { background: tokens.colors.page, ...props });
+  return createElement(uiKit.Screen, {
+    background: tokens.colors.page,
+    statusBarStyle: DARK_READY ? "default" : "dark-content",
+    ...props,
+  });
 }
 
 export const {

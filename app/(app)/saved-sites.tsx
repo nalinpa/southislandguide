@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   listContent: { paddingHorizontal: tokens.space.md, paddingTop: tokens.space.md, paddingBottom: 32 },
   itemWrap: { marginBottom: 24 },
   deleteAction: {
-    backgroundColor: tokens.colors.danger,
+    backgroundColor: tokens.colors.dangerFill,
     justifyContent: "center",
     alignItems: "center",
     width: 80,

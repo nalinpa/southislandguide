@@ -202,7 +202,7 @@ export function EditItemModal({
                   {moveLocked ? (
                     <>
                       <TouchableOpacity style={styles.lockedMove} onPress={moveUnverified ? onRecheck : onUnlock} activeOpacity={0.7}>
-                        <Sparkles color={tokens.colors.accent} size={18} />
+                        <Sparkles color={tokens.colors.selected} size={18} />
                         <Text style={styles.lockedMoveText}>
                           {moveUnverified ? PURCHASE_CHECK_MESSAGE_SHORT : "Moving stops between days is a Premium feature"}
                         </Text>
@@ -250,7 +250,7 @@ export function EditItemModal({
 const styles = StyleSheet.create({
   lockedMoveError: { fontSize: 13, color: tokens.colors.danger, paddingHorizontal: tokens.space.md, paddingBottom: tokens.space.sm },
   keyboardView: { flex: 1 },
-  modalOverlay: { flex: 1, backgroundColor: "rgba(3,38,43,0.55)", justifyContent: "flex-end" },
+  modalOverlay: { flex: 1, backgroundColor: tokens.colors.dim, justifyContent: "flex-end" },
   // A sheet on the bottom edge with 20pt top corners, not a floating card (the design
   // sweep's look: docs/plans/design-sweep.md). No grab handle: it doesn't drag.
   // ponytail: 34 is the home indicator's space on a Face ID iPhone, as a fixed number. On
@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
     backgroundColor: tokens.colors.accentDim,
   },
   lockedMoveText: { flex: 1, fontSize: 13, fontWeight: "600", color: tokens.colors.text },
-  lockedMoveCta: { fontSize: 13, fontWeight: "800", color: tokens.colors.accent },
+  lockedMoveCta: { fontSize: 13, fontWeight: "800", color: tokens.colors.selected },
   moveBtnText: { fontSize: 15, fontWeight: "500", color: tokens.colors.text, marginLeft: 6 },
   actionContainer: { paddingHorizontal: tokens.space.md, paddingTop: 18, paddingBottom: 34 },
   removeBtn: { flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: tokens.space.sm, paddingVertical: tokens.space.sm },

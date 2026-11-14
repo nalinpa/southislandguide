@@ -98,7 +98,7 @@ export function AreaSheet({ visible, options, selected, onSelect, onClose }: Are
 // In the design sweep's look for a sheet (docs/plans/design-sweep.md): the white page,
 // 20pt top corners, the teal dim behind, the close button an x in a pale circle.
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: "rgba(3,38,43,0.55)", justifyContent: "flex-end" },
+  overlay: { flex: 1, backgroundColor: tokens.colors.dim, justifyContent: "flex-end" },
   sheet: {
     maxHeight: "80%",
     backgroundColor: tokens.colors.page,

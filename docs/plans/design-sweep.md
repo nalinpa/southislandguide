@@ -169,9 +169,62 @@ Error screen, round 2:
 
 Not drawn: the trip-preview step and the map step of the tour.
 
+## Dark mode
+
+Built 2026-11-14 from [prompts/dark-mode.md](../../prompts/dark-mode.md); checked on the owner's phone in dark and in light, signed off by the owner the same day. It follows the phone's setting: no switch in the app (owner, 2026-11-13). The dark critic round (step 6 of the prompt) was skipped: the owner signed off after the phone check. It reaches users with the next release; the owner decides when.
+
+### How it's built
+
+- Every colour in `lib/ui/tokens.ts` is a pair: `pair(light, dark)` gives iOS's own two-sided colour (`DynamicColorIOS`), so iOS swaps it when the phone changes and no screen re-renders. `DARK_READY` is the switch; with it off, a pair is its light colour.
+- A pair can only go in a style. It can't be glued into a string (`${colour}66`), measured or parsed. A see-through colour gets its own pair with the see-through-ness written in. `scrim` stays a plain string for that reason: two photo gradients add to it.
+- Tests check light: `test/lightColors.js` makes a pair its light side under Jest. Dark is checked on the phone.
+- **Fill or words, never both.** Teal, orange, red and green each have a fill shade (white words on it) and a word shade (on the page), the same colour in light:
+  - Teal: `accent` is the fill, `selected` the words and icons.
+  - Orange: `highlight` is the words, `button.primary.bg` the fill.
+  - Red: `danger` is the words, `dangerFill` the fill.
+  - Green: `surf` is the words, `success` the fill.
+- A surface that only a shadow lifted (the map's search bar, controls and sheet, the tour card, the place's back button) is `bgCard`, one step above the page in dark, with a hairline (`darkEdge`) that is see-through in light and takes no room.
+- Map pins and clusters keep fixed colours: a pin is drawn once into a picture, so a pair would keep whichever look was on when it was drawn.
+- The app's own colours outside the palette (categories) are `lifted()` in dark: the same hue 35% toward white, at least 4:1 on the page.
+- The clock and battery follow the phone through `Screen` (`statusBarStyle` "default", `@blacksands/ui` 0.7.1). The teal headers, the place photo and login keep light ones in both.
+- Stays light on purpose: the share card (it's a picture people post) and the Google and Apple sign-in colours (their rules; the buttons aren't shown at launch). The map follows the phone (owner, 2026-11-14); the saved map for no signal stays light. Photos are at full brightness (owner, 2026-11-14).
+- The engine needed nothing: every piece the app shows takes its colours from the app. [prompts/engine-dark.md](../../prompts/engine-dark.md) lists them, and the older variants another app would meet.
+
+### Values
+
+The four marked * were picked by the owner from swatches, 2026-11-14.
+
+| Token | Light | Dark |
+|---|---|---|
+| `page` | `#FFFFFF` | `#06191B` |
+| `bgBase`* | `#EEF6F3` | `#081D20` |
+| `bgCard`* | `#FFFFFF` | `#0E2A2E` |
+| `bgSurface`* | `#E2F0EB` | `#12363A` |
+| `bgElevated`* | `#D3ECE5` | `#1A4247` |
+| `band` | `#EEF3F1` | `#0C2A2E` |
+| `driveFill` | `#D9E9E4` | `#173F45` |
+| `text` / `text2` / `textMuted` | `#0A1F1B` / `#33443F` / `#566661` | `#EEF6F3` / `#C5D6D1` / `#9DB5AF` |
+| `line`, `borderSubtle` | `#CBD8D3`, `#CFE1DA` | `#2F5257` |
+| `border` | `#A9C6BC` | `#567F84` (a step lighter than drawn, for 3:1 on a card) |
+| `borderStrong` | `#3D6B5F` | `#8DB3A8` |
+| `selected` | `#095C65` | `#7FD0D6` |
+| `accent`* (teal fill) | `#095C65` | `#1A7882` (white on it 5.2:1) |
+| `accentDim` | teal 12% | `#7FD0D6` at 14% |
+| `accentWarm` (header) | `#063F45` | `#0B4B52` |
+| `highlight`* (orange words) | `#C2410C` | `#FF9B66`; the button stays `#C2410C` |
+| `highlightDim` | `#FDEDE3` | `#3A2418` |
+| `danger` (red words) | `#B42318` | `#FF8A7A` |
+| `dangerFill`* | `#B42318` | the same (owner: light's red button in dark) |
+| `dangerDim` | `#FDF0EE` | `#3A1D1A` |
+| `surf` / `success` | `#2C4A36` | `#8FD3A6` / `#2E7D4F` |
+| `warning` / `warningDim` | `#8F6310` / `#FBF3DF` | `#E8B95A` / `#3A2E12` |
+| `dim` (behind sheets) | `rgba(3,38,43,0.55)` | black 60% |
+| `photoEdge` | ink 14% | `#EEF6F3` at 16% |
+| form field (`formTokens.bgElevated`) | `#F1F6F4` | `#12363A` |
+| `highlightOnDark`, `onDarkMuted`, `scrim` | unchanged | the same: they sit on the teal header or a photo |
+
 ## Open
 
-- **Dark mode is in the sweep** (owner, 2026-11-12) and **follows the phone's setting** (owner, 2026-11-13): no switch in the app. The app and the engine have no dark theme today: every colour is read from one static palette. How it is built is not designed yet.
 - **Link colour.** Owner's rule (2026-11-13): orange is for what the owner wants people to tap. So orange is the main button and the links that are being pushed ("Website", "Details"); teal is for everything else that can be tapped ("Sign Out", "Forgot password?", "Skip Tour"). On Login, "Create an account" and "Continue as guest" are teal (owner, 2026-11-13).
 - **Fonts.** The app uses the iPhone system font. Mock-ups use Inter in its place, so widths and line breaks on the phone will differ a little.
 - **Engine.** The opt-in variants needed in `@blacksands/components` are done under a separate prompt, not inside this sweep (owner, 2026-11-13). The owner publishes the engine. Until a variant is published, the screen that needs it cannot be built to its drawing.

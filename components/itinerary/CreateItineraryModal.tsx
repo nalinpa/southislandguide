@@ -448,7 +448,7 @@ export function CreateItineraryModal({
                                 <AppText style={styles.premiumBadgeText}>Premium</AppText>
                               </View>
                             ) : (
-                              active && <Check size={16} color={tokens.colors.accent} strokeWidth={2.5} />
+                              active && <Check size={16} color={tokens.colors.selected} strokeWidth={2.5} />
                             )}
                           </TouchableOpacity>
                         );
@@ -517,7 +517,7 @@ export function CreateItineraryModal({
 }
 
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: "rgba(3,38,43,0.55)", justifyContent: "flex-end" },
+  overlay: { flex: 1, backgroundColor: tokens.colors.dim, justifyContent: "flex-end" },
   // A sheet on the bottom edge with 20pt top corners, not a floating card (the design
   // sweep's look: docs/plans/design-sweep.md). No grab handle: it doesn't drag.
   // ponytail: 34 is the home indicator's space on a Face ID iPhone, as a fixed number. On
@@ -632,7 +632,7 @@ const styles = StyleSheet.create({
   },
   dropdownOptionText: { flex: 1 },
   dropdownOptionLabel: { fontSize: 16, fontWeight: "400", color: tokens.colors.text },
-  dropdownOptionLabelActive: { color: tokens.colors.accent, fontWeight: "600" },
+  dropdownOptionLabelActive: { color: tokens.colors.selected, fontWeight: "600" },
   dropdownOptionDays: { fontSize: 15, color: tokens.colors.textMuted, marginLeft: tokens.space.sm },
   subLabel: { fontSize: 14, color: tokens.colors.textMuted, marginTop: -6, marginBottom: tokens.space.xs },
   startRow: { flexDirection: "row", gap: tokens.space.xs, marginBottom: tokens.space.sm },
@@ -677,7 +677,7 @@ const calendarDayStyles = StyleSheet.create({
   cellSelected: { backgroundColor: tokens.colors.accent },
   label: { fontSize: 14, color: tokens.colors.text },
   labelOutside: { color: tokens.colors.textMuted },
-  labelToday: { color: tokens.colors.accent, fontWeight: "700" },
+  labelToday: { color: tokens.colors.selected, fontWeight: "700" },
   labelSelected: { color: "#FFFFFF", fontWeight: "700" },
   labelDisabled: { color: tokens.colors.textMuted, opacity: 0.5 },
 });

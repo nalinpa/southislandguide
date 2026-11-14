@@ -3,13 +3,24 @@ import { DynamicColorIOS, Platform } from "react-native";
 // Dark mode follows the phone (docs/plans/design-sweep.md). A colour written as a pair is
 // iOS's own two-sided colour: the system swaps it when the phone changes, so the style
 // sheets that read it need no hook and no re-render.
-// ponytail: off until every screen is built for it. Turned on early, the screens not yet
-// converted would show light text on their hard-coded white. While off, a pair is its light
-// value: a plain string, as before. A pair can't be glued into a string (`${c}66`) or
-// measured for contrast: give those a fixed colour.
-export const DARK_READY = false;
-const pair = (light: string, dark: string): string =>
+// On since 2026-11-14, after the owner checked every screen in dark on the phone. Turned off,
+// a pair is its light value, a plain string: the way back if a release needs light only.
+// The rules dark mode follows are in docs/plans/design-sweep.md. A pair can't be glued into a string (`${c}66`) or
+// measured for contrast: give those a fixed colour. A one-off see-through colour in a
+// screen takes its own pair there, with the see-through-ness written into both sides.
+export const DARK_READY = true;
+export const pair =(light: string, dark: string): string =>
   DARK_READY && Platform.OS === "ios" ? (DynamicColorIOS({ light, dark }) as unknown as string) : light;
+
+// For the app's own colours outside the palette (a category's): the same hue a third of the
+// way to white. On the dark page the darkest of them (Culture's brown) was 1.9:1; lifted,
+// every one is at least 4:1, on the page and on its own tint.
+export const towardWhite = (hex: string): string =>
+  "#" + [1, 3, 5].map((i) => {
+    const c = parseInt(hex.slice(i, i + 2), 16);
+    return Math.round(c + (255 - c) * 0.35).toString(16).padStart(2, "0");
+  }).join("");
+export const lifted = (hex: string): string => pair(hex, towardWhite(hex));
 
 // Named here because both the palette and the hero button below use it.
 const HIGHLIGHT = "#C2410C";
@@ -22,6 +33,20 @@ export const cardLift = {
   shadowOpacity: 0.12,
   shadowRadius: 14,
   elevation: 4,
+} as const;
+
+// A shadow shows nothing on a dark page, so a surface that only a shadow lifts (the map's
+// floating controls, the tour's card) gets a hairline in dark: a view laid over it with
+// this style and the surface's own corner radius. Over the surface, not a border on it,
+// so it takes no room, and it's see-through in light: light is unchanged.
+export const darkEdge = {
+  position: "absolute",
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+  borderWidth: 1,
+  borderColor: pair("transparent", "#567F84"),
 } as const;
 
 export const tokens = {
@@ -49,15 +74,19 @@ export const tokens = {
     // mint (#D3ECE5) is now only the fill for chips and search bars. The app
     // icon's tile and the splash background are the accent colour.
     // lib/ui/__tests__/tokens.test.ts holds the contrast floors.
-    bgBase: "#EEF6F3",
-    bgSurface: "#E2F0EB",
-    bgCard: "#FFFFFF",
-    bgElevated: "#D3ECE5",
-    borderSubtle: "#CFE1DA",
-    border: "#A9C6BC",
-    borderStrong: "#3D6B5F",
-    accent: "#095C65",
-    accentDim: "rgba(9,92,101,0.12)",
+    // Dark: four steps of lift off the page, page < bgBase < bgCard < bgSurface < bgElevated.
+    bgBase: pair("#EEF6F3", "#081D20"),
+    bgSurface: pair("#E2F0EB", "#12363A"),
+    bgCard: pair("#FFFFFF", "#0E2A2E"),
+    bgElevated: pair("#D3ECE5", "#1A4247"),
+    borderSubtle: pair("#CFE1DA", "#2F5257"),
+    // Dark is a step lighter than drawn (#4C7479) to keep 3:1 on a card as well as the page.
+    border: pair("#A9C6BC", "#567F84"),
+    borderStrong: pair("#3D6B5F", "#8DB3A8"),
+    // A fill with white on it. Dark is a mid teal: white on it 5.2:1, and 3.5:1 off the
+    // page (the light teal there was 2.4:1). Teal words and icons are `selected`.
+    accent: pair("#095C65", "#1A7882"),
+    accentDim: pair("rgba(9,92,101,0.12)", "rgba(127,208,214,0.14)"),
     accentWarm: pair("#063F45", "#0B4B52"),
     // The design sweep's look (docs/plans/design-sweep.md), screen by screen: a white
     // page, a hairline round a photo so a pale sky doesn't melt into it, and one line
@@ -74,25 +103,36 @@ export const tokens = {
     // The one warm colour: draws the eye to the important thing on a screen.
     // Opposite teal on the wheel, and not one of the map category colours
     // (components/map/SiteMarker.tsx). Too weak as text on bgElevated (4.2:1).
-    highlight: HIGHLIGHT,
-    highlightDim: "#FDEDE3",
+    // Words and icons: lighter in dark (8.7:1 on the page). The main button's fill is
+    // button.primary.bg, which stays this orange in dark (white on it 5.2:1).
+    highlight: pair(HIGHLIGHT, "#FF9B66"),
+    highlightDim: pair("#FDEDE3", "#3A2418"),
     // For the dark brand bar at the top of a screen (accentWarm): the highlight
     // itself is only 2.3:1 there, so it gets a lighter twin, plus a muted
-    // off-white for whatever isn't selected.
+    // off-white for whatever isn't selected. The bar stays dark teal in dark mode, so
+    // these need no dark partner (5.7:1 and 6.5:1 on it).
     highlightOnDark: "#FFB84D",
     onDarkMuted: "#BFD8D2",
     // Laid over a photo, behind text (the login screen). A much deeper teal
     // than accentWarm: on that, white was 11.6:1 and the on-dark highlight
-    // 6.8:1; here they are 16:1 and 9.3:1.
+    // 6.8:1; here they are 16:1 and 9.3:1. Only ever over a photo, so the same in
+    // dark, and glued into gradients (`${scrim}66`), so it must stay a plain string.
     scrim: "#03262B",
-    surf: "#2C4A36",
-    surfDim: "rgba(44,74,54,0.12)",
-    success: "#2C4A36",
-    successDim: "rgba(44,74,54,0.10)",
-    warning: "#8F6310",
-    warningDim: "#FBF3DF",
-    danger: "#B42318",
-    dangerDim: "#FDF0EE",
+    // The dim behind a pop-up sheet. Dark is black: the teal dim is lighter than the dark
+    // page and would brighten it.
+    dim: pair("rgba(3,38,43,0.55)", "rgba(0,0,0,0.6)"),
+    // surf is words, icons and stars; success is a fill with white on it.
+    surf: pair("#2C4A36", "#8FD3A6"),
+    surfDim: pair("rgba(44,74,54,0.12)", "rgba(143,211,166,0.14)"),
+    success: pair("#2C4A36", "#2E7D4F"),
+    successDim: pair("rgba(44,74,54,0.10)", "rgba(143,211,166,0.12)"),
+    warning: pair("#8F6310", "#E8B95A"),
+    warningDim: pair("#FBF3DF", "#3A2E12"),
+    // Words and icons. A button filled red is dangerFill, light's red in dark too (owner,
+    // 2026-11-14): white on it 6.6:1, where on dark mode's light red it would be 2.2:1.
+    danger: pair("#B42318", "#FF8A7A"),
+    dangerFill: "#B42318",
+    dangerDim: pair("#FDF0EE", "#3A1D1A"),
     // Near-black, then neutral greys: the old green-on-green secondary text
     // blended into the page.
     text: pair("#0A1F1B", "#EEF6F3"),
@@ -105,10 +145,11 @@ export const tokens = {
 // fields with bgElevated and have no props for it. In the app that token is
 // the brand mint, right for buttons and chips but hard to read typed text on.
 // Building those components from these tokens instead (see lib/uiKit.ts) is
-// the only way to restyle them from this app: near-white fields.
+// the only way to restyle them from this app: near-white fields. In dark the field is the
+// pale fill, a step above a sheet (bgCard).
 export const formTokens = {
   ...tokens,
-  colors: { ...tokens.colors, bgElevated: "#F1F6F4" },
+  colors: { ...tokens.colors, bgElevated: pair("#F1F6F4", "#12363A") },
 };
 
 // The design sweep's colours and button for the engine's flat pieces (the "no trips"
@@ -119,6 +160,8 @@ export const SWEEP_COLORS = {
   muted: tokens.colors.textMuted,
   link: tokens.colors.selected,
   pale: tokens.colors.bgSurface,
+  // Behind the engine's sheets: its default is this teal written as a string, with no dark.
+  scrim: tokens.colors.dim,
 };
 export const SWEEP_BUTTON = { radius: 12, height: 50, labelSize: 16, labelWeight: "600", shadow: false } as const;
 

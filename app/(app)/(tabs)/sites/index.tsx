@@ -363,8 +363,8 @@ export default function SiteListPage() {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={() => void handleRefresh()}
-            tintColor={tokens.colors.accent}
-            colors={[tokens.colors.accent]}
+            tintColor={tokens.colors.selected}
+            colors={[tokens.colors.selected]}
           />
         }
         ListEmptyComponent={

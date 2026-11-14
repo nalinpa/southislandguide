@@ -4,7 +4,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { ChevronRight } from "lucide-react-native";
 
 import { AppText } from "@/lib/uiKit";
-import { tokens } from "@/lib/ui/tokens";
+import { lifted, pair, tokens, towardWhite } from "@/lib/ui/tokens";
 import { TopBar, TopBarBack } from "@/components/layout/TopBar";
 import { TopBarTabs } from "@/components/layout/TopBarTabs";
 import {
@@ -80,8 +80,14 @@ export default function GuideIndexPage() {
               onPress={() => router.push(`/(app)/(tabs)/guide/${category.slug}`)}
               activeOpacity={0.6}
             >
-              <View style={[styles.iconWrap, { backgroundColor: `${category.color}1F` }]}>
-                <Icon size={20} color={category.color} strokeWidth={2} />
+              {/* In dark, the category's colour lifted toward white, and its tint a touch stronger. */}
+              <View
+                style={[
+                  styles.iconWrap,
+                  { backgroundColor: pair(`${category.color}1F`, `${towardWhite(category.color)}29`) },
+                ]}
+              >
+                <Icon size={20} color={lifted(category.color)} strokeWidth={2} />
               </View>
               <AppText style={styles.rowTitle}>{category.title}</AppText>
               <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />

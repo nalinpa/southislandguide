@@ -391,7 +391,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
 }
 
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: "rgba(3,38,43,0.55)", justifyContent: "flex-end" },
+  overlay: { flex: 1, backgroundColor: tokens.colors.dim, justifyContent: "flex-end" },
   // A sheet on the bottom edge with 20pt top corners, not a floating card (the design
   // sweep's look: docs/plans/design-sweep.md). No grab handle: it doesn't drag.
   // ponytail: 34 is the home indicator's space on a Face ID iPhone, as a fixed number. On
@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
   doneTitle: { fontSize: 18, fontWeight: "700", color: tokens.colors.text },
   doneBody: { fontSize: 15, lineHeight: 22, color: tokens.colors.text2, marginBottom: tokens.space.sm },
   viewTrip: { alignSelf: "center", paddingVertical: 12, paddingHorizontal: tokens.space.md },
-  viewTripText: { fontSize: 15, fontWeight: "600", color: tokens.colors.accent },
+  viewTripText: { fontSize: 15, fontWeight: "600", color: tokens.colors.selected },
   // Minus and plus are round and sit close either side of the value: as squares at the
   // far ends of a box they read as two more choices (design sweep, sheets round 2).
   stepperRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: tokens.space.md },

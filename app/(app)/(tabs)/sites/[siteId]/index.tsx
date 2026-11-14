@@ -8,7 +8,7 @@ import * as Linking from "expo-linking";
 import { ArrowLeft, ExternalLink, Star } from "lucide-react-native";
 
 import { LoadingState, ErrorCard, Stack, AppText, AppButton, ReviewModal, components } from "@/lib/uiKit";
-import { cardLift, tokens, SWEEP_COLORS, SWEEP_BUTTON, REVIEW_COLORS } from "@/lib/ui/tokens";
+import { cardLift, darkEdge, lifted, tokens, SWEEP_COLORS, SWEEP_BUTTON, REVIEW_COLORS } from "@/lib/ui/tokens";
 import { hooksBag } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useSavedSites } from "@/lib/hooks/useSavedSites";
@@ -441,7 +441,7 @@ function FactsLine({
     ) : null,
     cat && category ? (
       <View key="category" style={styles.fact}>
-        <cat.Icon size={14} color={cat.color} strokeWidth={2.25} />
+        <cat.Icon size={14} color={lifted(cat.color)} strokeWidth={2.25} />
         <AppText style={styles.factText}>{SITE_CATEGORY_LABELS[category] ?? category}</AppText>
       </View>
     ) : null,
@@ -606,8 +606,11 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: tokens.colors.bgCard,
     ...cardLift,
+    // A fixed 44pt disc, so the line takes no room: see-through in light, the outline in dark.
+    borderWidth: 1,
+    borderColor: darkEdge.borderColor,
     alignItems: "center",
     justifyContent: "center",
   },

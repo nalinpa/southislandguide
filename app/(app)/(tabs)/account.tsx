@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    backgroundColor: tokens.colors.highlight,
+    backgroundColor: tokens.button.primary.bg,
     paddingVertical: 16,
     borderRadius: 99,
   },

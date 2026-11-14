@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   errorRetryBtn: {
     alignSelf: "stretch",
     height: 52,
-    backgroundColor: tokens.colors.highlight,
+    backgroundColor: tokens.button.primary.bg,
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",

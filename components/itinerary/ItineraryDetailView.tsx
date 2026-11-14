@@ -26,7 +26,7 @@ import { DriveBlock } from "@/components/itinerary/DriveBlock";
 import { TripOverview } from "@/components/itinerary/TripOverview";
 import { TripViewSwitch, type TripView } from "@/components/itinerary/TripViewSwitch";
 import { daySwipeHandlers } from "@/components/itinerary/daySwipe";
-import { tokens } from "@/lib/ui/tokens";
+import { pair, tokens } from "@/lib/ui/tokens";
 import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
 import { slotRangeLabel } from "@/lib/utils/itineraryPhysics";
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -900,7 +900,9 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                   }}
                   left={BLOCK_LEFT}
                   icon={iconFor.get(item.siteId) ?? CATEGORY_CONFIG.other.Icon}
-                  colors={{ grip: "rgba(255,255,255,0.7)" }}
+                  // The note chip is a fill under white words: success, not the engine's surf, which is
+                  // the light green for words in dark mode.
+                  colors={{ grip: "rgba(255,255,255,0.7)", note: tokens.colors.success }}
                   maxSlots={TIME_SLOTS.length}
                   slotHeight={SLOT_HEIGHT}
                   onDrop={handleDrop}
@@ -1095,7 +1097,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: tokens.colors.page },
-  menuOverlay: { flex: 1, backgroundColor: "rgba(36,26,18,0.3)" },
+  menuOverlay: { flex: 1, backgroundColor: pair("rgba(36,26,18,0.3)", "rgba(0,0,0,0.45)") },
   // paddingTop approximates the top bar's title row (8 + 44, see TopBar) so the
   // menu lands directly under the "..." button rather than needing a measured anchor.
   menuSafeArea: { alignItems: "flex-end", paddingTop: 60, paddingRight: tokens.space.md },
@@ -1199,7 +1201,7 @@ const styles = StyleSheet.create({
     height: 44,
     paddingHorizontal: 16,
     borderRadius: 12,
-    backgroundColor: tokens.colors.highlight,
+    backgroundColor: tokens.button.primary.bg,
     alignItems: "center",
     justifyContent: "center",
   },

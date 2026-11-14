@@ -1,4 +1,4 @@
-import { formTokens, tokens } from "@/lib/ui/tokens";
+import { DARK_READY, formTokens, tokens } from "@/lib/ui/tokens";
 
 // WCAG 2 contrast ratio. 4.5 is the minimum for body text, 7 the enhanced level.
 function luminance(hex: string): number {
@@ -16,6 +16,14 @@ function contrast(a: string, b: string): number {
 
 const c = tokens.colors;
 const backgrounds = ["bgBase", "bgSurface", "bgCard", "bgElevated"] as const;
+
+// While dark mode is off, a pair is its light value. A paired colour reaching a public
+// build early would show light text on screens not yet built for dark.
+(DARK_READY ? it.skip : it)("keeps every colour a plain string while dark mode is off", () => {
+  for (const [name, value] of Object.entries({ ...tokens.colors, ...formTokens.colors })) {
+    expect([name, typeof value]).toEqual([name, "string"]);
+  }
+});
 
 describe("palette", () => {
   // Secondary text used to be green on green and blended into the page.

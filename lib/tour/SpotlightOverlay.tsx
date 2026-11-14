@@ -18,7 +18,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Defs, Mask, Rect } from "react-native-svg";
 import Animated, { FadeIn, useAnimatedProps, useSharedValue, withTiming } from "react-native-reanimated";
 
-import { cardLift, tokens } from "@/lib/ui/tokens";
+import { cardLift, darkEdge, tokens } from "@/lib/ui/tokens";
 import { useTour } from "./TourContext";
 import { TourTripPreview } from "./TourTripPreview";
 
@@ -133,6 +133,7 @@ export function SpotlightOverlay() {
         onLayout={(e) => setCardHeight(e.nativeEvent.layout.height)}
         style={[styles.card, { top: cardTop, maxHeight: height - insets.top - insets.bottom - 32 }]}
       >
+        <View pointerEvents="none" style={[darkEdge, styles.cardEdge]} />
         {targetRect ? (
           <View
             testID="tour-pointer"
@@ -189,7 +190,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: CARD_SIDE,
     right: CARD_SIDE,
-    backgroundColor: tokens.colors.page,
+    // bgCard: white as the page is in light; in dark a step lighter, as the dim around it
+    // is nearly the page's own colour.
+    backgroundColor: tokens.colors.bgCard,
     borderRadius: 20,
     paddingHorizontal: tokens.space.lg,
     paddingTop: 18,
@@ -197,16 +200,20 @@ const styles = StyleSheet.create({
     gap: 6,
     ...cardLift,
   },
-  // A square of the card's colour turned on its corner, half behind the card's edge.
+  cardEdge: { borderRadius: 20 },
+  // A square of the card's colour turned on its corner, half behind the card's edge. In
+  // dark its two outer sides carry the card's hairline, and it covers the card's own line
+  // where the two meet.
   pointer: {
     position: "absolute",
     width: POINTER,
     height: POINTER,
-    backgroundColor: tokens.colors.page,
+    backgroundColor: tokens.colors.bgCard,
+    borderColor: darkEdge.borderColor,
     transform: [{ rotate: "45deg" }],
   },
-  pointerUp: { top: -POINTER / 2 },
-  pointerDown: { bottom: -POINTER / 2 },
+  pointerUp: { top: -POINTER / 2, borderTopWidth: 1, borderLeftWidth: 1 },
+  pointerDown: { bottom: -POINTER / 2, borderBottomWidth: 1, borderRightWidth: 1 },
   // Shrinks first when the card meets its height limit, so Next stays on screen.
   previewScroll: { flexShrink: 1, flexGrow: 0, marginBottom: tokens.space.xs },
   title: { fontSize: 20, lineHeight: 25, fontWeight: "700", color: tokens.colors.text, letterSpacing: -0.2 },
@@ -222,7 +229,7 @@ const styles = StyleSheet.create({
   nextBtn: {
     minHeight: 44,
     justifyContent: "center",
-    backgroundColor: tokens.colors.highlight,
+    backgroundColor: tokens.button.primary.bg,
     paddingHorizontal: 24,
     borderRadius: 12,
   },

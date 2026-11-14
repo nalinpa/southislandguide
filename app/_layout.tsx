@@ -57,7 +57,9 @@ function RootLayout() {
         {/* Inside AppProviders, so the tour can read the session and the unlock. The
             overlay comes last, to sit over every screen. */}
         <TourProvider>
-          <OfflineBanner />
+          {/* The pale band in the idle grey (design sweep): news, not an alarm. It was the
+              engine's amber. The grey is also its bottom line (the engine's rule). */}
+          <OfflineBanner colors={{ bg: tokens.colors.band, fg: tokens.colors.textMuted }} />
 
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen

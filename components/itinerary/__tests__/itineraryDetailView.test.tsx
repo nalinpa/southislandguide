@@ -666,12 +666,12 @@ describe("the drive between areas", () => {
     const view = await openTrip();
 
     const gaps = view.getAllByTestId("free-gap");
-    await fireEvent.press(within(gaps[0]).getByText("+ Find more things to do"));
+    await fireEvent.press(within(gaps[0]).getByText("Find more things to do"));
     // The gap is kept for Add to Trip to open on (lib/pendingSlot.ts).
     const { peekPendingSlot } = require("@/lib/pendingSlot");
     const trip = mockTrips.itineraries[0];
     expect(peekPendingSlot(trip.id)).toEqual(expect.objectContaining({ dayId: trip.days[0].id, slot: 4 }));
-    await fireEvent.press(within(gaps[gaps.length - 1]).getByText("+ Find more things to do"));
+    await fireEvent.press(within(gaps[gaps.length - 1]).getByText("Find more things to do"));
 
     expect(mockRouter.push).toHaveBeenNthCalledWith(1, { pathname: "/(app)/(tabs)/sites", params: { area: "christchurch" } });
     expect(mockRouter.push).toHaveBeenNthCalledWith(2, { pathname: "/(app)/(tabs)/sites", params: { area: "dunedin" } });
@@ -683,7 +683,7 @@ describe("the drive between areas", () => {
     mockTrips.itineraries = [tripOf([museum({ slotIndex: 20 })])];
     const view = await openTrip();
 
-    await fireEvent.press(within(view.getAllByTestId("free-gap")[0]).getByText("+ Find more things to do"));
+    await fireEvent.press(within(view.getAllByTestId("free-gap")[0]).getByText("Find more things to do"));
 
     expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/(app)/(tabs)/sites", params: { area: "dunedin" } });
   });
@@ -695,6 +695,24 @@ describe("the drive between areas", () => {
     await waitFor(() => expect(view.queryAllByText("Nothing here yet").length).toBeGreaterThan(0));
     await fireEvent.press(view.getAllByText("Nothing here yet")[0]);
 
+    expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/(app)/(tabs)/sites", params: { area: "dunedin" } });
+  });
+
+  // Owner, 2026-11-14: more than one reminder on an empty day. Under the first hour's row,
+  // two prompts, each opening Add to Trip on its own time.
+  it("prompts twice more down an empty day, each on its own time", async () => {
+    mockTrips.itineraries = [tripOf([museum()], [])];
+    const view = await openTrip({ jumpToDay: "day_2" });
+
+    await waitFor(() => expect(view.getAllByTestId("free-gap")).toHaveLength(2));
+    const gaps = view.getAllByTestId("free-gap");
+    expect(gaps[0]).toHaveStyle({ top: 2 * 72, height: 13 * 72 });
+    expect(gaps[1]).toHaveStyle({ top: 15 * 72, height: 13 * 72 });
+    await fireEvent.press(within(gaps[1]).getByText("Find more things to do"));
+
+    const { peekPendingSlot } = require("@/lib/pendingSlot");
+    const trip = mockTrips.itineraries[0];
+    expect(peekPendingSlot(trip.id)).toEqual(expect.objectContaining({ dayId: trip.days[1].id, slot: 15 }));
     expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/(app)/(tabs)/sites", params: { area: "dunedin" } });
   });
 

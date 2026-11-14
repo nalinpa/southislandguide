@@ -26,7 +26,7 @@ import { DriveBlock } from "@/components/itinerary/DriveBlock";
 import { TripOverview } from "@/components/itinerary/TripOverview";
 import { TripViewSwitch, type TripView } from "@/components/itinerary/TripViewSwitch";
 import { daySwipeHandlers } from "@/components/itinerary/daySwipe";
-import { pair, tokens } from "@/lib/ui/tokens";
+import { cardLift, darkEdge, pair, tokens } from "@/lib/ui/tokens";
 import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
 import { slotRangeLabel } from "@/lib/utils/itineraryPhysics";
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -183,6 +183,16 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   const legAfter = useMemo(() => new Map(legs.map((leg) => [leg.key, leg])), [legs]);
 
   const freeGaps = useMemo(() => {
+    // An empty day: the "Nothing here yet" row takes the first hour, and the rest of the
+    // day is two gaps with a prompt each, so a reminder shows wherever the day is
+    // scrolled to (owner, 2026-11-14).
+    if (localItems.length === 0) {
+      const mid = Math.round((2 + MAX_GRID_SLOTS) / 2);
+      return [
+        { start: 2, end: mid },
+        { start: mid, end: MAX_GRID_SLOTS },
+      ];
+    }
     const occupied = new Set<number>();
     for (const item of localItems) {
       const start = item.slotIndex ?? 0;
@@ -918,9 +928,9 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
               </Fragment>
             ))}
 
-            {localItems.length === 0 ? (
-              // One row across the first hour (design sweep, the Days view). It was three
-              // cards down the grid, which read as three things to do.
+            {localItems.length === 0 && (
+              // One row across the first hour (design sweep, the Days view), with a "Find
+              // more things to do" further down in each of the day's two gaps (freeGaps).
               <TouchableOpacity
                 style={[styles.emptyDayRow, { height: 2 * SLOT_HEIGHT }]}
                 onPress={() => browseFrom(MAX_GRID_SLOTS, 1)}
@@ -936,19 +946,20 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                   <AppText style={styles.emptyDayButtonText}>Browse places</AppText>
                 </View>
               </TouchableOpacity>
-            ) : (
-              freeGaps.map((gap) => (
-                <View
-                  key={`gap_${gap.start}`}
-                  testID="free-gap"
-                  style={[styles.gapContainer, { top: gap.start * SLOT_HEIGHT, height: (gap.end - gap.start) * SLOT_HEIGHT }]}
-                >
-                  <TouchableOpacity style={styles.gapCard} onPress={() => browseFrom(gap.start)} activeOpacity={0.7}>
-                    <AppText style={styles.gapCardText}>+ Find more things to do</AppText>
-                  </TouchableOpacity>
-                </View>
-              ))
             )}
+            {freeGaps.map((gap) => (
+              <View
+                key={`gap_${gap.start}`}
+                testID="free-gap"
+                style={[styles.gapContainer, { top: gap.start * SLOT_HEIGHT, height: (gap.end - gap.start) * SLOT_HEIGHT }]}
+              >
+                {/* The outline button, as "Drive Day 1 in Google Maps" above: a second action.
+                    Its fill hides the hour lines behind it. */}
+                <AppButton variant="secondary" size="sm" icon={Plus} onPress={() => browseFrom(gap.start)}>
+                  Find more things to do
+                </AppButton>
+              </View>
+            ))}
           </View>
         </ScrollView>
       )}
@@ -1097,26 +1108,24 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: tokens.colors.page },
-  menuOverlay: { flex: 1, backgroundColor: pair("rgba(36,26,18,0.3)", "rgba(0,0,0,0.45)") },
+  // The sheets' dim, lighter: a menu is a quick choice, not a sheet.
+  menuOverlay: { flex: 1, backgroundColor: pair("rgba(3,38,43,0.25)", "rgba(0,0,0,0.45)") },
   // paddingTop approximates the top bar's title row (8 + 44, see TopBar) so the
   // menu lands directly under the "..." button rather than needing a measured anchor.
   menuSafeArea: { alignItems: "flex-end", paddingTop: 60, paddingRight: tokens.space.md },
+  // A card lifted by the shadow in light, with the hairline in dark (darkEdge's colour);
+  // rows as Profile's: 48 tall, 16 pt words, a line between.
   menuCard: {
-    minWidth: 170,
+    minWidth: 200,
     backgroundColor: tokens.colors.bgCard,
-    borderRadius: tokens.radius.md,
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: tokens.colors.border,
-    paddingVertical: 4,
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.15,
-    shadowRadius: 16,
-    elevation: 8,
+    borderColor: darkEdge.borderColor,
+    ...cardLift,
   },
-  menuRow: { paddingVertical: 12, paddingHorizontal: 16 },
-  menuRowDivider: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: tokens.colors.border },
-  menuRowText: { fontSize: 15, fontWeight: "600", color: tokens.colors.text },
+  menuRow: { minHeight: 48, justifyContent: "center", paddingHorizontal: 16 },
+  menuRowDivider: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: tokens.colors.line },
+  menuRowText: { fontSize: 16, fontWeight: "500", color: tokens.colors.text },
   menuRowDanger: { color: tokens.colors.danger },
   switchRow: { flexDirection: "row", alignItems: "center", gap: tokens.space.sm, paddingHorizontal: tokens.space.md },
   switch: { flex: 1 },
@@ -1165,20 +1174,13 @@ const styles = StyleSheet.create({
   },
   // The label on the screen's 16pt margin; the hour line runs from the blocks' left edge
   // to their right, and no further either side.
-  timeLabelContainer: { width: BLOCK_LEFT, paddingLeft: tokens.space.md },
-  timeLabel: { position: "absolute", top: -8, fontSize: 11, fontWeight: "500", color: tokens.colors.textMuted },
+  // `left` on the label itself: an absolute view ignores its parent's padding, so a
+  // paddingLeft here left the label on the screen's edge (owner, 2026-11-14).
+  timeLabelContainer: { width: BLOCK_LEFT },
+  timeLabel: { position: "absolute", left: tokens.space.md, top: -8, fontSize: 11, fontWeight: "500", color: tokens.colors.textMuted },
   hourDivider: { flex: 1, marginRight: tokens.space.md, borderTopWidth: 1, borderTopColor: tokens.colors.line },
   halfHourDivider: { flex: 1, marginRight: tokens.space.md, borderTopWidth: 1, borderTopColor: tokens.colors.borderSubtle },
   gapContainer: { position: "absolute", left: BLOCK_LEFT, right: tokens.space.md, alignItems: "center", justifyContent: "center" },
-  gapCard: {
-    borderWidth: 1,
-    borderStyle: "dashed",
-    borderColor: tokens.colors.border,
-    borderRadius: tokens.radius.md,
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-  },
-  gapCardText: { fontSize: 14, fontWeight: "600", color: tokens.colors.text2 },
   // A row on the first hour, the width of the blocks, in the page's colour so the half-hour
   // line doesn't show through, with a line above and below.
   emptyDayRow: {

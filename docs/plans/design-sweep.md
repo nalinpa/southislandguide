@@ -1,8 +1,8 @@
 # Design sweep: the look
 
-Written 2026-11-12, updated 2026-11-13 after every screen but the share card had been drawn. Follows [prompts/design-sweep.md](../../prompts/design-sweep.md). Rounds, scores and images are on the [progress page](https://claude.ai/artifact/Ur87RXUT1XmXAkPQmy9N6p) (private to the owner).
+Written 2026-11-12, updated 2026-11-13 after every screen but the share card had been drawn, and 2026-11-14 after the build. Follows [prompts/design-sweep.md](../../prompts/design-sweep.md). Rounds, scores and images are on the [progress page](https://claude.ai/artifact/Ur87RXUT1XmXAkPQmy9N6p) (private to the owner).
 
-Nothing here is in the app yet. The drawings are HTML mock-ups at iPhone size, kept outside the repo.
+Built on `design`, 2026-11-13 and 14, and checked on the owner's phone through the `development` branch: every screen below but the share card. The last small changes (the ⋯ menu, a stop's note, photo credits, the offline banner, the Days view's gaps and hour labels, 2026-11-14) still need that check. The drawings are HTML mock-ups at iPhone size, kept outside the repo; the picked ones for reviews and the Days view are in `design-refs/` (git-ignored).
 
 ## How the look was reached
 
@@ -74,7 +74,8 @@ Best score is against the bar named. "Carry" is the drawing to build from.
 |---|---|---|---|---|---|
 | 1 | Explore | Airbnb explore list | 3 | 4 of 5 | Round 3 with the distance in plain text |
 | 2 | Place | Airbnb place, about text | 5 judged | 2 of 5 | Owner to pick: round 5, or round 6 (round 5 with the app's own action bar, not judged) |
-| 3 | Trip | none | 0 | not judged | Mock-up only |
+| 3 | Trip view | none | 0 | not judged | Mock-up only |
+| 3b | Days view | Timepage (owner's screenshot) | 6 | 4 of 5; then each round beat the last | Round 5 (built) |
 | 4 | Trips tab | our own Explore | 2 | 1 of 5 ("same app: yes") | Round 2 with two small fixes |
 | 5 | Pop-up sheets | Airbnb sheets | 2 | 3 of 5 | Round 2 with two small fixes |
 | 6 | Map | Airbnb map | 3 | 2 of 5 | Round 2 (owner: not the photo version of round 3) |
@@ -83,6 +84,7 @@ Best score is against the bar named. "Carry" is the drawing to build from.
 | 9 | Login | Airbnb log in | 5 | 2 of 5 | "The pick" (below) |
 | 10 | Tour, error screen | Peloton tour card, Wise error sheet | 2 | 5 of 5 each | Round 2 with two tweaks (below) |
 | 11 | Share card | none | 0 | parked | Owner has no reference yet (2026-11-13) |
+| 12 | Reviews | Airbnb reviews (screen, Place part); Too Good To Go (form) | 4 | 1 of 5; form 3 of 5 | Round 4; form round 3 (built) |
 
 ### Screen 1, Explore
 
@@ -113,9 +115,35 @@ The drawing to build from is `explore-final` (round 3, these three, and the five
 
 Judged 2026-11-13 against our own Explore as built, not against a reference: Trip view 2 of 5, Days view 0 of 5, "same app" 10 of 10.
 
-- Owner's calls: the "Today" label and the now-line stay orange. The Days view is built now although its place blocks and "Transit" rows are the engine's and stay as they are.
-- Built: day rows flat on the page with a line under the words; the day label a step larger and darker; a route never leaves an arrow at the end of a line and a town's name never breaks (`routeLine`); day tabs on the white page with the teal line; drive blocks white with a line; the Trip / Days switch's chosen half a soft white tint, since a solid white pill was the loudest thing on the screen.
-- For the engine prompt: place, drive and transit blocks as one family, then judge the Days view again.
+- Owner's calls: the "Today" label and the now-line stay orange.
+- Trip view, built: day rows flat on the page with a line under the words; the day label a step larger and darker; a route never leaves an arrow at the end of a line and a town's name never breaks (`routeLine`); day tabs on the white page with the teal line; the Trip / Days switch's chosen half a soft white tint, since a solid white pill was the loudest thing on the screen.
+- The ⋯ menu (2026-11-14, no critics): a card lifted by `cardLift`, with the dark hairline; rows as Profile's (48 tall, 16 pt, medium, a `line` between); the sheets' teal dim at 25%. It was a warm brown dim.
+- A stop's note (2026-11-14, no critics): the delete card's look (page colour, 20 pt corners, `dim`), the icon on `bgSurface`.
+
+### Screen 3b, the Days view
+
+Redrawn over six rounds, 2026-11-14, after the owner turned down a first build with flat blocks ("the old style was better"). Engine work in [prompts/engine-days.md](../../prompts/engine-days.md) (`@blacksands/components` 0.11.0).
+
+| Round | Judged against | Result | What it settled |
+|---|---|---|---|
+| 1 | solid against pale blocks | solid 5 of 5 | Owner: pale was "too faint overall, places didn't stand out from the grid" |
+| 2 | Timepage | 4 of 5 | Solid teal place blocks hold up against a calendar app |
+| 3 | round 2 | 4 of 5 | Car for the short drive; a pill there read as a small drive block; long names cut in a half-hour block; the time line said the length twice |
+| 4 | round 3 | 5 of 5 | |
+| 5 | round 4 | 5 of 5 | **The pick** |
+| 6 | round 5 | lost, 2 of 5 | The dotted line stopped at each hour line broke into stubs; a small pale car made the travel vanish |
+
+Owner's words, kept:
+- A short drive between two places in the same town reads **"30 min drive"**. "Transit" read as a bus or train; these are drives 99% of the time, but must look unlike the drive blocks.
+- Drive blocks keep **"About"** ("11:00 AM · About 30 min"): a drive time is an estimate.
+
+As built:
+- One grammar: **a fill means it can be dragged; a dotted line means the app worked it out.** Place: solid teal (`accent`), white words. Drive between towns: pale teal (`driveFill`), no outline. Short drive: no fill, a car and "30 min drive" on a dotted 2 pt line in `border`, unbroken from the place above to the place below.
+- Blocks start 64 pt in (`BLOCK_LEFT`); hour labels short ("11 AM"), 11 pt, idle grey, 16 pt from the edge; hour lines from the blocks' left edge to the right margin.
+- Place blocks: the place's category icon, 22 pt, 14 pt in, words 46 pt in (the drive block's car and words use the same two numbers); the time as a range, "1:00 – 2:00 PM" (`slotRangeLabel`); drag dots white at 70% (60 was faint, 85 as loud as the name).
+- Not to reopen: don't stop the dotted line short of the hour lines, don't shrink or fade the short drive's car, don't give the short drive a fill.
+- Gaps: "Find more things to do" is the outline button with a +, as "Drive Day 1 in Google Maps" (2026-11-14). It was a dashed card.
+- An empty day: one row on the first hour, "Nothing here yet" and an orange "Browse places", then two "Find more things to do" further down, each opening Add to Trip on its own time (owner, 2026-11-14: more than one reminder). The three cards before the sweep read as three things to do.
 
 ### Screen 4, Trips tab
 
@@ -168,6 +196,25 @@ Error screen, round 2:
 - For the build: the sign back in red on a pale red circle. The grey sign of round 2 was marked for carrying no error colour.
 
 Not drawn: the trip-preview step and the map step of the tour.
+
+Built since: the tour's place step scrolls Explore to the top first; it pointed at nothing when the list was scrolled.
+
+### Screen 12, Reviews
+
+Four rounds, 2026-11-14. Engine work in [prompts/engine-reviews.md](../../prompts/engine-reviews.md) (`@blacksands/components` 0.10.0, the "open" variants).
+
+- The reviews screen and the reviews part of a Place page stayed at 0 or 1 of 5 for four rounds: critics kept marking what can't change here (no reviewer photos, 16 pt margins, teal beside orange). The owner took round 4.
+- The form reached 3 of 5 at round 3, the pick.
+- Screen: white page; no initials circle and no lines, space groups each review; name 16 semi-bold, small stars, date in the idle grey; the words 16 on 24 in `text` (critics called the old `text2` the faintest thing on screen); the ⋯ bare, in the idle grey.
+- Place: the rating is the heading; the latest review in an outlined box; "See all N reviews" and "Write a review" as teal links in place of a button. The latest review comes from the public reviews already fetched (no extra read) and skips authors the user has blocked (owner, 2026-11-14).
+- Form: titled "Share Your Experience" (capitals, as the buttons; owner), no subtitle, the sweep's button at 17 pt. A chosen star is teal; an empty star and the note box's outline are `border`, the app's outline colour, not the drawing's own grey (owner: fine).
+
+### Smaller things, no critics
+
+- Explore: an orange "Details ›" at the foot of each card, right of the distance, so people know a card opens (owner, 2026-11-13).
+- The town sheet: the chosen town is orange, word and tick (owner: clearer).
+- Photo credits: the white page, `line`, the name 16 semi-bold, the town in the idle grey (2026-11-14).
+- The offline banner: the pale `band` with the idle grey's words and line, not the engine's amber (2026-11-14). It sits over the status bar, so on a teal header the clock is light on a pale band; that was true of the amber too.
 
 ## Dark mode
 
@@ -227,14 +274,6 @@ The four marked * were picked by the owner from swatches, 2026-11-14.
 
 - **Link colour.** Owner's rule (2026-11-13): orange is for what the owner wants people to tap. So orange is the main button and the links that are being pushed ("Website", "Details"); teal is for everything else that can be tapped ("Sign Out", "Forgot password?", "Skip Tour"). On Login, "Create an account" and "Continue as guest" are teal (owner, 2026-11-13).
 - **Fonts.** The app uses the iPhone system font. Mock-ups use Inter in its place, so widths and line breaks on the phone will differ a little.
-- **Engine.** The opt-in variants needed in `@blacksands/components` are done under a separate prompt, not inside this sweep (owner, 2026-11-13). The owner publishes the engine. Until a variant is published, the screen that needs it cannot be built to its drawing.
-
-  The engine list, as found while building (2026-11-13):
-  - `AuthPanel` (Login): an empty password box (today its placeholder is its label's word); "Forgot password?" under the password box, on the right; the remaining links on one centre line; the guest link without its underline and at the links' size; labels a step larger.
-  - `AppButton`: the sweep's 12 pt corners and 50 pt height. Until then the app draws its own button where the look matters most (Place's and the Trips tab's main buttons) and keeps the engine's inside the sheets, for its loading state.
-  - `TimelineBlock` and `TransitBlock` (the Days view): place, drive and transit blocks as one family, taking colours from the app. The app's own `DriveBlock` is already white with a line.
-  - `EmptyItineraryState` (Trips tab, signed in with no trip): the white page, 12 pt buttons.
-  - `ReviewsSummaryCard` and `ReviewModal` (Place): not drawn yet. Reference screenshots are in `design-refs/` (Too Good To Go's review form, two Airbnb reviews screens).
-  - `ErrorCard`, `LoadingState`, `CardShell`: still the engine's colours and corners wherever they show.
-- **Screen 3 and screen 11** have no reference screenshot.
-- **The build** has not started. It needs the owner's go, screen by screen, on the `design` branch, with the fingerprint unchanged.
+- **Engine.** Done, each under its own prompt, published by the owner: `@blacksands/components` 0.9.0 and `@blacksands/ui` 0.7.x ([prompts/engine-design-sweep.md](../../prompts/engine-design-sweep.md): `AuthPanel`, the button's shape, the flat "no trips" panel and trip-choice sheet, `ErrorCard`, `LoadingState`, `Screen`), 0.10.0 (reviews) and 0.11.0 (Days). The app sets the sweep's look as each kit piece's default in `lib/uiKit.ts`, so a screen doesn't have to ask.
+- **Screen 3 (Trip view) and screen 11 (share card)** have no reference screenshot. The share card is parked and stays light.
+- **Still open:** the share card; store screenshots retaken in the new look, in the locked order.

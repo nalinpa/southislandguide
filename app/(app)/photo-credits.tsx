@@ -37,7 +37,7 @@ export default function PhotoCreditsPage() {
 
   if (loading) {
     return (
-      <Screen background={tokens.colors.bgBase}>
+      <Screen>
         <LoadingState label="Loading photo credits..." />
       </Screen>
     );
@@ -45,7 +45,7 @@ export default function PhotoCreditsPage() {
 
   return (
     // paddingTop 0 hands the status-bar inset to the top bar, as on Saved Places.
-    <Screen background={tokens.colors.bgBase} padded={false} style={styles.screen}>
+    <Screen padded={false} style={styles.screen}>
       <TopBar title="Photo Credits" leading={<TopBarBack onPress={() => router.back()} label="Back" />} />
       <ScrollView contentContainerStyle={styles.content}>
         {credits.length === 0 ? (
@@ -75,13 +75,15 @@ export default function PhotoCreditsPage() {
 const styles = StyleSheet.create({
   screen: { paddingTop: 0 },
   content: { padding: tokens.space.md, paddingBottom: tokens.space.xl },
+  // The white page and one line colour (design sweep): the place's name, then its town in
+  // the idle grey, then the credit.
   row: {
     paddingVertical: tokens.space.sm,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: tokens.colors.border,
+    borderBottomColor: tokens.colors.line,
     gap: 2,
   },
-  title: { fontSize: 15, fontWeight: "700", color: tokens.colors.text },
-  detail: { fontSize: 13, color: tokens.colors.text2 },
-  credit: { fontSize: 13, color: tokens.colors.text2 },
+  title: { fontSize: 16, fontWeight: "600", color: tokens.colors.text },
+  detail: { fontSize: 14, color: tokens.colors.textMuted },
+  credit: { fontSize: 14, color: tokens.colors.text2 },
 });

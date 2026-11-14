@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { View, Text, StyleSheet, Modal, Pressable } from "react-native";
 import { StickyNote } from "lucide-react-native";
 
-import { pair, tokens } from "@/lib/ui/tokens";
+import { tokens } from "@/lib/ui/tokens";
 import type { ItineraryItem } from "@/lib/models";
 
 type NoteCardProps = {
@@ -39,13 +39,14 @@ export function NoteCard({ item, onClose }: NoteCardProps) {
 }
 
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: pair("rgba(36,26,18,0.60)", "rgba(0,0,0,0.7)"), justifyContent: "center", padding: tokens.space.lg },
-  card: { backgroundColor: tokens.colors.bgCard, borderRadius: tokens.radius.lg, padding: 28, alignItems: "center" },
+  overlay: { flex: 1, backgroundColor: tokens.colors.dim, justifyContent: "center", padding: tokens.space.lg },
+  card: { backgroundColor: tokens.colors.page, borderRadius: 20, padding: 24, alignItems: "center" },
+  // The sweep's pale fill behind an icon, where the delete card has its pale red.
   iconWrap: {
     width: 56,
     height: 56,
     borderRadius: tokens.radius.md,
-    backgroundColor: tokens.colors.accentDim,
+    backgroundColor: tokens.colors.bgSurface,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 16,
@@ -58,6 +59,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: "center",
   },
-  body: { fontSize: 15, color: tokens.colors.text, lineHeight: 23, textAlign: "center", marginBottom: 20 },
-  hint: { fontSize: 12, fontWeight: "500", color: tokens.colors.text2 },
+  body: { fontSize: 16, color: tokens.colors.text, lineHeight: 24, textAlign: "center", marginBottom: 20 },
+  hint: { fontSize: 13, fontWeight: "500", color: tokens.colors.textMuted },
 });

@@ -178,6 +178,8 @@ export function EditItemModal({
                     <Plus color={tokens.colors.text} size={20} />
                   </TouchableOpacity>
                 </View>
+                {/* A tap on a place opens this sheet, which has no time control: where people look. */}
+                <Text style={styles.durationHint}>To change the time, hold the place on the day and drag it.</Text>
               </View>
 
               <View style={styles.controlSection}>
@@ -300,6 +302,7 @@ const styles = StyleSheet.create({
     backgroundColor: tokens.colors.page,
   },
   durationValue: { minWidth: 104, textAlign: "center", fontSize: 17, fontWeight: "600", color: tokens.colors.text },
+  durationHint: { marginTop: tokens.space.xs, fontSize: 13, textAlign: "center", color: tokens.colors.textMuted },
   noteInput: {
     borderWidth: 1,
     borderColor: tokens.colors.border,

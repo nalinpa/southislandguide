@@ -32,7 +32,7 @@ jest.mock("react-native-safe-area-context", () => ({
 
 import React from "react";
 import { Linking } from "react-native";
-import { fireEvent, render } from "@testing-library/react-native";
+import { fireEvent, render, waitFor } from "@testing-library/react-native";
 
 import { MapOverlayCard } from "@/components/map/MapOverlay";
 import { tokens } from "@/lib/ui/tokens";
@@ -172,7 +172,8 @@ describe("the selected site", () => {
 
     await fireEvent.press(view.getByText("Get Directions"));
 
-    expect(openUrlSpy).toHaveBeenCalledWith(expect.stringContaining("destination=-38.35,176.36"));
+    // After the overseas check (lib/utils/directions.ts), which says no here: no position.
+    await waitFor(() => expect(openUrlSpy).toHaveBeenCalledWith(expect.stringContaining("destination=-38.35,176.36")));
   });
 
   it("recentres the map on the site when its name is tapped", async () => {

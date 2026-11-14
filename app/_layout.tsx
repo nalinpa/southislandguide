@@ -12,6 +12,7 @@ import { tokens } from "@/lib/ui/tokens";
 import { AppProviders } from "@/lib/providers/AppProviders";
 import { OfflineBanner } from "@/lib/uiKit";
 import { hooksBag } from "@/lib/hooksBag";
+import { dropImpossibleTraces } from "@/lib/sentryTraces";
 import { useAppOpenCount } from "@/lib/hooks/useAppOpenCount";
 import { useUpdateOnReturn } from "@/lib/hooks/useUpdateOnReturn";
 import { TourProvider } from "@/lib/tour/TourContext";
@@ -28,6 +29,7 @@ Sentry.init({
   tracesSampleRate: 0.2,
   integrations: [navigationIntegration],
   enableNativeFramesTracking: false,
+  beforeSendTransaction: dropImpossibleTraces,
 });
 
 SplashScreen.preventAutoHideAsync();

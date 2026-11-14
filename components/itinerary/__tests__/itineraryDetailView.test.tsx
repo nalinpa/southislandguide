@@ -134,6 +134,11 @@ jest.mock("react-native-safe-area-context", () => {
 });
 
 jest.mock("expo-crypto", () => ({ randomUUID: () => "fixed" }));
+// DriveBlock takes the engine's gesture from @blacksands/components, whose bundle loads moti
+// and FlashList (not transformed under Jest) and the map (native). Nothing here uses them.
+jest.mock("moti", () => ({ MotiView: require("react-native").View }));
+jest.mock("@shopify/flash-list", () => ({ FlashList: require("react-native").View }));
+jest.mock("react-native-maps", () => ({}));
 jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
 
 const mockSession = { status: "authed", uid: "uid-1" } as any;
@@ -359,7 +364,10 @@ describe("the trip", () => {
 
     await fireEvent.press(view.getByText("Drive Day 1 in Google Maps"));
 
-    expect(openURL).toHaveBeenCalledWith(expect.stringContaining("https://www.google.com/maps/dir/?api=1&destination=-38.36%2C176.37"));
+    // After the overseas check (lib/utils/directions.ts), which says no here: no position.
+    await waitFor(() =>
+      expect(openURL).toHaveBeenCalledWith(expect.stringContaining("https://www.google.com/maps/dir/?api=1&destination=-38.36%2C176.37")),
+    );
     mockLookup.places = lookup;
     openURL.mockRestore();
   });

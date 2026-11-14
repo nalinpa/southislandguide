@@ -14,7 +14,11 @@ jest.mock("@/components/map/SitesMapView", () => {
     __esModule: true,
     initialRegionFrom: () => ({ latitude: -43.53, longitude: 172.63, latitudeDelta: 0.15, longitudeDelta: 0.15 }),
     SitesMapView: React.forwardRef(({ sites, mapType, onPressSite, offlineTilesDir }: any, ref: any) => {
-      React.useImperativeHandle(ref, () => ({ recenter: jest.fn(), focusOn: jest.fn() }));
+      React.useImperativeHandle(ref, () => ({
+        recenter: mockMapHandle.recenter,
+        focusOn: jest.fn(),
+        showIsland: mockMapHandle.showIsland,
+      }));
       return React.createElement(
         View,
         null,
@@ -96,6 +100,7 @@ const mockTrips = { itineraries: [] as any[], addFlow: "create" as "create" | "c
 jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
 
 const mockMapStore = { selectedLocationId: null as string | null, setSelectedLocationId: jest.fn() };
+const mockMapHandle = { recenter: jest.fn(), showIsland: jest.fn() };
 const mockBag = {
   locations: [] as any[],
   loading: false,
@@ -269,6 +274,29 @@ describe("map controls", () => {
 
     expect(view.getByLabelText("Switch map type")).toBeTruthy();
     expect(controls).not.toHaveStyle({ position: "absolute" });
+  });
+
+  // Tester, 2026-11-14, in the US: the map couldn't zoom out far enough to find the island.
+  it("shows the island, and says why, for someone overseas", async () => {
+    mockBag.loc = { coords: { latitude: 37.77, longitude: -122.42 } }; // San Francisco
+    const view = await render(<MapScreen />);
+
+    await fireEvent.press(view.getByLabelText("Centre on my location"));
+
+    expect(mockMapHandle.showIsland).toHaveBeenCalled();
+    expect(mockMapHandle.recenter).not.toHaveBeenCalled();
+    expect(view.getByText("You're not in New Zealand yet")).toBeTruthy();
+  });
+
+  it("centres on the phone anywhere in New Zealand, the North Island too", async () => {
+    mockBag.loc = { coords: { latitude: -41.29, longitude: 174.78 } }; // Wellington
+    const view = await render(<MapScreen />);
+
+    await fireEvent.press(view.getByLabelText("Centre on my location"));
+
+    expect(mockMapHandle.recenter).toHaveBeenCalledWith(-41.29, 174.78);
+    expect(mockMapHandle.showIsland).not.toHaveBeenCalled();
+    expect(view.queryByText("You're not in New Zealand yet")).toBeNull();
   });
 });
 

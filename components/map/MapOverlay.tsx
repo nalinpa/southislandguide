@@ -8,7 +8,6 @@ import {
   Text,
   ImageBackground,
   useWindowDimensions,
-  Linking,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Navigation, ChevronRight, CalendarPlus } from "lucide-react-native";
@@ -22,6 +21,7 @@ import { darkEdge, lifted, tokens } from "@/lib/ui/tokens";
 import { siteImage } from "@/lib/categoryImages";
 import { SITE_CATEGORY_LABELS, type Site, type SiteCategory } from "@/lib/models";
 import { areaName } from "@/lib/areas";
+import { openDirections } from "@/lib/utils/directions";
 
 export type NearbySite = {
   id: string;
@@ -61,15 +61,6 @@ const SNAP_DEFAULT = ["12%", "22%", "40%"];
 // The white page of the design sweep's look, with dark text (docs/plans/design-sweep.md).
 // It was the brand's deep teal with white text, the one dark sheet in the app.
 const SheetBackground = ({ style }: { style?: any }) => <View style={[style, styles.sheetBg]} />;
-
-// ponytail: lib/utils/navigation.ts (and its getDirections export) doesn't exist in this
-// repo — the brief's premise about sites/[siteId]/index.tsx having a handleDirections to
-// port from doesn't hold either (no directions handler exists anywhere in this codebase).
-// Universal Google Maps directions URL works cross-platform (opens the Maps app if
-// installed, else browser) — no Platform branching needed.
-function getDirections(lat: number, lng: number, _label: string) {
-  Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`);
-}
 
 function timeLabelToMinutes(label: string): number {
   const match = label.match(/(\d+):(\d+)\s*(AM|PM)/i);
@@ -213,7 +204,7 @@ export function MapOverlayCard({
         </View>
         <View style={styles.actions}>
           <Pressable
-            onPress={() => getDirections(site.lat, site.lng, site.name)}
+            onPress={() => void openDirections(site.lat, site.lng)}
             style={styles.btnDirections}
             accessibilityRole="button"
           >

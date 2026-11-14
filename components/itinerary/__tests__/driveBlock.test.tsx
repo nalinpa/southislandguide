@@ -2,12 +2,18 @@
 // placed by the planner, never by the user, so it must not read as something to tap or
 // drag: no button, and one plain sentence for a screen reader.
 import React from "react";
-import { fireEvent, render } from "@testing-library/react-native";
+import { act, fireEvent, render } from "@testing-library/react-native";
 
 import { DriveBlock, driveDropSlot } from "@/components/itinerary/DriveBlock";
 import { PLANNER } from "@/lib/constants/gameplay";
 
 const { SLOT_HEIGHT } = PLANNER;
+
+// The drive's gesture is the engine's (@blacksands/components), whose bundle loads moti and
+// FlashList (not transformed under Jest) and the map (native). Nothing here uses them.
+jest.mock("moti", () => ({ MotiView: require("react-native").View }));
+jest.mock("@shopify/flash-list", () => ({ FlashList: require("react-native").View }));
+jest.mock("react-native-maps", () => ({}));
 
 describe("DriveBlock", () => {
   it("names the area being driven to, where from, and when and how long", async () => {
@@ -70,14 +76,73 @@ describe("moving a drive", () => {
       />,
     );
 
-  it("lands a drag on the nearest half hour", () => {
-    expect(driveDropSlot(6, -1.6 * SLOT_HEIGHT, SLOT_HEIGHT, 4, 11)).toBe(4);
-    expect(driveDropSlot(6, 2.4 * SLOT_HEIGHT, SLOT_HEIGHT, 4, 11)).toBe(8);
+  it("lands a drag on the half hour it was dropped on", () => {
+    expect(driveDropSlot(8, 4, 11)).toBe(8);
   });
 
   it("can't be dragged to start before the place before it ends, or end after the next one starts", () => {
-    expect(driveDropSlot(6, -5 * SLOT_HEIGHT, SLOT_HEIGHT, 4, 11)).toBe(4);
-    expect(driveDropSlot(6, 9 * SLOT_HEIGHT, SLOT_HEIGHT, 4, 11)).toBe(11);
+    expect(driveDropSlot(1, 4, 11)).toBe(4);
+    expect(driveDropSlot(15, 4, 11)).toBe(11);
+  });
+
+  // Hold to move (tester, 2026-11-14): a swipe over a drive scrolls the day; a hold then a
+  // drag moves it. The rules are the engine's TimelineBlock's (its own tests); these check
+  // the drive is wired to them. A touch as PanResponder reads it: one finger, from y to y.
+  let t = 0;
+  const touch = (from: number, to: number) => {
+    t += 1;
+    const finger = {
+      touchActive: true,
+      startPageX: 0,
+      startPageY: 0,
+      startTimeStamp: 0,
+      currentPageX: 0,
+      currentPageY: to,
+      currentTimeStamp: t,
+      previousPageX: 0,
+      previousPageY: from,
+      previousTimeStamp: t - 1,
+    };
+    return {
+      touchHistory: { numberActiveTouches: 1, indexOfSingleActiveTouch: 0, mostRecentTimeStamp: t, touchBank: [finger] },
+      nativeEvent: { touches: [], changedTouches: [] },
+    };
+  };
+
+  describe("held", () => {
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => jest.useRealTimers());
+
+    it("picks up after the hold, then a drag moves it", async () => {
+      const onMove = jest.fn((slot: number) => slot);
+      const onDragStart = jest.fn();
+      const block = (await movable({ onMove, onDragStart, holdToDrag: 350 })).getByTestId("drive-block");
+
+      await fireEvent(block, "responderGrant", touch(0, 0));
+      expect(onDragStart).not.toHaveBeenCalled();
+      await act(() => jest.advanceTimersByTime(350));
+      expect(onDragStart).toHaveBeenCalledTimes(1);
+      expect(block.props.onResponderTerminationRequest(touch(0, 0))).toBe(false);
+
+      await fireEvent(block, "responderMove", touch(0, 2 * SLOT_HEIGHT));
+      await fireEvent(block, "responderRelease", touch(2 * SLOT_HEIGHT, 2 * SLOT_HEIGHT));
+      expect(onMove).toHaveBeenCalledWith(8);
+    });
+
+    it("lets a swipe go to the scroll, and doesn't move", async () => {
+      const onMove = jest.fn();
+      const onDragStart = jest.fn();
+      const block = (await movable({ onMove, onDragStart, holdToDrag: 350 })).getByTestId("drive-block");
+
+      await fireEvent(block, "responderGrant", touch(0, 0));
+      expect(block.props.onResponderTerminationRequest(touch(0, 0))).toBe(true);
+      await fireEvent(block, "responderMove", touch(0, 40));
+      await act(() => jest.advanceTimersByTime(350));
+      await fireEvent(block, "responderRelease", touch(40, 40));
+
+      expect(onDragStart).not.toHaveBeenCalled();
+      expect(onMove).not.toHaveBeenCalled();
+    });
   });
 
   it("shows a grip when it can be moved, and none when it can't", async () => {

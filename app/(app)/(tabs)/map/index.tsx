@@ -20,6 +20,7 @@ import { usePurchaseContext } from "@/lib/iap/PurchaseProvider";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, canAddToItinerary, matchesSearch, type SiteCategory } from "@/lib/models";
 import { distanceMeters, nearestSite, NEAR_PLACES_METERS } from "@/lib/utils/geoDistance";
+import { isInNZ } from "@/lib/utils/directions";
 import { SitesMapView, initialRegionFrom } from "@/components/map/SitesMapView";
 import type { SitesMapViewHandle } from "@/components/map/SitesMapView";
 import { MapOverlayCard } from "@/components/map/MapOverlay";
@@ -55,6 +56,15 @@ export default function MapScreen() {
   // testers hit it.
   const offlineTilesDir = isOffline && offlineMapLevel ? offlineMapDir().uri : null;
   const { loc, err: locErr, status: locStatus } = hooksBag.useUserLocation({ autoRequest: true });
+  // "You're not in New Zealand yet", for 3 s after the my-location button is tapped overseas.
+  const [abroad, setAbroad] = useState(false);
+  const abroadTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const showAbroad = () => {
+    clearTimeout(abroadTimer.current);
+    setAbroad(true);
+    abroadTimer.current = setTimeout(() => setAbroad(false), 3000);
+  };
+  useEffect(() => () => clearTimeout(abroadTimer.current), []);
   const { selectedLocationId: selectedSiteId, setSelectedLocationId: setSelectedSiteId } = hooksBag.useMapStore();
   const { itineraries, addFlow } = useItineraries();
 
@@ -392,10 +402,10 @@ export default function MapScreen() {
           </ScrollView>
         )}
 
-        {locErr && (
+        {(locErr || abroad) && (
           <View style={styles.errorPill}>
             <AlertCircle size={12} color="rgba(255,200,200,1)" strokeWidth={2} />
-            <Text style={styles.errorText}>Location unavailable</Text>
+            <Text style={styles.errorText}>{abroad ? "You're not in New Zealand yet" : "Location unavailable"}</Text>
           </View>
         )}
 
@@ -443,7 +453,13 @@ export default function MapScreen() {
             accessibilityLabel="Centre on my location"
             onPress={() => {
               Haptics.impactAsync();
-              if (loc) mapViewRef.current?.recenter(loc.coords.latitude, loc.coords.longitude);
+              if (!loc) return;
+              const { latitude, longitude } = loc.coords;
+              // Overseas the map can't zoom out far enough to find the island from the phone
+              // (tester, 2026-11-14, in the US), so it shows the island and says why.
+              if (isInNZ(latitude, longitude)) return mapViewRef.current?.recenter(latitude, longitude);
+              mapViewRef.current?.showIsland();
+              showAbroad();
             }}
           >
             <Crosshair color={tokens.colors.text} size={20} strokeWidth={1.75} />

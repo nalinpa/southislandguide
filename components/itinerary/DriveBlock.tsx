@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
-import { View, Text, StyleSheet, Animated, PanResponder, type PanResponderGestureState } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { View, Text, StyleSheet, Animated, PanResponder } from "react-native";
 import { Car, GripHorizontal } from "lucide-react-native";
+import { createTimelineBlockPanHandlers, type TimelineBlockProps } from "@blacksands/components";
 
 import { tokens } from "@/lib/ui/tokens";
 import { PLANNER } from "@/lib/constants/gameplay";
@@ -18,14 +19,14 @@ type DriveBlockProps = {
   onMove?: (startSlot: number) => number | void;
   onDragStart?: () => void;
   onDragEnd?: () => void;
+  /** Hold to move (ms), as TimelineBlock's: unset, it drags from touch-down. */
+  holdToDrag?: number;
 };
 
-const TAP_SLOP = 5;
-
-// Where a drag lands: the nearest half hour, kept between the end of the place before
-// the drive and the start of the place it leads to.
-export function driveDropSlot(startSlot: number, dy: number, slotHeight: number, earliest: number, latest: number): number {
-  return Math.min(latest, Math.max(earliest, startSlot + Math.round(dy / slotHeight)));
+// Where a drag lands: the half hour the engine rounded to, kept between the end of the
+// place before the drive and the start of the place it leads to.
+export function driveDropSlot(requested: number, earliest: number, latest: number): number {
+  return Math.min(latest, Math.max(earliest, requested));
 }
 
 // The drive between two areas, drawn on the day timeline in the time it takes up. The
@@ -37,7 +38,7 @@ export function driveDropSlot(startSlot: number, dy: number, slotHeight: number,
 //
 // Dragged the way the shared TimelineBlock drags a place (PanResponder, settling on the
 // slot it lands on). No zIndex, so a place being dragged (zIndex 10) passes over it.
-export function DriveBlock({ fromLabel, toLabel, startSlot, slots, earliest, latest, onMove, onDragStart, onDragEnd }: DriveBlockProps) {
+export function DriveBlock({ fromLabel, toLabel, startSlot, slots, earliest, latest, onMove, onDragStart, onDragEnd, holdToDrag }: DriveBlockProps) {
   const H = PLANNER.SLOT_HEIGHT;
   const time = slotIndexToTimeLabel(startSlot);
   // Lower case: it follows "About" mid-line ("About 1 hour", as "About 30 min").
@@ -46,40 +47,44 @@ export function DriveBlock({ fromLabel, toLabel, startSlot, slots, earliest, lat
   const hi = latest ?? startSlot;
   const movable = !!onMove;
 
-  const y = useRef(new Animated.Value(startSlot * H)).current;
-  const settle = (slot: number) => Animated.spring(y, { toValue: slot * H, useNativeDriver: false, friction: 7 }).start();
+  const pan = useRef(new Animated.ValueXY({ x: 0, y: startSlot * H })).current;
+  const currentY = useRef(startSlot * H);
   useEffect(() => {
-    settle(startSlot);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startSlot]);
+    const id = pan.y.addListener(({ value }) => {
+      currentY.current = value;
+    });
+    return () => pan.y.removeListener(id);
+  }, [pan]);
+  useEffect(() => {
+    Animated.spring(pan, { toValue: { x: 0, y: startSlot * H }, useNativeDriver: false, friction: 7 }).start();
+  }, [pan, startSlot, H]);
 
-  // The handlers are made once; they read the props through this.
-  const latestProps = useRef({ startSlot, lo, hi, onMove, onDragStart, onDragEnd });
-  latestProps.current = { startSlot, lo, hi, onMove, onDragStart, onDragEnd };
-
-  const pan = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => !!latestProps.current.onMove,
-      onMoveShouldSetPanResponder: (_e, g: PanResponderGestureState) =>
-        !!latestProps.current.onMove && Math.abs(g.dy) > TAP_SLOP,
-      // As TimelineBlock: the timeline's ScrollView must not take the touch mid-drag.
-      onPanResponderTerminationRequest: () => false,
-      onPanResponderGrant: () => latestProps.current.onDragStart?.(),
-      onPanResponderMove: (_e, g) => y.setValue((latestProps.current.startSlot * H) + g.dy),
-      onPanResponderRelease: (_e, g) => {
-        const p = latestProps.current;
-        p.onDragEnd?.();
-        const requested = driveDropSlot(p.startSlot, g.dy, H, p.lo, p.hi);
-        const landed = requested === p.startSlot ? p.startSlot : p.onMove?.(requested);
-        settle(typeof landed === "number" ? landed : p.startSlot);
-      },
-      // Abandoned (the system took the touch): back to where it was, nothing moved.
-      onPanResponderTerminate: () => {
-        latestProps.current.onDragEnd?.();
-        settle(latestProps.current.startSlot);
-      },
-    }),
-  ).current;
+  // The engine's place block gesture (TimelineBlock's), so a drive picks up the way a place
+  // does: with holdToDrag, a swipe scrolls the day and a hold then a drag moves it. The
+  // handlers are made once; they read the props through this. A drive has no editor, so a
+  // tap does nothing.
+  const latestProps = useRef<TimelineBlockProps>(null as unknown as TimelineBlockProps);
+  latestProps.current = {
+    item: { id: "drive", siteName: "", slotIndex: startSlot, durationSlots: slots },
+    maxSlots: PLANNER.MAX_GRID_SLOTS,
+    slotHeight: H,
+    // The engine rounds to the nearest half hour; a drive also keeps between its places.
+    onDrop: (_id, slot) => {
+      const to = driveDropSlot(slot, lo, hi);
+      const landed = to === startSlot ? startSlot : onMove?.(to);
+      return typeof landed === "number" ? landed : startSlot;
+    },
+    onEdit: () => {},
+    onDragStart: () => onDragStart?.(),
+    onDragEnd: () => onDragEnd?.(),
+    holdToDrag,
+  };
+  const [gesture] = useState(() => {
+    const handlers = createTimelineBlockPanHandlers(pan, currentY, latestProps, () => {});
+    return { handlers, responder: PanResponder.create(handlers) };
+  });
+  // Removed mid-hold (the day switched): the hold's timer goes with it.
+  useEffect(() => gesture.handlers.cancelHold, [gesture]);
 
   // A half hour at a time with a screen reader (swipe up or down).
   const onAccessibilityAction = (e: { nativeEvent: { actionName: string } }) => {
@@ -101,8 +106,8 @@ export function DriveBlock({ fromLabel, toLabel, startSlot, slots, earliest, lat
             onAccessibilityAction,
           }
         : {})}
-      style={[styles.container, { height: slots * H, transform: [{ translateY: y }] }]}
-      {...(movable ? pan.panHandlers : {})}
+      style={[styles.container, { height: slots * H, transform: [{ translateY: pan.y }] }]}
+      {...(movable ? gesture.responder.panHandlers : {})}
     >
       <View style={styles.inner}>
         <Car color={tokens.colors.text2} size={22} strokeWidth={2} />

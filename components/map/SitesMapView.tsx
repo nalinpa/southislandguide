@@ -8,7 +8,8 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from "react";
-import { StyleSheet, View, Text, LayoutChangeEvent, Platform } from "react-native";
+import { StyleSheet, View, Text, LayoutChangeEvent, Platform, useColorScheme } from "react-native";
+import { DARK_READY } from "@/lib/ui/tokens";
 import ClusterMapView from "react-native-map-clustering";
 import MapView, { Marker, Region, MapType, UrlTile } from "react-native-maps";
 
@@ -16,7 +17,7 @@ import { SiteMarker } from "@/components/map/SiteMarker";
 import { OFFLINE_MAP_MAX_Z, OFFLINE_MAP_URL, type MapLevel } from "@/lib/offlineMap";
 import type { SiteCategory } from "@/lib/models";
 export { initialRegionFrom } from "./MapRegion";
-import { MAP_BOUNDS } from "./MapRegion";
+import { ISLAND_REGION, MAP_BOUNDS } from "./MapRegion";
 
 const DEFAULT_MAP_BOUNDS = {
   northEast: { latitude: MAP_BOUNDS.maxLat, longitude: MAP_BOUNDS.maxLng },
@@ -35,6 +36,7 @@ export type SiteMapPoint = {
 export type SitesMapViewHandle = {
   recenter: (lat: number, lng: number) => void;
   focusOn: (lat: number, lng: number) => void;
+  showIsland: () => void;
 };
 
 // react-native-maps rasterizes a non-tracked marker's children into a bitmap
@@ -92,17 +94,19 @@ function SiteClusterMarker({
   coordinate,
   count,
   onPress,
+  dark,
 }: {
   coordinate: { latitude: number; longitude: number };
   count: number;
   onPress: () => void;
+  dark: boolean;
 }) {
   const { settled, onLayout } = useSettleOnPaint();
 
   return (
     <Marker coordinate={coordinate} onPress={onPress} anchor={{ x: 0.5, y: 0.5 }} tracksViewChanges={!settled}>
-      <View style={styles.cluster} onLayout={onLayout}>
-        <Text style={styles.clusterText}>{count}</Text>
+      <View style={[styles.cluster, dark && styles.clusterDark]} onLayout={onLayout}>
+        <Text style={[styles.clusterText, dark && styles.clusterTextDark]}>{count}</Text>
       </View>
     </Marker>
   );
@@ -143,6 +147,7 @@ const SitesMapViewInner = forwardRef<
         400,
       );
     },
+    showIsland: () => mapRef.current?.animateToRegion(ISLAND_REGION, 400),
   }));
 
   useEffect(() => {
@@ -209,6 +214,10 @@ const SitesMapViewInner = forwardRef<
     });
   }, [sites, selectedSiteId, onPressSite]);
 
+  // A cluster is drawn once into a picture, so its colours are chosen here, not paired.
+  const scheme = useColorScheme();
+  const dark = DARK_READY && scheme === "dark";
+
   // The saved map's credit is the map screen's (app/(app)/(tabs)/map/index.tsx), under the
   // search bar: down here the bottom sheet covered it.
   return (
@@ -247,10 +256,12 @@ const SitesMapViewInner = forwardRef<
           const [lng, lat] = geometry.coordinates;
           return (
             <SiteClusterMarker
-              key={`cluster-${id}`}
+              // The look in the key: a switch of the phone's light or dark draws them again.
+              key={`cluster-${id}-${dark ? "dark" : "light"}`}
               coordinate={{ latitude: lat, longitude: lng }}
               count={point_count}
               onPress={onPress}
+              dark={dark}
             />
           );
         }}
@@ -300,4 +311,8 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "700",
   },
+  // Dark: turned round, white with a teal ring and teal number (owner, 2026-11-14), so it
+  // stands off the dark map. Teal on white is 7.7:1.
+  clusterDark: { backgroundColor: "#FFFFFF", borderColor: "#095C65" },
+  clusterTextDark: { color: "#095C65" },
 });

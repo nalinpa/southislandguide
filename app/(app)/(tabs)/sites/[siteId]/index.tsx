@@ -10,6 +10,7 @@ import { ArrowLeft, ExternalLink, Star } from "lucide-react-native";
 import { LoadingState, ErrorCard, Stack, AppText, AppButton, ReviewModal, components } from "@/lib/uiKit";
 import { cardLift, darkEdge, lifted, tokens, SWEEP_COLORS, SWEEP_BUTTON, REVIEW_COLORS } from "@/lib/ui/tokens";
 import { hooksBag } from "@/lib/hooksBag";
+import { openDirections } from "@/lib/utils/directions";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useSavedSites } from "@/lib/hooks/useSavedSites";
 import { useItineraries } from "@/lib/hooks/useItineraries";
@@ -106,11 +107,7 @@ function SiteDetail({ id }: { id: string }) {
   const { drafts, setDraft, clearDraft } = hooksBag.useDraftsStore();
   const currentDraft = drafts[id] || { rating: null, text: "" };
 
-  const handleDirections = useCallback(() => {
-    const lat = site?.lat;
-    const lng = site?.lng;
-    Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`);
-  }, [site?.lat, site?.lng]);
+  const handleDirections = useCallback(() => void openDirections(site?.lat, site?.lng), [site?.lat, site?.lng]);
 
   const scrollY = useRef(new Animated.Value(0)).current;
   const imageTranslateY = scrollY.interpolate({

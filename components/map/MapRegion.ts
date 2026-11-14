@@ -14,6 +14,14 @@ export const MAP_BOUNDS = {
   maxLng: 174.6,
 };
 
+// The whole island on screen: what the my-location button shows someone overseas.
+export const ISLAND_REGION: Region = {
+  latitude: (MAP_BOUNDS.minLat + MAP_BOUNDS.maxLat) / 2,
+  longitude: (MAP_BOUNDS.minLng + MAP_BOUNDS.maxLng) / 2,
+  latitudeDelta: MAP_BOUNDS.maxLat - MAP_BOUNDS.minLat,
+  longitudeDelta: MAP_BOUNDS.maxLng - MAP_BOUNDS.minLng,
+};
+
 export function isOnIsland(lat: number | null | undefined, lng: number | null | undefined): boolean {
   return (
     lat != null &&

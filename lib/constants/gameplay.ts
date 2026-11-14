@@ -3,6 +3,9 @@ export const PLANNER = {
   SLOT_HEIGHT: 72,
   // Total 30-min slots from 8:00 AM to 10:00 PM
   MAX_GRID_SLOTS: 28,
+  // How long a finger rests on a place or a drive before it picks up (ms). Until then a
+  // swipe scrolls the day (tester, 2026-11-14). Tune on the phone.
+  HOLD_TO_DRAG_MS: 350,
   // One trip each (owner, 2026-11-09: "people will really only have 1 trip"). Add to Trip
   // then goes straight to the add sheet, never "existing or new trip?". A paid unlock
   // could raise it.

@@ -49,6 +49,22 @@ describe("dayRouteUrl", () => {
     expect(q.get("destination")).toBe("-44.3,173.3");
   });
 
+  // Overseas, Google can't route from the phone (tester, 2026-11-14).
+  it("starts at the day's first stop from overseas", () => {
+    const q = parse(dayRouteUrl([item("p2", 10), item("p0", 1), item("p1", 5)], places, true));
+
+    expect(q.get("origin")).toBe("-43,172");
+    expect(q.get("waypoints")).toBe("-43.1,172.1");
+    expect(q.get("destination")).toBe("-43.2,172.2");
+  });
+
+  it("opens the one stop itself from overseas, since there's nothing to drive", () => {
+    const url = dayRouteUrl([item("p3", 2)], places, true)!;
+
+    expect(url).toMatch(/^https:\/\/www\.google\.com\/maps\/search\//);
+    expect(new URL(url).searchParams.get("query")).toBe("-43.3,172.3");
+  });
+
   it("is null for a day with nothing to drive to", () => {
     expect(dayRouteUrl([], places)).toBeNull();
     expect(dayRouteUrl([item("nowhere", 1)], places)).toBeNull();

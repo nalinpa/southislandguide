@@ -8,12 +8,13 @@
 // router.push/replace-based auto-redirect could leave the tab stuck showing
 // a permanent loading state after navigating away and back.
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, AppState, Alert, Modal, PanResponder, Linking } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, AppState, Alert, Modal, PanResponder } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useFocusEffect } from "expo-router";
 import { randomUUID } from "expo-crypto";
 import { Car, Plus, MoreHorizontal, X, Navigation } from "lucide-react-native";
 import * as Sentry from "@sentry/react-native";
+import * as Haptics from "expo-haptics";
 
 import { Screen, LoadingState, ErrorCard, AppText, AppButton, AppIconButton, components } from "@/lib/uiKit";
 import { TopBar } from "@/components/layout/TopBar";
@@ -46,6 +47,7 @@ import {
 } from "@/lib/utils/itineraryPhysics";
 import { areaName } from "@/lib/areas";
 import { dayRouteUrl } from "@/lib/utils/dayRoute";
+import { openMaps, phoneIsOutsideNZ } from "@/lib/utils/directions";
 import { addTripToCalendar } from "@/lib/tripCalendar";
 import { setPendingSlot } from "@/lib/pendingSlot";
 import { areaImage } from "@/lib/areaImages";
@@ -53,7 +55,9 @@ import { PLANNER } from "@/lib/constants/gameplay";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
 import type { Itinerary, ItineraryDay, ItineraryItem } from "@/lib/models";
 
-const { SLOT_HEIGHT, MAX_GRID_SLOTS } = PLANNER;
+const { SLOT_HEIGHT, MAX_GRID_SLOTS, HOLD_TO_DRAG_MS } = PLANNER;
+// The buzz when a held place or drive picks up: the sign that it will now move.
+const liftBuzz = () => void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
 const generateTimeSlots = () => {
   const slots = [];
@@ -732,7 +736,11 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
         earliest={leg.move?.earliest}
         latest={leg.move?.latest}
         onMove={leg.move ? (slot) => handleMoveDrive(leg.move!.intoId, slot) : undefined}
-        onDragStart={() => setIsDragging(true)}
+        holdToDrag={HOLD_TO_DRAG_MS}
+        onDragStart={() => {
+          liftBuzz();
+          setIsDragging(true);
+        }}
         onDragEnd={() => setIsDragging(false)}
       />
     ) : (
@@ -868,7 +876,10 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                 variant="secondary"
                 size="sm"
                 icon={Navigation}
-                onPress={() => void Linking.openURL(routeUrl)}
+                // From overseas the drive starts at the day's first stop (lib/utils/dayRoute.ts).
+                onPress={() =>
+                  void phoneIsOutsideNZ().then((abroad) => openMaps(dayRouteUrl(localItems, places, abroad) ?? routeUrl))
+                }
               >
                 {`Drive Day ${(localTrip?.days.findIndex((d) => d.id === activeDay?.id) ?? 0) + 1} in Google Maps`}
               </AppButton>
@@ -915,8 +926,11 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                   colors={{ grip: "rgba(255,255,255,0.7)", note: tokens.colors.success }}
                   maxSlots={TIME_SLOTS.length}
                   slotHeight={SLOT_HEIGHT}
+                  // Hold to move: a swipe over a place scrolls the day, as other calendars do.
+                  holdToDrag={HOLD_TO_DRAG_MS}
                   onDrop={handleDrop}
                   onDragStart={() => {
+                    liftBuzz();
                     hasUnsavedChanges.current = true;
                     setIsDragging(true);
                   }}

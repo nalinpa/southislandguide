@@ -68,7 +68,7 @@ export async function fetchOfflineMapManifest(): Promise<OfflineMapManifest> {
     if (!res.ok) throw new Error(`Map list: ${res.status}`);
     const text = await res.text();
     const manifest = JSON.parse(text);
-    manifestFile().write(text);
+    manifestFile().writeSync(text);
     return manifest;
   } catch (e) {
     if (manifestFile().exists) return JSON.parse(await manifestFile().text());
@@ -110,7 +110,7 @@ async function unpack(pack: OfflineMapPack, bin: File, onTile: () => void, shoul
         made.add(`${z}/${x}`);
       }
       handle.offset = offset;
-      new File(dir, z, x, y).write(handle.readBytes(length));
+      new File(dir, z, x, y).writeSync(handle.readBytesSync(length));
       onTile();
       // Reading and writing here block the screen, so let it draw now and then.
       if (i % YIELD_EVERY === YIELD_EVERY - 1) {

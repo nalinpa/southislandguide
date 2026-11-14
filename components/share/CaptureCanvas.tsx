@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Image, Text, type ViewInstance } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import type { ShareSitePayload } from "@/lib/services/share/types";
 interface CaptureCanvasProps {
@@ -18,7 +18,7 @@ const [r, g, b] = [1, 3, 5].map((i) => parseInt(INK.slice(i, i + 2), 16));
 const shade = (alpha: number) => `rgba(${r},${g},${b},${alpha})`;
 
 // Canvas is 1080×1350 (4:5) — rendered off-screen, captured by react-native-view-shot
-export const CaptureCanvas = forwardRef<View, CaptureCanvasProps>(
+export const CaptureCanvas = forwardRef<ViewInstance, CaptureCanvasProps>(
   ({ payload, photoUri, onImageLoad }, ref) => (
     <View pointerEvents="none" style={styles.hiddenContainer}>
       <View ref={ref} collapsable={false} style={styles.canvas}>

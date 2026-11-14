@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { FlashList } from "@shopify/flash-list";
-import { Swipeable } from "react-native-gesture-handler";
+import ReanimatedSwipeable, { type SwipeableMethods } from "react-native-gesture-handler/ReanimatedSwipeable";
 import { router } from "expo-router";
 import { Heart, Trash2 } from "lucide-react-native";
 
@@ -31,10 +31,10 @@ function SwipeableRow({
   showArea: boolean;
   onUnsave: () => void;
 }) {
-  const swipeRef = useRef<Swipeable>(null);
+  const swipeRef = useRef<SwipeableMethods>(null);
 
   return (
-    <Swipeable
+    <ReanimatedSwipeable
       ref={swipeRef}
       renderRightActions={() => (
         <TouchableOpacity
@@ -63,7 +63,7 @@ function SwipeableRow({
         onPress={(id) => router.push(`/(app)/(tabs)/sites/${id}`)}
         index={index}
       />
-    </Swipeable>
+    </ReanimatedSwipeable>
   );
 }
 

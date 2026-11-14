@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  InteractionManager,
   TextInput,
   KeyboardAvoidingView,
   Platform,
@@ -118,7 +117,8 @@ export function EditItemModal({
   const handleViewDetails = () => {
     if (!item) return;
     onClose();
-    InteractionManager.runAfterInteractions(() => {
+    // After the sheet's close has started; InteractionManager is gone in RN 0.88.
+    requestIdleCallback(() => {
       router.push(`/(app)/(tabs)/sites/${item.siteId.trim()}`);
     });
   };

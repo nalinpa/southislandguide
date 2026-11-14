@@ -1,4 +1,6 @@
-import type { ImageSourcePropType } from "react-native";
+// A bundled require() is a number, a place photo is { uri }. Exactly that, so it fits both
+// RN's Image and expo-image (RN 0.88's ImageSourcePropType no longer fits expo-image).
+export type SiteImageSource = number | { uri: string };
 import type { SiteCategory } from "@/lib/models";
 import { PLACE_IMAGE_TYPES } from "@/lib/placeImageTypes";
 
@@ -16,7 +18,7 @@ import { PLACE_IMAGE_TYPES } from "@/lib/placeImageTypes";
 // Records over SiteCategory, so adding a category to lib/models.ts won't
 // compile until it has both images. Paths are relative because require()
 // needs a static string Metro can resolve at bundle time.
-const FULL: Record<SiteCategory, ImageSourcePropType> = {
+const FULL: Record<SiteCategory, SiteImageSource> = {
   Food: require("../assets/images/categories/full/Food.webp"),
   Attractions: require("../assets/images/categories/full/Attractions.webp"),
   Culture: require("../assets/images/categories/full/Culture.webp"),
@@ -28,7 +30,7 @@ const FULL: Record<SiteCategory, ImageSourcePropType> = {
   Stay: require("../assets/images/categories/full/Stay.webp"),
 };
 
-const THUMB: Record<SiteCategory, ImageSourcePropType> = {
+const THUMB: Record<SiteCategory, SiteImageSource> = {
   Food: require("../assets/images/categories/thumb/Food.webp"),
   Attractions: require("../assets/images/categories/thumb/Attractions.webp"),
   Culture: require("../assets/images/categories/thumb/Culture.webp"),
@@ -57,7 +59,7 @@ export type PlaceImageType =
   | "steak"
   | "ice-cream";
 
-const TYPE_FULL: Record<PlaceImageType, ImageSourcePropType> = {
+const TYPE_FULL: Record<PlaceImageType, SiteImageSource> = {
   camping: require("../assets/images/types/full/camping.webp"),
   carcamp: require("../assets/images/types/full/carcamp.webp"),
   dorm: require("../assets/images/types/full/dorm.webp"),
@@ -71,7 +73,7 @@ const TYPE_FULL: Record<PlaceImageType, ImageSourcePropType> = {
   "ice-cream": require("../assets/images/types/full/ice-cream.webp"),
 };
 
-const TYPE_THUMB: Record<PlaceImageType, ImageSourcePropType> = {
+const TYPE_THUMB: Record<PlaceImageType, SiteImageSource> = {
   camping: require("../assets/images/types/thumb/camping.webp"),
   carcamp: require("../assets/images/types/thumb/carcamp.webp"),
   dorm: require("../assets/images/types/thumb/dorm.webp"),
@@ -103,7 +105,7 @@ export function siteImage(
   category: SiteCategory | null | undefined,
   size: "full" | "thumb",
   siteId?: string | null,
-): ImageSourcePropType | null {
+): SiteImageSource | null {
   if (url) return { uri: url };
   const type = siteId ? TYPE_OF.get(siteId) : undefined;
   if (type) return (size === "full" ? TYPE_FULL : TYPE_THUMB)[type];

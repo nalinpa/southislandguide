@@ -19,6 +19,7 @@ jest.mock("expo-router", () => {
   return {
     Stack,
     useNavigationContainerRef: () => mockNavigationRef,
+    useRouter: () => mockRouter,
   };
 });
 jest.mock("@/lib/hooksBag", () => ({
@@ -55,7 +56,8 @@ jest.mock("@/lib/tour/SpotlightOverlay", () => ({
 }));
 
 const mockRequestReview = jest.fn();
-const mockNavigationRef = { resetRoot: jest.fn() };
+const mockNavigationRef = {};
+const mockRouter = { replace: jest.fn() };
 let mockOpenCount: number | null = null;
 
 import React from "react";
@@ -114,8 +116,8 @@ describe("ErrorBoundary", () => {
     expect(screen.getByText("Please try again.")).toBeTruthy();
 
     await fireEvent.press(screen.getByText("Restart App"));
-    expect(mockNavigationRef.resetRoot).toHaveBeenCalledTimes(1);
+    expect(mockRouter.replace).toHaveBeenCalledWith("/");
     expect(retry).toHaveBeenCalledTimes(1);
-    expect(mockNavigationRef.resetRoot.mock.invocationCallOrder[0]).toBeLessThan(retry.mock.invocationCallOrder[0]);
+    expect(mockRouter.replace.mock.invocationCallOrder[0]).toBeLessThan(retry.mock.invocationCallOrder[0]);
   });
 });

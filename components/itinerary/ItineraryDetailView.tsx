@@ -8,7 +8,7 @@
 // router.push/replace-based auto-redirect could leave the tab stuck showing
 // a permanent loading state after navigating away and back.
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, AppState, Alert, Modal, PanResponder } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, AppState, Alert, Modal, PanResponder, type ScrollViewInstance } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useFocusEffect } from "expo-router";
 import { randomUUID } from "expo-crypto";
@@ -156,7 +156,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   // Opening today's day, start with "now" in the upper part of the screen
   // rather than at 8 AM. Keyed on the day and the view only (the timeline is drawn
   // afresh each time it is swapped to): it must not re-scroll each minute as the line moves.
-  const timelineScrollRef = useRef<ScrollView>(null);
+  const timelineScrollRef = useRef<ScrollViewInstance>(null);
   useEffect(() => {
     if (nowTop != null) timelineScrollRef.current?.scrollTo({ y: Math.max(0, nowTop - 120), animated: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -284,7 +284,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   // The day strip keeps the open day's tab in the middle, wherever it is along the strip:
   // a long trip has far more days than fit across the screen. Positions come from layout,
   // so a tab that hasn't been laid out yet is scrolled to when it is.
-  const dayStripRef = useRef<ScrollView>(null);
+  const dayStripRef = useRef<ScrollViewInstance>(null);
   const dayStripWidth = useRef(0);
   const dayTabFrames = useRef<Record<string, { x: number; width: number }>>({});
   const scrollStripTo = (dayId: string | undefined, animated: boolean) => {

@@ -52,7 +52,10 @@ export function ListItem({
     <MotiView
       from={{ opacity: 0, translateY: 20 }}
       animate={{ opacity: 1, translateY: 0 }}
-      transition={{ type: "timing", duration: 250, delay: Math.min(index * 50, 300) }}
+      // ponytail: cast. Moti 0.30's transition type can't be met under Reanimated 4.7 /
+      // RN 0.88 types (an index signature swallows `type`); it runs the same. Drop the cast
+      // when Moti's types catch up.
+      transition={{ type: "timing", duration: 250, delay: Math.min(index * 50, 300) } as never}
     >
       <TouchableOpacity
         testID={featured ? "featured-card" : undefined}

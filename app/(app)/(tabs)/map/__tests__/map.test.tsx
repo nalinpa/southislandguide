@@ -216,7 +216,7 @@ describe("the saved map", () => {
 
   // Under the search bar, where the bottom sheet can't cover it (owner, 2026-11-11).
   it("puts the credit in the top stack, and a tap opens the licence", async () => {
-    const openURL = jest.spyOn(Linking, "openURL").mockResolvedValue(true);
+    const openURL = jest.spyOn(Linking, "openURL").mockResolvedValue(undefined);
     mockNet.isConnected = false;
     mockOfflineMap.level = "standard";
     const view = await render(<MapScreen />);

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
-import type { View } from "react-native";
+import type { ViewInstance } from "react-native";
 
 import { useTourIfAny } from "./TourContext";
 
@@ -22,7 +22,7 @@ export function useTourTarget(id: string) {
   const tour = useTourIfAny();
   const registerTarget = tour?.registerTarget;
   const current = tour?.active ? tour.step?.id : undefined;
-  const ref = useRef<View>(null);
+  const ref = useRef<ViewInstance>(null);
 
   const measure = useCallback(() => {
     if (!registerTarget) return;

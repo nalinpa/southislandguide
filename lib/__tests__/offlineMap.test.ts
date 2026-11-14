@@ -78,7 +78,7 @@ beforeEach(async () => {
   mockResumable.mockReset().mockImplementation((url: string, fileUri: string, _options, onWrite) => ({
     downloadAsync: async () => {
       const bytes = bins[url.split("/").pop()!];
-      new File(fileUri).write(bytes);
+      new File(fileUri).writeSync(bytes);
       onWrite({ totalBytesWritten: bytes.length, totalBytesExpectedToWrite: bytes.length });
       return { status: 200, uri: fileUri };
     },
@@ -202,7 +202,7 @@ it("Stop cancels the downloads", async () => {
 it("a pack that isn't the size the list says is thrown away", async () => {
   mockResumable.mockImplementation((_url: string, fileUri: string) => ({
     downloadAsync: async () => {
-      new File(fileUri).write("Not found");
+      new File(fileUri).writeSync("Not found");
       return { status: 404, uri: fileUri };
     },
     cancelAsync: async () => {},
@@ -277,7 +277,7 @@ describe("a save that doesn't finish", () => {
   it("download: false unpacks a pack that has landed and downloads nothing", async () => {
     const m = manifest();
     packsDir().create({ intermediates: true, idempotent: true });
-    new File(packsDir(), "standard-1.bin").write(bins["standard-1.bin"]);
+    new File(packsDir(), "standard-1.bin").writeSync(bins["standard-1.bin"]);
 
     expect(await saveOfflineMap(m, "standard", { ...quiet, download: false })).toBe("stopped");
 

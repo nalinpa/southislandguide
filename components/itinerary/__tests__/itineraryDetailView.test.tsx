@@ -357,7 +357,7 @@ describe("the trip", () => {
 
   // The open day as one Google Maps drive (tester, 2026-11-09).
   it("opens the day's stops as a drive in Google Maps", async () => {
-    const openURL = jest.spyOn(Linking, "openURL").mockResolvedValue(true);
+    const openURL = jest.spyOn(Linking, "openURL").mockResolvedValue(undefined);
     const lookup = mockLookup.places;
     mockLookup.places = (id: string) => (id === "site-1" ? { area: "rotorua", lat: -38.36, lng: 176.37 } as any : lookup(id));
     const view = await openTrip();

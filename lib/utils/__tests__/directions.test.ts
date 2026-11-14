@@ -21,7 +21,7 @@ beforeEach(() => {
   jest.clearAllMocks();
   perm.mockResolvedValue({ granted: true });
   last.mockResolvedValue(QUEENSTOWN);
-  openURL = jest.spyOn(Linking, "openURL").mockResolvedValue(true);
+  openURL = jest.spyOn(Linking, "openURL").mockResolvedValue(undefined);
 });
 afterEach(() => jest.restoreAllMocks());
 

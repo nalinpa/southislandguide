@@ -1,7 +1,7 @@
 import "@/lib/polyfills/buffer";
 import React, { useEffect } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { Stack, useNavigationContainerRef, ErrorBoundaryProps } from "expo-router";
+import { Stack, useNavigationContainerRef, useRouter, ErrorBoundaryProps } from "expo-router";
 import { isRunningInExpoGo } from "expo";
 import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -69,6 +69,9 @@ function RootLayout() {
               options={{
                 presentation: "modal",
                 headerShown: true,
+                // Router 58 makes stack headers see-through Liquid Glass on iOS 26+, with the
+                // content running under them. Kept as 1.2 had it: the card starts below.
+                headerTransparent: false,
                 title: "Share",
               }}
             />
@@ -82,12 +85,12 @@ function RootLayout() {
 }
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
-  const navigationRef = useNavigationContainerRef();
+  const router = useRouter();
   // retry() alone re-renders the route that crashed, so a crash from bad data loops.
-  // Resetting the navigation state first sends the app back to its first screen,
-  // as a cold start would.
+  // Going to the start screen first ("/", app/index.tsx) sends the app where a cold start
+  // would. Router 58 dropped the ref's resetRoot; this is its migration guide's replacement.
   const restart = () => {
-    navigationRef.resetRoot();
+    router.replace("/");
     retry();
   };
 

@@ -24,11 +24,12 @@ jest.mock("@shopify/flash-list", () => {
       ),
   };
 });
-jest.mock("react-native-gesture-handler", () => {
+jest.mock("react-native-gesture-handler/ReanimatedSwipeable", () => {
   const React = require("react");
   const { View } = require("react-native");
   return {
-    Swipeable: React.forwardRef(({ children, renderRightActions }: any, _ref: any) =>
+    __esModule: true,
+    default: React.forwardRef(({ children, renderRightActions }: any, _ref: any) =>
       React.createElement(View, null, children, renderRightActions()),
     ),
   };

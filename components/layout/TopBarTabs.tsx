@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View, type ScrollViewInstance } from "react-native";
 
 import { AppText } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
@@ -34,7 +34,7 @@ export function tabScrollX(tab: Span, stripWidth: number, contentWidth: number):
 // waits for the tabs to be laid out: their positions only exist after the first render.
 export function TopBarTabs<K extends string | null>({ tabs, selected, onSelect, tone = "bar" }: TopBarTabsProps<K>) {
   const onPage = tone === "page";
-  const scroller = useRef<ScrollView>(null);
+  const scroller = useRef<ScrollViewInstance>(null);
   const spans = useRef(new Map<string, Span>());
   const [stripWidth, setStripWidth] = useState(0);
   const [contentWidth, setContentWidth] = useState(0);

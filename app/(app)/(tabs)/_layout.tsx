@@ -122,6 +122,13 @@ export default function TabsLayout() {
       <Tabs.Screen name="itinerary" />
       <Tabs.Screen name="map" />
       <Tabs.Screen name="account" />
+      {/* Not tab buttons (TabBar draws ALL_TABS), but declared: Expo Router 58 sends a tabs
+          navigator back to its first tab when the focused route isn't declared. */}
+      <Tabs.Screen name="sites/[siteId]" />
+      <Tabs.Screen name="sites/[siteId]/reviews" />
+      <Tabs.Screen name="itinerary/[itineraryId]" />
+      <Tabs.Screen name="guide" />
+      <Tabs.Screen name="guide/[slug]" />
     </Tabs>
   );
 }

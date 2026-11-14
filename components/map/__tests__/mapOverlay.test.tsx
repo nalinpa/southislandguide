@@ -33,6 +33,7 @@ jest.mock("react-native-safe-area-context", () => ({
 import React from "react";
 import { Linking } from "react-native";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { MapOverlayCard } from "@/components/map/MapOverlay";
 import { tokens } from "@/lib/ui/tokens";
@@ -58,7 +59,12 @@ const baseProps = {
 };
 
 const openSheet = (over: Record<string, unknown> = {}) =>
-  render(<MapOverlayCard {...(baseProps as any)} {...(over as any)} />);
+  // Gesture handler 3 needs its root view, as app/_layout.tsx gives the real screen.
+  render(
+    <GestureHandlerRootView>
+      <MapOverlayCard {...(baseProps as any)} {...(over as any)} />
+    </GestureHandlerRootView>,
+  );
 
 let openUrlSpy: jest.SpyInstance;
 

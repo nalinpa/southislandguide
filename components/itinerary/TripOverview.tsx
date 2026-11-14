@@ -1,5 +1,5 @@
 import { useMemo, useRef, type ReactNode } from "react";
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, type ImageSourcePropType } from "react-native";
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, type ImageSourcePropType, type ScrollViewInstance } from "react-native";
 import { Car, ChevronRight, MapPin } from "lucide-react-native";
 
 import { tokens } from "@/lib/ui/tokens";
@@ -58,7 +58,7 @@ export function TripOverview({ title, days, places, imageFor, onOpenDay, header,
 
   // Opens scrolled to today's row: a trip can run three weeks or more, and on the road
   // today is the one that matters. Once, when that row is first laid out.
-  const scrollRef = useRef<ScrollView>(null);
+  const scrollRef = useRef<ScrollViewInstance>(null);
   const scrolledToToday = useRef(false);
 
   return (

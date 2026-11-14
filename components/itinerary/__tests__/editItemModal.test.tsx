@@ -25,7 +25,7 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { Alert, InteractionManager } from "react-native";
+import { Alert } from "react-native";
 import { fireEvent, render } from "@testing-library/react-native";
 
 import { EditItemModal } from "@/components/itinerary/EditItemModal";
@@ -52,24 +52,19 @@ const open = (over: Record<string, unknown> = {}) =>
   render(<EditItemModal item={item} currentDayId="day-1" availableDays={days} {...handlers} {...(over as any)} />);
 
 let alertSpy: jest.SpyInstance;
-let interactionSpy: jest.SpyInstance;
-
 beforeEach(() => {
   jest.clearAllMocks();
   mockIap.error = null;
   alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
-  // Runs the queued navigation straight away instead of waiting for a real frame.
-  interactionSpy = jest
-    .spyOn(InteractionManager, "runAfterInteractions")
-    .mockImplementation(((cb: any) => {
-      cb();
-      return { then: () => {}, done: () => {}, cancel: () => {} };
-    }) as never);
+  // Runs the queued navigation straight away instead of waiting for an idle frame.
+  global.requestIdleCallback = ((cb: any) => {
+    cb({ didTimeout: false, timeRemaining: () => 0 });
+    return 0;
+  }) as never;
 });
 
 afterEach(() => {
   alertSpy.mockRestore();
-  interactionSpy.mockRestore();
 });
 
 describe("what it shows", () => {

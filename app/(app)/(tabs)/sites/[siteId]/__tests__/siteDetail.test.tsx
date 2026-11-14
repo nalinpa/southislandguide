@@ -104,13 +104,12 @@ const makeSite = (over: Partial<Site> = {}): Site => ({
   ...over,
 });
 
-// renderRouter predates RNTL 14's async render: it attaches getPathname() and friends to the
-// promise render now returns, and awaiting that promise drops them. So the promise itself is
-// kept here and the route is read from it. (Its toHavePathname matchers work at runtime but
-// aren't typed for @types/jest, so plain toBe/toEqual keep `npm run typecheck` clean.)
-let route: ReturnType<typeof renderRouter>;
+// Router 58's renderRouter is async and its result carries getPathname() and friends.
+// (Its toHavePathname matchers work at runtime but aren't typed for @types/jest, so plain
+// toBe/toEqual keep `npm run typecheck` clean.)
+let route: Awaited<ReturnType<typeof renderRouter>>;
 const openDetail = async (id = "site-1") => {
-  route = renderRouter(
+  route = await renderRouter(
     {
       "(app)/(tabs)/sites/[siteId]/index": SiteDetailRoute,
       "(app)/(tabs)/sites/[siteId]/reviews": () => <Text>Reviews Route</Text>,
@@ -118,7 +117,6 @@ const openDetail = async (id = "site-1") => {
     },
     { initialUrl: `/sites/${id}` },
   );
-  await route;
 };
 
 // renderRouter switches jest to fake timers and leaves them on.

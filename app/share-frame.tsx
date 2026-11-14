@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Alert, Image, Pressable, StyleSheet, View } from "react-native";
+import { Alert, Image, Pressable, StyleSheet, View, type ViewInstance } from "react-native";
 import * as Linking from "expo-linking";
 import { useLocalSearchParams } from "expo-router";
 import * as Haptics from "expo-haptics";
@@ -19,7 +19,7 @@ export default function ShareFrameScreen() {
   const [rendering, setRendering] = useState(false);
   const [sharing, setSharing] = useState(false);
 
-  const shareCardRef = useRef<View>(null);
+  const shareCardRef = useRef<ViewInstance>(null);
   const params = useLocalSearchParams<{ entityId: string; entityName: string }>();
 
   const dateLabel = useMemo(

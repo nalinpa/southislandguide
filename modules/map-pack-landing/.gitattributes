@@ -1,0 +1,3 @@
+# The fingerprint hashes ios/ byte for byte, and core.autocrlf would turn these files to CRLF
+# on the next checkout, moving the runtime away from the builds. Keep them as committed.
+* text eol=lf

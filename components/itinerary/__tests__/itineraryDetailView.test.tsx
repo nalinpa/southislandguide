@@ -336,13 +336,13 @@ describe("the trip", () => {
     expect(within(row).getByText("Days")).toBeTruthy();
   });
 
-  // The day tabs sit in the dark brand bar, so the open day takes the highlight's
-  // on-dark twin, like the selected category on Explore.
-  it("marks the open day in the highlight colour, and only that one", async () => {
+  // Since the design sweep the day tabs sit on the white page under the bar: the open day
+  // is teal, like the selected category on Explore, and the rest one grey.
+  it("marks the open day in the selected colour, and only that one", async () => {
     const view = await openTrip();
 
-    expect(view.getByText("Day 1")).toHaveStyle({ color: tokens.colors.highlightOnDark });
-    expect(view.getByText("Day 2")).toHaveStyle({ color: "#FFFFFF" });
+    expect(view.getByText("Day 1")).toHaveStyle({ color: tokens.colors.selected });
+    expect(view.getByText("Day 2")).toHaveStyle({ color: tokens.colors.textMuted });
   });
 
   it("shows the stops on the day it opens on", async () => {
@@ -853,7 +853,7 @@ describe("the trip view", () => {
 
     expect(isSelected(view, "Trip")).toBe(true);
     expect(isSelected(view, "Days")).toBe(false);
-    expect(view.getByText("Trip")).toHaveStyle({ color: tokens.colors.text });
+    expect(view.getByText("Trip")).toHaveStyle({ color: tokens.colors.accentWarm });
     expect(view.queryByText("Day 1")).toBeNull();
   });
 
@@ -864,7 +864,7 @@ describe("the trip view", () => {
 
     expect(isSelected(view, "Days")).toBe(true);
     expect(view.getByText("Wai-O-Tapu")).toBeTruthy();
-    expect(view.getByText("Day 1")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+    expect(view.getByText("Day 1")).toHaveStyle({ color: tokens.colors.selected });
     expect(view.queryByText(/^Day 1 · /)).toBeNull();
   });
 
@@ -885,7 +885,7 @@ describe("the trip view", () => {
 
     await waitFor(() => expect(view.getByText("Gondola")).toBeTruthy());
     expect(view.queryByText("Gardens")).toBeNull();
-    expect(view.getByText("Day 2")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+    expect(view.getByText("Day 2")).toHaveStyle({ color: tokens.colors.selected });
   });
 
   // Day 1 is the open day from the start, so tapping its row changes no day: it must
@@ -940,7 +940,7 @@ describe("the trip view", () => {
     await view.rerender(<ItineraryDetailView tripId="t1" jumpToDay="day_3" jumpToSlot="4" />);
 
     await waitFor(() => expect(view.getByText("Castle")).toBeTruthy());
-    expect(view.getByText("Day 3")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+    expect(view.getByText("Day 3")).toHaveStyle({ color: tokens.colors.selected });
   });
 
   // No photo of the town itself yet: its top featured place's photo stands in.
@@ -1027,14 +1027,14 @@ describe("a long trip", () => {
     mockTrips.itineraries = [longTrip(-14)];
     const view = await openTrip();
 
-    expect(view.getByText("Day 15")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+    expect(view.getByText("Day 15")).toHaveStyle({ color: tokens.colors.selected });
   });
 
   it("opens Days on the first day before the trip starts", async () => {
     mockTrips.itineraries = [longTrip(3)];
     const view = await openTrip();
 
-    expect(view.getByText("Day 1")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+    expect(view.getByText("Day 1")).toHaveStyle({ color: tokens.colors.selected });
   });
 
   // The open day's tab is put in the middle of the strip, wherever it is along it.

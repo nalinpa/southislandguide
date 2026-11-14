@@ -103,20 +103,15 @@ export function DangerZoneCard() {
 }
 
 const styles = StyleSheet.create({
-  section: { paddingHorizontal: tokens.space.md, paddingVertical: 24 },
-  sectionLabel: {
-    fontSize: 12,
-    fontWeight: "800",
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
-    color: tokens.colors.text2,
-    marginBottom: 16,
-  },
+  section: { paddingHorizontal: tokens.space.md, paddingTop: 14, paddingBottom: 16 },
+  // A section's name: small and grey, as written, a step under the rows it heads, with the
+  // same gap under it in every group (design sweep, Profile round 3).
+  sectionLabel: { fontSize: 13, fontWeight: "600", color: tokens.colors.textMuted, marginBottom: 12 },
   row: { flexDirection: "row", gap: 14, alignItems: "flex-start" },
   iconWrap: {
     width: 40,
     height: 40,
-    borderRadius: tokens.radius.md,
+    borderRadius: 10,
     backgroundColor: tokens.colors.dangerDim,
     justifyContent: "center",
     alignItems: "center",
@@ -124,21 +119,23 @@ const styles = StyleSheet.create({
     flexShrink: 0,
   },
   textWrap: { flex: 1 },
-  title: { fontSize: 15, fontWeight: "600", color: tokens.colors.text, marginBottom: 4 },
-  description: { fontSize: 13, fontWeight: "400", color: tokens.colors.text2, lineHeight: 20, marginBottom: 14 },
-  errorText: { fontSize: 12, color: tokens.colors.danger, marginBottom: 10, lineHeight: 18 },
+  title: { fontSize: 16, fontWeight: "500", color: tokens.colors.text, marginBottom: 2 },
+  description: { fontSize: 14, color: tokens.colors.text2, lineHeight: 20, marginBottom: 12 },
+  errorText: { fontSize: 13, color: tokens.colors.danger, marginBottom: 10, lineHeight: 18 },
+  // The only red on the screen: red means "this deletes things".
   deleteBtn: {
     alignSelf: "flex-start",
-    borderWidth: 1,
+    height: 44,
+    justifyContent: "center",
+    borderWidth: 1.5,
     borderColor: tokens.colors.danger,
-    borderRadius: tokens.radius.sm,
-    paddingHorizontal: 14,
-    paddingVertical: 7,
+    borderRadius: 12,
+    paddingHorizontal: 16,
   },
   deleteBtnDisabled: { opacity: 0.4 },
-  deleteBtnText: { fontSize: 13, fontWeight: "500", color: tokens.colors.danger, letterSpacing: 0.1 },
-  modalOverlay: { flex: 1, backgroundColor: "rgba(36,26,18,0.60)", justifyContent: "center", padding: tokens.space.lg },
-  modalCard: { backgroundColor: tokens.colors.bgCard, borderRadius: tokens.radius.lg, padding: 28, alignItems: "center" },
+  deleteBtnText: { fontSize: 15, fontWeight: "600", color: tokens.colors.danger },
+  modalOverlay: { flex: 1, backgroundColor: "rgba(3,38,43,0.55)", justifyContent: "center", padding: tokens.space.lg },
+  modalCard: { backgroundColor: tokens.colors.page, borderRadius: 20, padding: 24, alignItems: "center" },
   modalIconWrap: {
     width: 56,
     height: 56,
@@ -160,7 +157,7 @@ const styles = StyleSheet.create({
   confirmBtn: {
     width: "100%",
     backgroundColor: tokens.colors.danger,
-    borderRadius: tokens.radius.md,
+    borderRadius: 12,
     paddingVertical: 15,
     alignItems: "center",
     marginBottom: 10,

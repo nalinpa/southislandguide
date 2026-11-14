@@ -31,6 +31,15 @@ export function slotIndexToTimeLabel(slotIndex: number): string {
   return `${displayHour}:${minutes.toString().padStart(2, "0")} ${period}`;
 }
 
+// "11:30 AM – 12:30 PM", or "1:00 – 2:00 PM" when both ends are in the same half of the
+// day: when a place starts and when it ends, for its block on the Days view.
+export function slotRangeLabel(slotIndex: number, slots: number): string {
+  const start = slotIndexToTimeLabel(slotIndex);
+  const end = slotIndexToTimeLabel(slotIndex + slots);
+  const [startClock, startPeriod] = start.split(" ");
+  return `${startPeriod === end.split(" ")[1] ? startClock : start} – ${end}`;
+}
+
 function forwardCascade(packed: ItineraryItem[], places: PlaceLookup, startFromSiteId?: string): ItineraryItem[] {
   // A day that starts in a different area from where the one before ended opens
   // with the drive, counted from 8:00 AM. A night in the same area adds nothing.

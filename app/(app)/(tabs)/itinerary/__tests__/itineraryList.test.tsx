@@ -107,13 +107,16 @@ describe("guest", () => {
     expect(view.queryByText("Create new trip")).toBeNull();
   });
 
-  // Mockup B (owner, 2026-11-10): the real suggested trip, locked, under the card.
-  it("shows a locked suggested trip under the card", async () => {
+  // Mockup B (owner, 2026-11-10): the real suggested trip, locked. Since the design sweep it
+  // comes first, with no count of days (its name says it) and the way to sign in in a row
+  // under it (docs/plans/design-sweep.md).
+  it("shows a locked suggested trip, then the way to sign in", async () => {
     const view = await render(<ItineraryListPage />);
 
     expect(view.getByText("A suggested trip")).toBeTruthy();
     expect(view.getByText("South Island in 7 Days")).toBeTruthy();
-    expect(view.getByText("7 days")).toBeTruthy();
+    expect(view.queryByText("7 days")).toBeNull();
+    expect(view.getByText("Sign In to Plan a Trip")).toBeTruthy();
     expect(view.getAllByLabelText(/, locked$/)).toHaveLength(7);
   });
 

@@ -108,7 +108,7 @@ export default function ShareFrameScreen() {
   };
 
   return (
-    <Screen scrollable>
+    <Screen background={tokens.colors.bgBase} scrollable>
       <CaptureCanvas ref={shareCardRef} payload={payload} photoUri={photoUri} onImageLoad={refreshPreview} />
 
       <Stack gap="lg">

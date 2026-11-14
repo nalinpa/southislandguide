@@ -85,7 +85,7 @@ export default function AccountScreen() {
               it on first open like everyone else. */}
           {tourAudience && (
             <>
-              <View style={styles.divider} />
+              <View style={styles.band} />
               <TouchableOpacity
                 style={styles.linkRow}
                 onPress={() => startTour(tourAudience)}
@@ -93,23 +93,23 @@ export default function AccountScreen() {
                 accessibilityRole="button"
               >
                 <Text style={styles.linkRowText}>Show me around</Text>
-                <ChevronRight size={16} color={tokens.colors.textMuted} strokeWidth={2} />
+                <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />
               </TouchableOpacity>
             </>
           )}
 
           {/* The map saved for no signal (docs/plans/offline-map.md). Guests too: the gaps
               in mobile coverage are the same for them. */}
-          <View style={styles.divider} />
+          <View style={styles.band} />
           <OfflineMapCard />
 
           {isAuthed && (
             <>
-              <View style={styles.divider} />
+              <View style={styles.band} />
               <ItinerariesCard />
-              <View style={styles.divider} />
+              <View style={styles.band} />
               <SavedItemsCard />
-              <View style={styles.divider} />
+              <View style={styles.band} />
               {/* The answer given at sign-up (the box under the password), changeable here.
                   Signed in only: a guest has no email to send to. */}
               <View style={styles.linkRow}>
@@ -122,14 +122,14 @@ export default function AccountScreen() {
                   accessibilityLabel="Email me about feedback and news"
                 />
               </View>
-              <View style={styles.divider} />
+              <View style={styles.band} />
               <DangerZoneCard />
             </>
           )}
 
           {/* The photographers the image licences require to be named. Guests too: the
               photos are the same for everyone. */}
-          <View style={styles.divider} />
+          <View style={styles.band} />
           <TouchableOpacity
             style={styles.linkRow}
             onPress={() => router.push("/(app)/photo-credits")}
@@ -137,7 +137,7 @@ export default function AccountScreen() {
             accessibilityRole="button"
           >
             <Text style={styles.linkRowText}>Photo credits</Text>
-            <ChevronRight size={16} color={tokens.colors.textMuted} strokeWidth={2} />
+            <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />
           </TouchableOpacity>
 
           {/* Guests too: App Review checks these without signing in. */}
@@ -146,7 +146,7 @@ export default function AccountScreen() {
               <View style={styles.divider} />
               <TouchableOpacity style={styles.linkRow} onPress={open} activeOpacity={0.6} accessibilityRole="button">
                 <Text style={styles.linkRowText}>{label}</Text>
-                <ChevronRight size={16} color={tokens.colors.textMuted} strokeWidth={2} />
+                <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />
               </TouchableOpacity>
             </React.Fragment>
           ))}
@@ -190,25 +190,29 @@ const styles = StyleSheet.create({
   // top corners. No drag handle: the sheet doesn't drag.
   sheet: {
     flex: 1,
-    backgroundColor: tokens.colors.bgCard,
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    backgroundColor: tokens.colors.page,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     marginTop: -12,
     paddingTop: tokens.space.xs,
     overflow: "hidden",
   },
-  divider: { height: StyleSheet.hairlineWidth, backgroundColor: tokens.colors.border, marginHorizontal: tokens.space.md },
+  // Groups are set apart by a pale band; rows inside a group by a hairline (design sweep,
+  // Profile: docs/plans/design-sweep.md). It was a hairline everywhere, so the page read as
+  // one flat list.
+  band: { height: 8, backgroundColor: tokens.colors.band },
+  divider: { height: 1, backgroundColor: tokens.colors.line, marginHorizontal: tokens.space.md },
   // Show me around and Photo credits: as a row in the cards (SavedItemsCard), at the
-  // cards' side padding.
+  // cards' side padding. One weight for every row that can be tapped.
   linkRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     minHeight: 48,
     paddingHorizontal: tokens.space.md,
-    paddingVertical: 14,
+    paddingVertical: 12,
   },
-  linkRowText: { fontSize: 15, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1 },
+  linkRowText: { fontSize: 16, fontWeight: "500", color: tokens.colors.text },
   // flex: the words wrap before they push the switch off an iPhone SE's edge.
-  switchText: { flex: 1, marginRight: tokens.space.md, fontSize: 15, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1 },
+  switchText: { flex: 1, marginRight: tokens.space.md, fontSize: 16, fontWeight: "500", color: tokens.colors.text },
 });

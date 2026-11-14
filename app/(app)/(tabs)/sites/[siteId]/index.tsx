@@ -7,8 +7,8 @@ import * as Haptics from "expo-haptics";
 import * as Linking from "expo-linking";
 import { ArrowLeft, ExternalLink, Star } from "lucide-react-native";
 
-import { LoadingState, ErrorCard, Stack, AppText, ReviewModal, components } from "@/lib/uiKit";
-import { cardLift, tokens } from "@/lib/ui/tokens";
+import { LoadingState, ErrorCard, Stack, AppText, AppButton, ReviewModal, components } from "@/lib/uiKit";
+import { cardLift, tokens, SWEEP_COLORS, SWEEP_BUTTON, REVIEW_COLORS } from "@/lib/ui/tokens";
 import { hooksBag } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useSavedSites } from "@/lib/hooks/useSavedSites";
@@ -38,6 +38,16 @@ import { useTourTarget } from "@/lib/tour/useTourTarget";
 // bar that fades in on scroll is this tall under the status bar.
 const SCROLLED_BAR_ROW = 60;
 
+// The newest review not written by someone this user has blocked. The date is the API's
+// text ("2026-11-03T…"); one with no date sorts last.
+export function latestReview<T extends { userId: string; reviewCreatedAt?: string | null }>(
+  reviews: T[],
+  blockedUids: string[],
+): T | undefined {
+  const when = (r: T) => Date.parse(r.reviewCreatedAt ?? "") || 0;
+  return reviews.filter((r) => !blockedUids.includes(r.userId)).sort((x, y) => when(y) - when(x))[0];
+}
+
 export default function SiteDetailRoute() {
   const { siteId } = useLocalSearchParams<{ siteId: string }>();
   const id = String(siteId);
@@ -59,6 +69,13 @@ function SiteDetail({ id }: { id: string }) {
     saving: reviewsSaving,
     saveReview: saveReviewToDb,
   } = hooksBag.useLocationReviewsSummary(uid, id, { extraLoading: session.status === "loading" });
+
+  // The latest review, for the box under the rating. The same cached read the count above
+  // comes from, so it costs nothing more; the block list is one call per five minutes for
+  // someone signed in. Never one by an author this user has blocked, as on the reviews screen.
+  const { reviews } = hooksBag.usePublicReviews(id);
+  const { data: blockedUids = [] } = hooksBag.useBlockedUsers(uid);
+  const latest = latestReview(reviews, blockedUids);
 
   const { savedSiteIds, toggleSavedSite } = useSavedSites();
   const isSaved = savedSiteIds.has(id);
@@ -235,6 +252,19 @@ function SiteDetail({ id }: { id: string }) {
               isCompleted={true}
               hasUserReviewed={!!myRating}
               onAddReview={openReview}
+              // The picked drawing (docs/plans/design-sweep.md): the rating as the
+              // heading, the latest review in a box, two links under it.
+              variant="open"
+              colors={REVIEW_COLORS}
+              isOffline={isOffline}
+              latestReview={
+                latest && {
+                  authorName: latest.userName,
+                  rating: latest.rating,
+                  text: latest.text,
+                  createdAt: latest.reviewCreatedAt,
+                }
+              }
             />
           </Stack>
         </View>
@@ -274,17 +304,17 @@ function SiteDetail({ id }: { id: string }) {
           PremiumFeatureModal first; add that back when commerce lands. */}
       {(session.status === "authed" || session.status === "guest") && canAddToItinerary(site) && (
         <SafeAreaView edges={["bottom"]} style={styles.itineraryFloatingWrap} pointerEvents="box-none">
-          <Pressable
-            {...addTarget}
-            style={[styles.itineraryButton, addDisabled && styles.itineraryButtonDisabled]}
-            disabled={addDisabled}
-            onPress={() => signedIn("Sign in to plan your trip.") && startAddToItinerary()}
-            accessibilityRole="button"
-          >
-            <AppText style={styles.itineraryButtonText}>
+          {/* The tour lights this up; the View is what it measures. */}
+          <View {...addTarget} style={styles.itineraryButton}>
+            <AppButton
+              fullWidth
+              shape={{ labelSize: 17 }}
+              disabled={addDisabled}
+              onPress={() => signedIn("Sign in to plan your trip.") && startAddToItinerary()}
+            >
               {isOffline ? "Reconnect to Add to Trip" : "+ Add to Trip"}
-            </AppText>
-          </Pressable>
+            </AppButton>
+          </View>
         </SafeAreaView>
       )}
 
@@ -292,6 +322,8 @@ function SiteDetail({ id }: { id: string }) {
         visible={showTripChoice}
         // The kit's defaults say "itinerary"; this app says "trip".
         title="Add to Trip"
+        variant="sheet"
+        colors={SWEEP_COLORS}
         addExistingSublabel="Choose a day in one of your trips"
         createNewSublabel="Pick dates and add this place"
         onClose={() => setShowTripChoice(false)}
@@ -334,6 +366,13 @@ function SiteDetail({ id }: { id: string }) {
       />
 
       <ReviewModal
+        // The picked drawing: a sheet with no Cancel (the close mark is the way out) and
+        // no line under the title.
+        variant="openSheet"
+        title="Share Your Experience"
+        subtitle=""
+        colors={REVIEW_COLORS}
+        saveButton={{ shape: { ...SWEEP_BUTTON, labelSize: 17 } }}
         visible={reviewOpen}
         saving={reviewsSaving}
         draftRating={currentDraft.rating}
@@ -375,7 +414,8 @@ function SiteDetail({ id }: { id: string }) {
 // - Rating only when the place has reviews; the star is the highlight.
 // - Category is the primary one, the same one that sets the map marker, with
 //   the marker's own icon and colour so the two can't drift.
-// - Website is the one tappable item, so it's in accent. The URL is
+// - Website is the one tappable item, and one to push, so it's in the highlight
+//   (orange is for what to tap: docs/plans/design-sweep.md). The URL is
 //   admin-entered, so only an http(s) URL renders as a link; anything else (a
 //   typo, a bare domain) is hidden rather than handed to openURL.
 function FactsLine({
@@ -422,7 +462,7 @@ function FactsLine({
         hitSlop={8}
       >
         <AppText style={styles.factLink}>Website</AppText>
-        <ExternalLink size={13} color={tokens.colors.accent} strokeWidth={2.25} />
+        <ExternalLink size={13} color={tokens.colors.highlight} strokeWidth={2.25} />
       </Pressable>
     ) : null,
   ].filter(Boolean);
@@ -480,9 +520,9 @@ const styles = StyleSheet.create({
   // multi-paragraph descriptions cramped at React Native's default spacing.
   description: { fontSize: 16, lineHeight: 26, color: tokens.colors.text },
   titleBlock: { gap: tokens.space.sm },
-  // 28pt at weight 800, down from the h1 variant's 34 at 900: big enough to
-  // lead the page, without shouting over the quiet facts line under it.
-  title: { fontSize: 28, lineHeight: 33, fontWeight: "800", letterSpacing: -0.6 },
+  // 26pt bold since the design sweep (it was 28 at 800, and the h1 variant is 34 at 900):
+  // big enough to lead the page, without shouting over the quiet facts line under it.
+  title: { fontSize: 26, lineHeight: 31, fontWeight: "700", letterSpacing: -0.4 },
   factsLine: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", rowGap: 6 },
   fact: { flexDirection: "row", alignItems: "center", gap: 5 },
   // A fact with the dot that separates it from the one before. No gap of its
@@ -492,14 +532,14 @@ const styles = StyleSheet.create({
   factText: { fontSize: 14, fontWeight: "500", color: tokens.colors.text2 },
   factStrong: { fontSize: 14, fontWeight: "700", color: tokens.colors.text },
   factMuted: { fontSize: 14, fontWeight: "500", color: tokens.colors.textMuted },
-  factLink: { fontSize: 14, fontWeight: "700", color: tokens.colors.accent },
+  factLink: { fontSize: 14, fontWeight: "700", color: tokens.colors.highlight },
   // The heading for a section inside the page. Sentence case and a plain
   // weight: the small spaced capitals it replaces looked like form labels.
   sectionHeading: { fontSize: 17, fontWeight: "700", color: tokens.colors.text, marginBottom: 4 },
   goodToKnowRow: {
     paddingVertical: 11,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: tokens.colors.border,
+    borderBottomColor: tokens.colors.line,
   },
   goodToKnowLine: { fontSize: 15, lineHeight: 22, color: tokens.colors.text },
   // The one tinted block on the page: the tip is its best line, and the only
@@ -513,20 +553,20 @@ const styles = StyleSheet.create({
   },
   tipLabel: { fontSize: 13, fontWeight: "700", color: tokens.colors.highlight },
   tipText: { fontSize: 15, lineHeight: 23, color: tokens.colors.text },
-  container: { flex: 1, backgroundColor: tokens.colors.bgBase },
+  container: { flex: 1, backgroundColor: tokens.colors.page },
   heroWrap: { position: "absolute", top: 0, left: 0, right: 0 },
-  // The reading surface is white (bgCard), not the tinted page colour: long
-  // text on a tinted ground is more tiring to read.
+  // The reading surface is the white page of the design sweep's look, with the sheets'
+  // 20pt top corners (docs/plans/design-sweep.md).
   sheet: {
-    backgroundColor: tokens.colors.bgCard,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
+    backgroundColor: tokens.colors.page,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     paddingBottom: 120,
     minHeight: 600,
   },
-  // 20pt side margins, and no drag handle above: the sheet scrolls, it doesn't
+  // The page's 16pt side margins, and no drag handle above: the sheet scrolls, it doesn't
   // drag, and the handle said otherwise.
-  content: { paddingHorizontal: tokens.space.lg, paddingTop: tokens.space.xl },
+  content: { paddingHorizontal: tokens.space.md, paddingTop: 22 },
   // The title starts clear of the back button (16 + 44 + 12).
   scrolledBar: {
     position: "absolute",
@@ -545,24 +585,17 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    paddingHorizontal: tokens.space.lg,
+    // A row of its own at the foot of the screen, where the tab bar would be (it is
+    // hidden on this screen: app/(app)/(tabs)/_layout.tsx). The page's colour with a line
+    // above, so the text scrolls under an edge and not under a floating button.
+    backgroundColor: tokens.colors.page,
+    borderTopWidth: 1,
+    borderTopColor: tokens.colors.line,
+    paddingHorizontal: tokens.space.md,
     paddingTop: 12,
   },
-  itineraryButton: {
-    borderRadius: tokens.radius.lg,
-    // The page's main action, so it takes the highlight (white text is 5.2:1).
-    backgroundColor: tokens.colors.highlight,
-    paddingVertical: 20,
-    marginBottom: tokens.space.sm,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.25,
-    shadowRadius: 14,
-    elevation: 8,
-  },
-  itineraryButtonDisabled: { opacity: 0.5 },
-  itineraryButtonText: { color: "#FFFFFF", fontWeight: "700", fontSize: 16 },
+  // The page's main action: the kit's button, in the highlight.
+  itineraryButton: { marginBottom: tokens.space.sm },
   // A white disc with a dark arrow and a soft shadow: it reads on any photo,
   // and the shadow keeps it visible on the white sheet once the page has
   // scrolled under it.

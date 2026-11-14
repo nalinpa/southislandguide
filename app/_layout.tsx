@@ -94,7 +94,7 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   return (
     <View style={styles.errorBoundaryContainer}>
       <View style={styles.errorIconWrap}>
-        <AlertTriangle size={32} color={tokens.colors.danger} strokeWidth={2} />
+        <AlertTriangle size={40} color={tokens.colors.danger} strokeWidth={2.25} />
       </View>
       <Text style={styles.errorTitle}>Something went wrong</Text>
       <Text style={styles.errorMessage}>Please try again.</Text>
@@ -112,49 +112,49 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
 
 const styles = StyleSheet.create({
   flexStyle: { flex: 1 },
+  // The design sweep's error screen (docs/plans/design-sweep.md): the group a little above
+  // the middle, a large red sign on a pale red circle, and the one button the full width.
   errorBoundaryContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 24,
-    backgroundColor: tokens.colors.bgBase,
+    paddingHorizontal: 24,
+    paddingBottom: 70,
+    backgroundColor: tokens.colors.page,
   },
   errorIconWrap: {
-    width: 64,
-    height: 64,
-    borderRadius: tokens.radius.md,
+    width: 88,
+    height: 88,
+    borderRadius: 44,
     backgroundColor: tokens.colors.dangerDim,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 22,
   },
   errorTitle: {
     fontSize: 22,
     fontWeight: "700",
+    letterSpacing: -0.2,
     color: tokens.colors.text,
     marginBottom: 8,
     textAlign: "center",
   },
   errorMessage: {
-    fontSize: 15,
+    fontSize: 16,
     color: tokens.colors.text2,
     lineHeight: 22,
     textAlign: "center",
-    marginBottom: 28,
-    paddingHorizontal: 12,
+    marginBottom: 22,
   },
   errorRetryBtn: {
+    alignSelf: "stretch",
+    height: 52,
     backgroundColor: tokens.colors.highlight,
-    borderRadius: tokens.radius.md,
-    paddingVertical: 15,
-    paddingHorizontal: 32,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  errorRetryBtnText: {
-    fontSize: 15,
-    fontWeight: "700",
-    color: "#FFFFFF",
-    letterSpacing: 0.1,
-  },
+  errorRetryBtnText: { fontSize: 17, fontWeight: "600", color: "#FFFFFF" },
 });
 
 export default Sentry.wrap(RootLayout);

@@ -6,7 +6,7 @@ import { FlashList } from "@shopify/flash-list";
 import { Screen, LoadingState, ErrorCard, components } from "@/lib/uiKit";
 import { hooksBag } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
-import { tokens } from "@/lib/ui/tokens";
+import { tokens, REVIEW_COLORS, SWEEP_BUTTON } from "@/lib/ui/tokens";
 
 // Module-level on purpose: <Stack.Screen> calls navigation.setOptions whenever the
 // options object's identity changes, so an inline literal re-fires it every render —
@@ -38,6 +38,9 @@ function SiteReviewOptionsMenu({
       authorId={authorId}
       authorName={authorName}
       currentUserId={currentUid}
+      // Three quiet dots level with the reviewer's name, nothing round them.
+      triggerVariant="bare"
+      triggerColor={tokens.colors.textMuted}
       onReport={(args) =>
         report.mutate(
           { reviewId: args.reviewId, authorId: args.authorId },
@@ -150,7 +153,10 @@ function SiteReviews({ id, siteName }: { id: string; siteName?: string }) {
               rating={item.rating}
               text={item.text}
               createdAt={item.reviewCreatedAt}
-              variant="card"
+              // The picked drawing (docs/plans/design-sweep.md): no circle, no line,
+              // the words dark; space groups each review.
+              variant="open"
+              colors={REVIEW_COLORS}
               optionsMenu={SiteReviewOptionsMenu}
             />
           </View>
@@ -165,7 +171,9 @@ function SiteReviews({ id, siteName }: { id: string; siteName?: string }) {
               count={summary.count}
               onBack={goBack}
               emptyLabel="No community data available yet."
-              showDivider={true}
+              variant="open"
+              colors={REVIEW_COLORS}
+              showDivider={false}
               backLabel="Back"
             />
           </View>
@@ -173,7 +181,17 @@ function SiteReviews({ id, siteName }: { id: string; siteName?: string }) {
         ListEmptyComponent={
           <View style={styles.itemWrapper}>
             {/* The engine's default body mentions checking in, which this app doesn't have. */}
-            <components.ReviewsEmptyState onBack={goBack} onRetry={refresh} body="Be the first to review this place." />
+            <components.ReviewsEmptyState
+              onBack={goBack}
+              onRetry={refresh}
+              body="Be the first to review this place."
+              variant="open"
+              colors={REVIEW_COLORS}
+              button={{
+                shape: { ...SWEEP_BUTTON, borderWidth: 1.5 },
+                colors: { bg: tokens.colors.page, border: tokens.colors.selected, text: tokens.colors.selected },
+              }}
+            />
           </View>
         }
       />
@@ -186,12 +204,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 40,
   },
-  headerWrapper: {
-    paddingHorizontal: 16,
-    marginBottom: tokens.space.lg,
-  },
-  itemWrapper: {
-    paddingHorizontal: 16,
-    marginBottom: tokens.space.md,
-  },
+  // The header and each row bring their own space above and below.
+  headerWrapper: { paddingHorizontal: 16 },
+  itemWrapper: { paddingHorizontal: 16 },
 });

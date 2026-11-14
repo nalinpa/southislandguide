@@ -78,7 +78,9 @@ export function OfflineMapCard() {
         <Text style={styles.line}>{line}</Text>
         {offerDetailed ? (
           <TouchableOpacity style={styles.button} onPress={() => startSave("detailed")} activeOpacity={0.6} accessibilityRole="button">
-            <Text style={styles.buttonText}>Get the detailed map (about {extraMb} MB more)</Text>
+            <Text style={styles.buttonText} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>
+              Get the detailed map (about {extraMb} MB more)
+            </Text>
           </TouchableOpacity>
         ) : null}
         <TouchableOpacity style={styles.button} onPress={onPress} activeOpacity={0.6} accessibilityRole="button">
@@ -183,20 +185,34 @@ export function OfflineMapCard() {
 // button's words are too long to sit beside them on a small phone. The card is
 // DeleteTripModal's.
 const styles = StyleSheet.create({
-  row: { paddingHorizontal: tokens.space.md, paddingTop: 14, gap: 4 },
-  title: { fontSize: 15, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1 },
-  line: { fontSize: 13, color: tokens.colors.textMuted, lineHeight: 18 },
-  // Its own 44pt of height, so it's an easy tap without a box drawn round it.
-  button: { alignSelf: "flex-start", minHeight: 44, justifyContent: "center" },
-  buttonText: { fontSize: 14, fontWeight: "700", color: tokens.colors.accent, letterSpacing: 0.2 },
-  overlay: { flex: 1, backgroundColor: "rgba(36,26,18,0.60)", justifyContent: "center", padding: tokens.space.lg },
-  card: { backgroundColor: tokens.colors.bgCard, borderRadius: tokens.radius.lg, padding: 28, alignItems: "center", gap: 12 },
+  row: { paddingHorizontal: tokens.space.md, paddingTop: 14, paddingBottom: 16, gap: 4 },
+  // The title says what the map is doing ("Saving the map… 40%"), so it stays a line to
+  // read, not a small grey section name.
+  title: { fontSize: 16, fontWeight: "600", color: tokens.colors.text },
+  line: { fontSize: 14, color: tokens.colors.text2, lineHeight: 20 },
+  // A teal outline with a bold label, the full width of the row: plain teal words didn't
+  // read as a button, and a filled one made too many loud things on this screen (design
+  // sweep, Profile rounds 2 and 3).
+  button: {
+    alignSelf: "stretch",
+    height: 44,
+    marginTop: 8,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: tokens.colors.selected,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 12,
+  },
+  buttonText: { fontSize: 16, fontWeight: "600", color: tokens.colors.selected },
+  overlay: { flex: 1, backgroundColor: "rgba(3,38,43,0.55)", justifyContent: "center", padding: tokens.space.lg },
+  card: { backgroundColor: tokens.colors.page, borderRadius: 20, padding: 24, alignItems: "center", gap: 12 },
   cardTitle: { fontSize: 20, fontWeight: "700", color: tokens.colors.text, letterSpacing: -0.3, textAlign: "center" },
   cardLine: { fontSize: 14, color: tokens.colors.text2, lineHeight: 21, textAlign: "center", marginBottom: 8 },
   track: { alignSelf: "stretch", height: 8, borderRadius: 4, backgroundColor: tokens.colors.border, overflow: "hidden" },
   fill: { height: 8, backgroundColor: tokens.colors.accent },
   // The two sizes to pick from: a bordered row each, as wide as the card.
-  option: { alignSelf: "stretch", borderWidth: 1, borderColor: tokens.colors.border, borderRadius: tokens.radius.md, padding: 14, gap: 2 },
+  option: { alignSelf: "stretch", borderWidth: 1, borderColor: tokens.colors.border, borderRadius: 12, padding: 14, gap: 2 },
   optionTitle: { fontSize: 15, fontWeight: "700", color: tokens.colors.text },
   optionLine: { fontSize: 13, color: tokens.colors.text2, lineHeight: 18 },
 });

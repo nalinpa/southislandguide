@@ -282,9 +282,9 @@ describe("category chips", () => {
 
     await fireEvent.press(view.getByText("Scenic"));
 
-    expect(view.getByRole("button", { name: "Scenic" })).toHaveStyle({ backgroundColor: tokens.colors.highlight });
+    expect(view.getByRole("button", { name: "Scenic" })).toHaveStyle({ backgroundColor: tokens.colors.accent });
     expect(view.getByRole("button", { name: "Culture" })).not.toHaveStyle({
-      backgroundColor: tokens.colors.highlight,
+      backgroundColor: tokens.colors.accent,
     });
   });
 

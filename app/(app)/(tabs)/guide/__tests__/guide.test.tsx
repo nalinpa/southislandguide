@@ -178,18 +178,19 @@ describe("the guide index", () => {
     expect(view.getByText("Guide")).toHaveStyle({ color: "#FFFFFF" });
   });
 
-  // The scopes are a tab strip in the brand bar, like Explore's categories.
-  it("marks the current scope in the highlight colour, and moves it with the scope", async () => {
+  // The scopes are a tab strip on the white page under the bar, like Explore's categories:
+  // the current one teal, the rest one grey (docs/plans/design-sweep.md).
+  it("marks the current scope in the selected colour, and moves it with the scope", async () => {
     const region = REGIONS_WITH_CONTENT[0];
     const view = await render(<GuideIndexPage />);
 
-    expect(view.getByText("South Island")).toHaveStyle({ color: tokens.colors.highlightOnDark });
-    expect(view.getByText(region.label)).toHaveStyle({ color: "#FFFFFF" });
+    expect(view.getByText("South Island")).toHaveStyle({ color: tokens.colors.selected });
+    expect(view.getByText(region.label)).toHaveStyle({ color: tokens.colors.textMuted });
 
     await fireEvent.press(view.getByText(region.label));
 
-    expect(view.getByText(region.label)).toHaveStyle({ color: tokens.colors.highlightOnDark });
-    expect(view.getByText("South Island")).toHaveStyle({ color: "#FFFFFF" });
+    expect(view.getByText(region.label)).toHaveStyle({ color: tokens.colors.selected });
+    expect(view.getByText("South Island")).toHaveStyle({ color: tokens.colors.textMuted });
   });
 
   it("opens the section that was tapped", async () => {
@@ -229,15 +230,16 @@ describe("a section page", () => {
     for (const p of paragraphs(c.body)) expect(view.getByText(p)).toBeTruthy();
   });
 
-  it("sets subheadings in the highlight colour, and paragraphs not", async () => {
+  // Dark and bold, not the orange they were: orange is kept for what to tap.
+  it("sets subheadings bold in the text colour, larger than a paragraph", async () => {
     const withHeading = GUIDE_CATEGORIES.find((c) => paragraphs(c.body).some(isHeading))!;
     const heading = paragraphs(withHeading.body).find(isHeading)!;
     const paragraph = paragraphs(withHeading.body).find((p) => !isHeading(p))!;
     mockParams.slug = withHeading.slug;
     const view = await render(<GuideCategoryPage />);
 
-    expect(view.getByText(heading)).toHaveStyle({ color: tokens.colors.highlight });
-    expect(view.getByText(paragraph)).toHaveStyle({ color: tokens.colors.text });
+    expect(view.getByText(heading)).toHaveStyle({ color: tokens.colors.text, fontWeight: "700", fontSize: 20 });
+    expect(view.getByText(paragraph)).toHaveStyle({ color: tokens.colors.text, fontSize: 16 });
   });
 
   // The same round arrow as the guide list, beside the title. It used to be a white
@@ -285,5 +287,31 @@ describe("a section page", () => {
     await fireEvent.press(view.getByText("Go Back"));
 
     expect(mockRouter.navigate).toHaveBeenCalledWith("/(app)/(tabs)/guide");
+  });
+});
+
+// Web addresses written in the guide's text are links (owner, 2026-11-13). They are written
+// bare, so https:// is added when one is opened.
+describe("web addresses in a section", () => {
+  const { Linking } = require("react-native");
+  const withAddress = GUIDE_CATEGORIES.find((c) => c.body.includes("journeys.nzta.govt.nz"))!;
+
+  it("opens the address when it is tapped, and leaves the full stop after it out", async () => {
+    const open = jest.spyOn(Linking, "openURL").mockResolvedValue(true as never);
+    mockParams.slug = withAddress.slug;
+    const view = await render(<GuideCategoryPage />);
+
+    await fireEvent.press(view.getByText("journeys.nzta.govt.nz"));
+
+    expect(open).toHaveBeenCalledWith("https://journeys.nzta.govt.nz");
+    open.mockRestore();
+  });
+
+  it("finds every address in the guide, and nothing that isn't one", () => {
+    const found = new Set<string>();
+    for (const c of GUIDE_CATEGORIES) {
+      for (const m of c.body.matchAll(/\b(?:[a-z0-9-]+\.)+(?:govt\.nz|org\.nz|co\.nz|nz|com)(?:\/[A-Za-z0-9/_-]*)?/g)) found.add(m[0]);
+    }
+    expect([...found].sort()).toEqual(["beacons.org.nz", "checkitsalright.nz", "journeys.nzta.govt.nz"]);
   });
 });

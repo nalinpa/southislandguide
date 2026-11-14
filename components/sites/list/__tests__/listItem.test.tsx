@@ -1,6 +1,7 @@
-// A row in the Explore list. What matters visually: the distance is the row's one piece
-// of live, personal information, so it carries the highlight colour, and the description
-// is set in strong secondary text rather than hint grey.
+// A place in the Explore list, in the design sweep's look (docs/plans/design-sweep.md):
+// the photo first with the words under it, no card and no shadow. The distance is a fact,
+// so it is plain text: colour is kept for what's selected and what to tap. The description
+// is set in strong secondary text rather than hint grey, and ends where a sentence does.
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
 
@@ -39,9 +40,9 @@ const renderItem = (over: Record<string, unknown> = {}) => {
 };
 
 describe("ListItem", () => {
-  it("shows the distance in the highlight colour", async () => {
+  it("shows the distance in plain text, not the highlight colour", async () => {
     const { view } = renderItem();
-    expect((await view).getByText("1.2 km")).toHaveStyle({ color: tokens.colors.highlight });
+    expect((await view).getByText("1.2 km")).toHaveStyle({ color: tokens.colors.text });
   });
 
   it("leaves the distance out when it isn't known", async () => {
@@ -70,14 +71,29 @@ describe("ListItem", () => {
     expect((await view).getByText("A long, open surf beach.")).toHaveStyle({ color: tokens.colors.text2 });
   });
 
-  // iOS clips a view's shadow when the same view has overflow: "hidden", which is how the
-  // cards ended up flat against the page.
-  it("lifts the card off the page with a shadow it doesn't clip", async () => {
-    const { view } = renderItem();
-    const card = (await view).getByRole("button");
+  it("ends the description where its first sentence does", async () => {
+    const { view } = renderItem({ description: "A long, open surf beach. Good for beginners at low tide." });
 
-    expect(StyleSheet.flatten(card.props.style).shadowOpacity).toBeGreaterThanOrEqual(0.1);
-    expect(card).not.toHaveStyle({ overflow: "hidden" });
+    expect((await view).getByText("A long, open surf beach.")).toBeTruthy();
+  });
+
+  // Words on the page, not on a card: no shadow. The row keeps the page's own colour so
+  // Saved Places can swipe it aside over its Remove button.
+  it("sits on the page with no shadow", async () => {
+    const { view } = renderItem();
+    const card = StyleSheet.flatten((await view).getByRole("button").props.style);
+
+    expect(card.shadowOpacity).toBeUndefined();
+    expect(card.backgroundColor).toBe(tokens.colors.page);
+  });
+
+  // The featured card at the top of Explore is this card with a taller photo, announced
+  // by the place's name as it always was.
+  it("is the same card when featured, named for a screen reader", async () => {
+    const { view } = renderItem({ featured: true });
+
+    expect((await view).getByTestId("featured-card").props.accessibilityLabel).toBe("Sumner Beach");
+    expect((await view).getByText("1.2 km")).toBeTruthy();
   });
 
   it("opens the place when tapped", async () => {

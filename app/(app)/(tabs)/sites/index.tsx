@@ -16,6 +16,7 @@ import { nearestArea } from "@/components/map/MapRegion";
 import { AREAS, AREA_GUIDE_REGIONS, AREA_REGIONS, DEFAULT_AREA, areaName } from "@/lib/areas";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, matchesSearch, type SiteCategory } from "@/lib/models";
 import { useTourTarget } from "@/lib/tour/useTourTarget";
+import { useTourIfAny } from "@/lib/tour/TourContext";
 import { useTourStepRoute } from "@/lib/tour/useTourStepRoute";
 
 // ponytail: the generator's GAP list, resolved for this app.
@@ -166,6 +167,7 @@ export default function SiteListPage() {
   const guideTarget = useTourTarget("guide");
   const browseTarget = useTourTarget("browse");
   const placeTarget = useTourTarget("place");
+  const touring = !!useTourIfAny()?.active;
   const firstId = (featured ?? rows[0])?.location.id;
   useTourStepRoute("place", firstId ? `/(app)/(tabs)/sites/${firstId}` : undefined);
 
@@ -216,8 +218,8 @@ export default function SiteListPage() {
   }
 
   // Fixed above the list: the list scrolls under it, and the category tabs stay
-  // in reach however far down someone is. The tab strip, when there is one,
-  // forms the bar's bottom edge.
+  // in reach however far down someone is. Since the design sweep the tabs are a strip on
+  // the white page under the bar, not the bar's bottom edge (docs/plans/design-sweep.md).
   const topBar = (
     <TopBar
       // The town being shown, and the way to change it when there is another to change to.
@@ -228,7 +230,6 @@ export default function SiteListPage() {
       // The smaller title size, on the buttons' row, so the bar stays short. Beside the
       // three buttons an iPhone SE leaves it about 150pt: "Christchurch" shrinks a little.
       compactTitle
-      flushBottom={categoriesWithPlaces.length > 1}
       actions={
         <>
           {/* The kit's button takes no ref, so the tour measures this instead. */}
@@ -277,31 +278,36 @@ export default function SiteListPage() {
           </View>
         </View>
       )}
-
-      {categoriesWithPlaces.length > 1 && (
-        <View {...browseTarget}>
-          <TopBarTabs<SiteCategory | null>
-            tabs={[
-              { key: null, label: "All" },
-              ...categoriesWithPlaces.map((c) => ({ key: c, label: SITE_CATEGORY_LABELS[c] })),
-            ]}
-            selected={activeCategory}
-            onSelect={setCategory}
-          />
-        </View>
-      )}
     </TopBar>
+  );
+
+  const categoryTabs = categoriesWithPlaces.length > 1 && (
+    <View {...browseTarget}>
+      <TopBarTabs<SiteCategory | null>
+        tone="page"
+        tabs={[
+          { key: null, label: "All" },
+          ...categoriesWithPlaces.map((c) => ({ key: c, label: SITE_CATEGORY_LABELS[c] })),
+        ]}
+        selected={activeCategory}
+        onSelect={setCategory}
+      />
+    </View>
   );
 
   // Scrolls away with the rows. No side padding of its own: the list already
   // pads its content, so these line up with the cards' edges.
-  // The featured card first, its top edge against the bottom of the teal bar (owner,
-  // 2026-10-25); the notices go under it.
+  // The featured card first: the list's own card with a taller photo (owner, 2026-11-13);
+  // the notices go under it.
   const header = (
     <View testID="explore-header">
       {featured && (
         <View {...placeTarget}>
-          <FeaturedCard site={featured.location} onPress={(id) => router.push(`/(app)/(tabs)/sites/${id}`)} />
+          <FeaturedCard
+            site={featured.location}
+            distanceMeters={featured.distanceMeters}
+            onPress={(id) => router.push(`/(app)/(tabs)/sites/${id}`)}
+          />
         </View>
       )}
       <Stack gap="md" style={styles.headerStack}>
@@ -346,11 +352,13 @@ export default function SiteListPage() {
     // up under the clock (same as the login screen).
     <Screen padded={false} style={styles.screen}>
       {topBar}
+      {categoryTabs}
       <ListView
         rows={listRows}
         header={header}
         onPressItem={(id) => router.push(`/(app)/(tabs)/sites/${id}`)}
         firstRowTarget={featured ? undefined : placeTarget}
+        atTop={touring}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -387,7 +395,8 @@ export default function SiteListPage() {
 }
 
 const styles = StyleSheet.create({
-  screen: { paddingTop: 0 },
+  // The white page of the design sweep's look, not the kit's mint.
+  screen: { paddingTop: 0, backgroundColor: tokens.colors.page },
   // A tinted panel rather than a bordered card: the old dark-outlined box was
   // the heaviest thing on the screen for what is an optional prompt.
   signInBanner: {

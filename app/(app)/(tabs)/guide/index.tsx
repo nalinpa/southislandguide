@@ -47,7 +47,6 @@ export default function GuideIndexPage() {
     <View style={styles.container}>
       <TopBar
         title="Guide"
-        flushBottom={hasRegions}
         leading={
           <TopBarBack
             // The tab it was opened from: Explore's book button or Profile's Open Guide.
@@ -56,20 +55,20 @@ export default function GuideIndexPage() {
             label="Back"
           />
         }
-      >
-        {/* The scopes are a tab strip in the bar, the same as Explore's
-            categories: "South Island" plus each region with sections written. */}
-        {hasRegions && (
-          <TopBarTabs<RegionId | null>
-            tabs={[
-              { key: null, label: "South Island" },
-              ...REGION_TABS.map((r) => ({ key: r.id, label: r.label })),
-            ]}
-            selected={region}
-            onSelect={setRegion}
-          />
-        )}
-      </TopBar>
+      />
+      {/* The scopes are a tab strip on the white page under the bar, the same as
+          Explore's categories: "South Island" plus each region with sections written. */}
+      {hasRegions && (
+        <TopBarTabs<RegionId | null>
+          tone="page"
+          tabs={[
+            { key: null, label: "South Island" },
+            ...REGION_TABS.map((r) => ({ key: r.id, label: r.label })),
+          ]}
+          selected={region}
+          onSelect={setRegion}
+        />
+      )}
 
       <ScrollView contentContainerStyle={styles.list}>
         {visible.map((category) => {
@@ -85,7 +84,7 @@ export default function GuideIndexPage() {
                 <Icon size={20} color={category.color} strokeWidth={2} />
               </View>
               <AppText style={styles.rowTitle}>{category.title}</AppText>
-              <ChevronRight size={16} color={tokens.colors.textMuted} strokeWidth={2} />
+              <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />
             </TouchableOpacity>
           );
         })}
@@ -95,21 +94,21 @@ export default function GuideIndexPage() {
 }
 
 const styles = StyleSheet.create({
-  // White, matching the guide articles and the place detail page.
-  container: { flex: 1, backgroundColor: tokens.colors.bgCard },
-  list: { paddingHorizontal: tokens.space.md, paddingTop: tokens.space.xs, paddingBottom: tokens.space.xl },
+  // The white page of the design sweep's look, as the guide articles and the place page.
+  container: { flex: 1, backgroundColor: tokens.colors.page },
+  list: { paddingHorizontal: tokens.space.md, paddingBottom: tokens.space.xl },
   row: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 14,
+    paddingVertical: 13,
     gap: 14,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: tokens.colors.border,
+    borderBottomWidth: 1,
+    borderBottomColor: tokens.colors.line,
   },
   iconWrap: {
     width: 40,
     height: 40,
-    borderRadius: tokens.radius.md,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
     flexShrink: 0,

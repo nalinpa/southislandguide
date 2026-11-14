@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
-import { LogIn, LogOut } from "lucide-react-native";
+import { LogIn } from "lucide-react-native";
 
 import { AppButton, AppText, Row } from "@/lib/uiKit";
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -41,15 +41,23 @@ export function UserInfoCard() {
     const email = auth.currentUser?.email;
     return (
       <View style={styles.section}>
-        {email ? (
-          <Text style={styles.signedInAs} numberOfLines={1}>
-            Signed in as <Text style={styles.signedInEmail}>{email}</Text>
-          </Text>
-        ) : null}
-        <TouchableOpacity style={styles.logoutRow} onPress={handleLogout} activeOpacity={0.6}>
-          <LogOut size={14} color={tokens.colors.text2} strokeWidth={2} />
-          <Text style={styles.logoutText}>Sign Out</Text>
-        </TouchableOpacity>
+        {/* Who you are is the first and largest thing on the sheet; Sign Out sits beside
+            it in teal, so red is left to mean "this deletes things". */}
+        <View style={styles.who}>
+          <View style={styles.whoText}>
+            {email ? (
+              <>
+                <Text style={styles.signedInAs}>Signed in as</Text>
+                <Text style={styles.signedInEmail} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7}>
+                  {email}
+                </Text>
+              </>
+            ) : null}
+          </View>
+          <TouchableOpacity style={styles.logoutRow} onPress={handleLogout} activeOpacity={0.6} hitSlop={10}>
+            <Text style={styles.logoutText}>Sign Out</Text>
+          </TouchableOpacity>
+        </View>
         {logoutError && (
           <AppText variant="label" style={[styles.errorText, { color: tokens.colors.danger }]}>
             {logoutError}
@@ -79,42 +87,17 @@ export function UserInfoCard() {
 }
 
 const styles = StyleSheet.create({
-  section: {
-    paddingHorizontal: tokens.space.md,
-    paddingVertical: 20,
-  },
-  sectionLabel: {
-    fontSize: 12,
-    fontWeight: "800",
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
-    color: tokens.colors.text2,
-    marginBottom: 12,
-  },
-  signedInAs: { fontSize: 14, color: tokens.colors.text2, marginBottom: 10 },
-  signedInEmail: { fontWeight: "600", color: tokens.colors.text },
-  logoutRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "flex-start",
-    gap: 6,
-    paddingVertical: 4,
-  },
-  logoutText: {
-    fontSize: 13,
-    fontWeight: "500",
-    color: tokens.colors.text2,
-    letterSpacing: 0.3,
-  },
-  errorText: {
-    marginTop: 8,
-  },
-  guestBody: {
-    fontSize: 15,
-    fontWeight: "400",
-    color: tokens.colors.text,
-    lineHeight: 22,
-    marginBottom: 16,
-  },
-  signInText: { color: "#fff", fontSize: 15, fontWeight: "700" },
+  section: { paddingHorizontal: tokens.space.md, paddingVertical: 14 },
+  // A section's name: small and grey, as written, a step under the rows it heads, with the
+  // same gap under it in every group (design sweep, Profile round 3).
+  sectionLabel: { fontSize: 13, fontWeight: "600", color: tokens.colors.textMuted },
+  who: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 },
+  whoText: { flex: 1 },
+  signedInAs: { fontSize: 14, color: tokens.colors.textMuted },
+  signedInEmail: { fontSize: 20, lineHeight: 25, fontWeight: "700", letterSpacing: -0.2, color: tokens.colors.text },
+  logoutRow: { paddingVertical: 4 },
+  logoutText: { fontSize: 15, fontWeight: "600", color: tokens.colors.selected },
+  errorText: { marginTop: 8 },
+  guestBody: { fontSize: 15, color: tokens.colors.text2, lineHeight: 21, marginTop: 6, marginBottom: 14 },
+  signInText: { color: "#fff", fontSize: 16, fontWeight: "600" },
 });

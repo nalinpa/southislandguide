@@ -9,7 +9,7 @@ import { Search, SlidersHorizontal, Crosshair, Layers, AlertCircle, Lock, Chevro
 import type { MapType } from "react-native-maps";
 
 import { LoadingState, ErrorCard, components } from "@/lib/uiKit";
-import { tokens } from "@/lib/ui/tokens";
+import { tokens, SWEEP_COLORS } from "@/lib/ui/tokens";
 import { hooksBag } from "@/lib/hooksBag";
 import { useEntitlementGate } from "@/lib/hooks/useEntitlementGate";
 import { useItineraries } from "@/lib/hooks/useItineraries";
@@ -337,7 +337,7 @@ export default function MapScreen() {
               accessibilityLabel="Filter by category"
               style={[styles.filterBtn, (categoryOn || showFilters) && styles.filterBtnActive]}
             >
-              <SlidersHorizontal color="#FFFFFF" size={18} strokeWidth={2.25} />
+              <SlidersHorizontal color={categoryOn || showFilters ? "#FFFFFF" : tokens.colors.text} size={18} strokeWidth={2.25} />
             </TouchableOpacity>
           </View>
         </View>
@@ -458,7 +458,7 @@ export default function MapScreen() {
             }}
           >
             <Layers
-              color={mapType === "satellite" ? tokens.colors.highlight : tokens.colors.text}
+              color={mapType === "satellite" ? tokens.colors.selected : tokens.colors.text}
               size={20}
               strokeWidth={1.75}
             />
@@ -495,6 +495,8 @@ export default function MapScreen() {
         visible={showTripChoice}
         // The kit's defaults say "itinerary"; this app says "trip".
         title="Add to Trip"
+        variant="sheet"
+        colors={SWEEP_COLORS}
         addExistingSublabel="Choose a day in one of your trips"
         createNewSublabel="Pick dates and add this place"
         onClose={() => setShowTripChoice(false)}
@@ -550,39 +552,35 @@ export default function MapScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: tokens.colors.bgBase },
+  container: { flex: 1, backgroundColor: tokens.colors.page },
   safeArea: { position: "absolute", top: 0, left: 0, right: 0, zIndex: 20 },
   searchContainer: { paddingHorizontal: 16, paddingTop: 12 },
   searchBox: {
-    flexDirection: "row", alignItems: "center", backgroundColor: "rgba(255,255,255,0.97)",
-    height: 50, borderRadius: 25, paddingHorizontal: 16, gap: 10,
+    flexDirection: "row", alignItems: "center", backgroundColor: tokens.colors.page,
+    height: 48, borderRadius: 12, paddingLeft: 16, paddingRight: 6, gap: 10,
     shadowColor: "#241A12", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.13, shadowRadius: 20, elevation: 8,
   },
-  searchInput: { flex: 1, fontSize: 15, color: tokens.colors.text },
+  searchInput: { flex: 1, fontSize: 16, color: tokens.colors.text },
   divider: { width: StyleSheet.hairlineWidth, height: 20, backgroundColor: "rgba(36,26,18,0.18)" },
+  // A pale box with a dark icon. With a filter on it is solid teal, as the chosen chip is:
+  // that's a state ("selected"), and orange is kept for what to tap
+  // (docs/plans/design-sweep.md). It's the only sign that some places are hidden.
   filterBtn: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
+    width: 36,
+    height: 36,
+    borderRadius: 9,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: tokens.colors.accent,
-    shadowColor: tokens.colors.accent,
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.45,
-    shadowRadius: 8,
-    elevation: 6,
+    backgroundColor: tokens.colors.bgSurface,
   },
-  // A filter being on is state, so the button and the chosen chip take the
-  // highlight: it's the only sign that some places are hidden.
-  filterBtnActive: { backgroundColor: tokens.colors.highlight, shadowColor: tokens.colors.highlight },
+  filterBtnActive: { backgroundColor: tokens.colors.accent },
   chipRow: { paddingHorizontal: 16, paddingVertical: 10, gap: 8, flexDirection: "row" },
   chip: {
     paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20, backgroundColor: "rgba(255,255,255,0.95)",
     borderWidth: 1, borderColor: "rgba(36,26,18,0.14)",
     shadowColor: "#241A12", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 8, elevation: 3,
   },
-  chipActive: { backgroundColor: tokens.colors.highlight, borderColor: tokens.colors.highlight },
+  chipActive: { backgroundColor: tokens.colors.accent, borderColor: tokens.colors.accent },
   chipText: { fontSize: 13, fontWeight: "600", color: tokens.colors.text2 },
   chipTextActive: { color: "#FFFFFF" },
   // My Trip and the saved map's credit at the left, the map controls at the right.
@@ -597,8 +595,8 @@ const styles = StyleSheet.create({
   mapControls: {
     // In the top stack's flow, at its right edge. No overflow: "hidden": on iOS
     // that clips the view's own shadow, and nothing here needs clipping.
-    marginLeft: "auto", marginRight: 14, marginTop: 10, backgroundColor: "rgba(255,255,255,0.97)",
-    borderRadius: 20, shadowColor: "#241A12", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1,
+    marginLeft: "auto", marginRight: 14, marginTop: 10, backgroundColor: tokens.colors.page,
+    borderRadius: 12, shadowColor: "#241A12", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1,
     shadowRadius: 16, elevation: 6,
   },
   controlBtn: { width: 46, height: 46, alignItems: "center", justifyContent: "center" },

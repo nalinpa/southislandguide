@@ -136,7 +136,7 @@ export function EditItemModal({
               <View style={styles.imageContainer}>
                 <ItemImage imageUrl={item.imageUrl} siteId={item.siteId} />
                 <TouchableOpacity style={styles.closeButton} onPress={onClose} accessibilityRole="button" accessibilityLabel="Close">
-                  <X color="#FFFFFF" size={20} />
+                  <X color={tokens.colors.text} size={16} strokeWidth={2.25} />
                 </TouchableOpacity>
               </View>
 
@@ -152,7 +152,7 @@ export function EditItemModal({
                     accessibilityLabel="View place details"
                   >
                     <Text style={styles.detailText}>Details</Text>
-                    <ExternalLink color={tokens.colors.accent} size={14} />
+                    <ExternalLink color={tokens.colors.highlight} size={14} strokeWidth={2.25} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -166,7 +166,7 @@ export function EditItemModal({
                     accessibilityRole="button"
                     accessibilityLabel="Shorter"
                   >
-                    <Minus color={tokens.colors.accent} size={24} />
+                    <Minus color={tokens.colors.text} size={20} />
                   </TouchableOpacity>
                   <Text style={styles.durationValue}>{slotsToDurationLabel(draftDuration)}</Text>
                   <TouchableOpacity
@@ -175,7 +175,7 @@ export function EditItemModal({
                     accessibilityRole="button"
                     accessibilityLabel="Longer"
                   >
-                    <Plus color={tokens.colors.accent} size={24} />
+                    <Plus color={tokens.colors.text} size={20} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -248,75 +248,82 @@ export function EditItemModal({
 }
 
 const styles = StyleSheet.create({
-  lockedMoveError: { fontSize: 13, color: tokens.colors.danger, paddingHorizontal: tokens.space.lg, paddingBottom: tokens.space.sm },
+  lockedMoveError: { fontSize: 13, color: tokens.colors.danger, paddingHorizontal: tokens.space.md, paddingBottom: tokens.space.sm },
   keyboardView: { flex: 1 },
-  modalOverlay: { flex: 1, backgroundColor: "rgba(36,26,18,0.75)", justifyContent: "flex-end" },
-  modalWrapper: { margin: tokens.space.md, marginBottom: 40 },
-  modalContent: { padding: 0, borderRadius: tokens.radius.lg, overflow: "hidden" },
-  imageContainer: { height: 160, width: "100%", position: "relative", backgroundColor: tokens.colors.bgElevated },
+  modalOverlay: { flex: 1, backgroundColor: "rgba(3,38,43,0.55)", justifyContent: "flex-end" },
+  // A sheet on the bottom edge with 20pt top corners, not a floating card (the design
+  // sweep's look: docs/plans/design-sweep.md). No grab handle: it doesn't drag.
+  // ponytail: 34 is the home indicator's space on a Face ID iPhone, as a fixed number. On
+  // a phone with none (an SE) it is spare padding. Read the real inset if that matters.
+  modalWrapper: {},
+  modalContent: {
+    padding: 0,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    overflow: "hidden",
+  },
+  imageContainer: { height: 150, width: "100%", position: "relative", backgroundColor: tokens.colors.bgElevated },
   image: { width: "100%", height: "100%" },
   imagePlaceholder: { flex: 1, alignItems: "center", justifyContent: "center" },
+  // An x in a circle of the page's colour, over the photo.
   closeButton: {
     position: "absolute",
-    top: 16,
-    right: 16,
+    top: 12,
+    right: 12,
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: tokens.colors.page,
     alignItems: "center",
     justifyContent: "center",
   },
-  infoSection: { padding: tokens.space.lg, paddingBottom: tokens.space.md },
+  infoSection: { padding: tokens.space.md, paddingBottom: 0 },
   titleRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
-  modalTitle: { fontSize: 20, fontWeight: "800", flex: 1, marginRight: tokens.space.md, color: tokens.colors.text },
-  detailLink: {
-    flexDirection: "row",
+  modalTitle: { fontSize: 20, fontWeight: "700", letterSpacing: -0.2, flex: 1, marginRight: tokens.space.md, color: tokens.colors.text },
+  // A link to push, so it's orange (docs/plans/design-sweep.md), and plain: no tinted chip.
+  detailLink: { flexDirection: "row", alignItems: "center", paddingTop: 3 },
+  detailText: { fontSize: 15, fontWeight: "500", color: tokens.colors.highlight, marginRight: 4 },
+  controlSection: { paddingHorizontal: tokens.space.md },
+  modalLabel: { fontSize: 14, fontWeight: "600", color: tokens.colors.text2, marginTop: 18, marginBottom: tokens.space.xs },
+  // As the stepper on Add to Trip: round buttons close either side of the value.
+  durationControl: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: tokens.space.md },
+  durationBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: "center",
-    backgroundColor: tokens.colors.accentDim,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: tokens.radius.lg,
-  },
-  detailText: { fontSize: 11, fontWeight: "700", color: tokens.colors.accent, marginRight: 4 },
-  controlSection: { paddingHorizontal: tokens.space.lg, paddingBottom: tokens.space.md },
-  modalLabel: { fontSize: 12, fontWeight: "700", letterSpacing: 0.5, textTransform: "uppercase", color: tokens.colors.text2, marginBottom: tokens.space.sm },
-  durationControl: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: tokens.colors.bgCard,
-    padding: tokens.space.sm,
-    borderRadius: tokens.radius.lg,
+    justifyContent: "center",
     borderWidth: 1,
     borderColor: tokens.colors.border,
+    backgroundColor: tokens.colors.page,
   },
-  durationBtn: { width: 48, height: 48, alignItems: "center", justifyContent: "center", backgroundColor: tokens.colors.bgElevated, borderRadius: tokens.radius.md },
-  durationValue: { fontSize: 20, fontWeight: "800", color: tokens.colors.accent },
+  durationValue: { minWidth: 104, textAlign: "center", fontSize: 17, fontWeight: "600", color: tokens.colors.text },
   noteInput: {
     borderWidth: 1,
     borderColor: tokens.colors.border,
-    borderRadius: tokens.radius.md,
-    paddingHorizontal: tokens.space.md,
+    borderRadius: 12,
+    paddingHorizontal: 14,
     paddingVertical: tokens.space.sm,
-    fontSize: 14,
+    fontSize: 16,
     color: tokens.colors.text,
-    backgroundColor: tokens.colors.bgCard,
+    backgroundColor: tokens.colors.page,
     minHeight: 72,
     textAlignVertical: "top",
   },
-  moveSection: { paddingBottom: tokens.space.lg },
+  moveSection: {},
   // Inset on the label only — the day row keeps its own padding so it can scroll
   // edge to edge rather than clipping at a container inset.
-  moveLabelWrap: { paddingHorizontal: tokens.space.lg },
-  moveScroll: { paddingHorizontal: tokens.space.lg, gap: 8 },
+  moveLabelWrap: { paddingHorizontal: tokens.space.md },
+  moveScroll: { paddingHorizontal: tokens.space.md, gap: 8 },
   moveBtn: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: tokens.colors.bgElevated,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: tokens.radius.lg,
+    backgroundColor: tokens.colors.page,
+    paddingHorizontal: 14,
+    minHeight: 44,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: tokens.colors.border,
   },
@@ -325,15 +332,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
-    marginHorizontal: tokens.space.lg,
+    marginHorizontal: tokens.space.md,
     padding: tokens.space.md,
     borderRadius: tokens.radius.lg,
     backgroundColor: tokens.colors.accentDim,
   },
   lockedMoveText: { flex: 1, fontSize: 13, fontWeight: "600", color: tokens.colors.text },
   lockedMoveCta: { fontSize: 13, fontWeight: "800", color: tokens.colors.accent },
-  moveBtnText: { fontSize: 13, fontWeight: "700", color: tokens.colors.text2, marginLeft: 6 },
-  actionContainer: { paddingHorizontal: tokens.space.lg, paddingBottom: tokens.space.lg },
-  removeBtn: { flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: tokens.space.md, paddingVertical: tokens.space.sm },
-  removeText: { fontWeight: "700", color: tokens.colors.danger, marginLeft: 8 },
+  moveBtnText: { fontSize: 15, fontWeight: "500", color: tokens.colors.text, marginLeft: 6 },
+  actionContainer: { paddingHorizontal: tokens.space.md, paddingTop: 18, paddingBottom: 34 },
+  removeBtn: { flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: tokens.space.sm, paddingVertical: tokens.space.sm },
+  removeText: { fontSize: 15, fontWeight: "600", color: tokens.colors.danger, marginLeft: 8 },
 });

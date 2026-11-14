@@ -15,15 +15,21 @@ import { tokens } from "@/lib/ui/tokens";
 // network flash.
 const HERO_IMAGE = require("../../assets/login.webp");
 
-// The photo's share of the screen: about 400pt on a 6.1" iPhone, about 310 on an iPhone
+// The photo's share of the screen: about 340pt on a 6.1" iPhone, about 265 on an iPhone
 // SE (667pt), where the whole form must still fit (App Review runs iPhone apps on iPad at
-// 375×667; Rotorua was rejected for a button off the bottom there).
-const PHOTO_SHARE = 0.47;
+// 375×667; Rotorua was rejected for a button off the bottom there). It was 0.47: the
+// design sweep's critics read that as a welcome poster with the form second. Shorter
+// again when creating an account, whose form is longer, so it shows without scrolling
+// (owner, 2026-11-13; docs/plans/design-sweep.md).
+const PHOTO_SHARE = 0.4;
+const PHOTO_SHARE_SIGNUP = 0.29;
+// How far the form's white sheet rides up over the foot of the photo: its corner radius.
+const SHEET_OVERLAP = 20;
 
-// Mockup C (owner, 2026-10-25; docs/plans/login-redesign.md): the photo with the title
-// on top, fading into the deep teal of the app's top bars, and the engine's AuthPanel on
-// the teal, showing straight away. Email is the only way in, so there is no "Sign in with
-// email" step to open it.
+// The photo with the title on top (mockup C, owner, 2026-10-25; docs/plans/login-redesign.md),
+// and since the design sweep the engine's AuthPanel on a white sheet with rounded top
+// corners over the photo's foot, where it was on deep teal. Email is the only way in, so
+// there is no "Sign in with email" step to open it.
 // Back to where sign-in was asked for: every "Sign In" in the app (a place's Add to Trip,
 // Save, the Trips tab) pushes this screen over it. With nothing under it (after signing
 // out), on to Explore.
@@ -78,22 +84,20 @@ export default function LoginScreen() {
             showsVerticalScrollIndicator={false}
             bounces={false}
           >
-            <View style={[styles.photo, { height: Math.round(height * PHOTO_SHARE) }]}>
+            <View
+              style={[
+                styles.photo,
+                { height: Math.round(height * (f.mode === "signup" ? PHOTO_SHARE_SIGNUP : PHOTO_SHARE)) },
+              ]}
+            >
               <Image source={HERO_IMAGE} style={StyleSheet.absoluteFill} contentFit="cover" />
               {/* The scrim teal behind the title and tagline over the white cloud, held
                   strong to just past the tagline (it was unreadable where the fade had
-                  already begun, owner 2026-10-26), clear through the mountains, then into
-                  the panel's teal so the photo has no hard edge. The last two characters
-                  of each colour are its opacity. */}
+                  already begun, owner 2026-10-26), then clear through the mountains to
+                  the white sheet. The last two characters of each colour are its opacity. */}
               <LinearGradient
-                colors={[
-                  `${tokens.colors.scrim}F2`,
-                  `${tokens.colors.scrim}D9`,
-                  `${tokens.colors.scrim}00`,
-                  `${tokens.colors.accentWarm}00`,
-                  tokens.colors.accentWarm,
-                ]}
-                locations={[0, 0.5, 0.72, 0.84, 1]}
+                colors={[`${tokens.colors.scrim}F2`, `${tokens.colors.scrim}D9`, `${tokens.colors.scrim}00`]}
+                locations={[0, 0.5, 0.78]}
                 style={StyleSheet.absoluteFill}
               />
               <View style={[styles.brand, { paddingTop: insets.top + 24 }]}>
@@ -131,13 +135,23 @@ export default function LoginScreen() {
                 onSubmit={() => void f.submit()}
                 onGuest={handleGuestEntry}
                 optIn={{ label: EMAIL_OPT_IN_LABEL, value: f.emailOptIn, onChange: f.setEmailOptIn }}
-                tone="dark"
-                radius={0}
+                // On the white sheet: outlined boxes with the sweep's 12pt corners, dark
+                // labels, and the links in teal (orange is the one main button). No
+                // `style` to fill the space: the guest link then sits with the other
+                // links, not alone at the foot of the screen.
+                // "stacked" is the picked drawing: "Forgot password?" under the password
+                // box, the other links on one centre line, the guest link plain. The
+                // password boxes are empty: their labels already say what they are.
+                tone="light"
+                radius={12}
+                layout="stacked"
+                placeholders={{ password: "", confirmPassword: "" }}
+                labelSize={15}
                 colors={{
-                  label: tokens.colors.onDarkMuted,
-                  guest: tokens.colors.highlightOnDark,
+                  label: tokens.colors.text,
+                  link: tokens.colors.selected,
+                  guest: tokens.colors.selected,
                 }}
-                style={styles.flex1}
               />
             </View>
           </ScrollView>
@@ -149,7 +163,7 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   flex1: { flex: 1 },
-  screen: { flex: 1, backgroundColor: tokens.colors.accentWarm },
+  screen: { flex: 1, backgroundColor: tokens.colors.page },
   scrollContent: { flexGrow: 1 },
   photo: { width: "100%" },
   brand: { alignItems: "center", gap: tokens.space.xs, paddingHorizontal: tokens.space.lg },
@@ -166,22 +180,27 @@ const styles = StyleSheet.create({
   },
   // White, larger, and with a heavy shadow: in the on-dark orange it couldn't be read over
   // the cloud (owner, 2026-10-26). Smaller and lighter than the title, so it still reads as
-  // its own line.
+  // its own line: medium weight since the design sweep, where bold competed with the title
+  // (owner, 2026-11-13).
   tagline: {
     color: "#FFFFFF",
     fontSize: 20,
-    fontWeight: "700",
+    fontWeight: "500",
     lineHeight: 26,
     textAlign: "center",
     textShadowColor: "rgba(0,0,0,0.95)",
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 12,
   },
-  // flexGrow: the panel takes the rest of the screen, so the guest link sits at its foot.
+  // A white sheet with rounded top corners over the foot of the photo, as Profile's sheet
+  // is. flexGrow: it takes the rest of the screen, so white runs to the bottom edge.
   panel: {
     flexGrow: 1,
-    backgroundColor: tokens.colors.accentWarm,
-    paddingHorizontal: tokens.space.lg,
-    paddingTop: tokens.space.xs,
+    marginTop: -SHEET_OVERLAP,
+    borderTopLeftRadius: SHEET_OVERLAP,
+    borderTopRightRadius: SHEET_OVERLAP,
+    backgroundColor: tokens.colors.page,
+    paddingHorizontal: 24,
+    paddingTop: 24,
   },
 });

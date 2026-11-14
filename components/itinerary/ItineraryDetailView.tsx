@@ -12,7 +12,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, AppState, Alert, 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useFocusEffect } from "expo-router";
 import { randomUUID } from "expo-crypto";
-import { Plus, MoreHorizontal, X, Navigation } from "lucide-react-native";
+import { Car, Plus, MoreHorizontal, X, Navigation } from "lucide-react-native";
 import * as Sentry from "@sentry/react-native";
 
 import { Screen, LoadingState, ErrorCard, AppText, AppButton, AppIconButton, components } from "@/lib/uiKit";
@@ -27,6 +27,8 @@ import { TripOverview } from "@/components/itinerary/TripOverview";
 import { TripViewSwitch, type TripView } from "@/components/itinerary/TripViewSwitch";
 import { daySwipeHandlers } from "@/components/itinerary/daySwipe";
 import { tokens } from "@/lib/ui/tokens";
+import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
+import { slotRangeLabel } from "@/lib/utils/itineraryPhysics";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { useEntitlementGate } from "@/lib/hooks/useEntitlementGate";
@@ -63,12 +65,17 @@ const generateTimeSlots = () => {
     const displayHour = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
     slots.push({
       id: `${hours}:${minutes.toString().padStart(2, "0")}`,
-      label: minutes === 0 ? `${displayHour}:00 ${ampm}` : "",
+      // "11 AM": the short form hands its width to the blocks (design sweep, the Days view).
+      label: minutes === 0 ? `${displayHour} ${ampm}` : "",
     });
   }
   return slots;
 };
 const TIME_SLOTS = generateTimeSlots();
+// Where every block starts, from the screen's left edge: the place blocks, the drives and
+// the short drives between two stops. The hour lines start here too.
+const BLOCK_LEFT = 64;
+const shortDrive = (minutes: number) => `${minutes} min drive`;
 
 function localIsoDate(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -109,6 +116,11 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     err: placesErr,
     refresh: refreshPlaces,
   } = usePlaceLookup();
+  // A place's kind, as its map pin draws it, for the icon on its block.
+  const iconFor = useMemo(
+    () => new Map(placeList.map((p) => [p.id, (CATEGORY_CONFIG[p.category?.[0]] ?? CATEGORY_CONFIG.other).Icon])),
+    [placeList],
+  );
   const imageForArea = useCallback((areaId: string) => areaImage(areaId, placeList), [placeList]);
   const sourceTrip = itineraries.find((i) => i.id === tripId) ?? null;
 
@@ -719,6 +731,19 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
         transitSize={leg.slots}
         top={leg.startSlot * SLOT_HEIGHT}
         height={leg.slots * SLOT_HEIGHT}
+        // A short drive between two stops in the same town: a car and plain words on a
+        // dotted line from the place above to the place below. No fill: it can't be dragged.
+        variant="column"
+        left={BLOCK_LEFT}
+        icon={Car}
+        formatLabel={shortDrive}
+        lineStyle="dotted"
+        colors={{
+          text: tokens.colors.text2,
+          icon: tokens.colors.textMuted,
+          line: tokens.colors.border,
+          patch: tokens.colors.page,
+        }}
       />
     );
 
@@ -730,13 +755,13 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
 
   return (
     <View style={styles.safeArea}>
-      {/* The brand bar: the Trip | Days switch, and under Days the day tabs as the
-          bar's bottom edge. They aren't the shared TopBarTabs: each has a date under
-          it and, when open, a delete X, and the strip ends in Add Day. Colours match
-          TopBarTabs. */}
+      {/* The brand bar holds the Trip | Days switch. Under Days the day tabs are a strip
+          on the white page beneath it, since the design sweep (docs/plans/design-sweep.md).
+          They aren't the shared TopBarTabs: each has a date under it and, when open, a
+          delete X, and the strip ends in Add Day. Colours match TopBarTabs' page tone. */}
       {/* No title row: on a phone the timeline needs the room. The trip's name heads the
           trip view instead (TripOverview), and the menu sits beside the switch. */}
-      <TopBar flushBottom={view === "days"}>
+      <TopBar>
         <View style={styles.switchRow}>
           <TripViewSwitch view={view} onChange={handleChangeView} style={styles.switch} />
           <AppIconButton
@@ -746,71 +771,71 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
             accessibilityLabel="Trip options"
           />
         </View>
-        {view === "days" && (
-          <ScrollView
-            ref={dayStripRef}
-            testID="day-strip"
-            onLayout={(e) => {
-              dayStripWidth.current = e.nativeEvent.layout.width;
-              scrollStripTo(activeDay?.id, false);
-            }}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.tabStrip}
-            contentContainerStyle={styles.tabScroll}
-          >
-            {localTrip.days.map((day, index) => {
-              // The day shown, which is the first when the open one has gone (the trip was
-              // shortened under it, or a refetch hasn't caught up with a new day yet).
-              // activeDayId is kept, so the screen goes back to that day once it's there.
-              const isActive = day.id === activeDay?.id;
-              const canDelete = isActive && localTrip.days.length > 1;
-              return (
-                <TouchableOpacity
-                  key={day.id}
-                  testID={`day-tab-${day.id}`}
-                  onPress={() => handleSwitchDay(day.id)}
-                  accessibilityRole="tab"
-                  accessibilityState={{ selected: isActive }}
-                  accessibilityLabel={`Day ${index + 1}, ${formatDayDate(day.date)}`}
-                  onLayout={(e) => {
-                    dayTabFrames.current[day.id] = { x: e.nativeEvent.layout.x, width: e.nativeEvent.layout.width };
-                    if (isActive) scrollStripTo(day.id, false);
-                  }}
-                  style={styles.dayTab}
-                >
-                  <View style={styles.dayTabContent}>
-                    <View>
-                      <AppText style={[styles.dayTabText, isActive && styles.dayTabTextActive]}>Day {index + 1}</AppText>
-                      <AppText style={[styles.dayTabDate, isActive && styles.dayTabDateActive]}>
-                        {formatDayDate(day.date)}
-                      </AppText>
-                    </View>
-                    {canDelete && (
-                      <TouchableOpacity
-                        onPress={() => handleDeleteDay(day.id)}
-                        accessibilityRole="button"
-                        accessibilityLabel={`Delete Day ${index + 1}`}
-                        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                        style={styles.dayDeleteBtn}
-                      >
-                        <X size={14} color="#FFFFFF" strokeWidth={2.5} />
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                  <View style={[styles.dayTabIndicator, isActive && styles.dayTabIndicatorActive]} />
-                </TouchableOpacity>
-              );
-            })}
-            {isEntitled && localTrip.days.length < PLANNER.MAX_TRIP_DAYS && (
-              <TouchableOpacity onPress={handleAddDay} style={styles.addDayBtn} accessibilityRole="button">
-                <Plus color="#FFFFFF" size={16} strokeWidth={2.5} />
-                <AppText style={styles.addDayText}>Add Day</AppText>
-              </TouchableOpacity>
-            )}
-          </ScrollView>
-        )}
       </TopBar>
+      {view === "days" && (
+        <ScrollView
+          ref={dayStripRef}
+          testID="day-strip"
+          onLayout={(e) => {
+            dayStripWidth.current = e.nativeEvent.layout.width;
+            scrollStripTo(activeDay?.id, false);
+          }}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.tabStrip}
+          contentContainerStyle={styles.tabScroll}
+        >
+          {localTrip.days.map((day, index) => {
+            // The day shown, which is the first when the open one has gone (the trip was
+            // shortened under it, or a refetch hasn't caught up with a new day yet).
+            // activeDayId is kept, so the screen goes back to that day once it's there.
+            const isActive = day.id === activeDay?.id;
+            const canDelete = isActive && localTrip.days.length > 1;
+            return (
+              <TouchableOpacity
+                key={day.id}
+                testID={`day-tab-${day.id}`}
+                onPress={() => handleSwitchDay(day.id)}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: isActive }}
+                accessibilityLabel={`Day ${index + 1}, ${formatDayDate(day.date)}`}
+                onLayout={(e) => {
+                  dayTabFrames.current[day.id] = { x: e.nativeEvent.layout.x, width: e.nativeEvent.layout.width };
+                  if (isActive) scrollStripTo(day.id, false);
+                }}
+                style={styles.dayTab}
+              >
+                <View style={styles.dayTabContent}>
+                  <View>
+                    <AppText style={[styles.dayTabText, isActive && styles.dayTabTextActive]}>Day {index + 1}</AppText>
+                    <AppText style={[styles.dayTabDate, isActive && styles.dayTabDateActive]}>
+                      {formatDayDate(day.date)}
+                    </AppText>
+                  </View>
+                  {canDelete && (
+                    <TouchableOpacity
+                      onPress={() => handleDeleteDay(day.id)}
+                      accessibilityRole="button"
+                      accessibilityLabel={`Delete Day ${index + 1}`}
+                      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                      style={styles.dayDeleteBtn}
+                    >
+                      <X size={14} color={tokens.colors.text} strokeWidth={2.5} />
+                    </TouchableOpacity>
+                  )}
+                </View>
+                <View style={[styles.dayTabIndicator, isActive && styles.dayTabIndicatorActive]} />
+              </TouchableOpacity>
+            );
+          })}
+          {isEntitled && localTrip.days.length < PLANNER.MAX_TRIP_DAYS && (
+            <TouchableOpacity onPress={handleAddDay} style={styles.addDayBtn} accessibilityRole="button">
+              <Plus color={tokens.colors.selected} size={16} strokeWidth={2.5} />
+              <AppText style={styles.addDayText}>Add Day</AppText>
+            </TouchableOpacity>
+          )}
+        </ScrollView>
+      )}
 
       {view === "trip" ? (
         <TripOverview
@@ -867,7 +892,15 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
             {localItems.map((item) => (
               <Fragment key={item.id}>
                 <components.TimelineBlock
-                  item={item}
+                  // When it starts and ends ("1:00 – 2:00 PM"), not its start and length.
+                  item={{
+                    ...item,
+                    timeLabel: slotRangeLabel(item.slotIndex ?? 0, item.durationSlots || 2),
+                    durationLabel: undefined,
+                  }}
+                  left={BLOCK_LEFT}
+                  icon={iconFor.get(item.siteId) ?? CATEGORY_CONFIG.other.Icon}
+                  colors={{ grip: "rgba(255,255,255,0.7)" }}
                   maxSlots={TIME_SLOTS.length}
                   slotHeight={SLOT_HEIGHT}
                   onDrop={handleDrop}
@@ -876,40 +909,31 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                     setIsDragging(true);
                   }}
                   onDragEnd={() => setIsDragging(false)}
-                  onEdit={(item) => setEditingItem(item as ItineraryItem)}
-                  onNotePress={(item) => setViewingNote(item as ItineraryItem)}
+                  onEdit={() => setEditingItem(item)}
+                  onNotePress={() => setViewingNote(item)}
                 />
                 {legAfter.has(item.id) ? renderLeg(legAfter.get(item.id)!) : null}
               </Fragment>
             ))}
 
             {localItems.length === 0 ? (
-              // Matches AKL's plans.tsx: three copies spread across the grid
-              // (top/middle/bottom thirds) instead of one card appended after
-              // all 28 slot rows, so it reads as sitting on the timeline
-              // rather than as a footer below it.
-              ([0, 1, 2] as const).map((i) => {
-                const sectionSlots = Math.floor(MAX_GRID_SLOTS / 3);
-                return (
-                  <View
-                    key={`empty_${i}`}
-                    style={[styles.gapContainer, { top: i * sectionSlots * SLOT_HEIGHT, height: sectionSlots * SLOT_HEIGHT }]}
-                  >
-                    <TouchableOpacity
-                      style={styles.emptyDayCard}
-                      onPress={() => browseFrom(MAX_GRID_SLOTS, 1)}
-                      activeOpacity={0.7}
-                    >
-                      <AppText variant="body" style={styles.emptyDayTitle}>
-                        Nothing here yet
-                      </AppText>
-                      <AppText variant="label" status="hint" style={styles.emptyDayBody}>
-                        Browse places and tap "+ Add to Trip" to build this day.
-                      </AppText>
-                    </TouchableOpacity>
-                  </View>
-                );
-              })
+              // One row across the first hour (design sweep, the Days view). It was three
+              // cards down the grid, which read as three things to do.
+              <TouchableOpacity
+                style={[styles.emptyDayRow, { height: 2 * SLOT_HEIGHT }]}
+                onPress={() => browseFrom(MAX_GRID_SLOTS, 1)}
+                activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel="Nothing here yet. Browse places"
+              >
+                <AppText variant="body" style={styles.emptyDayTitle}>
+                  Nothing here yet
+                </AppText>
+                {/* What a tap on the row does, said on a button. The whole row is the tap. */}
+                <View style={styles.emptyDayButton}>
+                  <AppText style={styles.emptyDayButtonText}>Browse places</AppText>
+                </View>
+              </TouchableOpacity>
             ) : (
               freeGaps.map((gap) => (
                 <View
@@ -1070,7 +1094,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: tokens.colors.bgBase },
+  safeArea: { flex: 1, backgroundColor: tokens.colors.page },
   menuOverlay: { flex: 1, backgroundColor: "rgba(36,26,18,0.3)" },
   // paddingTop approximates the top bar's title row (8 + 44, see TopBar) so the
   // menu lands directly under the "..." button rather than needing a measured anchor.
@@ -1094,52 +1118,56 @@ const styles = StyleSheet.create({
   menuRowDanger: { color: tokens.colors.danger },
   switchRow: { flexDirection: "row", alignItems: "center", gap: tokens.space.sm, paddingHorizontal: tokens.space.md },
   switch: { flex: 1 },
-  // flexGrow 0: a horizontal ScrollView otherwise stretches to fill the bar.
-  tabStrip: { flexGrow: 0 },
+  // flexGrow 0: a horizontal ScrollView otherwise stretches to fill the screen.
+  tabStrip: {
+    flexGrow: 0,
+    backgroundColor: tokens.colors.page,
+    borderBottomWidth: 1,
+    borderBottomColor: tokens.colors.line,
+  },
   tabScroll: { paddingHorizontal: tokens.space.xs, alignItems: "stretch" },
   dayTab: { paddingHorizontal: 14, paddingVertical: 10, position: "relative", alignItems: "center" },
-  dayTabContent: { flexDirection: "row", alignItems: "center", gap: 6 },
-  dayDeleteBtn: { padding: 5, borderRadius: 10, backgroundColor: "rgba(255,255,255,0.16)" },
-  // On the dark bar, same as TopBarTabs: white, with the highlight's lighter
-  // twin for the open day, and every tab underlined (faintly when it isn't
-  // the open one) so they read as tabs.
-  dayTabText: { fontSize: 15, fontWeight: "600", color: "#FFFFFF" },
-  dayTabTextActive: { color: tokens.colors.highlightOnDark, fontWeight: "700" },
-  dayTabDate: { fontSize: 11, fontWeight: "500", color: tokens.colors.onDarkMuted, marginTop: 1, textAlign: "center" },
-  dayTabDateActive: { color: tokens.colors.highlightOnDark },
+  dayTabContent: { flexDirection: "row", alignItems: "center", gap: 10 },
+  dayDeleteBtn: { padding: 5, borderRadius: 10, backgroundColor: tokens.colors.bgElevated },
+  // On the page, same as TopBarTabs' page tone: one grey when idle, the open day teal
+  // with a line under it.
+  dayTabText: { fontSize: 15, fontWeight: "500", color: tokens.colors.textMuted },
+  dayTabTextActive: { color: tokens.colors.selected, fontWeight: "600" },
+  dayTabDate: { fontSize: 12, fontWeight: "400", color: tokens.colors.textMuted, marginTop: 1, textAlign: "center" },
+  dayTabDateActive: { color: tokens.colors.selected },
   dayTabIndicator: {
     position: "absolute",
     bottom: 0,
     left: 8,
     right: 8,
-    height: 3,
-    backgroundColor: "rgba(255,255,255,0.4)",
-    borderTopLeftRadius: 3,
-    borderTopRightRadius: 3,
+    height: 2,
+    backgroundColor: "transparent",
   },
-  dayTabIndicatorActive: { backgroundColor: tokens.colors.highlightOnDark },
+  dayTabIndicatorActive: { backgroundColor: tokens.colors.selected },
   addDayBtn: { flexDirection: "row", alignItems: "center", paddingHorizontal: 14, paddingVertical: 10, gap: 6 },
-  addDayText: { fontSize: 14, fontWeight: "700", color: "#FFFFFF" },
+  addDayText: { fontSize: 14, fontWeight: "600", color: tokens.colors.selected },
   timelineScroll: { flex: 1 },
   routeRow: { paddingHorizontal: tokens.space.md, paddingTop: tokens.space.md },
   timelineContainer: { position: "relative", paddingTop: tokens.space.md, paddingBottom: 100 },
   gridRow: { flexDirection: "row", height: SLOT_HEIGHT, alignItems: "flex-start" },
-  // From the time column's right edge (70, see timeLabelContainer) across the
+  // From the blocks' left edge (BLOCK_LEFT, see timeLabelContainer) across the
   // grid, in the highlight: this app's "you are here" colour.
   nowLine: {
     position: "absolute",
-    left: 70,
-    right: 0,
+    left: BLOCK_LEFT,
+    right: tokens.space.md,
     height: 2,
     borderRadius: 1,
     backgroundColor: tokens.colors.highlight,
     zIndex: 5,
   },
-  timeLabelContainer: { width: 70, alignItems: "flex-end", paddingRight: tokens.space.sm },
-  timeLabel: { position: "absolute", top: -8, fontSize: 11, fontWeight: "700", color: tokens.colors.text2 },
-  hourDivider: { flex: 1, borderTopWidth: 1, borderTopColor: tokens.colors.border },
-  halfHourDivider: { flex: 1, borderTopWidth: 1, borderTopColor: tokens.colors.borderSubtle },
-  gapContainer: { position: "absolute", left: 82, right: tokens.space.md, alignItems: "center", justifyContent: "center" },
+  // The label on the screen's 16pt margin; the hour line runs from the blocks' left edge
+  // to their right, and no further either side.
+  timeLabelContainer: { width: BLOCK_LEFT, paddingLeft: tokens.space.md },
+  timeLabel: { position: "absolute", top: -8, fontSize: 11, fontWeight: "500", color: tokens.colors.textMuted },
+  hourDivider: { flex: 1, marginRight: tokens.space.md, borderTopWidth: 1, borderTopColor: tokens.colors.line },
+  halfHourDivider: { flex: 1, marginRight: tokens.space.md, borderTopWidth: 1, borderTopColor: tokens.colors.borderSubtle },
+  gapContainer: { position: "absolute", left: BLOCK_LEFT, right: tokens.space.md, alignItems: "center", justifyContent: "center" },
   gapCard: {
     borderWidth: 1,
     borderStyle: "dashed",
@@ -1149,18 +1177,31 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   gapCardText: { fontSize: 14, fontWeight: "600", color: tokens.colors.text2 },
-  emptyDayCard: {
-    maxWidth: 280,
-    backgroundColor: tokens.colors.bgCard,
-    borderWidth: 1.5,
-    borderColor: tokens.colors.border,
-    borderStyle: "dashed",
-    borderRadius: tokens.radius.lg,
-    paddingHorizontal: 24,
-    paddingVertical: 20,
+  // A row on the first hour, the width of the blocks, in the page's colour so the half-hour
+  // line doesn't show through, with a line above and below.
+  emptyDayRow: {
+    position: "absolute",
+    top: tokens.space.md,
+    left: BLOCK_LEFT,
+    right: tokens.space.md,
+    backgroundColor: tokens.colors.page,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: tokens.colors.line,
+    flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    justifyContent: "space-between",
+    gap: 12,
   },
-  emptyDayTitle: { fontWeight: "700", color: tokens.colors.text },
-  emptyDayBody: { textAlign: "center" },
+  emptyDayTitle: { flexShrink: 1, fontSize: 16, fontWeight: "600", color: tokens.colors.text },
+  // Orange: it is what to tap.
+  emptyDayButton: {
+    height: 44,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    backgroundColor: tokens.colors.highlight,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  emptyDayButtonText: { fontSize: 16, fontWeight: "600", color: "#FFFFFF" },
 });

@@ -199,18 +199,19 @@ describe("TripOverview", () => {
     expect(scrollTo).toHaveBeenCalledWith({ y: 400 - 16, animated: false });
   });
 
-  // A guest's suggested trip: a sample, not booked, so no dates, and a lock for an arrow.
+  // A guest's suggested trip: a sample, not booked, so no dates and no count of days, and no
+  // arrow on a row. Each row still says "locked" to a screen reader.
   describe("locked", () => {
-    it("shows no dates, only the day numbers and the length", async () => {
+    it("shows no dates and no count of days, only the day numbers", async () => {
       const view = await show([[at("a", "chc-a")], [at("b", "dun-a")]], { locked: true });
 
       expect(view.getByText("Day 1")).toBeTruthy();
       expect(view.getByText("Day 2")).toBeTruthy();
-      expect(view.getByText("2 days")).toBeTruthy();
+      expect(view.queryByText("2 days")).toBeNull();
       expect(view.queryByText(/Oct/)).toBeNull();
     });
 
-    it("puts a lock on each row, says so, and still reports a tap", async () => {
+    it("says each row is locked, and still reports a tap", async () => {
       const onOpenDay = jest.fn();
       const view = await show([[at("a", "chc-a")], [at("b", "dun-a")]], { locked: true, onOpenDay });
 
@@ -233,5 +234,21 @@ describe("TripOverview", () => {
 
     expect(view.getByText("Sign-in card")).toBeTruthy();
     expect(view.getByText("South Island Trip")).toBeTruthy();
+  });
+});
+
+// A route never leaves an arrow hanging at the end of a line, and a town's name never
+// breaks in two (design sweep, 2026-11-13): the spaces that could break are unbreakable.
+describe("routeLine", () => {
+  const { routeLine } = require("@/components/itinerary/TripOverview");
+
+  it("ties each arrow to the town after it, and keeps a town's name in one piece", () => {
+    expect(routeLine(["Wānaka", "Aoraki / Mount Cook"])).toBe(
+      "Wānaka → Aoraki / Mount Cook",
+    );
+  });
+
+  it("is the town alone for a day in one town", () => {
+    expect(routeLine(["Te Anau"])).toBe("Te Anau");
   });
 });

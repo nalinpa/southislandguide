@@ -1,3 +1,16 @@
+import { DynamicColorIOS, Platform } from "react-native";
+
+// Dark mode follows the phone (docs/plans/design-sweep.md). A colour written as a pair is
+// iOS's own two-sided colour: the system swaps it when the phone changes, so the style
+// sheets that read it need no hook and no re-render.
+// ponytail: off until every screen is built for it. Turned on early, the screens not yet
+// converted would show light text on their hard-coded white. While off, a pair is its light
+// value: a plain string, as before. A pair can't be glued into a string (`${c}66`) or
+// measured for contrast: give those a fixed colour.
+export const DARK_READY = false;
+const pair = (light: string, dark: string): string =>
+  DARK_READY && Platform.OS === "ios" ? (DynamicColorIOS({ light, dark }) as unknown as string) : light;
+
 // Named here because both the palette and the hero button below use it.
 const HIGHLIGHT = "#C2410C";
 
@@ -45,7 +58,19 @@ export const tokens = {
     borderStrong: "#3D6B5F",
     accent: "#095C65",
     accentDim: "rgba(9,92,101,0.12)",
-    accentWarm: "#063F45",
+    accentWarm: pair("#063F45", "#0B4B52"),
+    // The design sweep's look (docs/plans/design-sweep.md), screen by screen: a white
+    // page, a hairline round a photo so a pale sky doesn't melt into it, and one line
+    // colour. `selected` marks the tab or category you're on: teal, with a line under it.
+    page: pair("#FFFFFF", "#06191B"),
+    line: pair("#CBD8D3", "#2F5257"),
+    // The pale band between groups of rows (Profile): a band means "new group", a line
+    // "next row in the same group".
+    band: pair("#EEF3F1", "#0C2A2E"),
+    // A drive on the Days view: a pale teal, so a fill there means "this can be dragged".
+    driveFill: pair("#D9E9E4", "#173F45"),
+    photoEdge: pair("rgba(10,31,27,0.14)", "rgba(238,246,243,0.16)"),
+    selected: pair("#095C65", "#7FD0D6"),
     // The one warm colour: draws the eye to the important thing on a screen.
     // Opposite teal on the wheel, and not one of the map category colours
     // (components/map/SiteMarker.tsx). Too weak as text on bgElevated (4.2:1).
@@ -70,9 +95,9 @@ export const tokens = {
     dangerDim: "#FDF0EE",
     // Near-black, then neutral greys: the old green-on-green secondary text
     // blended into the page.
-    text: "#0A1F1B",
-    text2: "#33443F",
-    textMuted: "#566661"
+    text: pair("#0A1F1B", "#EEF6F3"),
+    text2: pair("#33443F", "#C5D6D1"),
+    textMuted: pair("#566661", "#9DB5AF"),
   },
 } as const;
 
@@ -84,4 +109,27 @@ export const tokens = {
 export const formTokens = {
   ...tokens,
   colors: { ...tokens.colors, bgElevated: "#F1F6F4" },
+};
+
+// The design sweep's colours and button for the engine's flat pieces (the "no trips"
+// panel, the trip-choice sheet), which take them as props.
+export const SWEEP_COLORS = {
+  page: tokens.colors.page,
+  line: tokens.colors.line,
+  muted: tokens.colors.textMuted,
+  link: tokens.colors.selected,
+  pale: tokens.colors.bgSurface,
+};
+export const SWEEP_BUTTON = { radius: 12, height: 50, labelSize: 16, labelWeight: "600", shadow: false } as const;
+
+// The same, for the engine's "open" reviews pieces (docs/plans/design-sweep.md, reviews):
+// teal for a star someone has chosen, the outline colour for the note box, for a star not
+// yet chosen and for the small star a rating didn't reach.
+export const REVIEW_COLORS = {
+  ...SWEEP_COLORS,
+  starPicked: tokens.colors.selected,
+  starEmpty: tokens.colors.border,
+  boxBorder: tokens.colors.border,
+  placeholder: tokens.colors.textMuted,
+  pale: tokens.colors.band,
 };

@@ -34,7 +34,7 @@ import React from "react";
 import { Linking } from "react-native";
 import { fireEvent, render } from "@testing-library/react-native";
 
-import { MapOverlayCard, SHEET_GRADIENT } from "@/components/map/MapOverlay";
+import { MapOverlayCard } from "@/components/map/MapOverlay";
 import { tokens } from "@/lib/ui/tokens";
 
 const site = {
@@ -69,8 +69,8 @@ beforeEach(() => {
 
 afterEach(() => openUrlSpy.mockRestore());
 
-// The sheet's text is white. Its background used to fade to the pale page colour at the
-// bottom, which washed out the nearby rows sitting there.
+// Since the design sweep the sheet is the white page with dark text (it was deep teal with
+// white text, and once faded to a pale colour that washed the nearby rows out).
 describe("the sheet background", () => {
   const luminance = (hex: string) => {
     const [r, g, b] = [1, 3, 5].map((i) => {
@@ -79,10 +79,14 @@ describe("the sheet background", () => {
     });
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
   };
+  const contrast = (a: string, b: string) => {
+    const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+    return (hi + 0.05) / (lo + 0.05);
+  };
 
-  it("stays dark enough for white text from top to bottom", () => {
-    for (const stop of SHEET_GRADIENT) {
-      expect(1.05 / (luminance(stop) + 0.05)).toBeGreaterThanOrEqual(4.5);
+  it("keeps the sheet's text readable on it", () => {
+    for (const text of [tokens.colors.text, tokens.colors.text2, tokens.colors.textMuted]) {
+      expect(contrast(text, tokens.colors.page)).toBeGreaterThanOrEqual(4.5);
     }
   });
 });
@@ -101,7 +105,7 @@ describe("with no site selected", () => {
       nearbySites: [{ id: "s2", name: "Hell's Gate", distanceMeters: 800 }],
     });
 
-    expect(view.queryByText("NEARBY")).toBeNull();
+    expect(view.queryByText("Nearby")).toBeNull();
   });
 });
 
@@ -152,7 +156,7 @@ describe("the selected site", () => {
   it("names its category and town in words", async () => {
     const view = await openSheet({ site: { ...site, category: ["Food"], area: "wanaka", region: "queenstown-wanaka" } });
 
-    expect(view.getByText("FOOD & DRINK · WĀNAKA")).toBeTruthy();
+    expect(view.getByText(/^Food & Drink · Wānaka/)).toBeTruthy();
   });
 
   it("opens the site", async () => {
@@ -179,11 +183,11 @@ describe("the selected site", () => {
     expect(handlers.onFocusSite).toHaveBeenCalled();
   });
 
-  // The sheet is the brand's dark teal, so the highlight is its on-dark twin.
-  it("shows the distance in the highlight colour", async () => {
+  // A fact, so plain text on the facts line: colour is kept for what to tap.
+  it("shows the distance in plain text, with the other facts", async () => {
     const view = await openSheet();
 
-    expect(view.getByText(/^\d+(\.\d+)?\s?k?m$/)).toHaveStyle({ color: tokens.colors.highlightOnDark });
+    expect(view.getByText(/^\d+(\.\d+)?\s?k?m$/)).toHaveStyle({ color: tokens.colors.text2 });
   });
 
   // Orange buttons carry a white label everywhere, so they use the full-strength
@@ -266,7 +270,7 @@ describe("today's plan and nearby", () => {
   it("shows today's stops when the trip has some", async () => {
     const view = await openSheet({ todayItems });
 
-    expect(view.getByText("TODAY'S TRIP")).toBeTruthy();
+    expect(view.getByText("Today's Trip")).toBeTruthy();
     expect(view.getByText("Hell's Gate")).toBeTruthy();
     expect(view.getByText("9:00 AM")).toBeTruthy();
   });
@@ -274,22 +278,22 @@ describe("today's plan and nearby", () => {
   it("prefers today's plan over the nearby list", async () => {
     const view = await openSheet({ todayItems, nearbySites });
 
-    expect(view.getByText("TODAY'S TRIP")).toBeTruthy();
-    expect(view.queryByText("NEARBY")).toBeNull();
+    expect(view.getByText("Today's Trip")).toBeTruthy();
+    expect(view.queryByText("Nearby")).toBeNull();
   });
 
   it("falls back to nearby when there is no plan for today", async () => {
     const view = await openSheet({ nearbySites });
 
-    expect(view.getByText("NEARBY")).toBeTruthy();
+    expect(view.getByText("Nearby")).toBeTruthy();
     expect(view.getByText("Blue Lake")).toBeTruthy();
   });
 
   it("shows neither section when there is nothing to put in them", async () => {
     const view = await openSheet();
 
-    expect(view.queryByText("TODAY'S TRIP")).toBeNull();
-    expect(view.queryByText("NEARBY")).toBeNull();
+    expect(view.queryByText("Today's Trip")).toBeNull();
+    expect(view.queryByText("Nearby")).toBeNull();
   });
 
   it("selects a stop from today's plan", async () => {
@@ -311,7 +315,7 @@ describe("today's plan and nearby", () => {
   it("hides both sections while the GPS is still settling", async () => {
     const view = await openSheet({ hasLoc: false, todayItems, nearbySites });
 
-    expect(view.queryByText("TODAY'S TRIP")).toBeNull();
-    expect(view.queryByText("NEARBY")).toBeNull();
+    expect(view.queryByText("Today's Trip")).toBeNull();
+    expect(view.queryByText("Nearby")).toBeNull();
   });
 });

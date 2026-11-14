@@ -227,8 +227,9 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                 accessibilityRole="button"
                 accessibilityLabel="Close"
+                style={styles.closeChip}
               >
-                <X color={tokens.colors.text2} size={24} />
+                <X color={tokens.colors.text} size={16} strokeWidth={2.25} />
               </TouchableOpacity>
             </View>
 
@@ -313,24 +314,31 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
               )}
 
               <Text style={styles.label}>Time of Day</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillRow}>
+              <View style={styles.timeRow}>
                 {times.map((t) => {
                   const active = slot === t.startSlot;
                   const full = !!day && !fitsAt(day.id, t.startSlot);
                   return (
                     <TouchableOpacity
                       key={t.key}
-                      style={[styles.pill, active && styles.pillActive, full && styles.pillDim]}
+                      style={[styles.pill, styles.timePill, active && styles.pillActive, full && styles.pillDim]}
                       disabled={full}
                       accessibilityState={{ selected: active, disabled: full }}
                       onPress={() => setStartSlot(t.startSlot)}
                     >
-                      <Text style={[styles.pillText, active && styles.pillTextActive]}>{t.label}</Text>
+                      <Text
+                        style={[styles.pillText, active && styles.pillTextActive]}
+                        numberOfLines={1}
+                        adjustsFontSizeToFit
+                        minimumFontScale={0.8}
+                      >
+                        {t.label}
+                      </Text>
                       {full && <Text style={[styles.pillSub, active && styles.pillTextActive]}>Full</Text>}
                     </TouchableOpacity>
                   );
                 })}
-              </ScrollView>
+              </View>
 
               <Text style={styles.label}>Duration</Text>
               <View style={styles.stepperRow}>
@@ -340,7 +348,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                   accessibilityRole="button"
                   accessibilityLabel="Shorter"
                 >
-                  <Minus color={tokens.colors.accent} size={20} />
+                  <Minus color={tokens.colors.text} size={20} />
                 </TouchableOpacity>
                 <View style={styles.stepCenter}>
                   <Text style={styles.durationText}>{slotsToDurationLabel(durationSlots)}</Text>
@@ -351,7 +359,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                   accessibilityRole="button"
                   accessibilityLabel="Longer"
                 >
-                  <Plus color={tokens.colors.accent} size={20} />
+                  <Plus color={tokens.colors.text} size={20} />
                 </TouchableOpacity>
               </View>
 
@@ -383,56 +391,85 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
 }
 
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: "rgba(36,26,18,0.6)", justifyContent: "flex-end" },
-  wrapper: { margin: tokens.space.md, marginBottom: 40, maxHeight: "90%" },
-  card: { borderRadius: tokens.radius.lg },
+  overlay: { flex: 1, backgroundColor: "rgba(3,38,43,0.55)", justifyContent: "flex-end" },
+  // A sheet on the bottom edge with 20pt top corners, not a floating card (the design
+  // sweep's look: docs/plans/design-sweep.md). No grab handle: it doesn't drag.
+  // ponytail: 34 is the home indicator's space on a Face ID iPhone, as a fixed number. On
+  // a phone with none (an SE) it is spare padding. Read the real inset if that matters.
+  wrapper: { maxHeight: "90%" },
+  card: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    paddingBottom: 34,
+  },
   header: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: tokens.space.sm },
-  title: { fontSize: 20, fontWeight: "800", color: tokens.colors.text },
-  siteRow: { flexDirection: "row", alignItems: "center", gap: 12, marginBottom: tokens.space.sm },
-  siteImage: { width: 48, height: 48, borderRadius: tokens.radius.md },
+  title: { fontSize: 20, fontWeight: "700", letterSpacing: -0.2, color: tokens.colors.text },
+  // The close button: an x in a pale circle, the same on every sheet.
+  closeChip: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: tokens.colors.bgSurface,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  siteRow: { flexDirection: "row", alignItems: "center", gap: 12, marginBottom: tokens.space.xs },
+  siteImage: { width: 48, height: 48, borderRadius: 12, borderWidth: 1, borderColor: tokens.colors.photoEdge },
   siteImagePlaceholder: {
     width: 48,
     height: 48,
-    borderRadius: tokens.radius.md,
+    borderRadius: 12,
     backgroundColor: tokens.colors.bgElevated,
     alignItems: "center",
     justifyContent: "center",
   },
-  siteName: { flex: 1, fontSize: 16, fontWeight: "700", color: tokens.colors.text },
-  label: { fontSize: 12, fontWeight: "700", letterSpacing: 0.5, textTransform: "uppercase", color: tokens.colors.text2, marginTop: tokens.space.md, marginBottom: tokens.space.sm },
+  siteName: { flex: 1, fontSize: 16, fontWeight: "600", color: tokens.colors.text },
+  // Sentence case: the small spaced capitals it was read as form furniture.
+  label: { fontSize: 14, fontWeight: "600", color: tokens.colors.text2, marginTop: 18, marginBottom: tokens.space.xs },
   pillRow: { gap: 8, paddingBottom: 4 },
+  timeRow: { flexDirection: "row", gap: 8 },
   pill: {
+    minHeight: 54,
+    justifyContent: "center",
     paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: tokens.radius.lg,
+    paddingVertical: 8,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: tokens.colors.border,
-    backgroundColor: tokens.colors.bgCard,
+    backgroundColor: tokens.colors.page,
   },
+  // Four (or five) equal boxes across the sheet.
+  timePill: { flex: 1, minWidth: 0, paddingHorizontal: 4, alignItems: "center" },
+  // The chosen one is solid teal: an outline alone was too quiet to find.
   pillActive: { backgroundColor: tokens.colors.accent, borderColor: tokens.colors.accent },
-  pillText: { fontSize: 13, fontWeight: "600", color: tokens.colors.text2 },
-  pillTextActive: { color: "#FFFFFF" },
-  pillDim: { opacity: 0.45 },
-  pillSub: { fontSize: 11, fontWeight: "500", color: tokens.colors.text2, marginTop: 2 },
+  pillText: { fontSize: 15, fontWeight: "500", color: tokens.colors.text },
+  pillTextActive: { color: "#FFFFFF", fontWeight: "600" },
+  // Dimmed, but still readable: at 0.45 "Full" couldn't be read.
+  pillDim: { opacity: 0.6 },
+  pillSub: { fontSize: 13, color: tokens.colors.textMuted, marginTop: 1 },
   done: { gap: tokens.space.sm, paddingTop: tokens.space.xs },
-  doneTitle: { fontSize: 18, fontWeight: "800", color: tokens.colors.text },
+  doneTitle: { fontSize: 18, fontWeight: "700", color: tokens.colors.text },
   doneBody: { fontSize: 15, lineHeight: 22, color: tokens.colors.text2, marginBottom: tokens.space.sm },
   viewTrip: { alignSelf: "center", paddingVertical: 12, paddingHorizontal: tokens.space.md },
-  viewTripText: { fontSize: 15, fontWeight: "700", color: tokens.colors.accent },
-  stepperRow: {
-    flexDirection: "row",
+  viewTripText: { fontSize: 15, fontWeight: "600", color: tokens.colors.accent },
+  // Minus and plus are round and sit close either side of the value: as squares at the
+  // far ends of a box they read as two more choices (design sweep, sheets round 2).
+  stepperRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: tokens.space.md },
+  stepBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: tokens.colors.bgCard,
-    borderRadius: tokens.radius.lg,
-    padding: tokens.space.xs,
+    justifyContent: "center",
     borderWidth: 1,
     borderColor: tokens.colors.border,
+    backgroundColor: tokens.colors.page,
   },
-  stepBtn: { width: 44, height: 44, alignItems: "center", justifyContent: "center", backgroundColor: tokens.colors.bgElevated, borderRadius: tokens.radius.md },
-  stepCenter: { flex: 1, alignItems: "center" },
-  durationText: { fontSize: 18, fontWeight: "800", color: tokens.colors.accent },
-  errorText: { fontSize: 12, color: tokens.colors.danger, marginTop: tokens.space.sm },
+  stepCenter: { minWidth: 104, alignItems: "center" },
+  durationText: { fontSize: 17, fontWeight: "600", color: tokens.colors.text },
+  errorText: { fontSize: 13, color: tokens.colors.danger, marginTop: tokens.space.sm },
   // The button used to sit hard against the duration stepper above it.
   submit: { marginTop: tokens.space.md },
 });

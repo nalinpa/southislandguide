@@ -2,6 +2,8 @@
 // Changed here: the look (a white card, the highlight for Next, a dark teal dim), the card
 // centred when its target hasn't registered, kept on screen at any height, and the layer
 // made a modal for screen readers, with each step read out as it comes up.
+// Since the design sweep (docs/plans/design-sweep.md): Skip Tour is inside the card, not a
+// pill in the screen's corner, and the card has a pointer to the part it is about.
 import React, { useEffect, useState } from "react";
 import {
   AccessibilityInfo,
@@ -21,8 +23,13 @@ import { useTour } from "./TourContext";
 import { TourTripPreview } from "./TourTripPreview";
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
-const HOLE_PADDING = 8;
-const CARD_HEIGHT_ESTIMATE = 180;
+// Room round the lit part. It was 8, which on Explore ran the cut-out up over the bar.
+const HOLE_PADDING = 4;
+const CARD_HEIGHT_ESTIMATE = 190;
+// The card's side margin, and the gap between it and the part it points at.
+const CARD_SIDE = 12;
+const CARD_GAP = 22;
+const POINTER = 14;
 // tokens.colors.scrim, the login screen's deep teal, as the dim's colour.
 const DIM_RGB = "3,38,43";
 
@@ -76,12 +83,18 @@ export function SpotlightOverlay() {
 
   const top = insets.top + 16;
   const bottom = height - insets.bottom - 16;
-  const fitsBelow = !!targetRect && targetRect.y + targetRect.height + 20 + cardHeight <= bottom;
+  const fitsBelow = !!targetRect && targetRect.y + targetRect.height + CARD_GAP + cardHeight <= bottom;
   const cardTop = !targetRect
     ? Math.max(top, (height - cardHeight) / 2)
     : fitsBelow
-      ? targetRect.y + targetRect.height + 20
-      : Math.max(top, targetRect.y - cardHeight - 20);
+      ? targetRect.y + targetRect.height + CARD_GAP
+      : Math.max(top, targetRect.y - cardHeight - CARD_GAP);
+  // The pointer sits under (or over) the middle of the lit part, kept clear of the card's
+  // rounded corners.
+  const cardWidth = width - CARD_SIDE * 2;
+  const pointerLeft = targetRect
+    ? Math.min(Math.max(targetRect.x + targetRect.width / 2 - CARD_SIDE, 28), cardWidth - 28) - POINTER / 2
+    : 0;
 
   const isLast = stepIndex === stepCount - 1;
 
@@ -100,7 +113,7 @@ export function SpotlightOverlay() {
         <Defs>
           <Mask id="spotlight-mask">
             <Rect x={0} y={0} width={width} height={height} fill="#FFFFFF" />
-            <AnimatedRect animatedProps={holeProps} rx={16} fill="#000000" />
+            <AnimatedRect animatedProps={holeProps} rx={12} fill="#000000" />
           </Mask>
         </Defs>
         <Rect
@@ -113,22 +126,6 @@ export function SpotlightOverlay() {
         />
       </Svg>
 
-      {!isLast && (
-        <Pressable
-          style={({ pressed }) => [
-            styles.skipBtn,
-            step.skipAtBottom ? { bottom: insets.bottom + 12 } : { top: insets.top + 12 },
-            pressed && styles.pressed,
-          ]}
-          onPress={skip}
-          hitSlop={12}
-          accessibilityRole="button"
-          accessibilityLabel="Skip tour"
-        >
-          <Text style={styles.skipText}>Skip Tour</Text>
-        </Pressable>
-      )}
-
       <Animated.View
         key={step.id}
         testID="tour-card"
@@ -136,6 +133,13 @@ export function SpotlightOverlay() {
         onLayout={(e) => setCardHeight(e.nativeEvent.layout.height)}
         style={[styles.card, { top: cardTop, maxHeight: height - insets.top - insets.bottom - 32 }]}
       >
+        {targetRect ? (
+          <View
+            testID="tour-pointer"
+            pointerEvents="none"
+            style={[styles.pointer, fitsBelow ? styles.pointerUp : styles.pointerDown, { left: pointerLeft }]}
+          />
+        ) : null}
         {step.id === "trip" && (
           <ScrollView style={styles.previewScroll} bounces={false}>
             <TourTripPreview />
@@ -146,10 +150,24 @@ export function SpotlightOverlay() {
         </Text>
         <Text style={styles.body}>{step.body}</Text>
         <View style={styles.footer}>
-          <View style={styles.dots} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-            {Array.from({ length: stepCount }).map((_, i) => (
-              <View key={i} style={[styles.dot, i === stepIndex && styles.dotActive]} />
-            ))}
+          <View>
+            <View style={styles.dots} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+              {Array.from({ length: stepCount }).map((_, i) => (
+                <View key={i} style={[styles.dot, i === stepIndex && styles.dotActive]} />
+              ))}
+            </View>
+            {/* The way out, with the card it leaves. Not on the last step: Done ends it. */}
+            {!isLast && (
+              <Pressable
+                style={({ pressed }) => [styles.skipBtn, pressed && styles.pressed]}
+                onPress={skip}
+                hitSlop={10}
+                accessibilityRole="button"
+                accessibilityLabel="Skip tour"
+              >
+                <Text style={styles.skipText}>Skip Tour</Text>
+              </Pressable>
+            )}
           </View>
           <Pressable
             style={({ pressed }) => [styles.nextBtn, pressed && styles.pressed]}
@@ -167,41 +185,46 @@ export function SpotlightOverlay() {
 const styles = StyleSheet.create({
   blocker: { elevation: 999, zIndex: 999 },
   pressed: { opacity: 0.8 },
-  skipBtn: {
-    position: "absolute",
-    right: 16,
-    minHeight: 44,
-    justifyContent: "center",
-    paddingHorizontal: 18,
-    borderRadius: 99,
-    borderWidth: 1.5,
-    borderColor: "#FFFFFF",
-  },
-  skipText: { color: "#FFFFFF", fontSize: 15, fontWeight: "700" },
   card: {
     position: "absolute",
-    left: 20,
-    right: 20,
-    backgroundColor: tokens.colors.bgCard,
-    borderRadius: tokens.radius.lg,
-    padding: tokens.space.lg,
-    gap: tokens.space.xs,
+    left: CARD_SIDE,
+    right: CARD_SIDE,
+    backgroundColor: tokens.colors.page,
+    borderRadius: 20,
+    paddingHorizontal: tokens.space.lg,
+    paddingTop: 18,
+    paddingBottom: 14,
+    gap: 6,
     ...cardLift,
   },
+  // A square of the card's colour turned on its corner, half behind the card's edge.
+  pointer: {
+    position: "absolute",
+    width: POINTER,
+    height: POINTER,
+    backgroundColor: tokens.colors.page,
+    transform: [{ rotate: "45deg" }],
+  },
+  pointerUp: { top: -POINTER / 2 },
+  pointerDown: { bottom: -POINTER / 2 },
   // Shrinks first when the card meets its height limit, so Next stays on screen.
   previewScroll: { flexShrink: 1, flexGrow: 0, marginBottom: tokens.space.xs },
-  title: { fontSize: 19, fontWeight: "800", color: tokens.colors.text, letterSpacing: -0.3 },
+  title: { fontSize: 20, lineHeight: 25, fontWeight: "700", color: tokens.colors.text, letterSpacing: -0.2 },
   body: { fontSize: 15, color: tokens.colors.text2, lineHeight: 21 },
-  footer: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: tokens.space.xs },
+  footer: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 10 },
   dots: { flexDirection: "row", gap: 6 },
+  // The step you're on is teal, as "selected" is everywhere; orange is the button to tap.
   dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: tokens.colors.border },
-  dotActive: { backgroundColor: tokens.colors.highlight, width: 16 },
+  dotActive: { backgroundColor: tokens.colors.selected, width: 16 },
+  // A quiet link, with its own 44pt of height so it's an easy tap.
+  skipBtn: { minHeight: 44, justifyContent: "center", alignSelf: "flex-start", marginTop: 2 },
+  skipText: { color: tokens.colors.selected, fontSize: 15, fontWeight: "500" },
   nextBtn: {
     minHeight: 44,
     justifyContent: "center",
     backgroundColor: tokens.colors.highlight,
     paddingHorizontal: 24,
-    borderRadius: 99,
+    borderRadius: 12,
   },
-  nextText: { color: "#FFFFFF", fontSize: 15, fontWeight: "700" },
+  nextText: { color: "#FFFFFF", fontSize: 16, fontWeight: "600" },
 });

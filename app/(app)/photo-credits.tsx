@@ -37,7 +37,7 @@ export default function PhotoCreditsPage() {
 
   if (loading) {
     return (
-      <Screen>
+      <Screen background={tokens.colors.bgBase}>
         <LoadingState label="Loading photo credits..." />
       </Screen>
     );
@@ -45,7 +45,7 @@ export default function PhotoCreditsPage() {
 
   return (
     // paddingTop 0 hands the status-bar inset to the top bar, as on Saved Places.
-    <Screen padded={false} style={styles.screen}>
+    <Screen background={tokens.colors.bgBase} padded={false} style={styles.screen}>
       <TopBar title="Photo Credits" leading={<TopBarBack onPress={() => router.back()} label="Back" />} />
       <ScrollView contentContainerStyle={styles.content}>
         {credits.length === 0 ? (

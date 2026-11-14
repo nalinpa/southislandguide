@@ -63,6 +63,9 @@ jest.mock("@/lib/hooksBag", () => ({
       saveReview: mockBag.saveReview,
     }),
     useDraftsStore: () => ({ drafts: {}, setDraft: jest.fn(), clearDraft: jest.fn() }),
+    // The latest review's box reads these two; no reviews and nobody blocked here.
+    usePublicReviews: () => ({ reviews: [], loading: false, err: null, refresh: jest.fn() }),
+    useBlockedUsers: () => ({ data: [] }),
   },
 }));
 
@@ -228,9 +231,9 @@ describe("highlight", () => {
 
   it("draws the add-to-itinerary button in the highlight colour", async () => {
     await openDetail();
-    expect(screen.getByRole("button", { name: "+ Add to Trip" })).toHaveStyle({
-      backgroundColor: tokens.colors.highlight,
-    });
+    // The kit's button since the design sweep: its fill is the tokens' primary button.
+    expect(screen.getByRole("button", { name: "+ Add to Trip" })).toBeTruthy();
+    expect(tokens.button.primary.bg).toBe(tokens.colors.highlight);
   });
 
   // The four actions share one white card that is raised off the sheet: it stands out by
@@ -469,5 +472,21 @@ describe("the tour", () => {
     await openDetail();
 
     expect(target("placeAdd")).toHaveTextContent("+ Add to Trip");
+  });
+});
+
+describe("latestReview", () => {
+  const { latestReview } = require("../index");
+  const r = (id: string, userId: string, reviewCreatedAt: string | null) => ({ id, userId, reviewCreatedAt });
+
+  it("picks the newest, whatever order they come in", () => {
+    const got = latestReview([r("a", "u1", "2026-10-02T00:00:00Z"), r("b", "u2", "2026-11-03T00:00:00Z"), r("c", "u3", null)], []);
+    expect(got.id).toBe("b");
+  });
+
+  it("never picks one by a blocked author", () => {
+    const got = latestReview([r("a", "u1", "2026-10-02T00:00:00Z"), r("b", "u2", "2026-11-03T00:00:00Z")], ["u2"]);
+    expect(got.id).toBe("a");
+    expect(latestReview([r("b", "u2", "2026-11-03T00:00:00Z")], ["u2"])).toBeUndefined();
   });
 });

@@ -22,8 +22,6 @@ export type TourStep = {
   dim?: number;
   // The card's button, when it isn't Next (or Done on the last step).
   nextLabel?: string;
-  // Skip Tour at the bottom of the screen, for a target where it usually sits (top right).
-  skipAtBottom?: boolean;
   title: string;
   body: string;
 };
@@ -44,10 +42,8 @@ export const TOUR_STEPS: TourStep[] = [
     title: "Pick a Town",
     body: "You start in the nearest town. Tap here to see another.",
   },
-  // The guide button is top right, under where Skip Tour sits.
   {
     id: "guide",
-    skipAtBottom: true,
     title: "Before You Go",
     body: "Driving, weather and safety, from people who live here.",
   },

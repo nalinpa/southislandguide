@@ -57,7 +57,7 @@ function SwipeableRow({
         name={item.location.name}
         description={item.location.description}
         distanceMeters={item.distanceMeters}
-        imageUrl={item.location.imageThumbnailUrl ?? item.location.imageUrl}
+        imageUrl={item.location.imageUrl ?? item.location.imageThumbnailUrl}
         category={item.location.category[0]}
         area={showArea && item.location.area ? areaName(item.location.area) : null}
         onPress={(id) => router.push(`/(app)/(tabs)/sites/${id}`)}
@@ -124,13 +124,12 @@ export default function SavedSitesPage() {
   }
 
   // Fixed above the list: the list scrolls under it, and the category tabs stay
-  // in reach however far down someone is. The tab strip, when there is one,
-  // forms the bar's bottom edge.
+  // in reach however far down someone is. The tab strip, when there is one, is on the
+  // white page under the bar, as on Explore (docs/plans/design-sweep.md).
   const topBar = (
     <TopBar
       title="Saved Places"
       leading={<TopBarBack onPress={() => router.back()} label="Back" />}
-      flushBottom={categoriesWithPlaces.length > 1}
       actions={
         rows.length > 0 ? (
           <View style={styles.countBadge}>
@@ -138,18 +137,19 @@ export default function SavedSitesPage() {
           </View>
         ) : undefined
       }
-    >
-      {categoriesWithPlaces.length > 1 && (
-        <TopBarTabs<SiteCategory | null>
-          tabs={[
-            { key: null, label: "All" },
-            ...categoriesWithPlaces.map((c) => ({ key: c, label: SITE_CATEGORY_LABELS[c] })),
-          ]}
-          selected={category}
-          onSelect={setCategory}
-        />
-      )}
-    </TopBar>
+    />
+  );
+
+  const categoryTabs = categoriesWithPlaces.length > 1 && (
+    <TopBarTabs<SiteCategory | null>
+      tone="page"
+      tabs={[
+        { key: null, label: "All" },
+        ...categoriesWithPlaces.map((c) => ({ key: c, label: SITE_CATEGORY_LABELS[c] })),
+      ]}
+      selected={category}
+      onSelect={setCategory}
+    />
   );
 
   return (
@@ -157,6 +157,7 @@ export default function SavedSitesPage() {
     // main sites list.
     <Screen padded={false} style={styles.screen}>
       {topBar}
+      {categoryTabs}
       <FlashList
         data={rows}
         keyExtractor={(item) => item.location.id}
@@ -200,7 +201,8 @@ export default function SavedSitesPage() {
 }
 
 const styles = StyleSheet.create({
-  screen: { paddingTop: 0 },
+  // The white page of the design sweep's look, as on Explore.
+  screen: { paddingTop: 0, backgroundColor: tokens.colors.page },
   countBadge: {
     minWidth: 24,
     height: 24,
@@ -211,8 +213,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
   },
   countText: { color: "#FFFFFF", fontSize: 12, fontWeight: "700" },
-  listContent: { paddingHorizontal: tokens.space.md, paddingBottom: 32 },
-  itemWrap: { marginBottom: tokens.space.md },
+  listContent: { paddingHorizontal: tokens.space.md, paddingTop: tokens.space.md, paddingBottom: 32 },
+  itemWrap: { marginBottom: 24 },
   deleteAction: {
     backgroundColor: tokens.colors.danger,
     justifyContent: "center",

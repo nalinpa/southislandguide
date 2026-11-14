@@ -155,30 +155,34 @@ describe("render", () => {
 
   // Mockup C: square corners, and the full-strength highlight with a white label (white on
   // the lighter on-dark orange is only 1.7:1).
-  it("makes signing in the highlighted action, square-cornered, with a white label", async () => {
+  it("makes signing in the highlighted action, with the sweep's 12pt corners and a white label", async () => {
     const view = await render(<LoginScreen />);
 
     expect(view.getByRole("button", { name: "Sign in" })).toHaveStyle({
       backgroundColor: tokens.colors.highlight,
-      borderRadius: 0,
+      borderRadius: 12,
     });
     expect(view.getByText("Sign in")).toHaveStyle({ color: "#FFFFFF" });
   });
 
-  // The form sits on the app's deep teal: muted white labels, white links, the guest link
-  // in the on-dark highlight.
-  it("sets the form's words for the teal panel", async () => {
+  // Since the design sweep the form sits on a white sheet (docs/plans/design-sweep.md): dark
+  // labels, and every link in teal, so orange is left to the one main button.
+  it("sets the form's words for the white sheet", async () => {
     const view = await render(<LoginScreen />);
 
-    expect(view.getByText("Email")).toHaveStyle({ color: tokens.colors.onDarkMuted });
-    expect(view.getByText("Create an account")).toHaveStyle({ color: "#FFFFFF" });
-    expect(view.getByText("Continue as guest")).toHaveStyle({ color: tokens.colors.highlightOnDark });
+    expect(view.getByText("Email")).toHaveStyle({ color: tokens.colors.text });
+    expect(view.getByText("Create an account")).toHaveStyle({ color: tokens.colors.selected });
+    expect(view.getByText("Continue as guest")).toHaveStyle({ color: tokens.colors.selected });
   });
 
-  it("puts the form on the deep teal", async () => {
+  it("puts the form on a white sheet with rounded top corners", async () => {
     const view = await render(<LoginScreen />);
 
-    expect(view.getByTestId("login-panel")).toHaveStyle({ backgroundColor: tokens.colors.accentWarm });
+    expect(view.getByTestId("login-panel")).toHaveStyle({
+      backgroundColor: tokens.colors.page,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+    });
   });
 
   it("keeps submit unavailable until there is something to submit", async () => {

@@ -105,7 +105,7 @@ export function DriveBlock({ fromLabel, toLabel, startSlot, slots, earliest, lat
       {...(movable ? pan.panHandlers : {})}
     >
       <View style={styles.inner}>
-        <Car color={tokens.colors.textMuted} size={18} />
+        <Car color={tokens.colors.text2} size={22} strokeWidth={2} />
         <View style={styles.text}>
           <Text style={styles.title} numberOfLines={1}>
             Drive to {toLabel}
@@ -130,23 +130,26 @@ export function DriveBlock({ fromLabel, toLabel, startSlot, slots, earliest, lat
 }
 
 const styles = StyleSheet.create({
-  container: { position: "absolute", top: 0, left: 82, right: tokens.space.md, paddingVertical: 2 },
+  // 64 from the left, as the place blocks and the short drives are (ItineraryDetailView's BLOCK_LEFT).
+  container: { position: "absolute", top: 0, left: 64, right: tokens.space.md, paddingVertical: 2 },
   // Text sits at the top, beside the time the drive starts: a long drive is taller
   // than the screen, and centred text would be off it.
   inner: {
     flex: 1,
     flexDirection: "row",
     alignItems: "flex-start",
+    // The car 14 in and the words 46 in: the place block's icon column and text edge.
     gap: 10,
-    paddingHorizontal: 12,
+    paddingLeft: 14,
+    paddingRight: 12,
     paddingVertical: 10,
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: tokens.colors.borderSubtle,
-    backgroundColor: tokens.colors.bgSurface,
+    // A pale teal with no outline (design sweep, the Days view, round 5): a fill on this
+    // screen means the block can be dragged. It was white with a line.
+    backgroundColor: tokens.colors.driveFill,
     overflow: "hidden",
   },
   text: { flex: 1 },
-  title: { fontSize: 15, fontWeight: "700", color: tokens.colors.text },
+  title: { fontSize: 15, fontWeight: "600", color: tokens.colors.text },
   detail: { fontSize: 12, fontWeight: "600", color: tokens.colors.text2, marginTop: 2 },
 });

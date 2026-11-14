@@ -49,7 +49,10 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.16)",
   },
   half: { flex: 1, alignItems: "center", paddingVertical: 7, borderRadius: 9 },
-  halfActive: { backgroundColor: tokens.colors.highlightOnDark },
-  label: { fontSize: 14, fontWeight: "700", color: "#FFFFFF" },
-  labelActive: { color: tokens.colors.text },
+  // Solid white with the bar's own teal for the word: which view you're on has to be
+  // plain at a glance (owner, 2026-11-13, after a soft white tint proved too faint on the
+  // phone). White, not the amber it was: orange is kept for what to tap.
+  halfActive: { backgroundColor: "#FFFFFF" },
+  label: { fontSize: 15, fontWeight: "600", color: "#FFFFFF" },
+  labelActive: { color: tokens.colors.accentWarm, fontWeight: "700" },
 });

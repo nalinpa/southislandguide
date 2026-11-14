@@ -236,8 +236,9 @@ export function CreateItineraryModal({
                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                 accessibilityRole="button"
                 accessibilityLabel="Close"
+                style={styles.closeChip}
               >
-                <X color={tokens.colors.text2} size={24} />
+                <X color={tokens.colors.text} size={16} strokeWidth={2.25} />
               </TouchableOpacity>
             </View>
 
@@ -471,7 +472,7 @@ export function CreateItineraryModal({
                       accessibilityRole="button"
                       accessibilityLabel="Fewer days"
                     >
-                      <Minus color={locked ? tokens.colors.textMuted : tokens.colors.accent} size={20} />
+                      <Minus color={locked ? tokens.colors.textMuted : tokens.colors.text} size={20} />
                     </TouchableOpacity>
                     <View style={styles.stepCenter}>
                       <AppText style={[styles.daysText, locked && styles.daysTextLocked]}>
@@ -485,7 +486,7 @@ export function CreateItineraryModal({
                       accessibilityRole="button"
                       accessibilityLabel="More days"
                     >
-                      <Plus color={locked ? tokens.colors.textMuted : tokens.colors.accent} size={20} />
+                      <Plus color={locked ? tokens.colors.textMuted : tokens.colors.text} size={20} />
                     </TouchableOpacity>
                   </View>
                 </>
@@ -516,11 +517,30 @@ export function CreateItineraryModal({
 }
 
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: "rgba(36,26,18,0.6)", justifyContent: "flex-end" },
-  wrapper: { margin: tokens.space.md, marginBottom: 40, maxHeight: "90%" },
-  card: { borderRadius: tokens.radius.lg },
+  overlay: { flex: 1, backgroundColor: "rgba(3,38,43,0.55)", justifyContent: "flex-end" },
+  // A sheet on the bottom edge with 20pt top corners, not a floating card (the design
+  // sweep's look: docs/plans/design-sweep.md). No grab handle: it doesn't drag.
+  // ponytail: 34 is the home indicator's space on a Face ID iPhone, as a fixed number. On
+  // a phone with none (an SE) it is spare padding. Read the real inset if that matters.
+  wrapper: { maxHeight: "90%" },
+  card: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    paddingBottom: 34,
+  },
+  // The close button: an x in a pale circle, the same on every sheet.
+  closeChip: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: tokens.colors.bgSurface,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   header: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: tokens.space.sm },
-  title: { fontSize: 20, fontWeight: "800", color: tokens.colors.text },
+  title: { fontSize: 20, fontWeight: "700", letterSpacing: -0.2, color: tokens.colors.text },
   lockBanner: {
     flexDirection: "row",
     alignItems: "center",
@@ -532,52 +552,55 @@ const styles = StyleSheet.create({
     marginBottom: tokens.space.xs,
   },
   lockBannerText: { fontSize: 12, fontWeight: "600", color: tokens.colors.textMuted },
-  label: { fontSize: 12, fontWeight: "700", letterSpacing: 0.5, textTransform: "uppercase", color: tokens.colors.text2, marginTop: tokens.space.md },
+  // Sentence case: the small spaced capitals it was read as form furniture.
+  label: { fontSize: 14, fontWeight: "600", color: tokens.colors.text2, marginTop: 18, marginBottom: tokens.space.xs },
   inputLocked: { opacity: 0.5 },
   input: {
     borderWidth: 1,
     borderColor: tokens.colors.border,
-    borderRadius: tokens.radius.md,
-    paddingHorizontal: tokens.space.md,
-    paddingVertical: 14,
-    fontSize: 15,
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    height: 50,
+    fontSize: 16,
     color: tokens.colors.text,
-    backgroundColor: tokens.colors.bgCard,
+    backgroundColor: tokens.colors.page,
   },
-  stepperRow: {
-    flexDirection: "row",
+  // Minus and plus are round and sit close either side of the value: as squares at the
+  // far ends of a box they read as two more choices (design sweep, sheets round 2).
+  stepperRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: tokens.space.md },
+  stepBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: tokens.colors.bgCard,
-    borderRadius: tokens.radius.lg,
-    padding: tokens.space.xs,
+    justifyContent: "center",
     borderWidth: 1,
     borderColor: tokens.colors.border,
+    backgroundColor: tokens.colors.page,
   },
-  stepBtn: { width: 44, height: 44, alignItems: "center", justifyContent: "center", backgroundColor: tokens.colors.bgElevated, borderRadius: tokens.radius.md },
-  stepCenter: { flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center" },
+  stepCenter: { minWidth: 104, flexDirection: "row", alignItems: "center", justifyContent: "center" },
   dateInput: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
     borderWidth: 1,
     borderColor: tokens.colors.border,
-    borderRadius: tokens.radius.md,
-    paddingHorizontal: tokens.space.md,
-    paddingVertical: 14,
-    backgroundColor: tokens.colors.bgCard,
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    height: 50,
+    backgroundColor: tokens.colors.page,
   },
-  dateInputText: { fontSize: 15, color: tokens.colors.text, flex: 1 },
+  dateInputText: { fontSize: 16, color: tokens.colors.text, flex: 1 },
   calendarWrapper: {
     borderWidth: 1,
     borderColor: tokens.colors.border,
-    borderRadius: tokens.radius.lg,
-    backgroundColor: tokens.colors.bgCard,
+    borderRadius: 12,
+    backgroundColor: tokens.colors.page,
     overflow: "hidden",
     marginTop: 4,
   },
   hidden: { display: "none" },
-  daysText: { fontSize: 20, fontWeight: "800", color: tokens.colors.accent },
+  daysText: { fontSize: 17, fontWeight: "600", color: tokens.colors.text },
   daysTextLocked: { color: tokens.colors.textMuted },
   dropdownTrigger: {
     flexDirection: "row",
@@ -585,46 +608,48 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderWidth: 1,
     borderColor: tokens.colors.border,
-    borderRadius: tokens.radius.md,
-    paddingHorizontal: tokens.space.md,
-    paddingVertical: 14,
-    backgroundColor: tokens.colors.bgCard,
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    height: 50,
+    backgroundColor: tokens.colors.page,
   },
-  dropdownValue: { fontSize: 15, color: tokens.colors.text },
+  dropdownValue: { fontSize: 16, color: tokens.colors.text },
   dropdownMenu: {
     borderWidth: 1,
     borderColor: tokens.colors.border,
-    borderRadius: tokens.radius.md,
+    borderRadius: 12,
     overflow: "hidden",
     marginTop: 4,
   },
   dropdownOption: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: tokens.space.md,
-    paddingVertical: 12,
-    backgroundColor: tokens.colors.bgCard,
+    paddingHorizontal: 14,
+    paddingVertical: 13,
+    backgroundColor: tokens.colors.page,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: tokens.colors.border,
+    borderBottomColor: tokens.colors.line,
   },
   dropdownOptionText: { flex: 1 },
-  dropdownOptionLabel: { fontSize: 15, fontWeight: "500", color: tokens.colors.text },
-  dropdownOptionLabelActive: { color: tokens.colors.accent, fontWeight: "700" },
-  dropdownOptionDays: { fontSize: 13, color: tokens.colors.text2, marginLeft: tokens.space.sm },
-  subLabel: { fontSize: 13, color: tokens.colors.text2, marginTop: tokens.space.xs, marginBottom: tokens.space.xs },
+  dropdownOptionLabel: { fontSize: 16, fontWeight: "400", color: tokens.colors.text },
+  dropdownOptionLabelActive: { color: tokens.colors.accent, fontWeight: "600" },
+  dropdownOptionDays: { fontSize: 15, color: tokens.colors.textMuted, marginLeft: tokens.space.sm },
+  subLabel: { fontSize: 14, color: tokens.colors.textMuted, marginTop: -6, marginBottom: tokens.space.xs },
   startRow: { flexDirection: "row", gap: tokens.space.xs, marginBottom: tokens.space.sm },
   startChip: {
     flex: 1,
     alignItems: "center",
-    paddingVertical: 10,
+    justifyContent: "center",
+    minHeight: 48,
     borderWidth: 1,
     borderColor: tokens.colors.border,
-    borderRadius: tokens.radius.md,
-    backgroundColor: tokens.colors.bgCard,
+    borderRadius: 12,
+    backgroundColor: tokens.colors.page,
   },
-  startChipActive: { borderColor: tokens.colors.accent, backgroundColor: tokens.colors.bgElevated },
-  startChipText: { fontSize: 14, fontWeight: "600", color: tokens.colors.text2 },
-  startChipTextActive: { color: tokens.colors.accent, fontWeight: "700" },
+  // The chosen one is solid teal, as a chosen day is on Add to Trip.
+  startChipActive: { borderColor: tokens.colors.accent, backgroundColor: tokens.colors.accent },
+  startChipText: { fontSize: 15, fontWeight: "500", color: tokens.colors.text },
+  startChipTextActive: { color: "#FFFFFF", fontWeight: "600" },
   templateDescription: { fontSize: 13, color: tokens.colors.text2, marginTop: tokens.space.xs, lineHeight: 18 },
   dropdownOptionLabelLocked: { color: tokens.colors.textMuted },
   premiumBadge: {
@@ -637,8 +662,8 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   premiumBadgeText: { fontSize: 10, fontWeight: "700", color: tokens.colors.textMuted, letterSpacing: 0.3 },
-  errorText: { fontSize: 12, color: tokens.colors.danger, marginTop: tokens.space.sm },
-  createBtn: { marginTop: tokens.space.md },
+  errorText: { fontSize: 13, color: tokens.colors.danger, marginTop: tokens.space.sm },
+  createBtn: { marginTop: 18 },
 });
 
 const calendarDayStyles = StyleSheet.create({

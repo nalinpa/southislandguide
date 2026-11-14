@@ -27,7 +27,7 @@ jest.mock("@/lib/tour/TourTripPreview", () => ({
 
 import React from "react";
 import { AccessibilityInfo, Dimensions, StyleSheet } from "react-native";
-import { act, fireEvent, render, screen } from "@testing-library/react-native";
+import { act, fireEvent, render, screen, within } from "@testing-library/react-native";
 
 import { TourProvider, useTour } from "@/lib/tour/TourContext";
 import { SpotlightOverlay } from "@/lib/tour/SpotlightOverlay";
@@ -133,7 +133,9 @@ describe("SpotlightOverlay", () => {
     await act(async () => tour.registerTarget("town", { x: 16, y: 60, width: 180, height: 40 }));
     await layoutCard(200);
 
-    expect(cardTop()).toBe(60 + 40 + 20);
+    expect(cardTop()).toBe(60 + 40 + 22);
+    // The pointer is on the card's top edge, aimed up at the target.
+    expect(StyleSheet.flatten(screen.getByTestId("tour-pointer").props.style).top).toBeLessThan(0);
   });
 
   it("puts the card over a target near the bottom", async () => {
@@ -144,7 +146,9 @@ describe("SpotlightOverlay", () => {
     await act(async () => tour.registerTarget("town", { x: 16, y: height - 100, width: 180, height: 60 }));
     await layoutCard(200);
 
-    expect(cardTop()).toBe(height - 100 - 200 - 20);
+    expect(cardTop()).toBe(height - 100 - 200 - 22);
+    // And on its bottom edge, aimed down, when the card sits over the target.
+    expect(StyleSheet.flatten(screen.getByTestId("tour-pointer").props.style).bottom).toBeLessThan(0);
   });
 
   it("shows the trip preview on the trip step only", async () => {
@@ -157,20 +161,21 @@ describe("SpotlightOverlay", () => {
     expect(screen.getByText("trip preview")).toBeTruthy();
   });
 
-  it("moves Skip Tour to the bottom on the guide step, off the guide button", async () => {
+  // It was a pill in the screen's top corner, moved to the bottom on the guide step to
+  // keep it off the guide button. Since the design sweep it is a link inside the card, on
+  // every step, so it can't sit on anything (docs/plans/design-sweep.md).
+  it("keeps Skip Tour inside the card on every step, the guide step too", async () => {
     await show();
     await act(async () => tour.start("paid"));
-    const skipStyle = () => StyleSheet.flatten(screen.getByRole("button", { name: "Skip tour" }).props.style);
-    expect(skipStyle().top).toBeDefined();
+    const inCard = () => within(screen.getByTestId("tour-card")).getByRole("button", { name: "Skip tour" });
+    const skipStyle = () => StyleSheet.flatten(inCard().props.style);
+    expect(skipStyle().position).toBeUndefined();
 
     await act(async () => tour.next());
     await act(async () => tour.next());
     expect(screen.getByText("Before You Go")).toBeTruthy();
-    expect(skipStyle().top).toBeUndefined();
-    expect(skipStyle().bottom).toBeDefined();
-
-    await act(async () => tour.next());
-    expect(skipStyle().top).toBeDefined();
+    expect(skipStyle().position).toBeUndefined();
+    expect(skipStyle().bottom).toBeUndefined();
   });
 
   it("keeps the card's buttons at least 44pt tall", async () => {

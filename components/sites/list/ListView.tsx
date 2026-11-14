@@ -1,7 +1,7 @@
 // components/sites/list/ListView.tsx
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { View, StyleSheet, type RefreshControlProps } from "react-native";
-import { FlashList } from "@shopify/flash-list";
+import { FlashList, type FlashListRef } from "@shopify/flash-list";
 
 import { ListItem } from "@/components/sites/list/ListItem";
 import { tokens } from "@/lib/ui/tokens";
@@ -29,9 +29,17 @@ type ListViewProps = {
   refreshControl?: React.ReactElement<RefreshControlProps>;
   /** The opening tour's target (useTourTarget), on the first row only. */
   firstRowTarget?: TourTarget;
+  /** Jumps to the top when it turns true: the tour points at the first place, which a
+   *  scrolled list has moved off the screen (owner, 2026-11-13). */
+  atTop?: boolean;
 };
 
-export function ListView({ rows, header, onPressItem, ListEmptyComponent, refreshControl, firstRowTarget }: ListViewProps) {
+export function ListView({ rows, header, onPressItem, ListEmptyComponent, refreshControl, firstRowTarget, atTop }: ListViewProps) {
+  const list = useRef<FlashListRef<ListRow>>(null);
+  useEffect(() => {
+    if (atTop) list.current?.scrollToOffset({ offset: 0, animated: false });
+  }, [atTop]);
+
   const renderItem = useCallback(
     ({ item, index }: { item: ListRow; index: number }) => {
       const row = (
@@ -39,7 +47,9 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
           id={item.location.id}
           name={item.location.name}
           description={item.location.description}
-          imageUrl={item.location.imageThumbnailUrl ?? item.location.imageUrl}
+          // The full-size photo: the card's photo is the width of the screen, and the
+          // thumbnail (400px) was made for a 96pt square.
+          imageUrl={item.location.imageUrl ?? item.location.imageThumbnailUrl}
           category={item.location.category[0]}
           distanceMeters={item.distanceMeters}
           onPress={onPressItem}
@@ -53,6 +63,7 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
 
   return (
     <FlashList
+      ref={list}
       data={rows}
       keyExtractor={(item) => item.location.id}
       renderItem={renderItem}
@@ -69,7 +80,8 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
 const styles = StyleSheet.create({
   listContent: {
     paddingHorizontal: tokens.space.md,
+    paddingTop: tokens.space.md,
     paddingBottom: 100,
   },
-  separator: { height: tokens.space.md },
+  separator: { height: 24 },
 });

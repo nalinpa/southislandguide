@@ -34,17 +34,17 @@ export function SavedItemsCard() {
       ) : (
         <>
           <View style={styles.list}>
-            {recentSaved.map((id) => (
+            {recentSaved.map((id, i) => (
               <TouchableOpacity
                 key={id}
-                style={styles.row}
+                style={[styles.row, i > 0 && styles.rowLine]}
                 onPress={() => router.push(`/(app)/(tabs)/sites/${id}`)}
                 activeOpacity={0.6}
               >
                 <Text style={styles.rowTitle} numberOfLines={1}>
                   {nameMap.get(id) ?? id}
                 </Text>
-                <ChevronRight size={14} color={tokens.colors.textMuted} strokeWidth={2} />
+                <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />
               </TouchableOpacity>
             ))}
           </View>
@@ -55,7 +55,7 @@ export function SavedItemsCard() {
               activeOpacity={0.6}
             >
               <Text style={styles.viewAllText}>View All Saved Places</Text>
-              <ChevronRight size={14} color={tokens.colors.accent} strokeWidth={2.5} />
+              <ChevronRight size={16} color={tokens.colors.selected} strokeWidth={2.5} />
             </TouchableOpacity>
           )}
         </>
@@ -65,45 +65,21 @@ export function SavedItemsCard() {
 }
 
 const styles = StyleSheet.create({
-  section: { paddingHorizontal: tokens.space.md, paddingVertical: 24 },
-  sectionHeader: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 16 },
-  // Letter spacing 1.5, down from 3: at 3 the label read as separate letters.
-  sectionLabel: {
-    fontSize: 12,
-    fontWeight: "800",
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
-    color: tokens.colors.text2,
-  },
-  // A count is a live fact about the user, so it takes the highlight.
-  countBadge: {
-    backgroundColor: tokens.colors.highlight,
-    minWidth: 20,
-    height: 20,
-    borderRadius: 10,
-    paddingHorizontal: 5,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  countText: { fontSize: 11, fontWeight: "700", color: "#FFFFFF" },
-  emptyText: { fontSize: 14, fontWeight: "400", color: tokens.colors.textMuted, marginBottom: 16 },
-  list: { marginBottom: 8 },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 14,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: tokens.colors.border,
-  },
-  rowTitle: { flex: 1, fontSize: 15, fontWeight: "600", color: tokens.colors.text, letterSpacing: -0.1, marginRight: 8 },
-  viewAllBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 6,
-    paddingVertical: 14,
-    marginTop: 4,
-  },
-  viewAllText: { fontSize: 13, fontWeight: "700", color: tokens.colors.accent, letterSpacing: 0.2 },
+  section: { paddingHorizontal: tokens.space.md, paddingTop: 14, paddingBottom: 6 },
+  sectionHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 2 },
+  // A section's name: small and grey, as written, a step under the rows it heads, with the
+  // same gap under it in every group (design sweep, Profile round 3).
+  sectionLabel: { fontSize: 13, fontWeight: "600", color: tokens.colors.textMuted },
+  // How many are saved: a fact, so plain grey at the row's right edge. It was a count in
+  // an orange disc; orange is kept for what to tap.
+  countBadge: {},
+  countText: { fontSize: 13, fontWeight: "600", color: tokens.colors.textMuted },
+  emptyText: { fontSize: 15, color: tokens.colors.textMuted, paddingVertical: 10 },
+  list: {},
+  row: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", minHeight: 48, paddingVertical: 10 },
+  // A hairline between rows in the group, none after the last: a band follows it.
+  rowLine: { borderTopWidth: 1, borderTopColor: tokens.colors.line },
+  rowTitle: { flex: 1, fontSize: 16, fontWeight: "500", color: tokens.colors.text, marginRight: 8 },
+  viewAllBtn: { flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "flex-start", minHeight: 44 },
+  viewAllText: { fontSize: 15, fontWeight: "600", color: tokens.colors.selected },
 });

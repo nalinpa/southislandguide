@@ -20,6 +20,7 @@ const ALL_TABS: Array<{
 ];
 
 const normalizeRouteName = (name: string) => name.replace(/\/index$/, "");
+const PLACE_ROUTE = "sites/[siteId]/index";
 
 // Which tab button a route belongs to: its first segment (sites/[siteId] → sites). The
 // guide has no button; on its own (a cold deep link) it counts as Profile, where its
@@ -60,14 +61,18 @@ function TabBar({ state, navigation }: any) {
     }
   };
 
+  // A place has no tab bar (owner, 2026-11-13; docs/plans/design-sweep.md): its "Add to
+  // Trip" row sits at the foot of the screen instead. Its reviews keep the bar.
+  if (state.routes[state.index]?.name === PLACE_ROUTE) return null;
+
   return (
     <View
       accessibilityRole="tablist"
       style={[
         styles.bottomNav,
         {
-          backgroundColor: tokens.colors.bgCard,
-          borderTopColor: tokens.colors.border,
+          backgroundColor: tokens.colors.page,
+          borderTopColor: tokens.colors.line,
           // Just the home-indicator space (34pt on Face ID iPhones), not that
           // plus 20, which left a visible gap under the labels. The floor matters:
           // on an iPhone SE and in the iPad compatibility window App Review
@@ -85,24 +90,21 @@ function TabBar({ state, navigation }: any) {
             accessibilityRole="tab"
             accessibilityState={{ selected: isActive }}
             accessibilityLabel={t.title}
-            // The highlight marks "you are here" on every screen.
-            style={({ pressed }) => [
-              styles.tab,
-              isActive && { backgroundColor: tokens.colors.highlightDim },
-              pressed && styles.tabPressed,
-            ]}
+            // "You are here" is marked one way on every screen since the design sweep
+            // (docs/plans/design-sweep.md): teal, semi-bold, a line under the word, as in a
+            // category strip. Idle is one grey. Orange is kept for what to tap.
+            style={({ pressed }) => [styles.tab, pressed && styles.tabPressed]}
           >
             <Ionicons
               name={isActive ? t.activeIcon : t.icon}
               size={24}
-              color={isActive ? tokens.colors.highlight : tokens.colors.text2}
+              color={isActive ? tokens.colors.selected : tokens.colors.textMuted}
             />
-            <AppText
-              variant="label"
-              style={[styles.tabLabel, { color: isActive ? tokens.colors.highlight : tokens.colors.text2 }]}
-            >
-              {t.title}
-            </AppText>
+            <View style={[styles.tabLabelWrap, isActive && styles.tabLabelWrapActive]}>
+              <AppText variant="label" style={[styles.tabLabel, isActive && styles.tabLabelActive]}>
+                {t.title}
+              </AppText>
+            </View>
           </Pressable>
         );
       })}
@@ -128,21 +130,29 @@ const styles = StyleSheet.create({
   bottomNav: {
     flexDirection: "row",
     borderTopWidth: 1,
-    paddingTop: 12,
+    paddingTop: 6,
     paddingHorizontal: 8,
   },
   tab: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 4,
-    paddingVertical: 8,
-    borderRadius: 14,
+    gap: 1,
     marginHorizontal: 4,
   },
+  // The line under the selected word. Every tab carries one (clear when idle), so the
+  // words don't shift when the selection moves.
+  tabLabelWrap: { paddingVertical: 3, borderBottomWidth: 2, borderBottomColor: "transparent" },
+  tabLabelWrapActive: { borderBottomColor: tokens.colors.selected },
+  // As written ("Explore"), whatever the kit's label style does with case and spacing.
   tabLabel: {
-    fontSize: 11,
+    fontSize: 12,
+    fontWeight: "500",
+    color: tokens.colors.textMuted,
+    textTransform: "none",
+    letterSpacing: 0,
   },
+  tabLabelActive: { color: tokens.colors.selected, fontWeight: "600" },
   tabPressed: {
     opacity: 0.6,
   },

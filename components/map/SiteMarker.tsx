@@ -12,15 +12,14 @@ import {
   BedDouble,
   MapPin,
   Check,
+  type LucideIcon,
 } from "lucide-react-native";
 import { tokens } from "@/lib/ui/tokens";
 import type { SiteCategory } from "@/lib/models";
 
-type IconComponent = React.ComponentType<{
-  size?: number;
-  color?: string;
-  strokeWidth?: number;
-}>;
+// lucide's own type for its icons, so one can be handed to anything that draws an icon
+// (the Days view's blocks) with no cast.
+type IconComponent = LucideIcon;
 
 // Keyed by category **id**, never the display label — rotorua-guide keyed it by
 // label once and every marker for a renamed category silently fell back to

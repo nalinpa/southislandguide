@@ -6,11 +6,16 @@
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
 
-jest.mock("expo-linear-gradient", () => {
-  const React = require("react");
+// The featured card is the list's own card (components/sites/list/ListItem.tsx), which
+// fades in with moti and formats its distance with the shared hooks.
+jest.mock("moti", () => {
   const { View } = require("react-native");
-  return { LinearGradient: ({ children, style }: any) => React.createElement(View, { style }, children) };
+  return { MotiView: View };
 });
+
+jest.mock("@blacksands/hooks", () => ({
+  formatDistanceMeters: (m: number) => (m / 1000).toFixed(1) + " km",
+}));
 
 // The list is a FlashList wrapper with its own file; here it only has to show the rows it
 // was handed, in order, and pass taps back.
@@ -278,17 +283,17 @@ describe("category tabs", () => {
     expect(selectedTab(view)).toBe("All");
   });
 
-  // The tabs sit on the dark brand bar. The selected one takes the highlight's on-dark
-  // twin; the rest are full white, not muted, so they're easy to read.
-  it("marks the selected tab in the highlight colour, and the rest in white", async () => {
+  // Since the design sweep the tabs sit on the white page under the bar: the selected one
+  // teal, the rest one grey, the same marks as the tab bar at the foot of the screen
+  // (docs/plans/design-sweep.md).
+  it("marks the selected tab in the selected colour, and the rest in grey", async () => {
     const view = await render(<SiteListPage />);
 
-    expect(view.getByText("All")).toHaveStyle({ color: tokens.colors.highlightOnDark });
-    expect(view.getByText("Walks")).toHaveStyle({ color: "#FFFFFF" });
+    expect(view.getByText("All")).toHaveStyle({ color: tokens.colors.selected });
+    expect(view.getByText("Walks")).toHaveStyle({ color: tokens.colors.textMuted });
   });
 
-  // Plain words with nothing under them didn't look like something to tap.
-  it("underlines every tab, so the unselected ones still read as tabs", async () => {
+  it("puts a line under the selected tab only", async () => {
     const view = await render(<SiteListPage />);
     const underlineOf = (label: string) => {
       const tab = view.getAllByRole("tab").find((t: any) => textOf(t) === label)!;
@@ -296,9 +301,8 @@ describe("category tabs", () => {
       return kids[kids.length - 1];
     };
 
-    expect(underlineOf("All")).toHaveStyle({ backgroundColor: tokens.colors.highlightOnDark });
-    expect(underlineOf("Walks")).not.toHaveStyle({ backgroundColor: "transparent" });
-    expect(underlineOf("Walks")).not.toHaveStyle({ backgroundColor: tokens.colors.highlightOnDark });
+    expect(underlineOf("All")).toHaveStyle({ backgroundColor: tokens.colors.selected });
+    expect(underlineOf("Walks")).toHaveStyle({ backgroundColor: "transparent" });
   });
 
   // Sumner Beach and Port Hills Walk are both Scenic too, but second: under Scenic only
@@ -766,12 +770,16 @@ describe("the featured place", () => {
     expect(shown.indexOf("featured-card")).toBeLessThan(shown.indexOf("Location Disabled"));
   });
 
-  // Past the list's side padding, to the screen's edges (owner, 2026-10-25).
-  it("runs the full width of the screen", async () => {
+  // It ran edge to edge with square corners (owner, 2026-10-25). Since the design sweep it
+  // is the list's own card, inside the list's side padding, with only a taller photo to
+  // mark it (owner, 2026-11-13; docs/plans/design-sweep.md).
+  it("is the list's card with a taller photo, inside the list's padding", async () => {
     rank("s2", 3);
     const view = await render(<SiteListPage />);
+    const photo = view.getByTestId("featured-photo").parent;
 
-    expect(card(view)).toHaveStyle({ marginHorizontal: -tokens.space.md, borderRadius: 0 });
+    expect(card(view)).not.toHaveStyle({ marginHorizontal: -tokens.space.md });
+    expect(photo).toHaveStyle({ height: 204, borderRadius: tokens.radius.md });
   });
 
   it("opens the featured place when its card is tapped", async () => {

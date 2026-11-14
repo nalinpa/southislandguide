@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { Calendar, ChevronRight, Lock, Plus } from "lucide-react-native";
 
 import { Screen, LoadingState, ErrorCard, AppText, AppButton, components } from "@/lib/uiKit";
-import { cardLift, tokens } from "@/lib/ui/tokens";
+import { tokens, SWEEP_COLORS, SWEEP_BUTTON } from "@/lib/ui/tokens";
 import { TopBar } from "@/components/layout/TopBar";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useItineraries } from "@/lib/hooks/useItineraries";
@@ -21,9 +21,9 @@ import { ITINERARY_TEMPLATES } from "@/lib/itineraryTemplates";
 import { slotIndexToTimeLabel, slotsToDurationLabel } from "@/lib/utils/itineraryPhysics";
 import type { ItineraryDay } from "@/lib/models";
 
-// What a guest sees behind the sign-in card: a real suggested trip, drawn by the real trip
-// view, locked (owner, 2026-11-10, mockup B). Dated in the past so no row is ever "today";
-// the locked view shows no dates anyway.
+// What a guest sees: a real suggested trip, drawn by the real trip view, locked (owner,
+// 2026-11-10, mockup B), with the way to sign in in a row under it. Dated in the past so no
+// row is ever "today"; the locked view shows no dates anyway.
 const SAMPLE = ITINERARY_TEMPLATES.find((t) => t.key === "south-island-in-7-days-from-christchurch");
 const SAMPLE_DAYS: ItineraryDay[] = (SAMPLE?.days ?? []).map((day, i) => ({
   id: `sample_day_${i + 1}`,
@@ -46,23 +46,20 @@ function GuestTrips() {
   const { places, list } = usePlaceLookup();
   const imageFor = useCallback((areaId: string) => areaImage(areaId, list), [list]);
 
-  // A white card with one job. The heading is h2: the page title is in the bar, and a
-  // second h1 here used to shout over it. The button is the screen's main action, so it's
-  // the hero (highlight) variant.
-  const card = (
-    <View style={styles.signInCard}>
-      <View style={styles.signInHead}>
-        <View style={styles.lockBadge}>
-          <Lock size={20} color={tokens.colors.highlight} strokeWidth={2.25} />
+  // The trip comes first and the way to sign in sits in a row fixed above the tab bar
+  // (design sweep, round 2 of the Trips tab; docs/plans/design-sweep.md). It was a card at
+  // the top, which every critic read before the trip it was hiding. The button is the
+  // screen's main action, so it's the one orange thing here.
+  const signInRow = (
+    <View style={styles.signInRow}>
+      <View style={styles.signInText}>
+        <View style={styles.signInHead}>
+          <Lock size={15} color={tokens.colors.text} strokeWidth={2.25} />
+          <AppText style={styles.signInTitle}>Sign In to Plan a Trip</AppText>
         </View>
-        <AppText variant="h2" style={styles.signInTitle}>
-          Sign In to Plan a Trip
-        </AppText>
+        <AppText style={styles.signInHint}>Make this trip yours, or build your own. We work out the drives.</AppText>
       </View>
-      <AppText variant="body" style={styles.signInHint}>
-        Make this trip yours, or build your own. We work out the drives.
-      </AppText>
-      <AppButton variant="hero" size="lg" fullWidth onPress={() => router.push("/(auth)/login")}>
+      <AppButton style={styles.signInButton} shape={{ height: 46 }} onPress={() => router.push("/(auth)/login")}>
         Sign In
       </AppButton>
     </View>
@@ -79,16 +76,12 @@ function GuestTrips() {
           imageFor={imageFor}
           onOpenDay={askToSignIn}
           locked
-          header={
-            <View style={styles.guestHeader}>
-              {card}
-              <AppText style={styles.sampleLabel}>A suggested trip</AppText>
-            </View>
-          }
+          header={<AppText style={styles.sampleLabel}>A suggested trip</AppText>}
         />
       ) : (
-        <View style={styles.body}>{card}</View>
+        <View style={styles.flex1} />
       )}
+      {signInRow}
     </Screen>
   );
 }
@@ -157,6 +150,15 @@ export default function ItineraryListPage() {
           description="Create a trip and start adding the places you want to see."
           createLabel="Create a Trip"
           browseLabel="Explore Places to Visit"
+          // The design sweep's look: flat on the white page, the orange main button and
+          // a teal outlined second one.
+          variant="flat"
+          colors={SWEEP_COLORS}
+          createButton={{ shape: SWEEP_BUTTON }}
+          browseButton={{
+            shape: { ...SWEEP_BUTTON, borderWidth: 1.5 },
+            colors: { bg: tokens.colors.page, border: tokens.colors.selected, text: tokens.colors.selected },
+          }}
         />
         <CreateItineraryModal
           visible={isCreating}
@@ -208,7 +210,7 @@ export default function ItineraryListPage() {
                 {itin.days?.length ? ` · ${itin.days.length} ${itin.days.length === 1 ? "day" : "days"}` : ""}
               </AppText>
             </View>
-            <ChevronRight size={20} color={tokens.colors.text2} />
+            <ChevronRight size={20} color={tokens.colors.textMuted} />
           </TouchableOpacity>
         ))}
 
@@ -235,74 +237,61 @@ export default function ItineraryListPage() {
 }
 
 const styles = StyleSheet.create({
-  // paddingTop 0 hands the status-bar inset to the top bar.
-  screen: { paddingTop: 0 },
-  container: { flex: 1, backgroundColor: tokens.colors.bgBase },
-  body: { padding: tokens.space.md, gap: 14, paddingBottom: 40 },
-  signInCard: {
-    backgroundColor: tokens.colors.bgCard,
-    borderRadius: tokens.radius.lg,
-    borderWidth: 1,
-    borderColor: tokens.colors.borderSubtle,
-    padding: tokens.space.lg,
-    gap: tokens.space.sm,
-    ...cardLift,
-  },
-  signInHead: { flexDirection: "row", alignItems: "center", gap: tokens.space.sm },
-  lockBadge: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: tokens.colors.highlightDim,
+  // paddingTop 0 hands the status-bar inset to the top bar. The white page of the design
+  // sweep's look.
+  screen: { paddingTop: 0, backgroundColor: tokens.colors.page },
+  flex1: { flex: 1 },
+  container: { flex: 1, backgroundColor: tokens.colors.page },
+  body: { paddingHorizontal: tokens.space.md, paddingBottom: 40 },
+  signInRow: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    gap: 14,
+    paddingHorizontal: tokens.space.md,
+    paddingVertical: 12,
+    backgroundColor: tokens.colors.page,
+    borderTopWidth: 1,
+    borderTopColor: tokens.colors.line,
   },
-  signInTitle: { flex: 1 },
-  signInHint: { color: tokens.colors.text2, marginBottom: tokens.space.xs },
-  guestHeader: { gap: tokens.space.md, paddingBottom: tokens.space.xs },
-  sampleLabel: {
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
-    color: tokens.colors.textMuted,
-    paddingHorizontal: 4,
-  },
+  signInText: { flex: 1 },
+  signInHead: { flexDirection: "row", alignItems: "center", gap: 6 },
+  signInTitle: { flex: 1, fontSize: 15, fontWeight: "700", color: tokens.colors.text },
+  signInHint: { fontSize: 13, lineHeight: 18, color: tokens.colors.text2, marginTop: 2 },
+  signInButton: { width: 104, paddingHorizontal: 0 },
+  // Sentence case, small and grey: the spaced capitals it was read as a form label.
+  sampleLabel: { fontSize: 14, color: tokens.colors.textMuted, marginBottom: 2 },
+  // A row on the page with a line under it, as a day row is (components/itinerary/TripOverview.tsx).
   tripCard: {
     flexDirection: "row",
     alignItems: "center",
     gap: 14,
-    backgroundColor: tokens.colors.bgCard,
-    borderRadius: tokens.radius.lg,
-    paddingHorizontal: 20,
-    paddingVertical: 22,
-    borderWidth: 1,
-    borderColor: tokens.colors.borderSubtle,
-    ...cardLift,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: tokens.colors.line,
   },
   tripCardIcon: {
     width: 44,
     height: 44,
-    borderRadius: tokens.radius.md,
+    borderRadius: 12,
     backgroundColor: tokens.colors.accentDim,
     alignItems: "center",
     justifyContent: "center",
   },
-  tripCardInner: { flex: 1, gap: 5 },
-  tripCardTitle: { fontSize: 18, fontWeight: "700", color: tokens.colors.text },
-  tripCardMeta: { fontSize: 14, color: tokens.colors.text2 },
+  tripCardInner: { flex: 1, gap: 3 },
+  tripCardTitle: { fontSize: 17, fontWeight: "700", color: tokens.colors.text },
+  tripCardMeta: { fontSize: 14, color: tokens.colors.textMuted },
   tripCardCreate: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
     paddingVertical: 16,
-    borderRadius: tokens.radius.lg,
+    borderRadius: 12,
     borderWidth: 1.5,
     borderStyle: "dashed",
-    // The screen's main action, so it takes the highlight.
+    // Something to tap, so it takes the highlight.
     borderColor: tokens.colors.highlight,
-    marginTop: 6,
+    marginTop: tokens.space.md,
   },
   tripCardCreateText: { fontSize: 15, fontWeight: "700", color: tokens.colors.highlight },
 });

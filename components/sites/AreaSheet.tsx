@@ -56,8 +56,9 @@ export function AreaSheet({ visible, options, selected, onSelect, onClose }: Are
               hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
               accessibilityRole="button"
               accessibilityLabel="Close"
+              style={styles.closeChip}
             >
-              <X color={tokens.colors.text2} size={24} />
+              <X color={tokens.colors.text} size={16} strokeWidth={2.25} />
             </TouchableOpacity>
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
@@ -66,12 +67,12 @@ export function AreaSheet({ visible, options, selected, onSelect, onClose }: Are
                 <Text style={styles.sectionTitle} accessibilityRole="header">
                   {section.title}
                 </Text>
-                {section.towns.map((town) => {
+                {section.towns.map((town, i) => {
                   const active = town.id === selected;
                   return (
                     <TouchableOpacity
                       key={town.id}
-                      style={styles.row}
+                      style={[styles.row, i > 0 && styles.rowLine]}
                       activeOpacity={0.6}
                       onPress={() => onSelect(town.id)}
                       accessibilityRole="button"
@@ -94,13 +95,15 @@ export function AreaSheet({ visible, options, selected, onSelect, onClose }: Are
   );
 }
 
+// In the design sweep's look for a sheet (docs/plans/design-sweep.md): the white page,
+// 20pt top corners, the teal dim behind, the close button an x in a pale circle.
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: "rgba(36,26,18,0.6)", justifyContent: "flex-end" },
+  overlay: { flex: 1, backgroundColor: "rgba(3,38,43,0.55)", justifyContent: "flex-end" },
   sheet: {
     maxHeight: "80%",
-    backgroundColor: tokens.colors.bgCard,
-    borderTopLeftRadius: tokens.radius.lg,
-    borderTopRightRadius: tokens.radius.lg,
+    backgroundColor: tokens.colors.page,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     paddingTop: tokens.space.md,
   },
   header: {
@@ -108,33 +111,36 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: tokens.space.md,
-    marginBottom: tokens.space.xs,
+    marginBottom: tokens.space.sm,
   },
-  title: { fontSize: 20, fontWeight: "800", color: tokens.colors.text },
+  title: { fontSize: 20, fontWeight: "700", letterSpacing: -0.2, color: tokens.colors.text },
+  closeChip: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: tokens.colors.bgSurface,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   section: { paddingHorizontal: tokens.space.md },
-  // A tinted band across the sheet, in teal, so a region reads as a heading over its
-  // towns and not one more town to tap (owner, 2026-10-30).
+  // A band across the sheet, so a region reads as a heading over its towns and not one
+  // more town to tap (owner, 2026-10-30). The pale band and small grey name of a group on
+  // Profile, as written: it was a mint band with the name in teal capitals.
   sectionTitle: {
     marginHorizontal: -tokens.space.md,
     paddingHorizontal: tokens.space.md,
-    paddingVertical: 6,
-    backgroundColor: tokens.colors.bgSurface,
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 0.5,
-    textTransform: "uppercase",
-    color: tokens.colors.accent,
+    paddingVertical: 7,
+    backgroundColor: tokens.colors.band,
+    fontSize: 13,
+    fontWeight: "600",
+    color: tokens.colors.textMuted,
   },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    minHeight: 48,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: tokens.colors.border,
-  },
-  label: { flex: 1, fontSize: 16, fontWeight: "600", color: tokens.colors.text },
-  // "You are here", so the chosen town takes the highlight.
-  labelActive: { fontWeight: "700", color: tokens.colors.highlight },
-  count: { fontSize: 14, fontWeight: "600", color: tokens.colors.text2 },
+  row: { flexDirection: "row", alignItems: "center", gap: 12, minHeight: 48 },
+  // A hairline between towns in a region, none after the last: the next region's band follows.
+  rowLine: { borderTopWidth: 1, borderTopColor: tokens.colors.line },
+  label: { flex: 1, fontSize: 16, fontWeight: "500", color: tokens.colors.text },
+  // The chosen town is the highlight, with a tick to match: teal, as a chosen tab is,
+  // was tried and was less clear in a long list (owner, 2026-11-13).
+  labelActive: { fontWeight: "600", color: tokens.colors.highlight },
+  count: { fontSize: 15, color: tokens.colors.textMuted },
 });

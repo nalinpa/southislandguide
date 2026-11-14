@@ -8,6 +8,12 @@ type TopBarTabsProps<K extends string | null> = {
   tabs: { key: K; label: string }[];
   selected: K;
   onSelect: (key: K) => void;
+  /**
+   * "page" for a strip on the white page under the bar (the design sweep's look): idle in
+   * one grey, the selected one teal with a line under the word. Left out, the strip is for
+   * the bottom of the dark bar, as it always was.
+   */
+  tone?: "bar" | "page";
 };
 
 type Span = { x: number; width: number };
@@ -26,7 +32,8 @@ export function tabScrollX(tab: Span, stripWidth: number, contentWidth: number):
 // The strip scrolls to show the selected tab, so one chosen elsewhere (the guide opening on
 // a town's region from Explore, owner 2026-10-25) is in view rather than off the edge. It
 // waits for the tabs to be laid out: their positions only exist after the first render.
-export function TopBarTabs<K extends string | null>({ tabs, selected, onSelect }: TopBarTabsProps<K>) {
+export function TopBarTabs<K extends string | null>({ tabs, selected, onSelect, tone = "bar" }: TopBarTabsProps<K>) {
+  const onPage = tone === "page";
   const scroller = useRef<ScrollView>(null);
   const spans = useRef(new Map<string, Span>());
   const [stripWidth, setStripWidth] = useState(0);
@@ -45,8 +52,8 @@ export function TopBarTabs<K extends string | null>({ tabs, selected, onSelect }
       ref={scroller}
       horizontal
       showsHorizontalScrollIndicator={false}
-      style={styles.strip}
-      contentContainerStyle={styles.content}
+      style={[styles.strip, onPage && styles.stripPage]}
+      contentContainerStyle={[styles.content, onPage && styles.contentPage]}
       onLayout={(e) => setStripWidth(e.nativeEvent.layout.width)}
       onContentSizeChange={(width) => setContentWidth(width)}
     >
@@ -55,7 +62,7 @@ export function TopBarTabs<K extends string | null>({ tabs, selected, onSelect }
         return (
           <TouchableOpacity
             key={String(tab.key)}
-            style={styles.tab}
+            style={onPage ? styles.tabPage : styles.tab}
             onPress={() => onSelect(tab.key)}
             onLayout={(e) => {
               const { x, width } = e.nativeEvent.layout;
@@ -65,8 +72,20 @@ export function TopBarTabs<K extends string | null>({ tabs, selected, onSelect }
             accessibilityRole="tab"
             accessibilityState={{ selected: active }}
           >
-            <AppText style={[styles.text, active && styles.textActive]}>{tab.label}</AppText>
-            <View style={[styles.indicator, active && styles.indicatorActive]} />
+            <AppText
+              style={
+                onPage ? [styles.textPage, active && styles.textPageActive] : [styles.text, active && styles.textActive]
+              }
+            >
+              {tab.label}
+            </AppText>
+            <View
+              style={
+                onPage
+                  ? [styles.indicatorPage, active && styles.indicatorPageActive]
+                  : [styles.indicator, active && styles.indicatorActive]
+              }
+            />
           </TouchableOpacity>
         );
       })}
@@ -96,4 +115,18 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 3,
   },
   indicatorActive: { backgroundColor: tokens.colors.highlightOnDark },
+  // On the page. The line sits just under the word, not on the strip's bottom edge, and
+  // only the selected tab has one: the same mark as the tab bar at the foot of the screen.
+  stripPage: {
+    backgroundColor: tokens.colors.page,
+    borderBottomWidth: 1,
+    borderBottomColor: tokens.colors.line,
+  },
+  contentPage: { gap: 22 },
+  // 46pt tall, so the words keep a tap target near the 48pt minimum.
+  tabPage: { height: 46, justifyContent: "center", alignItems: "center" },
+  textPage: { fontSize: 15, fontWeight: "500", color: tokens.colors.textMuted },
+  textPageActive: { color: tokens.colors.selected, fontWeight: "600" },
+  indicatorPage: { marginTop: 3, height: 2, width: "100%", backgroundColor: "transparent" },
+  indicatorPageActive: { backgroundColor: tokens.colors.selected },
 });

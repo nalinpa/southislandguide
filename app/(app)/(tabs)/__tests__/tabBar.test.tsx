@@ -1,5 +1,5 @@
-// The bottom tab bar is on every screen, so its active tab is the one place the highlight
-// colour is guaranteed to appear app-wide.
+// The bottom tab bar is on every screen. Since the design sweep the current tab is teal with
+// a line under its word, and the rest one grey (docs/plans/design-sweep.md).
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
 
@@ -50,19 +50,19 @@ beforeEach(() => {
 });
 
 describe("tab bar", () => {
-  it("marks the current tab in the highlight colour and leaves the others neutral", async () => {
+  it("marks the current tab in the selected colour and leaves the others grey", async () => {
     const view = await render(<TabsLayout />);
 
-    expect(view.getByText("Explore")).toHaveStyle({ color: tokens.colors.highlight });
-    expect(view.getByText("Trips")).toHaveStyle({ color: tokens.colors.text2 });
+    expect(view.getByText("Explore")).toHaveStyle({ color: tokens.colors.selected });
+    expect(view.getByText("Trips")).toHaveStyle({ color: tokens.colors.textMuted });
   });
 
-  it("moves the highlight with the current tab", async () => {
+  it("moves the mark with the current tab", async () => {
     mockNav.index = 2;
     const view = await render(<TabsLayout />);
 
-    expect(view.getByText("Map")).toHaveStyle({ color: tokens.colors.highlight });
-    expect(view.getByText("Explore")).toHaveStyle({ color: tokens.colors.text2 });
+    expect(view.getByText("Map")).toHaveStyle({ color: tokens.colors.selected });
+    expect(view.getByText("Explore")).toHaveStyle({ color: tokens.colors.textMuted });
   });
 
   // VoiceOver reads "Explore, tab, selected, 1 of 4" rather than bare text.
@@ -99,13 +99,26 @@ describe("tab bar", () => {
     expect(mockNav.backBehavior).toBe("history");
   });
 
-  it("lights the Map for a place opened from the map", async () => {
+  // A place has no tab bar: its "Add to Trip" row sits at the foot of the screen instead
+  // (owner, 2026-11-13; docs/plans/design-sweep.md).
+  it("is hidden on a place", async () => {
     mockNav.history = ["sites/index", "map/index", "sites/[siteId]/index"];
     mockNav.index = 4;
     const view = await render(<TabsLayout />);
 
-    expect(view.getByText("Map")).toHaveStyle({ color: tokens.colors.highlight });
-    expect(view.getByText("Explore")).toHaveStyle({ color: tokens.colors.text2 });
+    expect(view.queryByRole("tablist")).toBeNull();
+    expect(view.queryByText("Map")).toBeNull();
+  });
+
+  // A screen opened from a place (the guide here) still lights the tab the place was
+  // opened from: the place is skipped over in the history like any shared screen.
+  it("lights the Map for the guide opened from a place that was opened from the map", async () => {
+    mockNav.history = ["sites/index", "map/index", "sites/[siteId]/index", "guide/index"];
+    mockNav.index = 5;
+    const view = await render(<TabsLayout />);
+
+    expect(view.getByText("Map")).toHaveStyle({ color: tokens.colors.selected });
+    expect(view.getByText("Explore")).toHaveStyle({ color: tokens.colors.textMuted });
   });
 
   it("lights Explore, not Profile, for the guide opened from Explore", async () => {
@@ -113,7 +126,7 @@ describe("tab bar", () => {
     mockNav.index = 5;
     const view = await render(<TabsLayout />);
 
-    expect(view.getByText("Explore")).toHaveStyle({ color: tokens.colors.highlight });
-    expect(view.getByText("Profile")).toHaveStyle({ color: tokens.colors.text2 });
+    expect(view.getByText("Explore")).toHaveStyle({ color: tokens.colors.selected });
+    expect(view.getByText("Profile")).toHaveStyle({ color: tokens.colors.textMuted });
   });
 });

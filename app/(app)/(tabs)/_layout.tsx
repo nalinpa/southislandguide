@@ -44,20 +44,21 @@ const highlightedTab = (state: any) => {
   return sectionTab(state.routes[state.index]?.name ?? "sites");
 };
 
-function TabBar({ state, navigation }: any) {
+// Expo Router 58 gives a tab bar `emitter` and `navigateToTab(routeKey)`, not `navigation`.
+function TabBar({ state, emitter, navigateToTab }: any) {
   const insets = useSafeAreaInsets();
   const activeRouteName = highlightedTab(state);
 
   const onSelect = (tabKey: string) => {
     const targetRoute = state.routes.find((r: any) => normalizeRouteName(r.name) === tabKey);
     if (!targetRoute) return;
-    const event = navigation.emit({ type: "tabPress", target: targetRoute.key, canPreventDefault: true });
+    const event = emitter.emit({ type: "tabPress", target: targetRoute.key, canPreventDefault: true });
     // Not to the tab already on screen, as React Navigation's own tab bar does: it changes
     // the tab history but not the screen, which leaves Sentry's navigation span open until
     // its 15 s timeout. tabPress still goes out, for a tab's own listeners.
     const focused = state.routes[state.index]?.key === targetRoute.key;
     if (!event.defaultPrevented && !focused) {
-      navigation.navigate(targetRoute.name);
+      navigateToTab(targetRoute.key);
     }
   };
 

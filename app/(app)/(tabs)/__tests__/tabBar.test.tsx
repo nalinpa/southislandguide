@@ -30,7 +30,9 @@ jest.mock("expo-router", () => {
         index: mockNav.index,
         history: mockNav.history?.map((key) => ({ type: "route", key })),
       },
-      navigation: { emit: () => ({ defaultPrevented: false }), navigate: mockNavigate },
+      // Expo Router 58's tab bar props: no `navigation`, an emitter and navigateToTab(key).
+      emitter: { emit: () => ({ defaultPrevented: false }) },
+      navigateToTab: mockNavigate,
     });
   };
   Tabs.Screen = () => null;

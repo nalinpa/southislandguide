@@ -21,6 +21,8 @@ type DriveBlockProps = {
   onDragEnd?: () => void;
   /** Hold to move (ms), as TimelineBlock's: unset, it drags from touch-down. */
   holdToDrag?: number;
+  /** The open Duo: the car on the wide stop's icon line (24 across, 14 in: centre 26, not 25). */
+  wide?: boolean;
 };
 
 // Where a drag lands: the half hour the engine rounded to, kept between the end of the
@@ -28,6 +30,10 @@ type DriveBlockProps = {
 export function driveDropSlot(requested: number, earliest: number, latest: number): number {
   return Math.min(latest, Math.max(earliest, requested));
 }
+
+// The car, 14 in from the block's edge: 22 across on a phone (centre 25, as the stop's icon),
+// 24 on the Duo (centre 26, as the wide stop's), with the words 46 in either way.
+export const carSize = (wide?: boolean) => (wide ? 24 : 22);
 
 // The drive between two areas, drawn on the day timeline in the time it takes up. The
 // planner works out how long it is; the user can only move it, between the place before
@@ -38,7 +44,7 @@ export function driveDropSlot(requested: number, earliest: number, latest: numbe
 //
 // Dragged the way the shared TimelineBlock drags a place (PanResponder, settling on the
 // slot it lands on). No zIndex, so a place being dragged (zIndex 10) passes over it.
-export function DriveBlock({ fromLabel, toLabel, startSlot, slots, earliest, latest, onMove, onDragStart, onDragEnd, holdToDrag }: DriveBlockProps) {
+export function DriveBlock({ fromLabel, toLabel, startSlot, slots, earliest, latest, onMove, onDragStart, onDragEnd, holdToDrag, wide }: DriveBlockProps) {
   const H = PLANNER.SLOT_HEIGHT;
   const time = slotIndexToTimeLabel(startSlot);
   // Lower case: it follows "About" mid-line ("About 1 hour", as "About 30 min").
@@ -109,8 +115,8 @@ export function DriveBlock({ fromLabel, toLabel, startSlot, slots, earliest, lat
       style={[styles.container, { height: slots * H, transform: [{ translateY: pan.y }] }]}
       {...(movable ? gesture.responder.panHandlers : {})}
     >
-      <View style={styles.inner}>
-        <Car color={tokens.colors.text2} size={22} strokeWidth={2} />
+      <View style={[styles.inner, wide && styles.innerWide]}>
+        <Car color={tokens.colors.text2} size={carSize(wide)} strokeWidth={2} />
         <View style={styles.text}>
           <Text style={styles.title} numberOfLines={1}>
             Drive to {toLabel}
@@ -154,6 +160,8 @@ const styles = StyleSheet.create({
     backgroundColor: tokens.colors.driveFill,
     overflow: "hidden",
   },
+  // A 24 car for the 22: the words stay 46 in.
+  innerWide: { gap: 8 }, // 14 + 24 + 8 = 46
   text: { flex: 1 },
   title: { fontSize: 15, fontWeight: "600", color: tokens.colors.text },
   detail: { fontSize: 12, fontWeight: "600", color: tokens.colors.text2, marginTop: 2 },

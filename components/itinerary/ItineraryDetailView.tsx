@@ -9,12 +9,13 @@
 // a permanent loading state after navigating away and back.
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, AppState, Alert, Modal, PanResponder, type ScrollViewInstance } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { router, useFocusEffect } from "expo-router";
 import { randomUUID } from "expo-crypto";
 import { Car, Plus, MoreHorizontal, X, Navigation } from "lucide-react-native";
 import * as Sentry from "@sentry/react-native";
 import * as Haptics from "expo-haptics";
+import { useHalves, useWide } from "@blacksands/ui";
 
 import { Screen, LoadingState, ErrorCard, AppText, AppButton, AppIconButton, components } from "@/lib/uiKit";
 import { TopBar } from "@/components/layout/TopBar";
@@ -24,12 +25,12 @@ import { DeleteTripModal } from "@/components/itinerary/DeleteTripModal";
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { NoteCard } from "@/components/itinerary/NoteCard";
 import { DriveBlock } from "@/components/itinerary/DriveBlock";
-import { TripOverview } from "@/components/itinerary/TripOverview";
+import { TripOverview, dateParts, routeLine } from "@/components/itinerary/TripOverview";
 import { TripViewSwitch, type TripView } from "@/components/itinerary/TripViewSwitch";
 import { daySwipeHandlers } from "@/components/itinerary/daySwipe";
 import { cardLift, darkEdge, pair, tokens } from "@/lib/ui/tokens";
 import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
-import { slotRangeLabel } from "@/lib/utils/itineraryPhysics";
+import { slotRangeLabel, tripSummary } from "@/lib/utils/itineraryPhysics";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { useEntitlementGate } from "@/lib/hooks/useEntitlementGate";
@@ -128,6 +129,15 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   const imageForArea = useCallback((areaId: string) => areaImage(areaId, placeList), [placeList]);
   const sourceTrip = itineraries.find((i) => i.id === tripId) ?? null;
 
+  // The open Duo (docs/plans/design-sweep.md, "The trip, picked: round 7"): the trip list and
+  // the open day side by side, half each upright and 40/60 sideways, with no Trip | Days
+  // switch. One tree on every width: the list and the day sit in the same two slots, and
+  // only styles change and a slot fills or empties (`null`), so folding keeps the open day
+  // and the scroll positions. The phone keeps its own Trip | Days mode through a fold.
+  const wide = useWide();
+  const { upright } = useHalves();
+  const insets = useSafeAreaInsets();
+
   const [localTrip, setLocalTrip] = useState<Itinerary | null>(sourceTrip);
   const [activeDayId, setActiveDayId] = useState<string | null>(null);
   const activeDay = localTrip?.days.find((d) => d.id === activeDayId) || localTrip?.days[0];
@@ -161,6 +171,11 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     if (nowTop != null) timelineScrollRef.current?.scrollTo({ y: Math.max(0, nowTop - 120), animated: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tripId, activeDay?.id, view]);
+  // Each day's towns, for the right side's heading (the phone doesn't show it).
+  const daySummary = useMemo(
+    () => (localTrip && wide ? tripSummary(localTrip.days, places) : []),
+    [localTrip, wide, places],
+  );
   const [localItems, setLocalItems] = useState<ItineraryItem[]>([]);
   const [editingItem, setEditingItem] = useState<ItineraryItem | null>(null);
   const [viewingNote, setViewingNote] = useState<ItineraryItem | null>(null);
@@ -736,6 +751,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
         earliest={leg.move?.earliest}
         latest={leg.move?.latest}
         onMove={leg.move ? (slot) => handleMoveDrive(leg.move!.intoId, slot) : undefined}
+        wide={wide}
         holdToDrag={HOLD_TO_DRAG_MS}
         onDragStart={() => {
           liftBuzz();
@@ -779,18 +795,20 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
           delete X, and the strip ends in Add Day. Colours match TopBarTabs' page tone. */}
       {/* No title row: on a phone the timeline needs the room. The trip's name heads the
           trip view instead (TripOverview), and the menu sits beside the switch. */}
-      <TopBar>
-        <View style={styles.switchRow}>
-          <TripViewSwitch view={view} onChange={handleChangeView} style={styles.switch} />
-          <AppIconButton
-            icon={MoreHorizontal}
-            variant="control"
-            onPress={() => setShowTripMenu(true)}
-            accessibilityLabel="Trip options"
-          />
-        </View>
-      </TopBar>
-      {view === "days" && (
+      {wide ? null : (
+        <TopBar>
+          <View style={styles.switchRow}>
+            <TripViewSwitch view={view} onChange={handleChangeView} style={styles.switch} />
+            <AppIconButton
+              icon={MoreHorizontal}
+              variant="control"
+              onPress={() => setShowTripMenu(true)}
+              accessibilityLabel="Trip options"
+            />
+          </View>
+        </TopBar>
+      )}
+      {view === "days" && !wide && (
         <ScrollView
           ref={dayStripRef}
           testID="day-strip"
@@ -855,128 +873,175 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
         </ScrollView>
       )}
 
-      {view === "trip" ? (
-        <TripOverview
-          title={localTrip.title || "My Trip"}
-          days={localTrip.days}
-          places={places}
-          imageFor={imageForArea}
-          onOpenDay={handleOpenDay}
-        />
-      ) : (
-        <ScrollView
-          ref={timelineScrollRef}
-          showsVerticalScrollIndicator={false}
-          style={styles.timelineScroll}
-          scrollEnabled={!isDragging}
-        >
-          {routeUrl && (
-            <View style={styles.routeRow}>
-              <AppButton
-                variant="secondary"
-                size="sm"
-                icon={Navigation}
-                // From overseas the drive starts at the day's first stop (lib/utils/dayRoute.ts).
-                onPress={() =>
-                  void phoneIsOutsideNZ().then((abroad) => openMaps(dayRouteUrl(localItems, places, abroad) ?? routeUrl))
-                }
-              >
-                {`Drive Day ${(localTrip?.days.findIndex((d) => d.id === activeDay?.id) ?? 0) + 1} in Google Maps`}
-              </AppButton>
-            </View>
-          )}
-          <View testID="timeline" style={styles.timelineContainer} {...daySwipe.panHandlers}>
-            {/* tokens.space.md is the container's paddingTop, above the 8 AM row. */}
-            {nowTop != null && (
-              <View
-                testID="now-line"
-                pointerEvents="none"
-                style={[styles.nowLine, { top: nowTop + tokens.space.md }]}
-              />
-            )}
-            {TIME_SLOTS.map((slot) => {
-              const isHour = slot.label !== "";
-              return (
-                <View key={slot.id} style={styles.gridRow}>
-                  <View style={styles.timeLabelContainer}>
-                    {isHour ? <AppText style={styles.timeLabel}>{slot.label}</AppText> : null}
-                  </View>
-                  <View style={isHour ? styles.hourDivider : styles.halfHourDivider} />
-                </View>
-              );
-            })}
-
-            {/* In the order of the day (the opening drive, then each place and the leg
-                that leaves it), so a screen reader reads it top to bottom. */}
-            {legAfter.has("opening") ? renderLeg(legAfter.get("opening")!) : null}
-
-            {localItems.map((item) => (
-              <Fragment key={item.id}>
-                <components.TimelineBlock
-                  // When it starts and ends ("1:00 – 2:00 PM"), not its start and length.
-                  item={{
-                    ...item,
-                    timeLabel: slotRangeLabel(item.slotIndex ?? 0, item.durationSlots || 2),
-                    durationLabel: undefined,
-                  }}
-                  left={BLOCK_LEFT}
-                  icon={iconFor.get(item.siteId) ?? CATEGORY_CONFIG.other.Icon}
-                  // The note chip is a fill under white words: success, not the engine's surf, which is
-                  // the light green for words in dark mode.
-                  colors={{ grip: "rgba(255,255,255,0.7)", note: tokens.colors.success }}
-                  maxSlots={TIME_SLOTS.length}
-                  slotHeight={SLOT_HEIGHT}
-                  // Hold to move: a swipe over a place scrolls the day, as other calendars do.
-                  holdToDrag={HOLD_TO_DRAG_MS}
-                  onDrop={handleDrop}
-                  onDragStart={() => {
-                    liftBuzz();
-                    hasUnsavedChanges.current = true;
-                    setIsDragging(true);
-                  }}
-                  onDragEnd={() => setIsDragging(false)}
-                  onEdit={() => setEditingItem(item)}
-                  onNotePress={() => setViewingNote(item)}
-                />
-                {legAfter.has(item.id) ? renderLeg(legAfter.get(item.id)!) : null}
-              </Fragment>
-            ))}
-
-            {localItems.length === 0 && (
-              // One row across the first hour (design sweep, the Days view), with a "Find
-              // more things to do" further down in each of the day's two gaps (freeGaps).
-              <TouchableOpacity
-                style={[styles.emptyDayRow, { height: 2 * SLOT_HEIGHT }]}
-                onPress={() => browseFrom(MAX_GRID_SLOTS, 1)}
-                activeOpacity={0.7}
-                accessibilityRole="button"
-                accessibilityLabel="Nothing here yet. Browse places"
-              >
-                <AppText variant="body" style={styles.emptyDayTitle}>
-                  Nothing here yet
-                </AppText>
-                {/* What a tap on the row does, said on a button. The whole row is the tap. */}
-                <View style={styles.emptyDayButton}>
-                  <AppText style={styles.emptyDayButtonText}>Browse places</AppText>
-                </View>
-              </TouchableOpacity>
-            )}
-            {freeGaps.map((gap) => (
-              <View
-                key={`gap_${gap.start}`}
-                testID="free-gap"
-                style={[styles.gapContainer, { top: gap.start * SLOT_HEIGHT, height: (gap.end - gap.start) * SLOT_HEIGHT }]}
-              >
-                {/* The outline button, as "Drive Day 1 in Google Maps" above: a second action.
-                    Its fill hides the hour lines behind it. */}
-                <AppButton variant="secondary" size="sm" icon={Plus} onPress={() => browseFrom(gap.start)}>
-                  Find more things to do
+      <View style={styles.body}>
+        {wide || view === "trip" ? (
+          <View
+            testID="trip-list-pane"
+            style={[styles.pane, wide && { flex: upright ? 1 : 2, backgroundColor: tokens.colors.band, paddingTop: insets.top }]}
+          >
+            <TripOverview
+              title={localTrip.title || "My Trip"}
+              days={localTrip.days}
+              places={places}
+              imageFor={imageForArea}
+              onOpenDay={handleOpenDay}
+              wide={wide}
+              selectedDay={localTrip.days.findIndex((d) => d.id === activeDay?.id)}
+              onSelectDay={(n) => handleSwitchDay(localTrip.days[n].id)}
+              onDeleteDay={localTrip.days.length > 1 ? handleDeleteDay : undefined}
+              menu={
+                <TouchableOpacity
+                  onPress={() => setShowTripMenu(true)}
+                  accessibilityRole="button"
+                  accessibilityLabel="Trip options"
+                  style={styles.wideMenu}
+                >
+                  <MoreHorizontal size={22} color={tokens.colors.text} />
+                </TouchableOpacity>
+              }
+              footer={
+                wide && isEntitled && localTrip.days.length < PLANNER.MAX_TRIP_DAYS ? (
+                  <TouchableOpacity onPress={handleAddDay} style={styles.addDayBtn} accessibilityRole="button">
+                    <Plus color={tokens.colors.selected} size={16} strokeWidth={2.5} />
+                    <AppText style={styles.addDayText}>Add Day</AppText>
+                  </TouchableOpacity>
+                ) : null
+              }
+            />
+          </View>
+        ) : null}
+        {wide || view === "days" ? (
+          <View testID="trip-day-pane" style={[styles.pane, wide && { flex: upright ? 1 : 3 }]}>
+            {wide && activeDay ? (
+              // On the left side's top line: the date, then the route.
+              <View testID="day-heading" style={[styles.dayHeading, { paddingTop: insets.top + tokens.space.md }]}>
+                <Text style={styles.dayHeadingDate}>
+                  {`Day ${localTrip.days.findIndex((d) => d.id === activeDay.id) + 1}`}
+                  {activeDay.date ? ` · ${dateParts(activeDay.date, "short")}` : ""}
+                </Text>
+                {(daySummary[localTrip.days.findIndex((d) => d.id === activeDay.id)]?.areas.length ?? 0) > 0 ? (
+                  <Text style={styles.dayHeadingRoute}>
+                    {routeLine(daySummary[localTrip.days.findIndex((d) => d.id === activeDay.id)].areas.map(areaName))}
+                  </Text>
+                ) : null}
+              </View>
+            ) : null}
+          <ScrollView
+            ref={timelineScrollRef}
+            showsVerticalScrollIndicator={false}
+            style={styles.timelineScroll}
+            scrollEnabled={!isDragging}
+          >
+            {routeUrl && (
+              <View style={styles.routeRow}>
+                <AppButton
+                  variant="secondary"
+                  size="sm"
+                  icon={Navigation}
+                  // From overseas the drive starts at the day's first stop (lib/utils/dayRoute.ts).
+                  onPress={() =>
+                    void phoneIsOutsideNZ().then((abroad) => openMaps(dayRouteUrl(localItems, places, abroad) ?? routeUrl))
+                  }
+                >
+                  {`Drive Day ${(localTrip?.days.findIndex((d) => d.id === activeDay?.id) ?? 0) + 1} in Google Maps`}
                 </AppButton>
               </View>
-            ))}
+            )}
+            <View testID="timeline" style={styles.timelineContainer} {...daySwipe.panHandlers}>
+              {/* tokens.space.md is the container's paddingTop, above the 8 AM row. */}
+              {nowTop != null && (
+                <View
+                  testID="now-line"
+                  pointerEvents="none"
+                  style={[styles.nowLine, { top: nowTop + tokens.space.md }]}
+                />
+              )}
+              {TIME_SLOTS.map((slot) => {
+                const isHour = slot.label !== "";
+                return (
+                  <View key={slot.id} style={styles.gridRow}>
+                    <View style={styles.timeLabelContainer}>
+                      {isHour ? <AppText style={styles.timeLabel}>{slot.label}</AppText> : null}
+                    </View>
+                    <View style={isHour ? styles.hourDivider : styles.halfHourDivider} />
+                  </View>
+                );
+              })}
+
+              {/* In the order of the day (the opening drive, then each place and the leg
+                  that leaves it), so a screen reader reads it top to bottom. */}
+              {legAfter.has("opening") ? renderLeg(legAfter.get("opening")!) : null}
+
+              {localItems.map((item) => (
+                <Fragment key={item.id}>
+                  <components.TimelineBlock
+                    wide={wide}
+                    // When it starts and ends ("1:00 – 2:00 PM"), not its start and length.
+                    item={{
+                      ...item,
+                      timeLabel: slotRangeLabel(item.slotIndex ?? 0, item.durationSlots || 2),
+                      durationLabel: undefined,
+                    }}
+                    left={BLOCK_LEFT}
+                    icon={iconFor.get(item.siteId) ?? CATEGORY_CONFIG.other.Icon}
+                    // The note chip is a fill under white words: success, not the engine's surf, which is
+                    // the light green for words in dark mode.
+                    colors={{ grip: "rgba(255,255,255,0.7)", note: tokens.colors.success }}
+                    maxSlots={TIME_SLOTS.length}
+                    slotHeight={SLOT_HEIGHT}
+                    // Hold to move: a swipe over a place scrolls the day, as other calendars do.
+                    holdToDrag={HOLD_TO_DRAG_MS}
+                    onDrop={handleDrop}
+                    onDragStart={() => {
+                      liftBuzz();
+                      hasUnsavedChanges.current = true;
+                      setIsDragging(true);
+                    }}
+                    onDragEnd={() => setIsDragging(false)}
+                    onEdit={() => setEditingItem(item)}
+                    onNotePress={() => setViewingNote(item)}
+                  />
+                  {legAfter.has(item.id) ? renderLeg(legAfter.get(item.id)!) : null}
+                </Fragment>
+              ))}
+
+              {localItems.length === 0 && (
+                // One row across the first hour (design sweep, the Days view), with a "Find
+                // more things to do" further down in each of the day's two gaps (freeGaps).
+                <TouchableOpacity
+                  style={[styles.emptyDayRow, { height: 2 * SLOT_HEIGHT }]}
+                  onPress={() => browseFrom(MAX_GRID_SLOTS, 1)}
+                  activeOpacity={0.7}
+                  accessibilityRole="button"
+                  accessibilityLabel="Nothing here yet. Browse places"
+                >
+                  <AppText variant="body" style={styles.emptyDayTitle}>
+                    Nothing here yet
+                  </AppText>
+                  {/* What a tap on the row does, said on a button. The whole row is the tap. */}
+                  <View style={styles.emptyDayButton}>
+                    <AppText style={styles.emptyDayButtonText}>Browse places</AppText>
+                  </View>
+                </TouchableOpacity>
+              )}
+              {freeGaps.map((gap) => (
+                <View
+                  key={`gap_${gap.start}`}
+                  testID="free-gap"
+                  style={[styles.gapContainer, { top: gap.start * SLOT_HEIGHT, height: (gap.end - gap.start) * SLOT_HEIGHT }]}
+                >
+                  {/* The outline button, as "Drive Day 1 in Google Maps" above: a second action.
+                      Its fill hides the hour lines behind it. */}
+                  <AppButton variant="secondary" size="sm" icon={Plus} onPress={() => browseFrom(gap.start)}>
+                    Find more things to do
+                  </AppButton>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
           </View>
-        </ScrollView>
-      )}
+        ) : null}
+      </View>
 
       <EditItemModal
         item={editingItem}
@@ -1174,6 +1239,14 @@ const styles = StyleSheet.create({
   addDayBtn: { flexDirection: "row", alignItems: "center", paddingHorizontal: 14, paddingVertical: 10, gap: 6 },
   addDayText: { fontSize: 14, fontWeight: "600", color: tokens.colors.selected },
   timelineScroll: { flex: 1 },
+  // The list and the day: one row on every width, with a slot for each.
+  body: { flex: 1, flexDirection: "row" },
+  pane: { flex: 1 },
+  wideMenu: { width: 44, height: 44, alignItems: "center", justifyContent: "center", marginRight: -10 },
+  // The day's heading, on the 16 pt edge the hour labels keep.
+  dayHeading: { paddingHorizontal: tokens.space.md, paddingBottom: 4, gap: 2 },
+  dayHeadingDate: { fontSize: 14, color: tokens.colors.text2 },
+  dayHeadingRoute: { fontSize: 22, fontWeight: "700", color: tokens.colors.text },
   routeRow: { paddingHorizontal: tokens.space.md, paddingTop: tokens.space.md },
   timelineContainer: { position: "relative", paddingTop: tokens.space.md, paddingBottom: 100 },
   gridRow: { flexDirection: "row", height: SLOT_HEIGHT, alignItems: "flex-start" },

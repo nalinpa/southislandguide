@@ -65,7 +65,7 @@ jest.mock("expo-router", () => ({
 
 import React from "react";
 import { Alert } from "react-native";
-import { fireEvent, render } from "@testing-library/react-native";
+import { fireEvent, render, within } from "@testing-library/react-native";
 
 import ItineraryListPage from "@/app/(app)/(tabs)/itinerary/index";
 import { PLANNER } from "@/lib/constants/gameplay";
@@ -118,6 +118,17 @@ describe("guest", () => {
     expect(view.queryByText("7 days")).toBeNull();
     expect(view.getByText("Sign In to Plan a Trip")).toBeTruthy();
     expect(view.getAllByLabelText(/, locked$/)).toHaveLength(7);
+  });
+
+  // The open Duo: the sample on the list side, the day side empty beside it, no teal bar.
+  it("shows the sample on the list side, beside an empty day side, on the Duo", async () => {
+    require("@blacksands/ui").__setWide(true, { width: 669, height: 951 });
+    const view = await render(<ItineraryListPage />);
+
+    expect(within(view.getByTestId("trip-list-pane")).getByText("South Island in 7 Days")).toBeTruthy();
+    expect(view.getByTestId("trip-day-pane").children).toHaveLength(0);
+    expect(view.queryByText("Trips")).toBeNull();
+    expect(view.getByText("Sign In to Plan a Trip")).toBeTruthy();
   });
 
   it("asks a guest to sign in when they tap a day", async () => {

@@ -14,8 +14,13 @@ jest.mock("@/lib/uiKit", () => {
     ...kit,
     components: {
       ...kit.components,
-      TimelineBlock: ({ item, onDrop, onDragStart, onEdit, onNotePress }: any) =>
-        React.createElement(
+      TimelineBlock: ({ item, onDrop, onDragStart, onEdit, onNotePress, wide }: any) => {
+        // Counts mounts, to tell a remount from a redraw; and keeps the `wide` it was given.
+        React.useEffect(() => {
+          mockMounts.timeline++;
+        }, []);
+        mockMounts.wide = wide;
+        return React.createElement(
           View,
           null,
           React.createElement(Text, null, item.siteName),
@@ -46,8 +51,24 @@ jest.mock("@/lib/uiKit", () => {
             { onPress: () => onNotePress(item), accessibilityRole: "button" },
             React.createElement(Text, null, "Note " + item.siteName),
           ),
-        ),
+        );
+      },
       TransitBlock: () => null,
+    },
+  };
+});
+
+// The trip list, wrapped to count its mounts (see "keeps the list across the breakpoint").
+jest.mock("@/components/itinerary/TripOverview", () => {
+  const React = require("react");
+  const actual = jest.requireActual("@/components/itinerary/TripOverview");
+  return {
+    ...actual,
+    TripOverview: (props: any) => {
+      React.useEffect(() => {
+        mockMounts.overview++;
+      }, []);
+      return React.createElement(actual.TripOverview, props);
     },
   };
 });
@@ -90,6 +111,8 @@ const mockAreas: Record<string, string> = {
   "dun-a": "dunedin",
   "dun-b": "dunedin",
 };
+const mockMounts = { overview: 0, timeline: 0, wide: undefined as boolean | undefined };
+const mockInsets = { top: 44, bottom: 34, left: 0, right: 0 };
 const mockLookup = {
   places: (id: string) => (id in mockAreas ? { area: mockAreas[id] } : undefined),
   // The list itself: what a town's picture on the trip view comes from.
@@ -129,7 +152,7 @@ jest.mock("react-native-safe-area-context", () => {
   const { View } = require("react-native");
   return {
     SafeAreaView: ({ children, style }: any) => React.createElement(View, { style }, children),
-    useSafeAreaInsets: () => ({ top: 44, bottom: 34, left: 0, right: 0 }),
+    useSafeAreaInsets: () => mockInsets,
   };
 });
 
@@ -177,7 +200,7 @@ jest.mock("expo-router", () => {
 });
 
 import React from "react";
-import { Alert, Linking, ScrollView } from "react-native";
+import { Alert, Linking, ScrollView, StyleSheet } from "react-native";
 import { act, fireEvent, render, waitFor, within } from "@testing-library/react-native";
 
 import { ItineraryDetailView } from "@/components/itinerary/ItineraryDetailView";
@@ -212,6 +235,10 @@ let alertSpy: jest.SpyInstance;
 
 beforeEach(() => {
   jest.clearAllMocks();
+  mockMounts.overview = 0;
+  mockMounts.timeline = 0;
+  mockMounts.wide = undefined;
+  mockInsets.right = 0;
   mockSession.status = "authed";
   mockGate.entitledProductIds = new Set();
   mockGate.loading = false;
@@ -1105,3 +1132,173 @@ describe("a long trip", () => {
   });
 });
 
+
+// The open iPhone Duo (docs/plans/design-sweep.md, "The trip, picked: round 7"): the trip
+// list and the open day side by side, with no Trip | Days switch.
+describe("the trip, wide", () => {
+  const setWide = (size = { width: 669, height: 951 }) => require("@blacksands/ui").__setWide(true, size);
+  const setPhone = () => require("@blacksands/ui").__setWide(false);
+  const redraw = (view: any) => view.rerender(<ItineraryDetailView tripId="t1" />);
+  const hasFill = (view: any, id: string) =>
+    JSON.stringify(view.getByTestId(`day-row-${id}`).props.style).includes(JSON.stringify(tokens.colors.selFill));
+
+  it("shows the list and the day together, with no Trip | Days switch", async () => {
+    setWide();
+    const view = await openTripView();
+
+    expect(view.getByText("Hot Pools Weekend")).toBeTruthy();
+    expect(view.getByText(/^Day 3 · /)).toBeTruthy();
+    expect(view.getByText("Wai-O-Tapu")).toBeTruthy();
+    expect(view.queryByText("Days")).toBeNull();
+    expect(view.queryByRole("tab", { name: "Trip" })).toBeNull();
+    expect(view.queryByTestId("day-strip")).toBeNull();
+  });
+
+  it("keeps the trip menu, in the list's heading", async () => {
+    setWide();
+    const view = await openTripView();
+
+    await fireEvent.press(view.getByLabelText("Trip options"));
+    expect(view.getByText("Delete Trip")).toBeTruthy();
+  });
+
+  it("shows a tapped day on the right, where the phone switches to Days", async () => {
+    mockTrips.itineraries = [tripOf([gardens()], [gondola()])];
+    setWide();
+    const view = await openTripView();
+    expect(view.getByText("Gardens")).toBeTruthy();
+
+    await fireEvent.press(view.getByText(/^Day 2 · /));
+
+    await waitFor(() => expect(view.getByText("Gondola")).toBeTruthy());
+    expect(view.queryByText("Gardens")).toBeNull();
+    // The list stays up beside it.
+    expect(view.getByText(/^Day 1 · /)).toBeTruthy();
+    expect(hasFill(view, "day_2")).toBe(true);
+    expect(hasFill(view, "day_1")).toBe(false);
+  });
+
+  it("on a phone a tap on a day still switches to Days", async () => {
+    mockTrips.itineraries = [tripOf([gardens()], [gondola()])];
+    const view = await openTripView();
+
+    await fireEvent.press(view.getByText(/^Day 2 · /));
+
+    await waitFor(() => expect(view.getByText("Gondola")).toBeTruthy());
+    expect(view.getByText("Days")).toBeTruthy();
+    expect(view.queryByText(/^Day 1 · /)).toBeNull();
+  });
+
+  it("upright, the list and the day are half each", async () => {
+    setWide({ width: 669, height: 951 });
+    const view = await openTripView();
+
+    expect(view.getByTestId("trip-list-pane")).toHaveStyle({ flex: 1 });
+    expect(view.getByTestId("trip-day-pane")).toHaveStyle({ flex: 1 });
+  });
+
+  // 951 wide with the rail's 84 on the right: 867 of room, 40/60 is 347 and 520.
+  it("sideways, the list is 40% and the day 60% of what the rail leaves", async () => {
+    mockInsets.right = 84;
+    setWide({ width: 951, height: 669 });
+    const view = await openTripView();
+
+    const left = (StyleSheet.flatten(view.getByTestId("trip-list-pane").props.style) as any).flex;
+    const right = (StyleSheet.flatten(view.getByTestId("trip-day-pane").props.style) as any).flex;
+    expect(Math.round((867 * left) / (left + right))).toBe(347);
+    expect(Math.round((867 * right) / (left + right))).toBe(520);
+  });
+
+  it("opens on the first day", async () => {
+    setWide();
+    const view = await openTripView();
+
+    expect(hasFill(view, "day_1")).toBe(true);
+    expect(view.getByText("Wai-O-Tapu")).toBeTruthy();
+    expect(within(view.getByTestId("day-heading")).getByText(/^Day 1 · /)).toBeTruthy();
+  });
+
+  it("passes wide to the stops, and not on a phone", async () => {
+    setWide();
+    await openTripView();
+    expect(mockMounts.wide).toBe(true);
+
+    mockMounts.wide = undefined;
+    setPhone();
+    await openTrip();
+    expect(mockMounts.wide).toBe(false);
+  });
+
+  it("keeps the list across the breakpoint, and the day it was on", async () => {
+    mockTrips.itineraries = [tripOf([gardens()], [gondola()])];
+    setWide();
+    const view = await openTripView();
+    await fireEvent.press(view.getByText(/^Day 2 · /));
+    await waitFor(() => expect(view.getByText("Gondola")).toBeTruthy());
+    expect(mockMounts.overview).toBe(1);
+
+    // Folded: the phone's Trip mode, and the list is the same list, not a new one.
+    setPhone();
+    await redraw(view);
+    expect(mockMounts.overview).toBe(1);
+    await fireEvent.press(view.getByText("Days"));
+    expect(view.getByText("Gondola")).toBeTruthy();
+    expect(view.getByText("Day 2")).toHaveStyle({ color: tokens.colors.selected });
+
+    // Unfolded again, on Days: the timeline is the same one.
+    const timelines = mockMounts.timeline;
+    setWide();
+    await redraw(view);
+    expect(mockMounts.timeline).toBe(timelines);
+    expect(view.getByText("Gondola")).toBeTruthy();
+    expect(hasFill(view, "day_2")).toBe(true);
+  });
+
+  it("keeps the day timeline across the breakpoint when the phone was on Days", async () => {
+    mockTrips.itineraries = [tripOf([gardens()], [gondola()])];
+    const view = await openTrip({ jumpToDay: "day_2" });
+    await waitFor(() => expect(view.getByText("Gondola")).toBeTruthy());
+    const mounted = mockMounts.timeline;
+
+    setWide();
+    await redraw(view);
+    expect(mockMounts.timeline).toBe(mounted);
+    expect(view.getByText("Gondola")).toBeTruthy();
+    expect(hasFill(view, "day_2")).toBe(true);
+
+    setPhone();
+    await redraw(view);
+    expect(mockMounts.timeline).toBe(mounted);
+    expect(view.getByText("Gondola")).toBeTruthy();
+    expect(view.getByText("Days")).toBeTruthy();
+  });
+
+  it("holds the day beside the list for a trip with no days", async () => {
+    mockTrips.itineraries = [makeTrip({ days: [] })];
+    setWide();
+    const view = await openTripView();
+
+    expect(view.getByText("Hot Pools Weekend")).toBeTruthy();
+    expect(view.queryByText("Days")).toBeNull();
+  });
+});
+
+describe("a drive, wide", () => {
+  const { DriveBlock, carSize } = require("@/components/itinerary/DriveBlock");
+  const draw = (wide?: boolean) =>
+    render(<DriveBlock fromLabel="Christchurch" toLabel="Dunedin" startSlot={4} slots={9} wide={wide} />);
+  const gap = (v: any) => StyleSheet.flatten(v.getByTestId("drive-block").children[0].props.style).gap;
+
+  // The stop's icon is 22 and 14 in (centre 25) on a phone, 24 and 14 in (26) wide; the
+  // words stay 46 in either way. (Icons draw nothing under Jest, so the size is read from
+  // the function that sets it.)
+  it("puts the car on the stops' icon line, 1 pt further in", async () => {
+    const phone = await draw();
+    expect(14 + carSize(false) / 2).toBe(25);
+    expect(14 + carSize(false) + gap(phone)).toBe(46);
+
+    const wide = await draw(true);
+    expect(14 + carSize(true) / 2).toBe(26);
+    expect(14 + carSize(true) + gap(wide)).toBe(46);
+  });
+});

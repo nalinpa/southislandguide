@@ -1,6 +1,6 @@
 import { useMemo, useRef, type ReactNode } from "react";
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, type ImageSourcePropType, type ScrollViewInstance } from "react-native";
-import { Car, ChevronRight, MapPin } from "lucide-react-native";
+import { Car, ChevronRight, MapPin, X } from "lucide-react-native";
 
 import { tokens } from "@/lib/ui/tokens";
 import { areaName } from "@/lib/areas";
@@ -25,6 +25,19 @@ type TripOverviewProps = {
    *  onOpenDay, which asks them to sign in. No lock on each row either: the one sign-in
    *  row under the list says it once (design sweep, 2026-11-13). */
   locked?: boolean;
+  /** The open Duo: slimmer rows with a 56 photo, and the open day filled (design sweep, "The
+   *  trip, picked: round 7"). Only styles change, so the list keeps its scroll across a fold. */
+  wide?: boolean;
+  /** Wide: the open day's position in `days` (from 0). A tap then calls onSelectDay with the
+   *  row's position, not onOpenDay: the day shows on the right, where the phone switches. */
+  selectedDay?: number;
+  onSelectDay?: (n: number) => void;
+  /** Wide: the open day's delete ×, a disc at the end of its row. */
+  onDeleteDay?: (dayId: string) => void;
+  /** Wide: beside the trip's name (the ⋯ menu). */
+  menu?: ReactNode;
+  /** After the last row, inside the scroll (Add Day). */
+  footer?: ReactNode;
 };
 
 // A day's route for the row's bold line. A town's name never breaks ("Aoraki / Mount Cook"
@@ -40,7 +53,7 @@ function localIsoDate(d: Date): string {
 
 // In parts, not one format call: en-NZ puts a comma after the weekday on some engines
 // and not others.
-function dateParts(iso: string, length: "short" | "long"): string {
+export function dateParts(iso: string, length: "short" | "long"): string {
   const d = new Date(iso + "T00:00:00");
   return `${d.toLocaleDateString("en-NZ", { weekday: length })} ${d.toLocaleDateString("en-NZ", { day: "numeric", month: length })}`;
 }
@@ -52,7 +65,21 @@ function dateParts(iso: string, length: "short" | "long"): string {
 // A day that starts in a different town from where the one before ended opens with that
 // drive, and says so: the planner doesn't know where the traveller sleeps, and this is
 // where they see what that costs across the trip.
-export function TripOverview({ title, days, places, imageFor, onOpenDay, header, locked = false }: TripOverviewProps) {
+export function TripOverview({
+  title,
+  days,
+  places,
+  imageFor,
+  onOpenDay,
+  header,
+  locked = false,
+  wide = false,
+  selectedDay,
+  onSelectDay,
+  onDeleteDay,
+  menu,
+  footer,
+}: TripOverviewProps) {
   const summary = useMemo(() => tripSummary(days, places), [days, places]);
   const today = localIsoDate(new Date());
 
@@ -69,18 +96,22 @@ export function TripOverview({ title, days, places, imageFor, onOpenDay, header,
       showsVerticalScrollIndicator={false}
     >
       {header}
-      <View style={styles.heading}>
-        <Text style={styles.tripTitle}>{title}</Text>
-        {days.length > 0 && !locked ? (
-          <Text style={styles.tripDates}>
-            {`${formatTripDates(days[0].date, days[days.length - 1].date)} · `}
-            {days.length} {days.length === 1 ? "day" : "days"}
-          </Text>
-        ) : null}
+      <View style={[styles.headingRow, wide && styles.headingRowWide]}>
+        <View style={styles.heading}>
+          <Text style={styles.tripTitle}>{title}</Text>
+          {days.length > 0 && !locked ? (
+            <Text style={styles.tripDates}>
+              {`${formatTripDates(days[0].date, days[days.length - 1].date)} · `}
+              {days.length} {days.length === 1 ? "day" : "days"}
+            </Text>
+          ) : null}
+        </View>
+        {wide ? menu : null}
       </View>
       {days.map((day, index) => {
         const { placeCount, areas, openingDrive, driveSlots, overflows } = summary[index];
         const isToday = !locked && day.date === today;
+        const selected = wide && selectedDay === index;
         const towns = areas.map(areaName);
         const meta =
           `${placeCount} ${placeCount === 1 ? "place" : "places"}` +
@@ -113,25 +144,27 @@ export function TripOverview({ title, days, places, imageFor, onOpenDay, header,
               scrolledToToday.current = true;
               scrollRef.current?.scrollTo({ y: Math.max(0, e.nativeEvent.layout.y - tokens.space.md), animated: false });
             }}
-            style={styles.row}
+            style={[styles.row, wide && styles.rowWide, selected && styles.rowSelected]}
             activeOpacity={0.7}
-            onPress={() => onOpenDay(day.id)}
+            onPress={() => (wide && onSelectDay ? onSelectDay(index) : onOpenDay(day.id))}
             accessibilityRole="button"
             accessibilityLabel={spoken}
+            accessibilityState={wide ? { selected } : undefined}
           >
+            {selected ? <View pointerEvents="none" style={styles.selEdge} /> : null}
             {picture ? (
-              <Image testID="day-image" source={picture} style={styles.picture} />
+              <Image testID="day-image" source={picture} style={[styles.picture, wide && styles.pictureWide]} />
             ) : (
               // Holds the picture's place, so every row lines up.
-              <View testID="day-image-placeholder" style={[styles.picture, styles.noPicture]}>
+              <View testID="day-image-placeholder" style={[styles.picture, wide && styles.pictureWide, styles.noPicture]}>
                 <MapPin size={22} color={tokens.colors.borderStrong} />
               </View>
             )}
             {/* The line under a row starts at the words, not under the picture. */}
-            <View style={styles.body}>
+            <View style={[styles.body, wide && styles.bodyWide]}>
             <View style={styles.main}>
               <View style={styles.titleRow}>
-                <Text style={styles.title}>
+                <Text style={[styles.title, wide && styles.titleWide]}>
                   Day {index + 1}
                   {locked ? "" : ` · ${dateParts(day.date, "short")}`}
                 </Text>
@@ -139,29 +172,42 @@ export function TripOverview({ title, days, places, imageFor, onOpenDay, header,
                 {isToday ? <Text style={styles.today}>Today</Text> : null}
               </View>
 
-              {towns.length > 0 ? <Text style={styles.towns}>{routeLine(towns)}</Text> : null}
+              {towns.length > 0 ? <Text style={[styles.towns, wide && styles.townsWide]}>{routeLine(towns)}</Text> : null}
 
               {placeCount === 0 ? (
-                <Text style={styles.empty}>Nothing planned yet</Text>
+                <Text style={[styles.empty, wide && styles.detailWide, selected && styles.detailSelected]}>Nothing planned yet</Text>
               ) : (
-                <Text style={styles.meta}>{meta}</Text>
+                <Text style={[styles.meta, wide && styles.detailWide, selected && styles.detailSelected]}>{meta}</Text>
               )}
 
               {/* As the drive block on the day timeline: a muted car, secondary text. */}
               {opening ? (
                 <View style={styles.drive}>
                   <Car color={tokens.colors.textMuted} size={15} />
-                  <Text style={styles.driveText}>{opening}</Text>
+                  <Text style={[styles.driveText, wide && styles.driveTextWide, selected && styles.detailSelected]}>{opening}</Text>
                 </View>
               ) : null}
 
-              {overflows ? <Text style={styles.overflow}>Runs past 10 PM</Text> : null}
+              {overflows ? <Text style={[styles.overflow, wide && styles.detailWide]}>Runs past 10 PM</Text> : null}
             </View>
-            {locked ? null : <ChevronRight size={20} color={tokens.colors.textMuted} />}
+            {selected && onDeleteDay ? (
+              <TouchableOpacity
+                onPress={() => onDeleteDay(day.id)}
+                accessibilityRole="button"
+                accessibilityLabel={`Delete Day ${index + 1}`}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                style={styles.deleteDisc}
+              >
+                <X size={14} color={tokens.colors.text} strokeWidth={2.5} />
+              </TouchableOpacity>
+            ) : locked || wide ? null : (
+              <ChevronRight size={20} color={tokens.colors.textMuted} />
+            )}
             </View>
           </TouchableOpacity>
         );
       })}
+      {footer}
     </ScrollView>
   );
 }
@@ -169,7 +215,9 @@ export function TripOverview({ title, days, places, imageFor, onOpenDay, header,
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
   content: { padding: tokens.space.md, paddingBottom: 40 },
-  heading: { gap: 2, paddingBottom: 4 },
+  headingRow: { flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between" },
+  headingRowWide: { paddingBottom: 4 },
+  heading: { flex: 1, gap: 2, paddingBottom: 4 },
   tripTitle: { fontSize: 22, fontWeight: "700", color: tokens.colors.text },
   tripDates: { fontSize: 14, color: tokens.colors.text2 },
   // A row on the white page with a line under its words, not a card (the design sweep's
@@ -185,6 +233,29 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: tokens.colors.line,
   },
+  // The Duo's rows: a 56 photo and 13 pt words, the open day filled (selFill, with the dark
+  // edge as an overlay so it takes no room).
+  rowWide: { alignItems: "center", gap: 12, marginTop: 6, paddingTop: 8, padding: 8, borderRadius: 12 },
+  rowSelected: { backgroundColor: tokens.colors.selFill },
+  selEdge: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: tokens.colors.selEdgeDark,
+  },
+  pictureWide: { width: 56, height: 56, borderRadius: 10 },
+  bodyWide: { minHeight: 0, paddingBottom: 0, borderBottomWidth: 0 },
+  titleWide: { fontSize: 13 },
+  townsWide: { fontSize: 15, lineHeight: 20, minHeight: 0 },
+  detailWide: { fontSize: 13 },
+  detailSelected: { color: tokens.colors.text2 },
+  driveTextWide: { fontSize: 12 },
+  // The phone's × (the day strip's): a pale disc, a dark cross.
+  deleteDisc: { padding: 5, borderRadius: 14, borderWidth: 1, borderColor: tokens.colors.border, backgroundColor: tokens.colors.bgElevated },
   main: { flex: 1, gap: 2 },
   // As the photo on an Explore card, small: the row is about the day, not the town.
   picture: { width: 72, height: 72, borderRadius: 12, borderWidth: 1, borderColor: tokens.colors.photoEdge },

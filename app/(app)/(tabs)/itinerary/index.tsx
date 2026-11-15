@@ -1,6 +1,8 @@
 import { useCallback, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, Alert } from "react-native";
 import { router } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useHalves, useWide } from "@blacksands/ui";
 import { Calendar, ChevronRight, Lock, Plus } from "lucide-react-native";
 
 import { Screen, LoadingState, ErrorCard, AppText, AppButton, components } from "@/lib/uiKit";
@@ -45,6 +47,11 @@ const askToSignIn = () =>
 function GuestTrips() {
   const { places, list } = usePlaceLookup();
   const imageFor = useCallback((areaId: string) => areaImage(areaId, list), [list]);
+  // On the open Duo the sample sits on the list side with the day side empty beside it (the
+  // signed-in trip's split, ItineraryDetailView). Same tree on every width.
+  const wide = useWide();
+  const { upright } = useHalves();
+  const insets = useSafeAreaInsets();
 
   // The trip comes first and the way to sign in sits in a row fixed above the tab bar
   // (design sweep, round 2 of the Trips tab; docs/plans/design-sweep.md). It was a card at
@@ -67,20 +74,29 @@ function GuestTrips() {
 
   return (
     <Screen padded={false} style={styles.screen}>
-      <TopBar title="Trips" />
-      {SAMPLE ? (
-        <TripOverview
-          title={SAMPLE.label}
-          days={SAMPLE_DAYS}
-          places={places}
-          imageFor={imageFor}
-          onOpenDay={askToSignIn}
-          locked
-          header={<AppText style={styles.sampleLabel}>A suggested trip</AppText>}
-        />
-      ) : (
-        <View style={styles.flex1} />
-      )}
+      {wide ? null : <TopBar title="Trips" />}
+      <View style={styles.flex1row}>
+        {SAMPLE ? (
+          <View
+            testID="trip-list-pane"
+            style={[styles.flex1, wide && { flex: upright ? 1 : 2, backgroundColor: tokens.colors.band, paddingTop: insets.top }]}
+          >
+            <TripOverview
+              wide={wide}
+              title={SAMPLE.label}
+              days={SAMPLE_DAYS}
+              places={places}
+              imageFor={imageFor}
+              onOpenDay={askToSignIn}
+              locked
+              header={<AppText style={styles.sampleLabel}>A suggested trip</AppText>}
+            />
+          </View>
+        ) : (
+          <View style={styles.flex1} />
+        )}
+        {wide ? <View testID="trip-day-pane" style={{ flex: upright ? 1 : 3 }} /> : null}
+      </View>
       {signInRow}
     </Screen>
   );
@@ -241,6 +257,7 @@ const styles = StyleSheet.create({
   // sweep's look.
   screen: { paddingTop: 0, backgroundColor: tokens.colors.page },
   flex1: { flex: 1 },
+  flex1row: { flex: 1, flexDirection: "row" },
   container: { flex: 1, backgroundColor: tokens.colors.page },
   body: { paddingHorizontal: tokens.space.md, paddingBottom: 40 },
   signInRow: {

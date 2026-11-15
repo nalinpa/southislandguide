@@ -99,7 +99,7 @@ export function SpotlightOverlay() {
   const top = insets.top + 16;
   const bottom = height - insets.bottom - 16;
   // A target in Explore's left band (wide): the card goes to its right, over the places.
-  const inBand = wide && !!targetRect && targetRect.x < EXPLORE_SIDE;
+  const inBand = wide && !!targetRect && targetRect.x + targetRect.width <= EXPLORE_SIDE;
   const fitsBelow = !!targetRect && targetRect.y + targetRect.height + CARD_GAP + cardHeight <= bottom;
   const welcomeTop = !wide ? (height - cardHeight) / 2 : upright ? foldY - WELCOME_ABOVE_FOLD - cardHeight : (height - cardHeight) / 2;
   const cardTop = !targetRect

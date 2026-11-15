@@ -178,12 +178,16 @@ export function TodayCarousel({
   items,
   onSelectSite,
   scrolled,
+  width,
 }: {
   items: ActiveItineraryItem[];
   onSelectSite: (id: string) => void;
   scrolled: React.MutableRefObject<boolean>;
+  /** The carousel's own width when it is not the window's (the Duo's 360 panel). */
+  width?: number;
 }) {
   const { width: windowWidth } = useWindowDimensions();
+  const containerWidth = width ?? windowWidth;
   const carouselRef = useRef<any>(null);
 
   useEffect(() => {
@@ -204,12 +208,12 @@ export function TodayCarousel({
     });
 
     const cardCenterX = tokens.space.md + nearestIndex * (128 + 10) + 64;
-    const scrollX = Math.max(0, cardCenterX - windowWidth / 2);
+    const scrollX = Math.max(0, cardCenterX - containerWidth / 2);
 
     setTimeout(() => {
       carouselRef.current?.scrollTo({ x: scrollX, animated: true });
     }, 400);
-  }, [items, windowWidth, scrolled]);
+  }, [items, containerWidth, scrolled]);
 
   return (
     <View style={styles.nearbySection}>

@@ -71,7 +71,7 @@ export function MapPanel({ site, nearbySites, todayItems, scrolled, onSelectSite
         <View onLayout={(e) => setCardH(height(e))} testID="map-panel-head">
           <PlaceCard site={site} loading={loading} wide {...card} />
         </View>
-        {showItinerary && todayItems && <TodayCarousel items={todayItems} onSelectSite={onSelectSite} scrolled={scrolled} />}
+        {showItinerary && todayItems && <TodayCarousel items={todayItems} onSelectSite={onSelectSite} scrolled={scrolled} width={PANEL_WIDTH} />}
         {showNearby && rows.length > 0 && (
           <NearbySection wide onHeadLayout={(e) => setHeadH(height(e) + 4)}>
             {rows.map((n) => (

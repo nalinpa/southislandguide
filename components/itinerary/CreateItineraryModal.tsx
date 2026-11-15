@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Alert, View, StyleSheet, Modal, TouchableOpacity, TextInput, ScrollView, useWindowDimensions, useColorScheme } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import { randomUUID } from "expo-crypto";
 
 import { CardShell, AppButton, AppText, Row } from "@/lib/uiKit";
-import { tokens } from "@/lib/ui/tokens";
+import { CARD_SIDES, tokens } from "@/lib/ui/tokens";
 import { useWideSheet, WIDE_CORNERS } from "@/lib/ui/useWideSheet";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { ITINERARY_TEMPLATES, TRIP_STARTS, defaultTemplateKey, type TripStart } from "@/lib/itineraryTemplates";
@@ -71,7 +71,8 @@ export function CreateItineraryModal({
   const { itineraries, saveItinerary, isSaving } = useItineraries();
   const netInfo = useNetInfo();
   const wide = useWideSheet("list");
-  const page = useColorScheme() === "dark" ? "#06191B" : "#FFFFFF";
+  // The sheet is the card colour (CardShell basic), so the fades end in it, not the page's.
+  const page = CARD_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
   const isOffline = netInfo.isConnected === false || netInfo.isInternetReachable === false;
 
   const [title, setTitle] = useState("");
@@ -87,13 +88,12 @@ export function CreateItineraryModal({
   // Wide only: the fade shows while there is more list under the foot of the scroll region,
   // so it never lies over the button once the form is scrolled to its end (or fits).
   const [more, setMore] = useState(false);
-  const [scrollDims, setScrollDims] = useState({ layout: 0, content: 0, y: 0 });
-  const updateScroll = (next: Partial<typeof scrollDims>) =>
-    setScrollDims((d) => {
-      const n = { ...d, ...next };
-      setMore(n.content - n.layout - n.y > 4);
-      return n;
-    });
+  // The sizes live in a ref: only `more` changing re-renders, not every scroll frame.
+  const scrollDims = useRef({ layout: 0, content: 0, y: 0 });
+  const updateScroll = (next: Partial<typeof scrollDims.current>) => {
+    const n = (scrollDims.current = { ...scrollDims.current, ...next });
+    setMore(n.content - n.layout - n.y > 4);
+  };
 
   // Editing starts from the trip as it is; a template only makes sense for a new one.
   const templatesEnabled = showTemplateOption && !trip;

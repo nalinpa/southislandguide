@@ -449,6 +449,7 @@ describe("the Today's Trip auto-scroll", () => {
   beforeEach(() => {
     jest.useFakeTimers();
     mockScrollTo.mockClear();
+    require("@blacksands/ui").__setWide(false);
   });
   afterEach(() => jest.useRealTimers());
 
@@ -460,6 +461,19 @@ describe("the Today's Trip auto-scroll", () => {
     });
 
     expect(mockScrollTo).toHaveBeenCalledTimes(1);
+  });
+
+  it("on the Duo it centres the current stop in the 360 panel, not the window", async () => {
+    jest.setSystemTime(new Date(2026, 10, 16, 12, 0));
+    require("@blacksands/ui").__setWide(true, { width: 951, height: 669 });
+    const items = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM"].map((t, i) => ({ ...stops(1)[0], id: `i${i}`, siteId: `s${i}`, timeLabel: t }));
+    await render(tree({ todayItems: items }));
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
+
+    // Card 3's centre: 16 + 3 * 138 + 64 = 494; half the panel is 180.
+    expect(mockScrollTo).toHaveBeenCalledWith({ x: 494 - 180, animated: true });
   });
 
   it("does not scroll again when the carousel unmounts and mounts (a GPS refresh)", async () => {

@@ -4,6 +4,11 @@
 // check) and after it (the api's 409).
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
+jest.mock("expo-linear-gradient", () => {
+  const React = require("react");
+  const { View } = require("react-native");
+  return { LinearGradient: (p: any) => React.createElement(View, p) };
+});
 
 // The date picker is a third-party calendar with its own timezone quirks; the screen's
 // own Day override is what reads a tap, and none of that is what these tests assert.
@@ -398,6 +403,18 @@ it("wide: a centred 520 list card", async () => {
   const title = view.getByText("New Trip");
   expect(styleUp(title, "width")).toBe(520);
   expect(styleUp(title, "maxHeight")).toBe(760);
+});
+
+it("wide, dark: the foot fade ends in the card's colour, not the page's", async () => {
+  wide();
+  const spy = jest.spyOn(require("react-native"), "useColorScheme").mockReturnValue("dark");
+  const view = await openModal();
+  const scroll = view.getByTestId("create-scroll");
+  await fireEvent(scroll, "layout", { nativeEvent: { layout: { height: 500 } } });
+  await fireEvent(scroll, "contentSizeChange", 300, 900);
+  const fade = view.getByTestId("create-sheet-fade");
+  expect(fade.props.colors).toEqual(["#0E2A2E00", "#0E2A2E"]);
+  spy.mockRestore();
 });
 
 it("wide: the fade shows only while the list runs on, above the button's end", async () => {

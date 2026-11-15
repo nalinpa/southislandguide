@@ -8,7 +8,7 @@ import { useNetInfo } from "@react-native-community/netinfo";
 import { X, Minus, Plus, Image as ImageIcon } from "lucide-react-native";
 
 import { CardShell, AppButton } from "@/lib/uiKit";
-import { tokens } from "@/lib/ui/tokens";
+import { CARD_SIDES, tokens } from "@/lib/ui/tokens";
 import { useWideSheet, WIDE_CORNERS } from "@/lib/ui/useWideSheet";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { usePlaceLookup } from "@/lib/hooks/usePlaceLookup";
@@ -75,7 +75,8 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   const { itineraries, saveItinerary, isSaving } = useItineraries();
   const netInfo = useNetInfo();
   const wide = useWideSheet("sheet");
-  const page = useColorScheme() === "dark" ? "#06191B" : "#FFFFFF";
+  // The sheet is the card colour (CardShell basic), so the fades end in it, not the page's.
+  const page = CARD_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
   const isOffline = netInfo.isConnected === false || netInfo.isInternetReachable === false;
   const { places, ready: placesReady } = usePlaceLookup();
 

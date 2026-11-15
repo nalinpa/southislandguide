@@ -269,6 +269,20 @@ describe("SpotlightOverlay", () => {
       expect(pointerStyle().left).toBe(350 - 170 - 7);
     });
 
+    it("wide: a full-width target from x 20 (the place page's Add to Trip row) gets the phone placement, not the band's", async () => {
+      ui().__setWide(true, { width: 669, height: 951 });
+      await show();
+      await toTown();
+      await act(async () => tour.registerTarget("town", { x: 20, y: 860, width: 629, height: 50 }));
+      await layoutCard(200);
+
+      // Above the target (no room below), pointer down at its middle (334.5).
+      expect(cardStyle().top).toBe(860 - 200 - 22);
+      expect(cardStyle().left).toBe(Math.min(334.5 - 180, 669 - 16 - 360));
+      expect(pointerStyle().bottom).toBeLessThan(0);
+      expect(pointerStyle().left).toBe(334.5 - cardStyle().left - 7);
+    });
+
     it("wide: the cut-out has a 2 pt selected ring", async () => {
       ui().__setWide(true, { width: 669, height: 951 });
       await show();

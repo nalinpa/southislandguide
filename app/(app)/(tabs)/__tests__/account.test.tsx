@@ -518,6 +518,16 @@ describe("wide", () => {
     expect(view.getByTestId("profile-hairline", { includeHiddenElements: true })).toHaveStyle({ display: "none" });
   });
 
+  it("phone: the groups run hero, who, Show me around, Map, My Trip, Saved Places, email switch, Account, Photo credits, legal", async () => {
+    const view = await render(<AccountScreen />);
+    const tree = JSON.stringify(view.toJSON());
+    const marks = ["Open Guide", "User Info Card", "Show me around", "Map for no signal", "Itineraries Card", "Saved Items Card", "Email me about feedback and news", "Danger Zone Card", "Photo credits", "Privacy policy", "Terms of use", "Contact us"];
+    const at = marks.map((m) => tree.indexOf(m));
+
+    expect(at.every((i) => i >= 0)).toBe(true);
+    expect(at).toEqual([...at].sort((x, y) => x - y));
+  });
+
   it("folding keeps the open map choice", async () => {
     mockSession.status = "guest";
     const view = await render(<AccountScreen />);

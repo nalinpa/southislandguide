@@ -4,6 +4,11 @@
 // the slot that was asked for.
 
 jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
+jest.mock("expo-linear-gradient", () => {
+  const React = require("react");
+  const { View } = require("react-native");
+  return { LinearGradient: (p: any) => React.createElement(View, p) };
+});
 
 jest.mock("expo-image", () => {
   const React = require("react");
@@ -442,6 +447,15 @@ describe("on the Duo", () => {
       if (st?.paddingHorizontal === 24) card = st;
     }
     expect(card.borderBottomLeftRadius).toBe(20);
+  });
+
+  it("wide, dark: the Day row fades into the card's colour, not the page's", async () => {
+    require("@blacksands/ui").__setWide(true, { width: 669, height: 951 });
+    const spy = jest.spyOn(require("react-native"), "useColorScheme").mockReturnValue("dark");
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    const fade = view.getByTestId("add-day-fade");
+    expect(fade.props.colors).toEqual(["#0E2A2E00", "#0E2A2E"]);
+    spy.mockRestore();
   });
 
   it("wide: the Day row fades at the margin; the phone has no fade", async () => {

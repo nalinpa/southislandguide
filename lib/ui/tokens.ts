@@ -100,6 +100,9 @@ export const tokens = {
     driveFill: pair("#D9E9E4", "#173F45"),
     photoEdge: pair("rgba(10,31,27,0.14)", "rgba(238,246,243,0.16)"),
     selected: pair("#095C65", "#7FD0D6"),
+    // The fill behind the row you are on at a wide width, and the dark-only edge that keeps it visible.
+    selFill: pair("rgba(9,92,101,0.16)", "rgba(127,208,214,0.30)"),
+    selEdgeDark: pair("transparent", "rgba(127,208,214,0.55)"),
     // The one warm colour: draws the eye to the important thing on a screen.
     // Opposite teal on the wheel, and not one of the map category colours
     // (components/map/SiteMarker.tsx). Too weak as text on bgElevated (4.2:1).

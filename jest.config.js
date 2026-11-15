@@ -10,6 +10,8 @@ module.exports = {
   // Added to the preset's own setup files, not in place of them.
   // Gesture handler 3 calls native config the preset doesn't stub; its own jest setup does.
   setupFiles: ["<rootDir>/test/lightColors.js", "react-native-gesture-handler/jestSetup"],
+  // After the framework is up: the wide mock resets in a beforeEach.
+  setupFilesAfterEnv: ["<rootDir>/test/wideMock.js"],
   moduleNameMapper: {
     // Tests run against fixed drive times (the ones the planner was designed around),
     // not whatever scripts/generate-drive-times.js last wrote: the times are data, and a

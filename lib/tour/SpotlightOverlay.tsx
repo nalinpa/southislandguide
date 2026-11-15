@@ -91,9 +91,13 @@ export function SpotlightOverlay() {
       : Math.max(top, targetRect.y - cardHeight - CARD_GAP);
   // The pointer sits under (or over) the middle of the lit part, kept clear of the card's
   // rounded corners.
-  const cardWidth = width - CARD_SIDE * 2;
+  // The overlay covers the whole window, so the card keeps clear of the sides itself (a
+  // Duo's rail, a landscape notch); 0 on a portrait iPhone.
+  const cardLeft = CARD_SIDE + insets.left;
+  const cardRight = CARD_SIDE + insets.right;
+  const cardWidth = width - cardLeft - cardRight;
   const pointerLeft = targetRect
-    ? Math.min(Math.max(targetRect.x + targetRect.width / 2 - CARD_SIDE, 28), cardWidth - 28) - POINTER / 2
+    ? Math.min(Math.max(targetRect.x + targetRect.width / 2 - cardLeft, 28), cardWidth - 28) - POINTER / 2
     : 0;
 
   const isLast = stepIndex === stepCount - 1;
@@ -131,7 +135,10 @@ export function SpotlightOverlay() {
         testID="tour-card"
         entering={FadeIn.duration(220)}
         onLayout={(e) => setCardHeight(e.nativeEvent.layout.height)}
-        style={[styles.card, { top: cardTop, maxHeight: height - insets.top - insets.bottom - 32 }]}
+        style={[
+          styles.card,
+          { top: cardTop, left: cardLeft, right: cardRight, maxHeight: height - insets.top - insets.bottom - 32 },
+        ]}
       >
         <View pointerEvents="none" style={[darkEdge, styles.cardEdge]} />
         {targetRect ? (
@@ -188,8 +195,6 @@ const styles = StyleSheet.create({
   pressed: { opacity: 0.8 },
   card: {
     position: "absolute",
-    left: CARD_SIDE,
-    right: CARD_SIDE,
     // bgCard: white as the page is in light; in dark a step lighter, as the dim around it
     // is nearly the page's own colour.
     backgroundColor: tokens.colors.bgCard,

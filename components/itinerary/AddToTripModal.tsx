@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { View, Text, StyleSheet, Modal, TouchableOpacity, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useNetInfo } from "@react-native-community/netinfo";
@@ -217,7 +218,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
 
   return (
     <Modal visible={!!site} transparent animationType="slide">
-      <View style={styles.overlay}>
+      <SafeAreaView edges={["left", "right"]} style={styles.overlay}>
         <View style={styles.wrapper}>
           <CardShell status="basic" shrink style={styles.card}>
             <View style={styles.header}>
@@ -385,7 +386,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
             )}
           </CardShell>
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 }

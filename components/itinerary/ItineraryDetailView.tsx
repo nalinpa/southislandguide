@@ -1036,7 +1036,9 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
 
       <Modal visible={showTripMenu} transparent animationType="fade" onRequestClose={() => setShowTripMenu(false)}>
         <TouchableOpacity style={styles.menuOverlay} activeOpacity={1} onPress={() => setShowTripMenu(false)}>
-          <SafeAreaView edges={["top"]} style={styles.menuSafeArea} pointerEvents="box-none">
+          {/* Sides too, so the card stays under the "..." button, which keeps clear of a
+              Duo's rail along with the rest of the screen (app/_layout.tsx). */}
+          <SafeAreaView edges={["top", "left", "right"]} style={styles.menuSafeArea} pointerEvents="box-none">
             <View style={styles.menuCard}>
               <TouchableOpacity
                 style={[styles.menuRow, styles.menuRowDivider]}

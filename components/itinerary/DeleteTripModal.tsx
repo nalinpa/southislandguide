@@ -1,5 +1,6 @@
 // components/itinerary/DeleteTripModal.tsx
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { AlertTriangle } from "lucide-react-native";
 
 import { tokens } from "@/lib/ui/tokens";
@@ -16,7 +17,7 @@ type DeleteTripModalProps = {
 export function DeleteTripModal({ visible, tripTitle, onCancel, onConfirm }: DeleteTripModalProps) {
   return (
     <Modal visible={visible} transparent animationType="fade">
-      <View style={styles.overlay}>
+      <SafeAreaView edges={["left", "right"]} style={styles.overlay}>
         <View style={styles.card}>
           <View style={styles.iconWrap}>
             <AlertTriangle size={28} color={tokens.colors.danger} strokeWidth={2} />
@@ -35,7 +36,7 @@ export function DeleteTripModal({ visible, tripTitle, onCancel, onConfirm }: Del
             <Text style={styles.cancelBtnText}>Cancel</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 }

@@ -2,8 +2,10 @@
 // what is checked is the card, its buttons, where it sits, and what a screen reader gets.
 jest.mock("expo-router", () => ({ router: { navigate: jest.fn(), push: jest.fn() }, usePathname: () => mockPathname() }));
 const mockPathname = jest.fn(() => "/");
+// Mutable, so one test can stand in for a Duo's rail.
+const mockInsets = { top: 20, bottom: 0, left: 0, right: 0 };
 jest.mock("react-native-safe-area-context", () => ({
-  useSafeAreaInsets: () => ({ top: 20, bottom: 0, left: 0, right: 0 }),
+  useSafeAreaInsets: () => mockInsets,
 }));
 jest.mock("react-native-svg", () => {
   const { View } = require("react-native");
@@ -136,6 +138,27 @@ describe("SpotlightOverlay", () => {
     expect(cardTop()).toBe(60 + 40 + 22);
     // The pointer is on the card's top edge, aimed up at the target.
     expect(StyleSheet.flatten(screen.getByTestId("tour-pointer").props.style).top).toBeLessThan(0);
+  });
+
+  // A Duo's rail on the left (84pt), which app/_layout.tsx keeps every screen clear of: the
+  // card, over the whole window, moves in by it, and its pointer still aims at the target.
+  it("keeps the card clear of a side inset", async () => {
+    mockInsets.left = 84;
+    try {
+      await show();
+      await act(async () => tour.start("paid"));
+      await act(async () => tour.next());
+      await act(async () => tour.registerTarget("town", { x: 116, y: 60, width: 180, height: 40 }));
+      await layoutCard(200);
+
+      const card = StyleSheet.flatten(screen.getByTestId("tour-card").props.style);
+      expect(card.left).toBe(12 + 84);
+      expect(card.right).toBe(12);
+      // The target's middle (116 + 90) from the card's left edge (96), less half the 14pt pointer.
+      expect(StyleSheet.flatten(screen.getByTestId("tour-pointer").props.style).left).toBe(206 - 96 - 7);
+    } finally {
+      mockInsets.left = 0;
+    }
   });
 
   it("puts the card over a target near the bottom", async () => {

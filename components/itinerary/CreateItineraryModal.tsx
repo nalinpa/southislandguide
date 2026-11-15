@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert, View, StyleSheet, Modal, TouchableOpacity, TextInput, ScrollView, useWindowDimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ApiError } from "@blacksands/client";
 import { useNetInfo } from "@react-native-community/netinfo";
 import { X, Minus, Plus, ChevronDown, Check, CalendarDays, Lock } from "lucide-react-native";
@@ -226,7 +227,7 @@ export function CreateItineraryModal({
 
   return (
     <Modal visible={visible} transparent animationType="slide">
-      <View style={styles.overlay}>
+      <SafeAreaView edges={["left", "right"]} style={styles.overlay}>
         <View style={styles.wrapper}>
           <CardShell status="basic" shrink style={styles.card}>
             <View style={styles.header}>
@@ -511,7 +512,7 @@ export function CreateItineraryModal({
             </ScrollView>
           </CardShell>
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 }

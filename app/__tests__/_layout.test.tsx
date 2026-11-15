@@ -14,7 +14,8 @@ jest.mock("@sentry/react-native", () => ({
 }));
 jest.mock("expo-router", () => {
   const React = require("react");
-  const Stack = ({ children }: any) => children;
+  const { Text } = require("react-native");
+  const Stack = ({ children }: any) => React.createElement(React.Fragment, null, React.createElement(Text, null, "screens"), children);
   Stack.Screen = () => null;
   return {
     Stack,
@@ -34,6 +35,12 @@ jest.mock("@/lib/hooks/useAppOpenCount", () => ({
 const mockUseUpdateOnReturn = jest.fn();
 jest.mock("@/lib/hooks/useUpdateOnReturn", () => ({
   useUpdateOnReturn: () => mockUseUpdateOnReturn(),
+}));
+// A View named after its edges (safe-left-right), and a provider that just renders.
+jest.mock("react-native-safe-area-context", () => ({
+  SafeAreaView: ({ edges, ...props }: any) =>
+    require("react").createElement(require("react-native").View, { ...props, testID: `safe-${(edges ?? []).join("-")}` }),
+  SafeAreaProvider: ({ children }: any) => children,
 }));
 jest.mock("@/lib/providers/AppProviders", () => ({
   AppProviders: ({ children }: any) => children,
@@ -61,7 +68,7 @@ const mockRouter = { replace: jest.fn() };
 let mockOpenCount: number | null = null;
 
 import React from "react";
-import { render, act, screen, fireEvent } from "@testing-library/react-native";
+import { render, act, screen, fireEvent, within } from "@testing-library/react-native";
 
 // Import after mocks are set up.
 import RootLayout, { ErrorBoundary } from "../_layout";
@@ -104,6 +111,19 @@ describe("RootLayout opening tour", () => {
     });
     expect(screen.getByText("tour auto start")).toBeTruthy();
     expect(screen.getByText("tour overlay")).toBeTruthy();
+  });
+});
+
+// iPhone Duo: the screens keep clear of the side rail once, here; the tour's overlay covers
+// the whole window and keeps its own card clear (lib/tour/SpotlightOverlay.tsx).
+describe("RootLayout sides", () => {
+  it("puts the screens inside the side-safe view, and the tour overlay outside it", async () => {
+    await act(async () => {
+      render(<RootLayout />);
+    });
+    const sides = screen.getByTestId("safe-left-right");
+    expect(within(sides).getByText("screens")).toBeTruthy();
+    expect(within(sides).queryByText("tour overlay")).toBeNull();
   });
 });
 

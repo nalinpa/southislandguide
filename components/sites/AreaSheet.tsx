@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Modal, ScrollView, TouchableOpacity } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Check, X } from "lucide-react-native";
 
 import { tokens } from "@/lib/ui/tokens";
@@ -46,7 +46,7 @@ export function AreaSheet({ visible, options, selected, onSelect, onClose }: Are
   const insets = useSafeAreaInsets();
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
-      <View style={styles.overlay}>
+      <SafeAreaView edges={["left", "right"]} style={styles.overlay}>
         <TouchableOpacity testID="area-sheet-backdrop" style={StyleSheet.absoluteFill} activeOpacity={1} onPress={onClose} />
         <View style={[styles.sheet, { paddingBottom: insets.bottom + tokens.space.sm }]}>
           <View style={styles.header}>
@@ -90,7 +90,7 @@ export function AreaSheet({ visible, options, selected, onSelect, onClose }: Are
             ))}
           </ScrollView>
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 }

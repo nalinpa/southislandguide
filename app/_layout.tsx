@@ -5,6 +5,7 @@ import { Stack, useNavigationContainerRef, useRouter, ErrorBoundaryProps } from 
 import { isRunningInExpoGo } from "expo";
 import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import * as Sentry from "@sentry/react-native";
 import { AlertTriangle } from "lucide-react-native";
 import { tokens } from "@/lib/ui/tokens";
@@ -59,23 +60,31 @@ function RootLayout() {
         {/* Inside AppProviders, so the tour can read the session and the unlock. The
             overlay comes last, to sit over every screen. */}
         <TourProvider>
-          {/* The pale band in the idle grey (design sweep): news, not an alarm. It was the
-              engine's amber. The grey is also its bottom line (the engine's rule). */}
-          <OfflineBanner colors={{ bg: tokens.colors.band, fg: tokens.colors.textMuted }} />
+          {/* Every screen clear of the sides, once: the iPhone Duo's rail (status bar and
+              controls on one side) and a landscape notch. The provider inside measures again,
+              so screens see no side insets and nothing pads twice. The tour's overlay stays
+              outside, over the whole window. Side insets are 0 on a portrait iPhone. */}
+          <SafeAreaView edges={["left", "right"]} style={styles.sides}>
+            <SafeAreaProvider>
+              {/* The pale band in the idle grey (design sweep): news, not an alarm. It was the
+                  engine's amber. The grey is also its bottom line (the engine's rule). */}
+              <OfflineBanner colors={{ bg: tokens.colors.band, fg: tokens.colors.textMuted }} />
 
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen
-              name="share-frame"
-              options={{
-                presentation: "modal",
-                headerShown: true,
-                // Router 58 makes stack headers see-through Liquid Glass on iOS 26+, with the
-                // content running under them. Kept as 1.2 had it: the card starts below.
-                headerTransparent: false,
-                title: "Share",
-              }}
-            />
-          </Stack>
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen
+                  name="share-frame"
+                  options={{
+                    presentation: "modal",
+                    headerShown: true,
+                    // Router 58 makes stack headers see-through Liquid Glass on iOS 26+, with the
+                    // content running under them. Kept as 1.2 had it: the card starts below.
+                    headerTransparent: false,
+                    title: "Share",
+                  }}
+                />
+              </Stack>
+            </SafeAreaProvider>
+          </SafeAreaView>
           <TourAutoStart />
           <SpotlightOverlay />
         </TourProvider>
@@ -99,7 +108,8 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   }, [error]);
 
   return (
-    <View style={styles.errorBoundaryContainer}>
+    // Drawn in place of the root layout, so it keeps clear of the sides itself.
+    <SafeAreaView edges={["left", "right"]} style={styles.errorBoundaryContainer}>
       <View style={styles.errorIconWrap}>
         <AlertTriangle size={40} color={tokens.colors.danger} strokeWidth={2.25} />
       </View>
@@ -113,12 +123,14 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
       >
         <Text style={styles.errorRetryBtnText}>Restart App</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   flexStyle: { flex: 1 },
+  // The page colour shows in the strip beside a Duo's rail.
+  sides: { flex: 1, backgroundColor: tokens.colors.page },
   // The design sweep's error screen (docs/plans/design-sweep.md): the group a little above
   // the middle, a large red sign on a pale red circle, and the one button the full width.
   errorBoundaryContainer: {

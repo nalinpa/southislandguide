@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { X, Minus, Plus, ExternalLink, Image as ImageIcon, Trash2, ArrowRight, Sparkles } from "lucide-react-native";
@@ -130,7 +131,7 @@ export function EditItemModal({
   return (
     <Modal visible={!!item} transparent animationType="fade">
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.keyboardView}>
-        <View style={styles.modalOverlay}>
+        <SafeAreaView edges={["left", "right"]} style={styles.modalOverlay}>
           <View style={styles.modalWrapper}>
             <CardShell status="basic" style={styles.modalContent}>
               <View style={styles.imageContainer}>
@@ -243,7 +244,7 @@ export function EditItemModal({
               </View>
             </CardShell>
           </View>
-        </View>
+        </SafeAreaView>
       </KeyboardAvoidingView>
     </Modal>
   );

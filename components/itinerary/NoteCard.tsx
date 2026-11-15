@@ -1,6 +1,7 @@
 // components/itinerary/NoteCard.tsx
 import { useRef } from "react";
 import { View, Text, StyleSheet, Modal, Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { StickyNote } from "lucide-react-native";
 
 import { tokens } from "@/lib/ui/tokens";
@@ -19,27 +20,31 @@ export function NoteCard({ item, onClose }: NoteCardProps) {
 
   return (
     <Modal visible={!!item} transparent animationType="fade" onRequestClose={onClose}>
-      <Pressable
-        style={styles.overlay}
-        onPress={onClose}
-        accessibilityRole="button"
-        accessibilityLabel="Close note"
-      >
-        <View style={styles.card}>
-          <View style={styles.iconWrap}>
-            <StickyNote size={28} color={tokens.colors.selected} strokeWidth={2} />
+      {/* The dim covers the whole window; the card keeps clear of the sides (a Duo's rail). */}
+      <SafeAreaView edges={["left", "right"]} style={styles.dim}>
+        <Pressable
+          style={styles.overlay}
+          onPress={onClose}
+          accessibilityRole="button"
+          accessibilityLabel="Close note"
+        >
+          <View style={styles.card}>
+            <View style={styles.iconWrap}>
+              <StickyNote size={28} color={tokens.colors.selected} strokeWidth={2} />
+            </View>
+            <Text style={styles.title}>{shown.current?.siteName}</Text>
+            <Text style={styles.body}>{shown.current?.note}</Text>
+            <Text style={styles.hint}>Tap anywhere to close</Text>
           </View>
-          <Text style={styles.title}>{shown.current?.siteName}</Text>
-          <Text style={styles.body}>{shown.current?.note}</Text>
-          <Text style={styles.hint}>Tap anywhere to close</Text>
-        </View>
-      </Pressable>
+        </Pressable>
+      </SafeAreaView>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: tokens.colors.dim, justifyContent: "center", padding: tokens.space.lg },
+  dim: { flex: 1, backgroundColor: tokens.colors.dim },
+  overlay: { flex: 1, justifyContent: "center", padding: tokens.space.lg },
   card: { backgroundColor: tokens.colors.page, borderRadius: 20, padding: 24, alignItems: "center" },
   // The sweep's pale fill behind an icon, where the delete card has its pale red.
   iconWrap: {

@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { X, Sparkles } from "lucide-react-native";
 
 import { CardShell, AppButton } from "@/lib/uiKit";
@@ -41,7 +42,7 @@ export function PremiumFeatureModal({
 
   return (
     <Modal visible={visible} transparent animationType="fade">
-      <View style={styles.overlay}>
+      <SafeAreaView edges={["left", "right"]} style={styles.overlay}>
         <View style={styles.wrapper}>
           <CardShell status="basic" style={styles.card}>
             <TouchableOpacity style={styles.closeButton} onPress={onClose} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
@@ -62,7 +63,7 @@ export function PremiumFeatureModal({
             )}
           </CardShell>
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 }

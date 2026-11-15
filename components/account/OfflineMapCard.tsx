@@ -1,6 +1,7 @@
 // components/account/OfflineMapCard.tsx
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert, Modal, ActivityIndicator } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNetInfo } from "@react-native-community/netinfo";
 import { CheckCircle2 } from "lucide-react-native";
 
@@ -89,7 +90,7 @@ export function OfflineMapCard() {
       </View>
 
       <Modal visible={showing} transparent animationType="fade" onRequestClose={close}>
-        <View style={styles.overlay}>
+        <SafeAreaView edges={["left", "right"]} style={styles.overlay}>
           <View style={styles.card}>
             {error === "no-signal" ? (
               <>
@@ -175,7 +176,7 @@ export function OfflineMapCard() {
               </>
             )}
           </View>
-        </View>
+        </SafeAreaView>
       </Modal>
     </>
   );

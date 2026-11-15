@@ -3,6 +3,9 @@
 
 jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 20, bottom: 34, left: 0, right: 0 }),
+  // A plain View named after its edges (safe-left-right).
+  SafeAreaView: ({ edges, ...props }: any) =>
+    require("react").createElement(require("react-native").View, { ...props, testID: `safe-${(edges ?? []).join("-")}` }),
 }));
 
 import React from "react";
@@ -90,6 +93,13 @@ describe("AreaSheet", () => {
     await fireEvent.press(view.getByTestId("area-sheet-backdrop"));
 
     expect(onClose).toHaveBeenCalledTimes(2);
+  });
+
+  // A Modal draws outside the app's root view, so the sheet keeps clear of a Duo's rail
+  // itself; the dim behind it still covers the whole window.
+  it("keeps clear of the sides", async () => {
+    const view = await open();
+    expect(view.getByTestId("safe-left-right")).toBeTruthy();
   });
 
   it("shows nothing while closed", async () => {

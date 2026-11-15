@@ -1,6 +1,7 @@
 // components/account/DangerZoneCard.tsx
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Trash2, AlertTriangle } from "lucide-react-native";
 
@@ -69,7 +70,7 @@ export function DangerZoneCard() {
       </View>
 
       <Modal visible={showConfirm} transparent animationType="fade">
-        <View style={styles.modalOverlay}>
+        <SafeAreaView edges={["left", "right"]} style={styles.modalOverlay}>
           <View style={styles.modalCard}>
             <View style={styles.modalIconWrap}>
               <AlertTriangle size={28} color={tokens.colors.danger} strokeWidth={2} />
@@ -96,7 +97,7 @@ export function DangerZoneCard() {
               <Text style={styles.cancelBtnText}>Wait, keep my account</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </SafeAreaView>
       </Modal>
     </>
   );

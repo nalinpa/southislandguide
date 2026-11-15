@@ -19,6 +19,7 @@ jest.mock("@/components/account/DangerZoneCard", () => ({ DangerZoneCard: stubCa
 
 jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 44, bottom: 34, left: 0, right: 0 }),
+  SafeAreaView: (props: any) => require("react").createElement(require("react-native").View, props),
 }));
 
 const mockSession = { status: "authed", uid: "uid-1" } as any;

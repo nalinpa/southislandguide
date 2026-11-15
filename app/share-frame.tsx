@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Alert, Image, Pressable, StyleSheet, View, type ViewInstance } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import * as Linking from "expo-linking";
 import { useLocalSearchParams } from "expo-router";
 import * as Haptics from "expo-haptics";
@@ -108,71 +109,76 @@ export default function ShareFrameScreen() {
   };
 
   return (
-    <Screen background={tokens.colors.bgBase} scrollable>
-      <CaptureCanvas ref={shareCardRef} payload={payload} photoUri={photoUri} onImageLoad={refreshPreview} />
+    // A sheet iOS presents outside the app's root view, so it keeps clear of the sides itself
+    // (a Duo's rail). Sides only: the top stays as it was.
+    <SafeAreaView edges={["left", "right"]} style={styles.sides}>
+      <Screen background={tokens.colors.bgBase} scrollable>
+        <CaptureCanvas ref={shareCardRef} payload={payload} photoUri={photoUri} onImageLoad={refreshPreview} />
 
-      <Stack gap="lg">
-        <AppText variant="screenTitle">{params.entityName || "Share"}</AppText>
+        <Stack gap="lg">
+          <AppText variant="screenTitle">{params.entityName || "Share"}</AppText>
 
-        {/* The framed card sits at the top, so it's on screen as soon as a photo is in. */}
-        <CardShell>
-          <Pressable onPress={() => !photoUri && pickImage(false)} style={styles.previewBox}>
-            {photoUri ? (
-              <>
-                {previewUri ? (
-                  <Image source={{ uri: previewUri }} style={styles.fill} resizeMode="cover" />
-                ) : (
-                  <Stack align="center" justify="center" style={styles.fill}>
-                    <AppText status="hint">Framing…</AppText>
-                  </Stack>
-                )}
-                <View style={styles.removeBtn}>
-                  <AppIconButton
-                    icon={Trash2}
-                    variant="control"
-                    accessibilityLabel="Remove photo"
-                    onPress={() => {
-                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-                      setPhotoUri(null);
-                    }}
-                  />
-                </View>
-              </>
-            ) : (
-              <Stack gap="sm" align="center" justify="center" style={styles.fill}>
-                <ImageIcon size={32} color={tokens.colors.textMuted} />
-                <AppText status="hint">Tap to add photo</AppText>
-              </Stack>
-            )}
-          </Pressable>
+          {/* The framed card sits at the top, so it's on screen as soon as a photo is in. */}
+          <CardShell>
+            <Pressable onPress={() => !photoUri && pickImage(false)} style={styles.previewBox}>
+              {photoUri ? (
+                <>
+                  {previewUri ? (
+                    <Image source={{ uri: previewUri }} style={styles.fill} resizeMode="cover" />
+                  ) : (
+                    <Stack align="center" justify="center" style={styles.fill}>
+                      <AppText status="hint">Framing…</AppText>
+                    </Stack>
+                  )}
+                  <View style={styles.removeBtn}>
+                    <AppIconButton
+                      icon={Trash2}
+                      variant="control"
+                      accessibilityLabel="Remove photo"
+                      onPress={() => {
+                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                        setPhotoUri(null);
+                      }}
+                    />
+                  </View>
+                </>
+              ) : (
+                <Stack gap="sm" align="center" justify="center" style={styles.fill}>
+                  <ImageIcon size={32} color={tokens.colors.textMuted} />
+                  <AppText status="hint">Tap to add photo</AppText>
+                </Stack>
+              )}
+            </Pressable>
 
-          <Row gap="sm">
-            <AppButton variant="secondary" size="sm" icon={ImageIcon} onPress={() => pickImage(false)} style={styles.pickerBtn}>
-              Gallery
+            <Row gap="sm">
+              <AppButton variant="secondary" size="sm" icon={ImageIcon} onPress={() => pickImage(false)} style={styles.pickerBtn}>
+                Gallery
+              </AppButton>
+              <AppButton variant="secondary" size="sm" icon={Camera} onPress={() => pickImage(true)} style={styles.pickerBtn}>
+                Camera
+              </AppButton>
+            </Row>
+
+            <AppButton
+              variant="primary"
+              icon={Share2}
+              onPress={onShare}
+              disabled={!previewUri || rendering}
+              loading={sharing}
+              loadingLabel="Sharing…"
+              fullWidth
+            >
+              Post to Social
             </AppButton>
-            <AppButton variant="secondary" size="sm" icon={Camera} onPress={() => pickImage(true)} style={styles.pickerBtn}>
-              Camera
-            </AppButton>
-          </Row>
-
-          <AppButton
-            variant="primary"
-            icon={Share2}
-            onPress={onShare}
-            disabled={!previewUri || rendering}
-            loading={sharing}
-            loadingLabel="Sharing…"
-            fullWidth
-          >
-            Post to Social
-          </AppButton>
-        </CardShell>
-      </Stack>
-    </Screen>
+          </CardShell>
+        </Stack>
+      </Screen>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  sides: { flex: 1, backgroundColor: tokens.colors.bgBase },
   pickerBtn: { flex: 1 },
   previewBox: {
     width: "100%",

@@ -61,7 +61,7 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { Alert, Linking } from "react-native";
+import { Alert, Linking, StyleSheet } from "react-native";
 import { fireEvent, render, waitFor, within } from "@testing-library/react-native";
 
 import AccountScreen from "@/app/(app)/(tabs)/account";
@@ -319,6 +319,18 @@ describe("Map for no signal", () => {
 
     await fireEvent.press(view.getByRole("button", { name: "Detailed map" }));
     expect(mockOfflineMap.save).toHaveBeenCalledWith("detailed");
+  });
+
+  it("wide: the map choice is a centred 400 dialog", async () => {
+    require("@blacksands/ui").__setWide(true, { width: 669, height: 951 });
+    const view = await render(<AccountScreen />);
+    await fireEvent.press(view.getByRole("button", { name: "Save map for no signal" }));
+
+    let width: unknown;
+    for (let n: any = view.getByText("Which map?"); n && width === undefined; n = n.parent) {
+      width = (StyleSheet.flatten(n.props?.style) as any)?.width;
+    }
+    expect(width).toBe(400);
   });
 
   it("asks first on mobile data, with the size of the map chosen", async () => {

@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StickyNote } from "lucide-react-native";
 
 import { tokens } from "@/lib/ui/tokens";
+import { useWideSheet } from "@/lib/ui/useWideSheet";
 import type { ItineraryItem } from "@/lib/models";
 
 type NoteCardProps = {
@@ -18,17 +19,18 @@ export function NoteCard({ item, onClose }: NoteCardProps) {
   const shown = useRef(item);
   if (item) shown.current = item;
 
+  const wide = useWideSheet("dialog");
   return (
-    <Modal visible={!!item} transparent animationType="fade" onRequestClose={onClose}>
+    <Modal visible={!!item} transparent animationType={wide?.animation ?? "fade"} onRequestClose={onClose}>
       {/* The dim covers the whole window; the card keeps clear of the sides (a Duo's rail). */}
       <SafeAreaView edges={["left", "right"]} style={styles.dim}>
         <Pressable
-          style={styles.overlay}
+          style={[styles.overlay, wide?.overlay]}
           onPress={onClose}
           accessibilityRole="button"
           accessibilityLabel="Close note"
         >
-          <View style={styles.card}>
+          <View style={[styles.card, wide?.card]}>
             <View style={styles.iconWrap}>
               <StickyNote size={28} color={tokens.colors.selected} strokeWidth={2} />
             </View>

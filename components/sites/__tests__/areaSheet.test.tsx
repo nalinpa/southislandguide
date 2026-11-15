@@ -9,6 +9,7 @@ jest.mock("react-native-safe-area-context", () => ({
 }));
 
 import React from "react";
+import { StyleSheet } from "react-native";
 import { fireEvent, render, within } from "@testing-library/react-native";
 
 import { AreaSheet } from "@/components/sites/AreaSheet";
@@ -106,5 +107,25 @@ describe("AreaSheet", () => {
     const view = await open({ visible: false });
 
     expect(view.queryByText("Dunedin")).toBeNull();
+  });
+});
+
+describe("AreaSheet on the Duo", () => {
+  it("wide: a centred 520 card that ends on a part row under the fade", async () => {
+    require("@blacksands/ui").__setWide(true, { width: 669, height: 951 });
+    const view = await open();
+
+    const card = StyleSheet.flatten(view.getByTestId("area-sheet").props.style);
+    expect(card.width).toBe(520);
+    expect(card.maxHeight).toBe(760);
+    expect(card.borderTopLeftRadius).toBe(20);
+    expect(card.borderBottomLeftRadius).toBe(20);
+    expect(view.getByTestId("area-sheet-fade")).toBeTruthy();
+  });
+
+  it("phone: the bottom sheet, no fade", async () => {
+    const view = await open();
+    expect(StyleSheet.flatten(view.getByTestId("area-sheet").props.style).width).toBeUndefined();
+    expect(view.queryByTestId("area-sheet-fade")).toBeNull();
   });
 });

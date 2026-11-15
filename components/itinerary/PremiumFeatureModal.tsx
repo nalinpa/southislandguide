@@ -4,6 +4,7 @@ import { X, Sparkles } from "lucide-react-native";
 
 import { CardShell, AppButton } from "@/lib/uiKit";
 import { pair, tokens } from "@/lib/ui/tokens";
+import { useWideSheet, WIDE_CORNERS } from "@/lib/ui/useWideSheet";
 import { PURCHASE_CHECK_MESSAGE, PURCHASE_CHECK_TITLE } from "@/lib/constants/commerce";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
 import { usePurchaseContext } from "@/lib/iap/PurchaseProvider";
@@ -38,13 +39,14 @@ export function PremiumFeatureModal({
 // purchase state itself; the owner retires it when the entitlement lands.
   // Read the purchase state here rather than making every caller plumb it through.
   const { purchasingProductId, pendingProductId, error: purchaseError } = usePurchaseContext();
+  const wide = useWideSheet("dialog");
   const busy = purchasingProductId === FULL_GUIDE_PRODUCT_ID || pendingProductId === FULL_GUIDE_PRODUCT_ID;
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
-      <SafeAreaView edges={["left", "right"]} style={styles.overlay}>
-        <View style={styles.wrapper}>
-          <CardShell status="basic" style={styles.card}>
+    <Modal visible={visible} transparent animationType={wide?.animation ?? "fade"}>
+      <SafeAreaView edges={["left", "right"]} style={[styles.overlay, wide?.overlay]}>
+        <View style={[styles.wrapper, wide && { margin: 0 }, wide?.card]}>
+          <CardShell status="basic" style={[styles.card, wide && WIDE_CORNERS]}>
             <TouchableOpacity style={styles.closeButton} onPress={onClose} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
               <X color={tokens.colors.text2} size={22} />
             </TouchableOpacity>

@@ -36,6 +36,7 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
+import { StyleSheet } from "react-native";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 
 import { AddToTripModal } from "@/components/itinerary/AddToTripModal";
@@ -423,5 +424,23 @@ describe("refusals", () => {
     await waitFor(() => expect(view.getByText("Couldn't add to your trip. Try again.")).toBeTruthy());
     expect(onClose).not.toHaveBeenCalled();
     expect(mockRouter.push).not.toHaveBeenCalled();
+  });
+});
+
+describe("on the Duo", () => {
+  it("wide: Day row inside the margin, 32 above Add", async () => {
+    require("@blacksands/ui").__setWide(true, { width: 669, height: 951 });
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+
+    const label = StyleSheet.flatten(view.getByTestId("add-day-label").props.style);
+    expect(label.marginTop).toBe(22);
+    expect(label.marginBottom).toBe(10);
+    expect(StyleSheet.flatten(view.getByTestId("add-submit").props.style).marginTop).toBe(32);
+    let card: any;
+    for (let n: any = view.getByTestId("add-day-label"); n && !card; n = n.parent) {
+      const st = StyleSheet.flatten(n.props?.style) as any;
+      if (st?.paddingHorizontal === 24) card = st;
+    }
+    expect(card.borderBottomLeftRadius).toBe(20);
   });
 });

@@ -2,9 +2,20 @@
 // not deleting until the user says so, and naming what they are about to lose.
 
 import React from "react";
+import { StyleSheet } from "react-native";
 import { fireEvent, render } from "@testing-library/react-native";
 
 import { DeleteTripModal } from "@/components/itinerary/DeleteTripModal";
+
+// The first ancestor of a node whose flattened style sets `key`.
+const styleUp = (node: any, key: string) => {
+  for (let n = node; n; n = n.parent) {
+    const v = (StyleSheet.flatten(n.props?.style) as any)?.[key];
+    if (v !== undefined) return v;
+  }
+  return undefined;
+};
+const wide = (size = { width: 669, height: 951 }) => require("@blacksands/ui").__setWide(true, size);
 
 const props = { tripTitle: "Hot Pools Weekend", onCancel: jest.fn(), onConfirm: jest.fn() };
 
@@ -38,4 +49,12 @@ it("backs out without deleting", async () => {
 
   expect(props.onCancel).toHaveBeenCalledTimes(1);
   expect(props.onConfirm).not.toHaveBeenCalled();
+});
+
+it("wide: a 400 dialog with its foot above the fold", async () => {
+  wide();
+  const view = await render(<DeleteTripModal visible {...props} />);
+  const title = view.getByText("Delete Hot Pools Weekend?");
+  expect(styleUp(title, "width")).toBe(400);
+  expect(styleUp(title, "paddingBottom")).toBe(951 - 475.5 + 24);
 });

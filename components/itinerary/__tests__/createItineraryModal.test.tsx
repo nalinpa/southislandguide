@@ -26,13 +26,23 @@ const mockTrips = {
 jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
 
 import React from "react";
-import { Alert } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import { ApiError } from "@blacksands/client";
 
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { ITINERARY_TEMPLATES, defaultTemplateKey } from "@/lib/itineraryTemplates";
 import { areaName } from "@/lib/areas";
+
+// The first ancestor of a node whose flattened style sets `key`.
+const styleUp = (node: any, key: string) => {
+  for (let n = node; n; n = n.parent) {
+    const v = (StyleSheet.flatten(n.props?.style) as any)?.[key];
+    if (v !== undefined) return v;
+  }
+  return undefined;
+};
+const wide = (size = { width: 669, height: 951 }) => require("@blacksands/ui").__setWide(true, size);
 
 // Every template is free at launch, so the rotorua-guide cases that need a
 // PREMIUM template stay parked until paid templates exist (release 1.4).
@@ -380,4 +390,13 @@ describe("editing a trip", () => {
     await waitFor(() => expect(view.getByText('Dates overlap with "Wine Weekend". Choose different dates.')).toBeTruthy());
     expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
   });
+});
+
+it("wide: a centred 520 list card with a fade at its foot", async () => {
+  wide();
+  const view = await openModal();
+  const title = view.getByText("New Trip");
+  expect(styleUp(title, "width")).toBe(520);
+  expect(styleUp(title, "maxHeight")).toBe(760);
+  expect(view.getByTestId("create-sheet-fade")).toBeTruthy();
 });

@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AlertTriangle } from "lucide-react-native";
 
 import { tokens } from "@/lib/ui/tokens";
+import { useWideSheet } from "@/lib/ui/useWideSheet";
 
 type DeleteTripModalProps = {
   visible: boolean;
@@ -15,10 +16,11 @@ type DeleteTripModalProps = {
 // Same danger-confirm visual language as components/account/DangerZoneCard.tsx,
 // swapped in here for the OS-default Alert.alert that used to confirm this.
 export function DeleteTripModal({ visible, tripTitle, onCancel, onConfirm }: DeleteTripModalProps) {
+  const wide = useWideSheet("dialog");
   return (
-    <Modal visible={visible} transparent animationType="fade">
-      <SafeAreaView edges={["left", "right"]} style={styles.overlay}>
-        <View style={styles.card}>
+    <Modal visible={visible} transparent animationType={wide?.animation ?? "fade"}>
+      <SafeAreaView edges={["left", "right"]} style={[styles.overlay, wide?.overlay]}>
+        <View style={[styles.card, wide?.card]}>
           <View style={styles.iconWrap}>
             <AlertTriangle size={28} color={tokens.colors.danger} strokeWidth={2} />
           </View>

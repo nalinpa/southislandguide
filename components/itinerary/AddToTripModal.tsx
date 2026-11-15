@@ -8,6 +8,7 @@ import { X, Minus, Plus, Image as ImageIcon } from "lucide-react-native";
 
 import { CardShell, AppButton } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
+import { useWideSheet, WIDE_CORNERS } from "@/lib/ui/useWideSheet";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { usePlaceLookup } from "@/lib/hooks/usePlaceLookup";
 import { slotIndexToTimeLabel, slotsToDurationLabel, tripSummary, tryEdit } from "@/lib/utils/itineraryPhysics";
@@ -72,6 +73,7 @@ type AddToTripModalProps = {
 export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripModalProps) {
   const { itineraries, saveItinerary, isSaving } = useItineraries();
   const netInfo = useNetInfo();
+  const wide = useWideSheet("sheet");
   const isOffline = netInfo.isConnected === false || netInfo.isInternetReachable === false;
   const { places, ready: placesReady } = usePlaceLookup();
 
@@ -217,10 +219,10 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   };
 
   return (
-    <Modal visible={!!site} transparent animationType="slide">
-      <SafeAreaView edges={["left", "right"]} style={styles.overlay}>
-        <View style={styles.wrapper}>
-          <CardShell status="basic" shrink style={styles.card}>
+    <Modal visible={!!site} transparent animationType={wide?.animation ?? "slide"}>
+      <SafeAreaView edges={["left", "right"]} style={[styles.overlay, wide?.overlay]}>
+        <View style={[styles.wrapper, wide?.card]}>
+          <CardShell status="basic" shrink style={[styles.card, wide && styles.wideCard]}>
             <View style={styles.header}>
               <Text style={styles.title}>Add to Trip</Text>
               <TouchableOpacity
@@ -265,7 +267,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
 
               {itineraries.length > 1 && (
                 <>
-                  <Text style={styles.label}>Trip</Text>
+                  <Text style={[styles.label, wide && styles.wideLabel]}>Trip</Text>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillRow}>
                     {itineraries.map((trip) => (
                       <TouchableOpacity
@@ -288,7 +290,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
 
               {selectedTrip && (
                 <>
-                  <Text style={styles.label}>Day</Text>
+                  <Text testID="add-day-label" style={[styles.label, wide && styles.wideLabel]}>Day</Text>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillRow}>
                     {days.map((d, idx) => {
                       const active = day?.id === d.id;
@@ -314,7 +316,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                 </>
               )}
 
-              <Text style={styles.label}>Time of Day</Text>
+              <Text style={[styles.label, wide && styles.wideLabel]}>Time of Day</Text>
               <View style={styles.timeRow}>
                 {times.map((t) => {
                   const active = slot === t.startSlot;
@@ -341,7 +343,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                 })}
               </View>
 
-              <Text style={styles.label}>Duration</Text>
+              <Text style={[styles.label, wide && styles.wideLabel]}>Duration</Text>
               <View style={styles.stepperRow}>
                 <TouchableOpacity
                   style={styles.stepBtn}
@@ -369,7 +371,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
               {/* Saves queue while offline, so without this the button would just spin until reconnect.
                   And nothing is added before the place list is in: without it the drive to
                   this place can't be worked out, so the fit check would pass anything. */}
-              <View style={styles.submit}>
+              <View testID="add-submit" style={[styles.submit, wide && styles.wideSubmit]}>
                 <AppButton
                   variant="primary"
                   onPress={handleAdd}
@@ -473,4 +475,9 @@ const styles = StyleSheet.create({
   errorText: { fontSize: 13, color: tokens.colors.danger, marginTop: tokens.space.sm },
   // The button used to sit hard against the duration stepper above it.
   submit: { marginTop: tokens.space.md },
+  // Duo: every corner round; the 24 pt margin the Day row stops at (it cuts there, as on the
+  // phone); labels 22 above and 10 under; 32 above Add, as between the groups.
+  wideCard: { ...WIDE_CORNERS, paddingHorizontal: 24, paddingBottom: 24 },
+  wideLabel: { marginTop: 22, marginBottom: 10 },
+  wideSubmit: { marginTop: 32 },
 });

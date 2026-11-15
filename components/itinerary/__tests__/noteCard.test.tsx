@@ -2,10 +2,21 @@
 // last note while the modal fades out, instead of blanking mid-animation.
 
 import React from "react";
+import { StyleSheet } from "react-native";
 import { fireEvent, render } from "@testing-library/react-native";
 
 import { NoteCard } from "@/components/itinerary/NoteCard";
 import type { ItineraryItem } from "@/lib/models";
+
+// The first ancestor of a node whose flattened style sets `key`.
+const styleUp = (node: any, key: string) => {
+  for (let n = node; n; n = n.parent) {
+    const v = (StyleSheet.flatten(n.props?.style) as any)?.[key];
+    if (v !== undefined) return v;
+  }
+  return undefined;
+};
+const wide = (size = { width: 669, height: 951 }) => require("@blacksands/ui").__setWide(true, size);
 
 const item = {
   id: "item-1",
@@ -40,3 +51,9 @@ it("closes on a tap anywhere on the overlay", async () => {
 // so the retained-while-fading behaviour (the `shown` ref) has nothing to assert against
 // here — it only shows up in a real fade-out animation.
 test.todo("keeps the note on screen while the modal fades out");
+
+it("wide: a 400 dialog", async () => {
+  wide();
+  const view = await render(<NoteCard item={item} onClose={jest.fn()} />);
+  expect(styleUp(view.getByText("Tap anywhere to close"), "width")).toBe(400);
+});

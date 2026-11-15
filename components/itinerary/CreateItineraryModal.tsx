@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Alert, View, StyleSheet, Modal, TouchableOpacity, TextInput, ScrollView, useWindowDimensions } from "react-native";
+import { Alert, View, StyleSheet, Modal, TouchableOpacity, TextInput, ScrollView, useWindowDimensions, useColorScheme } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ApiError } from "@blacksands/client";
 import { useNetInfo } from "@react-native-community/netinfo";
@@ -10,6 +11,7 @@ import { randomUUID } from "expo-crypto";
 
 import { CardShell, AppButton, AppText, Row } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
+import { useWideSheet, WIDE_CORNERS } from "@/lib/ui/useWideSheet";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { ITINERARY_TEMPLATES, TRIP_STARTS, defaultTemplateKey, type TripStart } from "@/lib/itineraryTemplates";
 import { areaName } from "@/lib/areas";
@@ -68,6 +70,8 @@ export function CreateItineraryModal({
 }: CreateItineraryModalProps) {
   const { itineraries, saveItinerary, isSaving } = useItineraries();
   const netInfo = useNetInfo();
+  const wide = useWideSheet("list");
+  const page = useColorScheme() === "dark" ? "#06191B" : "#FFFFFF";
   const isOffline = netInfo.isConnected === false || netInfo.isInternetReachable === false;
 
   const [title, setTitle] = useState("");
@@ -226,10 +230,10 @@ export function CreateItineraryModal({
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide">
-      <SafeAreaView edges={["left", "right"]} style={styles.overlay}>
-        <View style={styles.wrapper}>
-          <CardShell status="basic" shrink style={styles.card}>
+    <Modal visible={visible} transparent animationType={wide?.animation ?? "slide"}>
+      <SafeAreaView edges={["left", "right"]} style={[styles.overlay, wide?.overlay]}>
+        <View testID="create-sheet" style={[styles.wrapper, wide?.card]}>
+          <CardShell status="basic" shrink style={[styles.card, wide && WIDE_CORNERS]}>
             <View style={styles.header}>
               <AppText style={styles.title}>{trip ? "Edit Trip" : "New Trip"}</AppText>
               <TouchableOpacity
@@ -511,6 +515,14 @@ export function CreateItineraryModal({
               </AppButton>
             </ScrollView>
           </CardShell>
+          {wide ? (
+            <LinearGradient
+              testID="create-sheet-fade"
+              pointerEvents="none"
+              colors={[page + "00", page]}
+              style={styles.fade}
+            />
+          ) : null}
         </View>
       </SafeAreaView>
     </Modal>
@@ -532,6 +544,7 @@ const styles = StyleSheet.create({
     paddingBottom: 34,
   },
   // The close button: an x in a pale circle, the same on every sheet.
+  fade: { position: "absolute", left: 0, right: 0, bottom: 0, height: 56, borderBottomLeftRadius: 20, borderBottomRightRadius: 20 },
   closeChip: {
     width: 32,
     height: 32,

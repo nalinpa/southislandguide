@@ -18,6 +18,7 @@ import { X, Minus, Plus, ExternalLink, Image as ImageIcon, Trash2, ArrowRight, S
 
 import { CardShell, AppButton } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
+import { useWideSheet, WIDE_CORNERS } from "@/lib/ui/useWideSheet";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { PURCHASE_CHECK_MESSAGE_SHORT, FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
 import { usePurchaseContext } from "@/lib/iap/PurchaseProvider";
@@ -124,16 +125,18 @@ export function EditItemModal({
     });
   };
 
+  const wide = useWideSheet("sheet");
+
   if (!item) return null;
 
   const otherDays = availableDays.filter((d) => d.id !== currentDayId && !d.full);
 
   return (
-    <Modal visible={!!item} transparent animationType="fade">
+    <Modal visible={!!item} transparent animationType={wide?.animation ?? "fade"}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.keyboardView}>
-        <SafeAreaView edges={["left", "right"]} style={styles.modalOverlay}>
-          <View style={styles.modalWrapper}>
-            <CardShell status="basic" style={styles.modalContent}>
+        <SafeAreaView edges={["left", "right"]} style={[styles.modalOverlay, wide?.overlay]}>
+          <View style={[styles.modalWrapper, wide?.card]}>
+            <CardShell status="basic" style={[styles.modalContent, wide && WIDE_CORNERS]}>
               <View style={styles.imageContainer}>
                 <ItemImage imageUrl={item.imageUrl} siteId={item.siteId} />
                 <TouchableOpacity style={styles.closeButton} onPress={onClose} accessibilityRole="button" accessibilityLabel="Close">

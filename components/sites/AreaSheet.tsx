@@ -1,8 +1,10 @@
-import { View, Text, StyleSheet, Modal, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Modal, ScrollView, TouchableOpacity, useColorScheme } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Check, X } from "lucide-react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 import { tokens } from "@/lib/ui/tokens";
+import { useWideSheet } from "@/lib/ui/useWideSheet";
 import { REGIONS, REGION_LABELS, type RegionId } from "@/lib/guideContent";
 import { FIRST_REGION } from "@/lib/areas";
 
@@ -44,11 +46,14 @@ function sections(options: AreaOption[]) {
 // bottom, like Add to Trip, within thumb reach and with room to scroll on a small phone.
 export function AreaSheet({ visible, options, selected, onSelect, onClose }: AreaSheetProps) {
   const insets = useSafeAreaInsets();
+  const wide = useWideSheet("list");
+  // The page colour as a plain string: a gradient can't take a pair().
+  const page = useColorScheme() === "dark" ? "#06191B" : "#FFFFFF";
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
-      <SafeAreaView edges={["left", "right"]} style={styles.overlay}>
+    <Modal visible={visible} transparent animationType={wide?.animation ?? "slide"} onRequestClose={onClose}>
+      <SafeAreaView edges={["left", "right"]} style={[styles.overlay, wide?.overlay]}>
         <TouchableOpacity testID="area-sheet-backdrop" style={StyleSheet.absoluteFill} activeOpacity={1} onPress={onClose} />
-        <View style={[styles.sheet, { paddingBottom: insets.bottom + tokens.space.sm }]}>
+        <View testID="area-sheet" style={[styles.sheet, { paddingBottom: insets.bottom + tokens.space.sm }, wide?.card]}>
           <View style={styles.header}>
             <Text style={styles.title}>Choose a town</Text>
             <TouchableOpacity
@@ -89,6 +94,15 @@ export function AreaSheet({ visible, options, selected, onSelect, onClose }: Are
               </View>
             ))}
           </ScrollView>
+          {/* Wide only: the list is cut through a row, so a fade at the foot says it scrolls. */}
+          {wide ? (
+            <LinearGradient
+              testID="area-sheet-fade"
+              pointerEvents="none"
+              colors={[page + "00", page]}
+              style={styles.fade}
+            />
+          ) : null}
         </View>
       </SafeAreaView>
     </Modal>
@@ -105,6 +119,15 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingTop: tokens.space.md,
+  },
+  fade: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 56,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
   header: {
     flexDirection: "row",

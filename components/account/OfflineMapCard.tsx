@@ -9,6 +9,7 @@ import { AppButton } from "@/lib/uiKit";
 import { useOfflineMap } from "@/lib/hooks/useOfflineMap";
 import { OFFLINE_MAP_SIZES_MB, type MapLevel } from "@/lib/offlineMap";
 import { tokens } from "@/lib/ui/tokens";
+import { useWideSheet } from "@/lib/ui/useWideSheet";
 
 // The map saved for no signal (docs/plans/offline-map.md, v2): LINZ topo maps on the phone,
 // which the map tab draws when there's no signal. Two sizes: Standard, and Detailed, which is
@@ -19,6 +20,7 @@ export function OfflineMapCard() {
   // A card over the screen while it saves (owner, 2026-11-11: the row's percentage alone
   // wasn't clear). Closing it doesn't stop the save; the row keeps the count.
   const [showing, setShowing] = useState(false);
+  const wide = useWideSheet("dialog");
   // The size being saved; none while the card is still asking which.
   const [target, setTarget] = useState<MapLevel | null>(null);
   const pct = progress?.total ? Math.floor((progress.done / progress.total) * 100) : 0;
@@ -89,9 +91,9 @@ export function OfflineMapCard() {
         </TouchableOpacity>
       </View>
 
-      <Modal visible={showing} transparent animationType="fade" onRequestClose={close}>
-        <SafeAreaView edges={["left", "right"]} style={styles.overlay}>
-          <View style={styles.card}>
+      <Modal visible={showing} transparent animationType={wide?.animation ?? "fade"} onRequestClose={close}>
+        <SafeAreaView edges={["left", "right"]} style={[styles.overlay, wide?.overlay]}>
+          <View style={[styles.card, wide?.card]}>
             {error === "no-signal" ? (
               <>
                 <Text style={styles.cardTitle}>Needs signal to save</Text>

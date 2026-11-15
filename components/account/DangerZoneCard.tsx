@@ -9,6 +9,7 @@ import { useSession } from "@/lib/providers/SessionProvider";
 import { auth } from "@/lib/firebase";
 import { userService } from "@/lib/services/userService";
 import { tokens } from "@/lib/ui/tokens";
+import { useWideSheet } from "@/lib/ui/useWideSheet";
 
 // Deletion runs server-side via userService.deleteAccount(): the api deletes
 // the user's trips, saved places and reviews, revokes the Sign in with Apple
@@ -19,6 +20,7 @@ export function DangerZoneCard() {
   const { disableGuest } = useSession();
   const [isDeleting, setIsDeleting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const wide = useWideSheet("dialog");
   const [error, setError] = useState<string | null>(null);
 
   const handleDeleteAccount = async () => {
@@ -69,9 +71,9 @@ export function DangerZoneCard() {
         </View>
       </View>
 
-      <Modal visible={showConfirm} transparent animationType="fade">
-        <SafeAreaView edges={["left", "right"]} style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
+      <Modal visible={showConfirm} transparent animationType={wide?.animation ?? "fade"}>
+        <SafeAreaView edges={["left", "right"]} style={[styles.modalOverlay, wide?.overlay]}>
+          <View style={[styles.modalCard, wide?.card]}>
             <View style={styles.modalIconWrap}>
               <AlertTriangle size={28} color={tokens.colors.danger} strokeWidth={2} />
             </View>

@@ -25,12 +25,22 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { Alert } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { fireEvent, render } from "@testing-library/react-native";
 
 import { EditItemModal } from "@/components/itinerary/EditItemModal";
 import { PLANNER } from "@/lib/constants/gameplay";
 import type { ItineraryItem } from "@/lib/models";
+
+// The first ancestor of a node whose flattened style sets `key`.
+const styleUp = (node: any, key: string) => {
+  for (let n = node; n; n = n.parent) {
+    const v = (StyleSheet.flatten(n.props?.style) as any)?.[key];
+    if (v !== undefined) return v;
+  }
+  return undefined;
+};
+const wide = (size = { width: 669, height: 951 }) => require("@blacksands/ui").__setWide(true, size);
 
 const item = {
   id: "item-1",
@@ -225,4 +235,12 @@ describe("details link", () => {
 
     expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/sites/site-1");
   });
+});
+
+it("wide: a centred 520 card, every corner round", async () => {
+  wide();
+  const view = await open();
+  const title = view.getByText("Wai-O-Tapu");
+  expect(styleUp(title, "width")).toBe(520);
+  expect(styleUp(title, "borderBottomLeftRadius")).toBe(20);
 });

@@ -4,7 +4,22 @@
 // has no paid unlock — the real useEntitlementGate stub is used, so nothing is ever locked,
 // there's no premium banner and no paywall before adding to a trip.
 
-jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
+// The engine's TripChoiceSheet records the props the screen hands it, so a test can see the
+// wide card and the dark edge. Everything else is the shared stand-in.
+const mockSheets: { trip?: any } = {};
+jest.mock("@/lib/uiKit", () => {
+  const kit = require("@/test/uiKitMock");
+  return {
+    ...kit,
+    components: {
+      ...kit.components,
+      TripChoiceSheet: (p: any) => {
+        mockSheets.trip = p;
+        return kit.components.TripChoiceSheet(p);
+      },
+    },
+  };
+});
 
 // react-native-maps needs a native surface; the stand-in reports the markers it was given.
 jest.mock("@/components/map/SitesMapView", () => {
@@ -14,6 +29,10 @@ jest.mock("@/components/map/SitesMapView", () => {
     __esModule: true,
     initialRegionFrom: () => ({ latitude: -43.53, longitude: 172.63, latitudeDelta: 0.15, longitudeDelta: 0.15 }),
     SitesMapView: React.forwardRef(({ sites, mapType, onPressSite, offlineTilesDir }: any, ref: any) => {
+      // A fold mustn't mount the map again: it would lose its zoom and where it is looking.
+      React.useEffect(() => {
+        mockMapMounts.count++;
+      }, []);
       React.useImperativeHandle(ref, () => ({
         recenter: mockMapHandle.recenter,
         focusOn: jest.fn(),
@@ -40,10 +59,11 @@ jest.mock("@/components/map/MapOverlay", () => {
   const React = require("react");
   const { Text, TouchableOpacity, View } = require("react-native");
   return {
-    MapOverlayCard: ({ site, onOpen, onAddToItinerary }: any) =>
+    MapOverlayCard: ({ site, onOpen, onAddToItinerary, nearbySites }: any) =>
       React.createElement(
         View,
         null,
+        React.createElement(Text, null, "Nearby count: " + nearbySites.length),
         React.createElement(Text, null, site ? "Overlay: " + site.name : "Overlay: nothing selected"),
         React.createElement(
           TouchableOpacity,
@@ -100,6 +120,7 @@ const mockTrips = { itineraries: [] as any[], addFlow: "create" as "create" | "c
 jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
 
 const mockMapStore = { selectedLocationId: null as string | null, setSelectedLocationId: jest.fn() };
+const mockMapMounts = { count: 0 };
 const mockMapHandle = { recenter: jest.fn(), showIsland: jest.fn() };
 const mockBag = {
   locations: [] as any[],
@@ -139,13 +160,13 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { Alert, Linking } from "react-native";
+import { Alert, Linking, StyleSheet } from "react-native";
 import { act, fireEvent, render, within } from "@testing-library/react-native";
 
 import MapScreen from "@/app/(app)/(tabs)/map/index";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS } from "@/lib/models";
-import { tokens } from "@/lib/ui/tokens";
+import { darkEdge, tokens } from "@/lib/ui/tokens";
 
 const makeSite = (id: string, name: string, category: string[], over: Record<string, unknown> = {}) => ({
   id,
@@ -195,6 +216,8 @@ beforeEach(() => {
   mockNet.isConnected = true;
   mockNet.isInternetReachable = true;
   mockOfflineMap.level = null;
+  mockMapMounts.count = 0;
+  mockSheets.trip = undefined;
 });
 
 // Online, Apple Maps is clearer and has names; the saved map is only for no signal.
@@ -604,5 +627,90 @@ describe("adding to an itinerary", () => {
     expect(view.queryByText("Create Trip Modal")).toBeNull();
     expect(view.queryByText("Add to Existing")).toBeNull();
     expect(view.queryByText("Add To Trip Modal")).toBeNull();
+  });
+});
+
+// The open Duo (docs/plans/design-sweep.md, "The map, picked: round 3"): the search card is
+// 360 x 56 at 16 from the left, and the map's sheet becomes a panel in MapOverlay.
+describe("wide", () => {
+  const ui = () => require("@blacksands/ui");
+  const flat = (node: any) => StyleSheet.flatten(node.props.style);
+
+  it("lists the nearest ten places, where the phone lists three", async () => {
+    for (let i = 0; i < 12; i++) mockBag.locations.push(makeSite(`x${i}`, `Extra ${i}`, ["Walks"], { lat: -43.5 - i / 100 }));
+    mockMapStore.selectedLocationId = "s2";
+    const view = await render(<MapScreen />);
+    expect(view.getByText("Nearby count: 3")).toBeTruthy();
+
+    ui().__setWide(true);
+    await view.rerender(<MapScreen />);
+    expect(view.getByText("Nearby count: 10")).toBeTruthy();
+  });
+
+  it("draws the search card 360 by 56, 60 from the top upright and 16 sideways", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    const upright = await render(<MapScreen />);
+    expect(flat(upright.getByTestId("map-search-card"))).toMatchObject({ width: 360, height: 56, borderRadius: 16 });
+    expect(flat(upright.getByTestId("map-search-row")).paddingTop).toBe(60);
+
+    ui().__setWide(true, { width: 951, height: 669 });
+    await upright.rerender(<MapScreen />);
+    expect(flat(upright.getByTestId("map-search-row")).paddingTop).toBe(16);
+  });
+
+  it("fades the top upright only", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    const upright = await render(<MapScreen />);
+    expect(flat(upright.getByTestId("map-top-fade")).height).toBe(96);
+
+    ui().__setWide(true, { width: 951, height: 669 });
+    await upright.rerender(<MapScreen />);
+    expect(upright.queryByTestId("map-top-fade")).toBeNull();
+
+    ui().__setWide(false);
+    await upright.rerender(<MapScreen />);
+    expect(upright.queryByTestId("map-top-fade")).toBeNull();
+  });
+
+  it("puts locate and layers 52 wide, 16 from the edge, level with the search card", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    const view = await render(<MapScreen />);
+
+    expect(flat(view.getByLabelText("Centre on my location").parent)).toMatchObject({ width: 52, marginRight: 16 });
+    expect(flat(view.getByTestId("map-controls-row")).top).toBe(60);
+  });
+
+  it("keeps the chosen place, and the same map, across the breakpoint", async () => {
+    mockMapStore.selectedLocationId = "s3";
+    const view = await render(<MapScreen />);
+    expect(view.getByText("Overlay: Riverside Market")).toBeTruthy();
+    expect(mockMapMounts.count).toBe(1);
+
+    ui().__setWide(true);
+    await view.rerender(<MapScreen />);
+    expect(view.getByText("Overlay: Riverside Market")).toBeTruthy();
+    expect(mockMapMounts.count).toBe(1);
+
+    ui().__setWide(false);
+    await view.rerender(<MapScreen />);
+    expect(view.getByText("Overlay: Riverside Market")).toBeTruthy();
+    expect(mockMapMounts.count).toBe(1);
+  });
+
+  it("keeps an open Add to Trip sheet across the breakpoint, wide card and dark edge on wide", async () => {
+    mockMapStore.selectedLocationId = "s3";
+    mockTrips.itineraries = [{ id: "t1", days: [] }];
+    mockTrips.addFlow = "choose";
+    const view = await render(<MapScreen />);
+    await fireEvent.press(view.getByText("Add to Trip"));
+    expect(view.getByText("Add to Existing")).toBeTruthy();
+    expect(mockSheets.trip.wide).toBeFalsy();
+
+    ui().__setWide(true);
+    await view.rerender(<MapScreen />);
+
+    expect(view.getByText("Add to Existing")).toBeTruthy();
+    expect(mockSheets.trip.wide).toBe(true);
+    expect(mockSheets.trip.colors.edge).toBe(darkEdge.borderColor);
   });
 });

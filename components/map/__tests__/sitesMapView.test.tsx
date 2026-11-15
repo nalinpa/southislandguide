@@ -110,6 +110,18 @@ describe("the map", () => {
     expect(mockClusterProps.current.mapType).toBe("satellite");
   });
 
+  // The open Duo's floating panel covers 392 pt on the left (16 + 360 + 16): the map's own
+  // padding keeps the chosen place centred in the open part.
+  it("pads the map by the panel on a wide window, and not on a phone", async () => {
+    const props = { sites, initialRegion: region, selectedSiteId: null, mapType: "standard" as const, onPressSite: jest.fn() };
+    await render(<SitesMapView {...props} />);
+    expect(mockClusterProps.current.mapPadding).toBeUndefined();
+
+    require("@blacksands/ui").__setWide(true);
+    await render(<SitesMapView {...props} />);
+    expect(mockClusterProps.current.mapPadding).toEqual({ left: 392, top: 0, right: 0, bottom: 0 });
+  });
+
   // The map used to be boxed to Christchurch, where 1.0's places are. It's a South Island
   // guide: people expect to be able to look at the island.
   it("lets the map pan across the whole South Island, and no further", async () => {

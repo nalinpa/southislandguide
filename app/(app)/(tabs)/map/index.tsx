@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView, Keyboard, Alert, Linking } from "react-native";
+import { View, StyleSheet, useColorScheme, Text, TextInput, TouchableOpacity, ScrollView, Keyboard, Alert, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
+import { useHalves, useWide } from "@blacksands/ui";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -9,7 +11,7 @@ import { Search, SlidersHorizontal, Crosshair, Layers, AlertCircle, Lock, Chevro
 import type { MapType } from "react-native-maps";
 
 import { LoadingState, ErrorCard, components } from "@/lib/uiKit";
-import { darkEdge, pair, tokens, SWEEP_COLORS } from "@/lib/ui/tokens";
+import { CARD_SIDES, darkEdge, pair, tokens, SWEEP_COLORS } from "@/lib/ui/tokens";
 import { hooksBag } from "@/lib/hooksBag";
 import { useEntitlementGate } from "@/lib/hooks/useEntitlementGate";
 import { useItineraries } from "@/lib/hooks/useItineraries";
@@ -25,6 +27,7 @@ import { SitesMapView, initialRegionFrom } from "@/components/map/SitesMapView";
 import type { SitesMapViewHandle } from "@/components/map/SitesMapView";
 import { MapOverlayCard } from "@/components/map/MapOverlay";
 import type { NearbySite, ActiveItineraryItem } from "@/components/map/MapOverlay";
+import { PANEL_PAD, PANEL_WIDTH, SEARCH_HEIGHT, searchTop } from "@/components/map/MapPanel";
 import { AddToTripModal } from "@/components/itinerary/AddToTripModal";
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { PremiumFeatureModal } from "@/components/itinerary/PremiumFeatureModal";
@@ -33,6 +36,10 @@ import { nearestArea } from "@/components/map/MapRegion";
 import { DEFAULT_AREA } from "@/lib/areas";
 
 export default function MapScreen() {
+  const wide = useWide();
+  const { upright } = useHalves();
+  const searchAt = searchTop(upright);
+  const card = CARD_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
   const { session } = useSession();
   const uid = session.status === "authed" ? session.uid : null;
 
@@ -253,8 +260,8 @@ export default function MapScreen() {
         distanceMeters: distanceMeters({ lat: selectedSite.lat, lng: selectedSite.lng }, { lat: s.lat, lng: s.lng }),
       }))
       .sort((a, b) => (a.distanceMeters ?? 0) - (b.distanceMeters ?? 0))
-      .slice(0, 3);
-  }, [visibleSites, selectedSite]);
+      .slice(0, wide ? 10 : 3);
+  }, [visibleSites, selectedSite, wide]);
 
   const overlayDistance = useMemo(() => {
     if (!selectedSite || !loc) return 0;
@@ -308,9 +315,25 @@ export default function MapScreen() {
       {/* box-none: only the things in the stack take touches. The stack itself is
           full width, and without this the strip beside the map controls would
           swallow drags meant for the map. */}
-      <SafeAreaView style={styles.safeArea} pointerEvents="box-none" testID="map-top-stack">
-        <View style={styles.searchContainer}>
-          <View style={styles.searchBox}>
+      {/* The status bar's own end of the map, upright only: sideways the bar is in the rail. */}
+      {wide && upright ? (
+        <LinearGradient
+          testID="map-top-fade"
+          colors={[`${card}D9`, `${card}00`]}
+          style={styles.topFade}
+          pointerEvents="none"
+        />
+      ) : null}
+
+      {/* Wide: measured from the window's top, so no status-bar inset on top of the 60 / 16. */}
+      <SafeAreaView
+        style={styles.safeArea}
+        edges={wide ? [] : undefined}
+        pointerEvents="box-none"
+        testID="map-top-stack"
+      >
+        <View testID="map-search-row" style={[styles.searchContainer, wide && { paddingTop: searchAt }]}>
+          <View testID="map-search-card" style={[styles.searchBox, wide && styles.searchBoxWide]}>
             <Search color={ON_MAP.icon} size={18} strokeWidth={1.75} />
             <TextInput
               style={styles.searchInput}
@@ -345,16 +368,16 @@ export default function MapScreen() {
               }}
               accessibilityRole="button"
               accessibilityLabel="Filter by category"
-              style={[styles.filterBtn, (categoryOn || showFilters) && styles.filterBtnActive]}
+              style={[styles.filterBtn, wide && styles.filterBtnWide, (categoryOn || showFilters) && styles.filterBtnActive]}
             >
               <SlidersHorizontal color={categoryOn || showFilters ? "#FFFFFF" : tokens.colors.text} size={18} strokeWidth={2.25} />
             </TouchableOpacity>
-            <View pointerEvents="none" style={[darkEdge, styles.floatEdge]} />
+            <View pointerEvents="none" style={[darkEdge, styles.floatEdge, wide && styles.searchBoxWide]} />
           </View>
         </View>
 
         {lockedSites.length > 0 && (
-          <View style={styles.premiumBannerContainer}>
+          <View style={[styles.premiumBannerContainer, wide && styles.openMapLeft]}>
             <TouchableOpacity
               style={styles.premiumBanner}
               activeOpacity={0.88}
@@ -378,7 +401,7 @@ export default function MapScreen() {
             category is chosen even if the button is tapped shut: otherwise
             nothing would say which filter is on, or offer a way to change it. */}
         {(showFilters || categoryOn) && (
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[styles.chipRow, wide && styles.openMapLeft]}>
             {([{ label: "All", value: null }, ...SITE_CATEGORIES.map((c) => ({ label: SITE_CATEGORY_LABELS[c], value: c }))] as {
               label: string;
               value: SiteCategory | null;
@@ -403,7 +426,7 @@ export default function MapScreen() {
         )}
 
         {(locErr || abroad) && (
-          <View style={styles.errorPill}>
+          <View style={[styles.errorPill, wide && styles.errorPillWide]}>
             <AlertCircle size={12} color="rgba(255,200,200,1)" strokeWidth={2} />
             <Text style={styles.errorText}>{abroad ? "You're not in New Zealand yet" : "Location unavailable"}</Text>
           </View>
@@ -413,8 +436,8 @@ export default function MapScreen() {
             the filter chips when those are open). They used to be pinned 40%
             down the screen, where the bottom sheet grows up over them and they
             covered its distance and Directions button. */}
-        <View style={styles.controlsRow} pointerEvents="box-none">
-          <View style={styles.leftStack} pointerEvents="box-none">
+        <View testID="map-controls-row" style={[styles.controlsRow, wide && { position: "absolute", top: searchAt, left: 0, right: 0 }]} pointerEvents="box-none">
+          <View style={[styles.leftStack, wide && styles.leftStackWide]} pointerEvents="box-none">
           {/* Out on the map, not behind the filter button (owner, 2026-11-11), once the
               trip has places. A tap shows only them; another shows everything again. */}
           {tripSiteIds.size > 0 && (
@@ -446,9 +469,9 @@ export default function MapScreen() {
             </TouchableOpacity>
           ) : null}
           </View>
-          <View style={styles.mapControls}>
+          <View style={[styles.mapControls, wide && styles.mapControlsWide]}>
           <TouchableOpacity
-            style={styles.controlBtn}
+            style={[styles.controlBtn, wide && styles.controlBtnWide]}
             accessibilityRole="button"
             accessibilityLabel="Centre on my location"
             onPress={() => {
@@ -466,7 +489,7 @@ export default function MapScreen() {
           </TouchableOpacity>
           <View style={styles.controlDivider} />
           <TouchableOpacity
-            style={styles.controlBtn}
+            style={[styles.controlBtn, wide && styles.controlBtnWide]}
             accessibilityRole="button"
             accessibilityLabel="Switch map type"
             onPress={() => {
@@ -514,7 +537,8 @@ export default function MapScreen() {
         // The kit's defaults say "itinerary"; this app says "trip".
         title="Add to Trip"
         variant="sheet"
-        colors={SWEEP_COLORS}
+        wide={wide}
+        colors={{ ...SWEEP_COLORS, edge: darkEdge.borderColor }}
         addExistingSublabel="Choose a day in one of your trips"
         createNewSublabel="Pick dates and add this place"
         onClose={() => setShowTripChoice(false)}
@@ -593,6 +617,9 @@ const styles = StyleSheet.create({
     height: 48, borderRadius: 12, paddingLeft: 16, paddingRight: 6, gap: 10,
     shadowColor: "#241A12", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.13, shadowRadius: 20, elevation: 8,
   },
+  // The Duo's card: 360 x 56, corner 16; its filter button 40 square, corner 10.
+  searchBoxWide: { width: PANEL_WIDTH, height: SEARCH_HEIGHT, borderRadius: 16 },
+  filterBtnWide: { width: 40, height: 40, borderRadius: 10 },
   searchInput: { flex: 1, fontSize: 16, color: tokens.colors.text },
   divider: { width: StyleSheet.hairlineWidth, height: 20, backgroundColor: ON_MAP.divider },
   // A pale box with a dark icon. With a filter on it is solid teal, as the chosen chip is:
@@ -607,6 +634,8 @@ const styles = StyleSheet.create({
     backgroundColor: tokens.colors.bgSurface,
   },
   filterBtnActive: { backgroundColor: tokens.colors.accent },
+  // Past the panel, in the open part of the map.
+  openMapLeft: { paddingLeft: PANEL_PAD },
   chipRow: { paddingHorizontal: 16, paddingVertical: 10, gap: 8, flexDirection: "row" },
   chip: {
     paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20, backgroundColor: ON_MAP.chip,
@@ -633,6 +662,11 @@ const styles = StyleSheet.create({
     shadowRadius: 16, elevation: 6,
   },
   controlBtn: { width: 46, height: 46, alignItems: "center", justifyContent: "center" },
+  controlBtnWide: { width: 52, height: 52 },
+  leftStackWide: { marginLeft: PANEL_PAD, marginTop: 0, flexDirection: "row", alignItems: "center" },
+  mapControlsWide: { width: 52, marginTop: 0, marginRight: 16 },
+  errorPillWide: { alignSelf: "flex-start", marginLeft: PANEL_PAD },
+  topFade: { position: "absolute", top: 0, left: 0, right: 0, height: 96, zIndex: 10 },
   floatEdge: { borderRadius: 12 },
   controlDivider: { height: StyleSheet.hairlineWidth, backgroundColor: ON_MAP.controlDivider },
   errorPill: {

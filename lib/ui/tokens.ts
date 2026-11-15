@@ -49,6 +49,9 @@ export const darkEdge = {
   borderColor: pair("transparent", "#567F84"),
 } as const;
 
+// The card colour's two sides, for a gradient (the map's top fade), which can't take a pair.
+export const CARD_SIDES = { light: "#FFFFFF", dark: "#0E2A2E" } as const;
+
 export const tokens = {
   // A filled button is a screen's main action, so it's the highlight with a
   // white label, not the kit's default teal. Setting it here also reaches the
@@ -77,7 +80,7 @@ export const tokens = {
     // Dark: four steps of lift off the page, page < bgBase < bgCard < bgSurface < bgElevated.
     bgBase: pair("#EEF6F3", "#081D20"),
     bgSurface: pair("#E2F0EB", "#12363A"),
-    bgCard: pair("#FFFFFF", "#0E2A2E"),
+    bgCard: pair(CARD_SIDES.light, CARD_SIDES.dark),
     bgElevated: pair("#D3ECE5", "#1A4247"),
     borderSubtle: pair("#CFE1DA", "#2F5257"),
     // Dark is a step lighter than drawn (#4C7479) to keep 3:1 on a card as well as the page.

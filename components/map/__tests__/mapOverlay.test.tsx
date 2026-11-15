@@ -21,7 +21,7 @@ jest.mock("@gorhom/bottom-sheet", () => {
   const { ScrollView, View } = require("react-native");
   return {
     __esModule: true,
-    default: ({ children }: any) => React.createElement(View, null, children),
+    default: ({ children }: any) => React.createElement(View, { testID: "bottom-sheet" }, children),
     BottomSheetScrollView: ({ children }: any) => React.createElement(ScrollView, null, children),
   };
 });
@@ -37,6 +37,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { MapOverlayCard } from "@/components/map/MapOverlay";
 import { tokens } from "@/lib/ui/tokens";
+import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
 
 const site = {
   id: "s1",
@@ -324,5 +325,97 @@ describe("today's plan and nearby", () => {
 
     expect(view.queryByText("Today's Trip")).toBeNull();
     expect(view.queryByText("Nearby")).toBeNull();
+  });
+});
+
+// The open Duo: the sheet gives way to a floating 360 panel (docs/plans/design-sweep.md,
+// "The map, picked: round 3"). The rail is already out of the window the screen sees.
+describe("wide: the panel", () => {
+  const ui = () => require("@blacksands/ui");
+  const nearbySites = Array.from({ length: 10 }, (_, i) => ({
+    id: `n${i}`,
+    name: `Place ${i}`,
+    category: "Walks",
+    distanceMeters: 100 * (i + 1),
+  }));
+  const layout = (node: any, height: number) =>
+    fireEvent(node, "layout", { nativeEvent: { layout: { x: 0, y: 0, width: 360, height } } });
+
+  it("has no bottom sheet; a 360 panel at 16 from the left, 12 under the search card", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    const view = await openSheet();
+
+    expect(view.queryByTestId("bottom-sheet")).toBeNull();
+    expect(view.getByTestId("map-panel")).toHaveStyle({ left: 16, width: 360, top: 60 + 56 + 12 });
+  });
+
+  it("sideways it sits 16 from the top: the search card is there, not under a status bar", async () => {
+    ui().__setWide(true, { width: 951, height: 669 });
+    const view = await openSheet();
+
+    expect(view.getByTestId("map-panel")).toHaveStyle({ top: 16 + 56 + 12 });
+  });
+
+  it("keeps the sheet on a phone", async () => {
+    const view = await openSheet();
+
+    expect(view.getByTestId("bottom-sheet")).toBeTruthy();
+    expect(view.queryByTestId("map-panel")).toBeNull();
+  });
+
+  it("shows the map pin's own icon on a Nearby row: a white 28 disc with a 2 pt ring in the category colour", async () => {
+    ui().__setWide(true);
+    const view = await openSheet({ nearbySites });
+
+    expect(view.getByTestId("nearby-icon-n0")).toHaveStyle({
+      width: 28,
+      height: 28,
+      borderRadius: 14,
+      borderWidth: 2,
+      borderColor: CATEGORY_CONFIG.Walks.color,
+      backgroundColor: "#FFFFFF",
+    });
+  });
+
+  it("ends on a whole row, at least 16 above the tab bar", async () => {
+    ui().__setWide(true);
+    const view = await openSheet({ nearbySites });
+    // 620 tall: the panel starts at 128, must stop 16 short, and has 12 + 8 of its own padding.
+    await layout(view.getByTestId("map-panel-area"), 620);
+    await layout(view.getByTestId("map-panel-head"), 200);
+    // Rows that stop fitting as the others are measured leave before their turn.
+    for (let i = 0; i < 5; i++) {
+      const row = view.queryByTestId(`nearby-row-n${i}`);
+      if (row) await layout(row, 60);
+    }
+
+    // 620 - 128 - 16 - 20 = 456; the head takes 200, so 256 is left: four rows of 60 fit, a fifth doesn't.
+    expect(view.queryByText("Place 3")).toBeTruthy();
+    expect(view.queryByText("Place 4")).toBeNull();
+  });
+
+  it("lists the nearest ten when there is room", async () => {
+    ui().__setWide(true);
+    const view = await openSheet({ nearbySites });
+    await layout(view.getByTestId("map-panel-area"), 2000);
+
+    expect(view.queryByText("Place 9")).toBeTruthy();
+  });
+
+  it("shows the place card alone when Nearby is empty", async () => {
+    ui().__setWide(true);
+    const view = await openSheet({ nearbySites: [] });
+
+    expect(view.getByText("Wai-O-Tapu")).toBeTruthy();
+    expect(view.queryByText("Nearby")).toBeNull();
+  });
+
+  it("opens a Nearby place on a tap, as the sheet does", async () => {
+    ui().__setWide(true);
+    const view = await openSheet({ nearbySites });
+
+    await fireEvent.press(view.getByText("Place 1"));
+
+    expect(handlers.onSelectSite).toHaveBeenCalledWith("n1");
   });
 });

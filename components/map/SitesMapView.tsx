@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { StyleSheet, View, Text, LayoutChangeEvent, Platform, useColorScheme } from "react-native";
 import { DARK_READY } from "@/lib/ui/tokens";
+import { useWide } from "@blacksands/ui";
 import ClusterMapView from "react-native-map-clustering";
 import MapView, { Marker, Region, MapType, UrlTile } from "react-native-maps";
 
@@ -17,6 +18,7 @@ import { SiteMarker } from "@/components/map/SiteMarker";
 import { OFFLINE_MAP_MAX_Z, OFFLINE_MAP_URL, type MapLevel } from "@/lib/offlineMap";
 import type { SiteCategory } from "@/lib/models";
 export { initialRegionFrom } from "./MapRegion";
+import { PANEL_PAD } from "@/components/map/MapPanel";
 import { ISLAND_REGION, MAP_BOUNDS } from "./MapRegion";
 
 const DEFAULT_MAP_BOUNDS = {
@@ -130,6 +132,7 @@ const SitesMapViewInner = forwardRef<
   { sites, initialRegion, selectedSiteId, mapType, onPressSite, offlineTilesDir, offlineLevel },
   ref,
 ) {
+  const wide = useWide();
   const mapRef = useRef<MapView>(null);
   const currentRegionRef = useRef<Region | null>(null);
   const focusedSiteIdRef = useRef<string | null>(null);
@@ -227,6 +230,8 @@ const SitesMapViewInner = forwardRef<
         style={styles.flex1}
         initialRegion={initialRegion}
         mapType={mapType}
+        // The open Duo's panel covers the left: the chosen place centres in what is open.
+        {...(wide ? { mapPadding: { left: PANEL_PAD, top: 0, right: 0, bottom: 0 } } : null)}
         showsUserLocation
         showsMyLocationButton={false}
         toolbarEnabled={false}

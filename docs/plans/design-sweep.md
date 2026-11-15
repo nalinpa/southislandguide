@@ -66,6 +66,170 @@ Measured contrast on Explore, all above the 4.5 floor: place name 17.1 / 16.4, d
 - A control for leaving (Skip Tour) sits with the thing it leaves, not in a far corner.
 - Capital letters are left as the app has them (owner, 2026-11-13): "Sign Out", "Delete Account", "Restart App" keep capitals on each word beside sentence-case rows.
 
+## Wide
+
+The open iPhone Duo, 1.3's Duo sweep ([prompts/duo-sweep.md](../../prompts/duo-sweep.md)). The owner picked Step 0's Look C, side by side, with Look B's centred pop-up instead of C's side panel (2026-11-15). Drawn at 669 × 951 pt, open portrait; the sizes are unofficial until the simulator confirms them.
+
+| Piece | Wide value |
+|---|---|
+| Breakpoint | Window 600 pt wide or more. Folded (466), Split View (469) and every other iPhone keep the phone layout. |
+| Switch | `useWide()`, one hook for the app and the engine's wide variants. Proposed home: the engine, beside the other shared hooks; settled when the first screen is built. |
+| Top bar, tab bar | Edge to edge, as on the phone. |
+| Side margin | 24 on grid screens, 20 inside a half. |
+| Explore | Two columns, 16 pt gutter, 24 pt between rows. The featured card spans both columns (photo 280 tall); the others have a 190 photo. |
+| Place | Photo on the left half, full height under the status bar, hairline edge on its inner side. Words on the right half, each half scrolling on its own. Add to Trip at the foot of the right half only. Back button on the photo, top left. |
+| Pop-ups | A centred card 520 pt wide, every corner 20, lifted with a shadow, over the dim. Same contents and order as the phone sheet. |
+| Beside a phone-width column | Nothing: no screen keeps a lone phone column. Two things that stack on the phone sit side by side instead (Trip days beside the day's stops, the guide's list beside its section, the Login photo beside the form). |
+
+Landscape (951 × 669) follows the same rules; a screen whose layout depends on height gets a landscape drawing in its own round.
+
+Exceptions on the open Duo only (owner, 2026-11-15, Explore round 2):
+- The featured place is a normal card on the Duo for now: no taller photo, no bigger name, nothing different from the other cards. The owner first allowed a bigger name, then took it back the same day after seeing it drawn. On the phone the 13 Nov rule stands.
+- Explore has no teal title bar. The town and its picker go at the top of the left side, with the guide, search and saved buttons straight under it. The owner first put the buttons at the foot, then moved them up after round 3's critics.
+- Every place name is one step bigger on the Duo (18 pt against 16), all alike, up to 2 lines as on the phone (owner, round 4). A long town name ("Aoraki / Mount Cook") shrinks to fit two lines, with the chevron kept on the last word.
+
+- The trip shows the Trip list and the selected day's timeline together, half each, with no Trip | Days switch (owner, 2026-11-15, trip round 2). That's a change of behaviour, at the owner's word, against the sweep's "no list-detail" rule: on the Duo a tap on a day shows it on the right, where the phone switches to Days.
+
+### Explore, picked: round 6 (owner, 2026-11-15)
+
+Drawings and scores on the [Duo progress page](https://claude.ai/artifact/5UiSmztCK67BT9KTvULvWb).
+
+| Piece | Upright 669 × 951 | Sideways 951 × 669 (rail 84 on the right) |
+|---|---|---|
+| Left side | 200 pt, band tint (`#EEF3F1` / `#0C2A2E`), 20 pt sides, top lined up with the first photo | Same |
+| Town | 26 pt, weight 800, `#063F45` / `#EEF6F3`; up to 2 lines, shrinks to fit down to 22 (`adjustsFontSizeToFit`), chevron kept on the last word | Same |
+| Guide, search, saved | Bare 22 pt icons in the town's colour, 44 pt tap areas, 4 pt apart, the first icon's edge on the town's edge, straight under the town | Same |
+| Categories | 16 pt, weight 500, `text2`; rows 40 tall. Selected: teal, semi-bold, fill `rgba(9,92,101,.16)` / `rgba(127,208,214,.18)`, corner 10, reaching 12 pt into the margin so the label keeps the town's edge, and 8 pt from both edges of the side (the drawing's 8/20 was lopsided). No underline, no bar | Same |
+| Places | One column, 20 pt sides; photo 190; name 18 pt bold, up to 2 lines; description 3 lines; 24 between cards. Every card the same, featured included | Two columns, 16 gutter; photo 130 |
+| Top bar | None: the phone's teal bar doesn't show on the Duo | None |
+| Tab bar | As on the phone | As on the phone, stopping at the rail |
+
+### The place, picked: round 3 A (owner, 2026-11-15)
+
+Scored 7.2 against the benchmark's 7.4, the closest of any screen; it won against B with every critic.
+
+| Piece | Upright 669 × 951 | Sideways 951 × 669 (rail 84 on the right) |
+|---|---|---|
+| Photo | Full width, a third of the height (320 pt incl. the status bar), as taken; a dark fade under the status bar (55% to clear over 120 pt) and under the credit | The left page, to the fold (475 pt), full height; a fade under the credit |
+| Sheet | Over the photo from 300 pt, the phone's 20 pt top corners | The right page, to the rail |
+| Columns | Left, the phone's 361 pt: name, facts, the four buttons, the description. Right, the rest of the width less a 24 gutter (244 pt): Good to know, the local tip, reviews. The right column starts level with the four buttons (so the name leads), no hairline after its last item | One column: everything in the phone's order |
+| Add to Trip | Full width at the foot, as on the phone (owner's default; two critics wanted it under the left column), with a 36 pt fade above it so no line looks cut | Under the words only |
+| Back, clock, credit | On the 20 pt margins | Same |
+| Tab bar | None, as on the phone | None |
+
+### The trip, picked: round 7 with softer times (owner, 2026-11-15)
+
+Trip and Days together (the Trips tab opens the one trip, so this covers screen 4 too). Round 5 came within 0.2 of the benchmark; rounds 6 and 7 each beat the one before.
+
+| Piece | Upright 669 × 951 | Sideways 951 × 669 (rail 84 on the right) |
+|---|---|---|
+| Split | Half each (334.5) | 40/60: the list 347, the day 520 |
+| Left, tinted | The trip's name 22 pt bold, its dates 14, the ⋯ menu; then the day rows: photo 56, "Day N · date" 13, the route 15 bold (an arrow always starts a line, a town never breaks), places and driving 13, the opening drive 12 | Same, photo 56 |
+| Selected day | The fill `rgba(9,92,101,.16)`; in dark `rgba(127,208,214,.30)` with a 1 pt `rgba(127,208,214,.55)` inner edge; its details in `text2`; the phone's pale × disc (`surface`) with a 1 pt `border` edge and a dark × | Same |
+| Right | The day's heading on the left side's top line: "Day 19 · Thu 3 Dec" 14, the route 22 bold. The day opens at its start | Same |
+| Timeline | The phone's hour scale (136 pt an hour); hour labels in a 56 pt column, on the heading's 16 pt edge; stops from 64 to 16 pt off the right edge | Same |
+| A stop | The phone's teal block, its insides slimmer so a name fits one line: icon 24, padding 12, drag strip 18 with white dots; the time 13 pt, medium, 90% white, normal spacing (the phone keeps its spaced times: a "Later" item) | Same |
+| A drive | The car on the stops' icon line, the words on their names' line | Same |
+| Switch | No Trip \| Days switch on the Duo: both show at once, and a tap on a day shows it on the right (owner, against the sweep's no-list-detail rule) | Same |
+
+Critics' last word on Explore, for the record: round 5 (bare bar, no fill) scored a little higher in the final run and fitted the phone best. The owner prefers round 6's fill. The repeated asks not taken up: two columns upright, and the teal band back.
+
+The map: the owner likes Apple's overlay arrangement (2026-11-15, [the example](https://github.com/artemnovichkov/iPhone-Duo-by-Examples/blob/main/iPhoneDuoByExamples/Examples/OverlayArrangementExample.swift)). The map fills the window and its sheet floats over it as a card, about 360 pt wide, on one side. It uses our card look, not Liquid Glass. Apple's version also goes side by side when the phone is half-folded; JS can't read the fold in 1.3, so that part waits for a native build. Settled in the map's own round.
+
+### The map, picked: round 3 (owner, 2026-11-15)
+
+Round 2 beat round 1 with every critic (6.4 against 4.8; benchmark 7.4, beaten on colour); round 3, round 2 with the critics' fixes, beat round 2 with all five.
+
+| Piece | Upright 669 × 951 | Sideways 951 × 669 (rail 84 on the right) |
+|---|---|---|
+| Map | The whole window under the status bar, down to the tab bar; its padding set to the panel (react-native-maps `mapPadding`, left 392) so the chosen place centres in the open part | Same, to the rail |
+| Top fade | 96 pt under the status bar, the panel colour at 85% to clear | None (the status bar is in the rail) |
+| Search | Its own card, 360 × 56, corner 16, at 16 from the left and 60 from the top; the filter button 40 square, corner 10, `soft` fill | Same, 16 from the top |
+| Panel | 360 wide, corner 20, 12 under the search card. Its height follows its rows and ends on a whole row, at least 16 above the tab bar | Same |
+| Place card | Name 22 bold; "category · town · distance" 15 `text2`; Add to Trip and Details half each, 46 tall, corner 12; Get Directions full width under them, 10 apart | Same |
+| Divider | Inset 16 each side, as the phone's `nearbySep` | Same |
+| Nearby | Heading 19 bold. Rows at least 48 tall: the map pin's own icon (white 28 pt disc, 2 pt ring in the category colour, 15 pt icon), the name 16 medium up to 2 lines, the distance 15 `text2`, the chevron. As many of the nearest as fit (the phone lists 3) | Same |
+| Chosen pin | The phone's selected marker, clear of the "you are here" dot | Same |
+| Locate, layers | Top right, 52 wide, 16 from the edge, level with the search card | Same, 16 from the rail |
+| Tab bar | As on the phone | As on the phone, stopping at the rail |
+
+Not taken up: in dark the white icon discs are the panel's brightest thing (one critic); they stay white like the map's pins.
+
+### The guide, picked: round 3 (owner, 2026-11-15)
+
+Round 3 beat round 2 with all five critics and tied the benchmark (6.8 each), beating it on colour and on fitting the phone app. Two changes of behaviour on the Duo only, at the owner's go: the list beside the section (a tap shows the section on the right, where the phone opens a page), and the region as a picker in place of the phone's tab strip.
+
+| Piece | Upright 669 × 951 | Sideways 951 × 669 (rail 84 on the right) |
+|---|---|---|
+| Split | 40/60: the list 268, the section 401 (about 50 characters a line) | 40/60: 347 and 520 |
+| Left, tinted | The trip's band; 20 pt sides. A 44 pt row: the phone article's bare back chevron (26, its stroke on the 20 pt edge), "Guide" 22 bold | Same |
+| Region picker | Under "Guide", 8 pt down: a pill 40 tall, corner 12, 14 pt in on the left and 12 on the right; the region 17 semibold and an 18 pt down chevron. **Light: solid `accent` (`#095C65`), white words. Dark: the raised colour (`elev`, `#1A4247`) with a 1 pt `border` edge, words in `selected`** (owner: B in light, A in dark). The pill hugs its name up to the column's width; a longer name takes two lines (line 21) and the pill grows, the chevron at its right end, centred: "Canterbury & Christchurch", the longest, takes two upright. Opens the regions as a pop-up, the sheets' centred card | Same; "Canterbury & Christchurch" fits one line |
+| Sections | 16 pt under the picker. Rows 2 pt apart, padding 8/12: the app's icon tile (40, corner 10, its category tint), the name 16 semibold up to 2 lines. No chevrons, no lines | Same |
+| Chosen section | Explore's fill (`rgba(9,92,101,.16)` / `rgba(127,208,214,.18)`), corner 12, reaching 12 into the margins; its name in `selected`; its tile on white (dark: `elev`) | Same |
+| Right | The phone's article: title 26/31 bold, its middle level with "Guide"'s; text 16/25; subheadings 20; web addresses in the highlight. The first section opens with the guide | Same |
+| Tab bar | As on the phone (Profile lit) | As on the phone, stopping at the rail |
+
+The pill was judged after the pick: all five critics preferred round 3's plain picker (7.3, the benchmark 7.2, the pill 6.4): the solid pill is the loudest thing on the screen and sits on the teal chosen row. The owner kept B in light and A in dark (2026-11-15).
+
+Not taken up: "Guide" and the section title side by side at nearly one size (two critics; the trip's two titles stood); the space under the list; the split not on the fold (upright the fold runs across; sideways, a simulator check).
+
+### Profile, picked: round 2 of A with the right side up 14 pt (owner, 2026-11-15)
+
+Drawn from the code (no capture). Round 1: A (the guide card on the left) against B (the banner across the top, the groups in two columns under it): A 5.6, B 5.4, the benchmark 7.0; the owner took A. Round 2 rebalanced it, with Saved Places kept on the right (owner), and beat round 1 with four of five critics (5.8 against 5.2; the benchmark 7.4), beating the benchmark on colour (7 to 5).
+
+| Piece | Upright 669 × 951 | Sideways 951 × 669 (rail 84 on the right) |
+|---|---|---|
+| Page | White from the clock down, so the status bar is dark. 40/60 with a hairline between: left 268, right 400 | 40/60: 347 and 519 |
+| Left | The guide banner as a card: `accentWarm` (`#063F45` / `#0B4B52`), 20 pt from the edges and 56 from the top, corner 20, padding 24; the headline 28/33, weight 800, white (three lines; the phone's 32 made four), and the phone's Open Guide button (52 tall, the card's width). Then the phone's groups: who you are and Sign Out (the email shrinking to fit, as on the phone), My Trip, Show me around, Map for no signal | Same, 16 from the top; the headline on two lines |
+| Right | Saved Places, the email switch, Account (Delete), Photo credits and the legal links. "Saved Places" (the first group name) level with the card's top | Same |
+| Balance | The two sides end within about 60 pt of each other (round 1 left a 200 pt hole at the bottom left) | Same |
+| Groups | The phone's: 8 pt bands between groups, 48 pt rows, names 13/600 `textMuted`, 20 pt sides | Same |
+| Tab bar | As on the phone (Profile lit) | As on the phone, stopping at the rail |
+
+Not taken up: the guide card leads and Delete Account in red is the next loudest (three critics; the owner's banner and the red-deletes rule); three button styles and a flat type scale (two; the phone's own pieces); Sign Out and Delete Account on different sides (one).
+
+### Login, picked: round 5 with a hairline card edge in dark (owner, 2026-11-15)
+
+Five rounds. The sweep's plan was "the photo beside the form", but a photo on one half and a white form on the other needs two status bar styles; iOS has one. So the photo fills the window and the form floats on a card. Round 5 beat round 3 with four of five critics (6.0 against 5.6; the benchmark 7.4) and beat the benchmark on colour (7 to 5).
+
+| Piece | Upright 669 × 951 | Sideways 951 × 669 (rail 84 on the right) |
+|---|---|---|
+| Photo | The login photo (`assets/login.webp`, 1280 × 686) at 1.6×, Aoraki's peak 120 pt from the top, centred. A top shade under the status bar (110 pt, `#063F45` at 55% to clear). From 30 pt above the lake's edge, a fade to the brand teal `#063F45` (dark `#041416`): clear, then 55% at 70 pt, solid at 190 pt, ending behind the card | The left page (to the fold, 475), with the phone's scrim |
+| Status bar | White over the photo everywhere | In the rail |
+| Title | The phone's "Kiwi Guide" (44/48, weight 800) and tagline (20/500), white, on a soft local teal shade, 28 pt above the card | On the left page, centred |
+| Card | 480 wide, centred, corner 20, padding 24, a soft shadow; 56 pt from the bottom, so its top sits at the fold and no box is on the crease. `card` colour (dark: `#0E2A2E` with a 1 pt `line` edge) | 360 wide, centred on the right page |
+| Form | The phone's stacked AuthPanel: Email, Password, "Forgot password?" with 18 pt under it, Sign In (orange, 52), **"Create an account" as a teal outline button (52)** (an opt-in variant of the engine's AuthPanel), "Continue as guest" a plain link | Same |
+| Dark | The photo dimmed (brightness .68), the card on the deep teal `card` colour, not the page's near-black | Same |
+| Tab bar | None, as on the phone | None |
+
+Not taken up: a phone-width form with photo either side (three critics, "acceptable" for a form); the boxes' edges 1.83:1, measured (the phone's `border` colour: a phone fix, not 1.3); "Sign In" in Title Case beside sentence-case links (the engine's words).
+
+### The tour and the error screen, picked: round 2 with two tour tweaks (owner, 2026-11-15)
+
+Drawn from the code (lib/tour, app/_layout.tsx's ErrorBoundary). Round 2 beat round 1 with all five critics on both: the tour 6.1 against 4.2, the error screen 6.9 against 5.6 (the benchmark 7.4); the error screen beat the benchmark on colour (8 to 7).
+
+| Piece | Upright 669 × 951 | Sideways 951 × 669 (rail 84 on the right) |
+|---|---|---|
+| Tour card | The phone's card (corner 20, title 20/25, body 15/21, dots, Skip Tour in teal under them, Next orange with 12 corners, the pointer), **360 wide** (the phone's width-less-12-a-side would be 645) | Same |
+| Placing | A target in Explore's left band: the card to its right, over the places, its left and top lined up with the place column, the pointer on the card's left edge at the target's middle; the band stays in view. Any other target: below it if it fits, else above, the pointer over its middle. Welcome (no target): centred across, its foot 24 above the fold | Same; Welcome centred |
+| Cut-out | The phone's dim (`rgba(3,38,43,.82)`) and cut-out (corner 12), **hugging the target's words** (for the town, the name and its chevron, not the wider button), with a **2 pt ring in `selected`** (lifted in dark) so the lit part reads in both modes | Same |
+| Error screen | The phone's group (88 pt pale red circle, the red sign, title 22, message 16, Restart App 52 tall). The sign and words just above the fold, the button just below, 32 apart; the button 320 wide | The sign and words on the left page, the button on the right, both centred; as Login |
+
+Not taken up: the teal dim (the phone's), the red sign by the orange button (the phone's picked error screen), the wording (the owner's rule), the ring and Skip Tour in teal beside the orange Next (one critic).
+
+### The pop-up sheets, picked: round 2 with two spacing fixes (owner, 2026-11-15)
+
+Drawn from the phone captures (14 Nov). Round 2 beat round 1 with all five critics on both sheets judged: Add to Trip 6.7 against 5.8, Choose a town 6.5 against 5.1 (the benchmark 7.4); both beat the benchmark on colour (7 to 5) and fit the phone app 4 of 5. This settles the last screen of the Duo sweep.
+
+| Piece | Upright 669 × 951 | Sideways 951 × 669 (rail 84 on the right) |
+|---|---|---|
+| Card | Step 0's rule: a centred card, **520 wide**, every corner 20, a soft shadow (0 20 60, black 30%), over the phone's dim (`dim`). The sheet colour (dark: `#0E2A2E` with a 1 pt `#567F84` edge). The phone sheet's contents in its order; the title 22/27 bold and the phone's pale 32 pt × disc | Centred across the window |
+| Placing | A card taller than half the window is centred on the fold (Add to Trip). A long list (Choose a town, New Trip) is up to 760 tall from 96 pt down and scrolls inside, cut through a row (never a region band) under a 56 pt fade, so it reads as scrolling. A short dialog ("Are you absolutely sure?") is 400 wide, its foot 24 above the fold | Centred |
+| Add to Trip | The Day row kept inside the 24 pt margin, fading at the margin as the phone cuts it; labels 22 above and 10 under; **32 above Add**, as between the groups | Same |
+| Choose a town | The phone's region bands and rows; the town Explore shows ticked, orange and semibold | Same |
+
+Not taken up for 1.3: "Full" and "No room" look as tappable as open slots (four critics; the phone's picked sheet, so a phone change); the centred stepper; orange for the chosen town where Add to Trip selects in teal; the counts far from the names in a 520 card (the phone's pieces).
+
 ## Where each screen stands
 
 Best score is against the bar named. "Carry" is the drawing to build from.

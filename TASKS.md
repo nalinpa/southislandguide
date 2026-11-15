@@ -23,7 +23,7 @@ Reference app for every port: `rotorua-guide`.
 
 ### 1.3, the next store build (owner, 2026-11-15)
 
-Plan: the doc [Kiwi Guide 1.3 Plan](https://claude.ai/artifact/1qoZN26ADdcgrQPRm1iB3C). Expo SDK 58 and every library update, then iPhone Duo: fit first, then wide layouts, screen by screen. Owner's calls: keep our own tab bar; real wide layouts on the open Duo; take every major update; check the Duo on Expo Simulators (needs a paid EAS plan, not decided yet; Appetize is the fallback). Testing is the owner's to arrange.
+Plan: the doc [Kiwi Guide 1.3 Plan](https://claude.ai/artifact/1qoZN26ADdcgrQPRm1iB3C). Expo SDK 58 and every library update, then iPhone Duo: fit first, then wide layouts, screen by screen. **Scope (owner, 2026-11-15): upgrades and Duo support only, and Duo support as soon as possible. Any other work goes in "Later", never in 1.3. Full Duo support: every screen in the sweep gets its wide layout in 1.3, not just the most-seen ones.** Checked that day: the branch, this section and the plan doc held nothing else. Owner's calls: keep our own tab bar; real wide layouts on the open Duo; take every major update; check the Duo on Expo Simulators (needs a paid EAS plan, not decided yet; Appetize is the fallback). Testing is the owner's to arrange.
 
 - **Runtimes:** 1.2 is build 8 from `bdfcce9`, runtime `236bed82…`; `1.2` is its hotfix line. Branch `1.3` (cut from `1.2`) resolved to `f967a92f…` after the library updates (dev build `df6927e8`, update `e4ebe78b`), then to `a0bdc768…` once `@expo/ui` was added for the Duo's `ArrangementView` (2026-11-15; needs a new dev build). SDK 58's fingerprint no longer counts `eas.json` or `.easignore`; the root `.gitignore` still counts.
 - **Built on `1.3`, 2026-11-15, not on a phone yet:** Expo SDK 58 (React Native 0.88.1, React 19.3, Expo Router 58, Sentry 8.28, gesture handler 3.3, Reanimated 4.7, maps 1.29), Jest 30, minor updates, Google Sign-In 17, Firebase 13, TypeScript 7 (Expo expects 6, so it's in `expo.install.exclude`). Typecheck, 2,236 tests, expo-doctor and an iOS bundle pass. The `simulator` EAS profile is in, on its own channel.
@@ -140,6 +140,9 @@ Plan: the doc [Kiwi Guide 1.3 Plan](https://claude.ai/artifact/1qoZN26ADdcgrQPRm
 ---
 
 ## Later
+
+### From the 1.3 Duo sweep (not in 1.3: upgrades and Duo only)
+- [ ] **The phone's stop times are hard to read** (Duo sweep, trip rounds 1 to 7, 2026-11-15). On a trip day's teal stops, "9:00 – 10:30 AM" is 12 pt bold, widely spaced and dimmed. The type and colour critics called it the hardest text on the screen, and in dark it fails 4.5:1. The Duo's picked design sets it 13 pt, medium, 90% white, normal spacing; the phone could follow. It changes the phone's look, so it's a phone release, not 1.3.
 
 ### 1.1 — drive times and multi-day
 **Built 2026-10-14 to 16; kept for history.** Drive times are generated per town (launch plan B1 to B3), `durationToSlots()` is gone, and the drive block (`components/itinerary/DriveBlock.tsx`) and the trip view with each day's towns (`components/itinerary/TripOverview.tsx`) are in. Since 2026-10-22 (fix-32, `f647e34` and `5a54c8f`): town-to-town times for all 41 towns (820 pairs), measured from a hub the owner picked for each town (`scripts/lib/areaCentres.js`, written to `assets/data/area-hubs.json`), and the 98 places far from their town's hub have their own times to every hub within 4 hours (`assets/data/far-place-minutes.json`). E.g. Te Anau to the Milford cruise is now 2 h. The notes below describe the state before all that. What's left is launch plan B4 to B6, only for drives that still read wrong on a phone.

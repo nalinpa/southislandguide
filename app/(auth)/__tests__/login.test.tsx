@@ -29,11 +29,18 @@ jest.mock("expo-haptics", () => ({ impactAsync: jest.fn(), ImpactFeedbackStyle: 
 
 // The kit's AppText and Stack are the stand-ins' (the real kit loads the animation library,
 // which can't run here); AuthPanel itself is the engine's.
+const mockAuthMounts = jest.fn();
 jest.mock("@/lib/uiKit", () => {
   const kit = require("@/test/uiKitMock");
   const { createAuthPanel } = require("@blacksands/components");
   const { formTokens } = require("@/lib/ui/tokens");
-  return { ...kit, AuthPanel: createAuthPanel(formTokens, kit) };
+  const Panel = createAuthPanel(formTokens, kit);
+  // Counts mounts: a fold must not remount the form.
+  const Counted = (props: any) => {
+    require("react").useEffect(() => void mockAuthMounts(), []);
+    return require("react").createElement(Panel, props);
+  };
+  return { ...kit, AuthPanel: Counted };
 });
 
 jest.mock("@/components/auth/SocialSignInButtons", () => {
@@ -91,7 +98,8 @@ import * as Sentry from "@sentry/react-native";
 
 import LoginScreen from "@/app/(auth)/login";
 import { EMAIL_OPT_IN_LABEL } from "@/lib/hooks/useEmailOptIn";
-import { tokens } from "@/lib/ui/tokens";
+import { tokens, cardEdge, photoDim } from "@/lib/ui/tokens";
+import { StyleSheet } from "react-native";
 
 const mockSignIn = signInWithEmailAndPassword as jest.Mock;
 const mockSignUp = createUserWithEmailAndPassword as jest.Mock;
@@ -365,5 +373,85 @@ describe("already signed in", () => {
 
     await waitFor(() => expect(mockRouter.back).toHaveBeenCalled());
     expect(mockRouter.replace).not.toHaveBeenCalled();
+  });
+});
+
+// The open Duo (docs/plans/design-sweep.md, "Login, picked"): the photo fills the window, the
+// form floats on a card.
+describe("wide", () => {
+  const ui = () => require("@blacksands/ui");
+  const flat = (node: any, prop = "style") => StyleSheet.flatten(node.props[prop]);
+
+  it("upright: the photo fills the window at 1.6x, the peak 120 pt down, over a 480 card 56 pt from the foot", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    const view = await render(<LoginScreen />);
+
+    expect(flat(view.getByTestId("login-photo-art"))).toMatchObject({
+      left: 669 / 2 - 672 * 1.6,
+      top: 120 - 354 * 1.6,
+      width: 1280 * 1.6,
+      height: 686 * 1.6,
+    });
+    expect(flat(view.getByTestId("login-panel"))).toMatchObject({ width: 480, borderRadius: 20, padding: 24, marginTop: 28 });
+    expect(flat(view.getByTestId("login-scroll"), "contentContainerStyle")).toMatchObject({
+      justifyContent: "flex-end",
+      paddingBottom: 56,
+    });
+    expect(view.getByText("Kiwi Guide")).toBeTruthy();
+  });
+
+  it("sideways: the photo is the left page, the 360 card centred on the right page", async () => {
+    ui().__setWide(true, { width: 951, height: 669 });
+    const view = await render(<LoginScreen />);
+
+    expect(flat(view.getByTestId("login-photo"))).toMatchObject({ left: 0, top: 0, bottom: 0, width: 475.5 });
+    expect(flat(view.getByTestId("login-page"))).toMatchObject({ marginLeft: 475.5 });
+    expect(flat(view.getByTestId("login-panel"))).toMatchObject({ width: 360 });
+    expect(flat(view.getByTestId("login-scroll"), "contentContainerStyle")).toMatchObject({
+      justifyContent: "center",
+      alignItems: "center",
+    });
+    expect(view.getByText("Kiwi Guide")).toBeTruthy();
+  });
+
+  it("dark: the card on bgCard with a 1 pt line edge, the photo dimmed", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    const view = await render(<LoginScreen />);
+
+    expect(flat(view.getByTestId("login-panel"))).toMatchObject({
+      backgroundColor: tokens.colors.bgCard,
+      borderWidth: 1,
+      borderColor: cardEdge,
+    });
+    expect(flat(view.getByTestId("login-photo-dim"))).toMatchObject({ backgroundColor: photoDim });
+  });
+
+  it("phone: no wide photo, the sheet and a link for Create an account", async () => {
+    const view = await render(<LoginScreen />);
+
+    expect(view.queryByTestId("login-photo-art")).toBeNull();
+    expect(flat(view.getByTestId("login-panel"))).toMatchObject({ marginTop: -20 });
+    expect(view.getByText("Create an account")).toHaveStyle({ color: tokens.colors.selected });
+  });
+
+  it("draws Create an account as an outline button when wide, a link on the phone", async () => {
+    const phone = await render(<LoginScreen />);
+    expect(phone.getByRole("button", { name: "Create an account" })).not.toHaveStyle({ borderWidth: 1.5 });
+    await phone.unmount();
+    ui().__setWide(true, { width: 669, height: 951 });
+    const wide = await render(<LoginScreen />);
+    expect(wide.getByRole("button", { name: "Create an account" })).toHaveStyle({ borderWidth: 1.5, height: 52 });
+  });
+
+  it("keeps the typed form across a fold", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    const view = await render(<LoginScreen />);
+    await fireEvent.changeText(view.getByLabelText("Email"), "a@b.co");
+    ui().__setWide(true, { width: 951, height: 669 });
+    await view.rerender(<LoginScreen />);
+    ui().__setWide(false);
+    await view.rerender(<LoginScreen />);
+    expect(view.getByLabelText("Email").props.value).toBe("a@b.co");
+    expect(mockAuthMounts).toHaveBeenCalledTimes(1);
   });
 });

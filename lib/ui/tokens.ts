@@ -52,6 +52,15 @@ export const darkEdge = {
 // The card colour's two sides, for a gradient (the map's top fade), which can't take a pair.
 export const CARD_SIDES = { light: "#FFFFFF", dark: "#0E2A2E" } as const;
 
+// The login photo's brand teal, light and dark, for its shade and lake fade (gradients can't take a pair).
+export const LAKE_SIDES = { light: "#063F45", dark: "#041416" } as const;
+
+// The login photo is dimmed in dark by a black layer (brightness .68), and its card has the
+// `line` colour for an edge in dark, none in light.
+export const photoDim = pair("rgba(0,0,0,0)", "rgba(0,0,0,0.32)");
+const LINE_SIDES = { light: "#CBD8D3", dark: "#2F5257" } as const;
+export const cardEdge = pair("transparent", LINE_SIDES.dark);
+
 // The raised colour in dark and the selected teal in light, named for the guide's region pill
 // (solid teal in light, raised with an edge in dark) and the chosen section's tile.
 const ELEV_DARK = "#1A4247";
@@ -102,7 +111,7 @@ export const tokens = {
     // page, a hairline round a photo so a pale sky doesn't melt into it, and one line
     // colour. `selected` marks the tab or category you're on: teal, with a line under it.
     page: pair("#FFFFFF", "#06191B"),
-    line: pair("#CBD8D3", "#2F5257"),
+    line: pair(LINE_SIDES.light, LINE_SIDES.dark),
     // The pale band between groups of rows (Profile): a band means "new group", a line
     // "next row in the same group".
     band: pair("#EEF3F1", "#0C2A2E"),

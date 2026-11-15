@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, useColorScheme, useWindowDimensions } from "react-native";
 import { Stack, router } from "expo-router";
+import { useHalves, useWide } from "@blacksands/ui";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -9,7 +10,7 @@ import { Screen, AppText, AuthPanel } from "@/lib/uiKit";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { EMAIL_OPT_IN_LABEL } from "@/lib/hooks/useEmailOptIn";
 import { useSession } from "@/lib/providers/SessionProvider";
-import { tokens } from "@/lib/ui/tokens";
+import { LAKE_SIDES, cardEdge, cardLift, photoDim, tokens } from "@/lib/ui/tokens";
 
 // Aoraki / Mt Cook over Lake Pukaki. Bundled so it paints offline with no
 // network flash.
@@ -25,6 +26,23 @@ const PHOTO_SHARE = 0.4;
 const PHOTO_SHARE_SIGNUP = 0.29;
 // How far the form's white sheet rides up over the foot of the photo: its corner radius.
 const SHEET_OVERLAP = 20;
+
+// The open Duo (docs/plans/design-sweep.md, "Login, picked"): the photo fills the window and
+// the form floats on a card. The photo's own size, shown at 1.6x with Aoraki's peak (x 672,
+// y 354 in the photo) 120 pt from the top, centred; the lake's edge is at y 537.
+const PHOTO_W = 1280;
+const PHOTO_H = 686;
+const PHOTO_ZOOM = 1.6;
+const PEAK_X = 672;
+const PEAK_Y = 354;
+const PEAK_TOP = 120;
+const LAKE_EDGE = 537;
+const FADE_LEAD = 30; // the fade starts this far above the lake's edge
+const FADE_SOLID = 190; // and is solid this far on
+const CARD_UPRIGHT = 480;
+const CARD_SIDEWAYS = 360;
+const CARD_FOOT = 56;
+const TITLE_GAP = 28;
 
 // The photo with the title on top (mockup C, owner, 2026-10-25; docs/plans/login-redesign.md),
 // and since the design sweep the engine's AuthPanel on a white sheet with rounded top
@@ -43,6 +61,11 @@ export default function LoginScreen() {
   const { session, enableGuest } = useSession();
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
+  // Hooks stay above any early return.
+  const wide = useWide();
+  const { width, upright, foldX } = useHalves();
+  const lake = LAKE_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
+  const sideways = wide && !upright;
 
   useEffect(() => {
     // Guest is not redirected here — see app/(auth)/_layout.tsx for why.
@@ -67,58 +90,145 @@ export default function LoginScreen() {
     leaveLogin();
   };
 
+  const brandView = (
+    <View style={[styles.brand, wide ? styles.brandWide : { paddingTop: insets.top + 24 }]}>
+      {/* Two lines at most, shrinking to fit an iPhone SE's width. A long press
+          sends a test error, to check a build's crash reporting end to end (the
+          stack should name this file); nothing shows on screen. */}
+      <AppText
+        variant="screenTitle"
+        style={styles.appName}
+        numberOfLines={2}
+        adjustsFontSizeToFit
+        suppressHighlighting
+        onLongPress={() => Sentry.captureException(new Error("Sentry test from the login title"))}
+      >
+        Kiwi Guide
+      </AppText>
+      <AppText style={styles.tagline}>New Zealand road trip planner</AppText>
+    </View>
+  );
+
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
       {/* paddingTop 0 overrides Screen's own top inset so the photo runs up under
           the status bar; the content adds the inset back itself. */}
       <Screen padded={false} statusBarStyle="light-content" style={{ paddingTop: 0 }}>
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.flex1}>
+        {/* Wide: the photo fills the window (upright) or the left page (sideways), behind the
+            form. A slot before the KeyboardAvoidingView, null on the phone, so the form's
+            parents and their order are the same on every width and a fold doesn't remount it. */}
+        {wide ? (
+          <View
+            testID="login-photo"
+            pointerEvents="none"
+            style={[
+              styles.widePhoto,
+              { backgroundColor: lake },
+              sideways && { width: foldX, right: undefined },
+            ]}
+          >
+            <View
+              testID="login-photo-art"
+              style={
+                sideways
+                  ? StyleSheet.absoluteFill
+                  : {
+                      position: "absolute",
+                      left: width / 2 - PEAK_X * PHOTO_ZOOM,
+                      top: PEAK_TOP - PEAK_Y * PHOTO_ZOOM,
+                      width: PHOTO_W * PHOTO_ZOOM,
+                      height: PHOTO_H * PHOTO_ZOOM,
+                    }
+              }
+            >
+              <Image source={HERO_IMAGE} style={StyleSheet.absoluteFill} contentFit="cover" />
+            </View>
+            <View testID="login-photo-dim" style={[StyleSheet.absoluteFill, { backgroundColor: photoDim }]} />
+            {sideways ? (
+              <>
+                <LinearGradient
+                  colors={[`${tokens.colors.scrim}F2`, `${tokens.colors.scrim}D9`, `${tokens.colors.scrim}00`]}
+                  locations={[0, 0.5, 0.78]}
+                  style={StyleSheet.absoluteFill}
+                />
+                <View style={styles.sidewaysBrand}>{brandView}</View>
+              </>
+            ) : (
+              <>
+                <LinearGradient
+                  colors={[`${lake}8C`, `${lake}00`]}
+                  style={[styles.shade, { height: 110 }]}
+                />
+                <LinearGradient
+                  colors={[`${lake}00`, `${lake}8C`, lake]}
+                  locations={[0, 70 / FADE_SOLID, 1]}
+                  style={[
+                    styles.shade,
+                    {
+                      top: PEAK_TOP + (LAKE_EDGE - PEAK_Y) * PHOTO_ZOOM - FADE_LEAD,
+                      height: FADE_SOLID,
+                    },
+                  ]}
+                />
+              </>
+            )}
+          </View>
+        ) : null}
+        <KeyboardAvoidingView
+          testID="login-page"
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={[styles.flex1, sideways && { marginLeft: foldX }]}
+        >
           {/* Scrolls so the form stays reachable above the keyboard: the photo goes up
               out of the way. A tap on empty space dismisses the keyboard. */}
           <ScrollView
-            style={styles.screen}
-            contentContainerStyle={styles.scrollContent}
+            testID="login-scroll"
+            style={[styles.screen, wide && styles.transparent]}
+            contentContainerStyle={[
+              styles.scrollContent,
+              wide && (sideways ? styles.scrollSideways : styles.scrollUpright),
+            ]}
             keyboardShouldPersistTaps="handled"
             keyboardDismissMode="interactive"
             showsVerticalScrollIndicator={false}
             bounces={false}
           >
+            {sideways ? null : (
+              <View
+                style={
+                  wide
+                    ? undefined
+                    : [styles.photo, { height: Math.round(height * (f.mode === "signup" ? PHOTO_SHARE_SIGNUP : PHOTO_SHARE)) }]
+                }
+              >
+                {wide ? null : (
+                  <Image source={HERO_IMAGE} style={StyleSheet.absoluteFill} contentFit="cover" />
+                )}
+                {/* The scrim teal behind the title and tagline over the white cloud, held
+                    strong to just past the tagline (it was unreadable where the fade had
+                    already begun, owner 2026-10-26), then clear through the mountains to
+                    the white sheet. The last two characters of each colour are its opacity. */}
+                {wide ? null : (
+                  <LinearGradient
+                    colors={[`${tokens.colors.scrim}F2`, `${tokens.colors.scrim}D9`, `${tokens.colors.scrim}00`]}
+                    locations={[0, 0.5, 0.78]}
+                    style={StyleSheet.absoluteFill}
+                  />
+                )}
+                {brandView}
+              </View>
+            )}
+
             <View
+              testID="login-panel"
               style={[
-                styles.photo,
-                { height: Math.round(height * (f.mode === "signup" ? PHOTO_SHARE_SIGNUP : PHOTO_SHARE)) },
+                styles.panel,
+                wide
+                  ? [styles.card, { width: sideways ? CARD_SIDEWAYS : CARD_UPRIGHT }]
+                  : { paddingBottom: insets.bottom + tokens.space.md },
               ]}
             >
-              <Image source={HERO_IMAGE} style={StyleSheet.absoluteFill} contentFit="cover" />
-              {/* The scrim teal behind the title and tagline over the white cloud, held
-                  strong to just past the tagline (it was unreadable where the fade had
-                  already begun, owner 2026-10-26), then clear through the mountains to
-                  the white sheet. The last two characters of each colour are its opacity. */}
-              <LinearGradient
-                colors={[`${tokens.colors.scrim}F2`, `${tokens.colors.scrim}D9`, `${tokens.colors.scrim}00`]}
-                locations={[0, 0.5, 0.78]}
-                style={StyleSheet.absoluteFill}
-              />
-              <View style={[styles.brand, { paddingTop: insets.top + 24 }]}>
-                {/* Two lines at most, shrinking to fit an iPhone SE's width. A long press
-                    sends a test error, to check a build's crash reporting end to end (the
-                    stack should name this file); nothing shows on screen. */}
-                <AppText
-                  variant="screenTitle"
-                  style={styles.appName}
-                  numberOfLines={2}
-                  adjustsFontSizeToFit
-                  suppressHighlighting
-                  onLongPress={() => Sentry.captureException(new Error("Sentry test from the login title"))}
-                >
-                  Kiwi Guide
-                </AppText>
-                <AppText style={styles.tagline}>New Zealand road trip planner</AppText>
-              </View>
-            </View>
-
-            <View testID="login-panel" style={[styles.panel, { paddingBottom: insets.bottom + tokens.space.md }]}>
               <AuthPanel
                 mode={f.mode}
                 email={f.email}
@@ -145,6 +255,7 @@ export default function LoginScreen() {
                 tone="light"
                 radius={12}
                 layout="stacked"
+                createAccountStyle={wide ? "outline" : "link"}
                 placeholders={{ password: "", confirmPassword: "" }}
                 labelSize={15}
                 colors={{
@@ -166,6 +277,24 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   flex1: { flex: 1 },
   screen: { flex: 1, backgroundColor: tokens.colors.page },
+  transparent: { backgroundColor: "transparent" },
+  // Upright: the card low on the page, its top at the fold, the title 28 pt above it.
+  scrollUpright: { justifyContent: "flex-end", paddingBottom: CARD_FOOT },
+  scrollSideways: { justifyContent: "center", alignItems: "center" },
+  widePhoto: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, overflow: "hidden" },
+  shade: { position: "absolute", left: 0, right: 0, top: 0 },
+  sidewaysBrand: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, justifyContent: "center" },
+  brandWide: { paddingTop: 0 },
+  card: {
+    alignSelf: "center",
+    marginTop: TITLE_GAP,
+    borderRadius: 20,
+    padding: 24,
+    backgroundColor: tokens.colors.bgCard,
+    borderWidth: 1,
+    borderColor: cardEdge,
+    ...cardLift,
+  },
   scrollContent: { flexGrow: 1 },
   photo: { width: "100%" },
   brand: { alignItems: "center", gap: tokens.space.xs, paddingHorizontal: tokens.space.lg },

@@ -171,20 +171,24 @@ export function PlaceCard({
 
 export const Divider = () => <View style={styles.nearbySep} />;
 
+// `scrolled` is owned by the sheet (or the panel), not by this component: the auto-scroll
+// happens once per sheet lifetime, however often the carousel unmounts (GPS refresh) or its
+// items change. The scheduled scroll is never cancelled.
 export function TodayCarousel({
   items,
   onSelectSite,
+  scrolled,
 }: {
   items: ActiveItineraryItem[];
   onSelectSite: (id: string) => void;
+  scrolled: React.MutableRefObject<boolean>;
 }) {
   const { width: windowWidth } = useWindowDimensions();
   const carouselRef = useRef<any>(null);
-  const hasAutoScrolled = useRef(false);
 
   useEffect(() => {
-    if (hasAutoScrolled.current || !items.length) return;
-    hasAutoScrolled.current = true;
+    if (scrolled.current || !items.length) return;
+    scrolled.current = true;
 
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
@@ -202,11 +206,10 @@ export function TodayCarousel({
     const cardCenterX = tokens.space.md + nearestIndex * (128 + 10) + 64;
     const scrollX = Math.max(0, cardCenterX - windowWidth / 2);
 
-    const t = setTimeout(() => {
+    setTimeout(() => {
       carouselRef.current?.scrollTo({ x: scrollX, animated: true });
     }, 400);
-    return () => clearTimeout(t);
-  }, [items, windowWidth]);
+  }, [items, windowWidth, scrolled]);
 
   return (
     <View style={styles.nearbySection}>

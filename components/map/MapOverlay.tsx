@@ -1,5 +1,5 @@
 // components/map/MapOverlay.tsx
-import React from "react";
+import React, { useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -61,6 +61,8 @@ export function MapOverlayCard({
 }: MapOverlayProps) {
   const insets = useSafeAreaInsets();
   const wide = useWide();
+  // Today's Trip scrolls to the nearest stop once per sheet lifetime (see TodayCarousel).
+  const scrolled = useRef(false);
 
   const isDenied = locStatus === "denied";
   const isRequesting = !isDenied && !locError && !hasLoc;
@@ -76,6 +78,7 @@ export function MapOverlayCard({
         isOffline={isOffline}
         nearbySites={nearbySites}
         todayItems={todayItems}
+        scrolled={scrolled}
         onOpen={onOpen}
         onSelectSite={onSelectSite}
         onFocusSite={onFocusSite}
@@ -116,7 +119,7 @@ export function MapOverlayCard({
           />
         )}
 
-        {showItinerary && todayItems && <TodayCarousel items={todayItems} onSelectSite={onSelectSite} />}
+        {showItinerary && todayItems && <TodayCarousel items={todayItems} onSelectSite={onSelectSite} scrolled={scrolled} />}
 
         {showNearby && (
           <NearbySection>

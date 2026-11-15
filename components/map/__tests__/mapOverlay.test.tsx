@@ -26,13 +26,28 @@ jest.mock("@gorhom/bottom-sheet", () => {
   };
 });
 
+// The carousel's scrollTo, recorded.
+const mockScrollTo = jest.fn();
+jest.mock("react-native-gesture-handler", () => {
+  const React = require("react");
+  const { ScrollView } = require("react-native");
+  const actual = jest.requireActual("react-native-gesture-handler");
+  return {
+    ...actual,
+    ScrollView: React.forwardRef(({ children, ...p }: any, ref: any) => {
+      React.useImperativeHandle(ref, () => ({ scrollTo: mockScrollTo }));
+      return React.createElement(ScrollView, p, children);
+    }),
+  };
+});
+
 jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 44, bottom: 34, left: 0, right: 0 }),
 }));
 
 import React from "react";
 import { Linking } from "react-native";
-import { fireEvent, render, waitFor } from "@testing-library/react-native";
+import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { MapOverlayCard } from "@/components/map/MapOverlay";
@@ -417,5 +432,50 @@ describe("wide: the panel", () => {
     await fireEvent.press(view.getByText("Place 1"));
 
     expect(handlers.onSelectSite).toHaveBeenCalledWith("n1");
+  });
+});
+
+// Today's Trip scrolls to the nearest stop once per sheet lifetime, and the scroll that is
+// scheduled always happens (as on the phone before the Duo).
+describe("the Today's Trip auto-scroll", () => {
+  const stops = (n: number) =>
+    Array.from({ length: n }, (_, i) => ({ id: `i${i}`, siteId: `s${i}`, siteName: `Stop ${i}`, timeLabel: "9:00 AM", category: "Walks" }));
+  const tree = (over: Record<string, unknown>) => (
+    <GestureHandlerRootView>
+      <MapOverlayCard {...(baseProps as any)} {...(over as any)} />
+    </GestureHandlerRootView>
+  );
+
+  beforeEach(() => {
+    jest.useFakeTimers();
+    mockScrollTo.mockClear();
+  });
+  afterEach(() => jest.useRealTimers());
+
+  it("still fires when the items change within the 400 ms", async () => {
+    const view = await render(tree({ todayItems: stops(2) }));
+    await view.rerender(tree({ todayItems: stops(3) }));
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
+
+    expect(mockScrollTo).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not scroll again when the carousel unmounts and mounts (a GPS refresh)", async () => {
+    const todayItems = stops(2);
+    const view = await render(tree({ todayItems }));
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
+    expect(mockScrollTo).toHaveBeenCalledTimes(1);
+
+    await view.rerender(tree({ todayItems, refreshingGPS: true }));
+    await view.rerender(tree({ todayItems, refreshingGPS: false }));
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
+
+    expect(mockScrollTo).toHaveBeenCalledTimes(1);
   });
 });

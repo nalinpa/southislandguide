@@ -30,6 +30,7 @@ export type MapPanelProps = {
   isOffline?: boolean;
   nearbySites: NearbySite[];
   todayItems: ActiveItineraryItem[] | null;
+  scrolled: React.MutableRefObject<boolean>;
   onOpen: () => void;
   onSelectSite: (id: string) => void;
   onFocusSite: () => void;
@@ -38,7 +39,7 @@ export type MapPanelProps = {
 
 const height = (e: LayoutChangeEvent) => e.nativeEvent.layout.height;
 
-export function MapPanel({ site, nearbySites, todayItems, onSelectSite, loading, ...card }: MapPanelProps) {
+export function MapPanel({ site, nearbySites, todayItems, scrolled, onSelectSite, loading, ...card }: MapPanelProps) {
   const { upright } = useHalves();
   const top = searchTop(upright) + SEARCH_HEIGHT + GAP;
   // Measured: the area the map screen gives us, the place card, the Nearby heading, each row.
@@ -70,7 +71,7 @@ export function MapPanel({ site, nearbySites, todayItems, onSelectSite, loading,
         <View onLayout={(e) => setCardH(height(e))} testID="map-panel-head">
           <PlaceCard site={site} loading={loading} wide {...card} />
         </View>
-        {showItinerary && todayItems && <TodayCarousel items={todayItems} onSelectSite={onSelectSite} />}
+        {showItinerary && todayItems && <TodayCarousel items={todayItems} onSelectSite={onSelectSite} scrolled={scrolled} />}
         {showNearby && rows.length > 0 && (
           <NearbySection wide onHeadLayout={(e) => setHeadH(height(e) + 4)}>
             {rows.map((n) => (

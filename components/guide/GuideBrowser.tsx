@@ -23,9 +23,12 @@ import { REGION_TABS } from "@/lib/guideRegions";
 // The guide's list. On a phone the list is a page and a tap opens the section's own page; on
 // the open Duo the list sits beside the section (a tap shows it on the right) and the region is
 // a picker in place of the tab strip. One tree on both: the list and the article keep their
-// place in it, so folding mid-screen keeps the chosen section. `initialSlug` is a deep link.
-export function GuideBrowser({ initialSlug }: { initialSlug?: string }) {
+// place in it, so folding mid-screen keeps the chosen section. `initialSlug` is a deep link;
+// with `articleMode` (the /guide/[slug] route) a phone shows only the article under its back
+// row, the list pane an empty slot, so folding only toggles the list and the article stays put.
+export function GuideBrowser({ initialSlug, articleMode }: { initialSlug?: string; articleMode?: boolean }) {
   const wide = useWide();
+  const phoneArticle = !!articleMode && !wide;
   const insets = useSafeAreaInsets();
   const deepLinked = GUIDE_CATEGORIES.find((c) => c.slug === initialSlug);
 
@@ -55,14 +58,17 @@ export function GuideBrowser({ initialSlug }: { initialSlug?: string }) {
   // The tab it was opened from: Explore's book button or Profile's Open Guide.
   // Opened cold, Profile, where its hero is.
   const back = () => (router.canGoBack() ? router.back() : router.navigate("/(app)/(tabs)/account"));
+  // The article page's back: pops to the list it was opened from; opened cold, the list.
+  const backToGuideList = () =>
+    router.canGoBack() ? router.back() : router.navigate("/(app)/(tabs)/guide");
   const regionLabel = REGION_TABS.find((r) => r.id === region)?.label ?? "South Island";
 
   return (
-    <View style={styles.container}>
-      {wide ? null : <TopBar title="Guide" leading={<TopBarBack onPress={back} label="Back" />} />}
+    <View style={[styles.container, phoneArticle && { paddingTop: insets.top }]}>
+      {wide || phoneArticle ? null : <TopBar title="Guide" leading={<TopBarBack onPress={back} label="Back" />} />}
       {/* The scopes are a tab strip on the white page under the bar, the same as
           Explore's categories: "South Island" plus each region with sections written. */}
-      {!wide && hasRegions ? (
+      {!wide && !phoneArticle && hasRegions ? (
         <TopBarTabs<RegionId | null>
           tone="page"
           tabs={[
@@ -75,6 +81,7 @@ export function GuideBrowser({ initialSlug }: { initialSlug?: string }) {
       ) : null}
 
       <View style={styles.row}>
+        {phoneArticle ? null : (
         <View testID="guide-list-pane" style={wide ? [styles.side, { paddingTop: insets.top }] : styles.flex1}>
           {wide ? (
             <View style={styles.head}>
@@ -116,9 +123,23 @@ export function GuideBrowser({ initialSlug }: { initialSlug?: string }) {
             wide={wide}
           />
         </View>
-        {wide ? (
-          <View testID="guide-article-pane" style={styles.article}>
-            {chosen ? <GuideArticle key={chosen.slug} category={chosen} titleTop={insets.top + 6} /> : null}
+        )}
+        {wide || phoneArticle ? (
+          <View testID="guide-article-pane" style={phoneArticle ? styles.flex1 : styles.article}>
+            {phoneArticle ? (
+              <View style={styles.bar}>
+                <Pressable
+                  onPress={backToGuideList}
+                  accessibilityRole="button"
+                  accessibilityLabel="Back to the guide"
+                  hitSlop={12}
+                  style={({ pressed }) => [styles.back, pressed && styles.pressed]}
+                >
+                  <ChevronLeft size={26} color={tokens.colors.text} strokeWidth={2.25} />
+                </Pressable>
+              </View>
+            ) : null}
+            {chosen ? <GuideArticle key={chosen.slug} category={chosen} titleTop={wide ? insets.top + 6 : undefined} /> : null}
           </View>
         ) : null}
       </View>
@@ -136,6 +157,7 @@ const styles = StyleSheet.create({
   side: { flex: 2, backgroundColor: tokens.colors.band },
   article: { flex: 3 },
   head: { paddingHorizontal: tokens.space.lg, paddingBottom: tokens.space.md },
+  bar: { height: 44, justifyContent: "center", paddingHorizontal: tokens.space.md },
   backRow: { height: 44, flexDirection: "row", alignItems: "center" },
   // The chevron's own blank edge is pulled back, so its stroke sits on the 20 pt edge.
   back: { width: 44, height: 44, justifyContent: "center", marginLeft: -8 },

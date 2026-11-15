@@ -17,6 +17,22 @@ jest.mock("react-native-safe-area-context", () => {
   };
 });
 
+// Counts how many times the article mounts, to catch a remount across the fold on /guide/[slug].
+const mockArticleMounts = { count: 0 };
+jest.mock("@/components/guide/GuideArticle", () => {
+  const React = require("react");
+  const actual = jest.requireActual("@/components/guide/GuideArticle");
+  return {
+    ...actual,
+    GuideArticle: (props: any) => {
+      React.useEffect(() => {
+        mockArticleMounts.count++;
+      }, []);
+      return React.createElement(actual.GuideArticle, props);
+    },
+  };
+});
+
 // Counts how many times the section list mounts, to catch a remount across the breakpoint.
 const mockListMounts = { count: 0 };
 jest.mock("@/components/guide/GuideList", () => {
@@ -68,6 +84,7 @@ const isHeading = (p: string) => !/[.!?]$/.test(p.trim());
 beforeEach(() => {
   jest.clearAllMocks();
   mockListMounts.count = 0;
+  mockArticleMounts.count = 0;
   mockRouter.canGoBack.mockReturnValue(true);
   mockParams.slug = first.slug;
   mockParams.region = undefined;
@@ -443,6 +460,28 @@ describe("on the open Duo", () => {
     expect(mockListMounts.count).toBe(1);
     expect(within_(view.getByTestId("guide-article-pane")).getByText(second.title)).toBeTruthy();
     expect(within_(view.getByTestId("guide-article-pane")).queryByText(first.title)).toBeNull();
+  });
+});
+
+describe("the section route across the fold", () => {
+  it("keeps the same article mounted, and the chosen section, phone to Duo and back", async () => {
+    const ui = require("@blacksands/ui");
+    const c = ISLAND_CATEGORIES[1];
+    mockParams.slug = c.slug;
+    const view = await render(<GuideCategoryPage />);
+    expect(mockArticleMounts.count).toBe(1);
+    expect(view.getByLabelText("Back to the guide")).toBeTruthy();
+
+    ui.__setWide(true, { width: 669, height: 951 });
+    await view.rerender(<GuideCategoryPage />);
+    expect(view.queryByLabelText("Back to the guide")).toBeNull();
+    expect(within_(view.getByTestId("guide-article-pane")).getByText(c.title)).toBeTruthy();
+
+    ui.__setWide(false);
+    await view.rerender(<GuideCategoryPage />);
+    expect(view.getByLabelText("Back to the guide")).toBeTruthy();
+    expect(view.getByText(c.title)).toBeTruthy();
+    expect(mockArticleMounts.count).toBe(1);
   });
 });
 

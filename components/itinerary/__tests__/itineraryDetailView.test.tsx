@@ -1273,6 +1273,47 @@ describe("the trip, wide", () => {
     expect(view.getByText("Days")).toBeTruthy();
   });
 
+  describe("each day opens at its start", () => {
+    const scrollTo = () => (ScrollView.prototype as any).scrollTo as jest.Mock;
+    beforeEach(() => scrollTo().mockClear());
+
+    it("scrolls to the first stop of the day picked, and to the top for an empty day", async () => {
+      mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2 })], [gondola({ slotIndex: 6 })], [])];
+      setWide();
+      const view = await openTripView();
+      scrollTo().mockClear();
+
+      await fireEvent.press(view.getByText(/^Day 2 · /));
+      expect(scrollTo()).toHaveBeenLastCalledWith({ y: 6 * 72, animated: false });
+
+      await fireEvent.press(view.getByText(/^Day 3 · /));
+      expect(scrollTo()).toHaveBeenLastCalledWith({ y: 0, animated: false });
+    });
+
+    it("keeps the now scroll for today", async () => {
+      const d = new Date();
+      const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      jest.useFakeTimers().setSystemTime(new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0));
+      mockTrips.itineraries = [makeTrip({ days: [{ id: "day_1", date: iso, items: [gardens({ slotIndex: 2 })] }] })];
+      setWide();
+      await openTripView();
+      jest.useRealTimers();
+
+      // 12:00 is 4 hours past 8 AM: 8 slots of 72, less the 120 above it.
+      expect(scrollTo()).toHaveBeenCalledWith({ y: expect.any(Number), animated: false });
+      expect(scrollTo().mock.calls.every(([a]: any) => a.y !== 2 * 72)).toBe(true);
+    });
+
+    it("does not scroll on selecting a day on a phone", async () => {
+      mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2 })], [gondola({ slotIndex: 6 })])];
+      const view = await openTripView();
+      scrollTo().mockClear();
+
+      await fireEvent.press(view.getByText(/^Day 2 · /));
+      expect(scrollTo()).not.toHaveBeenCalledWith({ y: 6 * 72, animated: false });
+    });
+  });
+
   it("holds the day beside the list for a trip with no days", async () => {
     mockTrips.itineraries = [makeTrip({ days: [] })];
     setWide();

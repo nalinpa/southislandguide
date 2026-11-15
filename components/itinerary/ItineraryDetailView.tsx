@@ -176,6 +176,17 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     () => (localTrip && wide ? tripSummary(localTrip.days, places) : []),
     [localTrip, wide, places],
   );
+  // On the Duo the timeline is one ScrollView for every day, so a day would open wherever the
+  // last one was scrolled to. Each opens at its start: its first stop (the top for an empty
+  // day), or at "now" when it is today. Read from the day's own items, which are there on the
+  // render the day changes; the phone remounts its timeline and is left as it was.
+  useEffect(() => {
+    if (!wide) return;
+    const first = Math.min(...(activeDay?.items ?? []).map((i) => i.slotIndex ?? 0));
+    const y = nowTop != null ? nowTop - 120 : Number.isFinite(first) ? first * SLOT_HEIGHT : 0;
+    timelineScrollRef.current?.scrollTo({ y: Math.max(0, y), animated: false });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tripId, activeDay?.id, wide]);
   const [localItems, setLocalItems] = useState<ItineraryItem[]>([]);
   const [editingItem, setEditingItem] = useState<ItineraryItem | null>(null);
   const [viewingNote, setViewingNote] = useState<ItineraryItem | null>(null);

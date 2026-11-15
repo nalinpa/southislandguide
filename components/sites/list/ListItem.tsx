@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { ChevronRight, Image as ImageIcon, Navigation } from "lucide-react-native";
 import { MotiView } from "moti";
 import { formatDistanceMeters } from "@blacksands/hooks";
+import { useHalves } from "@blacksands/ui";
 
 import { AppText, Row } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
@@ -29,6 +30,9 @@ type ListItemProps = {
   area?: string | null;
   /** The card at the top of Explore: the same card with a taller photo, nothing else (owner, 2026-11-13). */
   featured?: boolean;
+  /** The open Duo (Explore, design-sweep.md "Explore, picked: round 6"): a 190 photo upright,
+   *  130 in two columns sideways, the name one step up, and the featured card like the rest. */
+  wide?: boolean;
   onPress: (id: string) => void;
   index: number;
 };
@@ -44,9 +48,11 @@ export function ListItem({
   category,
   area,
   featured,
+  wide,
   onPress,
   index,
 }: ListItemProps) {
+  const { upright } = useHalves();
   const source = siteImage(imageUrl, category, "full", id);
   return (
     <MotiView
@@ -66,7 +72,10 @@ export function ListItem({
         accessibilityLabel={featured ? name : undefined}
         style={styles.card}
       >
-        <View style={[styles.photo, featured && styles.photoFeatured]}>
+        <View
+          testID="list-photo"
+          style={[styles.photo, featured && !wide && styles.photoFeatured, wide && { height: upright ? 190 : 130 }]}
+        >
           {source ? (
             <Image testID={featured ? "featured-photo" : undefined} source={source} style={styles.image} />
           ) : (
@@ -76,7 +85,7 @@ export function ListItem({
           )}
         </View>
 
-        <AppText variant="h3" numberOfLines={2} style={styles.name}>
+        <AppText variant="h3" numberOfLines={2} style={[styles.name, wide && styles.nameWide]}>
           {name}
         </AppText>
         {description ? (
@@ -128,6 +137,7 @@ const styles = StyleSheet.create({
   image: { width: "100%", height: "100%", resizeMode: "cover" },
   imagePlaceholder: { flex: 1, justifyContent: "center", alignItems: "center" },
   name: { marginTop: 10, color: tokens.colors.text },
+  nameWide: { fontSize: 18, lineHeight: 24, fontWeight: "700" },
   description: { marginTop: 3, color: tokens.colors.text2 },
   footerRow: { marginTop: 6, flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   details: { flexDirection: "row", alignItems: "center", gap: 1 },

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { View, StyleSheet, TextInput, Linking, Pressable, RefreshControl } from "react-native";
+import { useWide } from "@blacksands/ui";
 import { router, useLocalSearchParams } from "expo-router";
 import { Bookmark, BookOpen, ChevronRight, Search, X } from "lucide-react-native";
 
@@ -11,6 +12,7 @@ import { hooksBag, useRefreshLocations } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { ListView } from "@/components/sites/list/ListView";
 import { AreaSheet, type AreaOption } from "@/components/sites/AreaSheet";
+import { ExploreSide } from "@/components/sites/ExploreSide";
 import { FeaturedCard } from "@/components/sites/FeaturedCard";
 import { nearestArea } from "@/components/map/MapRegion";
 import { AREAS, AREA_GUIDE_REGIONS, AREA_REGIONS, DEFAULT_AREA, areaName } from "@/lib/areas";
@@ -31,6 +33,7 @@ import { useTourStepRoute } from "@/lib/tour/useTourStepRoute";
 // - "Featured" hero card: DONE, for the town's highest-ranked place.
 
 export default function SiteListPage() {
+  const wide = useWide();
   const { session } = useSession();
   const isGuest = session.status === "guest";
 
@@ -156,9 +159,10 @@ export default function SiteListPage() {
       (r.location.featured ?? 0) > (best.location.featured ?? 0) ? r : best,
     );
   }, [rows, searchQuery]);
+  // On the Duo the featured place is an ordinary card, first in the list.
   const listRows = useMemo(
-    () => (featured ? rows.filter((r) => r.location.id !== featured.location.id) : rows),
-    [rows, featured],
+    () => (featured && !wide ? rows.filter((r) => r.location.id !== featured.location.id) : rows),
+    [rows, featured, wide],
   );
 
   // The opening tour's steps on this screen (lib/tour/tourSteps.ts), and the place its
@@ -217,6 +221,23 @@ export default function SiteListPage() {
     );
   }
 
+  const toggleSearch = () => {
+    setSearchOpen((open) => !open);
+    if (searchOpen) setSearchQuery("");
+  };
+  const searchField = (
+    <View style={styles.searchInputWrap}>
+      <Search size={16} color={tokens.colors.textMuted} />
+      <TextInput
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        placeholder="Search places"
+        placeholderTextColor={tokens.colors.textMuted}
+        style={styles.searchInput}
+        autoFocus
+      />
+    </View>
+  );
   // Fixed above the list: the list scrolls under it, and the category tabs stay
   // in reach however far down someone is. Since the design sweep the tabs are a strip on
   // the white page under the bar, not the bar's bottom edge (docs/plans/design-sweep.md).
@@ -248,10 +269,7 @@ export default function SiteListPage() {
           <AppIconButton
             icon={searchOpen ? X : Search}
             variant="control"
-            onPress={() => {
-              setSearchOpen((open) => !open);
-              if (searchOpen) setSearchQuery("");
-            }}
+            onPress={toggleSearch}
             accessibilityLabel={searchOpen ? "Close search" : "Search places"}
           />
           <AppIconButton
@@ -264,19 +282,7 @@ export default function SiteListPage() {
       }
     >
       {searchOpen && (
-        <View style={styles.paddedSection}>
-          <View style={styles.searchInputWrap}>
-            <Search size={16} color={tokens.colors.textMuted} />
-            <TextInput
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-              placeholder="Search places"
-              placeholderTextColor={tokens.colors.textMuted}
-              style={styles.searchInput}
-              autoFocus
-            />
-          </View>
-        </View>
+        <View style={styles.paddedSection}>{searchField}</View>
       )}
     </TopBar>
   );
@@ -301,7 +307,7 @@ export default function SiteListPage() {
   // the notices go under it.
   const header = (
     <View testID="explore-header">
-      {featured && (
+      {featured && !wide && (
         <View {...placeTarget}>
           <FeaturedCard
             site={featured.location}
@@ -347,39 +353,80 @@ export default function SiteListPage() {
     </View>
   );
 
+  const openPlace = (id: string) => router.push(`/(app)/(tabs)/sites/${id}`);
+  const refreshControl = (
+    <RefreshControl
+      refreshing={refreshing}
+      onRefresh={() => void handleRefresh()}
+      tintColor={tokens.colors.selected}
+      colors={[tokens.colors.selected]}
+    />
+  );
+  const emptyList =
+    activeLocations.length === 0 ? (
+      <CardShell style={styles.emptyCard}>
+        <Stack gap="sm" align="center">
+          <AppText variant="h3">No Places Found</AppText>
+          <AppText variant="body" status="hint" style={styles.centerText}>
+            Check back soon.
+          </AppText>
+        </Stack>
+      </CardShell>
+    ) : null;
+
   return (
     // paddingTop 0 hands the status-bar inset to the top bar, so the teal runs
     // up under the clock (same as the login screen).
-    <Screen padded={false} style={styles.screen}>
-      {topBar}
-      {categoryTabs}
-      <ListView
-        rows={listRows}
-        header={header}
-        onPressItem={(id) => router.push(`/(app)/(tabs)/sites/${id}`)}
-        firstRowTarget={featured ? undefined : placeTarget}
-        atTop={touring}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => void handleRefresh()}
-            tintColor={tokens.colors.selected}
-            colors={[tokens.colors.selected]}
+    <Screen padded={false} style={[styles.screen, wide && styles.screenWide]}>
+      {wide ? (
+        <>
+          <ExploreSide
+            town={areaLabel ?? "Places"}
+            onPickTown={areaOptions.length > 1 ? () => setAreaMenuOpen(true) : undefined}
+            onGuide={() =>
+              router.push(
+                guideRegion ? { pathname: "/(app)/(tabs)/guide", params: { region: guideRegion } } : "/(app)/(tabs)/guide",
+              )
+            }
+            onSearch={toggleSearch}
+            onSaved={() => router.push("/(app)/saved-sites")}
+            searchOpen={searchOpen}
+            categories={[
+              { key: null, label: "All" },
+              ...categoriesWithPlaces.map((c) => ({ key: c as string, label: SITE_CATEGORY_LABELS[c] })),
+            ]}
+            selected={activeCategory}
+            onSelect={(k) => setCategory(k as SiteCategory | null)}
           />
-        }
-        ListEmptyComponent={
-          activeLocations.length === 0 ? (
-            <CardShell style={styles.emptyCard}>
-              <Stack gap="sm" align="center">
-                <AppText variant="h3">No Places Found</AppText>
-                <AppText variant="body" status="hint" style={styles.centerText}>
-                  Check back soon.
-                </AppText>
-              </Stack>
-            </CardShell>
-          ) : null
-        }
-      />
+          <View testID="explore-places" style={styles.places}>
+            {/* Where the phone's bar would hold it: over the first card. */}
+            {searchOpen && <View style={styles.searchWide}>{searchField}</View>}
+            <ListView
+              rows={listRows}
+              header={header}
+              onPressItem={openPlace}
+              firstRowTarget={placeTarget}
+              atTop={touring}
+              refreshControl={refreshControl}
+              ListEmptyComponent={emptyList}
+            />
+          </View>
+        </>
+      ) : (
+        <>
+          {topBar}
+          {categoryTabs}
+          <ListView
+            rows={listRows}
+            header={header}
+            onPressItem={openPlace}
+            firstRowTarget={featured ? undefined : placeTarget}
+            atTop={touring}
+            refreshControl={refreshControl}
+            ListEmptyComponent={emptyList}
+          />
+        </>
+      )}
       <AreaSheet
         visible={areaMenuOpen}
         options={areaOptions}
@@ -399,6 +446,10 @@ const styles = StyleSheet.create({
   screen: { paddingTop: 0, backgroundColor: tokens.colors.page },
   // A tinted panel rather than a bordered card: the old dark-outlined box was
   // the heaviest thing on the screen for what is an optional prompt.
+  // The Duo: the side band and the places, in a row, with no bar above.
+  screenWide: { flexDirection: "row" },
+  places: { flex: 1 },
+  searchWide: { paddingHorizontal: 20, paddingTop: 16 },
   signInBanner: {
     flexDirection: "row",
     alignItems: "center",

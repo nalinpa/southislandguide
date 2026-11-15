@@ -103,6 +103,8 @@ export const tokens = {
     // The fill behind the row you are on at a wide width, and the dark-only edge that keeps it visible.
     selFill: pair("rgba(9,92,101,0.16)", "rgba(127,208,214,0.30)"),
     selEdgeDark: pair("transparent", "rgba(127,208,214,0.55)"),
+    // The softer fill of Explore's selected category on the Duo (dark .18 against selFill's .30).
+    selFillSoft: pair("rgba(9,92,101,0.16)", "rgba(127,208,214,0.18)"),
     // The one warm colour: draws the eye to the important thing on a screen.
     // Opposite teal on the wheel, and not one of the map category colours
     // (components/map/SiteMarker.tsx). Too weak as text on bgElevated (4.2:1).
@@ -140,6 +142,8 @@ export const tokens = {
     // blended into the page.
     text: pair("#0A1F1B", "#EEF6F3"),
     text2: pair("#33443F", "#C5D6D1"),
+    // The town's name and its icons on Explore's side band at a wide width.
+    townInk: pair("#063F45", "#EEF6F3"),
     textMuted: pair("#566661", "#9DB5AF"),
   },
 } as const;

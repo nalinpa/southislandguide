@@ -47,6 +47,11 @@ jest.mock("@/components/sites/list/ListView", () => {
   };
 });
 
+// The light status bar, as a marker: wide Explore has no teal top, so it mustn't mount.
+jest.mock("@/components/layout/LightStatusBar", () => ({
+  LightStatusBar: () => require("react").createElement(require("react-native").View, { testID: "light-status-bar" }),
+}));
+
 jest.mock("react-native-safe-area-context", () => {
   const React = require("react");
   const { View } = require("react-native");
@@ -923,5 +928,94 @@ describe("the tour", () => {
     await render(<SiteListPage />);
 
     expect(mockStepRoutes.place).toBeUndefined();
+  });
+});
+
+describe("wide (the open Duo)", () => {
+  const wide = (size?: { width: number; height: number }) => require("@blacksands/ui").__setWide(true, size);
+
+  it("has no teal bar: the side band holds the town, the three buttons and the categories", async () => {
+    wide({ width: 669, height: 951 });
+    const view = await render(<SiteListPage />);
+
+    const side = view.getByTestId("explore-side");
+    expect(within(side).getByText("Christchurch")).toBeTruthy();
+    expect(within(side).getByLabelText("Travel guide")).toBeTruthy();
+    expect(within(side).getByLabelText("Search places")).toBeTruthy();
+    expect(within(side).getByLabelText("Saved places")).toBeTruthy();
+    expect(within(side).getByText("Food & Drink")).toBeTruthy();
+    expect(side).toHaveStyle({ width: 200, backgroundColor: tokens.colors.band });
+    expect(view.queryByTestId("light-status-bar")).toBeNull();
+    expect(within(side).getAllByRole("tab")).toHaveLength(4);
+  });
+
+  it("shrinks a long town to two lines, the chevron on the last word", async () => {
+    mockBag.locations = [
+      makeSite("a1", "Hooker Valley", ["Walks"], { area: "aoraki-mount-cook" }),
+      makeSite("s1", "Sumner Beach", ["Water"]),
+    ];
+    mockParams.area = "aoraki-mount-cook";
+    wide();
+    const view = await render(<SiteListPage />);
+
+    const town = within(view.getByTestId("explore-side")).getByText(/Aoraki|Mount Cook/);
+    expect(town.props.numberOfLines).toBe(2);
+    expect(town.props.adjustsFontSizeToFit).toBe(true);
+    expect(town.props.minimumFontScale).toBeCloseTo(22 / 26);
+  });
+
+  it("selects a category from the side and filters the list", async () => {
+    wide();
+    const view = await render(<SiteListPage />);
+
+    await fireEvent.press(within(view.getByTestId("explore-side")).getByText("Food & Drink"));
+
+    expect(rowNames(view)).toEqual(["Riverside Market"]);
+    expect(within(view.getByTestId("explore-side")).getByText("Food & Drink")).toHaveStyle({
+      color: tokens.colors.selected,
+    });
+  });
+
+  it("opens the search over the first card, with the phone's field and words", async () => {
+    wide();
+    const view = await render(<SiteListPage />);
+
+    await fireEvent.press(view.getByLabelText("Search places"));
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "riv");
+
+    expect(within(view.getByTestId("explore-places")).getByPlaceholderText("Search places")).toBeTruthy();
+    expect(rowNames(view)).toEqual(["Riverside Market"]);
+  });
+
+  it("shows the featured place as an ordinary card, first in the list", async () => {
+    wide();
+    const view = await render(<SiteListPage />);
+
+    expect(view.queryByTestId("featured-card")).toBeNull();
+    expect(rowNames(view)[0]).toBe("Sumner Beach");
+    expect(rowNames(view)).toHaveLength(4);
+  });
+
+  it("keeps the light status bar on a phone", async () => {
+    const view = await render(<SiteListPage />);
+
+    expect(view.getByTestId("light-status-bar")).toBeTruthy();
+  });
+
+  it("keeps the dark status bar, not the light one", async () => {
+    wide();
+    const view = await render(<SiteListPage />);
+
+    expect(view.queryByTestId("light-status-bar")).toBeNull();
+  });
+
+  it("registers the tour targets town, guide, browse and place", async () => {
+    wide();
+    const view = await render(<SiteListPage />);
+
+    expect(within(view.getByTestId("tour-target-town")).getByText("Christchurch")).toBeTruthy();
+    expect(within(view.getByTestId("tour-target-guide")).getByLabelText("Travel guide")).toBeTruthy();
+    expect(within(view.getByTestId("tour-target-browse")).getByText("Food & Drink")).toBeTruthy();
+    expect(within(view.getByTestId("tour-target-place")).getByText("Row Sumner Beach")).toBeTruthy();
   });
 });

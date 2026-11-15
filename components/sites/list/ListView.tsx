@@ -1,6 +1,7 @@
 // components/sites/list/ListView.tsx
 import { useCallback, useEffect, useRef } from "react";
 import { View, StyleSheet, type RefreshControlProps } from "react-native";
+import { useHalves, useWide } from "@blacksands/ui";
 import { FlashList, type FlashListRef } from "@shopify/flash-list";
 
 import { ListItem } from "@/components/sites/list/ListItem";
@@ -40,6 +41,11 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
     if (atTop) list.current?.scrollToOffset({ offset: 0, animated: false });
   }, [atTop]);
 
+  // The open Duo: one column upright, two sideways with a 16 gutter, 20 on the sides.
+  const wide = useWide();
+  const { upright } = useHalves();
+  const columns = wide && !upright ? 2 : 1;
+
   const renderItem = useCallback(
     ({ item, index }: { item: ListRow; index: number }) => {
       const row = (
@@ -54,11 +60,13 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
           distanceMeters={item.distanceMeters}
           onPress={onPressItem}
           index={index}
+          wide={wide}
         />
       );
-      return index === 0 && firstRowTarget ? <View {...firstRowTarget}>{row}</View> : row;
+      const target = index === 0 && firstRowTarget ? <View {...firstRowTarget}>{row}</View> : row;
+      return columns === 2 ? <View style={styles.gutter}>{target}</View> : target;
     },
-    [onPressItem, firstRowTarget],
+    [onPressItem, firstRowTarget, wide, columns],
   );
 
   return (
@@ -71,7 +79,8 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
       ListHeaderComponent={header ?? null}
       ListEmptyComponent={ListEmptyComponent ?? null}
       refreshControl={refreshControl}
-      contentContainerStyle={styles.listContent}
+      numColumns={columns}
+      contentContainerStyle={wide ? (columns === 2 ? styles.contentTwo : styles.contentOne) : styles.listContent}
       showsVerticalScrollIndicator={false}
     />
   );
@@ -83,5 +92,9 @@ const styles = StyleSheet.create({
     paddingTop: tokens.space.md,
     paddingBottom: 100,
   },
+  // 8 each side of a card in a column, so the gutter is 16 and the edges stay 20.
+  gutter: { paddingHorizontal: 8 },
+  contentOne: { paddingHorizontal: 20, paddingTop: tokens.space.md, paddingBottom: 100 },
+  contentTwo: { paddingHorizontal: 12, paddingTop: tokens.space.md, paddingBottom: 100 },
   separator: { height: 24 },
 });

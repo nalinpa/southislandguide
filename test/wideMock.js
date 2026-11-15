@@ -15,9 +15,14 @@ jest.mock("@blacksands/ui", () => {
   } catch {}
   return {
     ...actual,
-    useWide: () => mockWide,
+    // Real hooks, like the engine's (they hold state): a screen that calls them after an early
+    // return then fails a loading -> loaded rerender, as it would on a device.
+    useWide: () => {
+      require("react").useState(0);
+      return mockWide;
+    },
     // The engine's halves(): the window's middle, upright when taller than wide.
-    useHalves: () => ({
+    useHalves: () => (require("react").useState(0), {
       ...mockSize,
       foldX: mockSize.width / 2,
       foldY: mockSize.height / 2,

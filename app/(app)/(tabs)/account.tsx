@@ -45,6 +45,9 @@ export default function AccountScreen() {
   const { optedIn, loading: optInLoading, setOptedIn } = useEmailOptIn();
   const { start: startTour } = useTour();
   const tourAudience = useTourAudience();
+  // Hooks stay above the loading return: the count can't change when the session arrives.
+  const wide = useWide();
+  const { upright } = useHalves();
 
   if (session.status === "loading") {
     return (
@@ -59,8 +62,6 @@ export default function AccountScreen() {
   // Duo (600 pt or more): two columns, the guide card leading on the left. The groups are
   // the phone's, keyed, so they stay mounted (dialogs open, downloads running) as the
   // window folds; only the guide banner (no state) moves between the fixed hero and the card.
-  const wide = useWide();
-  const { upright } = useHalves();
 
   const guide = (
     <View

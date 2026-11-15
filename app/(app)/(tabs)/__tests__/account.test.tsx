@@ -28,7 +28,14 @@ jest.mock("react-native-safe-area-context", () => ({
 }));
 
 const mockSession = { status: "authed", uid: "uid-1" } as any;
-jest.mock("@/lib/providers/SessionProvider", () => ({ useSession: () => ({ session: mockSession }) }));
+// A real hook (it holds state), as on a device: a component with no hooks at all on its first
+// render never trips React's hook-count check, so the loading -> signed-in test needs this.
+jest.mock("@/lib/providers/SessionProvider", () => ({
+  useSession: () => {
+    require("react").useState(0);
+    return { session: mockSession };
+  },
+}));
 
 // Has its own tests (useEmailOptIn.test.tsx); here the switch only has to reflect and set it.
 const mockEmailOptIn = { optedIn: false, loading: false, setOptedIn: jest.fn() };
@@ -120,6 +127,15 @@ it("waits for the session rather than guessing the tier", async () => {
   expect(view.getByText("Loading session...")).toBeTruthy();
   expect(view.queryByText("User Info Card")).toBeNull();
   expect(view.queryByText("Danger Zone Card")).toBeNull();
+});
+
+it("goes from loading to the signed-in page without a hooks-order crash", async () => {
+  mockSession.status = "loading";
+  const view = await render(<AccountScreen />);
+  mockSession.status = "authed";
+  await view.rerender(<AccountScreen />);
+
+  expect(view.getByText("Open Guide")).toBeTruthy();
 });
 
 it("never offers Restore Purchases in 1.0", async () => {

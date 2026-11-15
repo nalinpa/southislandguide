@@ -33,6 +33,7 @@ const CARD_HEIGHT_ESTIMATE = 190;
 const CARD_SIDE = 12;
 const CARD_GAP = 22;
 const POINTER = 14;
+const CARD_CORNER = 20;
 // A Duo (docs/plans/design-sweep.md): the card is 360 wide, and a Welcome card's foot sits 24
 // above the fold. A band target's card starts at the place column (the band, then its 20 pt
 // side) and stays above the tab bar (about 64 pt).
@@ -128,7 +129,13 @@ export function SpotlightOverlay() {
     ? Math.min(Math.max(targetRect.x + targetRect.width / 2 - cardLeft, 28), cardWidth - 28) - POINTER / 2
     : 0;
   // On the card's left edge, at the target's middle, for a band target.
-  const pointerTop = targetRect ? targetRect.y + targetRect.height / 2 - cardTop - POINTER / 2 : 0;
+  // Kept on the card, clear of its corners, when the card has been moved up off a low target.
+  const pointerTop = targetRect
+    ? Math.min(
+        Math.max(targetRect.y + targetRect.height / 2 - cardTop - POINTER / 2, CARD_CORNER),
+        cardHeight - CARD_CORNER - POINTER,
+      )
+    : 0;
 
   const isLast = stepIndex === stepCount - 1;
 

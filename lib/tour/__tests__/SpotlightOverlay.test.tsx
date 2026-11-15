@@ -226,7 +226,7 @@ describe("SpotlightOverlay", () => {
       ui().__setWide(true, { width: 669, height: 951 });
       await show();
       await toTown();
-      await act(async () => tour.registerTarget("town", { x: 16, y: 120, width: 120, height: 30 }));
+      await act(async () => tour.registerTarget("town", { x: 16, y: 120, width: 120, height: 80 }));
       await layoutCard(200);
 
       // EXPLORE_SIDE (200) + the column's 20 pt side.
@@ -234,8 +234,8 @@ describe("SpotlightOverlay", () => {
       expect(cardStyle().top).toBe(120);
       const pointer = pointerStyle();
       expect(pointer.left).toBe(-7);
-      // The target's middle (135) from the card's top (120), less half the pointer.
-      expect(pointer.top).toBe(135 - 120 - 7);
+      // The target's middle (160) from the card's top (120), less half the pointer.
+      expect(pointer.top).toBe(160 - 120 - 7);
     });
 
     it("wide: a low band target keeps the card on screen, the pointer still at the target's middle", async () => {
@@ -248,7 +248,11 @@ describe("SpotlightOverlay", () => {
       const top = cardStyle().top;
       expect(top).toBeLessThan(880);
       expect(top + 200).toBeLessThanOrEqual(951 - 16);
-      expect(pointerStyle().top).toBe(895 - top - 7);
+      // The target's middle (895) is below the card, so the pointer sits as near as the card
+      // allows: on its left edge, clear of the 20 pt corners.
+      const pointerTop = pointerStyle().top;
+      expect(pointerTop).toBeGreaterThanOrEqual(20);
+      expect(pointerTop + 14).toBeLessThanOrEqual(200 - 20);
     });
 
     it("wide: any other target puts the card below it, pointer over its middle", async () => {

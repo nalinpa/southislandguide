@@ -8,6 +8,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import * as Sentry from "@sentry/react-native";
 import { AlertTriangle } from "lucide-react-native";
+import { useHalves, useWide } from "@blacksands/ui";
 import { tokens } from "@/lib/ui/tokens";
 
 import { AppProviders } from "@/lib/providers/AppProviders";
@@ -107,22 +108,58 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
     Sentry.captureException(error);
   }, [error]);
 
-  return (
-    // Drawn in place of the root layout, so it keeps clear of the sides itself.
-    <SafeAreaView edges={["left", "right"]} style={styles.errorBoundaryContainer}>
+  const wide = useWide();
+  const { foldX, upright } = useHalves();
+
+  const words = (
+    <>
       <View style={styles.errorIconWrap}>
         <AlertTriangle size={40} color={tokens.colors.danger} strokeWidth={2.25} />
       </View>
       <Text style={styles.errorTitle}>Something went wrong</Text>
-      <Text style={styles.errorMessage}>Please try again.</Text>
-      <TouchableOpacity
-        style={styles.errorRetryBtn}
-        onPress={restart}
-        activeOpacity={0.85}
-        accessibilityRole="button"
-      >
-        <Text style={styles.errorRetryBtnText}>Restart App</Text>
-      </TouchableOpacity>
+      <Text style={[styles.errorMessage, wide && styles.errorMessageWide]}>Please try again.</Text>
+    </>
+  );
+  const button = (
+    <TouchableOpacity
+      testID="error-button"
+      style={[styles.errorRetryBtn, wide && styles.errorRetryBtnWide]}
+      onPress={restart}
+      activeOpacity={0.85}
+      accessibilityRole="button"
+    >
+      <Text style={styles.errorRetryBtnText}>Restart App</Text>
+    </TouchableOpacity>
+  );
+
+  return (
+    // Drawn in place of the root layout, so it keeps clear of the sides itself.
+    <SafeAreaView
+      testID="error-screen"
+      edges={["left", "right"]}
+      style={[styles.errorBoundaryContainer, wide && styles.errorBoundaryWide, wide && !upright && styles.row]}
+    >
+      {wide ? (
+        <>
+          {/* A Duo: the words either side of the fold, the button on the other. Upright, two halves
+              of the screen (words at the foot of the top, button at the head of the bottom);
+              sideways, the left page and the rest (the right page, clear of the rail). */}
+          <View
+            testID="error-words"
+            style={upright ? styles.errorWordsUpright : [styles.errorPage, { width: foldX, flex: undefined }]}
+          >
+            {words}
+          </View>
+          <View testID="error-button-half" style={upright ? styles.errorButtonUpright : styles.errorPage}>
+            {button}
+          </View>
+        </>
+      ) : (
+        <>
+          {words}
+          {button}
+        </>
+      )}
     </SafeAreaView>
   );
 }
@@ -173,6 +210,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  // A Duo (docs/plans/design-sweep.md): no phone padding; the group split at the fold.
+  errorBoundaryWide: { paddingHorizontal: 0, paddingBottom: 0, justifyContent: "flex-start" },
+  row: { flexDirection: "row" },
+  errorMessageWide: { marginBottom: 0 },
+  errorRetryBtnWide: { alignSelf: "center", width: 320 },
+  errorWordsUpright: { flex: 1, width: "100%", justifyContent: "flex-end", alignItems: "center", paddingBottom: 16 },
+  errorButtonUpright: { flex: 1, width: "100%", justifyContent: "flex-start", alignItems: "center", paddingTop: 16 },
+  errorPage: { flex: 1, justifyContent: "center", alignItems: "center" },
   errorRetryBtnText: { fontSize: 17, fontWeight: "600", color: "#FFFFFF" },
 });
 

@@ -18,6 +18,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Defs, Mask, Rect } from "react-native-svg";
 import Animated, { FadeIn, useAnimatedProps, useSharedValue, withTiming } from "react-native-reanimated";
 
+import { useHalves, useWide } from "@blacksands/ui";
+
+import { EXPLORE_SIDE } from "@/components/sites/ExploreSide";
 import { cardLift, darkEdge, tokens } from "@/lib/ui/tokens";
 import { useTour } from "./TourContext";
 import { TourTripPreview } from "./TourTripPreview";
@@ -30,12 +33,23 @@ const CARD_HEIGHT_ESTIMATE = 190;
 const CARD_SIDE = 12;
 const CARD_GAP = 22;
 const POINTER = 14;
+// A Duo (docs/plans/design-sweep.md): the card is 360 wide, and a Welcome card's foot sits 24
+// above the fold. A band target's card starts at the place column (the band, then its 20 pt
+// side) and stays above the tab bar (about 64 pt).
+const WIDE_CARD = 360;
+const WELCOME_ABOVE_FOLD = 24;
+const PLACE_COLUMN_SIDE = 20;
+const TAB_BAR = 64;
 // tokens.colors.scrim, the login screen's deep teal, as the dim's colour.
 const DIM_RGB = "3,38,43";
 
 export function SpotlightOverlay() {
   const { active, step, stepIndex, stepCount, targetRect, next, skip } = useTour();
-  const { width, height } = useWindowDimensions();
+  const win = useWindowDimensions();
+  const wide = useWide();
+  const { foldY, upright, ...halves } = useHalves();
+  // The same numbers on a Duo (the window's own); named so a test can set them.
+  const { width, height } = wide ? halves : win;
   const insets = useSafeAreaInsets();
 
   const holeX = useSharedValue(width / 2);
@@ -83,22 +97,38 @@ export function SpotlightOverlay() {
 
   const top = insets.top + 16;
   const bottom = height - insets.bottom - 16;
+  // A target in Explore's left band (wide): the card goes to its right, over the places.
+  const inBand = wide && !!targetRect && targetRect.x < EXPLORE_SIDE;
   const fitsBelow = !!targetRect && targetRect.y + targetRect.height + CARD_GAP + cardHeight <= bottom;
+  const welcomeTop = !wide ? (height - cardHeight) / 2 : upright ? foldY - WELCOME_ABOVE_FOLD - cardHeight : (height - cardHeight) / 2;
   const cardTop = !targetRect
-    ? Math.max(top, (height - cardHeight) / 2)
-    : fitsBelow
-      ? targetRect.y + targetRect.height + CARD_GAP
-      : Math.max(top, targetRect.y - cardHeight - CARD_GAP);
+    ? Math.max(top, welcomeTop)
+    : inBand
+      ? Math.max(top, Math.min(targetRect.y, bottom - TAB_BAR - cardHeight))
+      : fitsBelow
+        ? targetRect.y + targetRect.height + CARD_GAP
+        : Math.max(top, targetRect.y - cardHeight - CARD_GAP);
   // The pointer sits under (or over) the middle of the lit part, kept clear of the card's
   // rounded corners.
   // The overlay covers the whole window, so the card keeps clear of the sides itself (a
   // Duo's rail, a landscape notch); 0 on a portrait iPhone.
-  const cardLeft = CARD_SIDE + insets.left;
-  const cardRight = CARD_SIDE + insets.right;
-  const cardWidth = width - cardLeft - cardRight;
+  const sideLeft = CARD_SIDE + insets.left;
+  const sideRight = CARD_SIDE + insets.right;
+  // Wide: a fixed 360 card, centred on its target (or the screen) and kept off the sides.
+  const area = width - insets.left - insets.right;
+  const wideLeft = inBand
+    ? EXPLORE_SIDE + PLACE_COLUMN_SIDE
+    : Math.min(
+        Math.max(targetRect ? targetRect.x + targetRect.width / 2 - WIDE_CARD / 2 : insets.left + (area - WIDE_CARD) / 2, sideLeft),
+        width - sideRight - WIDE_CARD,
+      );
+  const cardLeft = wide ? wideLeft : sideLeft;
+  const cardWidth = wide ? WIDE_CARD : width - sideLeft - sideRight;
   const pointerLeft = targetRect
     ? Math.min(Math.max(targetRect.x + targetRect.width / 2 - cardLeft, 28), cardWidth - 28) - POINTER / 2
     : 0;
+  // On the card's left edge, at the target's middle, for a band target.
+  const pointerTop = targetRect ? targetRect.y + targetRect.height / 2 - cardTop - POINTER / 2 : 0;
 
   const isLast = stepIndex === stepCount - 1;
 
@@ -128,6 +158,17 @@ export function SpotlightOverlay() {
           fill={`rgba(${DIM_RGB},${step.dim ?? 0.82})`}
           mask="url(#spotlight-mask)"
         />
+        {/* Wide: a ring round the lit part, so it reads in light and in dark. */}
+        {wide ? (
+          <AnimatedRect
+            testID="tour-ring"
+            animatedProps={holeProps}
+            rx={12}
+            fill="none"
+            stroke={tokens.colors.selected}
+            strokeWidth={2}
+          />
+        ) : null}
       </Svg>
 
       <Animated.View
@@ -137,7 +178,8 @@ export function SpotlightOverlay() {
         onLayout={(e) => setCardHeight(e.nativeEvent.layout.height)}
         style={[
           styles.card,
-          { top: cardTop, left: cardLeft, right: cardRight, maxHeight: height - insets.top - insets.bottom - 32 },
+          { top: cardTop, left: cardLeft, maxHeight: height - insets.top - insets.bottom - 32 },
+          wide ? { width: WIDE_CARD } : { right: sideRight },
         ]}
       >
         <View pointerEvents="none" style={[darkEdge, styles.cardEdge]} />
@@ -145,7 +187,12 @@ export function SpotlightOverlay() {
           <View
             testID="tour-pointer"
             pointerEvents="none"
-            style={[styles.pointer, fitsBelow ? styles.pointerUp : styles.pointerDown, { left: pointerLeft }]}
+            style={[
+              styles.pointer,
+              inBand
+                ? [styles.pointerLeft, { left: -POINTER / 2, top: pointerTop }]
+                : [fitsBelow ? styles.pointerUp : styles.pointerDown, { left: pointerLeft }],
+            ]}
           />
         ) : null}
         {step.id === "trip" && (
@@ -219,6 +266,7 @@ const styles = StyleSheet.create({
   },
   pointerUp: { top: -POINTER / 2, borderTopWidth: 1, borderLeftWidth: 1 },
   pointerDown: { bottom: -POINTER / 2, borderBottomWidth: 1, borderRightWidth: 1 },
+  pointerLeft: { borderBottomWidth: 1, borderLeftWidth: 1 },
   // Shrinks first when the card meets its height limit, so Next stays on screen.
   previewScroll: { flexShrink: 1, flexGrow: 0, marginBottom: tokens.space.xs },
   title: { fontSize: 20, lineHeight: 25, fontWeight: "700", color: tokens.colors.text, letterSpacing: -0.2 },

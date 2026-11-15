@@ -10,7 +10,9 @@ jest.mock("react-native-safe-area-context", () => ({
 jest.mock("react-native-svg", () => {
   const { View } = require("react-native");
   const Stub = ({ children }: any) => require("react").createElement(View, null, children);
-  return { __esModule: true, default: Stub, Defs: Stub, Mask: Stub, Rect: Stub };
+  // Rect keeps its props, so the cut-out's ring can be read.
+  const Rect = (props: any) => require("react").createElement(View, props);
+  return { __esModule: true, default: Stub, Defs: Stub, Mask: Stub, Rect };
 });
 jest.mock("react-native-reanimated", () => {
   const { View } = require("react-native");
@@ -199,6 +201,109 @@ describe("SpotlightOverlay", () => {
     expect(screen.getByText("Before You Go")).toBeTruthy();
     expect(skipStyle().position).toBeUndefined();
     expect(skipStyle().bottom).toBeUndefined();
+  });
+
+  describe("on a Duo", () => {
+    const ui = () => require("@blacksands/ui");
+    const cardStyle = () => StyleSheet.flatten(screen.getByTestId("tour-card").props.style);
+    const pointerStyle = () => StyleSheet.flatten(screen.getByTestId("tour-pointer").props.style);
+    const toTown = async () => {
+      await act(async () => tour.start("paid"));
+      await act(async () => tour.next());
+    };
+
+    it("wide: the card is 360 wide", async () => {
+      ui().__setWide(true, { width: 669, height: 951 });
+      await show();
+      await toTown();
+      await act(async () => tour.registerTarget("town", { x: 300, y: 60, width: 180, height: 40 }));
+
+      expect(cardStyle().width).toBe(360);
+      expect(cardStyle().right).toBeUndefined();
+    });
+
+    it("wide: a target in the left band puts the card to its right, at the place column's left and the target's top, pointer on its left edge", async () => {
+      ui().__setWide(true, { width: 669, height: 951 });
+      await show();
+      await toTown();
+      await act(async () => tour.registerTarget("town", { x: 16, y: 120, width: 120, height: 30 }));
+      await layoutCard(200);
+
+      // EXPLORE_SIDE (200) + the column's 20 pt side.
+      expect(cardStyle().left).toBe(220);
+      expect(cardStyle().top).toBe(120);
+      const pointer = pointerStyle();
+      expect(pointer.left).toBe(-7);
+      // The target's middle (135) from the card's top (120), less half the pointer.
+      expect(pointer.top).toBe(135 - 120 - 7);
+    });
+
+    it("wide: a low band target keeps the card on screen, the pointer still at the target's middle", async () => {
+      ui().__setWide(true, { width: 669, height: 951 });
+      await show();
+      await toTown();
+      await act(async () => tour.registerTarget("town", { x: 16, y: 880, width: 120, height: 30 }));
+      await layoutCard(200);
+
+      const top = cardStyle().top;
+      expect(top).toBeLessThan(880);
+      expect(top + 200).toBeLessThanOrEqual(951 - 16);
+      expect(pointerStyle().top).toBe(895 - top - 7);
+    });
+
+    it("wide: any other target puts the card below it, pointer over its middle", async () => {
+      ui().__setWide(true, { width: 669, height: 951 });
+      await show();
+      await toTown();
+      await act(async () => tour.registerTarget("town", { x: 300, y: 100, width: 100, height: 40 }));
+      await layoutCard(200);
+
+      expect(cardStyle().top).toBe(100 + 40 + 22);
+      // Card centred on the target's middle (350): left 170, pointer at 180 - 7.
+      expect(cardStyle().left).toBe(170);
+      expect(pointerStyle().left).toBe(350 - 170 - 7);
+    });
+
+    it("wide: the cut-out has a 2 pt selected ring", async () => {
+      ui().__setWide(true, { width: 669, height: 951 });
+      await show();
+      await toTown();
+
+      const ring = screen.getByTestId("tour-ring");
+      expect(ring.props.strokeWidth).toBe(2);
+      expect(ring.props.stroke).toBe(require("@/lib/ui/tokens").tokens.colors.selected);
+      expect(ring.props.rx).toBe(12);
+    });
+
+    it("wide: welcome sits centred with its foot 24 above the fold", async () => {
+      ui().__setWide(true, { width: 669, height: 951 });
+      await show();
+      await act(async () => tour.start("paid"));
+      await layoutCard(200);
+
+      expect(cardStyle().top).toBe(951 / 2 - 24 - 200);
+      expect(cardStyle().left).toBe((669 - 360) / 2);
+    });
+
+    it("wide sideways: welcome is centred", async () => {
+      ui().__setWide(true, { width: 951, height: 669 });
+      await show();
+      await act(async () => tour.start("paid"));
+      await layoutCard(200);
+
+      expect(cardStyle().top).toBe((669 - 200) / 2);
+      expect(cardStyle().left).toBe((951 - 360) / 2);
+    });
+
+    it("phone: unchanged, no ring, the width less 12 a side", async () => {
+      await show();
+      await toTown();
+
+      expect(screen.queryByTestId("tour-ring")).toBeNull();
+      expect(cardStyle().width).toBeUndefined();
+      expect(cardStyle().left).toBe(12);
+      expect(cardStyle().right).toBe(12);
+    });
   });
 
   it("keeps the card's buttons at least 44pt tall", async () => {

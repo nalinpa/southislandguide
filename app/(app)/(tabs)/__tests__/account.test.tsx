@@ -17,6 +17,11 @@ jest.mock("@/components/account/ItinerariesCard", () => ({ ItinerariesCard: stub
 jest.mock("@/components/account/SavedItemsCard", () => ({ SavedItemsCard: stubCard("Saved Items Card") }));
 jest.mock("@/components/account/DangerZoneCard", () => ({ DangerZoneCard: stubCard("Danger Zone Card") }));
 
+// The status bar has no output to look at; a marker stands in for the light one.
+jest.mock("@/components/layout/LightStatusBar", () => ({
+  LightStatusBar: () => require("react").createElement(require("react-native").View, { testID: "light-status-bar" }),
+}));
+
 jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 44, bottom: 34, left: 0, right: 0 }),
   SafeAreaView: (props: any) => require("react").createElement(require("react-native").View, props),
@@ -431,5 +436,79 @@ describe("Map for no signal", () => {
     expect(view.getByText("Map saved for no signal")).toBeTruthy();
     expect(view.queryByRole("button", { name: /Get the detailed map/ })).toBeNull();
     expect(view.getByRole("button", { name: "Remove" })).toBeTruthy();
+  });
+});
+
+// Duo (600 pt or more): two columns, the guide card leading on the left
+// (docs/plans/design-sweep.md, "Profile, picked").
+describe("wide", () => {
+  const UPRIGHT = { width: 669, height: 951 };
+  const SIDEWAYS = { width: 951, height: 669 };
+  const wideView = async (size = UPRIGHT) => {
+    require("@blacksands/ui").__setWide(true, size);
+    const view = await render(<AccountScreen />);
+    return { view, left: within(view.getByTestId("profile-left")), right: within(view.getByTestId("profile-right")) };
+  };
+
+  it("signed in: the left holds the guide card, who you are, My Trip, Show me around, Map; the right the rest", async () => {
+    const { left, right } = await wideView();
+
+    for (const t of ["Open Guide", "User Info Card", "Itineraries Card", "Show me around", "Map for no signal"]) {
+      expect(left.getByText(t)).toBeTruthy();
+    }
+    for (const t of ["Saved Items Card", "Danger Zone Card", "Photo credits", "Privacy policy", "Terms of use", "Contact us"]) {
+      expect(right.getByText(t)).toBeTruthy();
+    }
+    expect(right.getByLabelText("Email me about feedback and news")).toBeTruthy();
+    expect(left.queryByText("Photo credits")).toBeNull();
+    expect(right.queryByText("Open Guide")).toBeNull();
+  });
+
+  it("guest: the left holds the guide card, Access, Show me around, Map; the right Photo credits and the legal links", async () => {
+    mockSession.status = "guest";
+    mockSession.uid = undefined;
+    const { left, right } = await wideView(SIDEWAYS);
+
+    for (const t of ["Open Guide", "User Info Card", "Show me around", "Map for no signal"]) {
+      expect(left.getByText(t)).toBeTruthy();
+    }
+    for (const t of ["Photo credits", "Privacy policy", "Terms of use", "Contact us"]) {
+      expect(right.getByText(t)).toBeTruthy();
+    }
+    expect(right.queryByText("Saved Items Card")).toBeNull();
+  });
+
+  it("the guide card's headline is 28/33 and the status bar is dark", async () => {
+    const { view } = await wideView();
+
+    expect(view.getByText(/Your guide to the/)).toHaveStyle({ fontSize: 28, lineHeight: 33, fontWeight: "800" });
+    expect(view.getByRole("button", { name: "Open Guide" })).toHaveStyle({ height: 52 });
+    expect(view.queryByTestId("light-status-bar")).toBeNull();
+  });
+
+  it("the left column is the 40 of 40/60, with the hairline between", async () => {
+    const { view } = await wideView();
+
+    expect(view.getByTestId("profile-left")).toHaveStyle({ flex: 40 });
+    expect(view.getByTestId("profile-right")).toHaveStyle({ flex: 60 });
+    expect(view.getByTestId("profile-hairline")).toHaveStyle({ width: 1 });
+  });
+
+  it("phone: one column, the guide fixed above the scroll, the light status bar", async () => {
+    const view = await render(<AccountScreen />);
+
+    expect(within(view.getByTestId("home-scroll")).queryByText("Open Guide")).toBeNull();
+    expect(view.getByTestId("light-status-bar")).toBeTruthy();
+    expect(view.getByTestId("profile-hairline", { includeHiddenElements: true })).toHaveStyle({ display: "none" });
+  });
+
+  it("folding keeps the open map choice", async () => {
+    mockSession.status = "guest";
+    const view = await render(<AccountScreen />);
+    await fireEvent.press(view.getByRole("button", { name: "Save map for no signal" }));
+    require("@blacksands/ui").__setWide(true, UPRIGHT);
+    await view.rerender(<AccountScreen />);
+
+    expect(view.getByText("Which map?")).toBeTruthy();
   });
 });

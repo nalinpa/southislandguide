@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Alert, Switch } from "react-native";
 import { router } from "expo-router";
 import { ArrowRight, ChevronRight } from "lucide-react-native";
+import { useHalves, useWide } from "@blacksands/ui";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -55,101 +56,140 @@ export default function AccountScreen() {
 
   const isAuthed = session.status === "authed";
 
+  // Duo (600 pt or more): two columns, the guide card leading on the left. The groups are
+  // the phone's, keyed, so they stay mounted (dialogs open, downloads running) as the
+  // window folds; only the guide banner (no state) moves between the fixed hero and the card.
+  const wide = useWide();
+  const { upright } = useHalves();
+
+  const guide = (
+    <View
+      style={
+        wide
+          ? [styles.guideCard, { marginTop: upright ? 56 : 16 }]
+          : [styles.heroSection, { paddingTop: insets.top + tokens.space.lg }]
+      }
+    >
+      <Text style={[styles.promoHeadline, wide && styles.promoHeadlineWide]}>{"Your guide to the\nSouth Island"}</Text>
+      <TouchableOpacity
+        style={[styles.promoBtn, wide && styles.promoBtnWide]}
+        onPress={() => router.push("/(app)/(tabs)/guide")}
+        activeOpacity={0.85}
+        accessibilityRole="button"
+      >
+        <Text style={styles.promoBtnText}>Open Guide</Text>
+        <ArrowRight size={16} color="#FFFFFF" strokeWidth={2.75} />
+      </TouchableOpacity>
+    </View>
+  );
+
+  const tour = tourAudience && (
+    <TouchableOpacity
+      style={styles.linkRow}
+      onPress={() => startTour(tourAudience)}
+      activeOpacity={0.6}
+      accessibilityRole="button"
+    >
+      <Text style={styles.linkRowText}>Show me around</Text>
+      <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />
+    </TouchableOpacity>
+  );
+
+  const credits = (
+    <>
+      <TouchableOpacity
+        style={styles.linkRow}
+        onPress={() => router.push("/(app)/photo-credits")}
+        activeOpacity={0.6}
+        accessibilityRole="button"
+      >
+        <Text style={styles.linkRowText}>Photo credits</Text>
+        <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />
+      </TouchableOpacity>
+      {/* Guests too: App Review checks these without signing in. */}
+      {LEGAL_ROWS.map(({ label, open }) => (
+        <React.Fragment key={label}>
+          <View style={styles.divider} />
+          <TouchableOpacity style={styles.linkRow} onPress={open} activeOpacity={0.6} accessibilityRole="button">
+            <Text style={styles.linkRowText}>{label}</Text>
+            <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />
+          </TouchableOpacity>
+        </React.Fragment>
+      ))}
+    </>
+  );
+
+  // The phone runs left then right, top to bottom. Wide moves My Trip up under who you are;
+  // keys keep each group mounted through the move.
+  type Group = [key: string, node: React.ReactNode];
+  const trip: Group | false = isAuthed && ["trip", <ItinerariesCard />];
+  const leftGroups = [
+    ["who", <UserInfoCard />],
+    ...(wide && trip ? [trip] : []),
+    ...(tour ? [["tour", tour] as Group] : []),
+    ["map", <OfflineMapCard />],
+    ...(!wide && trip ? [trip] : []),
+  ] as Group[];
+  const rightGroups = [
+    ...(isAuthed
+      ? ([
+          ["saved", <SavedItemsCard />],
+          [
+            "email",
+            // The answer given at sign-up (the box under the password), changeable here.
+            // Signed in only: a guest has no email to send to.
+            <View style={styles.linkRow}>
+              <Text style={styles.switchText}>Email me about feedback and news</Text>
+              <Switch
+                value={optedIn}
+                onValueChange={setOptedIn}
+                disabled={optInLoading}
+                trackColor={{ true: tokens.colors.accent }}
+                accessibilityLabel="Email me about feedback and news"
+              />
+            </View>,
+          ],
+          ["danger", <DangerZoneCard />],
+        ] as Group[])
+      : []),
+    ["credits", credits],
+  ] as Group[];
+
+  // A pale band before each group. On the phone the right column's first follows the left's
+  // last; on wide each column opens clean (the guide card's own margin sets the left's gap).
+  const column = (groups: Group[], firstBand: boolean) =>
+    groups.map(([key, node], i) => (
+      <React.Fragment key={key}>
+        {(i > 0 || firstBand) && <View style={styles.band} />}
+        {node}
+      </React.Fragment>
+    ));
+
   return (
-    <View style={styles.container}>
-      <LightStatusBar />
+    <View style={[styles.container, wide && styles.containerWide, wide && { paddingTop: insets.top }]}>
+      {!wide && <LightStatusBar />}
       {/* Guide is static, in-bundle content — no auth needed, so it sits in the
           hero above the isAuthed block, reachable by a guest. The hero is the
           same deep teal as the other tabs' top bars; it used to be a teal card
           on a forest-green ground, two dark greens fighting each other.
           It is fixed, like those bars. It used to scroll with the page, which
-          slid the Open Guide button up behind the clock. */}
-      <View style={[styles.heroSection, { paddingTop: insets.top + tokens.space.lg }]}>
-        <Text style={styles.promoHeadline}>{"Your guide to the\nSouth Island"}</Text>
-        <TouchableOpacity
-          style={styles.promoBtn}
-          onPress={() => router.push("/(app)/(tabs)/guide")}
-          activeOpacity={0.85}
-          accessibilityRole="button"
-        >
-          <Text style={styles.promoBtnText}>Open Guide</Text>
-          <ArrowRight size={16} color="#FFFFFF" strokeWidth={2.75} />
-        </TouchableOpacity>
-      </View>
+          slid the Open Guide button up behind the clock. On wide it is the card
+          that leads the left column, white page and dark status bar. */}
+      {!wide && guide}
 
-      <View style={styles.sheet}>
+      <View style={[styles.sheet, wide && styles.sheetWide]}>
         <ScrollView testID="home-scroll" showsVerticalScrollIndicator={false}>
-          <UserInfoCard />
-
-          {/* The opening tour again, from its first step (lib/tour). Guests too: they get
-              it on first open like everyone else. */}
-          {tourAudience && (
-            <>
-              <View style={styles.band} />
-              <TouchableOpacity
-                style={styles.linkRow}
-                onPress={() => startTour(tourAudience)}
-                activeOpacity={0.6}
-                accessibilityRole="button"
-              >
-                <Text style={styles.linkRowText}>Show me around</Text>
-                <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />
-              </TouchableOpacity>
-            </>
-          )}
-
-          {/* The map saved for no signal (docs/plans/offline-map.md). Guests too: the gaps
-              in mobile coverage are the same for them. */}
-          <View style={styles.band} />
-          <OfflineMapCard />
-
-          {isAuthed && (
-            <>
-              <View style={styles.band} />
-              <ItinerariesCard />
-              <View style={styles.band} />
-              <SavedItemsCard />
-              <View style={styles.band} />
-              {/* The answer given at sign-up (the box under the password), changeable here.
-                  Signed in only: a guest has no email to send to. */}
-              <View style={styles.linkRow}>
-                <Text style={styles.switchText}>Email me about feedback and news</Text>
-                <Switch
-                  value={optedIn}
-                  onValueChange={setOptedIn}
-                  disabled={optInLoading}
-                  trackColor={{ true: tokens.colors.accent }}
-                  accessibilityLabel="Email me about feedback and news"
-                />
-              </View>
-              <View style={styles.band} />
-              <DangerZoneCard />
-            </>
-          )}
-
-          {/* The photographers the image licences require to be named. Guests too: the
-              photos are the same for everyone. */}
-          <View style={styles.band} />
-          <TouchableOpacity
-            style={styles.linkRow}
-            onPress={() => router.push("/(app)/photo-credits")}
-            activeOpacity={0.6}
-            accessibilityRole="button"
-          >
-            <Text style={styles.linkRowText}>Photo credits</Text>
-            <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />
-          </TouchableOpacity>
-
-          {/* Guests too: App Review checks these without signing in. */}
-          {LEGAL_ROWS.map(({ label, open }) => (
-            <React.Fragment key={label}>
-              <View style={styles.divider} />
-              <TouchableOpacity style={styles.linkRow} onPress={open} activeOpacity={0.6} accessibilityRole="button">
-                <Text style={styles.linkRowText}>{label}</Text>
-                <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />
-              </TouchableOpacity>
-            </React.Fragment>
-          ))}
+          <View style={wide && styles.columns}>
+            <View testID="profile-left" style={wide && styles.left}>
+              {wide && guide}
+              {column(leftGroups, false)}
+            </View>
+            <View testID="profile-hairline" style={wide ? styles.hairline : styles.none} />
+            {/* Saved Places' name sits level with the card's top: its group pads 14 above it. */}
+            <View testID="profile-right" style={wide && [styles.right, { paddingTop: upright ? 42 : 2 }]}>
+              {column(rightGroups, !wide)}
+            </View>
+          </View>
 
           {/* Was insets.bottom + 80 (~114pt on a Face ID iPhone), sized for a tab
               bar floating over the content. This tab bar sits below it, so that
@@ -163,6 +203,24 @@ export default function AccountScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: tokens.colors.accentWarm },
+  // Duo: white from the clock down (the dark status bar), two columns 40/60 with a hairline.
+  containerWide: { backgroundColor: tokens.colors.page },
+  sheetWide: { borderTopLeftRadius: 0, borderTopRightRadius: 0, marginTop: 0, paddingTop: 0 },
+  columns: { flexDirection: "row" },
+  left: { flex: 40 },
+  right: { flex: 60 },
+  hairline: { width: 1, backgroundColor: tokens.colors.line },
+  none: { display: "none" },
+  guideCard: {
+    backgroundColor: tokens.colors.accentWarm,
+    marginHorizontal: 20,
+    marginBottom: 20,
+    padding: 24,
+    borderRadius: 20,
+    gap: tokens.space.md,
+  },
+  promoHeadlineWide: { fontSize: 28, lineHeight: 33 },
+  promoBtnWide: { height: 52, paddingVertical: 0 },
   loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: tokens.colors.bgBase },
   // paddingBottom leaves room for the sheet's 12pt overlap.
   heroSection: {

@@ -23,7 +23,7 @@ jest.mock("react-native-maps", () => {
 });
 jest.mock("react-native-svg", () => {
   const { View } = require("react-native");
-  return { __esModule: true, default: View, Svg: View, Path: View, Circle: View, G: View, Text: View };
+  return { __esModule: true, default: View, Svg: View, Path: View, Circle: View, G: View, Text: View, Defs: View, RadialGradient: View, Stop: View, Rect: View };
 });
 jest.mock("expo-haptics", () => ({ impactAsync: jest.fn(), ImpactFeedbackStyle: {} }));
 
@@ -398,6 +398,7 @@ describe("wide", () => {
       paddingBottom: 56,
     });
     expect(view.getByText("Kiwi Guide")).toBeTruthy();
+    expect(view.getByTestId("login-title-shade")).toBeTruthy();
   });
 
   it("sideways: the photo is the left page, the 360 card centred on the right page", async () => {
@@ -412,6 +413,7 @@ describe("wide", () => {
       alignItems: "center",
     });
     expect(view.getByText("Kiwi Guide")).toBeTruthy();
+    expect(view.queryByTestId("login-title-shade")).toBeNull();
   });
 
   it("dark: the card on bgCard with a 1 pt line edge, the photo dimmed", async () => {
@@ -430,6 +432,7 @@ describe("wide", () => {
     const view = await render(<LoginScreen />);
 
     expect(view.queryByTestId("login-photo-art")).toBeNull();
+    expect(view.queryByTestId("login-title-shade")).toBeNull();
     expect(flat(view.getByTestId("login-panel"))).toMatchObject({ marginTop: -20 });
     expect(view.getByText("Create an account")).toHaveStyle({ color: tokens.colors.selected });
   });
@@ -447,11 +450,12 @@ describe("wide", () => {
     ui().__setWide(true, { width: 669, height: 951 });
     const view = await render(<LoginScreen />);
     await fireEvent.changeText(view.getByLabelText("Email"), "a@b.co");
+    mockAuthMounts.mockClear();
     ui().__setWide(true, { width: 951, height: 669 });
     await view.rerender(<LoginScreen />);
     ui().__setWide(false);
     await view.rerender(<LoginScreen />);
     expect(view.getByLabelText("Email").props.value).toBe("a@b.co");
-    expect(mockAuthMounts).toHaveBeenCalledTimes(1);
+    expect(mockAuthMounts).not.toHaveBeenCalled();
   });
 });

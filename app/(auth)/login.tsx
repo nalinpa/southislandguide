@@ -3,6 +3,7 @@ import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, useColorS
 import { Stack, router } from "expo-router";
 import { useHalves, useWide } from "@blacksands/ui";
 import { Image } from "expo-image";
+import Svg, { Defs, RadialGradient, Rect, Stop } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Sentry from "@sentry/react-native";
@@ -39,6 +40,7 @@ const PEAK_TOP = 120;
 const LAKE_EDGE = 537;
 const FADE_LEAD = 30; // the fade starts this far above the lake's edge
 const FADE_SOLID = 190; // and is solid this far on
+const TOP_SHADE = 110; // under the status bar
 const CARD_UPRIGHT = 480;
 const CARD_SIDEWAYS = 360;
 const CARD_FOOT = 56;
@@ -92,6 +94,19 @@ export default function LoginScreen() {
 
   const brandView = (
     <View style={[styles.brand, wide ? styles.brandWide : { paddingTop: insets.top + 24 }]}>
+      {/* Wide upright: a soft teal shade behind the title, clear at its edge (the picked drawing's
+          radial-gradient(closest-side, teal .62, teal 0)); the same in dark. */}
+      {wide && upright ? (
+        <Svg testID="login-title-shade" pointerEvents="none" style={StyleSheet.absoluteFill}>
+          <Defs>
+            <RadialGradient id="titleShade" cx="50%" cy="50%" r="50%">
+              <Stop offset="0" stopColor={LAKE_SIDES.light} stopOpacity={0.62} />
+              <Stop offset="1" stopColor={LAKE_SIDES.light} stopOpacity={0} />
+            </RadialGradient>
+          </Defs>
+          <Rect width="100%" height="100%" fill="url(#titleShade)" />
+        </Svg>
+      ) : null}
       {/* Two lines at most, shrinking to fit an iPhone SE's width. A long press
           sends a test error, to check a build's crash reporting end to end (the
           stack should name this file); nothing shows on screen. */}
@@ -158,7 +173,7 @@ export default function LoginScreen() {
               <>
                 <LinearGradient
                   colors={[`${lake}8C`, `${lake}00`]}
-                  style={[styles.shade, { height: 110 }]}
+                  style={[styles.shade, { height: TOP_SHADE }]}
                 />
                 <LinearGradient
                   colors={[`${lake}00`, `${lake}8C`, lake]}
@@ -284,7 +299,7 @@ const styles = StyleSheet.create({
   widePhoto: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, overflow: "hidden" },
   shade: { position: "absolute", left: 0, right: 0, top: 0 },
   sidewaysBrand: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, justifyContent: "center" },
-  brandWide: { paddingTop: 0 },
+  brandWide: { paddingVertical: 10, paddingHorizontal: 28, borderRadius: 24, alignSelf: "center" },
   card: {
     alignSelf: "center",
     marginTop: TITLE_GAP,

@@ -17,6 +17,21 @@ jest.mock("react-native-safe-area-context", () => {
   };
 });
 
+// Counts how many times the section list mounts, to catch a remount across the breakpoint.
+const mockListMounts = { count: 0 };
+jest.mock("@/components/guide/GuideList", () => {
+  const React = require("react");
+  const actual = jest.requireActual("@/components/guide/GuideList");
+  return {
+    GuideList: (props: any) => {
+      React.useEffect(() => {
+        mockListMounts.count++;
+      }, []);
+      return React.createElement(actual.GuideList, props);
+    },
+  };
+});
+
 const mockRouter = {
   push: jest.fn(),
   replace: jest.fn(),
@@ -38,7 +53,7 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { fireEvent, render } from "@testing-library/react-native";
+import { fireEvent, render, within as within_ } from "@testing-library/react-native";
 
 import GuideIndexPage from "@/app/(app)/(tabs)/guide/index";
 import GuideCategoryPage from "@/app/(app)/(tabs)/guide/[slug]";
@@ -52,6 +67,7 @@ const isHeading = (p: string) => !/[.!?]$/.test(p.trim());
 
 beforeEach(() => {
   jest.clearAllMocks();
+  mockListMounts.count = 0;
   mockRouter.canGoBack.mockReturnValue(true);
   mockParams.slug = first.slug;
   mockParams.region = undefined;
@@ -313,5 +329,137 @@ describe("web addresses in a section", () => {
       for (const m of c.body.matchAll(/\b(?:[a-z0-9-]+\.)+(?:govt\.nz|org\.nz|co\.nz|nz|com)(?:\/[A-Za-z0-9/_-]*)?/g)) found.add(m[0]);
     }
     expect([...found].sort()).toEqual(["beacons.org.nz", "checkitsalright.nz", "journeys.nzta.govt.nz"]);
+  });
+});
+
+// The open Duo: the list beside the section, the region a picker (docs/plans/design-sweep.md,
+// "The guide, picked: round 3").
+describe("on the open Duo", () => {
+  const { StyleSheet } = require("react-native");
+  const wide = (size = { width: 669, height: 951 }) => require("@blacksands/ui").__setWide(true, size);
+  const flexOf = (node: any) => StyleSheet.flatten(node.props.style).flex;
+  const second = ISLAND_CATEGORIES[1];
+
+  it("lists the sections beside the first one, and a tap shows a section without navigating", async () => {
+    wide();
+    const view = await render(<GuideIndexPage />);
+    const { within } = require("@testing-library/react-native");
+
+    expect(within(view.getByTestId("guide-article-pane")).getByText(first.title)).toBeTruthy();
+    expect(within(view.getByTestId("guide-list-pane")).getByText(second.title)).toBeTruthy();
+
+    await fireEvent.press(within(view.getByTestId("guide-list-pane")).getByText(second.title));
+
+    expect(within(view.getByTestId("guide-article-pane")).getByText(second.title)).toBeTruthy();
+    expect(within(view.getByTestId("guide-article-pane")).queryByText(first.title)).toBeNull();
+    expect(mockRouter.push).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ["upright", { width: 669, height: 951 }],
+    ["sideways", { width: 951, height: 669 }],
+  ])("splits the width 2:3 (268/401 upright, 347/520 sideways of the content), %s", async (_n, size) => {
+    wide(size);
+    const view = await render(<GuideIndexPage />);
+
+    expect(flexOf(view.getByTestId("guide-list-pane"))).toBe(2);
+    expect(flexOf(view.getByTestId("guide-article-pane"))).toBe(3);
+  });
+
+  it("shows the region in a pill, with no tab strip and no teal bar", async () => {
+    wide();
+    const view = await render(<GuideIndexPage />);
+
+    expect(view.getByTestId("region-pill")).toBeTruthy();
+    expect(within_(view.getByTestId("region-pill")).getByText("South Island")).toBeTruthy();
+    expect(view.queryAllByRole("tab")).toHaveLength(0);
+    expect(StyleSheet.flatten(view.getByTestId("region-pill").props.style).minHeight).toBe(40);
+  });
+
+  it("lets a long region name wrap to two lines in the pill", async () => {
+    wide();
+    mockParams.region = "canterbury";
+    const view = await render(<GuideIndexPage />);
+    const name = REGIONS_WITH_CONTENT.find((r) => r.id === "canterbury")!.label;
+
+    expect(within_(view.getByTestId("region-pill")).getByText(name).props.numberOfLines).toBe(2);
+  });
+
+  it("changes region from the picker", async () => {
+    wide();
+    const region = REGIONS_WITH_CONTENT[0];
+    const view = await render(<GuideIndexPage />);
+
+    await fireEvent.press(view.getByTestId("region-pill"));
+    await fireEvent.press(within_(view.getByTestId("region-sheet")).getByLabelText(region.label));
+
+    const regional = GUIDE_CATEGORIES.filter((c) => c.region === region.id);
+    expect(within_(view.getByTestId("guide-list-pane")).getByText(regional[1].title)).toBeTruthy();
+    // The first section of the region opens on the right.
+    expect(within_(view.getByTestId("guide-article-pane")).getByText(regional[0].title)).toBeTruthy();
+  });
+
+  it("falls back to South Island for a region with no sections", async () => {
+    wide();
+    mockParams.region = "not-a-region";
+    const view = await render(<GuideIndexPage />);
+
+    expect(within_(view.getByTestId("region-pill")).getByText("South Island")).toBeTruthy();
+    expect(within_(view.getByTestId("guide-article-pane")).getByText(first.title)).toBeTruthy();
+  });
+
+  it("opens the split with the section of a deep link chosen", async () => {
+    wide();
+    mockParams.slug = second.slug;
+    const view = await render(<GuideCategoryPage />);
+
+    expect(within_(view.getByTestId("guide-article-pane")).getByText(second.title)).toBeTruthy();
+    expect(within_(view.getByTestId("guide-list-pane")).getByText(first.title)).toBeTruthy();
+  });
+
+  it("opens a deep link to a regional section with its region picked", async () => {
+    wide();
+    const c = GUIDE_CATEGORIES.find((g) => g.region)!;
+    mockParams.slug = c.slug;
+    const view = await render(<GuideCategoryPage />);
+
+    expect(within_(view.getByTestId("guide-article-pane")).getByText(c.title)).toBeTruthy();
+    expect(within_(view.getByTestId("guide-list-pane")).getAllByText(c.title).length).toBeGreaterThan(0);
+  });
+
+  it("keeps the list mounted and the chosen section across the breakpoint, both ways", async () => {
+    const ui = require("@blacksands/ui");
+    ui.__setWide(true, { width: 669, height: 951 });
+    const view = await render(<GuideIndexPage />);
+    await fireEvent.press(view.getByText(second.title));
+    expect(mockListMounts.count).toBe(1);
+
+    ui.__setWide(false);
+    await view.rerender(<GuideIndexPage />);
+    expect(mockListMounts.count).toBe(1);
+    ui.__setWide(true, { width: 669, height: 951 });
+    await view.rerender(<GuideIndexPage />);
+
+    expect(mockListMounts.count).toBe(1);
+    expect(within_(view.getByTestId("guide-article-pane")).getByText(second.title)).toBeTruthy();
+    expect(within_(view.getByTestId("guide-article-pane")).queryByText(first.title)).toBeNull();
+  });
+});
+
+describe("on a phone", () => {
+  it("keeps the tab strip, the bar and the list as they were", async () => {
+    const view = await render(<GuideIndexPage />);
+
+    expect(view.queryByTestId("region-pill")).toBeNull();
+    expect(view.queryByTestId("guide-article-pane")).toBeNull();
+    expect(view.getAllByRole("tab").length).toBe(REGIONS_WITH_CONTENT.length + 1);
+  });
+
+  it("still opens a section page from a deep link, with a back arrow", async () => {
+    mockParams.slug = ISLAND_CATEGORIES[1].slug;
+    const view = await render(<GuideCategoryPage />);
+
+    expect(view.getByLabelText("Back to the guide")).toBeTruthy();
+    expect(view.queryByTestId("guide-list-pane")).toBeNull();
   });
 });

@@ -52,6 +52,13 @@ export const darkEdge = {
 // The card colour's two sides, for a gradient (the map's top fade), which can't take a pair.
 export const CARD_SIDES = { light: "#FFFFFF", dark: "#0E2A2E" } as const;
 
+// The raised colour in dark and the selected teal in light, named for the guide's region pill
+// (solid teal in light, raised with an edge in dark) and the chosen section's tile.
+const ELEV_DARK = "#1A4247";
+const SELECTED_LIGHT = "#095C65";
+const SELECTED_DARK = "#7FD0D6";
+const BORDER_DARK = "#567F84";
+
 export const tokens = {
   // A filled button is a screen's main action, so it's the highlight with a
   // white label, not the kit's default teal. Setting it here also reaches the
@@ -81,10 +88,10 @@ export const tokens = {
     bgBase: pair("#EEF6F3", "#081D20"),
     bgSurface: pair("#E2F0EB", "#12363A"),
     bgCard: pair(CARD_SIDES.light, CARD_SIDES.dark),
-    bgElevated: pair("#D3ECE5", "#1A4247"),
+    bgElevated: pair("#D3ECE5", ELEV_DARK),
     borderSubtle: pair("#CFE1DA", "#2F5257"),
     // Dark is a step lighter than drawn (#4C7479) to keep 3:1 on a card as well as the page.
-    border: pair("#A9C6BC", "#567F84"),
+    border: pair("#A9C6BC", BORDER_DARK),
     borderStrong: pair("#3D6B5F", "#8DB3A8"),
     // A fill with white on it. Dark is a mid teal: white on it 5.2:1, and 3.5:1 off the
     // page (the light teal there was 2.4:1). Teal words and icons are `selected`.
@@ -102,7 +109,13 @@ export const tokens = {
     // A drive on the Days view: a pale teal, so a fill there means "this can be dragged".
     driveFill: pair("#D9E9E4", "#173F45"),
     photoEdge: pair("rgba(10,31,27,0.14)", "rgba(238,246,243,0.16)"),
-    selected: pair("#095C65", "#7FD0D6"),
+    selected: pair(SELECTED_LIGHT, SELECTED_DARK),
+    // The guide's region picker on the Duo: solid teal with white words in light; raised, a
+    // 1 pt border and `selected` words in dark. And the chosen section's tile: white, raised in dark.
+    pillFill: pair(SELECTED_LIGHT, ELEV_DARK),
+    pillInk: pair("#FFFFFF", SELECTED_DARK),
+    pillEdge: pair("transparent", BORDER_DARK),
+    tileOnSel: pair(CARD_SIDES.light, ELEV_DARK),
     // The fill behind the row you are on at a wide width, and the dark-only edge that keeps it visible.
     selFill: pair("rgba(9,92,101,0.16)", "rgba(127,208,214,0.30)"),
     selEdgeDark: pair("transparent", "rgba(127,208,214,0.55)"),

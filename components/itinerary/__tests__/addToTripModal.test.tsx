@@ -443,4 +443,14 @@ describe("on the Duo", () => {
     }
     expect(card.borderBottomLeftRadius).toBe(20);
   });
+
+  it("wide: the Day row fades at the margin; the phone has no fade", async () => {
+    require("@blacksands/ui").__setWide(true, { width: 669, height: 951 });
+    const wideView = await render(<AddToTripModal site={site} onClose={onClose} />);
+    expect(wideView.getByTestId("add-day-fade")).toBeTruthy();
+    wideView.unmount();
+    require("@blacksands/ui").__setWide(false);
+    const phone = await render(<AddToTripModal site={site} onClose={onClose} />);
+    expect(phone.queryByTestId("add-day-fade")).toBeNull();
+  });
 });

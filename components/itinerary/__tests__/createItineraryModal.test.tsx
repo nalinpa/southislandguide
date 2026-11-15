@@ -392,11 +392,27 @@ describe("editing a trip", () => {
   });
 });
 
-it("wide: a centred 520 list card with a fade at its foot", async () => {
+it("wide: a centred 520 list card", async () => {
   wide();
   const view = await openModal();
   const title = view.getByText("New Trip");
   expect(styleUp(title, "width")).toBe(520);
   expect(styleUp(title, "maxHeight")).toBe(760);
-  expect(view.getByTestId("create-sheet-fade")).toBeTruthy();
+});
+
+it("wide: the fade shows only while the list runs on, above the button's end", async () => {
+  wide();
+  const view = await openModal();
+  const scroll = view.getByTestId("create-scroll");
+  // Fits: no fade, so nothing lies over the button.
+  await fireEvent(scroll, "layout", { nativeEvent: { layout: { height: 500 } } });
+  await fireEvent(scroll, "contentSizeChange", 300, 400);
+  expect(view.queryByTestId("create-sheet-fade")).toBeNull();
+  // Overflows: the fade shows, a sibling of the card sitting 34 up (the card's foot padding).
+  await fireEvent(scroll, "contentSizeChange", 300, 900);
+  const fade = view.getByTestId("create-sheet-fade");
+  expect(StyleSheet.flatten(fade.props.style).bottom).toBe(34);
+  // Scrolled to the end: gone again.
+  await fireEvent.scroll(scroll, { nativeEvent: { contentOffset: { y: 400 } } });
+  expect(view.queryByTestId("create-sheet-fade")).toBeNull();
 });

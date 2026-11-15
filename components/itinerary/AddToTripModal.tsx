@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ScrollView, useColorScheme } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { router } from "expo-router";
@@ -74,6 +75,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   const { itineraries, saveItinerary, isSaving } = useItineraries();
   const netInfo = useNetInfo();
   const wide = useWideSheet("sheet");
+  const page = useColorScheme() === "dark" ? "#06191B" : "#FFFFFF";
   const isOffline = netInfo.isConnected === false || netInfo.isInternetReachable === false;
   const { places, ready: placesReady } = usePlaceLookup();
 
@@ -291,6 +293,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
               {selectedTrip && (
                 <>
                   <Text testID="add-day-label" style={[styles.label, wide && styles.wideLabel]}>Day</Text>
+                  <View>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillRow}>
                     {days.map((d, idx) => {
                       const active = day?.id === d.id;
@@ -313,6 +316,18 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                       );
                     })}
                   </ScrollView>
+                  {/* Wide only: the row fades out at the 24 pt margin it is cut at. */}
+                  {wide ? (
+                    <LinearGradient
+                      testID="add-day-fade"
+                      pointerEvents="none"
+                      colors={[page + "00", page]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                      style={styles.dayFade}
+                    />
+                  ) : null}
+                  </View>
                 </>
               )}
 
@@ -480,4 +495,5 @@ const styles = StyleSheet.create({
   wideCard: { ...WIDE_CORNERS, paddingHorizontal: 24, paddingBottom: 24 },
   wideLabel: { marginTop: 22, marginBottom: 10 },
   wideSubmit: { marginTop: 32 },
+  dayFade: { position: "absolute", top: 0, right: 0, bottom: 0, width: 24 },
 });

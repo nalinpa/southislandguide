@@ -84,6 +84,16 @@ export function CreateItineraryModal({
   const { height: windowHeight } = useWindowDimensions();
   const [showCalendar, setShowCalendar] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  // Wide only: the fade shows while there is more list under the foot of the scroll region,
+  // so it never lies over the button once the form is scrolled to its end (or fits).
+  const [more, setMore] = useState(false);
+  const [scrollDims, setScrollDims] = useState({ layout: 0, content: 0, y: 0 });
+  const updateScroll = (next: Partial<typeof scrollDims>) =>
+    setScrollDims((d) => {
+      const n = { ...d, ...next };
+      setMore(n.content - n.layout - n.y > 4);
+      return n;
+    });
 
   // Editing starts from the trip as it is; a template only makes sense for a new one.
   const templatesEnabled = showTemplateOption && !trip;
@@ -247,7 +257,20 @@ export function CreateItineraryModal({
               </TouchableOpacity>
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false} bounces={false} keyboardShouldPersistTaps="handled">
+            <ScrollView
+              testID="create-scroll"
+              showsVerticalScrollIndicator={false}
+              bounces={false}
+              keyboardShouldPersistTaps="handled"
+              {...(wide
+                ? {
+                    scrollEventThrottle: 16,
+                    onLayout: (e) => updateScroll({ layout: e.nativeEvent.layout.height }),
+                    onContentSizeChange: (_w, h) => updateScroll({ content: h }),
+                    onScroll: (e) => updateScroll({ y: e.nativeEvent.contentOffset.y }),
+                  }
+                : null)}
+            >
               {locked && (
                 <View style={styles.lockBanner}>
                   <Lock size={14} color={tokens.colors.textMuted} />
@@ -515,7 +538,7 @@ export function CreateItineraryModal({
               </AppButton>
             </ScrollView>
           </CardShell>
-          {wide ? (
+          {wide && more ? (
             <LinearGradient
               testID="create-sheet-fade"
               pointerEvents="none"
@@ -544,7 +567,8 @@ const styles = StyleSheet.create({
     paddingBottom: 34,
   },
   // The close button: an x in a pale circle, the same on every sheet.
-  fade: { position: "absolute", left: 0, right: 0, bottom: 0, height: 56, borderBottomLeftRadius: 20, borderBottomRightRadius: 20 },
+  // At the foot of the scroll region: the card's 34 pt foot padding is under it.
+  fade: { position: "absolute", left: 0, right: 0, bottom: 34, height: 56 },
   closeChip: {
     width: 32,
     height: 32,

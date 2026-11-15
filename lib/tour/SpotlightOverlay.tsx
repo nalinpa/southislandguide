@@ -105,7 +105,15 @@ export function SpotlightOverlay() {
   const cardTop = !targetRect
     ? Math.max(top, welcomeTop)
     : inBand
-      ? Math.max(top, Math.min(targetRect.y, bottom - TAB_BAR - cardHeight))
+      ? Math.max(
+          top,
+          Math.min(
+            targetRect.y,
+            // High enough that the pointer, kept off the corner, meets the target's middle.
+            targetRect.y + targetRect.height / 2 - CARD_CORNER - POINTER / 2,
+            bottom - TAB_BAR - cardHeight,
+          ),
+        )
       : fitsBelow
         ? targetRect.y + targetRect.height + CARD_GAP
         : Math.max(top, targetRect.y - cardHeight - CARD_GAP);

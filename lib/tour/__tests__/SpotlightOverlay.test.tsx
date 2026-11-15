@@ -226,16 +226,17 @@ describe("SpotlightOverlay", () => {
       ui().__setWide(true, { width: 669, height: 951 });
       await show();
       await toTown();
-      await act(async () => tour.registerTarget("town", { x: 16, y: 120, width: 120, height: 80 }));
+      await act(async () => tour.registerTarget("town", { x: 16, y: 120, width: 120, height: 20 }));
       await layoutCard(200);
 
       // EXPLORE_SIDE (200) + the column's 20 pt side.
       expect(cardStyle().left).toBe(220);
-      expect(cardStyle().top).toBe(120);
+      // The card starts a corner (20) and half a pointer (7) above the target's middle (130),
+      // so the pointer's centre meets it.
+      expect(cardStyle().top).toBe(130 - 27);
       const pointer = pointerStyle();
       expect(pointer.left).toBe(-7);
-      // The target's middle (160) from the card's top (120), less half the pointer.
-      expect(pointer.top).toBe(160 - 120 - 7);
+      expect(cardStyle().top + pointer.top + 7).toBe(130);
     });
 
     it("wide: a low band target keeps the card on screen, the pointer still at the target's middle", async () => {

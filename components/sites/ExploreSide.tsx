@@ -1,6 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Bookmark, BookOpen, ChevronDown, Search, X } from "lucide-react-native";
 
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 import { tokens } from "@/lib/ui/tokens";
 import { useTourTarget } from "@/lib/tour/useTourTarget";
 
@@ -37,26 +39,31 @@ export function ExploreSide({
   const townTarget = useTourTarget("town");
   const guideTarget = useTourTarget("guide");
   const browseTarget = useTourTarget("browse");
+  const insets = useSafeAreaInsets();
   const ink = tokens.colors.townInk;
 
+  // The chevron is a child of the name's own Text, so it follows the last word as the
+  // name wraps or shrinks.
   const name = (
-    <>
-      {/* The chevron sits against the end of the name, level with its last line. */}
-      <Text
-        numberOfLines={2}
-        adjustsFontSizeToFit
-        minimumFontScale={22 / 26}
-        style={styles.town}
-        accessibilityRole={onPickTown ? undefined : "header"}
-      >
-        {town}
-      </Text>
-      {onPickTown ? <ChevronDown size={22} color={ink} strokeWidth={2.5} style={styles.chevron} /> : null}
-    </>
+    <Text
+      numberOfLines={2}
+      adjustsFontSizeToFit
+      minimumFontScale={22 / 26}
+      style={styles.town}
+      accessibilityRole={onPickTown ? undefined : "header"}
+    >
+      {town}
+      {onPickTown ? (
+        <View testID="town-chevron" style={styles.chevron}>
+          <ChevronDown size={22} color={ink} strokeWidth={2.5} />
+        </View>
+      ) : null}
+    </Text>
   );
 
   return (
-    <View testID="explore-side" style={styles.side}>
+    // The status bar's inset above, as the phone's bar takes it; the band runs up under the clock.
+    <View testID="explore-side" style={[styles.side, { paddingTop: 16 + insets.top }]}>
       {onPickTown ? (
         <TouchableOpacity
           {...townTarget}
@@ -64,12 +71,12 @@ export function ExploreSide({
           onPress={onPickTown}
           accessibilityRole="button"
           accessibilityLabel={`${town}, choose a town`}
-          style={styles.townRow}
+          
         >
           {name}
         </TouchableOpacity>
       ) : (
-        <View {...townTarget} style={styles.townRow}>
+        <View {...townTarget}>
           {name}
         </View>
       )}
@@ -119,9 +126,8 @@ export function ExploreSide({
 
 const styles = StyleSheet.create({
   side: { width: EXPLORE_SIDE, backgroundColor: tokens.colors.band, paddingHorizontal: 20, paddingTop: 16 },
-  townRow: { flexDirection: "row", alignItems: "flex-end" },
   town: { fontSize: 26, fontWeight: "800", color: tokens.colors.townInk, flexShrink: 1 },
-  chevron: { marginBottom: 4, marginLeft: 2 },
+  chevron: { marginLeft: 2, marginBottom: -3 },
   // The first icon's edge on the town's: the glyph is centred in a 44 tap, so 11 sits out.
   icons: { flexDirection: "row", gap: 4, marginTop: 8, marginLeft: -11 },
   icon: {},

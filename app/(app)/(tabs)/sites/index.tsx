@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { View, StyleSheet, TextInput, Linking, Pressable, RefreshControl } from "react-native";
 import { useWide } from "@blacksands/ui";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 import { Bookmark, BookOpen, ChevronRight, Search, X } from "lucide-react-native";
 
@@ -34,6 +35,7 @@ import { useTourStepRoute } from "@/lib/tour/useTourStepRoute";
 
 export default function SiteListPage() {
   const wide = useWide();
+  const insets = useSafeAreaInsets();
   const { session } = useSession();
   const isGuest = session.status === "guest";
 
@@ -159,11 +161,13 @@ export default function SiteListPage() {
       (r.location.featured ?? 0) > (best.location.featured ?? 0) ? r : best,
     );
   }, [rows, searchQuery]);
-  // On the Duo the featured place is an ordinary card, first in the list.
-  const listRows = useMemo(
-    () => (featured && !wide ? rows.filter((r) => r.location.id !== featured.location.id) : rows),
-    [rows, featured, wide],
-  );
+  // On the Duo the featured place is an ordinary card, but still first (as on the phone),
+  // so the row the tour points at is the place it opens.
+  const listRows = useMemo(() => {
+    if (!featured) return rows;
+    const rest = rows.filter((r) => r.location.id !== featured.location.id);
+    return wide ? [featured, ...rest] : rest;
+  }, [rows, featured, wide]);
 
   // The opening tour's steps on this screen (lib/tour/tourSteps.ts), and the place its
   // next steps open: the featured one, or else the first one listed.
@@ -377,9 +381,14 @@ export default function SiteListPage() {
   return (
     // paddingTop 0 hands the status-bar inset to the top bar, so the teal runs
     // up under the clock (same as the login screen).
-    <Screen padded={false} style={[styles.screen, wide && styles.screenWide]}>
-      {wide ? (
-        <>
+    <Screen padded={false} style={styles.screen}>
+      {/* One tree on every width, so folding mid-screen keeps the list's scroll and the
+          search field's focus: only what sits in front of the list comes and goes, and a
+          `null` keeps its slot. */}
+      {wide ? null : topBar}
+      {wide ? null : categoryTabs}
+      <View style={styles.row}>
+        {wide ? (
           <ExploreSide
             town={areaLabel ?? "Places"}
             onPickTown={areaOptions.length > 1 ? () => setAreaMenuOpen(true) : undefined}
@@ -398,35 +407,21 @@ export default function SiteListPage() {
             selected={activeCategory}
             onSelect={(k) => setCategory(k as SiteCategory | null)}
           />
-          <View testID="explore-places" style={styles.places}>
-            {/* Where the phone's bar would hold it: over the first card. */}
-            {searchOpen && <View style={styles.searchWide}>{searchField}</View>}
-            <ListView
-              rows={listRows}
-              header={header}
-              onPressItem={openPlace}
-              firstRowTarget={placeTarget}
-              atTop={touring}
-              refreshControl={refreshControl}
-              ListEmptyComponent={emptyList}
-            />
-          </View>
-        </>
-      ) : (
-        <>
-          {topBar}
-          {categoryTabs}
+        ) : null}
+        <View testID="explore-places" style={[styles.places, wide && { paddingTop: insets.top }]}>
+          {/* Where the phone's bar would hold it: over the first card. */}
+          {wide && searchOpen ? <View style={styles.searchWide}>{searchField}</View> : null}
           <ListView
             rows={listRows}
             header={header}
             onPressItem={openPlace}
-            firstRowTarget={featured ? undefined : placeTarget}
+            firstRowTarget={wide || !featured ? placeTarget : undefined}
             atTop={touring}
             refreshControl={refreshControl}
             ListEmptyComponent={emptyList}
           />
-        </>
-      )}
+        </View>
+      </View>
       <AreaSheet
         visible={areaMenuOpen}
         options={areaOptions}
@@ -446,8 +441,8 @@ const styles = StyleSheet.create({
   screen: { paddingTop: 0, backgroundColor: tokens.colors.page },
   // A tinted panel rather than a bordered card: the old dark-outlined box was
   // the heaviest thing on the screen for what is an optional prompt.
-  // The Duo: the side band and the places, in a row, with no bar above.
-  screenWide: { flexDirection: "row" },
+  // The side band (Duo only) beside the places; on a phone the row holds the list alone.
+  row: { flex: 1, flexDirection: "row" },
   places: { flex: 1 },
   searchWide: { paddingHorizontal: 20, paddingTop: 16 },
   signInBanner: {

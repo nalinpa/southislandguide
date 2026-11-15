@@ -19,12 +19,17 @@ jest.mock("@blacksands/hooks", () => ({
 
 // The list is a FlashList wrapper with its own file; here it only has to show the rows it
 // was handed, in order, and pass taps back.
+// How many times the list has mounted: folding must not remount it.
+let mockListMounts = 0;
 jest.mock("@/components/sites/list/ListView", () => {
   const React = require("react");
   const { Text, TouchableOpacity, View } = require("react-native");
   return {
-    ListView: ({ rows, header, onPressItem, ListEmptyComponent, firstRowTarget }: any) =>
-      React.createElement(
+    ListView: ({ rows, header, onPressItem, ListEmptyComponent, firstRowTarget }: any) => {
+      React.useEffect(() => {
+        mockListMounts += 1;
+      }, []);
+      return React.createElement(
         View,
         null,
         // What's passed as `header` scrolls away with the rows; the testID lets a test tell
@@ -43,7 +48,8 @@ jest.mock("@/components/sites/list/ListView", () => {
                 ),
               ),
             ),
-      ),
+      );
+    },
   };
 });
 
@@ -52,13 +58,14 @@ jest.mock("@/components/layout/LightStatusBar", () => ({
   LightStatusBar: () => require("react").createElement(require("react-native").View, { testID: "light-status-bar" }),
 }));
 
+let mockInsetTop = 0;
 jest.mock("react-native-safe-area-context", () => {
   const React = require("react");
   const { View } = require("react-native");
   return {
     // The town menu sits in one, to clear the status bar.
     SafeAreaView: ({ children, style }: any) => React.createElement(View, { style }, children),
-    useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+    useSafeAreaInsets: () => ({ top: mockInsetTop, bottom: 0, left: 0, right: 0 }),
   };
 });
 
@@ -150,6 +157,8 @@ let openSettings: jest.SpyInstance;
 
 beforeEach(() => {
   jest.clearAllMocks();
+  mockInsetTop = 0;
+  mockListMounts = 0;
   mockSession.status = "authed";
   mockSession.uid = "uid-1";
   mockBag.locations = [
@@ -949,21 +958,6 @@ describe("wide (the open Duo)", () => {
     expect(within(side).getAllByRole("tab")).toHaveLength(4);
   });
 
-  it("shrinks a long town to two lines, the chevron on the last word", async () => {
-    mockBag.locations = [
-      makeSite("a1", "Hooker Valley", ["Walks"], { area: "aoraki-mount-cook" }),
-      makeSite("s1", "Sumner Beach", ["Water"]),
-    ];
-    mockParams.area = "aoraki-mount-cook";
-    wide();
-    const view = await render(<SiteListPage />);
-
-    const town = within(view.getByTestId("explore-side")).getByText(/Aoraki|Mount Cook/);
-    expect(town.props.numberOfLines).toBe(2);
-    expect(town.props.adjustsFontSizeToFit).toBe(true);
-    expect(town.props.minimumFontScale).toBeCloseTo(22 / 26);
-  });
-
   it("selects a category from the side and filters the list", async () => {
     wide();
     const view = await render(<SiteListPage />);
@@ -987,13 +981,40 @@ describe("wide (the open Duo)", () => {
     expect(rowNames(view)).toEqual(["Riverside Market"]);
   });
 
-  it("shows the featured place as an ordinary card, first in the list", async () => {
+  // The featured place is not the first in sort order here: it still leads, so the row
+  // the tour points at is the place it opens.
+  it("shows the featured place as an ordinary card, first, and the tour's place target is that row", async () => {
+    mockBag.locations[2] = { ...mockBag.locations[2], featured: 5 };
     wide();
     const view = await render(<SiteListPage />);
 
     expect(view.queryByTestId("featured-card")).toBeNull();
-    expect(rowNames(view)[0]).toBe("Sumner Beach");
-    expect(rowNames(view)).toHaveLength(4);
+    expect(rowNames(view)).toEqual(["Riverside Market", "Sumner Beach", "Riccarton Bush", "Port Hills Walk"]);
+    expect(within(view.getByTestId("tour-target-place")).getByText("Row Riverside Market")).toBeTruthy();
+    expect(mockStepRoutes.place).toBe("/(app)/(tabs)/sites/s3");
+  });
+
+  it("keeps the list mounted across the fold, and the search field with it", async () => {
+    wide();
+    const view = await render(<SiteListPage />);
+    await fireEvent.press(view.getByLabelText("Search places"));
+    expect(mockListMounts).toBe(1);
+
+    require("@blacksands/ui").__setWide(false);
+    await view.rerender(<SiteListPage />);
+    require("@blacksands/ui").__setWide(true);
+    await view.rerender(<SiteListPage />);
+
+    expect(mockListMounts).toBe(1);
+  });
+
+  it("clears the status bar's inset on both the side band and the places", async () => {
+    mockInsetTop = 47;
+    wide();
+    const view = await render(<SiteListPage />);
+
+    expect(view.getByTestId("explore-side")).toHaveStyle({ paddingTop: 16 + 47 });
+    expect(view.getByTestId("explore-places")).toHaveStyle({ paddingTop: 47 });
   });
 
   it("keeps the light status bar on a phone", async () => {

@@ -10,7 +10,7 @@ import React from "react";
 import { fireEvent, render } from "@testing-library/react-native";
 
 import { RegionSheet } from "@/components/guide/RegionSheet";
-import { REGIONS_WITH_CONTENT } from "@/lib/guideContent";
+import { REGION_TABS } from "@/lib/guideRegions";
 
 const open = async (over: Record<string, unknown> = {}) => {
   const onSelect = jest.fn();
@@ -22,17 +22,18 @@ const open = async (over: Record<string, unknown> = {}) => {
 describe("RegionSheet", () => {
   it("lists South Island first, then each region with sections, the current one ticked; a tap selects and closes", async () => {
     require("@blacksands/ui").__setWide(true, { width: 669, height: 951 });
-    const region = REGIONS_WITH_CONTENT[0];
+    const region = REGION_TABS[1];
     const { view, onSelect, onClose } = await open({ selected: region.id });
 
+    expect(REGION_TABS[0].id).toBe("queenstown-wanaka");
     const rows = view.getAllByRole("button").filter((b: any) => b.props.accessibilityLabel !== "Close");
     expect(rows.map((b: any) => b.props.accessibilityLabel)).toEqual([
       "South Island",
-      ...REGIONS_WITH_CONTENT.map((r) => r.label),
+      ...REGION_TABS.map((r) => r.label),
     ]);
     expect(rows.map((b: any) => b.props.accessibilityState.selected)).toEqual([
       false,
-      ...REGIONS_WITH_CONTENT.map((r) => r.id === region.id),
+      ...REGION_TABS.map((r) => r.id === region.id),
     ]);
 
     await fireEvent.press(view.getByLabelText(region.label));

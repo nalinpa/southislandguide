@@ -13,14 +13,7 @@ import {
   REGIONS_WITH_CONTENT,
   type RegionId,
 } from "@/lib/guideContent";
-import { FIRST_REGION } from "@/lib/areas";
-
-// The regions with sections written, the default town's first (Queenstown & Wānaka), as in
-// Explore's town list; the rest in the guide's order.
-const REGION_TABS = [
-  ...REGIONS_WITH_CONTENT.filter((r) => r.id === FIRST_REGION),
-  ...REGIONS_WITH_CONTENT.filter((r) => r.id !== FIRST_REGION),
-];
+import { REGION_TABS } from "@/lib/guideRegions";
 
 export default function GuideIndexPage() {
   // null = island-wide. A region id filters to that region's sections.

@@ -5,7 +5,8 @@ import { useWide } from "@blacksands/ui";
 
 import { tokens } from "@/lib/ui/tokens";
 import { useWideSheet } from "@/lib/ui/useWideSheet";
-import { REGIONS_WITH_CONTENT, type RegionId } from "@/lib/guideContent";
+import type { RegionId } from "@/lib/guideContent";
+import { REGION_TABS } from "@/lib/guideRegions";
 
 type RegionSheetProps = {
   visible: boolean;
@@ -23,7 +24,7 @@ export function RegionSheet({ visible, selected, onSelect, onClose }: RegionShee
   const isWide = useWide();
   const rows: { id: RegionId | null; label: string }[] = [
     { id: null, label: "South Island" },
-    ...REGIONS_WITH_CONTENT.map((r) => ({ id: r.id, label: r.label })),
+    ...REGION_TABS.map((r) => ({ id: r.id, label: r.label })),
   ];
   return (
     <Modal visible={visible && isWide} transparent animationType={wide?.animation ?? "fade"} onRequestClose={onClose}>

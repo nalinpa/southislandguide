@@ -7,7 +7,45 @@
 // south-island's screen has no premium gate (1.0 has no commerce — see the stub in
 // lib/hooks/useEntitlementGate.ts), so none of rotorua-guide's paywall rows apply here.
 
-jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
+// The engine's two sheets on this page record the props the page hands them, so a test can
+// see whether it asked for the wide card. Everything else is the shared stand-in.
+const mockSheets: { trip?: any; review?: any } = {};
+jest.mock("@/lib/uiKit", () => {
+  const kit = require("@/test/uiKitMock");
+  const ReviewModal = (p: any) => {
+    mockSheets.review = p;
+    return kit.ReviewModal(p);
+  };
+  return {
+    ...kit,
+    ReviewModal,
+    components: {
+      ...kit.components,
+      ReviewModal,
+      TripChoiceSheet: (p: any) => {
+        mockSheets.trip = p;
+        return kit.components.TripChoiceSheet(p);
+      },
+    },
+  };
+});
+
+// Counts how often the page's stateful pieces mount: a layout switch that swaps subtrees
+// remounts them (the scroll offset and an open sheet go with it).
+const mockMounts = { actions: 0 };
+jest.mock("@/components/sites/detail/ActionsBar", () => {
+  const React = require("react");
+  const actual = jest.requireActual("@/components/sites/detail/ActionsBar");
+  return {
+    ...actual,
+    QuickActions: (p: any) => {
+      React.useEffect(() => {
+        mockMounts.actions++;
+      }, []);
+      return actual.QuickActions(p);
+    },
+  };
+});
 
 jest.mock("@/components/itinerary/CreateItineraryModal", () => {
   const React = require("react");
@@ -84,12 +122,14 @@ jest.mock("expo-haptics", () => ({
 }));
 
 import React from "react";
+import { act } from "@testing-library/react-native";
 import { Alert, StyleSheet, Text } from "react-native";
-import { fireEvent, renderRouter, screen } from "expo-router/testing-library";
+import { router } from "expo-router";
+import { fireEvent, renderRouter, screen, within } from "expo-router/testing-library";
 
 import SiteDetailRoute from "@/app/(app)/(tabs)/sites/[siteId]/index";
 import type { Site } from "@/lib/models";
-import { tokens } from "@/lib/ui/tokens";
+import { darkEdge, tokens } from "@/lib/ui/tokens";
 
 const makeSite = (over: Partial<Site> = {}): Site => ({
   id: "site-1",
@@ -137,6 +177,9 @@ beforeEach(() => {
   mockBag.ratingCount = 12;
   mockBag.saveReview = jest.fn().mockResolvedValue({ ok: true });
   mockNet.isConnected = true;
+  mockSheets.trip = undefined;
+  mockSheets.review = undefined;
+  mockMounts.actions = 0;
 });
 
 describe("what it shows", () => {
@@ -486,5 +529,108 @@ describe("latestReview", () => {
     const got = latestReview([r("a", "u1", "2026-10-02T00:00:00Z"), r("b", "u2", "2026-11-03T00:00:00Z")], ["u2"]);
     expect(got.id).toBe("a");
     expect(latestReview([r("b", "u2", "2026-11-03T00:00:00Z")], ["u2"])).toBeUndefined();
+  });
+});
+
+// The open iPhone Duo (docs/plans/design-sweep.md, "The place, picked: round 3 A").
+describe("wide", () => {
+  const ui = () => require("@blacksands/ui");
+  const style = (id: string) => StyleSheet.flatten(screen.getByTestId(id).props.style) ?? {};
+
+  it("upright: photo a third of the height, sheet from 300, left column 361 (name, facts, buttons, description) and right column 244 (Good to know, tip, reviews)", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    mockBag.site = makeSite({ hoursNote: "open daily" });
+    await openDetail();
+
+    expect(style("place-photo").height).toBeCloseTo(951 / 3, 0);
+    expect(style("place-spacer").height).toBe(300);
+    expect(style("place-left").width).toBe(361);
+    expect(style("place-columns").flexDirection).toBe("row");
+    expect(style("place-columns").columnGap).toBe(24);
+    // 669 - 20 - 361 - 24 - 20: the right column takes what is left, so it is 244.
+    expect(style("place-right").flex).toBe(1);
+
+    const inside = (id: string, text: string) => within(screen.getByTestId(id)).queryByText(text);
+    expect(inside("place-left", "Directions")).toBeTruthy();
+    expect(inside("place-left", "Old-growth kahikatea forest in the middle of the city.")).toBeTruthy();
+    expect(inside("place-right", "Good to know")).toBeTruthy();
+    expect(inside("place-right", "Local tip")).toBeTruthy();
+    expect(inside("place-right", "Reviews (12)")).toBeTruthy();
+    expect(inside("place-left", "Good to know")).toBeNull();
+  });
+
+  it("upright: Add to Trip full width with a 36 pt fade", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    await openDetail();
+
+    expect(style("place-add").left).toBe(0);
+    expect(style("place-add").right).toBe(0);
+    expect(style("place-add-fade").height).toBe(36);
+  });
+
+  it("phone: no fade, the phone's one column", async () => {
+    await openDetail();
+
+    expect(screen.queryByTestId("place-add-fade")).toBeNull();
+    expect(style("place-columns").flexDirection).not.toBe("row");
+    expect(style("place-spacer").height).toBe(328);
+    expect(style("place-photo").height).toBe(360);
+  });
+
+  it("wide: no tab bar, as on the phone", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    await openDetail();
+    expect(screen.queryByRole("tablist")).toBeNull();
+  });
+
+  it("sideways: photo is the left page to the fold, words one column on the right page", async () => {
+    ui().__setWide(true, { width: 951, height: 669 });
+    await openDetail();
+
+    expect(style("place-photo").height).toBe(669);
+    expect(style("place-hero").width).toBe(475.5);
+    expect(style("place-scroll").left).toBe(475.5);
+    expect(style("place-spacer").height).toBe(0);
+    expect(style("place-columns").flexDirection).not.toBe("row");
+    // Add to Trip sits under the words only.
+    expect(style("place-add").left).toBe(475.5);
+    expect(screen.queryByTestId("place-add-fade")).toBeNull();
+  });
+
+  it("keeps state across the breakpoint", async () => {
+    await openDetail();
+    const scroll = screen.getByTestId("place-scroll");
+    await fireEvent.press(screen.getByText("Review"));
+    expect(screen.getByText("Review Modal")).toBeTruthy();
+    expect(mockMounts.actions).toBe(1);
+
+    ui().__setWide(true, { width: 669, height: 951 });
+    await act(async () => {
+      router.setParams({ again: "1" });
+    });
+
+    expect(style("place-columns").flexDirection).toBe("row");
+    expect(screen.getByText("Review Modal")).toBeTruthy();
+    // Same instances, not a copy: nothing under the scroll view mounted again.
+    expect(mockMounts.actions).toBe(1);
+    expect(screen.getByTestId("place-scroll")).toBe(scroll);
+  });
+
+  it("hands both engine sheets the wide card, and edges for the dark page", async () => {
+    mockTrips.addFlow = "choose";
+    await openDetail();
+    await fireEvent.press(screen.getByText("Review"));
+    expect(mockSheets.trip.wide).toBeFalsy();
+    expect(mockSheets.review.wide).toBeFalsy();
+
+    ui().__setWide(true, { width: 669, height: 951 });
+    await act(async () => {
+      router.setParams({ again: "1" });
+    });
+
+    expect(mockSheets.trip.wide).toBe(true);
+    expect(mockSheets.review.wide).toBe(true);
+    expect(mockSheets.trip.colors.edge).toBe(darkEdge.borderColor);
+    expect(mockSheets.review.colors.edge).toBe(darkEdge.borderColor);
   });
 });

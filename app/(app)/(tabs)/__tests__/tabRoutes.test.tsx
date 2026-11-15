@@ -62,4 +62,10 @@ describe("tab routes that aren't tab buttons", () => {
     await renderRouter(ROUTES, { initialUrl: "/itinerary/trip-1" });
     expect(screen.getByRole("tab", { name: "Trips" }).props.accessibilityState).toEqual({ selected: true });
   });
+
+  it("keeps a place free of the tab bar on the open Duo too", async () => {
+    require("@blacksands/ui").__setWide(true, { width: 669, height: 951 });
+    await renderRouter(ROUTES, { initialUrl: "/sites/site-1" });
+    expect(screen.queryByRole("tablist")).toBeNull();
+  });
 });

@@ -1,5 +1,7 @@
 import { useCallback, useRef, useState } from "react";
-import { Alert, Animated, View, StyleSheet, Pressable } from "react-native";
+import { Alert, Animated, View, StyleSheet, Pressable, useColorScheme } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useHalves, useWide } from "@blacksands/ui";
 import { useNetInfo } from "@react-native-community/netinfo";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Stack as ExpoStack, router, useLocalSearchParams } from "expo-router";
@@ -109,10 +111,29 @@ function SiteDetail({ id }: { id: string }) {
 
   const handleDirections = useCallback(() => void openDirections(site?.lat, site?.lng), [site?.lat, site?.lng]);
 
+  // The open Duo (docs/plans/design-sweep.md, "The place, picked: round 3 A"). One tree on
+  // every width: only styles change and a slot fills or empties, so folding keeps the
+  // scroll position and an open sheet.
+  const wide = useWide();
+  const { height, foldX, upright } = useHalves();
+  const sideways = wide && !upright;
+  const twoColumns = wide && upright;
+  const insets = useSafeAreaInsets();
+  const page = useColorScheme() === "dark" ? "#06191B" : "#FFFFFF";
+  // Upright: the photo is a third of the height and the sheet laps it from 300. Sideways:
+  // the photo is the left page, full height, and the sheet is the right page.
+  const photoHeight = sideways ? height : wide ? height / 3 : HERO_HEIGHT;
+  const spacerHeight = sideways ? 0 : wide ? 300 : HERO_HEIGHT - 32;
+  // The right page ends at the rail, which iOS reports as the right safe-area inset.
+  const rightPage = sideways ? { left: foldX, right: insets.right } : null;
+  // ponytail: the right column is whatever is left of the window, which is 244 on the Duo.
+  const LEFT_COLUMN = 361;
+  const GUTTER = 24;
+
   const scrollY = useRef(new Animated.Value(0)).current;
   const imageTranslateY = scrollY.interpolate({
     inputRange: [0, HERO_HEIGHT],
-    outputRange: [0, -(HERO_HEIGHT / 2)],
+    outputRange: [0, sideways ? 0 : -(photoHeight / 2)],
     extrapolate: "clamp",
   });
 
@@ -122,8 +143,7 @@ function SiteDetail({ id }: { id: string }) {
   // in over the last 40pt before the sheet gets there, covering the clock and
   // the back button's row and naming the place. (The sheet starts
   // HERO_HEIGHT - 32 down the scroll content.)
-  const insets = useSafeAreaInsets();
-  const sheetAtBar = HERO_HEIGHT - 32 - (insets.top + SCROLLED_BAR_ROW);
+  const sheetAtBar = spacerHeight - (insets.top + SCROLLED_BAR_ROW);
   const scrolledBarOpacity = scrollY.interpolate({
     inputRange: [sheetAtBar - 40, sheetAtBar],
     outputRange: [0, 1],
@@ -187,8 +207,18 @@ function SiteDetail({ id }: { id: string }) {
       {/* The clock sits over the photo, then over the teal band. */}
       <LightStatusBar />
 
-      <Animated.View style={[styles.heroWrap, { transform: [{ translateY: imageTranslateY }] }]}>
+      <Animated.View
+        testID="place-hero"
+        style={[
+          styles.heroWrap,
+          sideways && { right: undefined, width: foldX },
+          { transform: [{ translateY: imageTranslateY }] },
+        ]}
+      >
         <Hero
+          height={photoHeight}
+          wide={wide}
+          lap={sideways ? 12 : wide ? 20 : 32}
           imageUrl={site.imageUrl}
           imageThumbnailUrl={site.imageThumbnailUrl}
           category={site.category[0]}
@@ -198,23 +228,34 @@ function SiteDetail({ id }: { id: string }) {
       </Animated.View>
 
       <Animated.ScrollView
-        style={StyleSheet.absoluteFill}
+        testID="place-scroll"
+        style={[StyleSheet.absoluteFill, rightPage]}
         scrollEventThrottle={16}
         onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
           useNativeDriver: true,
         })}
         showsVerticalScrollIndicator={false}
       >
-        <View style={{ height: HERO_HEIGHT - 32 }} />
-        <View style={styles.sheet}>
-          <Stack gap="lg" style={styles.content}>
-            <View style={styles.titleBlock}>
+        <View testID="place-spacer" style={{ height: spacerHeight }} />
+        <View style={[styles.sheet, sideways && { borderTopLeftRadius: 0, borderTopRightRadius: 0 }]}>
+          <Stack
+            gap="lg"
+            style={[styles.content, wide && { paddingHorizontal: tokens.space.lg }]}
+          >
+            <View style={[styles.titleBlock, twoColumns && { width: LEFT_COLUMN }]}>
               <AppText variant="h1" style={styles.title}>
                 {site.name}
               </AppText>
               <FactsLine site={site} avgRating={avgRating} ratingCount={ratingCount} />
             </View>
 
+            {/* Upright on the Duo these are two columns, the right one level with the buttons;
+                everywhere else one column in the phone's order. */}
+            <View
+              testID="place-columns"
+              style={[styles.column, twoColumns && { flexDirection: "row", columnGap: GUTTER }]}
+            >
+            <View testID="place-left" style={[styles.column, twoColumns && { width: LEFT_COLUMN }]}>
             <QuickActions
               onDirections={handleDirections}
               onOpenReview={openReview}
@@ -232,8 +273,10 @@ function SiteDetail({ id }: { id: string }) {
                 template shipped with hint; rotorua-guide fixed the same thing
                 on 2026-09-04. */}
             <AppText style={styles.description}>{body}</AppText>
+            </View>
 
-            {site.hoursNote ? <GoodToKnow note={site.hoursNote} /> : null}
+            <View testID="place-right" style={[styles.column, twoColumns && { flex: 1 }]}>
+            {site.hoursNote ? <GoodToKnow note={site.hoursNote} last={twoColumns} /> : null}
 
             {tip ? (
               <View style={styles.tipCard}>
@@ -263,6 +306,8 @@ function SiteDetail({ id }: { id: string }) {
                 }
               }
             />
+            </View>
+            </View>
           </Stack>
         </View>
       </Animated.ScrollView>
@@ -272,6 +317,8 @@ function SiteDetail({ id }: { id: string }) {
         style={[
           styles.scrolledBar,
           { height: insets.top + SCROLLED_BAR_ROW, paddingTop: insets.top, opacity: scrolledBarOpacity },
+          // Sideways the sheet is already at the top, so there is nothing to cover.
+          sideways && { display: "none" },
         ]}
       >
         <AppText style={styles.scrolledBarTitle} numberOfLines={1}>
@@ -281,7 +328,7 @@ function SiteDetail({ id }: { id: string }) {
 
       <SafeAreaView style={styles.backButtonWrap} pointerEvents="box-none">
         <Pressable
-          style={styles.backButton}
+          style={[styles.backButton, wide && { marginHorizontal: tokens.space.lg }]}
           accessibilityRole="button"
           accessibilityLabel="Back"
           // The screen it was opened from (tab history, app/(app)/(tabs)/_layout.tsx). A
@@ -300,7 +347,26 @@ function SiteDetail({ id }: { id: string }) {
           in lib/hooks/useEntitlementGate.ts). rotorua-guide's version opens
           PremiumFeatureModal first; add that back when commerce lands. */}
       {(session.status === "authed" || session.status === "guest") && canAddToItinerary(site) && (
-        <SafeAreaView edges={["bottom"]} style={styles.itineraryFloatingWrap} pointerEvents="box-none">
+        <SafeAreaView
+          testID="place-add"
+          edges={["bottom"]}
+          style={[
+            styles.itineraryFloatingWrap,
+            rightPage,
+            // Upright on the Duo a fade above the row replaces the line, so no text looks cut.
+            twoColumns && { borderTopWidth: 0, paddingHorizontal: tokens.space.lg },
+            sideways && { paddingHorizontal: tokens.space.lg },
+          ]}
+          pointerEvents="box-none"
+        >
+          {twoColumns ? (
+            <LinearGradient
+              testID="place-add-fade"
+              colors={[`${page}00`, page]}
+              style={styles.addFade}
+              pointerEvents="none"
+            />
+          ) : null}
           {/* The tour lights this up; the View is what it measures. */}
           <View {...addTarget} style={styles.itineraryButton}>
             <AppButton
@@ -320,7 +386,8 @@ function SiteDetail({ id }: { id: string }) {
         // The kit's defaults say "itinerary"; this app says "trip".
         title="Add to Trip"
         variant="sheet"
-        colors={SWEEP_COLORS}
+        wide={wide}
+        colors={{ ...SWEEP_COLORS, edge: darkEdge.borderColor }}
         addExistingSublabel="Choose a day in one of your trips"
         createNewSublabel="Pick dates and add this place"
         onClose={() => setShowTripChoice(false)}
@@ -368,7 +435,8 @@ function SiteDetail({ id }: { id: string }) {
         variant="openSheet"
         title="Share Your Experience"
         subtitle=""
-        colors={REVIEW_COLORS}
+        wide={wide}
+        colors={{ ...REVIEW_COLORS, edge: darkEdge.borderColor }}
         saveButton={{ shape: { ...SWEEP_BUTTON, labelSize: 17 } }}
         visible={reviewOpen}
         saving={reviewsSaving}
@@ -484,7 +552,7 @@ function FactsLine({
 // the safety clauses got buried mid-sentence. A plain list ruled with
 // hairlines: it's reference information, and a tinted box with a side bar made
 // it look like a second tip.
-function GoodToKnow({ note }: { note: string }) {
+function GoodToKnow({ note, last }: { note: string; last?: boolean }) {
   const lines = note
     .split(";")
     .map((l) => l.trim())
@@ -495,7 +563,10 @@ function GoodToKnow({ note }: { note: string }) {
     <View>
       <AppText style={styles.sectionHeading}>Good to know</AppText>
       {lines.map((line, i) => (
-        <View key={i} style={styles.goodToKnowRow}>
+        <View
+          key={i}
+          style={[styles.goodToKnowRow, last && i === lines.length - 1 && { borderBottomWidth: 0 }]}
+        >
           <AppText style={styles.goodToKnowLine}>{line}</AppText>
         </View>
       ))}
@@ -516,6 +587,9 @@ const styles = StyleSheet.create({
   // 16/26 rather than the body variant's 15 with no line height, which left
   // multi-paragraph descriptions cramped at React Native's default spacing.
   description: { fontSize: 16, lineHeight: 26, color: tokens.colors.text },
+  // The page's two groups of blocks, spaced as the Stack above them (lg).
+  column: { gap: tokens.space.lg },
+  addFade: { position: "absolute", top: -36, left: 0, right: 0, height: 36 },
   titleBlock: { gap: tokens.space.sm },
   // 26pt bold since the design sweep (it was 28 at 800, and the h1 variant is 34 at 900):
   // big enough to lead the page, without shouting over the quiet facts line under it.

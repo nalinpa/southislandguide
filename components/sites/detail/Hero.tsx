@@ -18,14 +18,20 @@ type HeroProps = {
   siteId?: string | null;
   /** The photographer the photo's licence asks to be named. Not shown over a default photo. */
   imageCredit?: string | null;
+  /** The photo's height; the phone's is HERO_HEIGHT. */
+  height?: number;
+  /** The open Duo: a dark fade under the status bar, and the credit on the 20 pt margin. */
+  wide?: boolean;
+  /** How far the sheet laps over the photo's foot, so the credit sits clear of it. */
+  lap?: number;
 };
 
-export function Hero({ imageUrl, imageThumbnailUrl, category, siteId, imageCredit }: HeroProps) {
+export function Hero({ imageUrl, imageThumbnailUrl, category, siteId, imageCredit, height = HERO_HEIGHT, wide, lap = 32 }: HeroProps) {
   const ownPhoto = imageUrl ?? imageThumbnailUrl;
   const source = siteImage(ownPhoto, category, "full", siteId);
   const credit = ownPhoto ? imageCredit?.trim() : undefined;
   return (
-    <View style={styles.container}>
+    <View testID="place-photo" style={[styles.container, { height }]}>
       {source ? (
         <Image source={source} style={styles.image} />
       ) : (
@@ -40,8 +46,20 @@ export function Hero({ imageUrl, imageThumbnailUrl, category, siteId, imageCredi
         locations={[0, 0.62, 1]}
         style={StyleSheet.absoluteFill}
       />
+      {/* 55% to clear over 120 pt, so the clock reads on a bright sky. A null slot on the
+          phone, so the tree is the same on every width. */}
+      {wide ? (
+        <LinearGradient
+          colors={[`${tokens.colors.scrim}8C`, `${tokens.colors.scrim}00`]}
+          style={styles.topFade}
+          pointerEvents="none"
+        />
+      ) : null}
       {credit ? (
-        <Text style={styles.credit} numberOfLines={1}>
+        <Text
+          style={[styles.credit, { bottom: lap + tokens.space.xs }, wide && { right: tokens.space.lg }]}
+          numberOfLines={1}
+        >
           {`Photo: ${credit}`}
         </Text>
       ) : null}
@@ -55,6 +73,7 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: tokens.colors.accent,
   },
+  topFade: { position: "absolute", top: 0, left: 0, right: 0, height: 120 },
   image: { width: "100%", height: "100%", resizeMode: "cover" },
   placeholder: { flex: 1, justifyContent: "center", alignItems: "center" },
   // Bottom right, clear of the 32pt the white sheet laps over the photo
@@ -63,7 +82,6 @@ const styles = StyleSheet.create({
   credit: {
     position: "absolute",
     right: tokens.space.sm,
-    bottom: 32 + tokens.space.xs,
     maxWidth: "70%",
     color: "rgba(255,255,255,0.9)",
     fontSize: 11,

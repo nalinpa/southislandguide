@@ -373,11 +373,13 @@ describe("on the open Duo", () => {
   });
 
   // Sideways the status bar is in the rail (inset 0): the strip's back row and the title start 32 down.
-  it("keeps 32 from the top with no inset: the strip and the article's title", async () => {
+  // The back row sits 8 further from the top and from the left than the 32 / 20 base (owner).
+  it("keeps 32 from the top with no inset: the strip (+8) and the article's title", async () => {
     wide({ width: 951, height: 669 });
     const view = await render(<GuideIndexPage />);
 
-    expect(StyleSheet.flatten(view.getByTestId("guide-list-pane").props.style).paddingTop).toBe(32);
+    expect(StyleSheet.flatten(view.getByTestId("guide-list-pane").props.style).paddingTop).toBe(40);
+    expect(StyleSheet.flatten(view.getByTestId("guide-head").props.style).paddingHorizontal).toBe(28);
     expect(StyleSheet.flatten(view.getByTestId("guide-article").props.contentContainerStyle).paddingTop).toBe(32);
   });
 

@@ -50,8 +50,8 @@ export function GuideList({ categories, selectedSlug, onSelect, wide }: GuideLis
 
 const styles = StyleSheet.create({
   list: { paddingHorizontal: tokens.space.md, paddingBottom: tokens.space.xl },
-  // 8 in, and the rows' own 12 puts the tiles on the 20 pt edge while the chosen fill reaches 12 into the margin.
-  listWide: { paddingHorizontal: 8, paddingBottom: tokens.space.xl },
+  // 16 in, and the rows' own 12 puts the tiles on the 28 pt edge (the head's, 8 in from the old 20) while the chosen fill reaches 12 into the margin.
+  listWide: { paddingHorizontal: 16, paddingBottom: tokens.space.xl },
   row: {
     flexDirection: "row",
     alignItems: "center",

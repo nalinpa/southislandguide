@@ -83,9 +83,9 @@ export function GuideBrowser({ initialSlug, articleMode }: { initialSlug?: strin
 
       <View style={styles.row}>
         {phoneArticle ? null : (
-        <View testID="guide-list-pane" style={wide ? [styles.side, { paddingTop: wideTop(insets.top, insets.top) }] : styles.flex1}>
+        <View testID="guide-list-pane" style={wide ? [styles.side, { paddingTop: wideTop(insets.top, insets.top) + 8 }] : styles.flex1}>
           {wide ? (
-            <View style={styles.head}>
+            <View testID="guide-head" style={styles.head}>
               <View style={styles.backRow}>
                 <Pressable
                   onPress={back}
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   // The trip's band, 2:3 with the section in both orientations (268/401 upright, 347/520 sideways).
   side: { flex: 2, backgroundColor: tokens.colors.band },
   article: { flex: 3 },
-  head: { paddingHorizontal: tokens.space.lg, paddingBottom: tokens.space.md },
+  head: { paddingHorizontal: tokens.space.lg + 8, paddingBottom: tokens.space.md },
   bar: { height: 44, justifyContent: "center", paddingHorizontal: tokens.space.md },
   backRow: { height: 44, flexDirection: "row", alignItems: "center" },
   // The chevron's own blank edge is pulled back, so its stroke sits on the 20 pt edge.

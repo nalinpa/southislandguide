@@ -342,15 +342,35 @@ describe("category chips", () => {
     });
   });
 
-  // Tapping the filter button shut mustn't hide the only sign that a filter is on.
-  it("stay up while a category is chosen, even with the filter button tapped shut", async () => {
+  // Changed in round 3 (owner, 2026-11-16): this used to assert the chips stayed up with the
+  // button tapped shut. Now tapping it while the row is open clears the category and closes it.
+  it("the filter button, tapped with a category chosen, clears it back to All and closes the row", async () => {
     const view = await render(<MapScreen />);
     await openFilters(view);
     await fireEvent.press(view.getByText("Scenic"));
+    expect(markers(view)).toEqual(["Sumner Beach"]);
 
     await openFilters(view);
 
-    expect(view.getByText("Scenic")).toBeTruthy();
+    expect(view.queryByTestId("map-chips")).toBeNull();
+    expect(markers(view).length).toBeGreaterThan(1);
+    // Tapped again while closed: it opens, with All chosen.
+    await openFilters(view);
+    expect(view.getByRole("button", { name: "All" })).toHaveStyle({ backgroundColor: tokens.colors.accent });
+  });
+
+  it("the filter button on the Duo does the same", async () => {
+    require("@blacksands/ui").__setWide(true, { width: 669, height: 951 });
+    const view = await render(<MapScreen />);
+    await openFilters(view);
+    await fireEvent.press(view.getByText("Scenic"));
+    expect(markers(view)).toEqual(["Sumner Beach"]);
+
+    await openFilters(view);
+
+    expect(view.queryByTestId("map-chips")).toBeNull();
+    expect(view.getByText("Chips open: false")).toBeTruthy();
+    expect(markers(view).length).toBeGreaterThan(1);
   });
 
   it("are hidden until the filter button is pressed", async () => {

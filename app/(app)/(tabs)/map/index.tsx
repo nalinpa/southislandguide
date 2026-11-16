@@ -371,7 +371,12 @@ export default function MapScreen() {
             <TouchableOpacity
               onPress={() => {
                 Haptics.impactAsync();
-                setShowFilters((p) => !p);
+                // Open: shut, and back to All (owner, 2026-11-16). A chosen category kept the row
+                // up before, so the only way to close it was to pick All.
+                if (showFilters || categoryOn) {
+                  if (categoryOn) setMapFilter(null);
+                  setShowFilters(false);
+                } else setShowFilters(true);
               }}
               accessibilityRole="button"
               accessibilityLabel="Filter by category"
@@ -404,9 +409,8 @@ export default function MapScreen() {
           </View>
         )}
 
-        {/* Hidden until asked for, to leave the map clear. They stay up while a
-            category is chosen even if the button is tapped shut: otherwise
-            nothing would say which filter is on, or offer a way to change it. */}
+        {/* Hidden until asked for, to leave the map clear. They stay up while a category is
+            chosen (it says which filter is on); the filter button shuts them and clears it. */}
         {(showFilters || categoryOn) && (
           <ScrollView testID="map-chips" horizontal showsHorizontalScrollIndicator={false} style={wide && styles.chipScrollWide}
             contentContainerStyle={[styles.chipRow, wide && styles.chipRowWide]}>

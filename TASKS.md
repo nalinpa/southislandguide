@@ -44,6 +44,11 @@ Plan: the doc [Kiwi Guide 1.3 Plan](https://claude.ai/artifact/1qoZN26ADdcgrQPRm
   - The app's tab bar is its own (`TabBar` in `app/(app)/(tabs)/_layout.tsx`). Expo says custom JS headers and tab bars draw the classic way, inside the safe areas, not by iPhone Duo conventions. Decide whether that's enough or the tab bar moves to Expo Router's own.
   - Update `react-native-safe-area-context` with it (side insets on the Duo), then check every screen in the iPhone Duo simulator, folded and open. There's no simulator on Windows, so that's EAS builds on a device or a Mac.
   - Read first: expo.dev/changelog/sdk-58, expo.dev/blog/supporting-iphone-duo, expo.dev/blog/how-to-upgrade-to-sdk-58.
+- [x] **iPhone Duo wide layouts — built, reviewed and checked on the Duo simulator (2026-11-16).** Plan `docs/plans/duo-build.md`, designs `docs/plans/design-sweep.md` "## Wide". `useWide()` (window ≥ 600 pt) from `@blacksands/ui` 0.7.2; engine opt-ins from `@blacksands/components` 0.13.x. Every screen: Explore, a place, the trip (list beside the day; guests see a sample day), the map (side panel, own chips row), the guide (list beside the section, region picker), Profile, Login, Saved Places (grid), the tour, the error screen and every pop-up as a centred card. Phone unchanged except the map's filter button, which now clears to All and closes when tapped again (owner, phone too). Checked on EAS Simulator (iPhone Duo, iOS 27.1) by the owner after four rounds of fixes. Runtime still `a0bdc768…`.
+- [ ] **1.3 store build** (prep 2026-11-16):
+  - **Owner's phone checks still to do** (from the list above): sign in with Apple, Google and email; the saved-map landing; Sentry lock-and-unlock.
+  - **Store listing:** What's New (draft: iPhone Duo layouts; the map filter button; updated for iOS 27). iPhone Duo screenshots, inner display, landscape 2853 × 2007: `store/screenshots/duo/kiwi-guide-duo-01…08.png` (rebuild with `store/screenshots/duo/build.js`; frame 3's day list starts on a cut row). The iPhone set is unchanged.
+  - **Build and submit (owner):** `npx eas-cli build --profile production --platform ios`, then `npx eas-cli submit --platform ios --latest`. The production EAS environment's `GITHUB_TOKEN` works (the simulator build used it, 2026-11-16).
 
 ---
 
@@ -142,6 +147,9 @@ Plan: the doc [Kiwi Guide 1.3 Plan](https://claude.ai/artifact/1qoZN26ADdcgrQPRm
 ## Later
 
 ### From the 1.3 Duo sweep (not in 1.3: upgrades and Duo only)
+- [ ] **Duo polish left after 1.3's reviews (2026-11-16), none blocking:** a guest's sample-day stops are made read-only by a one-hour hold, because the engine's `TimelineBlock` has no read-only prop (add `readOnly` in `@blacksands/components`); the map's search field loses focus when folding mid-search; the Today's Trip strip and Nearby wait for GPS, as on the phone; the guide's 28 pt left edge is three coupled numbers in `GuideBrowser`/`GuideList`; a few tests check styles rather than layout (no layout in Jest). Device-only notes to re-check on a real Duo: the town name shrink on long one-word names, the map's camera restore on fold.
+- [ ] **Profile's My Trip was empty right after signing in** (owner, Duo simulator, 2026-11-16). Probably not Duo-only; check on the phone.
+- [ ] **Ophir Post Office shows under Food** (owner, 2026-11-16): its categories, not the layout.
 - [ ] **The phone's stop times are hard to read** (Duo sweep, trip rounds 1 to 7, 2026-11-15). On a trip day's teal stops, "9:00 – 10:30 AM" is 12 pt bold, widely spaced and dimmed. The type and colour critics called it the hardest text on the screen, and in dark it fails 4.5:1. The Duo's picked design sets it 13 pt, medium, 90% white, normal spacing; the phone could follow. It changes the phone's look, so it's a phone release, not 1.3.
 
 ### 1.1 — drive times and multi-day

@@ -9,7 +9,7 @@ Reference app for every port: `rotorua-guide`.
 
 **One launch (owner, 2026-10-16), free (owner, 2026-10-19):** the whole island and all content together, finished and ready to promote, with no paid unlock. The unlock is after launch (Later → After launch, below). The plan, with its open questions and workstreams, is [docs/plans/launch.md](docs/plans/launch.md). It replaces the staged plan that was here (1.0 Christchurch, 1.1 drive times, 1.2 the full list, 1.3 itineraries, 1.4 in-app purchase); the sections below keep their old headings for history.
 
-### 1.2, the next store build (owner, 2026-11-14)
+### 1.2 — live 2026-11-15 (build 8, `bdfcce9`, runtime `236bed82…`)
 
 1.1 is live, on runtime `4ad8daed…` (production build 7). 1.2 is a store build because the store needs new screenshots anyway.
 
@@ -21,7 +21,7 @@ Reference app for every port: `rotorua-guide`.
 - **No over-the-air update of the sweep to 1.1:** it waits for 1.2.
 - **Before the first native change lands on `main`:** `hotfix/1.1` (made 2026-11-14) is the last commit on 1.1's runtime, for any 1.1 hotfix.
 
-### 1.3, the next store build (owner, 2026-11-15)
+### 1.3 — built 2026-11-16 (owner); checks, listing and submit left
 
 Plan: the doc [Kiwi Guide 1.3 Plan](https://claude.ai/artifact/1qoZN26ADdcgrQPRm1iB3C). Expo SDK 58 and every library update, then iPhone Duo: fit first, then wide layouts, screen by screen. **Scope (owner, 2026-11-15): upgrades and Duo support only, and Duo support as soon as possible. Any other work goes in "Later", never in 1.3. Full Duo support: every screen in the sweep gets its wide layout in 1.3, not just the most-seen ones.** Checked that day: the branch, this section and the plan doc held nothing else. Owner's calls: keep our own tab bar; real wide layouts on the open Duo; take every major update; check the Duo on Expo Simulators (needs a paid EAS plan, not decided yet; Appetize is the fallback). Testing is the owner's to arrange.
 
@@ -45,10 +45,42 @@ Plan: the doc [Kiwi Guide 1.3 Plan](https://claude.ai/artifact/1qoZN26ADdcgrQPRm
   - Update `react-native-safe-area-context` with it (side insets on the Duo), then check every screen in the iPhone Duo simulator, folded and open. There's no simulator on Windows, so that's EAS builds on a device or a Mac.
   - Read first: expo.dev/changelog/sdk-58, expo.dev/blog/supporting-iphone-duo, expo.dev/blog/how-to-upgrade-to-sdk-58.
 - [x] **iPhone Duo wide layouts — built, reviewed and checked on the Duo simulator (2026-11-16).** Plan `docs/plans/duo-build.md`, designs `docs/plans/design-sweep.md` "## Wide". `useWide()` (window ≥ 600 pt) from `@blacksands/ui` 0.7.2; engine opt-ins from `@blacksands/components` 0.13.x. Every screen: Explore, a place, the trip (list beside the day; guests see a sample day), the map (side panel, own chips row), the guide (list beside the section, region picker), Profile, Login, Saved Places (grid), the tour, the error screen and every pop-up as a centred card. Phone unchanged except the map's filter button, which now clears to All and closes when tapped again (owner, phone too). Checked on EAS Simulator (iPhone Duo, iOS 27.1) by the owner after four rounds of fixes. Runtime still `a0bdc768…`.
-- [ ] **1.3 store build** (prep 2026-11-16):
-  - **Owner's phone checks still to do** (from the list above): sign in with Apple, Google and email; the saved-map landing; Sentry lock-and-unlock.
+- [~] **1.3 store build — built (owner, 2026-11-16):**
+  - **Owner's phone checks still to do** (from the list above): sign in with email (the Apple and Google buttons are hidden); the saved-map landing; Sentry lock-and-unlock.
   - **Store listing:** What's New (draft: iPhone Duo layouts; the map filter button; updated for iOS 27). iPhone Duo screenshots, inner display, landscape 2853 × 2007: `store/screenshots/duo/kiwi-guide-duo-01…08.png` (rebuild with `store/screenshots/duo/build.js`; frame 3's day list starts on a cut row). The iPhone set is unchanged.
-  - **Build and submit (owner):** `npx eas-cli build --profile production --platform ios`, then `npx eas-cli submit --platform ios --latest`. The production EAS environment's `GITHUB_TOKEN` works (the simulator build used it, 2026-11-16).
+  - **Build and submit (owner):** `npx eas-cli build --profile production --platform ios`, then `npx eas-cli submit --platform ios --latest`. The production EAS environment's `GITHUB_TOKEN` works (the simulator build used it, 2026-11-16). Built 2026-11-16; submit left.
+  - **Once it's live:** merge `1.3` into `main` (68 commits ahead on 2026-11-16), keep `1.3` as its hotfix line, and note the build number. OTAs must match runtime `a0bdc768…`.
+
+### 1.4 — proposed 2026-11-16, scope is the owner's call
+Nothing here is decided. JS-only fixes can go out as OTAs on 1.3's runtime once it's live (`--platform ios`), so a 1.4 store build is only needed for sign-in.
+- [ ] **Over the air, on 1.3's runtime:**
+  - Profile's My Trip is empty right after signing in (Later, below).
+  - Drive times far off on some legs between towns, and the per-day "N h driving" 1–2 h short (After launch — drive times between stops). Option (a) needs a few hundred Maps lookups: quote first.
+  - The phone's stop times, in the Duo's 13 pt medium, 90% white (Later, below).
+  - The suggested-trip dropdown, a cramped 220px scroll box (Suggested trips, below).
+  - A guest's sample trip copied into their account after signing in (Trips tab for a guest, below).
+  - The 15-second "Route Change" trace: check its release in Sentry first (backlog, below).
+  - Duo polish (Later, below): `readOnly` on the engine's `TimelineBlock` (engine first, owner publishes), the map's search focus on fold, the guide's left edge.
+- [ ] **No app build:**
+  - The password reset email and page (Tester feedback, 2026-11-14, below): website and Firebase console.
+  - Ophir Post Office's categories, in the admin panel; then clear the KV list from PowerShell.
+- [ ] **Store build: Apple and Google sign-in** ([docs/plans/apple-signin.md](docs/plans/apple-signin.md)). Step 1 is the owner's: make Kiwi Guide its own primary App ID, then re-run the probe. `invalid_request` means go; still `invalid_client` means wait, and 1.4 isn't needed yet.
+- **Owner's calls, not code:** the Blaze plan (Place-list cache, below); linking Sentry's GitHub app and setting up its code mapping; asking the 2026-11-11 tester for their tour screenshot and phone model.
+
+### Phone checks left from 1.0 to 1.2 (batched 2026-11-16)
+Each stays `[~]` in its own section below; tick it there too once it's checked here.
+- [ ] A second trip opens on its own day, not the first trip's (the `key={itineraryId}` fix).
+- [ ] Reviews don't keep the previous place's scroll position.
+- [ ] Report and block on a review, signed in and as a guest.
+- [ ] No band between the profile sheet and the tab bar; the gap under the tab labels.
+- [ ] The UX sweep, fix-16 to fix-31 (the check at the end of each prompt in `prompts/`).
+- [ ] Offline after more than 24 hours: trips and places still show (steps in the item).
+- [ ] Account deletion, in Kiwi Guide and in Rotorua (`prompts/fix-25-account-deletion.md`).
+- [ ] The login screen: sign in, create an account, reset, guest entry, the keyboard, the SE size.
+- [ ] The guide: every region's tab, sections open, subheadings in the highlight colour.
+- [ ] The suggested trips.
+- [ ] Overseas directions and my-location: at home, only the in-NZ path (directions route from the phone; my-location centres on it).
+- [ ] Add to Calendar with a Google calendar (Apple Calendar works).
 
 ---
 
@@ -107,7 +139,7 @@ Plan: the doc [Kiwi Guide 1.3 Plan](https://claude.ai/artifact/1qoZN26ADdcgrQPRm
   - fix-31: VoiceOver roles and labels
   - fix-24 (last): "Trip"/"Trips" and "place" on every screen (owner's words, 2026-10-20)
 - [~] **Offline, trips and places vanish if the app was last open more than 24 hours ago** — found reading the code 2026-10-14, not yet reproduced on a device. **Fixed in code 2026-10-15** (`lib/providers/AppProviders.tsx`): the saved copy now lasts 14 days (`maxAge`, with `gcTime` to match), pinned by `lib/providers/__tests__/AppProviders.test.tsx`. **Needs the device check below.** Trips, the place list and saved places all sit in one saved query cache, and `PersistQueryClientProvider` in `lib/providers/AppProviders.tsx` sets no `maxAge`, so the library default applies: on launch the whole saved cache is discarded if it was last written more than 24 hours ago. With signal it refetches and nobody notices; without signal the app opens with no trips and no places. A traveller a day out of coverage loses their plan. Likely fix, untested: set `maxAge` in `persistOptions` and raise `gcTime` to match (the library wants `gcTime` at least as long as `maxAge`; 14 days would match the shared `useLocation`). JS only, so it can go out as an update. To reproduce: open the app with signal, switch to airplane mode, set the clock forward a day or more, reopen. rotorua-guide's providers were not looked at.
-- [~] **Place-list cache — api live 2026-10-29; the app half needs the build and a commit.** The southislandguide Firebase project is on the free plan: 50,000 document reads a day. Before the cache, every place-list load read all 559 place docs, so the app could manage only about 89 list loads a day. The quota ran out on 2026-10-27. **Done 2026-10-29 (`prompts/locations-cache-finish.md`):**
+- [x] **Place-list cache — api live 2026-10-29; the app half shipped in 1.0 (closed 2026-11-16; the Blaze plan is under 1.4's owner's calls).** The southislandguide Firebase project is on the free plan: 50,000 document reads a day. Before the cache, every place-list load read all 559 place docs, so the app could manage only about 89 list loads a day. The quota ran out on 2026-10-27. **Done 2026-10-29 (`prompts/locations-cache-finish.md`):**
   - The api keeps a 14-day copy in KV (registry `locationsCacheDays: 14`, a number), so a list call costs 0 reads.
   - `upload-places.js` and `set-area.js` clear that copy after `--apply`; after a Firebase console edit, run `scripts/clear-places-cache.js`.
   - The app's once-a-day `staleTime` in `lib/providers/AppProviders.tsx` is written; the trip-write resume no longer refetches the place list.
@@ -136,7 +168,7 @@ Plan: the doc [Kiwi Guide 1.3 Plan](https://claude.ai/artifact/1qoZN26ADdcgrQPRm
   1. Open the app and tap through the tabs; Explore → Traces should show release 1.0.0.
   2. Releases → 1.0.0 should list source maps, and Debug Files should list a dSYM.
   3. Sign out and hold the "Kiwi Guide" title on the login screen. Issues should show "Sentry test from the login title" with its stack pointing at `app/(auth)/login.tsx`, not minified code. The long press is in the app for good: it sends only that report and shows nothing.
-- [~] **Renamed to "Kiwi Guide" — 2026-10-30, needs the build.** Saved in App Store Connect. In the app: the name under the icon, the four permission prompts, the login title, the share card footer and the photo-access alert (committed 2026-10-30). The internal ids (bundle id, slug, scheme, EAS/Firebase projects, api key `southislandguide`) stay. The North Island is coming after launch, so "South Island" goes in the store subtitle, not the name. Store text describes only what ships, with no "coming soon". The login tagline and share-card region label still say South Island, which is accurate for launch. Take the store screenshots after this build.
+- [x] **Renamed to "Kiwi Guide" — 2026-10-30, shipped in 1.0.** Saved in App Store Connect. In the app: the name under the icon, the four permission prompts, the login title, the share card footer and the photo-access alert (committed 2026-10-30). The internal ids (bundle id, slug, scheme, EAS/Firebase projects, api key `southislandguide`) stay. The North Island is coming after launch, so "South Island" goes in the store subtitle, not the name. Store text describes only what ships, with no "coming soon". The login tagline and share-card region label still say South Island, which is accurate for launch. Take the store screenshots after this build.
 - [x] **Testing** — `npm test` runs jest 29 with the `jest-expo` preset (57.0.4, pinned to match react-native 0.86.2) and `@testing-library/react-native` 14, set up as rotorua-guide's (`jest.config.js`, `test/uiKitMock.tsx`, `__mocks__/lucide-react-native.js`, `"types": ["jest"]` in tsconfig). 2026-10-09: 38 suites, 410 tests — 398 passing, 12 `test.todo`. The todos are parked bugs (reviews offline, login bouncing guests, account zero counts, the two known tab-reuse bugs), 1.3 template cases, and one inherited from rotorua's NoteCard test; each bug names its file:line.
 - [x] **CI for tests** — done 2026-11-11: `.github/workflows/ci.yml` runs `npm ci`, `typecheck` and `npm test -- --ci` on every push and PR to main (not for `.md` or `docs/` changes). It needs the repo secret `NPM_GITHUB_TOKEN` for the `@blacksands` packages. The first run failed on typecheck: Node's types only resolved locally through `scripts/node_modules`, so `@types/node` is now a dev dependency and in tsconfig's `types`. Was: the remote exists now (`nalinpa/southislandguide`), so this can be wired up: copy rotorua-guide's `test` job from `.github/workflows/cicd.yml` (`npm ci` then `npm test -- --ci`, after `typecheck`).
 - [x] **Guide section bodies** — all 13 written and in `lib/guideContent.ts` (2026-09-29), 206–461 words each, 25 subheadings. Checked against the guide screen's heading rule before writing. The writer's "FACTS TO DOUBLE-CHECK" list wasn't pasted back — worth reviewing it for the safety sections.
@@ -222,7 +254,7 @@ Added 2026-10-30.
     - On this error, try again with no alerts (`alarms: []`).
     - If the calendar still refuses, say "That calendar won't take the trip. Pick another one." instead of "Please try again".
     - Keep the list of the trip's earlier events through a failed attempt. Today it's cleared, so events from an earlier add to another calendar stay behind as duplicates.
-- [ ] **Watch Sentry daily for the first week.** New crashes are under Issues; screen timings are under Traces. Tracing samples one session in five (`tracesSampleRate: 0.2`, from update 1).
+- [x] **Watch Sentry daily for the first week.** (Closed 2026-11-16: the week is over.) New crashes are under Issues; screen timings are under Traces. Tracing samples one session in five (`tracesSampleRate: 0.2`, from update 1).
 - [x] **Stop the 15-second "Route Change" traces** (done 2026-11-09, in 1.1: the tour and the tab bar skip navigating to the tab already on screen) (from a user's trace, 2026-11-08). Sentry noise only; users see nothing, and every screen in that trace was fast (place 74 ms, Trips 77 ms, map 332 ms, Explore about 620 ms on first open). The cause: navigating to the tab you're already on. With `backBehavior="history"` that rebuilds the tab history, so the state changes but the screen doesn't. In that case Sentry's navigation integration leaves its "navigation.processing" span open, and core's `childSpanTimeout` (15 s) closes the transaction. Two places do it:
   - **The opening tour, likeliest:** its first step ("welcome", `tabKey: "sites"`) calls `router.navigate` to Explore while the user is already on Explore (`goToStep` in `lib/tour/TourContext.tsx`), so every new user's tour starts with one. In the user's trace the stray transaction ended on Trips, the tour's sixth step, and Trips then Map follow it, as in the tour.
   - **Tapping the tab you're on:** `TabBar`'s `onSelect` in `app/(app)/(tabs)/_layout.tsx` calls `navigation.navigate()` without checking.
@@ -234,7 +266,7 @@ Added 2026-10-30.
   - First, check the trace's release in Sentry. If it's 1.0.x, it's the old cause and already fixed in 1.1. Nothing to do.
   - If it's 1.1 or later, there's a third source. Its place in the trace points at start-up (the redirect in `app/index.tsx`, or the tour's first step), not a tab tap. Not checked. Needs a repro on a phone.
   - The same span also shows in the Kai Auckland app's traces, which share this Sentry project, so the cause may be in the engine.
-- [ ] **Saved map packs that finish after iOS has closed the app, in 1.2** (owner, 2026-11-12; in 1.2, owner, 2026-11-14). The packs download in an iOS background session (`lib/offlineMap.ts`). If iOS ends the app while it's closed, a pack that finishes afterwards has nowhere to land, because expo-file-system's download handler lives only as long as the app's JS. The pack (40 MB or less) is downloaded again when the app next opens.
+- [~] **Saved map packs that finish after iOS has closed the app: in 1.2's build (`9dbd890`); the phone check is in 1.3's checks** (owner, 2026-11-12; in 1.2, owner, 2026-11-14). The packs download in an iOS background session (`lib/offlineMap.ts`). If iOS ends the app while it's closed, a pack that finishes afterwards has nowhere to land, because expo-file-system's download handler lives only as long as the app's JS. The pack (40 MB or less) is downloaded again when the app next opens.
   - Why nothing picks it up (read 2026-11-14): expo-file-system's legacy API gives every background session a new random name (`URLSessionConfiguration.background(withIdentifier: UUID().uuidString)`, `ios/Legacy/NetworkingHelpers.swift:16`). When iOS wakes the app for that session, its own handler (`FileSystemBackgroundSessionHandler`) only keeps the completion handler; nothing opens a session by that name, so the finished file is thrown away.
   - Fix: a small local Expo module in `modules/` (autolinked: no config plugin, no `app.config.ts` change), with an `ExpoAppDelegateSubscriber` for `handleEventsForBackgroundURLSession`. It opens a session with the name iOS gives it and a delegate that moves each finished download whose address is a map pack into `Caches/offline-map-packs/<file name>`, then calls the completion handler when the session's events are done. The app already unpacks any pack it finds there at the right size, so the JS side needs no change.
   - Check first: how Expo combines the completion handler across subscribers, since expo-file-system's never calls it for these sessions.
@@ -390,7 +422,7 @@ Owner, 2026-11-11. Not planned yet.
 ### After launch — emailing users for feedback and news
 Owner, 2026-10-31: wants to be able to email users for feedback or news. Account emails need no consent. Feedback or news needs an opt-in: NZ's Unsolicited Electronic Messages Act requires consent and a working unsubscribe, and EU users need an explicit opt-in. Plan before building.
 - [x] **Privacy policy line, before submitting:** live on blacksands.app/kiwi-guide (dated 31 October 2026) and kiwiguide.app/privacy, checked 2026-11-10. It was [prompts/privacy-email-line.md](prompts/privacy-email-line.md).
-- [~] **Signup opt-in — built 2026-11-07, for 1.0.1:** an unticked box, "Email me now and then to ask for feedback and share Kiwi Guide news", from `AuthPanel`'s new `optIn` (`@blacksands/components` 0.8.0, `3f277ab`, owner publishes). Sign-up saves `emailOptIn { value, at }` on `users/{uid}`, yes or no (`841de99`). No api or rules change: the user can already write that record, and account deletion removes it.
+- [x] **Signup opt-in — built 2026-11-07, shipped by 1.2:** an unticked box, "Email me now and then to ask for feedback and share Kiwi Guide news", from `AuthPanel`'s new `optIn` (`@blacksands/components` 0.8.0, `3f277ab`, owner publishes). Sign-up saves `emailOptIn { value, at }` on `users/{uid}`, yes or no (`841de99`). No api or rules change: the user can already write that record, and account deletion removes it.
 - [x] **Profile switch:** "Email me about feedback and news" on the Account tab, signed in only (`841de99`).
 - [ ] **Exporting the list:** a read-only script for the emails of users with `emailOptIn.value` true (Firebase Auth has the emails), when the first email goes out.
 - [x] **Users who signed up before the box** haven't agreed. A one-time in-app prompt could ask them. Dropped (owner, 2026-11-12): no prompt; they can turn it on with the Profile switch.

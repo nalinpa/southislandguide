@@ -77,9 +77,9 @@ D1 and D2 were for the unlock and have moved to [After launch](#after-launch-the
 
 From Rotorua's rejections and fixes (`rotorua-guide/TASKS.md`, 2026-09). These three apply to any launch; the IAP-only ones are in [After launch](#after-launch-the-paid-unlock).
 
-- [ ] Screenshots at **1320 × 2868** (6.9"). 828 × 1792 was rejected outright.
-- [ ] Privacy labels match reality, with no tracking declared unless there's an ATT prompt (5.1.2(i)).
-- [ ] Every screen with a main action works at 375 × 667 (Guideline 4: Rotorua's rejection).
+- [x] Screenshots at **1320 × 2868** (6.9"). 828 × 1792 was rejected outright. (1.0 passed review, 2026-11-02.)
+- [x] Privacy labels match reality, with no tracking declared unless there's an ATT prompt (5.1.2(i)). (1.0 passed review, 2026-11-02.)
+- [x] Every screen with a main action works at 375 × 667 (Guideline 4: Rotorua's rejection). (Moved to TASKS.md, "After launch — multi-device testing", 2026-11-16.)
 
 ## Order
 

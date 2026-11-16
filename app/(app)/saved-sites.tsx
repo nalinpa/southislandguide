@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { useWide } from "@blacksands/ui";
 import { FlashList } from "@shopify/flash-list";
 import ReanimatedSwipeable, { type SwipeableMethods } from "react-native-gesture-handler/ReanimatedSwipeable";
 import { router } from "expo-router";
@@ -73,6 +74,9 @@ export default function SavedSitesPage() {
   const isGuest = useSession().session.status === "guest";
   const { locations, loading, err } = useAllLocations();
   const { loc } = hooksBag.useUserLocation();
+  // The open Duo: a grid of two columns, upright and sideways. The same list on every width;
+  // only numColumns and the margins change.
+  const wide = useWide();
 
   const [category, setCategory] = useState<SiteCategory | null>(null);
 
@@ -162,7 +166,7 @@ export default function SavedSitesPage() {
         data={rows}
         keyExtractor={(item) => item.location.id}
         renderItem={({ item, index }: { item: SiteRow; index: number }) => (
-          <View style={styles.itemWrap}>
+          <View testID="saved-cell" style={[styles.itemWrap, wide && styles.itemWrapWide]}>
             <SwipeableRow
               item={item}
               index={index}
@@ -171,7 +175,8 @@ export default function SavedSitesPage() {
             />
           </View>
         )}
-        contentContainerStyle={styles.listContent}
+        numColumns={wide ? 2 : 1}
+        contentContainerStyle={wide ? styles.listContentWide : styles.listContent}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <View style={styles.emptyState}>
@@ -214,7 +219,10 @@ const styles = StyleSheet.create({
   },
   countText: { color: "#FFFFFF", fontSize: 12, fontWeight: "700" },
   listContent: { paddingHorizontal: tokens.space.md, paddingTop: tokens.space.md, paddingBottom: 32 },
+  // Wide: 24 at the sides (16 here and 8 in each cell), 16 between the columns and the rows.
+  listContentWide: { paddingHorizontal: 16, paddingTop: tokens.space.md, paddingBottom: 32 },
   itemWrap: { marginBottom: 24 },
+  itemWrapWide: { marginBottom: 16, paddingHorizontal: 8 },
   deleteAction: {
     backgroundColor: tokens.colors.dangerFill,
     justifyContent: "center",

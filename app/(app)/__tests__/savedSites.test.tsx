@@ -11,10 +11,10 @@ jest.mock("@shopify/flash-list", () => {
   const React = require("react");
   const { View } = require("react-native");
   return {
-    FlashList: ({ data, renderItem, keyExtractor, ListHeaderComponent, ListEmptyComponent }: any) =>
+    FlashList: ({ data, renderItem, keyExtractor, ListHeaderComponent, ListEmptyComponent, numColumns, contentContainerStyle }: any) =>
       React.createElement(
         View,
-        null,
+        { testID: "saved-list", numColumns, contentContainerStyle },
         ListHeaderComponent,
         data.length === 0
           ? ListEmptyComponent
@@ -293,5 +293,43 @@ describe("category tabs", () => {
     // Scenic before Adventure before Food & Drink — the SITE_CATEGORIES order,
     // regardless of which site was saved first.
     expect(tabLabels(view)).toEqual(["All", "Scenic", "Adventure", "Food & Drink"]);
+  });
+});
+
+// The open Duo: two columns, upright and sideways, 24 at the sides, 16 between.
+describe("on the open Duo", () => {
+  const { StyleSheet } = require("react-native");
+  const wide = (size = { width: 669, height: 951 }) => require("@blacksands/ui").__setWide(true, size);
+  afterEach(() => require("@blacksands/ui").__setWide(false));
+
+  it.each([
+    ["upright", { width: 669, height: 951 }],
+    ["sideways", { width: 951, height: 669 }],
+  ])("is a grid of two columns with 24 sides, a 16 gutter and 16 between rows, %s", async (_n, size) => {
+    wide(size);
+    const view = await render(<SavedSitesPage />);
+
+    expect(view.getByTestId("saved-list").props.numColumns).toBe(2);
+    expect(StyleSheet.flatten(view.getByTestId("saved-list").props.contentContainerStyle).paddingHorizontal).toBe(16);
+    const cell = StyleSheet.flatten(view.getAllByTestId("saved-cell")[0].props.style);
+    expect(cell).toMatchObject({ paddingHorizontal: 8, marginBottom: 16 }); // 16 + 8 = 24 at the edge; 8 + 8 = 16 between
+  });
+
+  it("still opens a place and removes one from a cell", async () => {
+    wide();
+    const view = await render(<SavedSitesPage />);
+
+    await fireEvent.press(view.getByText("Riverside Market"));
+    expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/sites/s3");
+    await fireEvent.press(view.getAllByText("Remove")[0]);
+    expect(mockSavedSites.toggleSavedSite).toHaveBeenCalledWith({ siteId: "s1", isSaving: false });
+  });
+
+  it("is one column with the phone's margins on a phone", async () => {
+    const view = await render(<SavedSitesPage />);
+
+    expect(view.getByTestId("saved-list").props.numColumns).toBe(1);
+    expect(StyleSheet.flatten(view.getByTestId("saved-list").props.contentContainerStyle).paddingHorizontal).toBe(16);
+    expect(StyleSheet.flatten(view.getAllByTestId("saved-cell")[0].props.style)).toEqual({ marginBottom: 24 });
   });
 });

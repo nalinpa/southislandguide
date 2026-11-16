@@ -70,8 +70,8 @@ describe("ExploreSide", () => {
 
   it("keeps Aoraki / Mount Cook on two whole-word lines, and steps the longest single word", async () => {
     const view = await render(<ExploreSide {...base} town="Aoraki / Mount Cook" />);
-    await lay(view, "Aoraki / Mount Cook", ["Aoraki / Mount", "Cook ￼"]);
-    expect(view.getByText("Aoraki / Mount Cook")).toHaveStyle({ fontSize: 26 });
+    await lay(view, "Aoraki /\nMount Cook", ["Aoraki /", "Mount Cook ￼"]);
+    expect(view.getByText("Aoraki /\nMount Cook")).toHaveStyle({ fontSize: 26 });
 
     const long = await render(<ExploreSide {...base} town="Christchurch" />);
     await lay(long, "Christchurch", ["Christchurc", "h ￼"]);
@@ -82,6 +82,12 @@ describe("ExploreSide", () => {
   it("keeps a 32 top when the inset is 0 (sideways)", async () => {
     const view = await render(<ExploreSide {...base} />);
     expect(view.getByTestId("explore-side")).toHaveStyle({ paddingTop: 32 });
+  });
+
+  it("stops a slash name at 20, not 18", async () => {
+    const view = await render(<ExploreSide {...base} town="Aoraki / Mount Cook" />);
+    for (let i = 0; i < 12; i++) await lay(view, "Aoraki /\nMount Cook", ["Aoraki /", "Mount", "Cook"]);
+    expect(view.getByText("Aoraki /\nMount Cook")).toHaveStyle({ fontSize: 20 });
   });
 
   it("stops at 18", async () => {

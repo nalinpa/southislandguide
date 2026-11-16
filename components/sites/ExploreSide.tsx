@@ -12,6 +12,8 @@ import { wideTop } from "@/lib/ui/wideTop";
 export const EXPLORE_SIDE = 200;
 const TOWN_MAX = 26;
 const TOWN_MIN = 18;
+// A name with a slash is broken after it and runs wide, so it never goes below 20 (owner).
+const TOWN_MIN_SLASH = 20;
 
 type ExploreSideProps = {
   town: string;
@@ -54,7 +56,7 @@ export function ExploreSide({
   const onTextLayout = (e: { nativeEvent: { lines: { text: string }[] } }) => {
     const lines = e.nativeEvent.lines.map((l) => l.text.replace(/￼/g, "").trim());
     const whole = lines.join(" ") === town.trim() && lines.every(Boolean);
-    if ((!whole || lines.length > 2) && size > TOWN_MIN) setSize(size - 1);
+    if ((!whole || lines.length > 2) && size > (town.includes(" / ") ? TOWN_MIN_SLASH : TOWN_MIN)) setSize(size - 1);
   };
 
   // The chevron is a child of the name's own Text, so it follows the last word as the

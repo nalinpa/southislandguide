@@ -70,7 +70,7 @@ export function CreateItineraryModal({
 }: CreateItineraryModalProps) {
   const { itineraries, saveItinerary, isSaving } = useItineraries();
   const netInfo = useNetInfo();
-  const wide = useWideSheet("list");
+  const wide = useWideSheet("list", { centred: true });
   // The sheet is the card colour (CardShell basic), so the fades end in it, not the page's.
   const page = CARD_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
   const isOffline = netInfo.isConnected === false || netInfo.isInternetReachable === false;

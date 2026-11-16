@@ -405,6 +405,14 @@ it("wide: a centred 520 list card", async () => {
   expect(styleUp(title, "maxHeight")).toBe(760);
 });
 
+it("wide upright: centred in the window, not 96 from the top", async () => {
+  wide();
+  const view = await openModal();
+  const overlay = StyleSheet.flatten(view.getByTestId("create-sheet").parent!.props.style) as any;
+  expect(overlay.justifyContent).toBe("center");
+  expect(overlay.paddingTop).toBeUndefined();
+});
+
 it("wide, dark: the foot fade ends in the card's colour, not the page's", async () => {
   wide();
   const spy = jest.spyOn(require("react-native"), "useColorScheme").mockReturnValue("dark");

@@ -35,6 +35,19 @@ describe("useWideSheet", () => {
     expect(dialog.overlay.paddingBottom).toBe(951 - 475.5 + 24);
   });
 
+  it("a centred list stays centred upright, capped to the window with 24 clear, and keeps the 760 cap", async () => {
+    setWide(true, { width: 669, height: 951 });
+    const list = (await renderHook(() => useWideSheet("list", { centred: true }))).result.current!;
+    expect(list.overlay.justifyContent).toBe("center");
+    expect(list.overlay.paddingTop).toBeUndefined();
+    expect(list.card.width).toBe(520);
+    expect(list.card.maxHeight).toBe(760);
+    setWide(true, { width: 669, height: 700 });
+    expect((await renderHook(() => useWideSheet("list", { centred: true }))).result.current!.card.maxHeight).toBe(652);
+    // and the plain list is as it was
+    expect((await renderHook(() => useWideSheet("list"))).result.current!.overlay.paddingTop).toBe(96);
+  });
+
   it("sideways: a list is capped to the window, a dialog is centred", async () => {
     setWide(true, { width: 951, height: 669 });
     const list = (await renderHook(() => useWideSheet("list"))).result.current!;

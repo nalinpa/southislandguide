@@ -7,7 +7,8 @@ import { darkEdge } from "@/lib/ui/tokens";
 // (docs/plans/design-sweep.md, "The pop-up sheets, picked"). Null on a phone, so a caller
 // keeps its own styles: `wide && ...`.
 //   sheet:  520 wide, centred on the fold.
-//   list:   520 wide, up to 760 tall from 96 down (upright), scrolling inside.
+//   list:   520 wide, up to 760 tall from 96 down (upright), scrolling inside. With
+//           `centred` it is centred in the window upright too (New Trip), 24 clear above and below.
 //   dialog: 400 wide, its foot 24 above the fold (upright).
 // Sideways, all three are centred in the window.
 export type SheetKind = "sheet" | "list" | "dialog";
@@ -25,6 +26,7 @@ type Mutable = { -readonly [K in keyof ViewStyle]: ViewStyle[K] };
 
 export function useWideSheet(
   kind: SheetKind,
+  opts?: { centred?: boolean },
 ): { overlay: ViewStyle; card: ViewStyle; animation: "fade" | "slide" } | null {
   const wide = useWide();
   const { height, foldY, upright } = useHalves();
@@ -43,9 +45,10 @@ export function useWideSheet(
   };
 
   if (kind === "list") {
-    overlay.justifyContent = upright ? "flex-start" : "center";
-    if (upright) overlay.paddingTop = 96;
-    card.maxHeight = Math.min(760, upright ? height - 96 - 24 : height - 48);
+    const top = upright && !opts?.centred;
+    overlay.justifyContent = top ? "flex-start" : "center";
+    if (top) overlay.paddingTop = 96;
+    card.maxHeight = Math.min(760, top ? height - 96 - 24 : height - 48);
   } else if (kind === "dialog" && upright) {
     overlay.justifyContent = "flex-end";
     overlay.paddingBottom = height - foldY + 24;

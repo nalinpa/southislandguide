@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Bookmark, BookOpen, ChevronDown, Search, X } from "lucide-react-native";
 
@@ -8,6 +9,8 @@ import { useTourTarget } from "@/lib/tour/useTourTarget";
 
 /** The band's width on the open Duo; the tour card is placed beside it. */
 export const EXPLORE_SIDE = 200;
+const TOWN_MAX = 26;
+const TOWN_MIN = 18;
 
 type ExploreSideProps = {
   town: string;
@@ -42,14 +45,24 @@ export function ExploreSide({
   const insets = useSafeAreaInsets();
   const ink = tokens.colors.townInk;
 
+  // iOS splits a single long word across two lines rather than shrink it, because two broken
+  // lines "fit". So measure the lines and step the size down, 1 pt at a time, until the name
+  // is whole words on at most two lines with the chevron on the last of them.
+  const [size, setSize] = useState(TOWN_MAX);
+  useEffect(() => setSize(TOWN_MAX), [town]);
+  const onTextLayout = (e: { nativeEvent: { lines: { text: string }[] } }) => {
+    const lines = e.nativeEvent.lines.map((l) => l.text.replace(/￼/g, "").trim());
+    const whole = lines.join(" ") === town.trim() && lines.every(Boolean);
+    if ((!whole || lines.length > 2) && size > TOWN_MIN) setSize(size - 1);
+  };
+
   // The chevron is a child of the name's own Text, so it follows the last word as the
   // name wraps or shrinks.
   const name = (
     <Text
       numberOfLines={2}
-      adjustsFontSizeToFit
-      minimumFontScale={22 / 26}
-      style={styles.town}
+      onTextLayout={onTextLayout}
+      style={[styles.town, { fontSize: size }]}
       accessibilityRole={onPickTown ? undefined : "header"}
     >
       {town}

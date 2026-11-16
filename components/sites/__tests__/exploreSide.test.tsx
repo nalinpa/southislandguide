@@ -7,7 +7,7 @@ jest.mock("@/lib/tour/useTourTarget", () => ({
 }));
 
 import React from "react";
-import { fireEvent, render, within } from "@testing-library/react-native";
+import { act, fireEvent, render, within } from "@testing-library/react-native";
 
 import { ExploreSide, EXPLORE_SIDE } from "@/components/sites/ExploreSide";
 
@@ -41,11 +41,39 @@ describe("ExploreSide", () => {
 
     const town = view.getByText("Aoraki / Mount Cook");
     expect(town.props.numberOfLines).toBe(2);
-    expect(town.props.adjustsFontSizeToFit).toBe(true);
-    expect(town.props.minimumFontScale).toBeCloseTo(22 / 26);
+    expect(town).toHaveStyle({ fontSize: 26 });
     expect(within(town).getByTestId("town-chevron")).toBeTruthy();
     expect(town.children[0]).toBe("Aoraki / Mount Cook");
     expect((town.children[town.children.length - 1] as any).props.testID).toBe("town-chevron");
+  });
+
+  const lay = (view: any, town: string, lines: string[]) =>
+    act(() => view.getByText(town).props.onTextLayout({ nativeEvent: { lines: lines.map((text) => ({ text })) } }));
+
+  it("steps a word that would split down until it is whole on one line", async () => {
+    const view = await render(<ExploreSide {...base} town="Queenstown" />);
+
+    await lay(view, "Queenstown", ["Queenstow", "n ￼"]);
+    expect(view.getByText("Queenstown")).toHaveStyle({ fontSize: 25 });
+    await lay(view, "Queenstown", ["Queenstown ￼"]);
+    expect(view.getByText("Queenstown")).toHaveStyle({ fontSize: 25 });
+  });
+
+  it("keeps Aoraki / Mount Cook on two whole-word lines, and steps the longest single word", async () => {
+    const view = await render(<ExploreSide {...base} town="Aoraki / Mount Cook" />);
+    await lay(view, "Aoraki / Mount Cook", ["Aoraki / Mount", "Cook ￼"]);
+    expect(view.getByText("Aoraki / Mount Cook")).toHaveStyle({ fontSize: 26 });
+
+    const long = await render(<ExploreSide {...base} town="Christchurch" />);
+    await lay(long, "Christchurch", ["Christchurc", "h ￼"]);
+    await lay(long, "Christchurch", ["Christchurch", "￼"]); // chevron alone on a line
+    expect(long.getByText("Christchurch")).toHaveStyle({ fontSize: 24 });
+  });
+
+  it("stops at 18", async () => {
+    const view = await render(<ExploreSide {...base} town="Christchurch" />);
+    for (let i = 0; i < 12; i++) await lay(view, "Christchurch", ["Christchurc", "h"]);
+    expect(view.getByText("Christchurch")).toHaveStyle({ fontSize: 18 });
   });
 
   it("has no chevron when there is only one town to show", async () => {

@@ -27,6 +27,9 @@ jest.mock("@/components/itinerary/ItineraryDetailView", () => {
   return { ItineraryDetailView: ({ tripId }: any) => React.createElement(Text, null, "Detail view for " + tripId) };
 });
 
+// The guest's day view draws drives with this; its own tests load the engine.
+jest.mock("@/components/itinerary/DriveBlock", () => ({ DriveBlock: () => null }));
+
 jest.mock("react-native-safe-area-context", () => {
   const React = require("react");
   const { View } = require("react-native");
@@ -120,13 +123,13 @@ describe("guest", () => {
     expect(view.getAllByLabelText(/, locked$/)).toHaveLength(7);
   });
 
-  // The open Duo: the sample on the list side, the day side empty beside it, no teal bar.
-  it("shows the sample on the list side, beside an empty day side, on the Duo", async () => {
+  // The open Duo: the sample on the list side, the open day beside it (guestDay.test.tsx), no teal bar.
+  it("shows the sample on the list side, beside the day side, on the Duo", async () => {
     require("@blacksands/ui").__setWide(true, { width: 669, height: 951 });
     const view = await render(<ItineraryListPage />);
 
     expect(within(view.getByTestId("trip-list-pane")).getByText("South Island in 7 Days")).toBeTruthy();
-    expect(view.getByTestId("trip-day-pane").children).toHaveLength(0);
+    expect(view.getByTestId("trip-day-pane")).toBeTruthy();
     expect(view.queryByText("Trips")).toBeNull();
     expect(view.getByText("Sign In to Plan a Trip")).toBeTruthy();
   });

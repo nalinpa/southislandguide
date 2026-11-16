@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, Alert } from "react-native";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -16,6 +16,8 @@ import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { ItineraryDetailView } from "@/components/itinerary/ItineraryDetailView";
 import { formatTripDates } from "@/lib/utils/formatDates";
+import { GuestDayView } from "@/components/itinerary/GuestDayView";
+import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
 import { TripOverview } from "@/components/itinerary/TripOverview";
 import { usePlaceLookup } from "@/lib/hooks/usePlaceLookup";
 import { areaImage } from "@/lib/areaImages";
@@ -47,11 +49,14 @@ const askToSignIn = () =>
 function GuestTrips() {
   const { places, list } = usePlaceLookup();
   const imageFor = useCallback((areaId: string) => areaImage(areaId, list), [list]);
-  // On the open Duo the sample sits on the list side with the day side empty beside it (the
+  // On the open Duo the sample sits on the list side with the open day beside it (the
   // signed-in trip's split, ItineraryDetailView). Same tree on every width.
   const wide = useWide();
   const { upright } = useHalves();
   const insets = useSafeAreaInsets();
+  // Wide: the open day, shown read-only on the right (the phone asks them to sign in instead).
+  const [selectedDay, setSelectedDay] = useState(0);
+  const icons = useMemo(() => new Map(list.map((p) => [p.id, (CATEGORY_CONFIG[p.category?.[0]] ?? CATEGORY_CONFIG.other).Icon])), [list]);
 
   // The trip comes first and the way to sign in sits in a row fixed above the tab bar
   // (design sweep, round 2 of the Trips tab; docs/plans/design-sweep.md). It was a card at
@@ -83,6 +88,8 @@ function GuestTrips() {
           >
             <TripOverview
               wide={wide}
+              selectedDay={selectedDay}
+              onSelectDay={setSelectedDay}
               title={SAMPLE.label}
               days={SAMPLE_DAYS}
               places={places}
@@ -95,7 +102,11 @@ function GuestTrips() {
         ) : (
           <View style={styles.flex1} />
         )}
-        {wide ? <View testID="trip-day-pane" style={{ flex: upright ? 1 : 3 }} /> : null}
+        {wide ? (
+          <View testID="trip-day-pane" style={{ flex: upright ? 1 : 3 }}>
+            <GuestDayView days={SAMPLE_DAYS} index={selectedDay} places={places} iconFor={(id) => icons.get(id) ?? CATEGORY_CONFIG.other.Icon} />
+          </View>
+        ) : null}
       </View>
       {signInRow}
     </Screen>

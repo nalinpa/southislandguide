@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
-import type { ViewInstance } from "react-native";
+import { useCallback, useContext, useEffect, useMemo, useRef } from "react";
+import { SafeAreaInsetsContext } from "react-native-safe-area-context";
+import { useWindowDimensions, type ViewInstance } from "react-native";
 
 import { useTourIfAny } from "./TourContext";
 
@@ -18,8 +19,15 @@ import { useTourIfAny } from "./TourContext";
 const READ_EVERY_MS = 100;
 const MAX_READS = 15;
 
+// Round 3 (the Duo, sideways): the bottom inset (21 pt in landscape) landed after the loop
+// had settled on two equal readings, so the cut-out stayed ~20 pt below the lifted button.
+// A change in the safe-area insets, or in the window (fold, rotate), starts the readings again.
+// (The context, not useSafeAreaInsets: that throws outside a provider, as in the hook's tests.)
 export function useTourTarget(id: string) {
   const tour = useTourIfAny();
+  const { width: winW, height: winH } = useWindowDimensions();
+  const insets = useContext(SafeAreaInsetsContext);
+  const insetKey = insets ? `${insets.top},${insets.right},${insets.bottom},${insets.left}` : "";
   const registerTarget = tour?.registerTarget;
   const current = tour?.active ? tour.step?.id : undefined;
   const ref = useRef<ViewInstance>(null);
@@ -59,7 +67,7 @@ export function useTourTarget(id: string) {
       cancelAnimationFrame(raf);
       clearTimeout(timer);
     };
-  }, [current, id, registerTarget]);
+  }, [current, id, registerTarget, insetKey, winW, winH]);
 
   // Kept the same between renders, so a list row it is handed to isn't redrawn each time.
   return useMemo(() => ({ ref, onLayout: measure }), [measure]);

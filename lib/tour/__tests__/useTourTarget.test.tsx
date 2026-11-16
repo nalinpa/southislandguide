@@ -79,3 +79,24 @@ it("does nothing for a step that isn't its own", async () => {
 
   expect(measure).not.toHaveBeenCalled();
 });
+
+it("reads again when the safe-area inset changes after it settled (the Duo's late 21 pt)", async () => {
+  const { SafeAreaInsetsContext } = require("react-native-safe-area-context");
+  const insets = (bottom: number) => ({ top: 0, left: 0, right: 0, bottom });
+  const W = ({ bottom }: { bottom: number }) => (
+    <SafeAreaInsetsContext.Provider value={insets(bottom)}>
+      <Target />
+    </SafeAreaInsetsContext.Provider>
+  );
+  const view = await render(<W bottom={0} />);
+  readingsAt(700, 700);
+  await advance(2000);
+  mockTour.registerTarget.mockClear();
+  const measure = readingsAt(679);
+
+  await view.rerender(<W bottom={21} />);
+  await advance(2000);
+
+  expect(measure).toHaveBeenCalled();
+  expect(mockTour.registerTarget).toHaveBeenLastCalledWith("placeAdd", { x: 16, y: 679, width: 358, height: 54 });
+});

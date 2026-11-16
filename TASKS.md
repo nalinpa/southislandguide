@@ -52,7 +52,7 @@ Plan: the doc [Kiwi Guide 1.3 Plan](https://claude.ai/artifact/1qoZN26ADdcgrQPRm
   - **Once it's live:** merge `1.3` into `main` (68 commits ahead on 2026-11-16), keep `1.3` as its hotfix line, and note the build number. OTAs must match runtime `a0bdc768…`.
 
 ### 1.4 — proposed 2026-11-16, scope is the owner's call
-Nothing here is decided. JS-only fixes can go out as OTAs on 1.3's runtime once it's live (`--platform ios`), so a 1.4 store build is only needed for sign-in.
+Nothing here is decided. JS-only fixes can go out as OTAs on 1.3's runtime once it's live (`--platform ios`), so a 1.4 store build is only needed for sign-in and iPad.
 - [ ] **Over the air, on 1.3's runtime:**
   - Profile's My Trip is empty right after signing in (Later, below).
   - Drive times far off on some legs between towns, and the per-day "N h driving" 1–2 h short (After launch — drive times between stops). Option (a) needs a few hundred Maps lookups: quote first.
@@ -61,10 +61,20 @@ Nothing here is decided. JS-only fixes can go out as OTAs on 1.3's runtime once 
   - A guest's sample trip copied into their account after signing in (Trips tab for a guest, below).
   - The 15-second "Route Change" trace: check its release in Sentry first (backlog, below).
   - Duo polish (Later, below): `readOnly` on the engine's `TimelineBlock` (engine first, owner publishes), the map's search focus on fold, the guide's left edge.
+  - From the 2026-11-16 tester (below): nearby places while building a trip (owner: important; needs a plan first), the trip's pins on the map, and the Add to Calendar row.
 - [ ] **No app build:**
   - The password reset email and page (Tester feedback, 2026-11-14, below): website and Firebase console.
   - Ophir Post Office's categories, in the admin panel; then clear the KV list from PowerShell.
-- [ ] **Store build: Apple and Google sign-in** ([docs/plans/apple-signin.md](docs/plans/apple-signin.md)). Step 1 is the owner's: make Kiwi Guide its own primary App ID, then re-run the probe. `invalid_request` means go; still `invalid_client` means wait, and 1.4 isn't needed yet.
+- [ ] **Store build: Apple and Google sign-in** ([docs/plans/apple-signin.md](docs/plans/apple-signin.md)). Step 1 is the owner's: make Kiwi Guide its own primary App ID, then re-run the probe. `invalid_request` means go; still `invalid_client` means wait.
+- [ ] **Store build: iPad** (owner, 2026-11-16). The Duo's wide layouts carry over: `useWide()` is window width ≥ 600 pt (`@blacksands/ui`), so a full-screen iPad gets them and a narrow Split View or Slide Over window gets the phone's. **It can't be undone:** once a version ships with iPad support, App Store Connect refuses a later build that drops it. Upside: App Review stops running the iPhone app in the 375 × 667 window on iPad (Rotorua's rejection).
+  - **Config (native, new runtime):** `ios.supportsTablet: true` in `app.config.ts`. The app is `orientation: "portrait"`: either keep portrait with `requireFullScreen` (no Split View or Stage Manager), or allow every orientation on iPad, which multitasking needs. Owner's call.
+  - **Wider than the Duo:** the open Duo is about 950 pt wide; iPads run 744 pt (mini, upright) to 1376 pt (13", sideways).
+    - 11 screens split at the fold (`foldX`, half the width): on an iPad a list beside its detail reads better at about a third to two thirds.
+    - Reading width: only 2 `maxWidth` caps in the screens, so the guide's text and a place's description need one (engine first, as an opt-in).
+    - Saved Places' grid needs more columns.
+  - **Live resizing:** Split View and Stage Manager resize the window at any time, so the layout swaps at 600 pt mid-use. Check an open guide section and a selected map place survive it.
+  - **Store:** 13" iPad screenshots (2064 × 2752); App Review tests it as an iPad app.
+  - **Check on EAS Simulator:** iPad mini, an 11", a 13", both orientations, and Split View.
 - **Owner's calls, not code:** the Blaze plan (Place-list cache, below); linking Sentry's GitHub app and setting up its code mapping; asking the 2026-11-11 tester for their tour screenshot and phone model.
 
 ### Phone checks left from 1.0 to 1.2 (batched 2026-11-16)
@@ -412,8 +422,19 @@ From a third tester's written feedback (in the US). The plan is `~/.claude/plans
   - `EditItemModal`: a line under the duration, "To change the time, hold the place on the day and drag it."
   - Phone check: a swipe over a place scrolls, hold then drag moves it, a tap opens it; the same for a drive.
 
+### Tester feedback, 2026-11-16
+From a fourth tester's written feedback. Not planned yet.
+- [ ] **Rank the next stops by drive from the trip's start or last stop** ("Right now it is hard to tell how far each new stop would be… you need good knowledge on NZ to use [it], which I think this app [is] supposed to help with"). **Owner, 2026-11-16: the nearby places while building a trip matter.** It's the same item as "After launch — places near a place" (below), which already puts it in trip building.
+  - What's there today: the map pop-up's "Nearby" lists the 3 places closest to the selected one, in a straight line (`nearbySites`, `app/(app)/(tabs)/map/index.tsx:259`). It's hidden once there's a plan for today, which is when someone is building a trip. Explore doesn't sort by distance.
+  - To decide:
+    - where the ranking shows: Explore opened from a day's "Find more things to do", Add to Trip, or under a stop on the day;
+    - straight line or drive time (`getLeg` in `lib/utils/transitMatrix.ts` has town-to-town times and in-town slots);
+    - measured from which stop: the day's last stop, or the stops either side of the free time.
+- [ ] **The map doesn't show what's already in the trip.** "My Trip" under the search bar (since 1.1) shows only the trip's places, but on the full map a trip place looks like any other pin. Either mark the trip's pins, or the tester didn't find My Trip: ask which.
+- [ ] **Calendar access looked like a step to start a trip** ("I'd remove this so that you can just use the app as a central point of trip planning"). The app asks only when Add to Calendar is tapped (`addTripToCalendar`, `lib/tripCalendar.ts:105`), the trip menu's second row, under Edit Trip; nothing else asks. Cheapest, over the air: move the row below Start a New Trip, and/or say it's optional before iOS asks. Taking it out drops what the first tester asked for (Google calendar, 2026-11-09).
+
 ### After launch — places near a place
-Owner, 2026-11-11. Not planned yet.
+Owner, 2026-11-11. Not planned yet. **Asked for again by a tester, 2026-11-16 (above): ranking the next stops by distance.**
 - [ ] **Show places near a place.** On a place's screen, a "Nearby" row of the closest other places, each opening its own screen.
   - Straight-line distance is already there (`distanceMeters` in `lib/utils/geoDistance.ts`), and the place list is cached on the phone, so it needs no api change and can go over the air.
   - To decide: how many and how far, whether Food and Stay are mixed in or shown apart, and whether the map pop-up gets it too.

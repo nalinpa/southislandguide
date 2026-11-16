@@ -121,9 +121,11 @@ const styles = StyleSheet.create({
     marginTop: 1,
     flexShrink: 0,
   },
-  textWrap: { flex: 1 },
+  // minWidth 0: a flex child won't shrink below its text otherwise, so on a narrow column
+  // (the Duo's Profile) the description ran past the edge.
+  textWrap: { flex: 1, minWidth: 0 },
   title: { fontSize: 16, fontWeight: "500", color: tokens.colors.text, marginBottom: 2 },
-  description: { fontSize: 14, color: tokens.colors.text2, lineHeight: 20, marginBottom: 12 },
+  description: { fontSize: 14, color: tokens.colors.text2, lineHeight: 20, marginBottom: 12, flexShrink: 1 },
   errorText: { fontSize: 13, color: tokens.colors.danger, marginBottom: 10, lineHeight: 18 },
   // The only red on the screen: red means "this deletes things".
   deleteBtn: {

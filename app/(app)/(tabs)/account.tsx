@@ -208,8 +208,8 @@ const styles = StyleSheet.create({
   containerWide: { backgroundColor: tokens.colors.page },
   sheetWide: { borderTopLeftRadius: 0, borderTopRightRadius: 0, marginTop: 0, paddingTop: 0 },
   columns: { flexDirection: "row" },
-  left: { flex: 40 },
-  right: { flex: 60 },
+  left: { flex: 40, minWidth: 0 },
+  right: { flex: 60, minWidth: 0 },
   hairline: { width: 1, backgroundColor: tokens.colors.line },
   none: { display: "none" },
   guideCard: {

@@ -24,14 +24,16 @@ type HeroProps = {
   wide?: boolean;
   /** How far the sheet laps over the photo's foot, so the credit sits clear of it. */
   lap?: number;
+  /** The place pane's photo: a rounded card with the credit inside its corner. */
+  card?: boolean;
 };
 
-export function Hero({ imageUrl, imageThumbnailUrl, category, siteId, imageCredit, height = HERO_HEIGHT, wide, lap = 32 }: HeroProps) {
+export function Hero({ imageUrl, imageThumbnailUrl, category, siteId, imageCredit, height = HERO_HEIGHT, wide, lap = 32, card }: HeroProps) {
   const ownPhoto = imageUrl ?? imageThumbnailUrl;
   const source = siteImage(ownPhoto, category, "full", siteId);
   const credit = ownPhoto ? imageCredit?.trim() : undefined;
   return (
-    <View testID="place-photo" style={[styles.container, { height }]}>
+    <View testID="place-photo" style={[styles.container, { height }, card && styles.card]}>
       {source ? (
         <Image source={source} style={styles.image} />
       ) : (
@@ -57,7 +59,7 @@ export function Hero({ imageUrl, imageThumbnailUrl, category, siteId, imageCredi
       ) : null}
       {credit ? (
         <Text
-          style={[styles.credit, { bottom: lap + tokens.space.xs }, wide && { right: tokens.space.lg }]}
+          style={[styles.credit, { bottom: card ? tokens.space.sm : lap + tokens.space.xs }, wide && { right: tokens.space.lg }]}
           numberOfLines={1}
         >
           {`Photo: ${credit}`}
@@ -73,6 +75,7 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: tokens.colors.accent,
   },
+  card: { borderRadius: 20, overflow: "hidden" },
   topFade: { position: "absolute", top: 0, left: 0, right: 0, height: 120 },
   image: { width: "100%", height: "100%", resizeMode: "cover" },
   placeholder: { flex: 1, justifyContent: "center", alignItems: "center" },

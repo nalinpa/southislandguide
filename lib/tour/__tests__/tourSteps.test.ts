@@ -52,7 +52,7 @@ describe("tourSteps", () => {
   it("has a screen registering every step that points at something", () => {
     const screens = [
       "app/(app)/(tabs)/sites/index.tsx",
-      "app/(app)/(tabs)/sites/[siteId]/index.tsx",
+      "components/sites/detail/SiteDetail.tsx",
       "components/sites/detail/ActionsBar.tsx",
     ];
     const source = screens.map((f) => readFileSync(join(__dirname, "../../..", f), "utf8")).join("\n");

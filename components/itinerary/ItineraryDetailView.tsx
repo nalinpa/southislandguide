@@ -29,6 +29,8 @@ import { TripOverview, dateParts, routeLine } from "@/components/itinerary/TripO
 import { TripViewSwitch, type TripView } from "@/components/itinerary/TripViewSwitch";
 import { daySwipeHandlers } from "@/components/itinerary/daySwipe";
 import { cardLift, darkEdge, pair, tokens } from "@/lib/ui/tokens";
+import { useWideSheet } from "@/lib/ui/useWideSheet";
+import { wideTop } from "@/lib/ui/wideTop";
 import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
 import { slotRangeLabel, tripSummary } from "@/lib/utils/itineraryPhysics";
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -137,6 +139,8 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   const wide = useWide();
   const { upright } = useHalves();
   const insets = useSafeAreaInsets();
+  // The ⋯ menu: a popover under the button on a phone, a centred 400 card on the Duo.
+  const menuSheet = useWideSheet("dialog");
 
   const [localTrip, setLocalTrip] = useState<Itinerary | null>(sourceTrip);
   const [activeDayId, setActiveDayId] = useState<string | null>(null);
@@ -888,7 +892,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
         {wide || view === "trip" ? (
           <View
             testID="trip-list-pane"
-            style={[styles.pane, wide && { flex: upright ? 1 : 2, backgroundColor: tokens.colors.band, paddingTop: insets.top }]}
+            style={[styles.pane, wide && { flex: upright ? 1 : 2, backgroundColor: tokens.colors.band, paddingTop: wideTop(insets.top, insets.top + 16) - 16 }]}
           >
             <TripOverview
               title={localTrip.title || "My Trip"}
@@ -925,7 +929,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
           <View testID="trip-day-pane" style={[styles.pane, wide && { flex: upright ? 1 : 3 }]}>
             {wide && activeDay ? (
               // On the left side's top line: the date, then the route.
-              <View testID="day-heading" style={[styles.dayHeading, { paddingTop: insets.top + tokens.space.md }]}>
+              <View testID="day-heading" style={[styles.dayHeading, { paddingTop: wideTop(insets.top, insets.top + tokens.space.md) }]}>
                 <Text style={styles.dayHeadingDate}>
                   {`Day ${localTrip.days.findIndex((d) => d.id === activeDay.id) + 1}`}
                   {activeDay.date ? ` · ${dateParts(activeDay.date, "short")}` : ""}
@@ -1110,12 +1114,16 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
         onConfirm={() => void handleConfirmDeleteItinerary()}
       />
 
-      <Modal visible={showTripMenu} transparent animationType="fade" onRequestClose={() => setShowTripMenu(false)}>
+      <Modal visible={showTripMenu} transparent animationType={menuSheet?.animation ?? "fade"} onRequestClose={() => setShowTripMenu(false)}>
         <TouchableOpacity style={styles.menuOverlay} activeOpacity={1} onPress={() => setShowTripMenu(false)}>
           {/* Sides too, so the card stays under the "..." button, which keeps clear of a
               Duo's rail along with the rest of the screen (app/_layout.tsx). */}
-          <SafeAreaView edges={["top", "left", "right"]} style={styles.menuSafeArea} pointerEvents="box-none">
-            <View style={styles.menuCard}>
+          <SafeAreaView
+            edges={["top", "left", "right"]}
+            style={[styles.menuSafeArea, menuSheet && styles.menuSafeWide, menuSheet?.overlay]}
+            pointerEvents="box-none"
+          >
+            <View testID="trip-menu-card" style={[styles.menuCard, menuSheet?.card]}>
               <TouchableOpacity
                 style={[styles.menuRow, styles.menuRowDivider]}
                 activeOpacity={0.6}
@@ -1205,6 +1213,8 @@ const styles = StyleSheet.create({
   // paddingTop approximates the top bar's title row (8 + 44, see TopBar) so the
   // menu lands directly under the "..." button rather than needing a measured anchor.
   menuSafeArea: { alignItems: "flex-end", paddingTop: 60, paddingRight: tokens.space.md },
+  // The Duo: the card is centred by the sheet's own overlay styles, so no anchor padding.
+  menuSafeWide: { flex: 1, paddingTop: 0, paddingRight: 0 },
   // A card lifted by the shadow in light, with the hairline in dark (darkEdge's colour);
   // rows as Profile's: 48 tall, 16 pt words, a line between.
   menuCard: {

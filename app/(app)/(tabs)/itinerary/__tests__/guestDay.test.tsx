@@ -39,7 +39,7 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { Alert } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { fireEvent, render, within } from "@testing-library/react-native";
 
 import ItineraryListPage from "@/app/(app)/(tabs)/itinerary/index";
@@ -57,6 +57,15 @@ beforeEach(() => {
 afterEach(() => ui().__setWide(false));
 
 describe("a guest on the Duo", () => {
+  // The inset is 0 here (sideways the status bar is in the rail): 32 from the top, both panes.
+  it("starts both panes 32 from the top when there is no inset", async () => {
+    const view = await render(<ItineraryListPage />);
+    const flat = (id: string) => StyleSheet.flatten(view.getByTestId(id).props.style) as any;
+
+    expect(flat("day-heading").paddingTop).toBe(32);
+    expect(flat("trip-list-pane").paddingTop).toBe(16); // + the list's own 16
+  });
+
   it("shows day 1 on the right, and day 3 after a tap on its row", async () => {
     const view = await render(<ItineraryListPage />);
     const pane = within(view.getByTestId("trip-day-pane"));

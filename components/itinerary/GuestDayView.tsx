@@ -8,6 +8,7 @@ import { components } from "@/lib/uiKit";
 import { DriveBlock } from "@/components/itinerary/DriveBlock";
 import { routeLine } from "@/components/itinerary/TripOverview";
 import { tokens } from "@/lib/ui/tokens";
+import { wideTop } from "@/lib/ui/wideTop";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { areaName } from "@/lib/areas";
 import { dayLegs, dayStartSiteId, slotRangeLabel, tripSummary, type DayLeg } from "@/lib/utils/itineraryPhysics";
@@ -71,7 +72,7 @@ export function GuestDayView({ days, index, places, iconFor }: Props) {
   if (!day) return null;
   return (
     <View style={styles.fill}>
-      <View testID="day-heading" style={[styles.heading, { paddingTop: insets.top + tokens.space.md }]}>
+      <View testID="day-heading" style={[styles.heading, { paddingTop: wideTop(insets.top, insets.top + tokens.space.md) }]}>
         <Text style={styles.date}>{`Day ${index + 1}`}</Text>
         {areas.length > 0 ? <Text style={styles.route}>{routeLine(areas.map(areaName))}</Text> : null}
       </View>

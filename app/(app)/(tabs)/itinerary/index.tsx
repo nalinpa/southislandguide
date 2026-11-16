@@ -6,6 +6,7 @@ import { useHalves, useWide } from "@blacksands/ui";
 import { Calendar, ChevronRight, Lock, Plus } from "lucide-react-native";
 
 import { Screen, LoadingState, ErrorCard, AppText, AppButton, components } from "@/lib/uiKit";
+import { wideTop } from "@/lib/ui/wideTop";
 import { tokens, SWEEP_COLORS, SWEEP_BUTTON } from "@/lib/ui/tokens";
 import { TopBar } from "@/components/layout/TopBar";
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -84,7 +85,7 @@ function GuestTrips() {
         {SAMPLE ? (
           <View
             testID="trip-list-pane"
-            style={[styles.flex1, wide && { flex: upright ? 1 : 2, backgroundColor: tokens.colors.band, paddingTop: insets.top }]}
+            style={[styles.flex1, wide && { flex: upright ? 1 : 2, backgroundColor: tokens.colors.band, paddingTop: wideTop(insets.top, insets.top + 16) - 16 }]}
           >
             <TripOverview
               wide={wide}

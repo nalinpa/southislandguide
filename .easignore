@@ -14,3 +14,10 @@ design-refs/
 
 # App Store artwork (header and search image, masters, source photo); the app never imports it
 store/
+
+# The offline map's site and tiles (~470 MB); only scripts/build-offline-map.js reads them
+offline-map-site/
+offline-map-tiles-z12/
+
+# Agent build notes (git-ignored scratch)
+.superpowers/

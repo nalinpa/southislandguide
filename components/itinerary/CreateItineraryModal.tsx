@@ -239,6 +239,24 @@ export function CreateItineraryModal({
     }
   };
 
+  // Saves queue while offline, and a new trip needs its server id before onCreated. Inside the
+  // scroll on a phone; pinned to the card's foot, outside it, on the Duo.
+  const createButton = (
+              <AppButton
+                variant="primary"
+                onPress={handleCreate}
+                loading={isSaving}
+                loadingLabel={trip ? "Saving..." : "Creating..."}
+                disabled={isOffline}
+                fullWidth
+                style={styles.createBtn}
+              >
+                {trip
+                  ? isOffline ? "Reconnect to Save" : "Save Changes"
+                  : isOffline ? "Reconnect to Create Trip" : "Create Trip"}
+              </AppButton>
+  );
+
   return (
     <Modal visible={visible} transparent animationType={wide?.animation ?? "slide"}>
       <SafeAreaView edges={["left", "right"]} style={[styles.overlay, wide?.overlay]}>
@@ -522,30 +540,21 @@ export function CreateItineraryModal({
 
               {errorMsg && <AppText style={styles.errorText}>{errorMsg}</AppText>}
 
-              {/* Saves queue while offline, and a new trip needs its server id before onCreated. */}
-              <AppButton
-                variant="primary"
-                onPress={handleCreate}
-                loading={isSaving}
-                loadingLabel={trip ? "Saving..." : "Creating..."}
-                disabled={isOffline}
-                fullWidth
-                style={styles.createBtn}
-              >
-                {trip
-                  ? isOffline ? "Reconnect to Save" : "Save Changes"
-                  : isOffline ? "Reconnect to Create Trip" : "Create Trip"}
-              </AppButton>
+              {wide ? null : createButton}
             </ScrollView>
+            {/* Wide: the button is pinned to the card's foot, outside the scroll, with the fade at
+                the foot of the scroll area just above it, so the button is never under it. */}
+            {wide ? (
+              <>
+                {more ? (
+                  <View pointerEvents="none" style={styles.fadeSlot}>
+                    <LinearGradient testID="create-sheet-fade" colors={[page + "00", page]} style={styles.fade} />
+                  </View>
+                ) : null}
+                {createButton}
+              </>
+            ) : null}
           </CardShell>
-          {wide && more ? (
-            <LinearGradient
-              testID="create-sheet-fade"
-              pointerEvents="none"
-              colors={[page + "00", page]}
-              style={styles.fade}
-            />
-          ) : null}
         </View>
       </SafeAreaView>
     </Modal>
@@ -567,8 +576,9 @@ const styles = StyleSheet.create({
     paddingBottom: 34,
   },
   // The close button: an x in a pale circle, the same on every sheet.
-  // At the foot of the scroll region: the card's 34 pt foot padding is under it.
-  fade: { position: "absolute", left: 0, right: 0, bottom: 34, height: 56 },
+  // A zero-height slot at the scroll area's foot; the fade hangs up from it over the list.
+  fadeSlot: { height: 0, zIndex: 1 },
+  fade: { position: "absolute", left: 0, right: 0, bottom: 0, height: 56 },
   closeChip: {
     width: 32,
     height: 32,

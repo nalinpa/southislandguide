@@ -433,11 +433,37 @@ it("wide: the fade shows only while the list runs on, above the button's end", a
   await fireEvent(scroll, "layout", { nativeEvent: { layout: { height: 500 } } });
   await fireEvent(scroll, "contentSizeChange", 300, 400);
   expect(view.queryByTestId("create-sheet-fade")).toBeNull();
-  // Overflows: the fade shows, a sibling of the card sitting 34 up (the card's foot padding).
+  // Overflows: the fade shows, at the foot of the scroll area (it hangs up from the slot
+  // just above the pinned button; changed in round 3, it used to sit 34 up on the card).
   await fireEvent(scroll, "contentSizeChange", 300, 900);
   const fade = view.getByTestId("create-sheet-fade");
-  expect(StyleSheet.flatten(fade.props.style).bottom).toBe(34);
+  expect(StyleSheet.flatten(fade.props.style).bottom).toBe(0);
   // Scrolled to the end: gone again.
   await fireEvent.scroll(scroll, { nativeEvent: { contentOffset: { y: 400 } } });
   expect(view.queryByTestId("create-sheet-fade")).toBeNull();
+});
+
+const inScroll = (node: any) => {
+  for (let n = node.parent; n; n = n.parent) if (n.props?.testID === "create-scroll") return true;
+  return false;
+};
+
+it("wide, overflowing form: Create is pinned outside the scroll, the fade sits above it", async () => {
+  wide();
+  const view = await openModal();
+  const scroll = view.getByTestId("create-scroll");
+  await fireEvent(scroll, "layout", { nativeEvent: { layout: { height: 500 } } });
+  await fireEvent(scroll, "contentSizeChange", 300, 900);
+  const button = view.getByText("Create Trip");
+  expect(inScroll(button)).toBe(false);
+  // The fade is in the card before the button, not after it.
+  const fade = view.getByTestId("create-sheet-fade");
+  const order = JSON.stringify(view.toJSON());
+  expect(order.indexOf("create-sheet-fade")).toBeLessThan(order.indexOf("Create Trip"));
+  expect(inScroll(fade)).toBe(false);
+});
+
+it("phone: Create stays the last thing in the scroll", async () => {
+  const view = await openModal();
+  expect(inScroll(view.getByText("Create Trip"))).toBe(true);
 });

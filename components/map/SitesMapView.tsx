@@ -193,6 +193,27 @@ const SitesMapViewInner = forwardRef<
     }
   }, [selectedSiteId, sites]);
 
+  // Folding or unfolding the Duo adds or drops mapPadding, which iOS applies as the map's
+  // layoutMargins: MapKit then re-centres in what is left open, and the map jumps (owner,
+  // 2026-11-16). The camera as it was just before the flip is put back, same centre and zoom.
+  // The effect runs on the commit, before the region events the padding causes reach JS.
+  const wasWide = useRef(wide);
+  useEffect(() => {
+    if (wasWide.current === wide) return;
+    wasWide.current = wide;
+    const before = currentRegionRef.current;
+    if (!before) return;
+    // After the resize has laid out, so the region is fitted to the new size.
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => mapRef.current?.animateToRegion(before, 0));
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
+  }, [wide]);
+
   const handleMapReady = useCallback(() => {
     if (mapRef.current) {
       mapRef.current.setMapBoundaries(

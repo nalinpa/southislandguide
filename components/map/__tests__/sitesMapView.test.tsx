@@ -39,7 +39,7 @@ jest.mock("@react-native-async-storage/async-storage", () =>
 );
 
 import React from "react";
-import { render } from "@testing-library/react-native";
+import { act, render, waitFor } from "@testing-library/react-native";
 
 import { OFFLINE_MAP_MAX_Z, OFFLINE_MAP_URL } from "@/lib/offlineMap";
 import { SitesMapView, initialRegionFrom } from "@/components/map/SitesMapView";
@@ -120,6 +120,41 @@ describe("the map", () => {
     require("@blacksands/ui").__setWide(true);
     await render(<SitesMapView {...props} />);
     expect(mockClusterProps.current.mapPadding).toEqual({ left: 392, top: 0, right: 0, bottom: 0 });
+  });
+
+  // Round 3: unfolding/folding changes mapPadding, which iOS applies as layoutMargins and
+  // re-centres in what is left open, so the map jumped. The camera is put back where it was.
+  it("keeps the camera when the Duo folds or unfolds, and doesn't remount the map", async () => {
+    const props = { sites, initialRegion: region, selectedSiteId: null, mapType: "standard" as const, onPressSite: jest.fn() };
+    const view = await render(<SitesMapView {...props} />);
+    const ui = require("@blacksands/ui");
+    const userMoved = { latitude: -38.2, longitude: 176.3, latitudeDelta: 0.05, longitudeDelta: 0.04 };
+    await act(async () => mockClusterProps.current.onRegionChangeComplete(userMoved));
+    const mapNode = mockClusterProps.current;
+
+    ui.__setWide(true);
+    // A new sites array: the memo would skip a render the real useWide state causes.
+    await view.rerender(<SitesMapView {...props} sites={[...sites]} />);
+    await waitFor(() => expect(mockMapRef.animateToRegion).toHaveBeenCalledWith(userMoved, 0));
+    expect(mockMapRef.animateToRegion).toHaveBeenCalledTimes(1);
+    expect(mockMapRef.setMapBoundaries).toHaveBeenCalledTimes(0);
+    expect(mockClusterProps.current.initialRegion).toBe(mapNode.initialRegion);
+
+    // Folded again: back to the same place.
+    mockMapRef.animateToRegion.mockClear();
+    ui.__setWide(false);
+    // A new sites array: the memo would skip a render the real useWide state causes.
+    await view.rerender(<SitesMapView {...props} sites={[...sites]} />);
+    await waitFor(() => expect(mockMapRef.animateToRegion).toHaveBeenCalledWith(userMoved, 0));
+  });
+
+  it("does not move the camera when the width doesn't change", async () => {
+    const props = { sites, initialRegion: region, selectedSiteId: null, mapType: "standard" as const, onPressSite: jest.fn() };
+    const view = await render(<SitesMapView {...props} />);
+    await act(async () => mockClusterProps.current.onRegionChangeComplete(region));
+    await view.rerender(<SitesMapView {...props} />);
+    await new Promise((r) => setTimeout(r, 100));
+    expect(mockMapRef.animateToRegion).not.toHaveBeenCalled();
   });
 
   // The map used to be boxed to Christchurch, where 1.0's places are. It's a South Island

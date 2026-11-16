@@ -283,6 +283,25 @@ describe("SpotlightOverlay", () => {
       expect(pointerStyle().left).toBe(334.5 - cardStyle().left - 7);
     });
 
+    it("wide: a full-width target at the foot (Add to Trip upright) gets the card entirely above it, pointer down at its middle", async () => {
+      ui().__setWide(true, { width: 669, height: 951 });
+      mockInsets.top = 0;
+      try {
+        await show();
+        await toTown();
+        const target = { x: 20, y: 880, width: 629, height: 52 };
+        await act(async () => tour.registerTarget("town", target));
+        // Taller than the 190 estimate: placing must use what the card measured.
+        await layoutCard(262);
+
+        expect(cardStyle().top + 262).toBeLessThanOrEqual(target.y - 22);
+        expect(pointerStyle().bottom).toBeLessThan(0);
+        expect(pointerStyle().left).toBe(334.5 - cardStyle().left - 7);
+      } finally {
+        mockInsets.top = 20;
+      }
+    });
+
     it("wide: the cut-out has a 2 pt selected ring", async () => {
       ui().__setWide(true, { width: 669, height: 951 });
       await show();

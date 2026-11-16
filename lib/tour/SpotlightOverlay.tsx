@@ -83,10 +83,11 @@ export function SpotlightOverlay() {
 
   // Cards vary a lot in height (a caption vs. the trip preview), so where the card goes is
   // worked out again from its measured height on each step.
-  const [cardHeight, setCardHeight] = useState(CARD_HEIGHT_ESTIMATE);
-  useEffect(() => {
-    setCardHeight(CARD_HEIGHT_ESTIMATE);
-  }, [step?.id]);
+  // Kept with the step it was measured for, so a step that has not measured yet uses the
+  // estimate. (A reset in an effect could land after the new card's own layout and leave
+  // the estimate in place: a card taller than that then ran over the part it points at.)
+  const [measured, setMeasured] = useState({ id: "", height: CARD_HEIGHT_ESTIMATE });
+  const cardHeight = measured.id === step?.id ? measured.height : CARD_HEIGHT_ESTIMATE;
 
   // The card takes the place of the screen for a screen reader, so it is read out as it
   // comes up rather than waiting to be found.
@@ -190,7 +191,7 @@ export function SpotlightOverlay() {
         key={step.id}
         testID="tour-card"
         entering={FadeIn.duration(220)}
-        onLayout={(e) => setCardHeight(e.nativeEvent.layout.height)}
+        onLayout={(e) => setMeasured({ id: step.id, height: e.nativeEvent.layout.height })}
         style={[
           styles.card,
           { top: cardTop, left: cardLeft, maxHeight: height - insets.top - insets.bottom - 32 },

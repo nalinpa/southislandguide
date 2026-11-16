@@ -46,6 +46,7 @@ type GuideArticleProps = {
 export function GuideArticle({ category, titleTop = 6 }: GuideArticleProps) {
   return (
     <ScrollView
+      testID="guide-article"
       style={styles.readingArea}
       contentContainerStyle={[styles.content, { paddingTop: titleTop }]}
       showsVerticalScrollIndicator={false}

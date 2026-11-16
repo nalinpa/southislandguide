@@ -411,6 +411,8 @@ describe("wide", () => {
     expect(flat(view.getByTestId("login-scroll"), "contentContainerStyle")).toMatchObject({
       justifyContent: "center",
       alignItems: "center",
+      // never nearer than 32 to the top or foot (the status bar is in the rail)
+      paddingVertical: 32,
     });
     expect(view.getByText("Kiwi Guide")).toBeTruthy();
     expect(view.queryByTestId("login-title-shade")).toBeNull();

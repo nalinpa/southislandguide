@@ -3,7 +3,13 @@ jest.mock("moti", () => ({ MotiView: require("react-native").View }));
 jest.mock("@blacksands/hooks", () => ({ formatDistanceMeters: (m: number) => m + " m" }));
 jest.mock("@shopify/flash-list", () => {
   const { View } = require("react-native");
-  return { FlashList: (p: any) => require("react").createElement(View, { testID: "flash", numColumns: p.numColumns }) };
+  return { FlashList: (p: any) => require("react").createElement(
+      View,
+      { testID: "flash", numColumns: p.numColumns, contentContainerStyle: p.contentContainerStyle },
+      require("react").createElement(p.ItemSeparatorComponent),
+      p.renderItem({ item: p.data[0], index: 0 }),
+    ),
+  };
 });
 
 import React from "react";
@@ -52,5 +58,17 @@ describe("ListView on the Duo", () => {
     expect(await cols()).toBe(1);
     wide({ width: 951, height: 669 });
     expect(await cols()).toBe(2);
+  });
+
+  it("spaces rows 32 apart and columns 24 on the Duo, the edges staying 20; a phone keeps 24", async () => {
+    const view = async () => render(<ListView rows={rows} onPressItem={() => {}} />);
+    expect((await view()).getByTestId("list-separator")).toHaveStyle({ height: 24 });
+    wide({ width: 669, height: 951 });
+    expect((await view()).getByTestId("list-separator")).toHaveStyle({ height: 32 });
+    wide({ width: 951, height: 669 });
+    const two = await view();
+    expect(two.getByTestId("list-separator")).toHaveStyle({ height: 32 });
+    expect(two.getByTestId("list-gutter")).toHaveStyle({ paddingHorizontal: 12 });
+    expect(two.getByTestId("flash").props.contentContainerStyle).toMatchObject({ paddingHorizontal: 8 });
   });
 });

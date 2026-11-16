@@ -19,7 +19,8 @@ type ListRow = SortedRow<{
   category: SiteCategory[];
 }>;
 
-const ItemSeparator = () => <View style={styles.separator} />;
+// 24 between rows on a phone, 32 on the Duo (owner, 2026-11-16).
+const ItemSeparator = () => <View testID="list-separator" style={[styles.separator, useWide() && styles.separatorWide]} />;
 
 type ListViewProps = {
   rows: ListRow[];
@@ -41,7 +42,7 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
     if (atTop) list.current?.scrollToOffset({ offset: 0, animated: false });
   }, [atTop]);
 
-  // The open Duo: one column upright, two sideways with a 16 gutter, 20 on the sides.
+  // The open Duo: one column upright, two sideways with a 24 gutter, 20 on the sides.
   const wide = useWide();
   const { upright } = useHalves();
   const columns = wide && !upright ? 2 : 1;
@@ -64,7 +65,7 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
         />
       );
       const target = index === 0 && firstRowTarget ? <View {...firstRowTarget}>{row}</View> : row;
-      return columns === 2 ? <View style={styles.gutter}>{target}</View> : target;
+      return columns === 2 ? <View testID="list-gutter" style={styles.gutter}>{target}</View> : target;
     },
     [onPressItem, firstRowTarget, wide, columns],
   );
@@ -92,9 +93,10 @@ const styles = StyleSheet.create({
     paddingTop: tokens.space.md,
     paddingBottom: 100,
   },
-  // 8 each side of a card in a column, so the gutter is 16 and the edges stay 20.
-  gutter: { paddingHorizontal: 8 },
+  // 12 each side of a card in a column, so the gutter is 24 and the edges stay 20.
+  gutter: { paddingHorizontal: 12 },
   contentOne: { paddingHorizontal: 20, paddingTop: tokens.space.md, paddingBottom: 100 },
-  contentTwo: { paddingHorizontal: 12, paddingTop: tokens.space.md, paddingBottom: 100 },
+  contentTwo: { paddingHorizontal: 8, paddingTop: tokens.space.md, paddingBottom: 100 },
   separator: { height: 24 },
+  separatorWide: { height: 32 },
 });

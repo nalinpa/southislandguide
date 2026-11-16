@@ -7,6 +7,7 @@ import { ChevronDown, ChevronLeft } from "lucide-react-native";
 
 import { AppText } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
+import { wideTop } from "@/lib/ui/wideTop";
 import { TopBar, TopBarBack } from "@/components/layout/TopBar";
 import { TopBarTabs } from "@/components/layout/TopBarTabs";
 import { GuideArticle } from "@/components/guide/GuideArticle";
@@ -82,7 +83,7 @@ export function GuideBrowser({ initialSlug, articleMode }: { initialSlug?: strin
 
       <View style={styles.row}>
         {phoneArticle ? null : (
-        <View testID="guide-list-pane" style={wide ? [styles.side, { paddingTop: insets.top }] : styles.flex1}>
+        <View testID="guide-list-pane" style={wide ? [styles.side, { paddingTop: wideTop(insets.top, insets.top) }] : styles.flex1}>
           {wide ? (
             <View style={styles.head}>
               <View style={styles.backRow}>
@@ -139,7 +140,7 @@ export function GuideBrowser({ initialSlug, articleMode }: { initialSlug?: strin
                 </Pressable>
               </View>
             ) : null}
-            {chosen ? <GuideArticle key={chosen.slug} category={chosen} titleTop={wide ? insets.top + 6 : undefined} /> : null}
+            {chosen ? <GuideArticle key={chosen.slug} category={chosen} titleTop={wide ? wideTop(insets.top, insets.top + 6) : undefined} /> : null}
           </View>
         ) : null}
       </View>

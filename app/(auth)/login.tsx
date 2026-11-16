@@ -12,6 +12,7 @@ import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { EMAIL_OPT_IN_LABEL } from "@/lib/hooks/useEmailOptIn";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { LAKE_SIDES, cardEdge, cardLift, photoDim, tokens } from "@/lib/ui/tokens";
+import { wideTop } from "@/lib/ui/wideTop";
 
 // Aoraki / Mt Cook over Lake Pukaki. Bundled so it paints offline with no
 // network flash.
@@ -202,7 +203,7 @@ export default function LoginScreen() {
             style={[styles.screen, wide && styles.transparent]}
             contentContainerStyle={[
               styles.scrollContent,
-              wide && (sideways ? styles.scrollSideways : styles.scrollUpright),
+              wide && (sideways ? [styles.scrollSideways, { paddingVertical: wideTop(insets.top, 0) }] : styles.scrollUpright),
             ]}
             keyboardShouldPersistTaps="handled"
             keyboardDismissMode="interactive"

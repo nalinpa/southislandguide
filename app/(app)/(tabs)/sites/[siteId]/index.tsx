@@ -11,6 +11,7 @@ import { ArrowLeft, ExternalLink, Star } from "lucide-react-native";
 
 import { LoadingState, ErrorCard, Stack, AppText, AppButton, ReviewModal, components } from "@/lib/uiKit";
 import { cardLift, darkEdge, lifted, tokens, SWEEP_COLORS, SWEEP_BUTTON, REVIEW_COLORS } from "@/lib/ui/tokens";
+import { wideTop } from "@/lib/ui/wideTop";
 import { hooksBag } from "@/lib/hooksBag";
 import { openDirections } from "@/lib/utils/directions";
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -328,7 +329,8 @@ function SiteDetail({ id }: { id: string }) {
 
       <SafeAreaView style={styles.backButtonWrap} pointerEvents="box-none">
         <Pressable
-          style={[styles.backButton, wide && { marginHorizontal: tokens.space.lg }]}
+          // Sideways the status bar is in the rail (inset 0): 32 from the top, not 8.
+          style={[styles.backButton, wide && { marginHorizontal: tokens.space.lg, marginTop: wideTop(insets.top, 8) }]}
           accessibilityRole="button"
           accessibilityLabel="Back"
           // The screen it was opened from (tab history, app/(app)/(tabs)/_layout.tsx). A

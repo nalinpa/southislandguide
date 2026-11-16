@@ -22,8 +22,9 @@ jest.mock("@/components/layout/LightStatusBar", () => ({
   LightStatusBar: () => require("react").createElement(require("react-native").View, { testID: "light-status-bar" }),
 }));
 
+let mockInsetTop = 44;
 jest.mock("react-native-safe-area-context", () => ({
-  useSafeAreaInsets: () => ({ top: 44, bottom: 34, left: 0, right: 0 }),
+  useSafeAreaInsets: () => ({ top: mockInsetTop, bottom: 34, left: 0, right: 0 }),
   SafeAreaView: (props: any) => require("react").createElement(require("react-native").View, props),
 }));
 
@@ -500,6 +501,19 @@ describe("wide", () => {
     expect(view.getByText(/Your guide to the/)).toHaveStyle({ fontSize: 28, lineHeight: 33, fontWeight: "800" });
     expect(view.getByRole("button", { name: "Open Guide" })).toHaveStyle({ height: 52 });
     expect(view.queryByTestId("light-status-bar")).toBeNull();
+  });
+
+  it("sideways, with no inset (the status bar is in the rail), the guide card starts 32 down and Saved Places stays level with it", async () => {
+    mockInsetTop = 0;
+    try {
+      const { view } = await wideView(SIDEWAYS);
+      const { StyleSheet } = require("react-native");
+      const first = view.getByTestId("profile-left").children[0] as any;
+      expect(StyleSheet.flatten(first.props.style).marginTop).toBe(32);
+      expect(view.getByTestId("profile-right")).toHaveStyle({ paddingTop: 18 });
+    } finally {
+      mockInsetTop = 44;
+    }
   });
 
   it("the left column is the 40 of 40/60, with the hairline between", async () => {

@@ -10,6 +10,7 @@ import { useSession } from "@/lib/providers/SessionProvider";
 import { useEmailOptIn } from "@/lib/hooks/useEmailOptIn";
 import { LoadingState } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
+import { wideTop } from "@/lib/ui/wideTop";
 import { LightStatusBar } from "@/components/layout/LightStatusBar";
 import { UserInfoCard } from "@/components/account/UserInfoCard";
 import { ItinerariesCard } from "@/components/account/ItinerariesCard";
@@ -63,11 +64,15 @@ export default function AccountScreen() {
   // the phone's, keyed, so they stay mounted (dialogs open, downloads running) as the
   // window folds; only the guide banner (no state) moves between the fixed hero and the card.
 
+  // Sideways the status bar is in the rail (inset 0): the card starts 32 down, not 16, and
+  // Saved Places' name on the right keeps level with it.
+  const sidewaysTop = wideTop(insets.top, 16);
+
   const guide = (
     <View
       style={
         wide
-          ? [styles.guideCard, { marginTop: upright ? 56 : 16 }]
+          ? [styles.guideCard, { marginTop: upright ? 56 : sidewaysTop }]
           : [styles.heroSection, { paddingTop: insets.top + tokens.space.lg }]
       }
     >
@@ -187,7 +192,7 @@ export default function AccountScreen() {
             </View>
             <View testID="profile-hairline" style={wide ? styles.hairline : styles.none} />
             {/* Saved Places' name sits level with the card's top: its group pads 14 above it. */}
-            <View testID="profile-right" style={wide && [styles.right, { paddingTop: upright ? 42 : 2 }]}>
+            <View testID="profile-right" style={wide && [styles.right, { paddingTop: upright ? 42 : sidewaysTop - 14 }]}>
               {column(rightGroups, !wide)}
             </View>
           </View>

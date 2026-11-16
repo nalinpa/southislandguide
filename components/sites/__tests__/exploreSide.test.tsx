@@ -39,12 +39,21 @@ describe("ExploreSide", () => {
   it("shrinks a long town to two lines with the chevron inside the town's text, after the name", async () => {
     const view = await render(<ExploreSide {...base} town="Aoraki / Mount Cook" />);
 
-    const town = view.getByText("Aoraki / Mount Cook");
+    const town = view.getByText("Aoraki /\nMount Cook");
     expect(town.props.numberOfLines).toBe(2);
     expect(town).toHaveStyle({ fontSize: 26 });
     expect(within(town).getByTestId("town-chevron")).toBeTruthy();
-    expect(town.children[0]).toBe("Aoraki / Mount Cook");
+    // the slash breaks the line: "Aoraki /" over "Mount Cook" (owner, 2026-11-16)
+    expect(town.children[0]).toBe("Aoraki /\nMount Cook");
+    expect(town).toHaveStyle({ marginRight: -12 });
     expect((town.children[town.children.length - 1] as any).props.testID).toBe("town-chevron");
+  });
+
+  it("leaves a one-word name as it was, at the 20 side", async () => {
+    const view = await render(<ExploreSide {...base} />);
+    const town = view.getByText("Christchurch");
+    expect(town.children[0]).toBe("Christchurch");
+    expect(town).not.toHaveStyle({ marginRight: -12 });
   });
 
   const lay = (view: any, town: string, lines: string[]) =>
@@ -68,6 +77,11 @@ describe("ExploreSide", () => {
     await lay(long, "Christchurch", ["Christchurc", "h ￼"]);
     await lay(long, "Christchurch", ["Christchurch", "￼"]); // chevron alone on a line
     expect(long.getByText("Christchurch")).toHaveStyle({ fontSize: 24 });
+  });
+
+  it("keeps a 32 top when the inset is 0 (sideways)", async () => {
+    const view = await render(<ExploreSide {...base} />);
+    expect(view.getByTestId("explore-side")).toHaveStyle({ paddingTop: 32 });
   });
 
   it("stops at 18", async () => {

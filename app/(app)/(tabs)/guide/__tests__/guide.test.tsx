@@ -372,6 +372,15 @@ describe("on the open Duo", () => {
     expect(mockRouter.push).not.toHaveBeenCalled();
   });
 
+  // Sideways the status bar is in the rail (inset 0): the strip's back row and the title start 32 down.
+  it("keeps 32 from the top with no inset: the strip and the article's title", async () => {
+    wide({ width: 951, height: 669 });
+    const view = await render(<GuideIndexPage />);
+
+    expect(StyleSheet.flatten(view.getByTestId("guide-list-pane").props.style).paddingTop).toBe(32);
+    expect(StyleSheet.flatten(view.getByTestId("guide-article").props.contentContainerStyle).paddingTop).toBe(32);
+  });
+
   it.each([
     ["upright", { width: 669, height: 951 }],
     ["sideways", { width: 951, height: 669 }],

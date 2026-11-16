@@ -9,6 +9,7 @@ import { Screen, LoadingState, ErrorCard, CardShell, Stack, AppText, AppIconButt
 import { TopBar } from "@/components/layout/TopBar";
 import { TopBarTabs } from "@/components/layout/TopBarTabs";
 import { tokens } from "@/lib/ui/tokens";
+import { wideTop } from "@/lib/ui/wideTop";
 import { hooksBag, useRefreshLocations } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { ListView } from "@/components/sites/list/ListView";
@@ -408,7 +409,7 @@ export default function SiteListPage() {
             onSelect={(k) => setCategory(k as SiteCategory | null)}
           />
         ) : null}
-        <View testID="explore-places" style={[styles.places, wide && { paddingTop: insets.top }]}>
+        <View testID="explore-places" style={[styles.places, wide && { paddingTop: wideTop(insets.top, insets.top + 16) - 16 }]}>
           {/* Where the phone's bar would hold it: over the first card. */}
           {wide && searchOpen ? <View style={styles.searchWide}>{searchField}</View> : null}
           <ListView

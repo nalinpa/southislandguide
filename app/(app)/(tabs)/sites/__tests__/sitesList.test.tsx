@@ -1017,6 +1017,15 @@ describe("wide (the open Duo)", () => {
     expect(view.getByTestId("explore-places")).toHaveStyle({ paddingTop: 47 });
   });
 
+  it("sideways, with no inset, starts the band and the places 32 from the top", async () => {
+    mockInsetTop = 0;
+    wide();
+    const view = await render(<SiteListPage />);
+
+    expect(view.getByTestId("explore-side")).toHaveStyle({ paddingTop: 32 });
+    expect(view.getByTestId("explore-places")).toHaveStyle({ paddingTop: 16 }); // + the list's own 16
+  });
+
   it("keeps the light status bar on a phone", async () => {
     const view = await render(<SiteListPage />);
 

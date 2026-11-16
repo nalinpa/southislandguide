@@ -591,6 +591,8 @@ describe("wide", () => {
     expect(style("place-hero").width).toBe(475.5);
     expect(style("place-scroll").left).toBe(475.5);
     expect(style("place-spacer").height).toBe(0);
+    // The status bar is in the rail (top inset 0): the back button is 32 from the top, not 8.
+    expect(StyleSheet.flatten(screen.getByLabelText("Back").props.style).marginTop).toBe(32);
     expect(style("place-columns").flexDirection).not.toBe("row");
     // Add to Trip sits under the words only.
     expect(style("place-add").left).toBe(475.5);

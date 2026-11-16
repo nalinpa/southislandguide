@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { tokens } from "@/lib/ui/tokens";
 import { useTourTarget } from "@/lib/tour/useTourTarget";
+import { wideTop } from "@/lib/ui/wideTop";
 
 /** The band's width on the open Duo; the tour card is placed beside it. */
 export const EXPLORE_SIDE = 200;
@@ -58,14 +59,16 @@ export function ExploreSide({
 
   // The chevron is a child of the name's own Text, so it follows the last word as the
   // name wraps or shrinks.
+  // A name with a slash ("Aoraki / Mount Cook") breaks after it, and may run to 8 from the
+  // strip's edge instead of 20.
   const name = (
     <Text
       numberOfLines={2}
       onTextLayout={onTextLayout}
-      style={[styles.town, { fontSize: size }]}
+      style={[styles.town, { fontSize: size }, town.includes(" / ") && styles.townSlash]}
       accessibilityRole={onPickTown ? undefined : "header"}
     >
-      {town}
+      {town.replace(" / ", " /\n")}
       {onPickTown ? (
         <View testID="town-chevron" style={styles.chevron}>
           <ChevronDown size={22} color={ink} strokeWidth={2.5} />
@@ -76,7 +79,7 @@ export function ExploreSide({
 
   return (
     // The status bar's inset above, as the phone's bar takes it; the band runs up under the clock.
-    <View testID="explore-side" style={[styles.side, { paddingTop: 16 + insets.top }]}>
+    <View testID="explore-side" style={[styles.side, { paddingTop: wideTop(insets.top, 16 + insets.top) }]}>
       {onPickTown ? (
         <TouchableOpacity
           {...townTarget}
@@ -140,6 +143,7 @@ export function ExploreSide({
 const styles = StyleSheet.create({
   side: { width: EXPLORE_SIDE, backgroundColor: tokens.colors.band, paddingHorizontal: 20, paddingTop: 16 },
   town: { fontSize: 26, fontWeight: "800", color: tokens.colors.townInk, flexShrink: 1 },
+  townSlash: { marginRight: -12 },
   chevron: { marginLeft: 2, marginBottom: -3 },
   // The first icon's edge on the town's: the glyph is centred in a 44 tap, so 11 sits out.
   icons: { flexDirection: "row", gap: 4, marginTop: 8, marginLeft: -11 },

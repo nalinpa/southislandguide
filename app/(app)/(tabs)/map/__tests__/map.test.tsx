@@ -653,7 +653,7 @@ describe("wide", () => {
     expect(view.getByText("Nearby count: 10")).toBeTruthy();
   });
 
-  it("draws the search card 360 by 56, 60 from the top upright and 16 sideways", async () => {
+  it("draws the search card 360 by 56, 60 from the top upright and 32 sideways", async () => {
     ui().__setWide(true, { width: 669, height: 951 });
     const upright = await render(<MapScreen />);
     expect(flat(upright.getByTestId("map-search-card"))).toMatchObject({ width: 360, height: 56, borderRadius: 16 });
@@ -661,7 +661,7 @@ describe("wide", () => {
 
     ui().__setWide(true, { width: 951, height: 669 });
     await upright.rerender(<MapScreen />);
-    expect(flat(upright.getByTestId("map-search-row")).paddingTop).toBe(16);
+    expect(flat(upright.getByTestId("map-search-row")).paddingTop).toBe(32);
   });
 
   it("fades the top upright only", async () => {
@@ -684,6 +684,12 @@ describe("wide", () => {
 
     expect(flat(view.getByLabelText("Centre on my location").parent)).toMatchObject({ width: 52, marginRight: 16 });
     expect(flat(view.getByTestId("map-controls-row")).top).toBe(60);
+  });
+
+  it("sideways, locate and layers are 32 from the top too (the status bar is in the rail)", async () => {
+    ui().__setWide(true, { width: 951, height: 669 });
+    const view = await render(<MapScreen />);
+    expect(flat(view.getByTestId("map-controls-row")).top).toBe(32);
   });
 
   it("keeps locate and layers 8 under the status bar's inset when that is below the search card's top", async () => {
@@ -714,6 +720,26 @@ describe("wide", () => {
     await openFilters(view);
     expect(view.getByText("Chips open: false")).toBeTruthy();
     expect(view.getByTestId("map-chips").props.style).toBeFalsy();
+  });
+
+  it("opening the filter on the Duo does not open the phone's: folded, it is as the phone left it", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    const view = await render(<MapScreen />);
+    await openFilters(view);
+    expect(view.getByTestId("map-chips")).toBeTruthy();
+
+    ui().__setWide(false);
+    await view.rerender(<MapScreen />);
+    expect(view.queryByTestId("map-chips")).toBeNull();
+
+    // And the phone's own opening survives a trip to the Duo and back (the Duo keeps its own).
+    await openFilters(view);
+    ui().__setWide(true, { width: 669, height: 951 });
+    await view.rerender(<MapScreen />);
+    expect(view.getByText("Chips open: true")).toBeTruthy();
+    ui().__setWide(false);
+    await view.rerender(<MapScreen />);
+    expect(view.getByTestId("map-chips")).toBeTruthy();
   });
 
   it("keeps the chosen place, and the same map, across the breakpoint", async () => {

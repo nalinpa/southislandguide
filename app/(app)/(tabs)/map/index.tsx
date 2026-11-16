@@ -100,7 +100,12 @@ export default function MapScreen() {
   }, [tripOn, tripSiteIds]);
   // The chips and the filter button are for categories; My Trip has its own button.
   const categoryOn = !!mapFilter && !tripOn;
-  const [showFilters, setShowFilters] = useState(false);
+  // One flag for each width: opening the filter on the Duo must not leave the phone's open
+  // once folded (owner, 2026-11-16). Same state hooks on every width, so nothing remounts.
+  const [filtersPhone, setFiltersPhone] = useState(false);
+  const [filtersWide, setFiltersWide] = useState(false);
+  const showFilters = wide ? filtersWide : filtersPhone;
+  const setShowFilters = wide ? setFiltersWide : setFiltersPhone;
   const [mapType, setMapType] = useState<MapType>("standard");
 
   const mapViewRef = useRef<SitesMapViewHandle>(null);

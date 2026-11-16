@@ -364,11 +364,11 @@ describe("wide: the panel", () => {
     expect(view.getByTestId("map-panel")).toHaveStyle({ left: 16, width: 360, top: 60 + 56 + 12 });
   });
 
-  it("sideways it sits 16 from the top: the search card is there, not under a status bar", async () => {
+  it("sideways it sits 32 from the top: the search card is there, not under a status bar", async () => {
     ui().__setWide(true, { width: 951, height: 669 });
     const view = await openSheet();
 
-    expect(view.getByTestId("map-panel")).toHaveStyle({ top: 16 + 56 + 12 });
+    expect(view.getByTestId("map-panel")).toHaveStyle({ top: 32 + 56 + 12 });
   });
 
   it("moves down by the chips row and its gap when the chips are open", async () => {
@@ -383,8 +383,8 @@ describe("wide: the panel", () => {
     const view = await openSheet({ todayItems: [{ id: "a", siteId: "a", siteName: "A", timeLabel: "9:00 AM", category: "Walks" }] });
     await layout(view.getByTestId("map-panel-area"), 400);
 
-    // 400 - top 84 - 16 above the tab bar.
-    expect(view.getByTestId("map-panel")).toHaveStyle({ maxHeight: 300 });
+    // 400 - top 100 - 16 above the tab bar.
+    expect(view.getByTestId("map-panel")).toHaveStyle({ maxHeight: 284 });
   });
 
   it("keeps the sheet on a phone", async () => {

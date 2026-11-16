@@ -9,11 +9,13 @@ import { PlaceCard, TodayCarousel, NearbyRow, NearbySection } from "@/components
 import type { ActiveItineraryItem, NearbySite } from "@/components/map/MapPieces";
 import { cardLift, darkEdge, tokens } from "@/lib/ui/tokens";
 import type { Site } from "@/lib/models";
+import { WIDE_TOP_MIN } from "@/lib/ui/wideTop";
 
 export const PANEL_WIDTH = 360;
 export const SEARCH_HEIGHT = 56;
 // The search card's top: under the status bar upright, at the top sideways (the bar is in the rail).
-export const searchTop = (upright: boolean) => (upright ? 60 : 16);
+// Sideways the top inset is 0 (the status bar is in the rail): WIDE_TOP_MIN, not 16 (owner, 2026-11-16).
+export const searchTop = (upright: boolean) => (upright ? 60 : WIDE_TOP_MIN);
 // Panel, search card and the map's edge, 16 apart: the map's left padding.
 export const PANEL_PAD = 16 + PANEL_WIDTH + 16;
 const GAP = 12;

@@ -349,11 +349,13 @@ function SiteDetail({ id }: { id: string }) {
           in lib/hooks/useEntitlementGate.ts). rotorua-guide's version opens
           PremiumFeatureModal first; add that back when commerce lands. */}
       {(session.status === "authed" || session.status === "guest") && canAddToItinerary(site) && (
-        <SafeAreaView
+        <View
           testID="place-add"
-          edges={["bottom"]}
           style={[
             styles.itineraryFloatingWrap,
+            // The bottom gap is JS layout, not the native SafeAreaView's padding, which lands
+            // after the tour's measurement and left its cut-out ~inset pt below the button.
+            { paddingBottom: insets.bottom },
             rightPage,
             // Upright on the Duo a fade above the row replaces the line, so no text looks cut.
             twoColumns && { borderTopWidth: 0, paddingHorizontal: tokens.space.lg },
@@ -380,7 +382,7 @@ function SiteDetail({ id }: { id: string }) {
               {isOffline ? "Reconnect to Add to Trip" : "+ Add to Trip"}
             </AppButton>
           </View>
-        </SafeAreaView>
+        </View>
       )}
 
       <components.TripChoiceSheet

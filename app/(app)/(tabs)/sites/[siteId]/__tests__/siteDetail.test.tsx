@@ -113,6 +113,20 @@ jest.mock("@/lib/tour/useTourTarget", () => ({
   useTourTarget: (id: string) => ({ ref: { current: null }, onLayout: () => {}, testID: "tour-target-" + id }),
 }));
 
+// The bottom inset is the only one a test varies (the footer's padding); the rest stay as the
+// library's test provider gives them.
+const mockBottomInset = { value: undefined as number | undefined };
+jest.mock("react-native-safe-area-context", () => {
+  const actual = jest.requireActual("react-native-safe-area-context");
+  return {
+    ...actual,
+    useSafeAreaInsets: () => {
+      const insets = actual.useSafeAreaInsets();
+      return mockBottomInset.value === undefined ? insets : { ...insets, bottom: mockBottomInset.value };
+    },
+  };
+});
+
 const mockNet = { isConnected: true as boolean | null };
 jest.mock("@react-native-community/netinfo", () => ({ useNetInfo: () => mockNet }));
 
@@ -499,6 +513,17 @@ describe("the tour", () => {
     await openDetail();
 
     expect(target("placeAdd")).toHaveTextContent("+ Add to Trip");
+  });
+
+  it("measures the button inside a plain View whose bottom padding is the inset (a native SafeAreaView's lands after the measurement)", async () => {
+    mockBottomInset.value = 21;
+    await openDetail();
+
+    const footer = screen.getByTestId("place-add");
+    expect(footer.type).toBe("View");
+    expect(StyleSheet.flatten(footer.props.style).paddingBottom).toBe(21);
+    expect(within(footer).getByTestId("tour-target-placeAdd")).toBeTruthy();
+    mockBottomInset.value = undefined;
   });
 
   it("points at the heart", async () => {

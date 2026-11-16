@@ -17,7 +17,7 @@ import { AreaSheet, type AreaOption } from "@/components/sites/AreaSheet";
 import { ExploreSide } from "@/components/sites/ExploreSide";
 import { FeaturedCard } from "@/components/sites/FeaturedCard";
 import { nearestArea } from "@/components/map/MapRegion";
-import { AREAS, AREA_GUIDE_REGIONS, AREA_REGIONS, DEFAULT_AREA, areaName } from "@/lib/areas";
+import { AREAS, AREA_GUIDE_REGIONS, AREA_REGIONS, DEFAULT_AREA, areaName, areaShortName } from "@/lib/areas";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, matchesSearch, type SiteCategory } from "@/lib/models";
 import { useTourTarget } from "@/lib/tour/useTourTarget";
 import { useTourIfAny } from "@/lib/tour/TourContext";
@@ -391,7 +391,7 @@ export default function SiteListPage() {
       <View style={styles.row}>
         {wide ? (
           <ExploreSide
-            town={areaLabel ?? "Places"}
+            town={areaShortName(area) ?? areaLabel ?? "Places"}
             onPickTown={areaOptions.length > 1 ? () => setAreaMenuOpen(true) : undefined}
             onGuide={() =>
               router.push(

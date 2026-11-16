@@ -1048,4 +1048,19 @@ describe("wide (the open Duo)", () => {
     expect(within(view.getByTestId("tour-target-browse")).getByText("Food & Drink")).toBeTruthy();
     expect(within(view.getByTestId("tour-target-place")).getByText("Row Sumner Beach")).toBeTruthy();
   });
+  // Last in the describe: the town it shows is picked by the places' area.
+  it("shows Aoraki / Mount Cook as Mt Cook in the strip on the Duo", async () => {
+    mockBag.locations = [makeSite("m1", "Hooker Valley", ["Walks"], { area: "aoraki-mount-cook", region: "aoraki-mackenzie" })];
+    wide();
+    const view = await render(<SiteListPage />);
+    expect(within(view.getByTestId("explore-side")).getByText("Mt Cook")).toBeTruthy();
+    expect(view.queryByText(/Aoraki/)).toBeNull();
+  });
+
+  it("keeps Aoraki / Mount Cook's full name on the phone", async () => {
+    mockBag.locations = [makeSite("m1", "Hooker Valley", ["Walks"], { area: "aoraki-mount-cook", region: "aoraki-mackenzie" })];
+    const view = await render(<SiteListPage />);
+    expect(view.queryByText("Mt Cook")).toBeNull();
+    expect(view.getAllByText("Aoraki / Mount Cook").length).toBeGreaterThan(0);
+  });
 });

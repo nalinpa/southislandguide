@@ -1,4 +1,4 @@
-import { AREAS, AREA_LABELS, AREA_REGIONS, DEFAULT_AREA, areaLabel, areaName, areaDriveMinutes } from "@/lib/areas";
+import { AREAS, AREA_LABELS, AREA_REGIONS, DEFAULT_AREA, areaLabel, areaName, areaShortName, areaDriveMinutes } from "@/lib/areas";
 
 describe("areas", () => {
   it("labels the areas whose names capitals can't make", () => {
@@ -46,6 +46,12 @@ describe("areas", () => {
   // An area added in the admin panel before the app knows it still has to be shown as something.
   // A new town's name is nearly always its id with capitals, so it reads right from the
   // day it is entered. A label is only needed for what capitals can't do (a macron, an "&").
+  it("areaShortName is Mt Cook for Aoraki / Mount Cook, and nothing for any other town", () => {
+    expect(areaShortName("aoraki-mount-cook")).toBe("Mt Cook");
+    expect(areaName("aoraki-mount-cook")).toBe("Aoraki / Mount Cook");
+    expect(areaShortName("queenstown")).toBeUndefined();
+  });
+
   it("areaName returns the label for a known id, and otherwise the id with capitals", () => {
     expect(areaName("dunedin")).toBe("Dunedin");
     expect(areaName("oamaru")).toBe("Ōamaru");

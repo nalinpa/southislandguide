@@ -64,8 +64,10 @@ export function ExploreSide({
   // A name with a slash ("Aoraki / Mount Cook") breaks after it, and may run to 8 from the
   // strip's edge instead of 20.
   const name = (
+    // No numberOfLines: iOS cuts a name that won't fit with "…" and draws the inline chevron
+    // over its first letter (owner, 2026-11-16). The step-down above is the only limit, so
+    // the chevron always follows the last word.
     <Text
-      numberOfLines={2}
       onTextLayout={onTextLayout}
       style={[styles.town, { fontSize: size }, town.includes(" / ") && styles.townSlash]}
       accessibilityRole={onPickTown ? undefined : "header"}

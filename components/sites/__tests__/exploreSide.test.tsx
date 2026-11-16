@@ -40,7 +40,8 @@ describe("ExploreSide", () => {
     const view = await render(<ExploreSide {...base} town="Aoraki / Mount Cook" />);
 
     const town = view.getByText("Aoraki /\nMount Cook");
-    expect(town.props.numberOfLines).toBe(2);
+    // Changed in round 3: no line limit, so iOS can't cut the name and draw the chevron over it.
+    expect(town.props.numberOfLines).toBeUndefined();
     expect(town).toHaveStyle({ fontSize: 26 });
     expect(within(town).getByTestId("town-chevron")).toBeTruthy();
     // the slash breaks the line: "Aoraki /" over "Mount Cook" (owner, 2026-11-16)
@@ -77,6 +78,16 @@ describe("ExploreSide", () => {
     await lay(long, "Christchurch", ["Christchurc", "h ￼"]);
     await lay(long, "Christchurch", ["Christchurch", "￼"]); // chevron alone on a line
     expect(long.getByText("Christchurch")).toHaveStyle({ fontSize: 24 });
+  });
+
+  it("never truncates any long name, so the chevron can't land on its letters", async () => {
+    for (const town of ["Mt Cook", "Hanmer Springs Thermal Pools", "Aoraki / Mount Cook", "Abel Tasman National Park"]) {
+      const view = await render(<ExploreSide {...base} town={town} />);
+      const t = view.getByText(town.replace(" / ", " /\n"));
+      expect(t.props.numberOfLines).toBeUndefined();
+      expect(t.props.ellipsizeMode).toBeUndefined();
+      expect((t.children[t.children.length - 1] as any).props.testID).toBe("town-chevron");
+    }
   });
 
   it("keeps a 32 top when the inset is 0 (sideways)", async () => {

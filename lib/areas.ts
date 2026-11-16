@@ -108,6 +108,14 @@ export function areaName(id: string): string {
   return areaLabel(id) ?? id.replace(/-/g, " ").replace(/\b[a-z]/g, (c) => c.toUpperCase());
 }
 
+// A shorter name for a place the strip has little room for: Explore's side strip on the open
+// Duo only (components/sites/ExploreSide.tsx). The town's name everywhere else stays its label.
+const AREA_SHORT_NAMES: Record<string, string> = { "aoraki-mount-cook": "Mt Cook" };
+
+export function areaShortName(id: string): string | undefined {
+  return AREA_SHORT_NAMES[id];
+}
+
 // Minutes by road, town to town, used in both directions. One entry per pair: the two
 // ids in alphabetical order, joined with "|". Written by
 // `node scripts/generate-drive-times.js areas --apply` (a maps service, from each town's

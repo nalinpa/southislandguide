@@ -371,6 +371,22 @@ describe("wide: the panel", () => {
     expect(view.getByTestId("map-panel")).toHaveStyle({ top: 16 + 56 + 12 });
   });
 
+  it("moves down by the chips row and its gap when the chips are open", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    const view = await openSheet({ chipsOpen: true });
+
+    expect(view.getByTestId("map-panel")).toHaveStyle({ top: 60 + 56 + 12 + 36 + 12 });
+  });
+
+  it("stays above the tab bar with Today's Trip in it: it is no taller than what is left", async () => {
+    ui().__setWide(true, { width: 951, height: 669 });
+    const view = await openSheet({ todayItems: [{ id: "a", siteId: "a", siteName: "A", timeLabel: "9:00 AM", category: "Walks" }] });
+    await layout(view.getByTestId("map-panel-area"), 400);
+
+    // 400 - top 84 - 16 above the tab bar.
+    expect(view.getByTestId("map-panel")).toHaveStyle({ maxHeight: 300 });
+  });
+
   it("keeps the sheet on a phone", async () => {
     const view = await openSheet();
 

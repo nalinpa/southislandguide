@@ -55,15 +55,18 @@ jest.mock("@/components/map/SitesMapView", () => {
   };
 });
 
+let mockInsetTop = 0;
+
 jest.mock("@/components/map/MapOverlay", () => {
   const React = require("react");
   const { Text, TouchableOpacity, View } = require("react-native");
   return {
-    MapOverlayCard: ({ site, onOpen, onAddToItinerary, nearbySites }: any) =>
+    MapOverlayCard: ({ site, onOpen, onAddToItinerary, nearbySites, chipsOpen }: any) =>
       React.createElement(
         View,
         null,
         React.createElement(Text, null, "Nearby count: " + nearbySites.length),
+        React.createElement(Text, null, "Chips open: " + !!chipsOpen),
         React.createElement(Text, null, site ? "Overlay: " + site.name : "Overlay: nothing selected"),
         React.createElement(
           TouchableOpacity,
@@ -100,7 +103,10 @@ jest.mock("@gorhom/bottom-sheet", () => ({ __esModule: true, default: () => null
 jest.mock("react-native-safe-area-context", () => {
   const React = require("react");
   const { View } = require("react-native");
-  return { SafeAreaView: ({ children, style, testID }: any) => React.createElement(View, { style, testID }, children) };
+  return {
+    SafeAreaView: ({ children, style, testID }: any) => React.createElement(View, { style, testID }, children),
+    useSafeAreaInsets: () => ({ top: mockInsetTop, bottom: 0, left: 0, right: 0 }),
+  };
 });
 
 jest.mock("expo-haptics", () => ({
@@ -678,6 +684,36 @@ describe("wide", () => {
 
     expect(flat(view.getByLabelText("Centre on my location").parent)).toMatchObject({ width: 52, marginRight: 16 });
     expect(flat(view.getByTestId("map-controls-row")).top).toBe(60);
+  });
+
+  it("keeps locate and layers 8 under the status bar's inset when that is below the search card's top", async () => {
+    mockInsetTop = 59;
+    ui().__setWide(true, { width: 669, height: 951 });
+    const view = await render(<MapScreen />);
+    expect(flat(view.getByTestId("map-controls-row")).top).toBe(67);
+    mockInsetTop = 0;
+  });
+
+  it("gives the category chips their own row under the search card, clear of locate and layers", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    const view = await render(<MapScreen />);
+    expect(view.queryByTestId("map-chips")).toBeNull();
+    expect(view.getByText("Chips open: false")).toBeTruthy();
+
+    await openFilters(view);
+
+    expect(view.getByText("Chips open: true")).toBeTruthy();
+    expect(flat(view.getByTestId("map-chips"))).toMatchObject({ marginTop: 12, height: 36, marginRight: 80 });
+    expect(view.getByTestId("map-chips").props.contentContainerStyle).toEqual(
+      expect.arrayContaining([expect.objectContaining({ paddingHorizontal: 16 })]),
+    );
+  });
+
+  it("leaves the phone's chips and panel flag alone", async () => {
+    const view = await render(<MapScreen />);
+    await openFilters(view);
+    expect(view.getByText("Chips open: false")).toBeTruthy();
+    expect(view.getByTestId("map-chips").props.style).toBeFalsy();
   });
 
   it("keeps the chosen place, and the same map, across the breakpoint", async () => {

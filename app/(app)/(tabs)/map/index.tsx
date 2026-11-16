@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { View, StyleSheet, useColorScheme, Text, TextInput, TouchableOpacity, ScrollView, Keyboard, Alert, Linking } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { useHalves, useWide } from "@blacksands/ui";
 import { router } from "expo-router";
@@ -27,7 +27,7 @@ import { SitesMapView, initialRegionFrom } from "@/components/map/SitesMapView";
 import type { SitesMapViewHandle } from "@/components/map/SitesMapView";
 import { MapOverlayCard } from "@/components/map/MapOverlay";
 import type { NearbySite, ActiveItineraryItem } from "@/components/map/MapOverlay";
-import { PANEL_PAD, PANEL_WIDTH, SEARCH_HEIGHT, searchTop } from "@/components/map/MapPanel";
+import { CHIPS_HEIGHT, PANEL_PAD, PANEL_WIDTH, SEARCH_HEIGHT, searchTop } from "@/components/map/MapPanel";
 import { AddToTripModal } from "@/components/itinerary/AddToTripModal";
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { PremiumFeatureModal } from "@/components/itinerary/PremiumFeatureModal";
@@ -39,6 +39,8 @@ export default function MapScreen() {
   const wide = useWide();
   const { upright } = useHalves();
   const searchAt = searchTop(upright);
+  // Locate and layers sit level with the search card, but never under the status bar's icons.
+  const controlsAt = Math.max(searchAt, useSafeAreaInsets().top + 8);
   const card = CARD_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
   const { session } = useSession();
   const uid = session.status === "authed" ? session.uid : null;
@@ -401,7 +403,8 @@ export default function MapScreen() {
             category is chosen even if the button is tapped shut: otherwise
             nothing would say which filter is on, or offer a way to change it. */}
         {(showFilters || categoryOn) && (
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[styles.chipRow, wide && styles.openMapLeft]}>
+          <ScrollView testID="map-chips" horizontal showsHorizontalScrollIndicator={false} style={wide && styles.chipScrollWide}
+            contentContainerStyle={[styles.chipRow, wide && styles.chipRowWide]}>
             {([{ label: "All", value: null }, ...SITE_CATEGORIES.map((c) => ({ label: SITE_CATEGORY_LABELS[c], value: c }))] as {
               label: string;
               value: SiteCategory | null;
@@ -436,7 +439,7 @@ export default function MapScreen() {
             the filter chips when those are open). They used to be pinned 40%
             down the screen, where the bottom sheet grows up over them and they
             covered its distance and Directions button. */}
-        <View testID="map-controls-row" style={[styles.controlsRow, wide && { position: "absolute", top: searchAt, left: 0, right: 0 }]} pointerEvents="box-none">
+        <View testID="map-controls-row" style={[styles.controlsRow, wide && { position: "absolute", top: controlsAt, left: 0, right: 0 }]} pointerEvents="box-none">
           <View style={[styles.leftStack, wide && styles.leftStackWide]} pointerEvents="box-none">
           {/* Out on the map, not behind the filter button (owner, 2026-11-11), once the
               trip has places. A tap shows only them; another shows everything again. */}
@@ -530,6 +533,7 @@ export default function MapScreen() {
         hasLoc={!!loc}
         locError={!!locErr}
         bottomSheetRef={bottomSheetRef}
+        chipsOpen={wide && (showFilters || categoryOn)}
       />
 
       <components.TripChoiceSheet
@@ -636,6 +640,10 @@ const styles = StyleSheet.create({
   filterBtnActive: { backgroundColor: tokens.colors.accent },
   // Past the panel, in the open part of the map.
   openMapLeft: { paddingLeft: PANEL_PAD },
+  // Wide: the chips' own row, 12 under the search card, from 16 on the left to 12 short of
+  // the locate / layers column (52 wide, 16 from the edge); it scrolls sideways if longer.
+  chipScrollWide: { flexGrow: 0, height: CHIPS_HEIGHT, marginTop: 12, marginRight: 16 + 52 + 12 },
+  chipRowWide: { paddingVertical: 0, alignItems: "center" },
   chipRow: { paddingHorizontal: 16, paddingVertical: 10, gap: 8, flexDirection: "row" },
   chip: {
     paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20, backgroundColor: ON_MAP.chip,

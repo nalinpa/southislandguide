@@ -33,6 +33,8 @@ interface MapOverlayProps {
   hasLoc: boolean;
   locError?: boolean;
   refreshingGPS?: boolean;
+  /** Wide only: the category chips' row is open above the panel. */
+  chipsOpen?: boolean;
   bottomSheetRef: React.RefObject<BottomSheet | null>;
 }
 
@@ -58,6 +60,7 @@ export function MapOverlayCard({
   distanceMeters,
   refreshingGPS = false,
   bottomSheetRef,
+  chipsOpen,
 }: MapOverlayProps) {
   const insets = useSafeAreaInsets();
   const wide = useWide();
@@ -79,6 +82,7 @@ export function MapOverlayCard({
         nearbySites={nearbySites}
         todayItems={todayItems}
         scrolled={scrolled}
+        chipsOpen={chipsOpen}
         onOpen={onOpen}
         onSelectSite={onSelectSite}
         onFocusSite={onFocusSite}

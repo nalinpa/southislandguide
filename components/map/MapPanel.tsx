@@ -2,7 +2,7 @@
 // left, in place of the bottom sheet (docs/plans/design-sweep.md, "The map, picked: round 3").
 // It ends on a whole Nearby row, at least 16 above the tab bar.
 import React, { useState } from "react";
-import { StyleSheet, View, type LayoutChangeEvent } from "react-native";
+import { ScrollView, StyleSheet, View, type LayoutChangeEvent } from "react-native";
 import { useHalves } from "@blacksands/ui";
 
 import { PlaceCard, TodayCarousel, NearbyRow, NearbySection } from "@/components/map/MapPieces";
@@ -17,6 +17,8 @@ export const searchTop = (upright: boolean) => (upright ? 60 : 16);
 // Panel, search card and the map's edge, 16 apart: the map's left padding.
 export const PANEL_PAD = 16 + PANEL_WIDTH + 16;
 const GAP = 12;
+// The category chips' own row, when open, sits between the search card and the panel.
+export const CHIPS_HEIGHT = 36;
 const ABOVE_TAB_BAR = 16;
 const MIN_ROW = 48;
 const PAD_TOP = 12;
@@ -31,6 +33,8 @@ export type MapPanelProps = {
   nearbySites: NearbySite[];
   todayItems: ActiveItineraryItem[] | null;
   scrolled: React.MutableRefObject<boolean>;
+  /** The map's category chips are open: their row is above the panel, which moves down for it. */
+  chipsOpen?: boolean;
   onOpen: () => void;
   onSelectSite: (id: string) => void;
   onFocusSite: () => void;
@@ -39,9 +43,9 @@ export type MapPanelProps = {
 
 const height = (e: LayoutChangeEvent) => e.nativeEvent.layout.height;
 
-export function MapPanel({ site, nearbySites, todayItems, scrolled, onSelectSite, loading, ...card }: MapPanelProps) {
+export function MapPanel({ site, nearbySites, todayItems, scrolled, onSelectSite, loading, chipsOpen, ...card }: MapPanelProps) {
   const { upright } = useHalves();
-  const top = searchTop(upright) + SEARCH_HEIGHT + GAP;
+  const top = searchTop(upright) + SEARCH_HEIGHT + GAP + (chipsOpen ? CHIPS_HEIGHT + GAP : 0);
   // Measured: the area the map screen gives us, the place card, the Nearby heading, each row.
   const [areaH, setAreaH] = useState<number | null>(null);
   const [cardH, setCardH] = useState(0);
@@ -49,6 +53,10 @@ export function MapPanel({ site, nearbySites, todayItems, scrolled, onSelectSite
   const [rowH, setRowH] = useState<Record<string, number>>({});
 
   if (!site) return null;
+
+  // The whole panel stays above the tab bar: the place card and the Today's Trip strip scroll
+  // inside it if they are taller than what is left (Nearby is never shown beside the strip).
+  const maxHeight = areaH === null ? undefined : areaH - top - ABOVE_TAB_BAR;
 
   const showItinerary = !loading && !!todayItems?.length;
   const showNearby = !loading && !showItinerary && nearbySites.length > 0;
@@ -67,7 +75,8 @@ export function MapPanel({ site, nearbySites, todayItems, scrolled, onSelectSite
       pointerEvents="box-none"
       onLayout={(e) => setAreaH(height(e))}
     >
-      <View testID="map-panel" style={[styles.panel, { top }]}>
+      <View testID="map-panel" style={[styles.panel, { top, maxHeight }]}>
+        <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
         <View onLayout={(e) => setCardH(height(e))} testID="map-panel-head">
           <PlaceCard site={site} loading={loading} wide {...card} />
         </View>
@@ -88,6 +97,7 @@ export function MapPanel({ site, nearbySites, todayItems, scrolled, onSelectSite
             ))}
           </NearbySection>
         )}
+        </ScrollView>
         <View pointerEvents="none" style={[darkEdge, styles.edge]} />
       </View>
     </View>

@@ -188,6 +188,40 @@ Drawn from the code (no capture). Round 1: A (the guide card on the left) agains
 
 Not taken up: the guide card leads and Delete Account in red is the next loudest (three critics; the owner's banner and the red-deletes rule); three button styles and a flat type scale (two; the phone's own pieces); Sign Out and Delete Account on different sides (one).
 
+### Explore with the place, picked: 1.3.1 round 5 (owner, 2026-11-17)
+
+For 1.3.1, open Duo only; it replaces "Explore, picked: round 6" there. Five rounds, drawings on the [1.3.1 mocks page](https://claude.ai/artifact/6NR3pWF54NL36rgoNvfZhX). Round 2 beat the benchmark 7.2 to 6.2 and 1.3's two screens 7.4 to 6.2; round 5 beat round 4 with all five critics (7.4 to 6.6). Build plan: `docs/plans/duo-131.md`.
+
+| Piece | Value |
+|---|---|
+| Split | Upright 268 list, 401 place. Sideways 347 list, 520 place (867 content; the rail is outside it). Hairline between. The list side is on `band`; the place side on `page`. |
+| Top | Town's line top at 53 upright, at the 32 pt wide top sideways (`wideTop`). The place's photo card top is 8 below the town's line top (61 and 40). |
+| Head, both orientations | Line 1: the town, 26/800 `townInk`, the picker chevron as in 1.3 (short name, step-down sizing). Line 2, 8 under: the category pill on the left; guide, search and saved icons on the right, 22 pt glyphs in 44 pt taps, 4 apart, last glyph on the 20 pt edge. Rows start 16 under line 2. |
+| Category pill | 40 tall, corner 12, padding 14 left and 12 right, 8 before an 18 pt chevron. Shows "All" (17 semibold) when nothing is filtered, otherwise the category's map-pin icon (`CATEGORY_CONFIG`, 20 pt, stroke 2) and no name. Light: fill `rgba(9,92,101,.12)`, 1.5 pt `#095C65` edge, content `#095C65`. Dark: fill `#1A4247`, 1.5 pt `rgba(127,208,214,.55)`, content `#7FD0D6`. Accessibility label names the category. Hidden when the town has one category. |
+| Category pop-up | A centred card 520 wide, corner 20, the sheets' shadow and × disc, no title (as the guide's region picker). Rows 48 tall, 17/500: a 20 pt icon in a 22 pt slot, 14 before the name, in the pin's colour; "All" uses lucide `layout-grid` in `text2`. The chosen row is ticked, `highlight`, semibold. |
+| Row | Padding 8 top and bottom, 14 left, 6 right. Photo 48 square, corner 10, hairline, 8 before the words. Name 16/21 semibold, up to 2 lines. Under it "category · distance", 15/20 `text2`. Minimum height 48. |
+| Chosen row | Fill corner 12 reaching 12 into the margins. Light `selFill` `rgba(9,92,101,.16)`; dark `rgba(127,208,214,.30)` with a 1 pt `rgba(127,208,214,.55)` inner edge. A bar 4 wide, corner 2, 4 in from the fill's left edge, 8 in from top and bottom: `selected` in light, `#7FD0D6` in dark. The name in `selected`. |
+| List foot | A 40 pt fade to `band` above the tab bar. |
+| Place pane | Photo as a rounded card: 20 from the pane's sides, 240 tall upright and 140 sideways, corner 20, the credit on it as on the place screen. Under it, 22 down (16 sideways), one column in the phone's order: name, facts line, the four quick actions, description, Good to know, Local tip, reviews. No back button, no teal bar on scroll, no parallax. |
+| Add to Trip | Pinned to the pane's foot, 12 above and below, 20 at the sides, with the 36 pt fade above it that 1.3's upright place has. |
+| Known, left as drawn | The description can be cut above Add to Trip (the fade covers it) and the last row sits under the list's fade. |
+
+### Profile two-pane, picked: 1.3.1 round 5 (owner, 2026-11-17)
+
+For 1.3.1, open Duo only; it replaces "Profile, picked: round 2 of A" there. The owner's pick over the critics: round 4 beat round 5 with four of five (7.0 to 6.6), and 1.3's Profile beat round 4 with three of five (6.5 to 5.9), mostly on the left column overflowing. Saved Places and Photo credits on the right are round 2's.
+
+| Piece | Value |
+|---|---|
+| Split | Upright 268 and 400, sideways 347 and 519, hairline between, as 1.3. |
+| Left, signed in, in order | Who you are (no gap above; top at 56 upright, the wide top sideways), Show me around, Map for no signal, My Trip, Saved Places, the email switch, Photo credits and the three legal rows, Account with Delete Account last. No guide card. |
+| Left, guest, in order | The teal guide card with a **white** Open Guide button (`#FFFFFF`, words `#063F45`), Access, Show me around, Map for no signal, Photo credits and the legal rows. The phone keeps its orange button. |
+| Left foot | The column scrolls; a 40 pt fade to `page` above the tab bar. |
+| Right, the photo card | 20 from the pane's sides, top level with the left's top (56 upright, the wide top sideways), 20 above the tab bar, corner 20. A wash over the photo: `rgba(6,63,69,.38)` in light, `rgba(3,18,20,.62)` in dark. |
+| Right, signed in, nothing picked | The guide card centred on the photo both ways: width the smaller of 350 and the photo's width less 40, padding 24, corner 20, `#063F45` (dark `#0B4B52`), shadow 0 12 32 at 28%. "Your guide to the South Island" 28/33 800 white, 16 under it the orange Open Guide button, 52 tall, full pill. Photo: `assets/guide-road.webp` (Decided 1). |
+| Right, guest | A card centred on the Login photo (`assets/login.webp`) with the same wash: width the smaller of 380 and the photo's width less 40, padding 24, corner 20, `page`, the same shadow. "Sign In for More" 22/27 700; "Sign in to save places, plan trips and leave reviews." 16/22 `text2`; then the Login screen's form with "Create an account" as the teal outline button. |
+| Right, Saved Places or Photo credits | No photo. A title row at the pane's top: the name 26/31 700, the count beside "Saved Places" 15/600 `muted`, and an × in a 44 pt tap on the right that goes back to the guide card. Saved Places: its category strip under the title, then the cards, one column with 190 photos upright, two columns with 130 photos sideways. Photo credits: its rows as on the phone. |
+| Picked row | "View All Saved Places" and "Photo credits" take `selFill` with corner 12 while their pane is open. |
+
 ### Login, picked: round 5 with a hairline card edge in dark (owner, 2026-11-15)
 
 Five rounds. The sweep's plan was "the photo beside the form", but a photo on one half and a white form on the other needs two status bar styles; iOS has one. So the photo fills the window and the form floats on a card. Round 5 beat round 3 with four of five critics (6.0 against 5.6; the benchmark 7.4) and beat the benchmark on colour (7 to 5).

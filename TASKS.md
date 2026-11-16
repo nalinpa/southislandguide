@@ -21,7 +21,7 @@ Reference app for every port: `rotorua-guide`.
 - **No over-the-air update of the sweep to 1.1:** it waits for 1.2.
 - **Before the first native change lands on `main`:** `hotfix/1.1` (made 2026-11-14) is the last commit on 1.1's runtime, for any 1.1 hotfix.
 
-### 1.3 — built 2026-11-16 (owner); checks, listing and submit left
+### 1.3 — live 2026-11-17 (build 9, `eb72b38`, runtime `a0bdc768…`); phone checks left
 
 Plan: the doc [Kiwi Guide 1.3 Plan](https://claude.ai/artifact/1qoZN26ADdcgrQPRm1iB3C). Expo SDK 58 and every library update, then iPhone Duo: fit first, then wide layouts, screen by screen. **Scope (owner, 2026-11-15): upgrades and Duo support only, and Duo support as soon as possible. Any other work goes in "Later", never in 1.3. Full Duo support: every screen in the sweep gets its wide layout in 1.3, not just the most-seen ones.** Checked that day: the branch, this section and the plan doc held nothing else. Owner's calls: keep our own tab bar; real wide layouts on the open Duo; take every major update; check the Duo on Expo Simulators (needs a paid EAS plan, not decided yet; Appetize is the fallback). Testing is the owner's to arrange.
 
@@ -50,6 +50,20 @@ Plan: the doc [Kiwi Guide 1.3 Plan](https://claude.ai/artifact/1qoZN26ADdcgrQPRm
   - **Store listing:** What's New (draft: iPhone Duo layouts; the map filter button; updated for iOS 27). iPhone Duo screenshots, inner display, landscape 2853 × 2007: `store/screenshots/duo/kiwi-guide-duo-01…08.png` (rebuild with `store/screenshots/duo/build.js`; frame 3's day list starts on a cut row). The iPhone set is unchanged.
   - **Build and submit (owner):** `npx eas-cli build --profile production --platform ios`, then `npx eas-cli submit --platform ios --latest`. The production EAS environment's `GITHUB_TOKEN` works (the simulator build used it, 2026-11-16). Built 2026-11-16; submit left.
   - **Once it's live:** merge `1.3` into `main` (68 commits ahead on 2026-11-16), keep `1.3` as its hotfix line, and note the build number. OTAs must match runtime `a0bdc768…`.
+
+### 1.3.1 — started 2026-11-17 (branch `1.3.1`, from `1.3`)
+
+1.3.0 went live on 2026-11-17 (build 9, `eb72b38`, runtime `a0bdc768…`). 1.3.1 is open Duo only; every iPhone, the folded Duo and Split View stay as 1.3.0.
+
+Plan: `docs/plans/duo-131.md`. Drawings: the [1.3.1 mocks page](https://claude.ai/artifact/6NR3pWF54NL36rgoNvfZhX). Picked values: `docs/plans/design-sweep.md`, "## Wide".
+
+- [ ] Explore with the chosen place beside it (Tasks 1 to 3)
+- [ ] Profile with a right pane: guide link, Saved Places, Photo credits, sign-in for a guest (Tasks 4 and 5)
+- [ ] The tour on the new Explore, and the full check (Task 6)
+- [ ] Check it on the Duo in the simulator (Task 7; `simulator` channel only)
+- [ ] Release: merge, bump to 1.3.1, store build; redo Duo screenshots 2, 6 and 7 and the Duo preview video
+
+**Never publish this branch to the `production` channel:** it has 1.3.0's runtime, so it would reach every 1.3 user.
 
 ### 1.4 — proposed 2026-11-16, scope is the owner's call
 Nothing here is decided. JS-only fixes can go out as OTAs on 1.3's runtime once it's live (`--platform ios`), so a 1.4 store build is only needed for sign-in and iPad.

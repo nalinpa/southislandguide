@@ -9,7 +9,7 @@ import { darkEdge } from "@/lib/ui/tokens";
 //   sheet:  520 wide, centred on the fold.
 //   list:   520 wide, up to 760 tall from 96 down (upright), scrolling inside. With
 //           `centred` it is centred in the window upright too (New Trip), 24 clear above and below.
-//   dialog: 400 wide, its foot 24 above the fold (upright).
+//   dialog: 400 wide, its foot 24 above the fold (upright); with `centred`, centred in the window.
 // Sideways, all three are centred in the window.
 export type SheetKind = "sheet" | "list" | "dialog";
 
@@ -49,7 +49,7 @@ export function useWideSheet(
     overlay.justifyContent = top ? "flex-start" : "center";
     if (top) overlay.paddingTop = 96;
     card.maxHeight = Math.min(760, top ? height - 96 - 24 : height - 48);
-  } else if (kind === "dialog" && upright) {
+  } else if (kind === "dialog" && upright && !opts?.centred) {
     overlay.justifyContent = "flex-end";
     overlay.paddingBottom = height - foldY + 24;
   }

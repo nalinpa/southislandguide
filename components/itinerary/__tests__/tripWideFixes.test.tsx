@@ -344,12 +344,15 @@ describe("the trip's ⋯ menu on the Duo", () => {
     expect(shown).toHaveLength(4);
   });
 
-  it("upright, its foot is 24 above the fold, as the dialogs", async () => {
+  it("upright, is centred in the window too, with no fold-based padding", async () => {
     setWide({ width: 669, height: 951 });
     const view = await openTripView();
     await fireEvent.press(view.getByLabelText("Trip options"));
 
-    expect(flat(view.getByTestId("trip-menu-card").parent!).paddingBottom).toBe(951 - 475.5 + 24);
+    const overlay = flat(view.getByTestId("trip-menu-card").parent!);
+    expect(overlay.justifyContent).toBe("center");
+    expect(overlay.alignItems).toBe("center");
+    expect(overlay.paddingBottom).toBeUndefined();
   });
 
   it("still does its actions, and closes", async () => {

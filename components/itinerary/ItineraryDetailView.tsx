@@ -140,7 +140,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   const { upright } = useHalves();
   const insets = useSafeAreaInsets();
   // The ⋯ menu: a popover under the button on a phone, a centred 400 card on the Duo.
-  const menuSheet = useWideSheet("dialog");
+  const menuSheet = useWideSheet("dialog", { centred: true });
 
   const [localTrip, setLocalTrip] = useState<Itinerary | null>(sourceTrip);
   const [activeDayId, setActiveDayId] = useState<string | null>(null);
@@ -1119,7 +1119,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
           {/* Sides too, so the card stays under the "..." button, which keeps clear of a
               Duo's rail along with the rest of the screen (app/_layout.tsx). */}
           <SafeAreaView
-            edges={["top", "left", "right"]}
+            edges={menuSheet ? [] : ["top", "left", "right"]}
             style={[styles.menuSafeArea, menuSheet && styles.menuSafeWide, menuSheet?.overlay]}
             pointerEvents="box-none"
           >

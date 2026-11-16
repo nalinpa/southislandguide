@@ -174,7 +174,10 @@ const openDetail = async (id = "site-1") => {
 };
 
 // renderRouter switches jest to fake timers and leaves them on.
-afterEach(() => jest.useRealTimers());
+afterEach(() => {
+  jest.useRealTimers();
+  mockBottomInset.value = undefined;
+});
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -523,7 +526,6 @@ describe("the tour", () => {
     expect(footer.type).toBe("View");
     expect(StyleSheet.flatten(footer.props.style).paddingBottom).toBe(21);
     expect(within(footer).getByTestId("tour-target-placeAdd")).toBeTruthy();
-    mockBottomInset.value = undefined;
   });
 
   it("points at the heart", async () => {

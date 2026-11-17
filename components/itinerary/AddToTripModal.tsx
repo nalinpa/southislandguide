@@ -110,7 +110,11 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   // By the place's id, not the object: both callers build `site` afresh on every render,
   // and the save itself makes them re-render, which wiped the confirmation (and the form)
   // a moment after it appeared.
+  // Bumped whenever the done state is reset, so a save that resolves later can tell it
+  // belongs to a place the sheet has left.
+  const generation = useRef(0);
   useEffect(() => {
+    generation.current += 1;
     setAdded(null);
     setRowState({});
   }, [site?.id]);
@@ -309,12 +313,16 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
       return;
     }
     setRowState((r) => ({ ...r, [id]: { state: "saving" } }));
+    const started = generation.current;
     try {
       await saveItinerary({ id: done.tripId, days: result.days });
     } catch {
+      if (started !== generation.current) return;
       setRowState((r) => ({ ...r, [id]: { state: "message", text: "Couldn't add to your trip. Try again." } }));
       return;
     }
+    // The save happened; the sheet has moved on, so nothing of it goes into the new one.
+    if (started !== generation.current) return;
     const placed = result.days.find((d) => d.id === done.dayId)!.items.find((i) => i.id === newItem.id)!;
     setAdded({ ...done, days: result.days, lastSlot: placed.slotIndex ?? 0, endSlot: (placed.slotIndex ?? 0) + (placed.durationSlots ?? n.durationSlots) });
     setRowState((r) => ({ ...r, [id]: { state: "added" } }));
@@ -335,6 +343,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
               <Text style={styles.title}>Add to Trip</Text>
               <TouchableOpacity
                 onPress={onClose}
+                disabled={Object.values(rowState).some((s) => s.state === "saving")}
                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                 accessibilityRole="button"
                 accessibilityLabel="Close"

@@ -583,6 +583,50 @@ describe("places near the one just added", () => {
     expect(view.getByLabelText("Add Near 2 to Day 1").props.accessibilityState.disabled).toBe(false);
   });
 
+  it("Done, View Trip, close and the rows wait while a place is being added", async () => {
+    mockLookup.list = [here, ...nearby(2)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    let finish: (v: string) => void = () => {};
+    mockTrips.saveItinerary.mockImplementationOnce(() => new Promise<string>((r) => (finish = r)));
+
+    const pressed = fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
+    await view.findByLabelText("Adding Near 1");
+    await fireEvent.press(view.getByText("Done"));
+    await fireEvent.press(view.getByText("View Trip"));
+    await fireEvent.press(view.getByLabelText("Close"));
+    await fireEvent.press(view.getByLabelText(/^Near 2, /));
+    expect(onClose).not.toHaveBeenCalled();
+    expect(mockRouter.push).not.toHaveBeenCalled();
+
+    await act(async () => finish("t1"));
+    await pressed;
+    await view.findByLabelText("Near 1 added");
+    await fireEvent.press(view.getByText("Done"));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("a save that finishes after the sheet moved to another place writes nothing into it", async () => {
+    mockLookup.list = [here, ...nearby(2)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    let finish: (v: string) => void = () => {};
+    mockTrips.saveItinerary.mockImplementationOnce(() => new Promise<string>((r) => (finish = r)));
+    const pressed = fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
+    await view.findByLabelText("Adding Near 1");
+
+    // Closed from outside, then opened for another place.
+    await view.rerender(<AddToTripModal site={null} onClose={onClose} />);
+    await view.rerender(<AddToTripModal site={{ ...site, id: "site-2", name: "Other Place" }} onClose={onClose} />);
+    await act(async () => finish("t1"));
+    await pressed;
+
+    expect(view.getByText("Other Place")).toBeTruthy();
+    expect(view.getByText("Add")).toBeTruthy();
+    expect(view.queryByText(/^Added to Day/)).toBeNull();
+    expect(view.queryByLabelText("Near 1 added")).toBeNull();
+  });
+
   it("tapping the row still opens the place, with the pending slot after the last add", async () => {
     mockLookup.list = [here, ...nearby(2)];
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);

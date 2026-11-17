@@ -56,7 +56,7 @@ export function AddedNearby({ line, dayNumber, placeName, rows, rowState, onAdd,
               return (
                 <View key={n.id} style={[styles.rowWrap, i > 0 && styles.hairline]}>
                   <View style={styles.row}>
-                    <TouchableOpacity style={styles.open} accessibilityRole="button" accessibilityLabel={`${n.name}, ${distance}`} onPress={() => onOpen(n.id)}>
+                    <TouchableOpacity style={styles.open} accessibilityRole="button" accessibilityLabel={`${n.name}, ${distance}`} disabled={busy} onPress={() => onOpen(n.id)}>
                       {photo ? (
                         <Image testID={`near-photo-${n.id}`} source={photo} style={styles.photo} />
                       ) : (
@@ -77,7 +77,7 @@ export function AddedNearby({ line, dayNumber, placeName, rows, rowState, onAdd,
                       </View>
                     ) : s?.state === "saving" ? (
                       <View style={styles.plus}>
-                        <ActivityIndicator size="small" />
+                        <ActivityIndicator size="small" accessibilityLabel={`Adding ${n.name}`} />
                       </View>
                     ) : (
                       <TouchableOpacity
@@ -99,10 +99,10 @@ export function AddedNearby({ line, dayNumber, placeName, rows, rowState, onAdd,
           </ScrollView>
         </>
       )}
-      <AppButton variant="primary" fullWidth onPress={onDone}>
+      <AppButton variant="primary" fullWidth disabled={busy} onPress={onDone}>
         Done
       </AppButton>
-      <TouchableOpacity style={styles.viewTrip} accessibilityRole="button" onPress={onViewTrip}>
+      <TouchableOpacity style={styles.viewTrip} accessibilityRole="button" disabled={busy} onPress={onViewTrip}>
         <Text style={styles.viewTripText}>View Trip</Text>
       </TouchableOpacity>
     </View>

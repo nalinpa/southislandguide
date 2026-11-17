@@ -79,7 +79,7 @@ Nothing else here is decided. JS-only fixes can go out as OTAs on 1.3's runtime 
 - [ ] **No app build:**
   - The password reset email and page (Tester feedback, 2026-11-14, below): website and Firebase console.
   - Ophir Post Office's categories, in the admin panel; then clear the KV list from PowerShell.
-- [ ] **Store build: Apple and Google sign-in** ([docs/plans/apple-signin.md](docs/plans/apple-signin.md)). Step 1 is the owner's: make Kiwi Guide its own primary App ID, then re-run the probe. `invalid_request` means go; still `invalid_client` means wait.
+- **Apple and Google sign-in: not in 1.4, on the backlog (owner, 2026-11-17).** See "After launch — Apple and Google sign-in" below.
 - [ ] **Store build: iPad** (owner, 2026-11-16). The Duo's wide layouts carry over: `useWide()` is window width ≥ 600 pt (`@blacksands/ui`), so a full-screen iPad gets them and a narrow Split View or Slide Over window gets the phone's. **It can't be undone:** once a version ships with iPad support, App Store Connect refuses a later build that drops it. Upside: App Review stops running the iPhone app in the 375 × 667 window on iPad (Rotorua's rejection).
   - **Config (native, new runtime):** `ios.supportsTablet: true` in `app.config.ts`. The app is `orientation: "portrait"`: either keep portrait with `requireFullScreen` (no Split View or Stage Manager), or allow every orientation on iPad, which multitasking needs. Owner's call.
   - **Wider than the Duo:** the open Duo is about 950 pt wide; iPads run 744 pt (mini, upright) to 1376 pt (13", sideways).
@@ -254,6 +254,7 @@ Owner, 2026-10-23: after launch. With no signal, the map tab shows pins and the 
 - **Until then, the launch posts say:** "Open the app with signal before you leave town. Your trip, places and guide work with no signal after that. For turn-by-turn directions, download the area in Apple Maps or Google Maps." Don't claim offline maps.
 
 ### After launch — Apple and Google sign-in
+**Backlog (owner, 2026-11-17):** taken out of 1.4, which ships with email sign-in only. It comes back when Apple's server accepts the app. The steps are in [docs/plans/apple-signin.md](docs/plans/apple-signin.md) and Task 14 of [docs/plans/1.4-build.md](docs/plans/1.4-build.md). The App ID is grouped with Rotorua's since 2026-11-17, so the api's shared Apple key covers it; the next test is a real sign-in on a phone, with the buttons shown in a dev-only update.
 Owner, 2026-10-25: not in the first release, which signs in by email only. The steps are in [docs/plans/launch.md, After launch: Apple and Google sign-in](docs/plans/launch.md#after-launch-apple-and-google-sign-in).
 - [ ] **Wait for Apple:** the probe (Sign-in, above) answers `invalid_request` instead of `invalid_client`. Still `invalid_client` on 2026-11-12 (Rotorua's `app.blacksands.rtrguide` gets `invalid_request` the same day). Still `invalid_client` on 2026-11-17. That day the owner found the App ID was already a primary App ID (so grouping was never the cause), then grouped it with Rotorua's; still `invalid_client` (the probe is only a hint while grouped). Left grouped. Sign-in is on hold (owner): 1.4 ships without it.
 - [ ] **Phone test:** a fresh Apple sign-up and sign-in, account deletion with the token revoked, and Google sign-in with the EAS web client ID set.

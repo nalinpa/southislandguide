@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ActivityIndicator, Platform, Pressable, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Platform, Pressable, StyleSheet, View, useColorScheme } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import * as AppleAuthentication from "expo-apple-authentication";
 
@@ -28,11 +28,13 @@ function GoogleMark() {
 type SocialSignInButtonsProps = {
   onError: (message: string | null) => void;
   onBusyChange?: (busy: boolean) => void;
+  // The email form is submitting: no sign-in may start.
+  disabled?: boolean;
 };
 
-// Shared by the login screen and the claim screen. Renders a fragment so the
-// parent's gap spaces the two buttons.
-export function SocialSignInButtons({ onError, onBusyChange }: SocialSignInButtonsProps) {
+// Renders a fragment; the sign-in form spaces the two buttons.
+export function SocialSignInButtons({ onError, onBusyChange, disabled }: SocialSignInButtonsProps) {
+  const dark = useColorScheme() === "dark";
   // Tracks *which* provider's sheet is open, not just whether one is — a
   // single shared boolean can't tell the two buttons apart, so signing in
   // with Apple was lighting up Google's spinner too. Set right before the
@@ -42,7 +44,7 @@ export function SocialSignInButtons({ onError, onBusyChange }: SocialSignInButto
   // Left set forever if that never happens, but that's already a
   // broken sign-in with nothing useful to fall back to.
   const [signingInWith, setSigningInWithState] = useState<"apple" | "google" | null>(null);
-  const socialBusy = signingInWith !== null;
+  const socialBusy = signingInWith !== null || !!disabled;
   const setSigningInWith = (next: "apple" | "google" | null) => {
     setSigningInWithState(next);
     onBusyChange?.(next !== null);
@@ -88,19 +90,19 @@ export function SocialSignInButtons({ onError, onBusyChange }: SocialSignInButto
     <>
       <AppleAuthentication.AppleAuthenticationButton
         buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-        buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+        buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle[dark ? "WHITE" : "BLACK"]}
         cornerRadius={12}
         style={[styles.button, socialBusy && styles.dimmed]}
         onPress={() => void handleAppleSignIn()}
       />
       <Pressable style={[styles.button, socialBusy && styles.dimmed]} disabled={socialBusy} onPress={() => void handleGoogleSignIn()}>
-        <View style={styles.googleInner}>
+        <View style={[styles.googleInner, dark && styles.googleInnerDark]}>
           {signingInWith === "google" ? (
-            <ActivityIndicator color="#FFFFFF" />
+            <ActivityIndicator color={dark ? "#1F1F1F" : "#FFFFFF"} />
           ) : (
             <>
               <GoogleMark />
-              <AppText style={styles.googleText}>Sign in with Google</AppText>
+              <AppText style={[styles.googleText, dark && styles.googleTextDark]}>Sign in with Google</AppText>
             </>
           )}
         </View>
@@ -123,4 +125,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   googleText: { color: "#FFFFFF", fontSize: 19, fontWeight: "600" },
+  googleInnerDark: { backgroundColor: "#FFFFFF" },
+  googleTextDark: { color: "#1F1F1F" },
 });

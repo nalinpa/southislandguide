@@ -1,5 +1,7 @@
-import React from "react";
-import { AuthPanel } from "@/lib/uiKit";
+import React, { useState } from "react";
+import { Platform, StyleSheet, View } from "react-native";
+import { AppText, AuthPanel } from "@/lib/uiKit";
+import { SocialSignInButtons } from "@/components/auth/SocialSignInButtons";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { EMAIL_OPT_IN_LABEL } from "@/lib/hooks/useEmailOptIn";
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -18,15 +20,25 @@ export function SignInForm({
   onGuest?: () => void;
 }) {
   const { session } = useSession();
-  // ponytail: email-only for 1.0. Apple's servers reject this App ID's Sign in
-  // with Apple ("Invalid client", see TASKS.md Sign-in), and Google can't be
-  // offered without it (App Store guideline 4.8). When Apple fixes it, render
-  // <SocialSignInButtons> above the form again: the component and lib/auth are
-  // untouched. usesAppleSignIn stays in app.config.ts on purpose: without it
+  // Apple and Google above the email form, their errors in the form's own error line. iOS
+  // only, as the buttons are. usesAppleSignIn stays in app.config.ts on purpose: without it
   // `eas build` switches the capability off at Apple.
-  const busy = f.busy || session.status === "loading";
+  const [socialBusy, setSocialBusy] = useState(false);
+  const social = Platform.OS === "ios";
+  const busy = f.busy || socialBusy || session.status === "loading";
   return (
-    <AuthPanel
+    <>
+      {social ? (
+        <View style={styles.social}>
+          <SocialSignInButtons onError={f.setErr} onBusyChange={setSocialBusy} disabled={f.busy} />
+          <View style={styles.divider}>
+            <View style={styles.line} />
+            <AppText style={styles.or}>or</AppText>
+            <View style={styles.line} />
+          </View>
+        </View>
+      ) : null}
+      <AuthPanel
       mode={f.mode}
       email={f.email}
       password={f.password}
@@ -60,5 +72,13 @@ export function SignInForm({
         notice: tokens.colors.surf,
       }}
     />
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  social: { gap: 12, marginBottom: 16 },
+  divider: { flexDirection: "row", alignItems: "center", gap: 12, marginTop: 4 },
+  line: { flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: tokens.colors.line },
+  or: { fontSize: 14, color: tokens.colors.textMuted },
+});

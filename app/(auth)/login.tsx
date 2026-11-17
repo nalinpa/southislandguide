@@ -18,14 +18,15 @@ import { wideTop } from "@/lib/ui/wideTop";
 // network flash.
 const HERO_IMAGE = require("../../assets/login.webp");
 
-// The photo's share of the screen: about 340pt on a 6.1" iPhone, about 265 on an iPhone
+// The photo's share of the screen: about 210pt on a 6.1" iPhone, about 165 on an iPhone
 // SE (667pt), where the whole form must still fit (App Review runs iPhone apps on iPad at
 // 375×667; Rotorua was rejected for a button off the bottom there). It was 0.47: the
 // design sweep's critics read that as a welcome poster with the form second. Shorter
 // again when creating an account, whose form is longer, so it shows without scrolling
-// (owner, 2026-11-13; docs/plans/design-sweep.md).
-const PHOTO_SHARE = 0.4;
-const PHOTO_SHARE_SIGNUP = 0.29;
+// (owner, 2026-11-13; docs/plans/design-sweep.md). Was 0.4 and 0.29 before the Apple and
+// Google buttons and their divider (about 165pt) went above the form in 1.4.
+const PHOTO_SHARE = 0.25;
+const PHOTO_SHARE_SIGNUP = 0.2;
 // How far the form's white sheet rides up over the foot of the photo: its corner radius.
 const SHEET_OVERLAP = 20;
 

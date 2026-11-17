@@ -31,10 +31,25 @@ jest.mock("firebase/auth", () => ({
   createUserWithEmailAndPassword: jest.fn(),
   sendPasswordResetEmail: jest.fn(),
 }));
+// The buttons' own tests are next door; here they are two handles on the callbacks the form
+// gives them.
+jest.mock("@/components/auth/SocialSignInButtons", () => {
+  const { Text } = require("react-native");
+  return {
+    SocialSignInButtons: ({ onError, onBusyChange, disabled }: any) => (
+      <>
+        <Text onPress={() => onError("Apple sign-in failed.")}>Social fail</Text>
+        <Text onPress={() => onBusyChange(true)}>Social sheet open</Text>
+        <Text>{disabled ? "Social disabled" : "Social enabled"}</Text>
+      </>
+    ),
+  };
+});
 const mockSession = { status: "guest" } as any;
 jest.mock("@/lib/providers/SessionProvider", () => ({ useSession: () => ({ session: mockSession }) }));
 
 import React from "react";
+import { Platform } from "react-native";
 import { fireEvent, render } from "@testing-library/react-native";
 
 import { SignInForm } from "@/components/auth/SignInForm";
@@ -65,5 +80,43 @@ describe("SignInForm", () => {
     const view = await render(<Form />);
     expect(view.getByLabelText("Email").props.editable).toBe(false);
     mockSession.status = "guest";
+  });
+
+  describe("Apple and Google", () => {
+    afterEach(() => {
+      Platform.OS = "ios";
+    });
+
+    it("shows Apple and Google above the email form on iOS, with an or divider", async () => {
+      Platform.OS = "ios";
+      const view = await render(<Form />);
+      expect(view.getByText("Social fail")).toBeTruthy();
+      expect(view.getByText("or")).toBeTruthy();
+      const text = JSON.stringify(view.toJSON());
+      expect(text.indexOf("Social fail")).toBeLessThan(text.indexOf("or"));
+      expect(text.indexOf('"or"')).toBeLessThan(text.indexOf("Email"));
+    });
+
+    it("shows neither the buttons nor the divider off iOS", async () => {
+      Platform.OS = "android";
+      const view = await render(<Form />);
+      expect(view.queryByText("Social fail")).toBeNull();
+      expect(view.queryByText("or")).toBeNull();
+    });
+
+    it("a sign-in error shows in the form, and clears when the email changes", async () => {
+      const view = await render(<Form />);
+      await fireEvent.press(view.getByText("Social fail"));
+      expect(view.getByText("Apple sign-in failed.")).toBeTruthy();
+      await fireEvent.changeText(view.getByLabelText("Email"), "a@b.co");
+      expect(view.queryByText("Apple sign-in failed.")).toBeNull();
+    });
+
+    it("the email form is busy while a provider's sheet is open", async () => {
+      const view = await render(<Form />);
+      expect(view.getByLabelText("Email").props.editable).toBe(true);
+      await fireEvent.press(view.getByText("Social sheet open"));
+      expect(view.getByLabelText("Email").props.editable).toBe(false);
+    });
   });
 });

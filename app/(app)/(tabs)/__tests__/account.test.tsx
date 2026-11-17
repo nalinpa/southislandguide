@@ -51,6 +51,8 @@ jest.mock("@/lib/uiKit", () => {
   const { formTokens } = require("@/lib/ui/tokens");
   return { ...kit, AuthPanel: createAuthPanel(formTokens, kit) };
 });
+// The provider buttons load native Google sign-in; this suite is about the account page.
+jest.mock("@/components/auth/SocialSignInButtons", () => ({ SocialSignInButtons: () => null }));
 jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
 jest.mock("@/lib/firebase", () => ({ auth: {} }));
 jest.mock("firebase/firestore", () => ({ doc: jest.fn(), getDoc: jest.fn(), setDoc: jest.fn(), serverTimestamp: jest.fn() }));

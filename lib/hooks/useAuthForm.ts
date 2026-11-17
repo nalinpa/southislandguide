@@ -12,15 +12,25 @@ import { saveEmailOptIn } from "@/lib/hooks/useEmailOptIn";
 type Mode = "login" | "signup" | "reset";
 
 export function useAuthForm(initialMode: Mode) {
-  const [mode, setMode] = useState<Mode>(initialMode);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+  const [mode, setModeRaw] = useState<Mode>(initialMode);
+  const [email, setEmailRaw] = useState("");
+  const [password, setPasswordRaw] = useState("");
+  const [confirm, setConfirmRaw] = useState("");
   // Unticked until the person ticks it: consent is given, never assumed.
   const [emailOptIn, setEmailOptIn] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+
+  // An error (the email's or a provider's) goes when the person edits a field or changes mode.
+  const clearing = <T,>(set: (v: T) => void) => (v: T) => {
+    setErr(null);
+    set(v);
+  };
+  const setMode = clearing(setModeRaw);
+  const setEmail = clearing(setEmailRaw);
+  const setPassword = clearing(setPasswordRaw);
+  const setConfirm = clearing(setConfirmRaw);
 
   const title =
     mode === "login" ? "Welcome back" : mode === "signup" ? "Create account" : "Reset your password";
@@ -77,6 +87,7 @@ export function useAuthForm(initialMode: Mode) {
     setEmailOptIn,
     busy,
     err,
+    setErr,
     notice,
     canSubmit,
     submit,

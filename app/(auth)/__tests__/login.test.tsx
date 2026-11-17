@@ -46,8 +46,6 @@ jest.mock("@/lib/uiKit", () => {
 jest.mock("@/components/auth/SocialSignInButtons", () => {
   const React = require("react");
   const { Text } = require("react-native");
-  // 1.0 ships email-only, so the screen must not render this. The mock is the tripwire:
-  // if the buttons come back, "Social Sign In" appears and the render test fails.
   return { SocialSignInButtons: () => React.createElement(Text, null, "Social Sign In") };
 });
 
@@ -132,11 +130,9 @@ describe("render", () => {
     expect(view.queryByText("Welcome back")).toBeNull();
   });
 
-  // Apple's servers reject this app's Sign in with Apple (see TASKS.md, Sign-in), and
-  // Google can't be offered without it (App Store guideline 4.8).
-  it("offers no Apple or Google sign-in", async () => {
+  it("offers Apple and Google sign-in above the email form", async () => {
     const view = await render(<LoginScreen />);
-    expect(view.queryByText("Social Sign In")).toBeNull();
+    expect(view.getByText("Social Sign In")).toBeTruthy();
   });
 
   // The check that a build's crash reporting works: holding the title sends a test error.

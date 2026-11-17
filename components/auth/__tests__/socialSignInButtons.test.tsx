@@ -6,7 +6,7 @@
 jest.mock("@/lib/uiKit", () => {
   const React = require("react");
   const { Text } = require("react-native");
-  return { AppText: ({ children }: any) => React.createElement(Text, null, children) };
+  return { AppText: ({ children, style }: any) => React.createElement(Text, { style }, children) };
 });
 
 jest.mock("react-native-svg", () => {
@@ -21,11 +21,11 @@ jest.mock("expo-apple-authentication", () => {
   const { Text, TouchableOpacity } = require("react-native");
   return {
     AppleAuthenticationButtonType: { SIGN_IN: 0 },
-    AppleAuthenticationButtonStyle: { BLACK: 0 },
-    AppleAuthenticationButton: ({ onPress, style }: any) =>
+    AppleAuthenticationButtonStyle: { BLACK: 0, WHITE: 1 },
+    AppleAuthenticationButton: ({ onPress, style, buttonStyle }: any) =>
       React.createElement(
         TouchableOpacity,
-        { onPress, style, accessibilityRole: "button" },
+        { onPress, style, accessibilityRole: "button", testID: `apple-${buttonStyle}` },
         React.createElement(Text, null, "Sign in with Apple"),
       ),
   };
@@ -43,7 +43,7 @@ jest.mock("@/lib/auth/googleSignIn", () => ({
 }));
 
 import React from "react";
-import { Platform } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 
 import { SocialSignInButtons } from "@/components/auth/SocialSignInButtons";
@@ -179,5 +179,26 @@ describe("one provider at a time", () => {
 
     expect(mockAppleSignIn).not.toHaveBeenCalled();
     finishGoogle({ signedIn: true });
+  });
+});
+
+describe("colours", () => {
+  const scheme = (v: "light" | "dark") => jest.spyOn(require("react-native"), "useColorScheme").mockReturnValue(v);
+  afterEach(() => jest.restoreAllMocks());
+
+  it("dark mode: Apple's button is white and Google's is white with dark words", async () => {
+    scheme("dark");
+    const view = await renderButtons();
+    expect(view.getByTestId("apple-1")).toBeTruthy();
+    const google = view.getByText("Sign in with Google");
+    expect(StyleSheet.flatten(google.props.style).color).toBe("#1F1F1F");
+    expect(JSON.stringify(view.toJSON())).toContain('"backgroundColor":"#FFFFFF"');
+  });
+
+  it("light mode: both black", async () => {
+    scheme("light");
+    const view = await renderButtons();
+    expect(view.getByTestId("apple-0")).toBeTruthy();
+    expect(JSON.stringify(view.toJSON())).toContain('"backgroundColor":"#000000"');
   });
 });

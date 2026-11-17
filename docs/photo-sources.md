@@ -365,3 +365,4 @@ The App Store's Header and Search Results image, in `store/header/`, and the iPh
 |---|---|---|---|---|---|---|
 | Header and search results, all three sizes | "Road towards Mount Cook", Jean-Pierre Brungs (first published on Unsplash), [file page](https://commons.wikimedia.org/wiki/File:Road_towards_Mount_Cook_(Unsplash).jpg) | Wikimedia Commons | CC0 | none needed | 30 Oct 2026 | `store/header/source/road-towards-mount-cook-5184x2916.jpg` |
 | Screenshot 1 (poster background) | "Road towards Mount Cook", as above | Wikimedia Commons | CC0 | none needed | 30 Oct 2026 | `store/screenshots/source/road-towards-mount-cook-5184x2916.jpg` |
+| Profile's guide card background on the open Duo (`assets/guide-road.webp`, cropped and resized) | "Road towards Mount Cook", as above | Wikimedia Commons | CC0 | none needed | 30 Oct 2026 | `store/screenshots/source/road-towards-mount-cook-5184x2916.jpg` |

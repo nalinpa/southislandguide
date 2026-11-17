@@ -4,7 +4,39 @@
 // top bar (the guide promo opens the page), SavedItemsCard instead of
 // SavedSitesCard, and no Restore Purchases card (no commerce until 1.4).
 
-jest.mock("@/lib/uiKit", () => require("@/test/uiKitMock"));
+// The guest's sign-in card on the open Duo is the engine's real AuthPanel, as in the Login
+// tests; the engine bundle loads these, stubbed as other tests stub them.
+jest.mock("moti", () => {
+  const { View } = require("react-native");
+  return { MotiView: View, AnimatePresence: ({ children }: any) => children };
+});
+jest.mock("@shopify/flash-list", () => {
+  const { View } = require("react-native");
+  return { FlashList: View };
+});
+jest.mock("react-native-maps", () => {
+  const { View } = require("react-native");
+  return { __esModule: true, default: View, Marker: View, Circle: View, Polyline: View };
+});
+jest.mock("react-native-svg", () => {
+  const { View } = require("react-native");
+  return { __esModule: true, default: View, Svg: View, Path: View, Circle: View, G: View, Text: View, Defs: View, RadialGradient: View, Stop: View, Rect: View };
+});
+jest.mock("expo-haptics", () => ({ impactAsync: jest.fn(), ImpactFeedbackStyle: {} }));
+jest.mock("@/lib/uiKit", () => {
+  const kit = require("@/test/uiKitMock");
+  const { createAuthPanel } = require("@blacksands/components");
+  const { formTokens } = require("@/lib/ui/tokens");
+  return { ...kit, AuthPanel: createAuthPanel(formTokens, kit) };
+});
+jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
+jest.mock("@/lib/firebase", () => ({ auth: {} }));
+jest.mock("firebase/firestore", () => ({ doc: jest.fn(), getDoc: jest.fn(), setDoc: jest.fn(), serverTimestamp: jest.fn() }));
+jest.mock("firebase/auth", () => ({
+  signInWithEmailAndPassword: jest.fn(),
+  createUserWithEmailAndPassword: jest.fn(),
+  sendPasswordResetEmail: jest.fn(),
+}));
 
 // Each of these is its own component; here they only need to be present or absent.
 const stubCard = (label: string) => () => {
@@ -15,7 +47,21 @@ const stubCard = (label: string) => () => {
 jest.mock("@/components/account/UserInfoCard", () => ({ UserInfoCard: stubCard("User Info Card") }));
 jest.mock("@/components/account/ItinerariesCard", () => ({ ItinerariesCard: stubCard("Itineraries Card") }));
 jest.mock("@/components/account/SavedItemsCard", () => ({ SavedItemsCard: stubCard("Saved Items Card") }));
-jest.mock("@/components/account/DangerZoneCard", () => ({ DangerZoneCard: stubCard("Danger Zone Card") }));
+// Stateful, so a test can leave its delete dialog open across a fold.
+jest.mock("@/components/account/DangerZoneCard", () => ({
+  DangerZoneCard: () => {
+    const React = require("react");
+    const { Text, TouchableOpacity } = require("react-native");
+    const [open, setOpen] = React.useState(false);
+    return React.createElement(
+      React.Fragment,
+      null,
+      React.createElement(Text, null, "Danger Zone Card"),
+      React.createElement(TouchableOpacity, { onPress: () => setOpen(true), accessibilityRole: "button" }, React.createElement(Text, null, "Delete Account")),
+      open ? React.createElement(Text, null, "Delete dialog") : null,
+    );
+  },
+}));
 
 // The status bar has no output to look at; a marker stands in for the light one.
 jest.mock("@/components/layout/LightStatusBar", () => ({
@@ -40,7 +86,10 @@ jest.mock("@/lib/providers/SessionProvider", () => ({
 
 // Has its own tests (useEmailOptIn.test.tsx); here the switch only has to reflect and set it.
 const mockEmailOptIn = { optedIn: false, loading: false, setOptedIn: jest.fn() };
-jest.mock("@/lib/hooks/useEmailOptIn", () => ({ useEmailOptIn: () => mockEmailOptIn }));
+jest.mock("@/lib/hooks/useEmailOptIn", () => ({
+  ...jest.requireActual("@/lib/hooks/useEmailOptIn"),
+  useEmailOptIn: () => mockEmailOptIn,
+}));
 
 // The map for no signal: the hook has its own tests (useOfflineMap.test.tsx), and the size
 // is a fixed number here so the words don't change when the real set's size goes in.
@@ -78,7 +127,8 @@ import { Alert, Linking, StyleSheet } from "react-native";
 import { fireEvent, render, waitFor, within } from "@testing-library/react-native";
 
 import AccountScreen from "@/app/(app)/(tabs)/account";
-import { tokens } from "@/lib/ui/tokens";
+import { tokens, photoWash } from "@/lib/ui/tokens";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const AUTHED_ONLY = ["Itineraries Card", "Saved Items Card", "Danger Zone Card"];
 
@@ -456,8 +506,8 @@ describe("Map for no signal", () => {
   });
 });
 
-// Duo (600 pt or more): two columns, the guide card leading on the left
-// (docs/plans/design-sweep.md, "Profile, picked").
+// The open Duo (docs/plans/duo-131.md, "Profile"): the rows in a left column, a photo card on
+// the right with the guide link on it, or for a guest the sign-in form.
 describe("wide", () => {
   const UPRIGHT = { width: 669, height: 951 };
   const SIDEWAYS = { width: 951, height: 669 };
@@ -466,54 +516,161 @@ describe("wide", () => {
     const view = await render(<AccountScreen />);
     return { view, left: within(view.getByTestId("profile-left")), right: within(view.getByTestId("profile-right")) };
   };
+  const SIGNED_IN_ORDER = [
+    "User Info Card",
+    "Show me around",
+    "Map for no signal",
+    "Itineraries Card",
+    "Saved Items Card",
+    "Email me about feedback and news",
+    "Photo credits",
+    "Privacy policy",
+    "Terms of use",
+    "Contact us",
+    "Danger Zone Card",
+  ];
 
-  it("signed in: the left holds the guide card, who you are, My Trip, Show me around, Map; the right the rest", async () => {
-    const { left, right } = await wideView();
+  it("wide signed in: left is who, Show me around, Map, My Trip, Saved Places, email switch, Photo credits and legal, Account, in that order, with no guide card", async () => {
+    const { view, left } = await wideView();
 
-    for (const t of ["Open Guide", "User Info Card", "Itineraries Card", "Show me around", "Map for no signal"]) {
-      expect(left.getByText(t)).toBeTruthy();
-    }
-    for (const t of ["Saved Items Card", "Danger Zone Card", "Photo credits", "Privacy policy", "Terms of use", "Contact us"]) {
-      expect(right.getByText(t)).toBeTruthy();
-    }
-    expect(right.getByLabelText("Email me about feedback and news")).toBeTruthy();
-    expect(left.queryByText("Photo credits")).toBeNull();
-    expect(right.queryByText("Open Guide")).toBeNull();
+    // Only the left column's own text, in tree order.
+    const leftTree = JSON.stringify(view.toJSON()).split('"profile-right"')[0];
+    const at = SIGNED_IN_ORDER.map((m) => leftTree.indexOf(m));
+    expect(at.every((i) => i >= 0)).toBe(true);
+    expect(at).toEqual([...at].sort((x, y) => x - y));
+    expect(left.queryByText("Open Guide")).toBeNull();
+    expect(left.queryByText(/Your guide to the/)).toBeNull();
   });
 
-  it("guest: the left holds the guide card, Access, Show me around, Map; the right Photo credits and the legal links", async () => {
-    mockSession.status = "guest";
-    mockSession.uid = undefined;
-    const { left, right } = await wideView(SIDEWAYS);
+  it("wide signed in: right is the photo with the wash and the guide card centred on it; Open Guide opens the guide", async () => {
+    const { view, left, right } = await wideView();
 
-    for (const t of ["Open Guide", "User Info Card", "Show me around", "Map for no signal"]) {
-      expect(left.getByText(t)).toBeTruthy();
-    }
-    for (const t of ["Photo credits", "Privacy policy", "Terms of use", "Contact us"]) {
-      expect(right.getByText(t)).toBeTruthy();
-    }
-    expect(right.queryByText("Saved Items Card")).toBeNull();
-  });
-
-  it("the guide card's headline is 28/33 and the status bar is dark", async () => {
-    const { view } = await wideView();
-
-    expect(view.getByText(/Your guide to the/)).toHaveStyle({ fontSize: 28, lineHeight: 33, fontWeight: "800" });
-    expect(view.getByRole("button", { name: "Open Guide" })).toHaveStyle({ height: 52 });
+    expect(right.getByTestId("profile-photo").props.source).toEqual([require("@/assets/guide-road.webp")]);
+    expect(right.getByTestId("profile-wash")).toHaveStyle({ backgroundColor: photoWash });
+    expect(right.getByTestId("profile-card")).toHaveStyle({ maxWidth: 350, padding: 24, borderRadius: 20, backgroundColor: tokens.colors.accentWarm });
+    expect(right.getByText(/Your guide to the/)).toHaveStyle({ fontSize: 28, lineHeight: 33, fontWeight: "800" });
+    expect(right.getByRole("button", { name: "Open Guide" })).toHaveStyle({ height: 52, backgroundColor: tokens.colors.highlight });
     expect(view.queryByTestId("light-status-bar")).toBeNull();
+    expect(left.queryByText("Open Guide")).toBeNull();
+
+    await fireEvent.press(right.getByText("Open Guide"));
+
+    expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/guide");
   });
 
-  it("sideways, with no inset (the status bar is in the rail), the guide card starts 32 down and Saved Places stays level with it", async () => {
-    mockInsetTop = 0;
-    try {
-      const { view } = await wideView(SIDEWAYS);
-      const { StyleSheet } = require("react-native");
-      const first = view.getByTestId("profile-left").children[0] as any;
-      expect(StyleSheet.flatten(first.props.style).marginTop).toBe(32);
-      expect(view.getByTestId("profile-right")).toHaveStyle({ paddingTop: 18 });
-    } finally {
-      mockInsetTop = 44;
-    }
+  describe("guest", () => {
+    beforeEach(() => {
+      mockSession.status = "guest";
+      mockSession.uid = undefined;
+    });
+
+    it("wide guest: left starts with the guide card and its button is white; right is the sign-in card on the Login photo", async () => {
+      const { view, left, right } = await wideView();
+      const leftTree = JSON.stringify(view.toJSON()).split('"profile-right"')[0];
+
+      for (const [a, b] of [["Open Guide", "User Info Card"], ["User Info Card", "Show me around"], ["Show me around", "Map for no signal"], ["Map for no signal", "Photo credits"]]) {
+        expect(leftTree.indexOf(a)).toBeGreaterThanOrEqual(0);
+        expect(leftTree.indexOf(a)).toBeLessThan(leftTree.indexOf(b));
+      }
+      expect(left.getByRole("button", { name: "Open Guide" })).toHaveStyle({ backgroundColor: "#FFFFFF", height: 52 });
+      expect(left.getByText("Open Guide")).toHaveStyle({ color: "#063F45" });
+      expect(left.getByText(/Your guide to the/)).toHaveStyle({ fontSize: 28, lineHeight: 33 });
+      expect(right.getByTestId("profile-photo").props.source).toEqual([require("@/assets/login.webp")]);
+      expect(right.getByTestId("profile-wash")).toHaveStyle({ backgroundColor: photoWash });
+      expect(right.queryByText("Open Guide")).toBeNull();
+      expect(left.queryByText("Saved Items Card")).toBeNull();
+    });
+
+    it("wide guest: the card holds \"Sign In for More\", its line, and the form with Create an account as an outline button, and no \"Continue as guest\" link", async () => {
+      const { right } = await wideView();
+
+      expect(right.getByTestId("profile-card")).toHaveStyle({ maxWidth: 380, borderRadius: 20, backgroundColor: tokens.colors.page });
+      expect(right.getByText("Sign In for More")).toHaveStyle({ fontSize: 22, lineHeight: 27, fontWeight: "700" });
+      expect(right.getByText("Sign in to save places, plan trips and leave reviews.")).toHaveStyle({ fontSize: 16, lineHeight: 22, color: tokens.colors.text2 });
+      expect(right.getByLabelText("Email")).toBeTruthy();
+      expect(right.getByLabelText("Password")).toBeTruthy();
+      expect(right.getByRole("button", { name: "Create an account" })).toHaveStyle({ borderWidth: 1.5, height: 52 });
+      expect(right.queryByText("Continue as guest")).toBeNull();
+    });
+
+    it("wide guest: a failed sign-in shows its error in the card", async () => {
+      (signInWithEmailAndPassword as jest.Mock).mockRejectedValue(new Error("Incorrect password"));
+      const { right } = await wideView();
+
+      await fireEvent.changeText(right.getByLabelText("Email"), "kia@ora.nz");
+      await fireEvent.changeText(right.getByLabelText("Password"), "wrong");
+      await fireEvent.press(right.getByRole("button", { name: "Sign in" }));
+
+      await waitFor(() => expect(right.getByText("Incorrect password")).toBeTruthy());
+    });
+
+    it("wide: after sign-in the layout becomes the signed-in one", async () => {
+      const { view } = await wideView();
+      expect(view.getByText("Sign In for More")).toBeTruthy();
+
+      mockSession.status = "authed";
+      mockSession.uid = "uid-1";
+      await view.rerender(<AccountScreen />);
+
+      expect(view.queryByText("Sign In for More")).toBeNull();
+      expect(within(view.getByTestId("profile-right")).getByText("Open Guide")).toBeTruthy();
+      expect(within(view.getByTestId("profile-left")).getByText("Saved Items Card")).toBeTruthy();
+      expect(within(view.getByTestId("profile-left")).queryByText("Open Guide")).toBeNull();
+    });
+
+    it("wide sideways guest: create-account mode scrolls inside the card", async () => {
+      const { view, right } = await wideView(SIDEWAYS);
+      const scroll = right.getByTestId("profile-card-scroll");
+
+      await fireEvent.press(right.getByText("Create an account"));
+
+      // The card is held to the photo's height and its content scrolls inside it, with taps
+      // still reaching the fields while the keyboard is up.
+      expect(right.getByTestId("profile-card")).toHaveStyle({ maxHeight: "100%" });
+      expect(scroll.props.keyboardShouldPersistTaps).toBe("handled");
+      expect(within(scroll).getByLabelText("Confirm password")).toBeTruthy();
+      expect(within(scroll).getByRole("checkbox")).toBeTruthy();
+      expect(view.getByTestId("home-scroll")).not.toBe(scroll);
+    });
+  });
+
+  it("wide: the left column has the fade at its foot; dark uses the dark wash", async () => {
+    const { view } = await wideView();
+    const fade = view.getByTestId("profile-fade");
+
+    expect(fade).toHaveStyle({ position: "absolute", bottom: 0, height: 40 });
+    expect(within(view.getByTestId("profile-left")).getByTestId("profile-fade")).toBe(fade);
+    expect(fade.props.colors).toEqual([0x00ffffff, 0xffffffff]); // the page colour, clear to solid (processed)
+    // The dark wash is read in profileSideDark.test.tsx, where the colours load in dark.
+  });
+
+  it("keeps state across the breakpoint: the offline map card and the delete dialog stay mounted through a fold", async () => {
+    mockSession.status = "authed";
+    const view = await render(<AccountScreen />);
+    await fireEvent.press(view.getByRole("button", { name: "Save map for no signal" }));
+    await fireEvent.press(view.getByRole("button", { name: "Delete Account" }));
+    expect(view.getByText("Which map?")).toBeTruthy();
+    expect(view.getByText("Delete dialog")).toBeTruthy();
+
+    require("@blacksands/ui").__setWide(true, UPRIGHT);
+    await view.rerender(<AccountScreen />);
+    expect(view.getByText("Which map?")).toBeTruthy();
+    expect(view.getByText("Delete dialog")).toBeTruthy();
+
+    require("@blacksands/ui").__setWide(false);
+    await view.rerender(<AccountScreen />);
+    expect(view.getByText("Which map?")).toBeTruthy();
+    expect(view.getByText("Delete dialog")).toBeTruthy();
+  });
+
+  it("phone: unchanged, and the guide button is orange", async () => {
+    mockSession.status = "guest";
+    const view = await render(<AccountScreen />);
+
+    expect(view.getByRole("button", { name: "Open Guide" })).toHaveStyle({ backgroundColor: tokens.colors.highlight });
+    expect(view.queryByTestId("profile-right")).toBeNull();
+    expect(view.queryByTestId("profile-fade")).toBeNull();
+    expect(view.queryByText("Sign In for More")).toBeNull();
   });
 
   it("the left column is the 40 of 40/60, with the hairline between", async () => {

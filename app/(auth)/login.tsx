@@ -7,9 +7,9 @@ import Svg, { Defs, RadialGradient, Rect, Stop } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Sentry from "@sentry/react-native";
-import { Screen, AppText, AuthPanel } from "@/lib/uiKit";
+import { Screen, AppText } from "@/lib/uiKit";
+import { SignInForm } from "@/components/auth/SignInForm";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
-import { EMAIL_OPT_IN_LABEL } from "@/lib/hooks/useEmailOptIn";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { LAKE_SIDES, cardEdge, cardLift, photoDim, tokens } from "@/lib/ui/tokens";
 import { wideTop } from "@/lib/ui/wideTop";
@@ -74,14 +74,6 @@ export default function LoginScreen() {
     // Guest is not redirected here — see app/(auth)/_layout.tsx for why.
     if (session.status === "authed") leaveLogin();
   }, [session.status]);
-
-  // ponytail: email-only for 1.0. Apple's servers reject this App ID's Sign in
-  // with Apple ("Invalid client", see TASKS.md Sign-in), and Google can't be
-  // offered without it (App Store guideline 4.8). When Apple fixes it, render
-  // <SocialSignInButtons> above the form again: the component and lib/auth are
-  // untouched. usesAppleSignIn stays in app.config.ts on purpose: without it
-  // `eas build` switches the capability off at Apple.
-  const busy = f.busy || session.status === "loading";
 
   // Navigates explicitly: guests are no longer auto-redirected off this screen,
   // so "Continue as guest" has to take them into the app itself. Also allowed
@@ -245,43 +237,7 @@ export default function LoginScreen() {
                   : { paddingBottom: insets.bottom + tokens.space.md },
               ]}
             >
-              <AuthPanel
-                mode={f.mode}
-                email={f.email}
-                password={f.password}
-                confirm={f.confirm}
-                busy={busy}
-                err={f.err}
-                notice={f.notice}
-                canSubmit={f.canSubmit}
-                onChangeMode={f.setMode}
-                onChangeEmail={f.setEmail}
-                onChangePassword={f.setPassword}
-                onChangeConfirm={f.setConfirm}
-                onSubmit={() => void f.submit()}
-                onGuest={handleGuestEntry}
-                optIn={{ label: EMAIL_OPT_IN_LABEL, value: f.emailOptIn, onChange: f.setEmailOptIn }}
-                // On the white sheet: outlined boxes with the sweep's 12pt corners, dark
-                // labels, and the links in teal (orange is the one main button). No
-                // `style` to fill the space: the guest link then sits with the other
-                // links, not alone at the foot of the screen.
-                // "stacked" is the picked drawing: "Forgot password?" under the password
-                // box, the other links on one centre line, the guest link plain. The
-                // password boxes are empty: their labels already say what they are.
-                tone="light"
-                radius={12}
-                layout="stacked"
-                createAccountStyle={wide ? "outline" : "link"}
-                placeholders={{ password: "", confirmPassword: "" }}
-                labelSize={15}
-                colors={{
-                  label: tokens.colors.text,
-                  link: tokens.colors.selected,
-                  guest: tokens.colors.selected,
-                  // Words: the engine's default is success, which in dark mode is a fill colour.
-                  notice: tokens.colors.surf,
-                }}
-              />
+              <SignInForm form={f} wide={wide} onGuest={handleGuestEntry} />
             </View>
           </ScrollView>
         </KeyboardAvoidingView>

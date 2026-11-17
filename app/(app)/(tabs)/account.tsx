@@ -1,22 +1,24 @@
 // app/(app)/(tabs)/account.tsx
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Alert, Switch } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Alert, Switch, useColorScheme } from "react-native";
 import { router } from "expo-router";
 import { ArrowRight, ChevronRight } from "lucide-react-native";
 import { useHalves, useWide } from "@blacksands/ui";
+import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useEmailOptIn } from "@/lib/hooks/useEmailOptIn";
 import { LoadingState } from "@/lib/uiKit";
-import { tokens } from "@/lib/ui/tokens";
-import { wideTop } from "@/lib/ui/wideTop";
+import { CARD_SIDES, LAKE_SIDES, PAGE_SIDES, tokens } from "@/lib/ui/tokens";
+import { profileTop } from "@/lib/ui/wideTop";
 import { LightStatusBar } from "@/components/layout/LightStatusBar";
 import { UserInfoCard } from "@/components/account/UserInfoCard";
 import { ItinerariesCard } from "@/components/account/ItinerariesCard";
 import { SavedItemsCard } from "@/components/account/SavedItemsCard";
 import { DangerZoneCard } from "@/components/account/DangerZoneCard";
 import { OfflineMapCard } from "@/components/account/OfflineMapCard";
+import { ProfileSide } from "@/components/account/ProfileSide";
 import { useTour } from "@/lib/tour/TourContext";
 import { useTourAudience } from "@/lib/tour/TourAutoStart";
 
@@ -49,6 +51,7 @@ export default function AccountScreen() {
   // Hooks stay above the loading return: the count can't change when the session arrives.
   const wide = useWide();
   const { upright } = useHalves();
+  const page = PAGE_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
 
   if (session.status === "loading") {
     return (
@@ -60,19 +63,17 @@ export default function AccountScreen() {
 
   const isAuthed = session.status === "authed";
 
-  // Duo (600 pt or more): two columns, the guide card leading on the left. The groups are
-  // the phone's, keyed, so they stay mounted (dialogs open, downloads running) as the
-  // window folds; only the guide banner (no state) moves between the fixed hero and the card.
-
-  // Sideways the status bar is in the rail (inset 0): the card starts 32 down, not 16, and
-  // Saved Places' name on the right keeps level with it.
-  const sidewaysTop = wideTop(insets.top, 16);
+  // Duo (600 pt or more): the rows in a left column that scrolls on its own, and a right pane
+  // (ProfileSide) beside it. The groups are the phone's, keyed, so they stay mounted (dialogs
+  // open, downloads running) as the window folds; only the guide banner (no state) moves
+  // between the fixed hero and the guest's first row.
+  const top = profileTop(upright, insets.top);
 
   const guide = (
     <View
       style={
         wide
-          ? [styles.guideCard, { marginTop: upright ? 56 : sidewaysTop }]
+          ? [styles.guideCard, { marginTop: top }]
           : [styles.heroSection, { paddingTop: insets.top + tokens.space.lg }]
       }
     >
@@ -83,8 +84,8 @@ export default function AccountScreen() {
         activeOpacity={0.85}
         accessibilityRole="button"
       >
-        <Text style={styles.promoBtnText}>Open Guide</Text>
-        <ArrowRight size={16} color="#FFFFFF" strokeWidth={2.75} />
+        <Text style={[styles.promoBtnText, wide && styles.promoBtnTextWide]}>Open Guide</Text>
+        <ArrowRight size={16} color={wide ? LAKE_SIDES.light : CARD_SIDES.light} strokeWidth={2.75} />
       </TouchableOpacity>
     </View>
   );
@@ -125,51 +126,44 @@ export default function AccountScreen() {
     </>
   );
 
-  // The phone runs left then right, top to bottom. Wide moves My Trip up under who you are;
-  // keys keep each group mounted through the move.
+  // One list, top to bottom, the phone's order. Wide puts Account (Delete Account) last, after
+  // Photo credits, and gives a guest the guide card first; keys keep each group mounted
+  // through the move.
   type Group = [key: string, node: React.ReactNode];
-  const trip: Group | false = isAuthed && ["trip", <ItinerariesCard />];
-  const leftGroups = [
+  const email: Group = [
+    "email",
+    // The answer given at sign-up (the box under the password), changeable here.
+    // Signed in only: a guest has no email to send to.
+    <View style={styles.linkRow}>
+      <Text style={styles.switchText}>Email me about feedback and news</Text>
+      <Switch
+        value={optedIn}
+        onValueChange={setOptedIn}
+        disabled={optInLoading}
+        trackColor={{ true: tokens.colors.accent }}
+        accessibilityLabel="Email me about feedback and news"
+      />
+    </View>,
+  ];
+  const danger: Group = ["danger", <DangerZoneCard />];
+  const groups = [
+    ...(wide && !isAuthed ? [["guide", guide] as Group] : []),
     ["who", <UserInfoCard />],
-    ...(wide && trip ? [trip] : []),
     ...(tour ? [["tour", tour] as Group] : []),
     ["map", <OfflineMapCard />],
-    ...(!wide && trip ? [trip] : []),
-  ] as Group[];
-  const rightGroups = [
-    ...(isAuthed
-      ? ([
-          ["saved", <SavedItemsCard />],
-          [
-            "email",
-            // The answer given at sign-up (the box under the password), changeable here.
-            // Signed in only: a guest has no email to send to.
-            <View style={styles.linkRow}>
-              <Text style={styles.switchText}>Email me about feedback and news</Text>
-              <Switch
-                value={optedIn}
-                onValueChange={setOptedIn}
-                disabled={optInLoading}
-                trackColor={{ true: tokens.colors.accent }}
-                accessibilityLabel="Email me about feedback and news"
-              />
-            </View>,
-          ],
-          ["danger", <DangerZoneCard />],
-        ] as Group[])
-      : []),
+    ...(isAuthed ? [["trip", <ItinerariesCard />] as Group, ["saved", <SavedItemsCard />] as Group, email] : []),
+    ...(isAuthed && !wide ? [danger] : []),
     ["credits", credits],
+    ...(isAuthed && wide ? [danger] : []),
   ] as Group[];
 
-  // A pale band before each group. On the phone the right column's first follows the left's
-  // last; on wide each column opens clean (the guide card's own margin sets the left's gap).
-  const column = (groups: Group[], firstBand: boolean) =>
-    groups.map(([key, node], i) => (
-      <React.Fragment key={key}>
-        {(i > 0 || firstBand) && <View style={styles.band} />}
-        {node}
-      </React.Fragment>
-    ));
+  // A pale band between groups.
+  const column = groups.map(([key, node], i) => (
+    <React.Fragment key={key}>
+      {i > 0 && <View style={styles.band} />}
+      {node}
+    </React.Fragment>
+  ));
 
   return (
     <View style={[styles.container, wide && styles.containerWide, wide && { paddingTop: insets.top }]}>
@@ -179,29 +173,38 @@ export default function AccountScreen() {
           same deep teal as the other tabs' top bars; it used to be a teal card
           on a forest-green ground, two dark greens fighting each other.
           It is fixed, like those bars. It used to scroll with the page, which
-          slid the Open Guide button up behind the clock. On wide it is the card
-          that leads the left column, white page and dark status bar. */}
+          slid the Open Guide button up behind the clock. On wide it is the right
+          pane (signed in) or the guest's first row, white page and dark status bar. */}
       {!wide && guide}
 
       <View style={[styles.sheet, wide && styles.sheetWide]}>
-        <ScrollView testID="home-scroll" showsVerticalScrollIndicator={false}>
-          <View style={wide && styles.columns}>
-            <View testID="profile-left" style={wide && styles.left}>
-              {wide && guide}
-              {column(leftGroups, false)}
-            </View>
-            <View testID="profile-hairline" style={wide ? styles.hairline : styles.none} />
-            {/* Saved Places' name sits level with the card's top: its group pads 14 above it. */}
-            <View testID="profile-right" style={wide && [styles.right, { paddingTop: upright ? 42 : sidewaysTop - 14 }]}>
-              {column(rightGroups, !wide)}
-            </View>
-          </View>
+        <View style={wide ? styles.columns : styles.flex1}>
+          <View testID="profile-left" style={wide ? styles.left : styles.flex1}>
+            <ScrollView
+              testID="home-scroll"
+              showsVerticalScrollIndicator={false}
+              // A guest's first row is the guide card, which has its own top margin.
+              contentContainerStyle={wide && isAuthed ? { paddingTop: top } : undefined}
+            >
+              {column}
 
-          {/* Was insets.bottom + 80 (~114pt on a Face ID iPhone), sized for a tab
-              bar floating over the content. This tab bar sits below it, so that
-              was pure gap; a normal bottom margin is enough. */}
-          <View style={{ height: tokens.space.xl }} />
-        </ScrollView>
+              {/* Was insets.bottom + 80 (~114pt on a Face ID iPhone), sized for a tab
+                  bar floating over the content. This tab bar sits below it, so that
+                  was pure gap; a normal bottom margin is enough. */}
+              <View style={{ height: tokens.space.xl }} />
+            </ScrollView>
+            {wide ? (
+              <LinearGradient
+                testID="profile-fade"
+                pointerEvents="none"
+                colors={[`${page}00`, page]}
+                style={styles.fade}
+              />
+            ) : null}
+          </View>
+          <View testID="profile-hairline" style={wide ? styles.hairline : styles.none} />
+          {wide ? <ProfileSide authed={isAuthed} picked={null} onClose={() => {}} /> : null}
+        </View>
       </View>
     </View>
   );
@@ -212,9 +215,10 @@ const styles = StyleSheet.create({
   // Duo: white from the clock down (the dark status bar), two columns 40/60 with a hairline.
   containerWide: { backgroundColor: tokens.colors.page },
   sheetWide: { borderTopLeftRadius: 0, borderTopRightRadius: 0, marginTop: 0, paddingTop: 0 },
-  columns: { flexDirection: "row" },
+  flex1: { flex: 1 },
+  columns: { flex: 1, flexDirection: "row" },
   left: { flex: 40, minWidth: 0 },
-  right: { flex: 60, minWidth: 0 },
+  fade: { position: "absolute", left: 0, right: 0, bottom: 0, height: 40 },
   hairline: { width: 1, backgroundColor: tokens.colors.line },
   none: { display: "none" },
   guideCard: {
@@ -226,7 +230,9 @@ const styles = StyleSheet.create({
     gap: tokens.space.md,
   },
   promoHeadlineWide: { fontSize: 28, lineHeight: 33 },
-  promoBtnWide: { height: 52, paddingVertical: 0 },
+  // The guest's card on the open Duo: a white button on the teal card; the phone keeps orange.
+  promoBtnWide: { height: 52, paddingVertical: 0, backgroundColor: CARD_SIDES.light },
+  promoBtnTextWide: { color: LAKE_SIDES.light },
   loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: tokens.colors.bgBase },
   // paddingBottom leaves room for the sheet's 12pt overlap.
   heroSection: {
@@ -235,7 +241,7 @@ const styles = StyleSheet.create({
     paddingBottom: 36,
     gap: tokens.space.md,
   },
-  promoHeadline: { fontSize: 32, fontWeight: "800", color: "#FFFFFF", letterSpacing: -0.6, lineHeight: 38 },
+  promoHeadline: { fontSize: 32, fontWeight: "800", color: CARD_SIDES.light, letterSpacing: -0.6, lineHeight: 38 },
   // The screen's main action: the full-strength highlight with a white label
   // (5.2:1). Not the lighter on-dark orange: white on that is only 1.7:1.
   promoBtn: {
@@ -247,7 +253,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 99,
   },
-  promoBtnText: { fontSize: 16, fontWeight: "800", color: "#FFFFFF", letterSpacing: 0.1 },
+  promoBtnText: { fontSize: 16, fontWeight: "800", color: tokens.button.primary.text, letterSpacing: 0.1 },
   // flex 1: fills down to the tab bar whatever the content's height, so the
   // dark container never shows as a band under a short page (a guest's single
   // "Access" card). overflow hidden clips the scrolling content to the rounded

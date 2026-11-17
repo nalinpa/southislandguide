@@ -60,6 +60,10 @@ export const LAKE_SIDES = { light: "#063F45", dark: "#041416" } as const;
 export const photoDim = pair("rgba(0,0,0,0)", "rgba(0,0,0,0.32)");
 // The pale band, both sides, for Explore's list fade (a gradient can't take a pair).
 export const BAND_SIDES = { light: "#EEF3F1", dark: "#0C2A2E" } as const;
+// The page colour's two sides, for the Profile's list fade.
+export const PAGE_SIDES = { light: "#FFFFFF", dark: "#06191B" } as const;
+// The wash over the Profile's photo card on the open Duo, behind the guide or sign-in card.
+export const photoWash = pair("rgba(6,63,69,0.38)", "rgba(3,18,20,0.62)");
 const LINE_SIDES = { light: "#CBD8D3", dark: "#2F5257" } as const;
 export const cardEdge = pair("transparent", LINE_SIDES.dark);
 
@@ -112,7 +116,7 @@ export const tokens = {
     // The design sweep's look (docs/plans/design-sweep.md), screen by screen: a white
     // page, a hairline round a photo so a pale sky doesn't melt into it, and one line
     // colour. `selected` marks the tab or category you're on: teal, with a line under it.
-    page: pair("#FFFFFF", "#06191B"),
+    page: pair(PAGE_SIDES.light, PAGE_SIDES.dark),
     line: pair(LINE_SIDES.light, LINE_SIDES.dark),
     // The pale band between groups of rows (Profile): a band means "new group", a line
     // "next row in the same group".

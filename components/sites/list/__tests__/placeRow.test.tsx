@@ -66,4 +66,14 @@ describe("PlaceRow", () => {
     });
     expect(view.getByText("Sumner Beach")).toHaveStyle({ color: tokens.colors.selected });
   });
+
+  it("marks a place in the trip with a badge beside the meta line, the name untouched", async () => {
+    const view = await render(<PlaceRow {...props} inTrip />);
+
+    expect(view.getByText("In trip")).toHaveStyle({ fontSize: 12, color: "#FFFFFF" });
+    expect(view.getByTestId("in-trip-badge")).toHaveStyle({ backgroundColor: tokens.colors.success });
+    expect(view.getByText("Sumner Beach").props.numberOfLines).toBe(2);
+    const none = await render(<PlaceRow {...props} />);
+    expect(none.queryByText("In trip")).toBeNull();
+  });
 });

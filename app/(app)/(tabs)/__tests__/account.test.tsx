@@ -81,6 +81,8 @@ jest.mock("@/components/account/SavedItemsCard", () => {
 });
 const mockSavedSites = { savedSiteIds: new Set<string>(), toggleSavedSite: jest.fn() };
 jest.mock("@/lib/hooks/useSavedSites", () => ({ useSavedSites: () => mockSavedSites }));
+// The trip's places, for the Saved Places pane: no trips here.
+jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => ({ itineraries: [] }) }));
 const mockBag = { locations: [] as any[], loading: false, err: null as string | null };
 jest.mock("@/lib/hooksBag", () => ({
   useAllLocations: () => mockBag,

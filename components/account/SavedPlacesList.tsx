@@ -11,6 +11,7 @@ import { TopBarTabs } from "@/components/layout/TopBarTabs";
 import { tokens } from "@/lib/ui/tokens";
 import { areaName } from "@/lib/areas";
 import { hooksBag, useAllLocations } from "@/lib/hooksBag";
+import { useTripPlaces } from "@/lib/hooks/useTripPlaces";
 import { useSavedSites } from "@/lib/hooks/useSavedSites";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, type SiteCategory } from "@/lib/models";
@@ -25,12 +26,14 @@ function SwipeableRow({
   index,
   showArea,
   pane,
+  inTrip,
   onUnsave,
 }: {
   item: SiteRow;
   index: number;
   showArea: boolean;
   pane?: boolean;
+  inTrip: boolean;
   onUnsave: () => void;
 }) {
   const swipeRef = useRef<SwipeableMethods>(null);
@@ -65,6 +68,7 @@ function SwipeableRow({
         onPress={(id) => router.push(`/(app)/(tabs)/sites/${id}`)}
         index={index}
         wide={pane}
+        inTrip={inTrip}
       />
     </ReanimatedSwipeable>
   );
@@ -80,6 +84,7 @@ export function SavedPlacesList({
   top?: (count: number) => ReactNode;
 }) {
   const { savedSiteIds, toggleSavedSite } = useSavedSites();
+  const { ids: tripIds } = useTripPlaces();
   // A guest's heart asks them to sign in, so telling them to tap it sends them in a circle.
   const isGuest = useSession().session.status === "guest";
   const { locations, loading, err } = useAllLocations();
@@ -165,6 +170,7 @@ export function SavedPlacesList({
               index={index}
               showArea={showArea}
               pane={pane}
+              inTrip={tripIds.has(item.location.id)}
               onUnsave={() => toggleSavedSite({ siteId: item.location.id, isSaving: false })}
             />
           </View>

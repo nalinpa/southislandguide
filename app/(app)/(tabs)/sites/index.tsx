@@ -23,6 +23,7 @@ import { nearestArea } from "@/components/map/MapRegion";
 import { AREAS, AREA_GUIDE_REGIONS, AREA_REGIONS, DEFAULT_AREA, areaName, areaShortName } from "@/lib/areas";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, matchesSearch, type SiteCategory } from "@/lib/models";
 import { useItineraries } from "@/lib/hooks/useItineraries";
+import { useTripPlaces } from "@/lib/hooks/useTripPlaces";
 import { currentPendingSlot } from "@/lib/pendingSlot";
 import { stopBefore } from "@/lib/utils/itineraryPhysics";
 import { nearestPlaces } from "@/lib/utils/nearby";
@@ -120,6 +121,7 @@ export default function SiteListPage() {
   // The town a trip day's "Find more things to do" opened Explore on: closest-first lasts while it is shown.
   const [fromDayArea, setFromDayArea] = useState<string | null>(null);
   const { itineraries } = useItineraries();
+  const { ids: tripIds } = useTripPlaces();
   const hereArea = useMemo(
     () => nearestArea(lockedLoc?.coords.latitude, lockedLoc?.coords.longitude, activeLocations),
     [lockedLoc, activeLocations],
@@ -356,6 +358,7 @@ export default function SiteListPage() {
           <FeaturedCard
             site={featured.location}
             distanceMeters={featured.distanceMeters}
+            inTrip={tripIds.has(featured.location.id)}
             onPress={(id) => router.push(`/(app)/(tabs)/sites/${id}`)}
           />
         </View>
@@ -463,6 +466,7 @@ export default function SiteListPage() {
             onPressItem={wide ? setSelectedId : openPlace}
             compact={wide}
             selectedId={shownId}
+            tripIds={tripIds}
             firstRowTarget={wide || !featured ? placeTarget : undefined}
             atTop={touring}
             refreshControl={refreshControl}

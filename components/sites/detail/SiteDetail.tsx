@@ -7,7 +7,7 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import { Stack as ExpoStack, router } from "expo-router";
 import * as Haptics from "expo-haptics";
 import * as Linking from "expo-linking";
-import { ArrowLeft, ExternalLink, Star } from "lucide-react-native";
+import { ArrowLeft, Check, ExternalLink, Star } from "lucide-react-native";
 
 import { LoadingState, ErrorCard, Stack, AppText, AppButton, ReviewModal, components } from "@/lib/uiKit";
 import { cardLift, darkEdge, lifted, PAGE_SIDES, tokens, SWEEP_COLORS, SWEEP_BUTTON, REVIEW_COLORS, READING_MAX } from "@/lib/ui/tokens";
@@ -17,6 +17,7 @@ import { openDirections } from "@/lib/utils/directions";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useSavedSites } from "@/lib/hooks/useSavedSites";
 import { useItineraries } from "@/lib/hooks/useItineraries";
+import { useTripPlaces } from "@/lib/hooks/useTripPlaces";
 import { canAddToItinerary, SITE_CATEGORY_LABELS, type Site } from "@/lib/models";
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { AddToTripModal } from "@/components/itinerary/AddToTripModal";
@@ -83,6 +84,8 @@ export function SiteDetail({ id, pane = false }: { id: string; pane?: boolean })
   // Add-to-itinerary flow, as rotorua-guide's detail screen does it. useItineraries
   // decides which step it opens on (addFlow); each step hands off to the next modal.
   const { addFlow } = useItineraries();
+  // Where the place is in the trip, if it is: the line under the title, and the main button.
+  const inTrip = useTripPlaces().dayOf(id);
   const isOffline = useNetInfo().isConnected === false;
   const [showTripChoice, setShowTripChoice] = useState(false);
   const [isCreatingItinerary, setIsCreatingItinerary] = useState(false);
@@ -196,6 +199,12 @@ export function SiteDetail({ id, pane = false }: { id: string; pane?: boolean })
                 {site.name}
               </AppText>
               <FactsLine site={site} avgRating={avgRating} ratingCount={ratingCount} />
+              {inTrip ? (
+                <View style={styles.inTripLine}>
+                  <Check size={16} color={tokens.colors.surf} strokeWidth={2.5} />
+                  <AppText accessibilityRole="text" style={styles.inTripText}>{`In your trip · Day ${inTrip.dayNumber}`}</AppText>
+                </View>
+              ) : null}
             </View>
 
             {/* Upright on the Duo these are two columns, the right one level with the buttons;
@@ -401,11 +410,29 @@ export function SiteDetail({ id, pane = false }: { id: string; pane?: boolean })
             <AppButton
               fullWidth
               shape={{ labelSize: 17 }}
-              disabled={addDisabled}
-              onPress={() => signedIn("Sign in to plan your trip.") && startAddToItinerary()}
+              disabled={inTrip ? false : addDisabled}
+              onPress={() =>
+                inTrip
+                  ? router.push({
+                      pathname: "/(app)/(tabs)/itinerary/[itineraryId]",
+                      params: { itineraryId: inTrip.tripId, jumpToDay: inTrip.dayId },
+                    })
+                  : signedIn("Sign in to plan your trip.") && startAddToItinerary()
+              }
             >
-              {isOffline ? "Reconnect to Add to Trip" : "+ Add to Trip"}
+              {inTrip ? "View in Trip" : isOffline ? "Reconnect to Add to Trip" : "+ Add to Trip"}
             </AppButton>
+            {inTrip ? (
+              <Pressable
+                accessibilityRole="link"
+                disabled={addDisabled}
+                onPress={startAddToItinerary}
+                hitSlop={8}
+                style={styles.addAgain}
+              >
+                <AppText style={[styles.addAgainText, addDisabled && { opacity: 0.4 }]}>Add Again</AppText>
+              </Pressable>
+            ) : null}
           </View>
         </View>
       )}
@@ -623,6 +650,10 @@ const styles = StyleSheet.create({
   // 26pt bold since the design sweep (it was 28 at 800, and the h1 variant is 34 at 900):
   // big enough to lead the page, without shouting over the quiet facts line under it.
   title: { fontSize: 26, lineHeight: 31, fontWeight: "700", letterSpacing: -0.4 },
+  inTripLine: { flexDirection: "row", alignItems: "center", gap: 6 },
+  inTripText: { fontSize: 15, fontWeight: "600", color: tokens.colors.surf },
+  addAgain: { alignSelf: "center", paddingTop: 12, paddingBottom: 4 },
+  addAgainText: { fontSize: 15, fontWeight: "600", color: tokens.colors.highlight },
   factsLine: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", rowGap: 6 },
   fact: { flexDirection: "row", alignItems: "center", gap: 5 },
   // A fact with the dot that separates it from the one before. No gap of its

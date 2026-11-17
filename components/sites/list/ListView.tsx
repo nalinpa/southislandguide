@@ -37,9 +37,11 @@ type ListViewProps = {
   compact?: boolean;
   /** The compact row that is chosen. */
   selectedId?: string;
+  /** The places in the person's trip, to mark. */
+  tripIds?: ReadonlySet<string>;
 };
 
-export function ListView({ rows, header, onPressItem, ListEmptyComponent, refreshControl, firstRowTarget, atTop, compact, selectedId }: ListViewProps) {
+export function ListView({ rows, header, onPressItem, ListEmptyComponent, refreshControl, firstRowTarget, atTop, compact, selectedId, tripIds }: ListViewProps) {
   const list = useRef<FlashListRef<ListRow>>(null);
   useEffect(() => {
     if (atTop) list.current?.scrollToOffset({ offset: 0, animated: false });
@@ -56,6 +58,7 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
           category={item.location.category[0]}
           distanceMeters={item.distanceMeters}
           selected={item.location.id === selectedId}
+          inTrip={tripIds?.has(item.location.id)}
           onPress={onPressItem}
         />
       ) : (
@@ -68,13 +71,14 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
           imageUrl={item.location.imageUrl ?? item.location.imageThumbnailUrl}
           category={item.location.category[0]}
           distanceMeters={item.distanceMeters}
+          inTrip={tripIds?.has(item.location.id)}
           onPress={onPressItem}
           index={index}
         />
       );
       return index === 0 && firstRowTarget ? <View {...firstRowTarget}>{row}</View> : row;
     },
-    [onPressItem, firstRowTarget, compact, selectedId],
+    [onPressItem, firstRowTarget, compact, selectedId, tripIds],
   );
 
   return (
@@ -84,7 +88,7 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
       keyExtractor={(item) => item.location.id}
       renderItem={renderItem}
       ItemSeparatorComponent={compact ? undefined : ItemSeparator}
-      extraData={selectedId}
+      extraData={[selectedId, tripIds]}
       ListHeaderComponent={header ?? null}
       ListEmptyComponent={ListEmptyComponent ?? null}
       refreshControl={refreshControl}

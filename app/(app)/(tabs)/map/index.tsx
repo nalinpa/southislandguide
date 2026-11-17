@@ -15,6 +15,7 @@ import { CARD_SIDES, darkEdge, pair, tokens, SWEEP_COLORS } from "@/lib/ui/token
 import { hooksBag } from "@/lib/hooksBag";
 import { useEntitlementGate } from "@/lib/hooks/useEntitlementGate";
 import { useItineraries } from "@/lib/hooks/useItineraries";
+import { useTripPlaces } from "@/lib/hooks/useTripPlaces";
 import { useOfflineMap } from "@/lib/hooks/useOfflineMap";
 import { offlineMapDir } from "@/lib/offlineMap";
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -113,10 +114,7 @@ export default function MapScreen() {
   }, [wide]);
   // A category, or "trip": only the places in the person's trip (tester, 2026-11-11).
   const [mapFilter, setMapFilter] = useState<SiteCategory | "trip" | null>(null);
-  const tripSiteIds = useMemo(
-    () => new Set(itineraries.flatMap((t) => t.days.flatMap((d) => d.items.map((i) => i.siteId)))),
-    [itineraries],
-  );
+  const { ids: tripSiteIds } = useTripPlaces();
   const tripOn = mapFilter === "trip";
   // Off once the trip has no places (its last one removed, or signed out): the button goes,
   // and the map would otherwise stay empty with nothing to turn it off.

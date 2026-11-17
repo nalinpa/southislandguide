@@ -5,6 +5,7 @@ import type { Site } from "@/lib/models";
 type FeaturedCardProps = {
   site: Site;
   distanceMeters?: number | null;
+  inTrip?: boolean;
   onPress: (id: string) => void;
 };
 
@@ -12,7 +13,7 @@ type FeaturedCardProps = {
 // features most. Since the design sweep it is the list's own card with a taller photo and
 // nothing else different: one card shape per list (docs/plans/design-sweep.md; owner,
 // 2026-11-13). No "Featured" label: the photo and the name say enough (owner, 2026-10-25).
-export function FeaturedCard({ site, distanceMeters, onPress }: FeaturedCardProps) {
+export function FeaturedCard({ site, distanceMeters, inTrip, onPress }: FeaturedCardProps) {
   return (
     <ListItem
       featured
@@ -22,6 +23,7 @@ export function FeaturedCard({ site, distanceMeters, onPress }: FeaturedCardProp
       distanceMeters={distanceMeters}
       imageUrl={site.imageUrl}
       category={site.category[0]}
+      inTrip={inTrip}
       onPress={onPress}
       index={0}
     />

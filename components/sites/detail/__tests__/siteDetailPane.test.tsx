@@ -143,9 +143,11 @@ jest.mock("expo-haptics", () => ({
 
 import React from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 import { fireEvent, renderRouter, screen, within } from "expo-router/testing-library";
 
 import { SiteDetail } from "@/components/sites/detail/SiteDetail";
+import { tokens } from "@/lib/ui/tokens";
 import type { Site } from "@/lib/models";
 
 const makeSite = (over: Partial<Site> = {}): Site => ({
@@ -176,6 +178,10 @@ const openPane = async (width = 401) => {
     ),
     "(app)/(tabs)/sites/[siteId]/reviews": () => <Text>Reviews Route</Text>,
     "(auth)/login": () => <Text>Login Route</Text>,
+    "(app)/(tabs)/itinerary/[itineraryId]": () => {
+      const p = useLocalSearchParams();
+      return <Text>{`Trip ${p.itineraryId} day ${p.jumpToDay}`}</Text>;
+    },
   });
 };
 
@@ -324,5 +330,61 @@ describe("pane", () => {
     expect(screen.getByText("Create Trip Modal")).toBeTruthy();
     await fireEvent.press(screen.getByText("Create Trip Modal"));
     expect(screen.getByText("Add Riccarton Bush to trip-new")).toBeTruthy();
+  });
+});
+
+describe("a place in the trip", () => {
+  const inTrip = () => {
+    mockTrips.itineraries = [
+      {
+        id: "trip-1",
+        days: [
+          { id: "d1", date: "2026-12-01", items: [] },
+          { id: "d2", date: "2026-12-02", items: [] },
+          { id: "d3", date: "2026-12-03", items: [{ siteId: "site-1" }] },
+        ],
+      },
+    ];
+    mockTrips.addFlow = "pick";
+  };
+
+  it("says In your trip · Day 3, and its button is View in Trip, which opens that day", async () => {
+    inTrip();
+    await openPane();
+
+    const line = screen.getByText("In your trip · Day 3");
+    expect(line).toHaveStyle({ color: tokens.colors.surf, fontSize: 15, fontWeight: "600" });
+    expect(line.props.accessibilityRole).toBe("text");
+    expect(screen.queryByText("+ Add to Trip")).toBeNull();
+
+    await fireEvent.press(screen.getByText("View in Trip"));
+    expect(screen.getByText("Trip trip-1 day d3")).toBeTruthy();
+  });
+
+  it("Add Again opens Add to Trip", async () => {
+    inTrip();
+    await openPane();
+
+    await fireEvent.press(screen.getByText("Add Again"));
+    expect(screen.getByText("Add Riccarton Bush to a trip")).toBeTruthy();
+  });
+
+  it("a place not in the trip is unchanged", async () => {
+    await openPane();
+
+    expect(screen.queryByText(/^In your trip/)).toBeNull();
+    expect(screen.queryByText("View in Trip")).toBeNull();
+    expect(screen.queryByText("Add Again")).toBeNull();
+    expect(screen.getByText("+ Add to Trip")).toBeTruthy();
+  });
+
+  it("a Stay place in a trip shows the line but no Add Again", async () => {
+    inTrip();
+    mockBag.site = makeSite({ category: ["Stay"] });
+    await openPane();
+
+    expect(screen.getByText("In your trip · Day 3")).toBeTruthy();
+    expect(screen.queryByText("Add Again")).toBeNull();
+    expect(screen.queryByText("View in Trip")).toBeNull();
   });
 });

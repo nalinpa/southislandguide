@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Image as ImageIcon } from "lucide-react-native";
 import { formatDistanceMeters } from "@blacksands/hooks";
 
+import { InTripBadge } from "@/components/sites/list/InTripBadge";
 import { tokens } from "@/lib/ui/tokens";
 import { siteImage } from "@/lib/categoryImages";
 import { SITE_CATEGORY_LABELS, type SiteCategory } from "@/lib/models";
@@ -16,12 +17,14 @@ type PlaceRowProps = {
   distanceMeters?: number | null;
   /** The place shown beside the list. */
   selected?: boolean;
+  /** In the person's trip: the badge sits on its own line under the name, so it can't shorten it. */
+  inTrip?: boolean;
   onPress: (id: string) => void;
 };
 
 // A place as a compact row, in Explore's list beside the place on the open Duo
 // (docs/plans/duo-131.md, "Row" and "Chosen row").
-export function PlaceRow({ id, name, imageUrl, category, distanceMeters, selected, onPress }: PlaceRowProps) {
+export function PlaceRow({ id, name, imageUrl, category, distanceMeters, selected, inTrip, onPress }: PlaceRowProps) {
   const source = siteImage(imageUrl, category, "thumb", id);
   const label = category ? SITE_CATEGORY_LABELS[category] : null;
   const distance = distanceMeters != null ? formatDistanceMeters(distanceMeters) : null;
@@ -55,7 +58,12 @@ export function PlaceRow({ id, name, imageUrl, category, distanceMeters, selecte
         <Text numberOfLines={2} style={[styles.name, selected && styles.nameOn]}>
           {name}
         </Text>
-        {meta ? <Text style={styles.meta}>{meta}</Text> : null}
+        {meta || inTrip ? (
+          <View style={styles.metaLine}>
+            {meta ? <Text style={styles.meta}>{meta}</Text> : null}
+            {inTrip ? <InTripBadge /> : null}
+          </View>
+        ) : null}
       </View>
     </TouchableOpacity>
   );
@@ -105,5 +113,6 @@ const styles = StyleSheet.create({
   words: { flex: 1, marginLeft: 8 },
   name: { fontSize: 16, lineHeight: 21, fontWeight: "600", color: tokens.colors.text },
   nameOn: { color: tokens.colors.selected },
+  metaLine: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", columnGap: 6 },
   meta: { fontSize: 15, lineHeight: 20, color: tokens.colors.text2 },
 });

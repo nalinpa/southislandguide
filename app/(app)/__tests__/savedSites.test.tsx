@@ -47,15 +47,19 @@ jest.mock("@/components/sites/list/ListItem", () => {
   const React = require("react");
   const { Text, TouchableOpacity } = require("react-native");
   return {
-    ListItem: ({ id, name, area, onPress }: any) =>
+    ListItem: ({ id, name, area, inTrip, onPress }: any) =>
       React.createElement(
         TouchableOpacity,
         { onPress: () => onPress(id), accessibilityRole: "button" },
         React.createElement(Text, null, name),
         area ? React.createElement(Text, null, "in " + area) : null,
+        inTrip ? React.createElement(Text, null, "In trip") : null,
       ),
   };
 });
+
+const mockTrips = { itineraries: [] as any[] };
+jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
 
 const mockSavedSites = { savedSiteIds: new Set<string>(), toggleSavedSite: jest.fn() };
 jest.mock("@/lib/hooks/useSavedSites", () => ({ useSavedSites: () => mockSavedSites }));
@@ -83,7 +87,7 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { fireEvent, render } from "@testing-library/react-native";
+import { fireEvent, render, within } from "@testing-library/react-native";
 
 import SavedSitesPage from "@/app/(app)/saved-sites";
 
@@ -107,6 +111,17 @@ beforeEach(() => {
   mockBag.err = null;
   mockSavedSites.savedSiteIds = new Set(["s1", "s3"]);
   mockSession.status = "authed";
+  mockTrips.itineraries = [];
+});
+
+describe("the trip", () => {
+  it("marks the trip's places", async () => {
+    mockTrips.itineraries = [{ id: "t1", days: [{ id: "d1", items: [{ siteId: "s3" }] }] }];
+    const view = await render(<SavedSitesPage />);
+
+    expect(view.getAllByText("In trip")).toHaveLength(1);
+    expect(within(view.getByText("Riverside Market").parent!).getByText("In trip")).toBeTruthy();
+  });
 });
 
 describe("loading and failure", () => {

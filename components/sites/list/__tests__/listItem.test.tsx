@@ -18,7 +18,7 @@ jest.mock("@/lib/categoryImages", () => ({ siteImage: () => null }));
 
 import React from "react";
 import { StyleSheet } from "react-native";
-import { fireEvent, render } from "@testing-library/react-native";
+import { fireEvent, render, within } from "@testing-library/react-native";
 
 import { ListItem } from "@/components/sites/list/ListItem";
 import { tokens } from "@/lib/ui/tokens";
@@ -100,5 +100,18 @@ describe("ListItem", () => {
     const { view, onPress } = renderItem();
     await fireEvent.press((await view).getByText("Sumner Beach"));
     expect(onPress).toHaveBeenCalledWith("s1");
+  });
+
+  it("marks a place in the trip with a badge on the photo's top-left corner", async () => {
+    const { view } = renderItem({ inTrip: true });
+    const badge = (await view).getByTestId("in-trip-badge");
+
+    expect(within((await view).getByTestId("list-photo")).getByText("In trip")).toHaveStyle({ fontSize: 12, fontWeight: "600", color: "#FFFFFF" });
+    expect(badge).toHaveStyle({ position: "absolute", top: 8, left: 8, backgroundColor: tokens.colors.success, borderRadius: 6, paddingVertical: 2, paddingHorizontal: 6 });
+  });
+
+  it("has no badge when the place is not in the trip", async () => {
+    const { view } = renderItem();
+    expect((await view).queryByText("In trip")).toBeNull();
   });
 });

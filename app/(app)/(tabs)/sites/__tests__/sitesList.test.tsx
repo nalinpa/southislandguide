@@ -27,7 +27,7 @@ jest.mock("@/components/sites/list/ListView", () => {
   const React = require("react");
   const { Text, TouchableOpacity, View } = require("react-native");
   return {
-    ListView: ({ rows, header, onPressItem, ListEmptyComponent, firstRowTarget, compact, selectedId }: any) => {
+    ListView: ({ rows, header, onPressItem, ListEmptyComponent, firstRowTarget, compact, selectedId, tripIds }: any) => {
       mockListProps = { compact, selectedId };
       React.useEffect(() => {
         mockListMounts += 1;
@@ -52,6 +52,7 @@ jest.mock("@/components/sites/list/ListView", () => {
                     ...(compact && r.location.id === selectedId ? { testID: "chosen-row" } : null),
                   },
                   React.createElement(Text, null, "Row " + r.location.name),
+                  tripIds?.has(r.location.id) ? React.createElement(Text, null, "Row in trip " + r.location.name) : null,
                 ),
               ),
             ),
@@ -121,6 +122,7 @@ jest.mock("@/lib/tour/useTourStepRoute", () => ({
 
 // The trips, for a day's "Find more things to do".
 let mockTrips: any[] = [];
+const trip = (...siteIds: string[]) => [{ id: "t1", days: [{ id: "d1", date: "2026-12-01", items: siteIds.map((siteId) => ({ siteId })) }] }];
 jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => ({ itineraries: mockTrips }) }));
 
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn(), setParams: jest.fn() };
@@ -1317,5 +1319,34 @@ describe("wide (the open Duo)", () => {
     const view = await render(<SiteListPage />);
     expect(view.queryByText("Mt Cook")).toBeNull();
     expect(view.getAllByText("Aoraki / Mount Cook").length).toBeGreaterThan(0);
+  });
+});
+
+describe("the trip's places", () => {
+  afterEach(() => require("@blacksands/ui").__setWide(false));
+
+  it("marks the trip's places In trip, on cards and on the Duo's rows", async () => {
+    mockTrips = trip("s2", "s3");
+    const phone = await render(<SiteListPage />);
+    const rows = phone.queryAllByText(/^Row in trip /).map((n: any) => n.props.children);
+    // The featured card is the real card; the rows are the list's.
+    expect(rows).toHaveLength(2);
+    // Sumner Beach is the featured card: not in the trip, so no badge on it.
+    expect(phone.queryByText("In trip")).toBeNull();
+    expect(phone.queryAllByText("Row in trip Sumner Beach")).toHaveLength(0);
+    phone.unmount();
+
+    require("@blacksands/ui").__setWide(true, { width: 669, height: 951 });
+    const duo = await render(<SiteListPage />);
+    expect(duo.queryAllByText(/^Row in trip /)).toHaveLength(2);
+  });
+
+  it("marks nothing for a guest", async () => {
+    mockSession.status = "guest";
+    mockTrips = [];
+    const view = await render(<SiteListPage />);
+
+    expect(view.queryByText("In trip")).toBeNull();
+    expect(view.queryAllByText(/^Row in trip /)).toHaveLength(0);
   });
 });

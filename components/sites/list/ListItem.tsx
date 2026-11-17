@@ -6,6 +6,7 @@ import { formatDistanceMeters } from "@blacksands/hooks";
 import { useHalves } from "@blacksands/ui";
 
 import { AppText, Row } from "@/lib/uiKit";
+import { InTripBadge } from "@/components/sites/list/InTripBadge";
 import { tokens } from "@/lib/ui/tokens";
 import { siteImage } from "@/lib/categoryImages";
 import { firstSentence } from "@/lib/utils/firstSentence";
@@ -33,6 +34,8 @@ type ListItemProps = {
   /** The open Duo (Explore, design-sweep.md "Explore, picked: round 6"): a 190 photo upright,
    *  130 in two columns sideways, the name one step up, and the featured card like the rest. */
   wide?: boolean;
+  /** The place is in the person's trip: a small badge on the photo's corner. */
+  inTrip?: boolean;
   onPress: (id: string) => void;
   index: number;
 };
@@ -49,6 +52,7 @@ export function ListItem({
   area,
   featured,
   wide,
+  inTrip,
   onPress,
   index,
 }: ListItemProps) {
@@ -83,6 +87,7 @@ export function ListItem({
               <ImageIcon size={28} color={tokens.colors.borderStrong} />
             </View>
           )}
+          {inTrip ? <InTripBadge style={styles.onPhoto} /> : null}
         </View>
 
         <AppText variant="h3" numberOfLines={2} style={[styles.name, wide && styles.nameWide]}>
@@ -130,6 +135,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: tokens.colors.photoEdge,
   },
+  onPhoto: { position: "absolute", top: 8, left: 8 },
   photoFeatured: { height: 204 },
   // The size, not just the edges: React Native gives a bundled image (a default photo) its
   // file's own size, which wins over the edges alone and showed only the photo's top-left

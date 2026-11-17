@@ -16,6 +16,11 @@ jest.mock("expo-image", () => {
   return { Image: (props: any) => React.createElement(View, props) };
 });
 
+jest.mock("react-native-safe-area-context", () => ({
+  ...jest.requireActual("react-native-safe-area-context"),
+  useSafeAreaInsets: () => ({ top: 47, bottom: 34, left: 0, right: 0 }),
+}));
+
 const mockNet = { isConnected: true as boolean | null, isInternetReachable: true as boolean | null };
 jest.mock("@react-native-community/netinfo", () => ({ useNetInfo: () => mockNet }));
 
@@ -43,7 +48,7 @@ jest.mock("expo-router", () => ({
 
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import { fireEvent, render, waitFor } from "@testing-library/react-native";
+import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 
 import { AddToTripModal } from "@/components/itinerary/AddToTripModal";
 import { PLANNER } from "@/lib/constants/gameplay";
@@ -187,8 +192,7 @@ describe("adding", () => {
 
     await fireEvent.press(view.getByText("Add"));
 
-    expect(await view.findByText("Added")).toBeTruthy();
-    expect(view.getByText(new RegExp(`is on Day 1 · ${dayLabel("2026-10-01")}`))).toBeTruthy();
+    expect(await view.findByText(`Added to Day 1 · ${dayLabel("2026-10-01")}`)).toBeTruthy();
     expect(mockRouter.push).not.toHaveBeenCalled();
     expect(onClose).not.toHaveBeenCalled();
 
@@ -202,11 +206,11 @@ describe("adding", () => {
     const view = await render(<AddToTripModal site={{ ...site }} onClose={onClose} />);
 
     await fireEvent.press(view.getByText("Add"));
-    expect(await view.findByText("Added")).toBeTruthy();
+    expect(await view.findByText(/^Added to Day 1/)).toBeTruthy();
 
     await view.rerender(<AddToTripModal site={{ ...site }} onClose={onClose} />);
 
-    expect(view.getByText("Added")).toBeTruthy();
+    expect(view.getByText(/^Added to Day 1/)).toBeTruthy();
     expect(view.queryByText("Add")).toBeNull();
   });
 
@@ -434,47 +438,173 @@ describe("refusals", () => {
   });
 });
 
-// Q7: after adding, the places close to it, to carry on from.
+// Q7: after adding, the places close to it, to carry on from, each with a + of its own.
 describe("places near the one just added", () => {
-  const place = (id: string, name: string, lat: number, lng: number, category = ["Nature"]) => ({
+  const place = (id: string, name: string, lat: number, lng: number, category = ["Nature"], extra: any = {}) => ({
     id,
     name,
     lat,
     lng,
     category,
     active: true,
+    ...extra,
   });
   // 0.01 degrees of latitude is about 1.1 km.
   const here = place("site-1", "Wai-O-Tapu", -38, 176);
   const addIt = async (view: any) => {
     await fireEvent.press(view.getByText("Add"));
-    await view.findByText("Added");
+    await view.findByText(/^Added to Day 1/);
   };
+  const nearby = (n: number) => Array.from({ length: n }, (_, k) => place("p" + (k + 1), "Near " + (k + 1), -38 - 0.01 * (k + 1), 176));
+  const savedDay1 = (call: number) => mockTrips.saveItinerary.mock.calls[call][0].days[0].items;
 
-  it("after adding, lists the 3 closest places not in the trip, with their distance", async () => {
-    mockLookup.list = [
-      here,
-      place("p4", "Far Four", -38.04, 176),
-      place("p1", "Near One", -38.01, 176),
-      place("p3", "Near Three", -38.03, 176),
-      place("p2", "Near Two", -38.02, 176),
-    ];
+  it("says where it was added, and lists up to 6 nearby places with a photo, category and distance", async () => {
+    mockLookup.list = [here, ...nearby(8)];
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
     await addIt(view);
 
     expect(view.getByText("Near Wai-O-Tapu")).toBeTruthy();
-    expect(view.getByLabelText(/^Near One, /)).toBeTruthy();
-    expect(view.getByLabelText(/^Near Two, /)).toBeTruthy();
-    expect(view.getByLabelText(/^Near Three, /)).toBeTruthy();
-    expect(view.queryByText("Far Four")).toBeNull();
-    expect(view.getByText("1.1 km")).toBeTruthy();
+    expect(view.queryByText("Added")).toBeNull();
+    for (let k = 1; k <= 6; k++) expect(view.getByLabelText(new RegExp(`^Near ${k}, `))).toBeTruthy();
+    expect(view.queryByLabelText(/^Near 7, /)).toBeNull();
+    expect(view.getByText("Nature · 1.1 km")).toBeTruthy();
+    expect(view.getByTestId("near-photo-p1")).toBeTruthy();
+  });
+
+  it("names the trip when there is more than one", async () => {
+    mockTrips.itineraries = [makeTrip("t1"), makeTrip("t2")];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} initialItineraryId="t1" />);
+    await fireEvent.press(view.getByText("Add"));
+    expect(await view.findByText(`Added to Day 1 · ${dayLabel("2026-10-01")} of Trip t1`)).toBeTruthy();
+  });
+
+  it("+ adds the place to the same day right after the last one, without closing", async () => {
+    mockLookup.list = [here, ...nearby(2)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    const first = savedDay1(0)[0];
+
+    await fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(2));
+    expect(mockTrips.saveItinerary.mock.calls[1][0].id).toBe("t1");
+    expect(savedDay1(1)).toHaveLength(2);
+    // At the end of the last place, or a little after it: the packer adds the leg between them.
+    expect(savedDay1(1)[1].siteId).toBe("p1");
+    expect(savedDay1(1)[1].slotIndex).toBeGreaterThanOrEqual(first.slotIndex + first.durationSlots);
+    expect(await view.findByLabelText("Near 1 added")).toBeTruthy();
+    expect(view.queryByLabelText("Add Near 1 to Day 1")).toBeNull();
+    expect(view.getByLabelText(/^Near 1, /)).toBeTruthy();
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it("a second + goes after the first", async () => {
+    mockLookup.list = [here, ...nearby(2)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+
+    await fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
+    await view.findByLabelText("Near 1 added");
+    await fireEvent.press(view.getByLabelText("Add Near 2 to Day 1"));
+    await view.findByLabelText("Near 2 added");
+
+    expect(savedDay1(2).map((i: any) => i.siteId)).toEqual(["site-1", "p1", "p2"]);
+    const [a, b, c] = savedDay1(2);
+    expect(b.slotIndex).toBeGreaterThanOrEqual(a.slotIndex + a.durationSlots);
+    expect(c.slotIndex).toBeGreaterThanOrEqual(b.slotIndex + b.durationSlots);
+  });
+
+  it("uses the place's own length", async () => {
+    mockLookup.list = [here, place("p1", "Near 1", -38.01, 176, ["Nature"], { recommendedDurationSlots: 5 })];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    await fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
+    await view.findByLabelText("Near 1 added");
+    expect(savedDay1(1)[1].durationSlots).toBe(5);
+  });
+
+  it("View Trip jumps to the place added last", async () => {
+    mockLookup.list = [here, ...nearby(1)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    await fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
+    await view.findByLabelText("Near 1 added");
+
+    await fireEvent.press(view.getByText("View Trip"));
+
+    expect(mockRouter.push).toHaveBeenCalledWith({
+      pathname: "/(app)/(tabs)/itinerary/[itineraryId]",
+      params: { itineraryId: "t1", jumpToDay: "day_1", jumpToSlot: String(savedDay1(1)[1].slotIndex) },
+    });
+  });
+
+  it("says No room left on Day 1 when it doesn't fit, and saves nothing", async () => {
+    // The first place fits; the next asks for a whole day.
+    mockLookup.list = [here, place("p1", "Near 1", -38.01, 176, ["Nature"], { recommendedDurationSlots: PLANNER.MAX_GRID_SLOTS })];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+
+    await fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
+
+    expect(await view.findByText("No room left on Day 1.")).toBeTruthy();
+    expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(1);
+    expect(view.getByLabelText("Add Near 1 to Day 1")).toBeTruthy();
+    expect(view.getByLabelText(/^Near 1, /)).toBeTruthy();
+  });
+
+  it("says Couldn't add when the save fails, and the + comes back", async () => {
+    mockLookup.list = [here, ...nearby(1)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    mockTrips.saveItinerary.mockRejectedValueOnce(new Error("offline-ish"));
+
+    await fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
+
+    expect(await view.findByText("Couldn't add to your trip. Try again.")).toBeTruthy();
+    expect(view.getByLabelText("Add Near 1 to Day 1")).toBeTruthy();
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it("disables the other + while one saves", async () => {
+    mockLookup.list = [here, ...nearby(2)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    let finish: (v: string) => void = () => {};
+    mockTrips.saveItinerary.mockImplementationOnce(() => new Promise<string>((r) => (finish = r)));
+
+    const pressed = fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
+    await waitFor(() => expect(view.queryByLabelText("Add Near 1 to Day 1")).toBeNull());
+
+    expect(view.getByLabelText("Add Near 2 to Day 1").props.accessibilityState.disabled).toBe(true);
+    expect(view.queryByLabelText("Add Near 1 to Day 1")).toBeNull();
+    await act(async () => finish("t1"));
+    await pressed;
+    await view.findByLabelText("Near 1 added");
+    expect(view.getByLabelText("Add Near 2 to Day 1").props.accessibilityState.disabled).toBe(false);
+  });
+
+  it("tapping the row still opens the place, with the pending slot after the last add", async () => {
+    mockLookup.list = [here, ...nearby(2)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    await fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
+    await view.findByLabelText("Near 1 added");
+    const added = savedDay1(1)[1];
+
+    await fireEvent.press(view.getByLabelText(/^Near 2, /));
+
+    expect(peekPendingSlot("t1")).toEqual(
+      expect.objectContaining({ dayId: "day_1", slot: added.slotIndex + added.durationSlots }),
+    );
+    expect(onClose).toHaveBeenCalled();
+    expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/sites/p2");
   });
 
   it("a tap opens that place with Add to Trip set to the same day, right after", async () => {
     mockLookup.list = [here, place("p1", "Near One", -38.01, 176)];
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
     await addIt(view);
-    const end = mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0];
+    const end = savedDay1(0)[0];
 
     await fireEvent.press(view.getByLabelText(/^Near One, /));
 
@@ -501,11 +631,13 @@ describe("places near the one just added", () => {
     expect(view.queryByText("Cosy Lodge")).toBeNull();
   });
 
-  it("shows no Near list when nothing is left", async () => {
+  it("with nothing nearby, shows only the line and the buttons", async () => {
     mockLookup.list = [here];
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
     await addIt(view);
     expect(view.queryByText("Near Wai-O-Tapu")).toBeNull();
+    expect(view.getByText("Done")).toBeTruthy();
+    expect(view.getByText("View Trip")).toBeTruthy();
   });
 
   it("shows no Near list when the place has no position", async () => {

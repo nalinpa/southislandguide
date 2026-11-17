@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ScrollView, useColorScheme, type ScrollViewInstance } from "react-native";
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ScrollView, useColorScheme, useWindowDimensions, type ScrollViewInstance } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useNetInfo } from "@react-native-community/netinfo";
@@ -17,10 +17,10 @@ import type { EditResult } from "@/lib/utils/itineraryPhysics";
 import type { PlaceLookup } from "@/lib/utils/transitMatrix";
 import { clearPendingSlot, peekPendingSlot, setPendingSlot } from "@/lib/pendingSlot";
 import { nearestPlaces } from "@/lib/utils/nearby";
-import { formatDistanceMeters } from "@blacksands/hooks";
 import { areaName } from "@/lib/areas";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { siteImage } from "@/lib/categoryImages";
+import { AddedNearby, type NearRow, type RowState } from "@/components/itinerary/AddedNearby";
 import type { ItineraryDay, ItineraryItem, SiteCategory } from "@/lib/models";
 
 const TIME_OF_DAY: { key: string; label: string; startSlot: number }[] = [
@@ -64,11 +64,16 @@ const dayDate = (iso: string) =>
 
 // What was just added, for the done state. Its own copy: the form's trip and day are reset
 // whenever the trip list changes, and the save itself changes it.
-type Added = { tripId: string; tripTitle: string; dayId: string; dayLabel: string; slot: number;
+type Added = { tripId: string; tripTitle: string; dayId: string; dayLabel: string;
   /** Where the place ends, so a place picked from `near` can follow it. */
   endSlot: number;
+  dayNumber: number;
+  /** The place added last: View Trip jumps to it. */
+  lastSlot: number;
+  /** The trip's days as the last save in this sheet left them, so the next + packs against them. */
+  days: ItineraryDay[];
   /** The closest places not in the trip, worked out once, with the trip as it now is. */
-  near: { id: string; name: string; meters: number }[];
+  near: (NearRow & { durationSlots: number })[];
 };
 
 type AddToTripModalProps = {
@@ -82,6 +87,8 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   const { itineraries, saveItinerary, isSaving } = useItineraries();
   const netInfo = useNetInfo();
   const wide = useWideSheet("sheet");
+  const insets = useSafeAreaInsets();
+  const windowHeight = useWindowDimensions().height;
   // The sheet is the card colour (CardShell basic), so the fades end in it, not the page's.
   const page = CARD_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
   const isOffline = netInfo.isConnected === false || netInfo.isInternetReachable === false;
@@ -98,10 +105,15 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   // Set once the place is saved: the modal then says so, and the user stays where they
   // were (Done) or opens the trip (View Trip). It used to jump to the trip every time.
   const [added, setAdded] = useState<Added | null>(null);
+  // Each nearby row's + : saving, added, or a message under it.
+  const [rowState, setRowState] = useState<Record<string, RowState>>({});
   // By the place's id, not the object: both callers build `site` afresh on every render,
   // and the save itself makes them re-render, which wiped the confirmation (and the form)
   // a moment after it appeared.
-  useEffect(() => setAdded(null), [site?.id]);
+  useEffect(() => {
+    setAdded(null);
+    setRowState({});
+  }, [site?.id]);
 
   // The Day row opens with the chosen day in view (owner, 2026-11-17: day 9 chosen, row at
   // Day 1). Wanted on open, on a trip change and when the form comes back after "Added";
@@ -245,8 +257,15 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     const inTrip = new Set([site.id, ...updatedDays.flatMap((d) => d.items.map((i) => i.siteId))]);
     const near =
       origin && Number.isFinite(origin.lat) && Number.isFinite(origin.lng)
-        ? nearestPlaces(origin, allPlaces.filter((p) => p.active !== false), { exclude: inTrip, addableOnly: true, limit: 3 }).map(
-            (n) => ({ id: n.site.id, name: n.site.name, meters: n.meters }),
+        ? nearestPlaces(origin, allPlaces.filter((p) => p.active !== false), { exclude: inTrip, addableOnly: true, limit: 6 }).map(
+            (n) => ({
+              id: n.site.id,
+              name: n.site.name,
+              meters: n.meters,
+              imageUrl: n.site.imageThumbnailUrl ?? n.site.imageUrl,
+              category: n.site.category?.[0],
+              durationSlots: n.site.recommendedDurationSlots ?? 2,
+            }),
           )
         : [];
     const dayIndex = selectedTrip.days.findIndex((d) => d.id === dayId);
@@ -255,7 +274,9 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
       tripTitle: selectedTrip.title,
       dayId,
       dayLabel: `Day ${dayIndex + 1} · ${dayDate(day.date)}`,
-      slot: placedItem.slotIndex ?? 0,
+      dayNumber: dayIndex + 1,
+      lastSlot: placedItem.slotIndex ?? 0,
+      days: updatedDays,
       endSlot: (placedItem.slotIndex ?? 0) + (placedItem.durationSlots ?? durationSlots),
       near,
     });
@@ -265,7 +286,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     onClose();
     router.push({
       pathname: "/(app)/(tabs)/itinerary/[itineraryId]",
-      params: { itineraryId: done.tripId, jumpToDay: done.dayId, jumpToSlot: String(done.slot) },
+      params: { itineraryId: done.tripId, jumpToDay: done.dayId, jumpToSlot: String(done.lastSlot) },
     });
   };
 
@@ -276,11 +297,40 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     router.push(`/(app)/(tabs)/sites/${id}`);
   };
 
+  // The + on a nearby row: the place goes on the same day, after the one added last, packed
+  // against the days as the last save here left them (not the trip list, which may not have
+  // refetched yet). The list isn't recomputed, so rows stay where they are.
+  const addNear = async (done: Added, id: string) => {
+    const n = done.near.find((x) => x.id === id);
+    if (!n) return;
+    const { newItem, result } = candidateEdit(done.days, done.dayId, { id: n.id, name: n.name, imageUrl: n.imageUrl ?? undefined }, done.endSlot, n.durationSlots, places);
+    if (!result.ok) {
+      setRowState((r) => ({ ...r, [id]: { state: "message", text: `No room left on Day ${done.dayNumber}.` } }));
+      return;
+    }
+    setRowState((r) => ({ ...r, [id]: { state: "saving" } }));
+    try {
+      await saveItinerary({ id: done.tripId, days: result.days });
+    } catch {
+      setRowState((r) => ({ ...r, [id]: { state: "message", text: "Couldn't add to your trip. Try again." } }));
+      return;
+    }
+    const placed = result.days.find((d) => d.id === done.dayId)!.items.find((i) => i.id === newItem.id)!;
+    setAdded({ ...done, days: result.days, lastSlot: placed.slotIndex ?? 0, endSlot: (placed.slotIndex ?? 0) + (placed.durationSlots ?? n.durationSlots) });
+    setRowState((r) => ({ ...r, [id]: { state: "added" } }));
+  };
+
+  // Phone: with rows the card takes the height the screen gives it, 24 clear of the safe area
+  // top and bottom, and the list scrolls inside. Wide: the card keeps its own size and the
+  // list its own cap, so Done and View Trip stay on a 669 pt screen.
+  const tall = !!added && added.near.length > 0 && !wide;
+  const tallHeight = windowHeight - insets.top - insets.bottom - 48;
+
   return (
     <Modal visible={!!site} transparent animationType={wide?.animation ?? "slide"}>
       <SafeAreaView edges={["left", "right"]} style={[styles.overlay, wide?.overlay]}>
-        <View style={[styles.wrapper, wide?.card]}>
-          <CardShell status="basic" shrink style={[styles.card, wide && styles.wideCard]}>
+        <View style={[styles.wrapper, wide?.card, tall && { height: tallHeight, maxHeight: tallHeight }]}>
+          <CardShell status="basic" shrink style={[styles.card, wide && styles.wideCard, tall && styles.tallCard]}>
             <View style={styles.header}>
               <Text style={styles.title}>Add to Trip</Text>
               <TouchableOpacity
@@ -295,41 +345,18 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
             </View>
 
             {added ? (
-              <View style={styles.done}>
-                <Text style={styles.doneTitle}>Added</Text>
-                <Text style={styles.doneBody}>
-                  {site.name} is on {added.dayLabel}
-                  {itineraries.length > 1 ? ` of ${added.tripTitle}` : ""}.
-                </Text>
-                {added.near.length > 0 && (
-                  <View style={styles.near}>
-                    <Text style={styles.nearTitle}>Near {site.name}</Text>
-                    {added.near.map((n) => {
-                      const distance = formatDistanceMeters(n.meters);
-                      return (
-                        <TouchableOpacity
-                          key={n.id}
-                          style={styles.nearRow}
-                          accessibilityRole="button"
-                          accessibilityLabel={`${n.name}, ${distance}`}
-                          onPress={() => openNear(added, n.id)}
-                        >
-                          <Text style={styles.nearName} numberOfLines={1}>
-                            {n.name}
-                          </Text>
-                          <Text style={styles.nearDist}>{distance}</Text>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </View>
-                )}
-                <AppButton variant="primary" fullWidth onPress={onClose}>
-                  Done
-                </AppButton>
-                <TouchableOpacity style={styles.viewTrip} accessibilityRole="button" onPress={() => viewTrip(added)}>
-                  <Text style={styles.viewTripText}>View Trip</Text>
-                </TouchableOpacity>
-              </View>
+              <AddedNearby
+                line={`Added to ${added.dayLabel}${itineraries.length > 1 ? ` of ${added.tripTitle}` : ""}`}
+                dayNumber={added.dayNumber}
+                placeName={site.name}
+                rows={added.near}
+                rowState={rowState}
+                onAdd={(id) => addNear(added, id)}
+                onOpen={(id) => openNear(added, id)}
+                onDone={onClose}
+                onViewTrip={() => viewTrip(added)}
+                listMaxHeight={wide ? Math.max(140, windowHeight - 380) : undefined}
+              />
             ) : (
             <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
               <View style={styles.siteRow}>
@@ -554,23 +581,6 @@ const styles = StyleSheet.create({
   // Dimmed, but still readable: at 0.45 "Full" couldn't be read.
   pillDim: { opacity: 0.6 },
   pillSub: { fontSize: 13, color: tokens.colors.textMuted, marginTop: 1 },
-  done: { gap: tokens.space.sm, paddingTop: tokens.space.xs },
-  doneTitle: { fontSize: 18, fontWeight: "700", color: tokens.colors.text },
-  doneBody: { fontSize: 15, lineHeight: 22, color: tokens.colors.text2, marginBottom: tokens.space.sm },
-  near: { marginBottom: tokens.space.sm },
-  nearTitle: { fontSize: 14, fontWeight: "600", color: tokens.colors.text2, marginBottom: 2 },
-  nearRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    minHeight: 44,
-    borderBottomWidth: 1,
-    borderBottomColor: tokens.colors.line,
-  },
-  nearName: { flex: 1, fontSize: 16, fontWeight: "500", color: tokens.colors.text },
-  nearDist: { fontSize: 15, color: tokens.colors.textMuted },
-  viewTrip: { alignSelf: "center", paddingVertical: 12, paddingHorizontal: tokens.space.md },
-  viewTripText: { fontSize: 15, fontWeight: "600", color: tokens.colors.selected },
   // Minus and plus are round and sit close either side of the value: as squares at the
   // far ends of a box they read as two more choices (design sweep, sheets round 2).
   stepperRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: tokens.space.md },
@@ -591,6 +601,7 @@ const styles = StyleSheet.create({
   submit: { marginTop: tokens.space.md },
   // Duo: every corner round; the 24 pt margin the Day row stops at (it cuts there, as on the
   // phone); labels 22 above and 10 under; 32 above Add, as between the groups.
+  tallCard: { flex: 1 },
   wideCard: { ...WIDE_CORNERS, paddingHorizontal: 24, paddingBottom: 24 },
   wideLabel: { marginTop: 22, marginBottom: 10 },
   wideSubmit: { marginTop: 32 },

@@ -11,7 +11,7 @@ import { wideTop } from "@/lib/ui/wideTop";
 import { TopBar, TopBarBack } from "@/components/layout/TopBar";
 import { TopBarTabs } from "@/components/layout/TopBarTabs";
 import { GuideArticle } from "@/components/guide/GuideArticle";
-import { GuideList } from "@/components/guide/GuideList";
+import { GUIDE_EDGE, GuideList } from "@/components/guide/GuideList";
 import { RegionSheet } from "@/components/guide/RegionSheet";
 import {
   GUIDE_CATEGORIES,
@@ -157,10 +157,10 @@ const styles = StyleSheet.create({
   // The trip's band, 2:3 with the section in both orientations (268/401 upright, 347/520 sideways).
   side: { flex: 2, backgroundColor: tokens.colors.band },
   article: { flex: 3 },
-  head: { paddingHorizontal: tokens.space.lg + 8, paddingBottom: tokens.space.md },
+  head: { paddingHorizontal: GUIDE_EDGE, paddingBottom: tokens.space.md },
   bar: { height: 44, justifyContent: "center", paddingHorizontal: tokens.space.md },
   backRow: { height: 44, flexDirection: "row", alignItems: "center" },
-  // The chevron's own blank edge is pulled back, so its stroke sits on the 20 pt edge.
+  // The chevron's own blank edge is pulled back, so its stroke sits on the GUIDE_EDGE line.
   back: { width: 44, height: 44, justifyContent: "center", marginLeft: -8 },
   pressed: { opacity: 0.6 },
   heading: { fontSize: 22, fontWeight: "700", color: tokens.colors.text, letterSpacing: -0.3 },

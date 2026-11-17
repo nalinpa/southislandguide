@@ -5,6 +5,11 @@ import { AppText } from "@/lib/uiKit";
 import { lifted, pair, tokens, towardWhite } from "@/lib/ui/tokens";
 import type { GuideCategory } from "@/lib/guideContent";
 
+/** The wide guide's edge: the head's, and where the list's tiles sit. */
+export const GUIDE_EDGE = 28;
+/** The list pane's own pad; the row's pad makes up the rest of GUIDE_EDGE. */
+export const GUIDE_LIST_PAD = 16;
+
 type GuideListProps = {
   categories: GuideCategory[];
   /** The section on show beside the list (wide only). */
@@ -50,8 +55,8 @@ export function GuideList({ categories, selectedSlug, onSelect, wide }: GuideLis
 
 const styles = StyleSheet.create({
   list: { paddingHorizontal: tokens.space.md, paddingBottom: tokens.space.xl },
-  // 16 in, and the rows' own 12 puts the tiles on the 28 pt edge (the head's, 8 in from the old 20) while the chosen fill reaches 12 into the margin.
-  listWide: { paddingHorizontal: 16, paddingBottom: tokens.space.xl },
+  // GUIDE_LIST_PAD in, and the rows' own pad puts the tiles on GUIDE_EDGE (the head's) while the chosen fill reaches into the margin.
+  listWide: { paddingHorizontal: GUIDE_LIST_PAD, paddingBottom: tokens.space.xl },
   row: {
     flexDirection: "row",
     alignItems: "center",
@@ -62,7 +67,7 @@ const styles = StyleSheet.create({
   },
   rowWide: {
     paddingVertical: 8,
-    paddingHorizontal: 12,
+    paddingHorizontal: GUIDE_EDGE - GUIDE_LIST_PAD,
     gap: 12,
     borderBottomWidth: 0,
     borderRadius: 12,

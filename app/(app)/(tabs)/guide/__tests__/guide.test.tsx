@@ -39,6 +39,7 @@ jest.mock("@/components/guide/GuideList", () => {
   const React = require("react");
   const actual = jest.requireActual("@/components/guide/GuideList");
   return {
+    ...actual,
     GuideList: (props: any) => {
       React.useEffect(() => {
         mockListMounts.count++;
@@ -75,6 +76,7 @@ import GuideIndexPage from "@/app/(app)/(tabs)/guide/index";
 import GuideCategoryPage from "@/app/(app)/(tabs)/guide/[slug]";
 import { GUIDE_CATEGORIES, ISLAND_CATEGORIES, REGIONS, REGIONS_WITH_CONTENT } from "@/lib/guideContent";
 import { tokens } from "@/lib/ui/tokens";
+import { GUIDE_EDGE, GUIDE_LIST_PAD } from "@/components/guide/GuideList";
 
 const first = ISLAND_CATEGORIES[0];
 const paragraphs = (body: string) => body.split("\n\n");
@@ -353,7 +355,7 @@ describe("web addresses in a section", () => {
 // "The guide, picked: round 3").
 describe("on the open Duo", () => {
   const { StyleSheet } = require("react-native");
-  const wide = (size = { width: 669, height: 951 }) => require("@blacksands/ui").__setWide(true, size);
+  const wide = (size ={ width: 669, height: 951 }) => require("@blacksands/ui").__setWide(true, size);
   const flexOf = (node: any) => StyleSheet.flatten(node.props.style).flex;
   const second = ISLAND_CATEGORIES[1];
 
@@ -381,6 +383,25 @@ describe("on the open Duo", () => {
     expect(StyleSheet.flatten(view.getByTestId("guide-list-pane").props.style).paddingTop).toBe(40);
     expect(StyleSheet.flatten(view.getByTestId("guide-head").props.style).paddingHorizontal).toBe(28);
     expect(StyleSheet.flatten(view.getByTestId("guide-article").props.contentContainerStyle).paddingTop).toBe(32);
+  });
+
+  it("puts the list's tiles on the head's edge: the list's pad and the row's own pad make GUIDE_EDGE", async () => {
+    wide();
+    const view = await render(<GuideIndexPage />);
+    const { within } = require("@testing-library/react-native");
+    const listPane = view.getByTestId("guide-list-pane");
+    let row = within(listPane).getByText(second.title);
+    while (row && !row.props.accessibilityState) row = row.parent;
+    let list = row;
+    while (list && !list.props.contentContainerStyle) list = list.parent;
+    const listStyle = StyleSheet.flatten(list.props.contentContainerStyle);
+    const rowStyle = StyleSheet.flatten(row.props.style);
+
+    expect(StyleSheet.flatten(view.getByTestId("guide-head").props.style).paddingHorizontal).toBe(GUIDE_EDGE);
+    expect(GUIDE_EDGE).toBe(28);
+    expect(listStyle.paddingHorizontal).toBe(GUIDE_LIST_PAD);
+    expect(rowStyle.paddingHorizontal).toBe(GUIDE_EDGE - GUIDE_LIST_PAD);
+    expect(listStyle.paddingHorizontal + rowStyle.paddingHorizontal).toBe(GUIDE_EDGE);
   });
 
   it.each([

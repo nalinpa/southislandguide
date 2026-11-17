@@ -120,7 +120,7 @@ export default function ShareFrameScreen() {
 
           {/* The framed card sits at the top, so it's on screen as soon as a photo is in. */}
           <CardShell>
-            <Pressable onPress={() => !photoUri && pickImage(false)} style={styles.previewBox}>
+            <Pressable onPress={() => !photoUri && pickImage(false)} testID="share-preview" style={styles.previewBox}>
               {photoUri ? (
                 <>
                   {previewUri ? (
@@ -182,6 +182,8 @@ const styles = StyleSheet.create({
   pickerBtn: { flex: 1 },
   previewBox: {
     width: "100%",
+    maxWidth: 480,
+    alignSelf: "center",
     aspectRatio: 4 / 5,
     borderRadius: tokens.radius.md,
     backgroundColor: tokens.colors.bgSurface,

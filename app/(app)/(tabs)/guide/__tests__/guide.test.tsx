@@ -517,6 +517,28 @@ describe("the section route across the fold", () => {
   });
 });
 
+describe("on a wide iPad", () => {
+  const { StyleSheet } = require("react-native");
+  it("reading text is at most 640 wide", async () => {
+    require("@blacksands/ui").__setWide(true, { width: 1376, height: 1032 });
+    mockParams.slug = GUIDE_CATEGORIES[0].slug;
+    const view = await render(<GuideCategoryPage />);
+    const p = paragraphs(GUIDE_CATEGORIES[0].body).find((x) => !isHeading(x))!;
+
+    expect(StyleSheet.flatten(view.getByText(p).props.style).maxWidth).toBe(640);
+    require("@blacksands/ui").__setWide(false);
+  });
+
+  it("a phone is unchanged: the same words, still no tighter cap than 640", async () => {
+    mockParams.slug = GUIDE_CATEGORIES[0].slug;
+    const view = await render(<GuideCategoryPage />);
+    const p = paragraphs(GUIDE_CATEGORIES[0].body).find((x) => !isHeading(x))!;
+
+    expect(StyleSheet.flatten(view.getByText(p).props.style)).toMatchObject({ fontSize: 16, lineHeight: 25 });
+    expect(StyleSheet.flatten(view.getByTestId("guide-article").props.contentContainerStyle).paddingHorizontal).toBe(16);
+  });
+});
+
 describe("on a phone", () => {
   it("keeps the tab strip, the bar and the list as they were", async () => {
     const view = await render(<GuideIndexPage />);

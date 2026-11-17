@@ -204,6 +204,8 @@ export const SWEEP_COLORS = {
   // Behind the engine's sheets: its default is this teal written as a string, with no dark.
   scrim: tokens.colors.dim,
 };
+// The most a reading column runs on an iPad, left-aligned; every column on the Duo is narrower.
+export const READING_MAX = 640;
 export const SWEEP_BUTTON = { radius: 12, height: 50, labelSize: 16, labelWeight: "600", shadow: false } as const;
 
 // The same, for the engine's "open" reviews pieces (docs/plans/design-sweep.md, reviews):

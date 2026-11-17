@@ -117,6 +117,31 @@ describe("before a photo is chosen", () => {
   });
 });
 
+describe("the preview's size", () => {
+  const { StyleSheet } = require("react-native");
+  afterEach(() => require("@blacksands/ui").__setWide(false));
+
+  it("is at most 480 wide, centred, at 4:5", async () => {
+    require("@blacksands/ui").__setWide(true, { width: 1376, height: 1032 });
+    const view = await render(<ShareFrameScreen />);
+
+    expect(StyleSheet.flatten(view.getByTestId("share-preview").props.style)).toMatchObject({
+      maxWidth: 480,
+      alignSelf: "center",
+      aspectRatio: 4 / 5,
+    });
+  });
+
+  it("a phone is unchanged: full width at 4:5", async () => {
+    const view = await render(<ShareFrameScreen />);
+
+    expect(StyleSheet.flatten(view.getByTestId("share-preview").props.style)).toMatchObject({
+      width: "100%",
+      aspectRatio: 4 / 5,
+    });
+  });
+});
+
 describe("choosing a photo", () => {
   it("opens the library for Gallery", async () => {
     const view = await render(<ShareFrameScreen />);

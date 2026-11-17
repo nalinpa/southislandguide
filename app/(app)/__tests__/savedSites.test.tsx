@@ -11,8 +11,11 @@ jest.mock("@shopify/flash-list", () => {
   const React = require("react");
   const { View } = require("react-native");
   return {
-    FlashList: ({ data, renderItem, keyExtractor, ListHeaderComponent, ListEmptyComponent, numColumns, contentContainerStyle }: any) =>
-      React.createElement(
+    FlashList: ({ data, renderItem, keyExtractor, ListHeaderComponent, ListEmptyComponent, numColumns, contentContainerStyle }: any) => {
+      React.useEffect(() => {
+        (globalThis as any).flashMounts = ((globalThis as any).flashMounts ?? 0) + 1;
+      }, []);
+      return React.createElement(
         View,
         { testID: "saved-list", numColumns, contentContainerStyle },
         ListHeaderComponent,
@@ -21,7 +24,8 @@ jest.mock("@shopify/flash-list", () => {
           : data.map((item: any, index: number) =>
               React.createElement(View, { key: keyExtractor(item) }, renderItem({ item, index })),
             ),
-      ),
+      );
+    },
   };
 });
 jest.mock("react-native-gesture-handler/ReanimatedSwipeable", () => {
@@ -323,6 +327,42 @@ describe("on the open Duo", () => {
     expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/sites/s3");
     await fireEvent.press(view.getAllByText("Remove")[0]);
     expect(mockSavedSites.toggleSavedSite).toHaveBeenCalledWith({ siteId: "s1", isSaving: false });
+  });
+
+  it.each([[669, 951, 2], [951, 669, 2], [820, 1180, 2], [1180, 820, 3], [1376, 1032, 4]])(
+    "columns by width: %i x %i is %i columns",
+    async (width, height, cols) => {
+      wide({ width, height });
+      const view = await render(<SavedSitesPage />);
+      expect(view.getByTestId("saved-list").props.numColumns).toBe(cols);
+    },
+  );
+
+  it("a new column count gives the list a new key, the same count keeps it", async () => {
+    const ui = require("@blacksands/ui");
+    const mounts = () => (globalThis as any).flashMounts ?? 0;
+    (globalThis as any).flashMounts = 0;
+    wide({ width: 1180, height: 820 });
+    const view = await render(<SavedSitesPage />);
+    expect(mounts()).toBe(1);
+    ui.__setWide(true, { width: 1200, height: 820 }); // still 3
+    await view.rerender(<SavedSitesPage />);
+    expect(mounts()).toBe(1);
+    ui.__setWide(true, { width: 1376, height: 1032 }); // 4
+    await view.rerender(<SavedSitesPage />);
+    expect(mounts()).toBe(2);
+    ui.__setWide(true, { width: 669, height: 951 }); // 2, then the same as folded phone (no remount)
+    await view.rerender(<SavedSitesPage />);
+    expect(mounts()).toBe(3);
+    ui.__setWide(false, { width: 390, height: 844 }); // the Duo folding: as today, no new key
+    await view.rerender(<SavedSitesPage />);
+    expect(mounts()).toBe(3);
+  });
+
+  it("a phone is unchanged at 390", async () => {
+    require("@blacksands/ui").__setWide(false, { width: 390, height: 844 });
+    const view = await render(<SavedSitesPage />);
+    expect(view.getByTestId("saved-list").props.numColumns).toBe(1);
   });
 
   it("is one column with the phone's margins on a phone", async () => {

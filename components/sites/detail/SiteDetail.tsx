@@ -10,7 +10,7 @@ import * as Linking from "expo-linking";
 import { ArrowLeft, ExternalLink, Star } from "lucide-react-native";
 
 import { LoadingState, ErrorCard, Stack, AppText, AppButton, ReviewModal, components } from "@/lib/uiKit";
-import { cardLift, darkEdge, lifted, PAGE_SIDES, tokens, SWEEP_COLORS, SWEEP_BUTTON, REVIEW_COLORS } from "@/lib/ui/tokens";
+import { cardLift, darkEdge, lifted, PAGE_SIDES, tokens, SWEEP_COLORS, SWEEP_BUTTON, REVIEW_COLORS, READING_MAX } from "@/lib/ui/tokens";
 import { wideTop } from "@/lib/ui/wideTop";
 import { hooksBag } from "@/lib/hooksBag";
 import { openDirections } from "@/lib/utils/directions";
@@ -111,7 +111,7 @@ export function SiteDetail({ id, pane = false }: { id: string; pane?: boolean })
   // Upright: the photo is a third of the height and the sheet laps it from 300. Sideways:
   // the photo is the left page, full height, and the sheet is the right page.
   const photoHeight = sideways ? height : wide ? height / 3 : HERO_HEIGHT;
-  const spacerHeight = sideways ? 0 : wide ? 300 : HERO_HEIGHT - 32;
+  const spacerHeight = sideways ? 0 : wide ? Math.max(300, Math.round(height / 3) - 17) : HERO_HEIGHT - 32;
   // The right page ends at the rail, which iOS reports as the right safe-area inset.
   const rightPage = sideways ? { left: foldX, right: insets.right } : null;
   // ponytail: the right column is whatever is left of the window, which is 244 on the Duo.
@@ -615,7 +615,7 @@ function splitLocalTip(description: string): [string, string | null] {
 const styles = StyleSheet.create({
   // 16/26 rather than the body variant's 15 with no line height, which left
   // multi-paragraph descriptions cramped at React Native's default spacing.
-  description: { fontSize: 16, lineHeight: 26, color: tokens.colors.text },
+  description: { fontSize: 16, lineHeight: 26, color: tokens.colors.text, maxWidth: READING_MAX },
   // The page's two groups of blocks, spaced as the Stack above them (lg).
   column: { gap: tokens.space.lg },
   addFade: { position: "absolute", top: -36, left: 0, right: 0, height: 36 },

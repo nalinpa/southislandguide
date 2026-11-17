@@ -586,6 +586,29 @@ describe("wide", () => {
     expect(inside("place-left", "Good to know")).toBeNull();
   });
 
+  // The Duo is 951 tall: 317 of photo and a sheet from 300 (17 over it). A taller iPad keeps the 17.
+  it.each([[951, 300], [1180, 376], [1366, 438], [1376, 442]])(
+    "the sheet laps the photo by 17 at any height: %i tall, spacer %i",
+    async (height, spacer) => {
+      ui().__setWide(true, { width: 700, height });
+      await openDetail();
+      expect(style("place-photo").height).toBeCloseTo(height / 3, 0);
+      expect(style("place-spacer").height).toBe(spacer);
+    },
+  );
+
+  it("reading text is at most 640 wide", async () => {
+    ui().__setWide(true, { width: 1376, height: 1032 });
+    await openDetail();
+    expect(StyleSheet.flatten(screen.getByText("Old-growth kahikatea forest in the middle of the city.").props.style).maxWidth).toBe(640);
+  });
+
+  it("a phone is unchanged: spacer 328, photo 360", async () => {
+    await openDetail();
+    expect(style("place-spacer").height).toBe(328);
+    expect(style("place-photo").height).toBe(360);
+  });
+
   it("upright: Add to Trip full width with a 36 pt fade", async () => {
     ui().__setWide(true, { width: 669, height: 951 });
     await openDetail();

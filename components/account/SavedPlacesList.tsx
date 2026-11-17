@@ -89,8 +89,9 @@ export function SavedPlacesList({
   const wide = useWide();
   // In the pane the columns come from the pane's width, not the window's: 400 upright is one
   // column, 519 sideways two.
-  const { upright } = useHalves();
-  const columns = pane ? (upright ? 1 : 2) : wide ? 2 : 1;
+  const { upright, width } = useHalves();
+  // Wide: as many 320 columns as fit, two to four. The Duo (669, 951) is two.
+  const columns = pane ? (upright ? 1 : 2) : wide ? Math.min(4, Math.max(2, Math.floor((width - 32) / 320))) : 1;
   const grid = pane || wide;
 
   const [category, setCategory] = useState<SiteCategory | null>(null);
@@ -168,6 +169,8 @@ export function SavedPlacesList({
             />
           </View>
         )}
+        // A new count remounts the list. 1 and 2 share a key, so the Duo folding doesn't.
+        key={Math.max(columns, 2)}
         numColumns={columns}
         contentContainerStyle={pane ? styles.listContentPane : wide ? styles.listContentWide : styles.listContent}
         showsVerticalScrollIndicator={false}

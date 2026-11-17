@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { ScrollView, StyleSheet, Linking } from "react-native";
 
 import { AppText } from "@/lib/uiKit";
-import { tokens } from "@/lib/ui/tokens";
+import { READING_MAX, tokens } from "@/lib/ui/tokens";
 import type { GuideCategory } from "@/lib/guideContent";
 
 // A web address written in the guide's text ("journeys.nzta.govt.nz"), found by its ending.
@@ -75,9 +75,9 @@ export function GuideArticle({ category, titleTop = 6 }: GuideArticleProps) {
 const styles = StyleSheet.create({
   readingArea: { flex: 1, backgroundColor: tokens.colors.page },
   content: { paddingHorizontal: tokens.space.md, paddingBottom: 40, gap: 16 },
-  title: { fontSize: 26, lineHeight: 31, fontWeight: "700", letterSpacing: -0.4, color: tokens.colors.text, marginBottom: 4 },
+  title: { fontSize: 26, lineHeight: 31, fontWeight: "700", letterSpacing: -0.4, color: tokens.colors.text, marginBottom: 4, maxWidth: READING_MAX },
   // 16/25 to match the place description.
-  paragraph: { fontSize: 16, lineHeight: 25, color: tokens.colors.text },
+  paragraph: { fontSize: 16, lineHeight: 25, color: tokens.colors.text, maxWidth: READING_MAX },
   link: { fontSize: 16, lineHeight: 25, fontWeight: "500", color: tokens.colors.highlight },
   // Space above each subheading (on top of the 16 gap) so sections read as separate
   // blocks, and less under it, so it belongs to the words it heads. Dark, not the
@@ -90,5 +90,6 @@ const styles = StyleSheet.create({
     color: tokens.colors.text,
     marginTop: 20,
     marginBottom: -8,
+    maxWidth: READING_MAX,
   },
 });

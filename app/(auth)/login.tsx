@@ -69,6 +69,8 @@ export default function LoginScreen() {
   const { width, upright, foldX } = useHalves();
   const lake = LAKE_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
   const sideways = wide && !upright;
+  // The right page's width: the Duo's is 360 wide, a tablet's (600 or more) the upright 480.
+  const sidewaysCard = width - foldX >= 600 ? CARD_UPRIGHT : CARD_SIDEWAYS;
 
   useEffect(() => {
     // Guest is not redirected here — see app/(auth)/_layout.tsx for why.
@@ -233,7 +235,7 @@ export default function LoginScreen() {
               style={[
                 styles.panel,
                 wide
-                  ? [styles.card, { width: sideways ? CARD_SIDEWAYS : CARD_UPRIGHT }]
+                  ? [styles.card, { width: sideways ? sidewaysCard : CARD_UPRIGHT }]
                   : { paddingBottom: insets.bottom + tokens.space.md },
               ]}
             >
@@ -259,6 +261,8 @@ const styles = StyleSheet.create({
   brandWide: { paddingVertical: 10, paddingHorizontal: 28, borderRadius: 24, alignSelf: "center" },
   card: {
     alignSelf: "center",
+    // panel's flexGrow: 1 would stretch the card to the full height sideways.
+    flexGrow: 0,
     marginTop: TITLE_GAP,
     borderRadius: 20,
     padding: 24,

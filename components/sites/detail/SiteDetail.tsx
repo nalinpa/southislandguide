@@ -75,6 +75,8 @@ export function SiteDetail({ id, pane = false }: { id: string; pane?: boolean })
   const [reviewOpen, setReviewOpen] = useState(false);
   // Why the last review save failed, shown in the review modal. Cleared on each open.
   const [reviewError, setReviewError] = useState<string | null>(null);
+  // The pane's own size (onLayout), never the window's.
+  const [paneSize, setPaneSize] = useState({ width: 0, height: 0 });
 
   // The opening tour's step on this screen (lib/tour/tourSteps.ts): the add button for
   // someone with the unlock, the heart for someone without.
@@ -110,6 +112,11 @@ export function SiteDetail({ id, pane = false }: { id: string; pane?: boolean })
   const sideways = wide && !upright && !pane;
   const twoColumns = wide && upright && !pane;
   const insets = useSafeAreaInsets();
+  // The pane's photo: the Duo's picked height, or 40% of the pane (to 480) once the pane is a
+  // tablet's, 600 pt wide or more. The Duo's panes (401, 520) never reach that.
+  const paneBase = upright ? 240 : 140;
+  const paneHeight =
+    paneSize.width >= 600 ? Math.min(480, Math.max(paneBase, Math.round(paneSize.height * 0.4))) : paneBase;
   const page = PAGE_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
   // Upright: the photo is a third of the height and the sheet laps it from 300. Sideways:
   // the photo is the left page, full height, and the sheet is the right page.
@@ -270,7 +277,11 @@ export function SiteDetail({ id, pane = false }: { id: string; pane?: boolean })
   );
 
   return (
-    <View testID={pane ? "place-pane" : undefined} style={pane ? styles.pane : styles.container}>
+    <View
+      testID={pane ? "place-pane" : undefined}
+      style={pane ? styles.pane : styles.container}
+      onLayout={pane ? (e) => setPaneSize(e.nativeEvent.layout) : undefined}
+    >
       {pane ? (
         <ScrollView
           testID="place-scroll"
@@ -281,7 +292,7 @@ export function SiteDetail({ id, pane = false }: { id: string; pane?: boolean })
           <View testID="place-pane-photo" style={styles.paneSide}>
             <Hero
               card
-              height={upright ? 240 : 140}
+              height={paneHeight}
               imageUrl={site.imageUrl}
               imageThumbnailUrl={site.imageThumbnailUrl}
               category={site.category[0]}

@@ -418,6 +418,27 @@ describe("wide", () => {
     expect(view.queryByTestId("login-title-shade")).toBeNull();
   });
 
+  it("sideways on an iPad, the card hugs the form and is 480 wide", async () => {
+    ui().__setWide(true, { width: 1376, height: 1032 });
+    const view = await render(<LoginScreen />);
+    const card = flat(view.getByTestId("login-panel"));
+
+    expect(card.width).toBe(480);
+    expect(card.flexGrow ?? 0).toBe(0);
+    expect(card.flex ?? 0).toBe(0);
+    expect(card.minHeight).toBeUndefined();
+    expect(card.height).toBeUndefined();
+    expect(card.alignSelf).not.toBe("stretch");
+  });
+
+  it("sideways on the Duo, the card stays 360 wide", async () => {
+    ui().__setWide(true, { width: 951, height: 669 });
+    const view = await render(<LoginScreen />);
+
+    expect(flat(view.getByTestId("login-panel")).width).toBe(360);
+    expect(flat(view.getByTestId("login-panel")).flexGrow ?? 0).toBe(0);
+  });
+
   it("dark: the card on bgCard with a 1 pt line edge, the photo dimmed", async () => {
     ui().__setWide(true, { width: 669, height: 951 });
     const view = await render(<LoginScreen />);

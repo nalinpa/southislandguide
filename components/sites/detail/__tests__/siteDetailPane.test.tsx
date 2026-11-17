@@ -239,6 +239,30 @@ describe("pane", () => {
     expect(style("place-pane-body").paddingHorizontal).toBe(20);
   });
 
+  const layoutPane = (w: number, h: number) =>
+    fireEvent(screen.getByTestId("place-pane"), "layout", { nativeEvent: { layout: { x: 0, y: 0, width: w, height: h } } });
+
+  it("the pane's photo is 40% of a tall pane", async () => {
+    ui().__setWide(true, { width: 1376, height: 1032 });
+    await openPane(1000);
+    await layoutPane(1000, 1000);
+    expect(style("place-photo").height).toBe(400);
+  });
+
+  it("the pane's photo is capped at 480", async () => {
+    ui().__setWide(true, { width: 1376, height: 1032 });
+    await openPane(1000);
+    await layoutPane(1000, 1400);
+    expect(style("place-photo").height).toBe(480);
+  });
+
+  it("the Duo's pane photo is unchanged", async () => {
+    ui().__setWide(true, { width: 951, height: 669 });
+    await openPane(520);
+    await layoutPane(520, 600);
+    expect(style("place-photo").height).toBe(140);
+  });
+
   it("is one column in the phone's order, never two columns, even upright and wide", async () => {
     ui().__setWide(true, { width: 669, height: 951 });
     await openPane();

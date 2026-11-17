@@ -14,6 +14,13 @@ export function ItinerariesCard() {
   const { itineraries, error, addFlow } = useItineraries();
   const [isCreating, setIsCreating] = useState(false);
 
+  // With no trip, exactly one of three, never together: the trips are loaded and none ("Plan
+  // your trip"; "pick" is one trip, the limit), not known yet (the greyed row; addFlow is null
+  // until they are, and while paused offline), or failed (the error only: an empty list before
+  // they load, or after a failed load, would offer a trip to someone who already has one).
+  const planRow = !!addFlow && addFlow !== "pick";
+  const unknown = !addFlow && !error;
+
   return (
     <>
     <View style={styles.section}>
@@ -22,7 +29,36 @@ export function ItinerariesCard() {
       </View>
 
       {itineraries.length === 0 ? (
-        <Text style={styles.emptyText}>No trip yet.</Text>
+        planRow ? (
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => setIsCreating(true)}
+            activeOpacity={0.6}
+            accessibilityRole="button"
+            accessibilityLabel="Plan your trip"
+          >
+            <View style={styles.tile}>
+              <Plus size={20} color={tokens.colors.selected} strokeWidth={2.25} />
+            </View>
+            <View style={styles.rowContent}>
+              <Text style={styles.rowTitle} numberOfLines={1}>
+                Plan your trip
+              </Text>
+              <Text style={styles.rowDate} numberOfLines={2}>
+                Pick a suggested trip or start your own
+              </Text>
+            </View>
+            <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />
+          </TouchableOpacity>
+        ) : unknown ? (
+          <View style={styles.row} accessible accessibilityLabel="Loading your trip">
+            <View style={[styles.tile, styles.grey]} />
+            <View style={styles.rowContent}>
+              <View style={[styles.bar, styles.grey, { width: "60%" }]} />
+              <View style={[styles.bar, styles.grey, { width: "80%" }]} />
+            </View>
+          </View>
+        ) : null
       ) : (
         <View style={styles.list}>
           {itineraries.map((itinerary, i) => (
@@ -49,16 +85,6 @@ export function ItinerariesCard() {
           {error}
         </AppText>
       )}
-
-      {/* Only with no trip ("pick" is one trip, the limit; owner, 2026-11-11: no limit line
-          and no count). Nothing until the trips are known: an empty list before they load,
-          or after a failed load, showed "New Trip" to someone who already had one. */}
-      {addFlow && addFlow !== "pick" ? (
-        <TouchableOpacity style={styles.createBtn} onPress={() => setIsCreating(true)} activeOpacity={0.6}>
-          <Plus size={15} color={tokens.colors.selected} strokeWidth={2.5} />
-          <Text style={styles.createBtnText}>New Trip</Text>
-        </TouchableOpacity>
-      ) : null}
     </View>
     <CreateItineraryModal
       visible={isCreating}
@@ -79,7 +105,10 @@ const styles = StyleSheet.create({
   // A section's name: small and grey, as written, a step under the rows it heads, with the
   // same gap under it in every group (design sweep, Profile round 3).
   sectionLabel: { fontSize: 13, fontWeight: "600", color: tokens.colors.textMuted },
-  emptyText: { fontSize: 15, color: tokens.colors.textMuted, paddingVertical: 10 },
+  // The empty row is a trip row with a tile on the left, so nothing jumps when a trip arrives.
+  tile: { width: 40, height: 40, borderRadius: 10, alignItems: "center", justifyContent: "center", backgroundColor: tokens.colors.selFill },
+  grey: { backgroundColor: tokens.colors.line },
+  bar: { height: 12, borderRadius: 6, marginVertical: 3 },
   list: {},
   row: { flexDirection: "row", alignItems: "center", paddingVertical: 10, gap: 14 },
   // A hairline between rows in the group, none after the last: a band follows it.
@@ -88,6 +117,4 @@ const styles = StyleSheet.create({
   rowTitle: { fontSize: 16, fontWeight: "500", color: tokens.colors.text },
   rowDate: { fontSize: 14, color: tokens.colors.textMuted },
   errorText: { marginBottom: 12 },
-  createBtn: { flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "flex-start", minHeight: 44 },
-  createBtnText: { fontSize: 15, fontWeight: "600", color: tokens.colors.selected },
 });

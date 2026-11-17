@@ -46,7 +46,12 @@ jest.mock("@/components/map/SitesMapView", () => {
         sites.map((s: any) =>
           React.createElement(
             TouchableOpacity,
-            { key: s.id, onPress: () => onPressSite(s.id), accessibilityRole: "button" },
+            {
+              key: s.id,
+              onPress: () => onPressSite(s.id),
+              accessibilityRole: "button",
+              testID: "pin-" + s.id + "-" + (s.inTrip ? "trip" : "plain"),
+            },
             React.createElement(Text, null, "Marker " + s.name),
           ),
         ),
@@ -395,6 +400,16 @@ describe("category chips", () => {
 
     await fireEvent.press(view.getByRole("button", { name: "My Trip" }));
     expect(markers(view)).toHaveLength(4);
+  });
+
+  it("marks only the trip's places", async () => {
+    mockTrips.itineraries = [{ id: "t1", days: [{ id: "d1", items: [{ siteId: "s1" }, { siteId: "s3" }] }] }];
+    const view = await render(<MapScreen />);
+
+    expect(view.getByTestId("pin-s1-trip")).toBeTruthy();
+    expect(view.getByTestId("pin-s3-trip")).toBeTruthy();
+    expect(view.getByTestId("pin-s2-plain")).toBeTruthy();
+    expect(view.getByTestId("pin-s4-plain")).toBeTruthy();
   });
 
   it("turn My Trip off when the trip loses its last place, so the pins come back", async () => {

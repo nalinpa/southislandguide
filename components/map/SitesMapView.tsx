@@ -33,6 +33,7 @@ export type SiteMapPoint = {
   lng: number;
   category?: SiteCategory;
   completed?: boolean;
+  inTrip?: boolean;
 };
 
 export type SitesMapViewHandle = {
@@ -49,11 +50,39 @@ export type SitesMapViewHandle = {
 // paint before freezing -- regardless of device speed or how fast clusters
 // remount during a pinch-zoom, since each mount settles on its own paint
 // rather than racing a fixed wall-clock timer.
-function useSettleOnPaint() {
+//
+// `look` is whatever changes how the pin is drawn: when it changes the pin is a stale picture,
+// so it goes back to tracking until it has painted again (a place added to the trip while the
+// map is open). Layout doesn't re-fire for a same-size repaint, so the settle is scheduled here.
+function useSettleOnPaint(look?: unknown) {
   const [settled, setSettled] = useState(false);
-  const onLayout = useCallback((_e: LayoutChangeEvent) => {
-    requestAnimationFrame(() => requestAnimationFrame(() => setSettled(true)));
+  const laidOut = useRef(false);
+  const settle = useCallback(() => {
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => setSettled(true));
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
   }, []);
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    setSettled(false);
+    if (laidOut.current) return settle();
+  }, [look, settle]);
+  const onLayout = useCallback(
+    (_e: LayoutChangeEvent) => {
+      laidOut.current = true;
+      settle();
+    },
+    [settle],
+  );
   return { settled, onLayout };
 }
 
@@ -72,7 +101,7 @@ function SiteMapMarker({
   selected: boolean;
   onPress: () => void;
 }) {
-  const { settled, onLayout } = useSettleOnPaint();
+  const { settled, onLayout } = useSettleOnPaint(loc.inTrip);
 
   return (
     <Marker
@@ -83,7 +112,7 @@ function SiteMapMarker({
       zIndex={selected ? 2 : 1}
     >
       <View onLayout={onLayout}>
-        <SiteMarker selected={selected} completed={loc.completed} category={loc.category} />
+        <SiteMarker selected={selected} completed={loc.completed} category={loc.category} inTrip={loc.inTrip} />
       </View>
     </Marker>
   );

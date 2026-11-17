@@ -26,7 +26,8 @@ jest.mock("react-native-maps", () => {
   return {
     __esModule: true,
     default: () => null,
-    Marker: ({ children, onPress }: any) => React.createElement(View, { onPress }, children),
+    Marker: ({ children, onPress, tracksViewChanges }: any) =>
+      React.createElement(View, { onPress, testID: "marker", tracksViewChanges }, children),
     UrlTile: (props: any) => {
       mockUrlTileProps.current = props;
       return null;
@@ -99,6 +100,25 @@ describe("the map", () => {
     );
 
     expect(mockClusterProps.current.children.flat().filter(Boolean)).toHaveLength(2);
+  });
+
+  // A pin is drawn into a picture once painted; a place added to the trip while the map is
+  // open has to be drawn again to take the trip look.
+  it("repaints a pin when it joins the trip", async () => {
+    const props = { initialRegion: region, selectedSiteId: null, mapType: "standard" as const, onPressSite: jest.fn() };
+    const view = await render(<SitesMapView {...props} sites={sites} />);
+    const tracking = () => view.getAllByTestId("marker")[0].props.tracksViewChanges;
+    expect(tracking()).toBe(true);
+
+    // Painted: the pin settles into its picture.
+    await act(async () => {
+      view.getAllByTestId("marker")[0].props.children.props.onLayout({});
+      await new Promise((r) => setTimeout(r, 100));
+    });
+    expect(tracking()).toBe(false);
+
+    await view.rerender(<SitesMapView {...props} sites={[{ ...sites[0], inTrip: true }, sites[1]]} />);
+    expect(tracking()).toBe(true);
   });
 
   it("passes the region and map type straight through", async () => {

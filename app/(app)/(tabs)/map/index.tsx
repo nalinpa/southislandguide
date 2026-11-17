@@ -193,8 +193,9 @@ export default function MapScreen() {
         lat: s.lat,
         lng: s.lng,
         category: s.category[0],
+        inTrip: tripSiteIds.has(s.id),
       }));
-  }, [visibleSites, debouncedSearchQuery, passesFilter]);
+  }, [visibleSites, debouncedSearchQuery, passesFilter, tripSiteIds]);
 
   useEffect(() => {
     if (debouncedSearchQuery.trim() && mapSites.length === 1) {

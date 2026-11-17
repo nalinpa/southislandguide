@@ -4,6 +4,13 @@
 // category id (rotorua-guide keyed it by label once, and renamed categories fell back to
 // `other` silently), and has its own nine ids.
 
+// The shared lucide mock draws nothing; here an icon shows its colour so it can be read.
+jest.mock("lucide-react-native", () => {
+  const React = require("react");
+  const { View } = require("react-native");
+  return new Proxy({}, { get: () => ({ color }: any) => React.createElement(View, { iconColor: color }) });
+});
+
 import React from "react";
 import { render } from "@testing-library/react-native";
 
@@ -48,6 +55,23 @@ it("enlarges the selected pin", async () => {
 
   expect(plain).not.toContain('"scale":1.15');
   expect(selected).toContain('"scale":1.15');
+});
+
+it("a trip place is filled in its category colour with a white icon", async () => {
+  const plain = JSON.parse(await drawn(<SiteMarker selected={false} category="Food" />));
+  const trip = JSON.parse(await drawn(<SiteMarker selected={false} inTrip category="Food" />));
+  const flat = (n: any) => Object.assign({}, ...[n.props.style].flat(Infinity).filter(Boolean));
+
+  const circle = trip.children[0];
+  expect(flat(circle).backgroundColor).toBe(CATEGORY_CONFIG.Food.color);
+  expect(JSON.stringify(circle.children)).toContain('"iconColor":"#FFFFFF"');
+  // Other pins stay white with a coloured icon.
+  expect(flat(plain.children[0]).backgroundColor).toBe("#FFFFFF");
+  expect(JSON.stringify(plain.children[0].children)).toContain(`"iconColor":"${CATEGORY_CONFIG.Food.color}"`);
+});
+
+it("a selected trip place still grows 1.15", async () => {
+  expect(await drawn(<SiteMarker selected inTrip category="Food" />)).toContain('"scale":1.15');
 });
 
 it("adds a badge only to a completed pin", async () => {

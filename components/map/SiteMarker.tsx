@@ -54,17 +54,22 @@ export const SiteMarker = React.memo(function SiteMarker({
   selected,
   completed = false,
   category = "other",
+  inTrip = false,
 }: {
   selected: boolean;
   completed?: boolean;
   category?: SiteCategory | "other";
+  // A place in one of the trips: filled in its colour with a white icon, so it stands out.
+  inTrip?: boolean;
 }) {
   const { Icon, color } = CATEGORY_CONFIG[category] ?? CATEGORY_CONFIG.other;
 
   return (
     <View style={styles.container}>
-      <View style={[styles.circle, { borderColor: color }, selected && styles.selected]}>
-        <Icon size={17} color={color} strokeWidth={2} />
+      <View
+        style={[styles.circle, { borderColor: color }, inTrip && { backgroundColor: color }, selected && styles.selected]}
+      >
+        <Icon size={17} color={inTrip ? "#FFFFFF" : color} strokeWidth={2} />
       </View>
       {completed && (
         <View style={styles.badge}>

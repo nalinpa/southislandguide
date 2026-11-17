@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Bookmark, BookOpen, ChevronDown, Search, X } from "lucide-react-native";
+import { Bookmark, BookOpen, Search, X } from "lucide-react-native";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { tokens } from "@/lib/ui/tokens";
 import { useTourTarget } from "@/lib/tour/useTourTarget";
 import { wideTop } from "@/lib/ui/wideTop";
+import { TownTitle } from "@/components/sites/ExploreHead";
 
 /** The band's width on the open Duo; the tour card is placed beside it. */
 export const EXPLORE_SIDE = 200;
-const TOWN_MAX = 26;
-const TOWN_MIN = 18;
-// A name with a slash is broken after it and runs wide, so it never goes below 20 (owner).
-const TOWN_MIN_SLASH = 20;
 
 type ExploreSideProps = {
   town: string;
@@ -42,64 +38,15 @@ export function ExploreSide({
   selected,
   onSelect,
 }: ExploreSideProps) {
-  const townTarget = useTourTarget("town");
   const guideTarget = useTourTarget("guide");
   const browseTarget = useTourTarget("browse");
   const insets = useSafeAreaInsets();
   const ink = tokens.colors.townInk;
 
-  // iOS splits a single long word across two lines rather than shrink it, because two broken
-  // lines "fit". So measure the lines and step the size down, 1 pt at a time, until the name
-  // is whole words on at most two lines with the chevron on the last of them.
-  const [size, setSize] = useState(TOWN_MAX);
-  useEffect(() => setSize(TOWN_MAX), [town]);
-  const onTextLayout = (e: { nativeEvent: { lines: { text: string }[] } }) => {
-    const lines = e.nativeEvent.lines.map((l) => l.text.replace(/￼/g, "").trim());
-    const whole = lines.join(" ") === town.trim() && lines.every(Boolean);
-    if ((!whole || lines.length > 2) && size > (town.includes(" / ") ? TOWN_MIN_SLASH : TOWN_MIN)) setSize(size - 1);
-  };
-
-  // The chevron is a child of the name's own Text, so it follows the last word as the
-  // name wraps or shrinks.
-  // A name with a slash ("Aoraki / Mount Cook") breaks after it, and may run to 8 from the
-  // strip's edge instead of 20.
-  const name = (
-    // No numberOfLines: iOS cuts a name that won't fit with "…" and draws the inline chevron
-    // over its first letter (owner, 2026-11-16). The step-down above is the only limit, so
-    // the chevron always follows the last word.
-    <Text
-      onTextLayout={onTextLayout}
-      style={[styles.town, { fontSize: size }, town.includes(" / ") && styles.townSlash]}
-      accessibilityRole={onPickTown ? undefined : "header"}
-    >
-      {town.replace(" / ", " /\n")}
-      {onPickTown ? (
-        <View testID="town-chevron" style={styles.chevron}>
-          <ChevronDown size={22} color={ink} strokeWidth={2.5} />
-        </View>
-      ) : null}
-    </Text>
-  );
-
   return (
     // The status bar's inset above, as the phone's bar takes it; the band runs up under the clock.
     <View testID="explore-side" style={[styles.side, { paddingTop: wideTop(insets.top, 16 + insets.top) }]}>
-      {onPickTown ? (
-        <TouchableOpacity
-          {...townTarget}
-          activeOpacity={0.7}
-          onPress={onPickTown}
-          accessibilityRole="button"
-          accessibilityLabel={`${town}, choose a town`}
-          
-        >
-          {name}
-        </TouchableOpacity>
-      ) : (
-        <View {...townTarget}>
-          {name}
-        </View>
-      )}
+      <TownTitle town={town} onPickTown={onPickTown} />
 
       <View style={styles.icons}>
         <View {...guideTarget} style={styles.icon}>
@@ -146,9 +93,6 @@ export function ExploreSide({
 
 const styles = StyleSheet.create({
   side: { width: EXPLORE_SIDE, backgroundColor: tokens.colors.band, paddingHorizontal: 20, paddingTop: 16 },
-  town: { fontSize: 26, fontWeight: "800", color: tokens.colors.townInk, flexShrink: 1 },
-  townSlash: { marginRight: -12 },
-  chevron: { marginLeft: 2, marginBottom: -3 },
   // The first icon's edge on the town's: the glyph is centred in a 44 tap, so 11 sits out.
   icons: { flexDirection: "row", gap: 4, marginTop: 8, marginLeft: -11 },
   icon: {},

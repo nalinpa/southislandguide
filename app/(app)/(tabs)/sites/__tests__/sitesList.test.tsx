@@ -21,11 +21,14 @@ jest.mock("@blacksands/hooks", () => ({
 // was handed, in order, and pass taps back.
 // How many times the list has mounted: folding must not remount it.
 let mockListMounts = 0;
+// What the screen last handed the list: compact rows and the chosen id on the open Duo.
+let mockListProps: any = {};
 jest.mock("@/components/sites/list/ListView", () => {
   const React = require("react");
   const { Text, TouchableOpacity, View } = require("react-native");
   return {
-    ListView: ({ rows, header, onPressItem, ListEmptyComponent, firstRowTarget }: any) => {
+    ListView: ({ rows, header, onPressItem, ListEmptyComponent, firstRowTarget, compact, selectedId }: any) => {
+      mockListProps = { compact, selectedId };
       React.useEffect(() => {
         mockListMounts += 1;
       }, []);
@@ -43,7 +46,11 @@ jest.mock("@/components/sites/list/ListView", () => {
                 { key: r.location.id, ...(i === 0 ? firstRowTarget : null) },
                 React.createElement(
                   TouchableOpacity,
-                  { onPress: () => onPressItem(r.location.id), accessibilityRole: "button" },
+                  {
+                    onPress: () => onPressItem(r.location.id),
+                    accessibilityRole: "button",
+                    ...(compact && r.location.id === selectedId ? { testID: "chosen-row" } : null),
+                  },
                   React.createElement(Text, null, "Row " + r.location.name),
                 ),
               ),
@@ -52,6 +59,13 @@ jest.mock("@/components/sites/list/ListView", () => {
     },
   };
 });
+
+// The place beside the list: its own tests cover what it shows; here it only has to say which
+// place it was handed and whether as a pane.
+jest.mock("@/components/sites/detail/SiteDetail", () => ({
+  SiteDetail: ({ id, pane }: any) =>
+    require("react").createElement(require("react-native").Text, { testID: "pane-place" }, `Place ${id}${pane ? " pane" : ""}`),
+}));
 
 // The light status bar, as a marker: wide Explore has no teal top, so it mustn't mount.
 jest.mock("@/components/layout/LightStatusBar", () => ({
@@ -119,7 +133,7 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { Linking } from "react-native";
+import { Linking, StyleSheet } from "react-native";
 import { fireEvent, render, within } from "@testing-library/react-native";
 
 import SiteListPage from "@/app/(app)/(tabs)/sites/index";
@@ -159,6 +173,7 @@ beforeEach(() => {
   jest.clearAllMocks();
   mockInsetTop = 0;
   mockListMounts = 0;
+  mockListProps = {};
   mockSession.status = "authed";
   mockSession.uid = "uid-1";
   mockBag.locations = [
@@ -940,120 +955,233 @@ describe("the tour", () => {
   });
 });
 
+// The open Duo (docs/plans/duo-131.md, "Explore with the place"): the list of compact rows on
+// the left under the town's head, the chosen place beside it.
 describe("wide (the open Duo)", () => {
   const wide = (size?: { width: number; height: number }) => require("@blacksands/ui").__setWide(true, size);
+  const UPRIGHT = { width: 669, height: 951 };
+  const SIDEWAYS = { width: 951, height: 669 };
+  const pane = (view: any) => view.queryByTestId("pane-place");
+  const paneText = (view: any): string | undefined => pane(view)?.props.children;
+  const order = (view: any, ...needles: string[]) => {
+    const shown = JSON.stringify(view.toJSON());
+    return needles.map((n) => shown.indexOf(n));
+  };
 
-  it("has no teal bar: the side band holds the town, the three buttons and the categories", async () => {
-    wide({ width: 669, height: 951 });
-    const view = await render(<SiteListPage />);
-
-    const side = view.getByTestId("explore-side");
-    expect(within(side).getByText("Christchurch")).toBeTruthy();
-    expect(within(side).getByLabelText("Travel guide")).toBeTruthy();
-    expect(within(side).getByLabelText("Search places")).toBeTruthy();
-    expect(within(side).getByLabelText("Saved places")).toBeTruthy();
-    expect(within(side).getByText("Food & Drink")).toBeTruthy();
-    expect(side).toHaveStyle({ width: 200, backgroundColor: tokens.colors.band });
-    expect(view.queryByTestId("light-status-bar")).toBeNull();
-    expect(within(side).getAllByRole("tab")).toHaveLength(4);
-  });
-
-  it("selects a category from the side and filters the list", async () => {
-    wide();
-    const view = await render(<SiteListPage />);
-
-    await fireEvent.press(within(view.getByTestId("explore-side")).getByText("Food & Drink"));
-
-    expect(rowNames(view)).toEqual(["Riverside Market"]);
-    expect(within(view.getByTestId("explore-side")).getByText("Food & Drink")).toHaveStyle({
-      color: tokens.colors.selected,
+  it("is list 268 and place 401 upright, 347 and 520 sideways, with a hairline between", async () => {
+    wide(UPRIGHT);
+    const upright = await render(<SiteListPage />);
+    // The window is 669 wide, so the place's flex takes the 401 left of the list.
+    expect(upright.getByTestId("explore-places")).toHaveStyle({ width: 268, backgroundColor: tokens.colors.band });
+    expect(upright.getByTestId("explore-pane")).toHaveStyle({
+      flex: 1,
+      backgroundColor: tokens.colors.page,
+      borderLeftWidth: StyleSheet.hairlineWidth,
+      borderLeftColor: tokens.colors.line,
     });
+    await upright.unmount();
+
+    wide(SIDEWAYS);
+    const sideways = await render(<SiteListPage />);
+    // The content is 867 beside the rail: 867 less 347 is the place's 520.
+    expect(sideways.getByTestId("explore-places")).toHaveStyle({ width: 347 });
+    expect(sideways.getByTestId("explore-pane")).toHaveStyle({ flex: 1 });
   });
 
-  it("opens the search over the first card, with the phone's field and words", async () => {
-    wide();
+  it("is the town, then the pill and the three icons, with no teal bar", async () => {
+    wide(UPRIGHT);
+    const view = await render(<SiteListPage />);
+
+    const head = within(view.getByTestId("explore-head"));
+    expect(head.getByText("Christchurch")).toBeTruthy();
+    expect(head.getByLabelText("All, choose a category")).toBeTruthy();
+    for (const l of ["Travel guide", "Search places", "Saved places"]) expect(head.getByLabelText(l)).toBeTruthy();
+    expect(view.queryByTestId("light-status-bar")).toBeNull();
+    expect(view.queryAllByRole("tab")).toHaveLength(0);
+  });
+
+  it("registers the tour targets town, guide, browse and place once each", async () => {
+    wide(UPRIGHT);
+    const view = await render(<SiteListPage />);
+
+    for (const id of ["town", "guide", "browse", "place"]) expect(view.getAllByTestId("tour-target-" + id)).toHaveLength(1);
+    expect(within(view.getByTestId("tour-target-town")).getByText("Christchurch")).toBeTruthy();
+    expect(within(view.getByTestId("tour-target-guide")).getByLabelText("Travel guide")).toBeTruthy();
+    expect(within(view.getByTestId("tour-target-browse")).getByLabelText("All, choose a category")).toBeTruthy();
+    expect(within(view.getByTestId("tour-target-place")).getByText("Row Sumner Beach")).toBeTruthy();
+  });
+
+  it("has no pill when the town has one category", async () => {
+    mockBag.locations = [makeSite("s1", "A", ["Food"]), makeSite("s2", "B", ["Food"])];
+    wide(UPRIGHT);
+    const view = await render(<SiteListPage />);
+
+    expect(view.queryByLabelText(/choose a category/)).toBeNull();
+  });
+
+  it("hands the list compact rows, and chooses the first on open and shows it in the pane", async () => {
+    wide(UPRIGHT);
+    const view = await render(<SiteListPage />);
+
+    expect(mockListProps).toEqual({ compact: true, selectedId: "s1" });
+    expect(paneText(view)).toBe("Place s1 pane");
+  });
+
+  // The featured place leads the rows on a wide screen, so it is the one chosen first.
+  it("chooses the featured place on open", async () => {
+    mockBag.locations[2] = { ...mockBag.locations[2], featured: 5 };
+    wide(UPRIGHT);
+    const view = await render(<SiteListPage />);
+
+    expect(rowNames(view)[0]).toBe("Riverside Market");
+    expect(paneText(view)).toBe("Place s3 pane");
+    expect(within(view.getByTestId("tour-target-place")).getByText("Row Riverside Market")).toBeTruthy();
+    expect(mockStepRoutes.place).toBe("/(app)/(tabs)/sites/s3");
+    expect(view.queryByTestId("featured-card")).toBeNull();
+  });
+
+  it("shows a tapped row in the pane and does not navigate", async () => {
+    wide(UPRIGHT);
+    const view = await render(<SiteListPage />);
+
+    await fireEvent.press(view.getByText("Row Riccarton Bush"));
+
+    expect(paneText(view)).toBe("Place s2 pane");
+    expect(mockListProps.selectedId).toBe("s2");
+    expect(within(view.getByTestId("chosen-row")).getByText("Row Riccarton Bush")).toBeTruthy();
+    expect(mockRouter.push).not.toHaveBeenCalled();
+  });
+
+  it("shows the first row when the chosen place leaves the rows, and nothing with no rows", async () => {
+    wide(UPRIGHT);
+    const view = await render(<SiteListPage />);
+    await fireEvent.press(view.getByText("Row Riccarton Bush"));
+    await fireEvent.press(view.getByLabelText("Search places"));
+
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "port");
+    expect(paneText(view)).toBe("Place s4 pane");
+
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "zzz");
+    expect(pane(view)).toBeNull();
+    expect(view.getByText("No places in Christchurch match your search.")).toBeTruthy();
+  });
+
+  it("remembers the chosen place when it comes back to the rows", async () => {
+    wide(UPRIGHT);
+    const view = await render(<SiteListPage />);
+    await fireEvent.press(view.getByText("Row Riccarton Bush"));
+    await fireEvent.press(view.getByLabelText("Search places"));
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "port");
+
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "");
+
+    expect(paneText(view)).toBe("Place s2 pane");
+  });
+
+  it("opens the search under the head, over the rows", async () => {
+    wide(UPRIGHT);
     const view = await render(<SiteListPage />);
 
     await fireEvent.press(view.getByLabelText("Search places"));
     await fireEvent.changeText(view.getByPlaceholderText("Search places"), "riv");
 
+    const [head, field, firstRow] = order(view, "explore-head", "Search places", "Row Riverside Market");
     expect(within(view.getByTestId("explore-places")).getByPlaceholderText("Search places")).toBeTruthy();
+    expect(head).toBeLessThan(field);
+    expect(field).toBeLessThan(firstRow);
     expect(rowNames(view)).toEqual(["Riverside Market"]);
   });
 
-  // The featured place is not the first in sort order here: it still leads, so the row
-  // the tour points at is the place it opens.
-  it("shows the featured place as an ordinary card, first, and the tour's place target is that row", async () => {
-    mockBag.locations[2] = { ...mockBag.locations[2], featured: 5 };
-    wide();
+  it("keeps the guest banner and the location notice at the top of the list", async () => {
+    mockSession.status = "guest";
+    mockSession.uid = undefined;
+    mockBag.locStatus = "denied";
+    wide(UPRIGHT);
     const view = await render(<SiteListPage />);
 
-    expect(view.queryByTestId("featured-card")).toBeNull();
-    expect(rowNames(view)).toEqual(["Riverside Market", "Sumner Beach", "Riccarton Bush", "Port Hills Walk"]);
-    expect(within(view.getByTestId("tour-target-place")).getByText("Row Riverside Market")).toBeTruthy();
-    expect(mockStepRoutes.place).toBe("/(app)/(tabs)/sites/s3");
+    const header = within(view.getByTestId("list-header"));
+    expect(header.getByText("Sign In for More")).toBeTruthy();
+    expect(header.getByText("Location Disabled")).toBeTruthy();
+    expect(header.queryByTestId("featured-card")).toBeNull();
   });
 
-  it("keeps the list mounted across the fold, and the search field with it", async () => {
-    wide();
+  it("opens the guide, and Saved places, from the head", async () => {
+    wide(UPRIGHT);
     const view = await render(<SiteListPage />);
-    await fireEvent.press(view.getByLabelText("Search places"));
+
+    await fireEvent.press(view.getByLabelText("Travel guide"));
+    expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/(app)/(tabs)/guide", params: { region: "canterbury" } });
+    await fireEvent.press(view.getByLabelText("Saved places"));
+    expect(mockRouter.push).toHaveBeenCalledWith("/(app)/saved-sites");
+  });
+
+  it("keeps state across the breakpoint: fold keeps the list and the chosen id, unfold shows it again", async () => {
+    wide(UPRIGHT);
+    const view = await render(<SiteListPage />);
+    await fireEvent.press(view.getByText("Row Riccarton Bush"));
     expect(mockListMounts).toBe(1);
 
     require("@blacksands/ui").__setWide(false);
     await view.rerender(<SiteListPage />);
-    require("@blacksands/ui").__setWide(true);
+    expect(pane(view)).toBeNull();
+    expect(mockListProps.compact).toBeFalsy();
+    expect(mockRouter.push).not.toHaveBeenCalled();
+
+    wide(UPRIGHT);
     await view.rerender(<SiteListPage />);
 
+    expect(paneText(view)).toBe("Place s2 pane");
     expect(mockListMounts).toBe(1);
   });
 
-  it("clears the status bar's inset on both the side band and the places", async () => {
-    mockInsetTop = 47;
-    wide();
+  it("keeps the search field with the list across the fold", async () => {
+    wide(UPRIGHT);
     const view = await render(<SiteListPage />);
+    await fireEvent.press(view.getByLabelText("Search places"));
 
-    expect(view.getByTestId("explore-side")).toHaveStyle({ paddingTop: 16 + 47 });
-    expect(view.getByTestId("explore-places")).toHaveStyle({ paddingTop: 47 });
+    require("@blacksands/ui").__setWide(false);
+    await view.rerender(<SiteListPage />);
+
+    expect(view.getByPlaceholderText("Search places")).toBeTruthy();
+    expect(mockListMounts).toBe(1);
   });
 
-  it("sideways, with no inset, starts the band and the places 32 from the top", async () => {
+  it("starts the head at the status bar's inset plus 16, and the place's photo 8 under that", async () => {
+    mockInsetTop = 37;
+    wide(UPRIGHT);
+    const view = await render(<SiteListPage />);
+
+    expect(view.getByTestId("explore-head")).toHaveStyle({ paddingTop: 53 });
+    expect(view.getByTestId("explore-pane")).toHaveStyle({ paddingTop: 61 });
+  });
+
+  it("sideways, with no inset, starts the head 32 from the top and the place 40", async () => {
     mockInsetTop = 0;
-    wide();
+    wide(SIDEWAYS);
     const view = await render(<SiteListPage />);
 
-    expect(view.getByTestId("explore-side")).toHaveStyle({ paddingTop: 32 });
-    expect(view.getByTestId("explore-places")).toHaveStyle({ paddingTop: 16 }); // + the list's own 16
+    expect(view.getByTestId("explore-head")).toHaveStyle({ paddingTop: 32 });
+    expect(view.getByTestId("explore-pane")).toHaveStyle({ paddingTop: 40 });
   });
 
-  it("keeps the light status bar on a phone", async () => {
-    const view = await render(<SiteListPage />);
+  it("keeps the light status bar and the plain list on a phone, and no light bar on the Duo", async () => {
+    const phone = await render(<SiteListPage />);
+    expect(phone.getByTestId("light-status-bar")).toBeTruthy();
+    expect(pane(phone)).toBeNull();
+    expect(mockListProps.compact).toBeFalsy();
+    await phone.unmount();
 
-    expect(view.getByTestId("light-status-bar")).toBeTruthy();
+    wide(UPRIGHT);
+    const duo = await render(<SiteListPage />);
+    expect(duo.queryByTestId("light-status-bar")).toBeNull();
   });
 
-  it("keeps the dark status bar, not the light one", async () => {
-    wide();
-    const view = await render(<SiteListPage />);
-
-    expect(view.queryByTestId("light-status-bar")).toBeNull();
-  });
-
-  it("registers the tour targets town, guide, browse and place", async () => {
-    wide();
-    const view = await render(<SiteListPage />);
-
-    expect(within(view.getByTestId("tour-target-town")).getByText("Christchurch")).toBeTruthy();
-    expect(within(view.getByTestId("tour-target-guide")).getByLabelText("Travel guide")).toBeTruthy();
-    expect(within(view.getByTestId("tour-target-browse")).getByText("Food & Drink")).toBeTruthy();
-    expect(within(view.getByTestId("tour-target-place")).getByText("Row Sumner Beach")).toBeTruthy();
-  });
   // Last in the describe: the town it shows is picked by the places' area.
-  it("shows Aoraki / Mount Cook as Mt Cook in the strip on the Duo", async () => {
+  it("shows Aoraki / Mount Cook as Mt Cook in the head on the Duo", async () => {
     mockBag.locations = [makeSite("m1", "Hooker Valley", ["Walks"], { area: "aoraki-mount-cook", region: "aoraki-mackenzie" })];
-    wide();
+    wide(UPRIGHT);
     const view = await render(<SiteListPage />);
-    expect(within(view.getByTestId("explore-side")).getByText("Mt Cook")).toBeTruthy();
+    expect(within(view.getByTestId("explore-head")).getByText("Mt Cook")).toBeTruthy();
     expect(view.queryByText(/Aoraki/)).toBeNull();
   });
 

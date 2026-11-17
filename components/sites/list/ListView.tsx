@@ -5,6 +5,7 @@ import { useHalves, useWide } from "@blacksands/ui";
 import { FlashList, type FlashListRef } from "@shopify/flash-list";
 
 import { ListItem } from "@/components/sites/list/ListItem";
+import { PlaceRow } from "@/components/sites/list/PlaceRow";
 import { tokens } from "@/lib/ui/tokens";
 import type { SortedRow } from "@blacksands/hooks";
 import type { SiteCategory } from "@/lib/models";
@@ -34,9 +35,13 @@ type ListViewProps = {
   /** Jumps to the top when it turns true: the tour points at the first place, which a
    *  scrolled list has moved off the screen (owner, 2026-11-13). */
   atTop?: boolean;
+  /** Explore beside the place on the open Duo: compact rows, one column, no gap between. */
+  compact?: boolean;
+  /** The compact row that is chosen. */
+  selectedId?: string;
 };
 
-export function ListView({ rows, header, onPressItem, ListEmptyComponent, refreshControl, firstRowTarget, atTop }: ListViewProps) {
+export function ListView({ rows, header, onPressItem, ListEmptyComponent, refreshControl, firstRowTarget, atTop, compact, selectedId }: ListViewProps) {
   const list = useRef<FlashListRef<ListRow>>(null);
   useEffect(() => {
     if (atTop) list.current?.scrollToOffset({ offset: 0, animated: false });
@@ -45,11 +50,22 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
   // The open Duo: one column upright, two sideways with a 24 gutter, 20 on the sides.
   const wide = useWide();
   const { upright } = useHalves();
-  const columns = wide && !upright ? 2 : 1;
+  const columns = !compact && wide && !upright ? 2 : 1;
 
   const renderItem = useCallback(
     ({ item, index }: { item: ListRow; index: number }) => {
-      const row = (
+      const row = compact ? (
+        <PlaceRow
+          id={item.location.id}
+          name={item.location.name}
+          // The thumbnail: the row's photo is 48 square.
+          imageUrl={item.location.imageThumbnailUrl ?? item.location.imageUrl}
+          category={item.location.category[0]}
+          distanceMeters={item.distanceMeters}
+          selected={item.location.id === selectedId}
+          onPress={onPressItem}
+        />
+      ) : (
         <ListItem
           id={item.location.id}
           name={item.location.name}
@@ -67,7 +83,7 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
       const target = index === 0 && firstRowTarget ? <View {...firstRowTarget}>{row}</View> : row;
       return columns === 2 ? <View testID="list-gutter" style={styles.gutter}>{target}</View> : target;
     },
-    [onPressItem, firstRowTarget, wide, columns],
+    [onPressItem, firstRowTarget, wide, columns, compact, selectedId],
   );
 
   return (
@@ -76,12 +92,13 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
       data={rows}
       keyExtractor={(item) => item.location.id}
       renderItem={renderItem}
-      ItemSeparatorComponent={ItemSeparator}
+      ItemSeparatorComponent={compact ? undefined : ItemSeparator}
+      extraData={selectedId}
       ListHeaderComponent={header ?? null}
       ListEmptyComponent={ListEmptyComponent ?? null}
       refreshControl={refreshControl}
       numColumns={columns}
-      contentContainerStyle={wide ? (columns === 2 ? styles.contentTwo : styles.contentOne) : styles.listContent}
+      contentContainerStyle={compact ? styles.contentCompact : wide ? (columns === 2 ? styles.contentTwo : styles.contentOne) : styles.listContent}
       showsVerticalScrollIndicator={false}
     />
   );
@@ -97,6 +114,8 @@ const styles = StyleSheet.create({
   gutter: { paddingHorizontal: 12 },
   contentOne: { paddingHorizontal: 20, paddingTop: tokens.space.md, paddingBottom: 100 },
   contentTwo: { paddingHorizontal: 8, paddingTop: tokens.space.md, paddingBottom: 100 },
+  // 8 each side: the chosen row's fill starts there, 12 into the 20 margin.
+  contentCompact: { paddingHorizontal: 8, paddingTop: 0, paddingBottom: 100 },
   separator: { height: 24 },
   separatorWide: { height: 32 },
 });

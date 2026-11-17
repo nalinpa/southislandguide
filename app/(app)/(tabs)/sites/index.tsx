@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { View, StyleSheet, TextInput, Linking, Pressable, RefreshControl } from "react-native";
-import { useWide } from "@blacksands/ui";
+import { View, StyleSheet, TextInput, Linking, Pressable, RefreshControl, useColorScheme } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useHalves, useWide } from "@blacksands/ui";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 import { Bookmark, BookOpen, ChevronRight, Search, X } from "lucide-react-native";
@@ -14,7 +15,8 @@ import { hooksBag, useRefreshLocations } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { ListView } from "@/components/sites/list/ListView";
 import { AreaSheet, type AreaOption } from "@/components/sites/AreaSheet";
-import { ExploreSide } from "@/components/sites/ExploreSide";
+import { ExploreHead, EXPLORE_LIST } from "@/components/sites/ExploreHead";
+import { SiteDetail } from "@/components/sites/detail/SiteDetail";
 import { FeaturedCard } from "@/components/sites/FeaturedCard";
 import { nearestArea } from "@/components/map/MapRegion";
 import { AREAS, AREA_GUIDE_REGIONS, AREA_REGIONS, DEFAULT_AREA, areaName, areaShortName } from "@/lib/areas";
@@ -36,6 +38,8 @@ import { useTourStepRoute } from "@/lib/tour/useTourStepRoute";
 
 export default function SiteListPage() {
   const wide = useWide();
+  const { upright } = useHalves();
+  const dark = useColorScheme() === "dark";
   const insets = useSafeAreaInsets();
   const { session } = useSession();
   const isGuest = session.status === "guest";
@@ -66,6 +70,8 @@ export default function SiteListPage() {
   const [category, setCategory] = useState<SiteCategory | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  // The place beside the list on the open Duo, kept while the screen is folded.
+  const [selectedId, setSelectedId] = useState<string | undefined>();
 
   const activeLocations = useMemo(() => locations.filter((l) => l.active !== false), [locations]);
 
@@ -169,6 +175,10 @@ export default function SiteListPage() {
     const rest = rows.filter((r) => r.location.id !== featured.location.id);
     return wide ? [featured, ...rest] : rest;
   }, [rows, featured, wide]);
+
+  // The place beside the list: the one chosen if it is still in the rows, else the first (the
+  // featured place on open). With no rows, none.
+  const shownId = listRows.some((r) => r.location.id === selectedId) ? selectedId : listRows[0]?.location.id;
 
   // The opening tour's steps on this screen (lib/tour/tourSteps.ts), and the place its
   // next steps open: the featured one, or else the first one listed.
@@ -321,7 +331,7 @@ export default function SiteListPage() {
           />
         </View>
       )}
-      <Stack gap="md" style={styles.headerStack}>
+      <Stack gap="md" style={[styles.headerStack, wide && styles.headerStackWide]}>
         {locStatus === "denied" && (
           <ErrorCard
             status="warning"
@@ -389,39 +399,56 @@ export default function SiteListPage() {
       {wide ? null : topBar}
       {wide ? null : categoryTabs}
       <View style={styles.row}>
-        {wide ? (
-          <ExploreSide
-            town={areaShortName(area) ?? areaLabel ?? "Places"}
-            onPickTown={areaOptions.length > 1 ? () => setAreaMenuOpen(true) : undefined}
-            onGuide={() =>
-              router.push(
-                guideRegion ? { pathname: "/(app)/(tabs)/guide", params: { region: guideRegion } } : "/(app)/(tabs)/guide",
-              )
-            }
-            onSearch={toggleSearch}
-            onSaved={() => router.push("/(app)/saved-sites")}
-            searchOpen={searchOpen}
-            categories={[
-              { key: null, label: "All" },
-              ...categoriesWithPlaces.map((c) => ({ key: c as string, label: SITE_CATEGORY_LABELS[c] })),
-            ]}
-            selected={activeCategory}
-            onSelect={(k) => setCategory(k as SiteCategory | null)}
-          />
-        ) : null}
-        <View testID="explore-places" style={[styles.places, wide && { paddingTop: wideTop(insets.top, insets.top + 16) - 16 }]}>
-          {/* Where the phone's bar would hold it: over the first card. */}
+        <View
+          testID="explore-places"
+          style={[styles.places, wide && { flex: 0, width: upright ? EXPLORE_LIST.upright : EXPLORE_LIST.sideways, backgroundColor: tokens.colors.band }]}
+        >
+          {wide ? (
+            <ExploreHead
+              town={areaShortName(area) ?? areaLabel ?? "Places"}
+              onPickTown={areaOptions.length > 1 ? () => setAreaMenuOpen(true) : undefined}
+              onGuide={() =>
+                router.push(
+                  guideRegion ? { pathname: "/(app)/(tabs)/guide", params: { region: guideRegion } } : "/(app)/(tabs)/guide",
+                )
+              }
+              onSearch={toggleSearch}
+              onSaved={() => router.push("/(app)/saved-sites")}
+              searchOpen={searchOpen}
+              category={activeCategory}
+              // The pop-up comes next; the pill is only there when there is a category to pick.
+              onOpenCategories={categoriesWithPlaces.length > 1 ? () => {} : undefined}
+            />
+          ) : null}
+          {/* Under the head, over the first row. */}
           {wide && searchOpen ? <View style={styles.searchWide}>{searchField}</View> : null}
           <ListView
             rows={listRows}
             header={header}
-            onPressItem={openPlace}
+            onPressItem={wide ? setSelectedId : openPlace}
+            compact={wide}
+            selectedId={shownId}
             firstRowTarget={wide || !featured ? placeTarget : undefined}
             atTop={touring}
             refreshControl={refreshControl}
             ListEmptyComponent={emptyList}
           />
+          {wide ? (
+            <LinearGradient
+              pointerEvents="none"
+              colors={dark ? ["rgba(12,42,46,0)", "#0C2A2E"] : ["rgba(238,243,241,0)", "#EEF3F1"]}
+              style={styles.listFade}
+            />
+          ) : null}
         </View>
+        {wide ? (
+          <View
+            testID="explore-pane"
+            style={[styles.pane, { paddingTop: wideTop(insets.top, insets.top + 16) + 8 }]}
+          >
+            {shownId ? <SiteDetail key={shownId} id={shownId} pane /> : null}
+          </View>
+        ) : null}
       </View>
       <AreaSheet
         visible={areaMenuOpen}
@@ -445,7 +472,17 @@ const styles = StyleSheet.create({
   // The side band (Duo only) beside the places; on a phone the row holds the list alone.
   row: { flex: 1, flexDirection: "row" },
   places: { flex: 1 },
-  searchWide: { paddingHorizontal: 20, paddingTop: 16 },
+  // Under the head, which leaves 16 below it already.
+  searchWide: { paddingHorizontal: 20, paddingBottom: 16 },
+  // The chosen place: the rest of the width, on the page, a hairline from the list.
+  pane: {
+    flex: 1,
+    backgroundColor: tokens.colors.page,
+    borderLeftWidth: StyleSheet.hairlineWidth,
+    borderLeftColor: tokens.colors.line,
+  },
+  // Over the list's foot, above the tab bar.
+  listFade: { position: "absolute", left: 0, right: 0, bottom: 0, height: 40 },
   signInBanner: {
     flexDirection: "row",
     alignItems: "center",
@@ -457,6 +494,8 @@ const styles = StyleSheet.create({
   signInText: { flex: 1, gap: 2 },
   signInHint: { color: tokens.colors.text2 },
   headerStack: { paddingTop: tokens.space.md, paddingBottom: 8, width: "100%" },
+  // The compact list pads 8, so the notices take 12 more to meet the head's 20.
+  headerStackWide: { paddingHorizontal: 12 },
   paddedSection: { paddingHorizontal: 16 },
   searchInputWrap: {
     flexDirection: "row",

@@ -178,7 +178,7 @@ export type DaySummary = {
   // An empty day is in the town the day before ended in, as the planner takes it.
   areas: string[];
   openingDrive: { fromArea: string; slots: number } | null;
-  // Every drive in the day, the opening one included. Hops inside a town aren't driving.
+  // Every drive in the day, the opening one included, and any hop inside a town of an hour or more.
   driveSlots: number;
   overflows: boolean;
 };
@@ -206,7 +206,7 @@ export function tripSummary(days: ItineraryDay[], places: PlaceLookup): DaySumma
       placeCount: items.length,
       areas,
       openingDrive: opening?.drive ? { fromArea: opening.drive.fromArea, slots: opening.slots } : null,
-      driveSlots: legs.reduce((sum, leg) => sum + (leg.drive ? leg.slots : 0), 0),
+      driveSlots: legs.reduce((sum, leg) => sum + (leg.drive || leg.slots >= 2 ? leg.slots : 0), 0),
       overflows: dayOverflows(items),
     };
   });

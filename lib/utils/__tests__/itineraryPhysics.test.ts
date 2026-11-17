@@ -517,6 +517,20 @@ describe("tripSummary", () => {
     expect(day.driveSlots).toBe(0);
   });
 
+  // Two places in a town with no table, so the leg comes from the distance between them.
+  const inTown = (lngGap: number) => tripSummary(
+    [makeDay("d1", [at("a", "far-a"), at("b", "far-b")])],
+    (id) => ({ area: "wanaka", lat: -44.7, lng: 169.1 + (id === "far-b" ? lngGap : 0) }),
+  )[0];
+
+  it("counts an in-town leg of an hour or more as driving", () => {
+    expect(inTown(0.4).driveSlots).toBe(2);
+  });
+
+  it("leaves a half-hour hop in town out", () => {
+    expect(inTown(0.02).driveSlots).toBe(0);
+  });
+
   it("flags a day with more in it than fits before 10 PM", () => {
     const long = (id: string) => makeItem({ id, siteId: "chc-a", durationSlots: 12 });
     const [fits] = summary([long("a"), makeItem({ id: "b", siteId: "chc-b", durationSlots: 12 })]);

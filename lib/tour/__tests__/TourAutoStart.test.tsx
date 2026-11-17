@@ -162,42 +162,56 @@ describe("TourAutoStart", () => {
   });
 
   describe("asking for a rating", () => {
-    beforeEach(() => jest.useFakeTimers());
     afterEach(() => jest.useRealTimers());
 
     it("asks for a rating a second after the first tour ends, finished or skipped", async () => {
       const view = await render(<TourAutoStart />);
       await settle();
+      jest.useFakeTimers();
       mockActive = true;
       await view.rerender(<TourAutoStart />);
       mockActive = false;
       await view.rerender(<TourAutoStart />);
 
-      act(() => jest.advanceTimersByTime(999));
+      await act(async () => {
+        jest.advanceTimersByTime(999);
+      });
       expect(mockRequestReview).not.toHaveBeenCalled();
-      act(() => jest.advanceTimersByTime(1));
+      await act(async () => {
+        jest.advanceTimersByTime(1);
+      });
       expect(mockRequestReview).toHaveBeenCalledTimes(1);
     });
 
     it("doesn't ask when the tour is replayed from Profile", async () => {
-      await AsyncStorage.setItem(TOUR_SEEN_KEY, "1");
+      await act(async () => {
+        await AsyncStorage.setItem(TOUR_SEEN_KEY, "1");
+      });
       const view = await render(<TourAutoStart />);
       await settle();
+      jest.useFakeTimers();
       mockActive = true;
       await view.rerender(<TourAutoStart />);
       mockActive = false;
       await view.rerender(<TourAutoStart />);
 
-      act(() => jest.advanceTimersByTime(5000));
+      await act(async () => {
+        jest.advanceTimersByTime(5000);
+      });
       expect(mockRequestReview).not.toHaveBeenCalled();
     });
 
     it("doesn't ask a returning user", async () => {
-      await AsyncStorage.setItem(TOUR_SEEN_KEY, "1");
+      await act(async () => {
+        await AsyncStorage.setItem(TOUR_SEEN_KEY, "1");
+      });
       await render(<TourAutoStart />);
       await settle();
+      jest.useFakeTimers();
 
-      act(() => jest.advanceTimersByTime(5000));
+      await act(async () => {
+        jest.advanceTimersByTime(5000);
+      });
       expect(mockStart).not.toHaveBeenCalled();
       expect(mockRequestReview).not.toHaveBeenCalled();
     });
@@ -205,13 +219,16 @@ describe("TourAutoStart", () => {
     it("doesn't ask if the app leaves the screen before the second is up", async () => {
       const view = await render(<TourAutoStart />);
       await settle();
+      jest.useFakeTimers();
       mockActive = true;
       await view.rerender(<TourAutoStart />);
       mockActive = false;
       await view.rerender(<TourAutoStart />);
       await view.unmount();
 
-      act(() => jest.advanceTimersByTime(5000));
+      await act(async () => {
+        jest.advanceTimersByTime(5000);
+      });
       expect(mockRequestReview).not.toHaveBeenCalled();
     });
   });

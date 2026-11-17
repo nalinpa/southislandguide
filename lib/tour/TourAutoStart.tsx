@@ -78,6 +78,7 @@ export function TourAutoStart() {
   // Read through a ref: if the hook hands back a new function each render, the timer must survive.
   const ask = useRef(requestReview);
   ask.current = requestReview;
+  // A tour started again within that second cancels the ask (accepted).
   useEffect(() => {
     const ended = wasActive.current && !active;
     wasActive.current = active;

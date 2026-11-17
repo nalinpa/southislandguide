@@ -10,9 +10,31 @@ jest.mock("moti", () => {
   const { View } = require("react-native");
   return { MotiView: View, AnimatePresence: ({ children }: any) => children };
 });
+// Saved Places in the pane lists its cards, so the list renders its rows.
 jest.mock("@shopify/flash-list", () => {
+  const React = require("react");
   const { View } = require("react-native");
-  return { FlashList: View };
+  return {
+    FlashList: ({ data = [], renderItem, keyExtractor, ListEmptyComponent, numColumns, contentContainerStyle }: any) =>
+      React.createElement(
+        View,
+        { testID: "saved-list", numColumns, contentContainerStyle },
+        data.length === 0
+          ? ListEmptyComponent
+          : data.map((item: any, index: number) => React.createElement(View, { key: keyExtractor(item) }, renderItem({ item, index }))),
+      ),
+  };
+});
+// Swipe to remove wants native gestures; the action is what these tests press.
+jest.mock("react-native-gesture-handler/ReanimatedSwipeable", () => {
+  const React = require("react");
+  const { View } = require("react-native");
+  return {
+    __esModule: true,
+    default: React.forwardRef(({ children, renderRightActions }: any, _ref: any) =>
+      React.createElement(View, null, children, renderRightActions()),
+    ),
+  };
 });
 jest.mock("react-native-maps", () => {
   const { View } = require("react-native");
@@ -46,7 +68,28 @@ const stubCard = (label: string) => () => {
 };
 jest.mock("@/components/account/UserInfoCard", () => ({ UserInfoCard: stubCard("User Info Card") }));
 jest.mock("@/components/account/ItinerariesCard", () => ({ ItinerariesCard: stubCard("Itineraries Card") }));
-jest.mock("@/components/account/SavedItemsCard", () => ({ SavedItemsCard: stubCard("Saved Items Card") }));
+// The real card (its "View All Saved Places" link is what the pane tests press) with a marker
+// beside it for the order tests.
+jest.mock("@/components/account/SavedItemsCard", () => {
+  const React = require("react");
+  const { Text } = require("react-native");
+  const { SavedItemsCard } = jest.requireActual("@/components/account/SavedItemsCard");
+  return {
+    SavedItemsCard: (props: any) =>
+      React.createElement(React.Fragment, null, React.createElement(Text, null, "Saved Items Card"), React.createElement(SavedItemsCard, props)),
+  };
+});
+const mockSavedSites = { savedSiteIds: new Set<string>(), toggleSavedSite: jest.fn() };
+jest.mock("@/lib/hooks/useSavedSites", () => ({ useSavedSites: () => mockSavedSites }));
+const mockBag = { locations: [] as any[], loading: false, err: null as string | null };
+jest.mock("@/lib/hooksBag", () => ({
+  useAllLocations: () => mockBag,
+  hooksBag: {
+    useLocations: () => mockBag,
+    useUserLocation: () => ({ loc: null }),
+    useSortedRows: (locations: any[]) => locations.map((l) => ({ location: l, distanceMeters: null })),
+  },
+}));
 // Stateful, so a test can leave its delete dialog open across a fold.
 jest.mock("@/components/account/DangerZoneCard", () => ({
   DangerZoneCard: () => {
@@ -143,6 +186,10 @@ beforeEach(() => {
   mockOfflineMap.progress = null;
   mockOfflineMap.error = null;
   mockNet.type = "wifi";
+  mockSavedSites.savedSiteIds = new Set();
+  mockBag.locations = [];
+  mockBag.loading = false;
+  mockBag.err = null;
 });
 
 describe("email for feedback and news", () => {
@@ -707,5 +754,157 @@ describe("wide", () => {
     await view.rerender(<AccountScreen />);
 
     expect(view.getByText("Which map?")).toBeTruthy();
+  });
+
+  // Saved Places and Photo credits take the right pane over (docs/plans/duo-131.md, "Right,
+  // Saved Places or Photo credits"); on a phone both rows go to their own screens.
+  describe("Saved Places and Photo credits in the pane", () => {
+    const site = (id: string, name: string, category = "Water") => ({ id, name, description: "", category: [category], active: true, area: "queenstown" });
+    const fiveSaved = () => {
+      mockBag.locations = [site("s1", "Sumner Beach"), site("s2", "Riccarton Bush", "Nature"), site("s3", "Riverside Market", "Food"), site("s4", "Tunnel Beach"), site("s5", "Cave Stream", "Nature")];
+      mockSavedSites.savedSiteIds = new Set(["s1", "s2", "s3", "s4", "s5"]);
+    };
+    const viewAll = (view: any) => view.getByRole("button", { name: "View All Saved Places" });
+
+    it("wide: View All Saved Places opens the pane and does not navigate; the row takes the fill", async () => {
+      fiveSaved();
+      const { view, right } = await wideView();
+      expect(viewAll(view)).not.toHaveStyle({ backgroundColor: tokens.colors.selFill });
+
+      await fireEvent.press(viewAll(view));
+
+      expect(mockRouter.push).not.toHaveBeenCalled();
+      expect(right.getByText("Riverside Market")).toBeTruthy();
+      expect(right.queryByText("Open Guide")).toBeNull();
+      expect(viewAll(view)).toHaveStyle({ backgroundColor: tokens.colors.selFill, borderRadius: 12 });
+    });
+
+    it("wide: Photo credits opens the pane; the row takes the fill", async () => {
+      mockBag.locations = [{ ...site("c1", "Coronet Peak"), imageUrl: "https://example.test/c1.webp", imageCredit: "Miles Holden" }];
+      const { view, right } = await wideView();
+      const row = () => view.getByRole("button", { name: "Photo credits" });
+      expect(row()).not.toHaveStyle({ backgroundColor: tokens.colors.selFill });
+
+      await fireEvent.press(row());
+
+      expect(mockRouter.push).not.toHaveBeenCalled();
+      expect(right.getByText("Photo Credits")).toBeTruthy();
+      expect(right.getByText("Photo: Miles Holden")).toBeTruthy();
+      expect(right.queryByText("Open Guide")).toBeNull();
+      expect(row()).toHaveStyle({ backgroundColor: tokens.colors.selFill, borderRadius: 12 });
+    });
+
+    it("wide: the pane has its title, the count for Saved Places, and an × that brings the guide card back", async () => {
+      fiveSaved();
+      const { view, right } = await wideView();
+      await fireEvent.press(viewAll(view));
+
+      expect(right.getByText("Saved Places")).toHaveStyle({ fontSize: 26, lineHeight: 31, fontWeight: "700" });
+      expect(right.getByText("5")).toHaveStyle({ fontSize: 15, fontWeight: "600", color: tokens.colors.textMuted });
+      expect(right.getByRole("button", { name: "Close" })).toHaveStyle({ width: 44, height: 44 });
+
+      await fireEvent.press(right.getByRole("button", { name: "Close" }));
+
+      expect(right.getByText("Open Guide")).toBeTruthy();
+      expect(right.queryByText("Saved Places")).toBeNull();
+      expect(viewAll(view)).not.toHaveStyle({ backgroundColor: tokens.colors.selFill });
+    });
+
+    it("wide: Saved Places is one column with 190 photos upright, two columns with 130 photos sideways, with its category strip and swipe to remove", async () => {
+      fiveSaved();
+      const upright = await wideView();
+      await fireEvent.press(viewAll(upright.view));
+
+      expect(upright.right.getByTestId("saved-list").props.numColumns).toBe(1);
+      expect(upright.right.getAllByTestId("list-photo")[0]).toHaveStyle({ height: 190 });
+      expect(upright.right.getAllByRole("tab").length).toBeGreaterThan(1);
+      await fireEvent.press(upright.right.getAllByText("Remove")[0]);
+      expect(mockSavedSites.toggleSavedSite).toHaveBeenCalledWith({ siteId: "s1", isSaving: false });
+      await upright.view.unmount();
+
+      const sideways = await wideView(SIDEWAYS);
+      await fireEvent.press(viewAll(sideways.view));
+
+      expect(sideways.right.getByTestId("saved-list").props.numColumns).toBe(2);
+      expect(sideways.right.getAllByTestId("list-photo")[0]).toHaveStyle({ height: 130 });
+    });
+
+    it("wide: Saved Places with nothing saved shows its empty state in the pane", async () => {
+      fiveSaved();
+      const { view, right } = await wideView();
+      await fireEvent.press(viewAll(view));
+
+      mockSavedSites.savedSiteIds = new Set();
+      await view.rerender(<AccountScreen />);
+
+      expect(right.getByText("No saved places yet")).toBeTruthy();
+      expect(right.getByText("Tap the heart on any place to save it here.")).toBeTruthy();
+      expect(right.queryByText("5")).toBeNull();
+    });
+
+    it("wide: tapping a saved place opens the place screen", async () => {
+      fiveSaved();
+      const { view, right } = await wideView();
+      await fireEvent.press(viewAll(view));
+
+      await fireEvent.press(right.getByText("Riverside Market"));
+
+      expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/sites/s3");
+    });
+
+    it("wide guest: Photo credits opens the pane over the sign-in card, and × brings the card back; there is no Saved Places row", async () => {
+      mockSession.status = "guest";
+      mockSession.uid = undefined;
+      const { view, right } = await wideView();
+      expect(view.queryByRole("button", { name: "View All Saved Places" })).toBeNull();
+
+      await fireEvent.press(view.getByRole("button", { name: "Photo credits" }));
+
+      expect(right.getByText("Photo Credits")).toBeTruthy();
+      expect(right.queryByText("Sign In for More")).toBeNull();
+
+      await fireEvent.press(right.getByRole("button", { name: "Close" }));
+
+      expect(right.getByText("Sign In for More")).toBeTruthy();
+    });
+
+    it("wide: a guest is never shown Saved Places, even if it was open when they signed out", async () => {
+      fiveSaved();
+      const { view } = await wideView();
+      await fireEvent.press(viewAll(view));
+
+      mockSession.status = "guest";
+      mockSession.uid = undefined;
+      await view.rerender(<AccountScreen />);
+
+      expect(view.queryByText("Riverside Market")).toBeNull();
+      expect(within(view.getByTestId("profile-right")).getByText("Sign In for More")).toBeTruthy();
+    });
+
+    it("keeps state across the breakpoint: an open pane folds to the plain Profile with nothing navigated", async () => {
+      fiveSaved();
+      const { view } = await wideView();
+      await fireEvent.press(viewAll(view));
+      expect(within(view.getByTestId("profile-right")).getByText("Riverside Market")).toBeTruthy();
+
+      require("@blacksands/ui").__setWide(false);
+      await view.rerender(<AccountScreen />);
+
+      expect(view.queryByTestId("profile-right")).toBeNull();
+      expect(view.queryByTestId("saved-list")).toBeNull();
+      expect(view.getByText("Open Guide")).toBeTruthy();
+      expect(mockRouter.push).not.toHaveBeenCalled();
+    });
+
+    it("phone: both rows navigate to their screens as now", async () => {
+      fiveSaved();
+      const view = await render(<AccountScreen />);
+
+      await fireEvent.press(viewAll(view));
+      expect(mockRouter.push).toHaveBeenLastCalledWith("/(app)/saved-sites");
+      await fireEvent.press(view.getByRole("button", { name: "Photo credits" }));
+      expect(mockRouter.push).toHaveBeenLastCalledWith("/(app)/photo-credits");
+      expect(view.queryByTestId("profile-right")).toBeNull();
+    });
   });
 });

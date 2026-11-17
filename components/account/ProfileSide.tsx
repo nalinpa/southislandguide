@@ -3,12 +3,15 @@ import React from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import { Image } from "expo-image";
-import { ArrowRight } from "lucide-react-native";
+import { ArrowRight, X } from "lucide-react-native";
 import { useHalves } from "@blacksands/ui";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { SignInForm } from "@/components/auth/SignInForm";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
+import { useSavedSites } from "@/lib/hooks/useSavedSites";
+import { SavedPlacesList } from "@/components/account/SavedPlacesList";
+import { PhotoCreditsList } from "@/components/account/PhotoCreditsList";
 import { profileTop } from "@/lib/ui/wideTop";
 import { CARD_SIDES, cardLift, photoWash, tokens } from "@/lib/ui/tokens";
 
@@ -16,7 +19,8 @@ const GUIDE_PHOTO = require("../../assets/guide-road.webp");
 const LOGIN_PHOTO = require("../../assets/login.webp");
 
 // The open Duo's right pane: a photo card with the guide link on it, or for a guest the
-// sign-in form. Saved Places and Photo credits (`picked`) take the pane over in a later task.
+// sign-in form. Saved Places or Photo credits (`picked`) take the pane over, with a title row
+// whose × brings the photo card back.
 export function ProfileSide({
   authed,
   picked,
@@ -28,8 +32,23 @@ export function ProfileSide({
 }) {
   const { upright } = useHalves();
   const insets = useSafeAreaInsets();
-  void onClose;
-  if (picked) return null;
+  if (picked) {
+    return (
+      <View testID="profile-right" style={[styles.pane, styles.picked]}>
+        <View style={[styles.titleRow, { marginTop: profileTop(upright, insets.top) }]}>
+          <Text style={styles.paneTitle}>{picked === "saved" ? "Saved Places" : "Photo Credits"}</Text>
+          {picked === "saved" ? <SavedCount /> : null}
+          <View style={styles.flex1} />
+          <TouchableOpacity style={styles.close} onPress={onClose} accessibilityRole="button" accessibilityLabel="Close">
+            <X size={22} color={tokens.colors.text} strokeWidth={2} />
+          </TouchableOpacity>
+        </View>
+        <View style={picked === "credits" ? styles.credits : styles.flex1}>
+          {picked === "saved" ? <SavedPlacesList pane /> : <PhotoCreditsList pane />}
+        </View>
+      </View>
+    );
+  }
   return (
     <View testID="profile-right" style={styles.pane}>
       <View style={[styles.photoCard, { marginTop: profileTop(upright, insets.top) }]}>
@@ -44,6 +63,12 @@ export function ProfileSide({
       </View>
     </View>
   );
+}
+
+// How many are saved, all categories: the number the Profile's Saved Places group shows.
+function SavedCount() {
+  const { savedSiteIds } = useSavedSites();
+  return savedSiteIds.size > 0 ? <Text style={styles.count}>{savedSiteIds.size}</Text> : null;
 }
 
 function GuideCard() {
@@ -87,6 +112,14 @@ function GuestCard() {
 
 const styles = StyleSheet.create({
   pane: { flex: 60, minWidth: 0 },
+  picked: { backgroundColor: tokens.colors.page },
+  flex1: { flex: 1 },
+  titleRow: { flexDirection: "row", alignItems: "center", paddingHorizontal: 20, gap: 10 },
+  paneTitle: { fontSize: 26, lineHeight: 31, fontWeight: "700", color: tokens.colors.text },
+  count: { fontSize: 15, fontWeight: "600", color: tokens.colors.textMuted },
+  close: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
+  // The credits scroll pads 16; 4 more puts them on the title's 20.
+  credits: { flex: 1, paddingHorizontal: 4 },
   photoCard: { flex: 1, marginHorizontal: 20, marginBottom: 20, borderRadius: 20, overflow: "hidden" },
   // The card's width is the smaller of its own and the photo's less 40: 20 each side.
   center: { flex: 1, alignItems: "center", justifyContent: "center", padding: 20 },

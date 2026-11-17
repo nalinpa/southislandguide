@@ -1,5 +1,5 @@
 // app/(app)/(tabs)/account.tsx
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Alert, Switch, useColorScheme } from "react-native";
 import { router } from "expo-router";
 import { ArrowRight, ChevronRight } from "lucide-react-native";
@@ -52,6 +52,9 @@ export default function AccountScreen() {
   const wide = useWide();
   const { upright } = useHalves();
   const page = PAGE_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
+  // The open Duo: which of the two screens fills the right pane. Kept in memory when the
+  // window folds; unfolding shows it again.
+  const [picked, setPicked] = useState<"saved" | "credits" | null>(null);
 
   if (session.status === "loading") {
     return (
@@ -62,6 +65,8 @@ export default function AccountScreen() {
   }
 
   const isAuthed = session.status === "authed";
+  // A guest has no Saved Places, even if it was open when they signed out.
+  const open = picked === "saved" && !isAuthed ? null : picked;
 
   // Duo (600 pt or more): the rows in a left column that scrolls on its own, and a right pane
   // (ProfileSide) beside it. The groups are the phone's, keyed, so they stay mounted (dialogs
@@ -105,8 +110,8 @@ export default function AccountScreen() {
   const credits = (
     <>
       <TouchableOpacity
-        style={styles.linkRow}
-        onPress={() => router.push("/(app)/photo-credits")}
+        style={[styles.linkRow, wide && open === "credits" && styles.linkRowOn]}
+        onPress={() => (wide ? setPicked("credits") : router.push("/(app)/photo-credits"))}
         activeOpacity={0.6}
         accessibilityRole="button"
       >
@@ -151,7 +156,10 @@ export default function AccountScreen() {
     ["who", <UserInfoCard />],
     ...(tour ? [["tour", tour] as Group] : []),
     ["map", <OfflineMapCard />],
-    ...(isAuthed ? [["trip", <ItinerariesCard />] as Group, ["saved", <SavedItemsCard />] as Group, email] : []),
+    ...(isAuthed ? [["trip", <ItinerariesCard />] as Group, [
+            "saved",
+            wide ? <SavedItemsCard onViewAll={() => setPicked("saved")} viewAllSelected={open === "saved"} /> : <SavedItemsCard />,
+          ] as Group, email] : []),
     ...(isAuthed && !wide ? [danger] : []),
     ["credits", credits],
     ...(isAuthed && wide ? [danger] : []),
@@ -203,7 +211,7 @@ export default function AccountScreen() {
             ) : null}
           </View>
           <View testID="profile-hairline" style={wide ? styles.hairline : styles.none} />
-          {wide ? <ProfileSide authed={isAuthed} picked={null} onClose={() => {}} /> : null}
+          {wide ? <ProfileSide authed={isAuthed} picked={open} onClose={() => setPicked(null)} /> : null}
         </View>
       </View>
     </View>
@@ -282,6 +290,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: tokens.space.md,
     paddingVertical: 12,
   },
+  // The picked row on the open Duo: the fill reaches 12 into the margins (4 in from the
+  // column's edge, the words at their 16).
+  linkRowOn: { marginHorizontal: 4, paddingHorizontal: 12, borderRadius: 12, backgroundColor: tokens.colors.selFill },
   linkRowText: { fontSize: 16, fontWeight: "500", color: tokens.colors.text },
   // flex: the words wrap before they push the switch off an iPhone SE's edge.
   switchText: { flex: 1, marginRight: tokens.space.md, fontSize: 16, fontWeight: "500", color: tokens.colors.text },

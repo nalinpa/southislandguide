@@ -12,7 +12,15 @@ import { tokens } from "@/lib/ui/tokens";
 // "View All Saved Places" link below takes users to the full list at
 // /(app)/saved-sites. No count in the link: the badge beside the heading has it.
 
-export function SavedItemsCard() {
+export function SavedItemsCard({
+  onViewAll,
+  viewAllSelected,
+}: {
+  /** The open Duo: the link opens Saved Places in the Profile's right pane instead of going to its screen. */
+  onViewAll?: () => void;
+  /** That pane is open. */
+  viewAllSelected?: boolean;
+} = {}) {
   const { savedSiteIds } = useSavedSites();
   const { locations } = hooksBag.useLocations();
   const nameMap = React.useMemo(() => new Map(locations.map((l) => [l.id, l.name])), [locations]);
@@ -50,9 +58,10 @@ export function SavedItemsCard() {
           </View>
           {savedSiteIds.size > 3 && (
             <TouchableOpacity
-              style={styles.viewAllBtn}
-              onPress={() => router.push(`/(app)/saved-sites`)}
+              style={[styles.viewAllBtn, viewAllSelected && styles.viewAllOn]}
+              onPress={() => (onViewAll ? onViewAll() : router.push(`/(app)/saved-sites`))}
               activeOpacity={0.6}
+              accessibilityRole="button"
             >
               <Text style={styles.viewAllText}>View All Saved Places</Text>
               <ChevronRight size={16} color={tokens.colors.selected} strokeWidth={2.5} />
@@ -81,5 +90,8 @@ const styles = StyleSheet.create({
   rowLine: { borderTopWidth: 1, borderTopColor: tokens.colors.line },
   rowTitle: { flex: 1, fontSize: 16, fontWeight: "500", color: tokens.colors.text, marginRight: 8 },
   viewAllBtn: { flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "flex-start", minHeight: 44 },
+  // The picked row: the fill reaches 12 into the card's margins (-12 out, 12 back in), so the
+  // words stay where they were.
+  viewAllOn: { alignSelf: "stretch", marginHorizontal: -12, paddingHorizontal: 12, borderRadius: 12, backgroundColor: tokens.colors.selFill },
   viewAllText: { fontSize: 15, fontWeight: "600", color: tokens.colors.selected },
 });

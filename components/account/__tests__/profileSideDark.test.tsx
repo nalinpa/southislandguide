@@ -5,6 +5,10 @@ jest.mock("expo-router", () => ({ router: { push: jest.fn() } }));
 // Signed in is all this reads: no form to load.
 jest.mock("@/components/auth/SignInForm", () => ({ SignInForm: () => null }));
 jest.mock("@/lib/hooks/useAuthForm", () => ({ useAuthForm: () => ({}) }));
+// The pane's two lists are not read here.
+jest.mock("@/components/account/SavedPlacesList", () => ({ SavedPlacesList: () => null }));
+jest.mock("@/components/account/PhotoCreditsList", () => ({ PhotoCreditsList: () => null }));
+jest.mock("@/lib/hooks/useSavedSites", () => ({ useSavedSites: () => ({ savedSiteIds: new Set() }) }));
 
 import React from "react";
 import { render } from "@testing-library/react-native";

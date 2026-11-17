@@ -20,7 +20,7 @@ import Animated, { FadeIn, useAnimatedProps, useSharedValue, withTiming } from "
 
 import { useHalves, useWide } from "@blacksands/ui";
 
-import { EXPLORE_SIDE } from "@/components/sites/ExploreSide";
+import { EXPLORE_LIST } from "@/components/sites/ExploreHead";
 import { cardLift, darkEdge, tokens } from "@/lib/ui/tokens";
 import { useTour } from "./TourContext";
 import { TourTripPreview } from "./TourTripPreview";
@@ -35,7 +35,7 @@ const CARD_GAP = 22;
 const POINTER = 14;
 const CARD_CORNER = 20;
 // A Duo (docs/plans/design-sweep.md): the card is 360 wide, and a Welcome card's foot sits 24
-// above the fold. A band target's card starts at the place column (the band, then its 20 pt
+// above the fold. A list target's card starts at the place column (the list, then its 20 pt
 // side) and stays above the tab bar (about 64 pt).
 const WIDE_CARD = 360;
 const WELCOME_ABOVE_FOLD = 24;
@@ -99,8 +99,9 @@ export function SpotlightOverlay() {
 
   const top = insets.top + 16;
   const bottom = height - insets.bottom - 16;
-  // A target in Explore's left band (wide): the card goes to its right, over the places.
-  const inBand = wide && !!targetRect && targetRect.x + targetRect.width <= EXPLORE_SIDE;
+  // A target in Explore's list (wide): the card goes to its right, over the places.
+  const exploreList = upright ? EXPLORE_LIST.upright : EXPLORE_LIST.sideways;
+  const inBand = wide && !!targetRect && targetRect.x + targetRect.width <= exploreList;
   const fitsBelow = !!targetRect && targetRect.y + targetRect.height + CARD_GAP + cardHeight <= bottom;
   const welcomeTop = !wide ? (height - cardHeight) / 2 : upright ? foldY - WELCOME_ABOVE_FOLD - cardHeight : (height - cardHeight) / 2;
   const cardTop = !targetRect
@@ -127,7 +128,7 @@ export function SpotlightOverlay() {
   // Wide: a fixed 360 card, centred on its target (or the screen) and kept off the sides.
   const area = width - insets.left - insets.right;
   const wideLeft = inBand
-    ? EXPLORE_SIDE + PLACE_COLUMN_SIDE
+    ? exploreList + PLACE_COLUMN_SIDE
     : Math.min(
         Math.max(targetRect ? targetRect.x + targetRect.width / 2 - WIDE_CARD / 2 : insets.left + (area - WIDE_CARD) / 2, sideLeft),
         width - sideRight - WIDE_CARD,

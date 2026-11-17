@@ -229,8 +229,8 @@ describe("SpotlightOverlay", () => {
       await act(async () => tour.registerTarget("town", { x: 16, y: 120, width: 120, height: 20 }));
       await layoutCard(200);
 
-      // EXPLORE_SIDE (200) + the column's 20 pt side.
-      expect(cardStyle().left).toBe(220);
+      // EXPLORE_LIST.upright (268) + the column's 20 pt side.
+      expect(cardStyle().left).toBe(288);
       // The card starts a corner (20) and half a pointer (7) above the target's middle (130),
       // so the pointer's centre meets it.
       expect(cardStyle().top).toBe(130 - 27);

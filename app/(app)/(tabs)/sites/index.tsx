@@ -15,6 +15,7 @@ import { hooksBag, useRefreshLocations } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { ListView } from "@/components/sites/list/ListView";
 import { AreaSheet, type AreaOption } from "@/components/sites/AreaSheet";
+import { CategorySheet } from "@/components/sites/CategorySheet";
 import { ExploreHead, EXPLORE_LIST } from "@/components/sites/ExploreHead";
 import { SiteDetail } from "@/components/sites/detail/SiteDetail";
 import { FeaturedCard } from "@/components/sites/FeaturedCard";
@@ -72,6 +73,7 @@ export default function SiteListPage() {
   const [searchQuery, setSearchQuery] = useState("");
   // The place beside the list on the open Duo, kept while the screen is folded.
   const [selectedId, setSelectedId] = useState<string | undefined>();
+  const [categoriesOpen, setCategoriesOpen] = useState(false);
 
   const activeLocations = useMemo(() => locations.filter((l) => l.active !== false), [locations]);
 
@@ -416,8 +418,8 @@ export default function SiteListPage() {
               onSaved={() => router.push("/(app)/saved-sites")}
               searchOpen={searchOpen}
               category={activeCategory}
-              // The pop-up comes next; the pill is only there when there is a category to pick.
-              onOpenCategories={categoriesWithPlaces.length > 1 ? () => {} : undefined}
+              // The pill is only there when there is a category to pick.
+              onOpenCategories={categoriesWithPlaces.length > 1 ? () => setCategoriesOpen(true) : undefined}
             />
           ) : null}
           {/* Under the head, over the first row. */}
@@ -451,6 +453,13 @@ export default function SiteListPage() {
           </View>
         ) : null}
       </View>
+      <CategorySheet
+        visible={categoriesOpen}
+        categories={[{ key: null, label: "All" }, ...categoriesWithPlaces.map((c) => ({ key: c, label: SITE_CATEGORY_LABELS[c] }))]}
+        selected={activeCategory}
+        onSelect={setCategory}
+        onClose={() => setCategoriesOpen(false)}
+      />
       <AreaSheet
         visible={areaMenuOpen}
         options={areaOptions}

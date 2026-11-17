@@ -138,6 +138,7 @@ import { fireEvent, render, within } from "@testing-library/react-native";
 
 import SiteListPage from "@/app/(app)/(tabs)/sites/index";
 import { tokens } from "@/lib/ui/tokens";
+import { SITE_CATEGORY_LABELS } from "@/lib/models";
 
 // In Christchurch unless a test says otherwise, so the tests that aren't about towns see
 // one town: no dropdown, and every place listed.
@@ -1132,6 +1133,41 @@ describe("wide (the open Duo)", () => {
 
     expect(paneText(view)).toBe("Place s2 pane");
     expect(mockListMounts).toBe(1);
+  });
+
+  it("opens the category pop-up from the pill, and choosing a category filters the rows and closes it", async () => {
+    wide(UPRIGHT);
+    const view = await render(<SiteListPage />);
+    expect(view.queryByTestId("category-sheet")).toBeNull();
+
+    await fireEvent.press(view.getByLabelText("All, choose a category"));
+    const sheet = within(view.getByTestId("category-sheet"));
+    expect(sheet.getAllByRole("button").map((b: any) => b.props.accessibilityLabel)).toEqual([
+      "Close",
+      "All",
+      ...(["Walks", "Water", "Food"] as const).map((c) => SITE_CATEGORY_LABELS[c]),
+    ]);
+
+    await fireEvent.press(sheet.getByLabelText(SITE_CATEGORY_LABELS.Food));
+    expect(view.queryByTestId("category-sheet")).toBeNull();
+    expect(rowsOnly(view)).toEqual(["Riverside Market"]);
+    expect(view.getByLabelText("Food & Drink, choose a category")).toBeTruthy();
+  });
+
+  it("folding closes the pop-up and keeps the chosen category", async () => {
+    wide(UPRIGHT);
+    const view = await render(<SiteListPage />);
+    await fireEvent.press(view.getByLabelText("All, choose a category"));
+    await fireEvent.press(within(view.getByTestId("category-sheet")).getByLabelText("Food & Drink"));
+    await fireEvent.press(view.getByLabelText("Food & Drink, choose a category"));
+    expect(view.getByTestId("category-sheet")).toBeTruthy();
+
+    require("@blacksands/ui").__setWide(false);
+    await view.rerender(<SiteListPage />);
+
+    expect(view.queryByTestId("category-sheet")).toBeNull();
+    expect(selectedTab(view)).toBe("Food & Drink");
+    expect(rowNames(view)).toEqual(["Riverside Market"]);
   });
 
   it("keeps the search field with the list across the fold", async () => {

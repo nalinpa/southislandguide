@@ -109,7 +109,7 @@ export function areaName(id: string): string {
 }
 
 // A shorter name for a place the strip has little room for: Explore's side strip on the open
-// Duo only (components/sites/ExploreSide.tsx). The town's name everywhere else stays its label.
+// Duo only (components/sites/ExploreHead.tsx). The town's name everywhere else stays its label.
 const AREA_SHORT_NAMES: Record<string, string> = { "aoraki-mount-cook": "Mt Cook" };
 
 export function areaShortName(id: string): string | undefined {

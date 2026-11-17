@@ -9,7 +9,7 @@ import { Bookmark, BookOpen, ChevronRight, Search, X } from "lucide-react-native
 import { Screen, LoadingState, ErrorCard, CardShell, Stack, AppText, AppIconButton } from "@/lib/uiKit";
 import { TopBar } from "@/components/layout/TopBar";
 import { TopBarTabs } from "@/components/layout/TopBarTabs";
-import { tokens } from "@/lib/ui/tokens";
+import { BAND_SIDES, tokens } from "@/lib/ui/tokens";
 import { wideTop } from "@/lib/ui/wideTop";
 import { hooksBag, useRefreshLocations } from "@/lib/hooksBag";
 import { useSession } from "@/lib/providers/SessionProvider";
@@ -39,7 +39,7 @@ import { useTourStepRoute } from "@/lib/tour/useTourStepRoute";
 export default function SiteListPage() {
   const wide = useWide();
   const { upright } = useHalves();
-  const dark = useColorScheme() === "dark";
+  const bandSide = BAND_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
   const insets = useSafeAreaInsets();
   const { session } = useSession();
   const isGuest = session.status === "guest";
@@ -436,7 +436,8 @@ export default function SiteListPage() {
           {wide ? (
             <LinearGradient
               pointerEvents="none"
-              colors={dark ? ["rgba(12,42,46,0)", "#0C2A2E"] : ["rgba(238,243,241,0)", "#EEF3F1"]}
+              // The band's own colour, clear to solid ("00" is the 8-digit hex's zero alpha).
+              colors={[bandSide + "00", bandSide]}
               style={styles.listFade}
             />
           ) : null}

@@ -58,6 +58,8 @@ export const LAKE_SIDES = { light: "#063F45", dark: "#041416" } as const;
 // The login photo is dimmed in dark by a black layer (brightness .68), and its card has the
 // `line` colour for an edge in dark, none in light.
 export const photoDim = pair("rgba(0,0,0,0)", "rgba(0,0,0,0.32)");
+// The pale band, both sides, for Explore's list fade (a gradient can't take a pair).
+export const BAND_SIDES = { light: "#EEF3F1", dark: "#0C2A2E" } as const;
 const LINE_SIDES = { light: "#CBD8D3", dark: "#2F5257" } as const;
 export const cardEdge = pair("transparent", LINE_SIDES.dark);
 
@@ -114,7 +116,7 @@ export const tokens = {
     line: pair(LINE_SIDES.light, LINE_SIDES.dark),
     // The pale band between groups of rows (Profile): a band means "new group", a line
     // "next row in the same group".
-    band: pair("#EEF3F1", "#0C2A2E"),
+    band: pair(BAND_SIDES.light, BAND_SIDES.dark),
     // A drive on the Days view: a pale teal, so a fill there means "this can be dragged".
     driveFill: pair("#D9E9E4", "#173F45"),
     photoEdge: pair("rgba(10,31,27,0.14)", "rgba(238,246,243,0.16)"),

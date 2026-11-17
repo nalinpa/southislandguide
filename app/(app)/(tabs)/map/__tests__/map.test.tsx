@@ -66,6 +66,7 @@ jest.mock("@/components/map/MapOverlay", () => {
         View,
         null,
         React.createElement(Text, null, "Nearby count: " + nearbySites.length),
+        React.createElement(Text, null, "Nearby: " + nearbySites.map((n: any) => n.name).join(", ")),
         React.createElement(Text, null, "Chips open: " + !!chipsOpen),
         React.createElement(Text, null, site ? "Overlay: " + site.name : "Overlay: nothing selected"),
         React.createElement(
@@ -653,6 +654,49 @@ describe("adding to an itinerary", () => {
     expect(view.queryByText("Create Trip Modal")).toBeNull();
     expect(view.queryByText("Add to Existing")).toBeNull();
     expect(view.queryByText("Add To Trip Modal")).toBeNull();
+  });
+});
+
+describe("Nearby follows the filter", () => {
+  const withExtras = () => {
+    mockBag.locations.push(
+      makeSite("s5", "Corner Cafe", ["Food"], { lat: -43.54, lng: 172.64 }),
+      makeSite("s6", "Canterbury Museum", ["Culture"], { lat: -43.5312, lng: 172.6342 }),
+    );
+    mockMapStore.selectedLocationId = "s3";
+  };
+
+  it("with a category filter on, Nearby lists only that category", async () => {
+    withExtras();
+    const view = await render(<MapScreen />);
+    expect(view.getByText(/^Nearby: .*Canterbury Museum/)).toBeTruthy();
+
+    await openFilters(view);
+    await fireEvent.press(view.getByText("Food & Drink"));
+
+    expect(view.getByText("Nearby: Corner Cafe")).toBeTruthy();
+  });
+
+  it("with My Trip on, Nearby lists only the trip's places", async () => {
+    withExtras();
+    mockTrips.itineraries = [{ id: "t1", days: [{ id: "d1", items: [{ siteId: "s1" }, { siteId: "s3" }] }] }];
+    const view = await render(<MapScreen />);
+
+    await fireEvent.press(view.getByRole("button", { name: "My Trip" }));
+
+    expect(view.getByText("Nearby: Sumner Beach")).toBeTruthy();
+  });
+
+  it("the search text doesn't narrow Nearby", async () => {
+    withExtras();
+    const view = await render(<MapScreen />);
+    const before = view.getByText(/^Nearby: /).props.children;
+
+    await fireEvent.changeText(view.getByPlaceholderText("Search places..."), "cafe");
+    await settleSearch();
+
+    expect(markers(view)).toEqual(["Corner Cafe"]);
+    expect(view.getByText(/^Nearby: /).props.children).toEqual(before);
   });
 });
 

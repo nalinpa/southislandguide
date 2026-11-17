@@ -130,6 +130,15 @@ export function dayStartSiteId(days: ItineraryDay[], dayIndex: number): string |
   return undefined;
 }
 
+// The stop a new place at `slot` of a day would follow: that day's last item starting
+// before it, else where the traveller was before the day.
+export function stopBefore(days: ItineraryDay[], dayId: string, slot: number): string | undefined {
+  const dayIndex = days.findIndex((d) => d.id === dayId);
+  if (dayIndex < 0) return undefined;
+  const before = (days[dayIndex].items ?? []).filter((i) => (i.slotIndex || 0) < slot);
+  return before.length ? before[before.length - 1].siteId : dayStartSiteId(days, dayIndex);
+}
+
 export function packTrip(days: ItineraryDay[], places: PlaceLookup): ItineraryDay[] {
   return days.map((day, i) => ({ ...day, items: runPhysicsEngine(day.items ?? [], places, dayStartSiteId(days, i)) }));
 }

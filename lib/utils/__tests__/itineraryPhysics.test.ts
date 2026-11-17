@@ -10,6 +10,7 @@ import {
   tryEdit,
   tripSummary,
   redateTrip,
+  stopBefore,
 } from "@/lib/utils/itineraryPhysics";
 import type { PlaceLookup } from "@/lib/utils/transitMatrix";
 import type { ItineraryDay, ItineraryItem } from "@/lib/models";
@@ -582,5 +583,28 @@ describe("redateTrip", () => {
       "2026-11-01",
       "2026-11-02",
     ]);
+  });
+});
+
+describe("stopBefore", () => {
+  const days = [
+    makeDay("d1", [makeItem({ id: "i1", siteId: "chc-a", slotIndex: 0 })]),
+    makeDay("d2", [
+      makeItem({ id: "i2", siteId: "tim-a", slotIndex: 2 }),
+      makeItem({ id: "i3", siteId: "dun-a", slotIndex: 8 }),
+    ]),
+  ];
+
+  it("stopBefore: the day's last stop before the time", () => {
+    expect(stopBefore(days, "d2", 6)).toBe("tim-a");
+    expect(stopBefore(days, "d2", 20)).toBe("dun-a");
+  });
+
+  it("stopBefore: the day before's last stop when none is earlier that day", () => {
+    expect(stopBefore(days, "d2", 2)).toBe("chc-a");
+  });
+
+  it("stopBefore: undefined on an empty first day", () => {
+    expect(stopBefore([makeDay("d1", []), days[1]], "d1", 4)).toBeUndefined();
   });
 });

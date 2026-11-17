@@ -20,7 +20,8 @@ import { offlineMapDir } from "@/lib/offlineMap";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { usePurchaseContext } from "@/lib/iap/PurchaseProvider";
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
-import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, canAddToItinerary, matchesSearch, type SiteCategory } from "@/lib/models";
+import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, canAddToItinerary, matchesSearch, type Site, type SiteCategory } from "@/lib/models";
+import { nearestPlaces } from "@/lib/utils/nearby";
 import { distanceMeters, nearestSite, NEAR_PLACES_METERS } from "@/lib/utils/geoDistance";
 import { isInNZ } from "@/lib/utils/directions";
 import { SitesMapView, initialRegionFrom } from "@/components/map/SitesMapView";
@@ -176,14 +177,16 @@ export default function MapScreen() {
     else if (addFlow === "pick") setIsAddingToTrip(true);
   }, [addFlow, entitledProductIds, session.status]);
 
+  // The category or My Trip chip, without the search: what the pins and Nearby both follow.
+  const passesFilter = useCallback(
+    (s: Site) => !mapFilter || (mapFilter === "trip" ? tripSiteIds.has(s.id) : s.category.includes(mapFilter)),
+    [mapFilter, tripSiteIds],
+  );
+
   const mapSites = useMemo(() => {
     // The same search as Explore's: name, description or category.
     return visibleSites
-      .filter(
-        (s) =>
-          matchesSearch(s, debouncedSearchQuery) &&
-          (!mapFilter || (mapFilter === "trip" ? tripSiteIds.has(s.id) : s.category.includes(mapFilter))),
-      )
+      .filter((s) => matchesSearch(s, debouncedSearchQuery) && passesFilter(s))
       .map((s) => ({
         id: s.id,
         name: s.name,
@@ -191,7 +194,7 @@ export default function MapScreen() {
         lng: s.lng,
         category: s.category[0],
       }));
-  }, [visibleSites, debouncedSearchQuery, mapFilter, tripSiteIds]);
+  }, [visibleSites, debouncedSearchQuery, passesFilter]);
 
   useEffect(() => {
     if (debouncedSearchQuery.trim() && mapSites.length === 1) {
@@ -282,17 +285,16 @@ export default function MapScreen() {
 
   const nearbySites = useMemo<NearbySite[]>(() => {
     if (!selectedSite) return [];
-    return [...visibleSites]
-      .filter((s) => s.id !== selectedSite.id)
-      .map((s) => ({
-        id: s.id,
-        name: s.name,
-        category: s.category[0],
-        distanceMeters: distanceMeters({ lat: selectedSite.lat, lng: selectedSite.lng }, { lat: s.lat, lng: s.lng }),
-      }))
-      .sort((a, b) => (a.distanceMeters ?? 0) - (b.distanceMeters ?? 0))
-      .slice(0, wide ? 10 : 3);
-  }, [visibleSites, selectedSite, wide]);
+    return nearestPlaces(selectedSite, visibleSites.filter(passesFilter), {
+      exclude: new Set([selectedSite.id]),
+      limit: wide ? 10 : 3,
+    }).map(({ site, meters }) => ({
+      id: site.id,
+      name: site.name,
+      category: site.category[0],
+      distanceMeters: meters,
+    }));
+  }, [visibleSites, passesFilter, selectedSite, wide]);
 
   const overlayDistance = useMemo(() => {
     if (!selectedSite || !loc) return 0;

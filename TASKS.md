@@ -202,6 +202,14 @@ Each stays `[~]` in its own section below; tick it there too once it's checked h
 
 ## Later
 
+### Backlog (owner, 2026-11-17), not planned yet
+- [ ] **Drives between places in 15-minute blocks.** A day is built from half-hour slots today (slot 0 is 8:00; `PLANNER` in `lib/constants/gameplay.ts`), so every drive rounds up to 30 minutes and a 10-minute hop in town takes a half-hour block.
+  - What's there: town-to-town and far-place times are already kept in minutes (`area-drive-minutes.json`, `far-place-minutes.json`, `leg-minutes.json`) and only rounded up to slots in `getLeg` (`lib/utils/transitMatrix.ts`). The in-town tables (`assets/data/transit/<area>.json`) hold half-hour slots, so they'd need measuring again in minutes (Maps lookups: quote first).
+  - To decide: 15-minute blocks for drives only, or for the whole day grid (places too). Saved trips store `slotIndex` and `durationSlots` in half hours, so a finer grid needs a way to read old trips; the 26 suggested trips are placed on the half-hour grid and would be re-timed; the day view's slot height, hold-to-move snapping, Add to Trip's time pills and the calendar export all assume 30 minutes.
+- [ ] **Opening hours and booking times.** Places carry a free-text `hoursNote` ("Good to know") and nothing the app can reason with, so a trip can put a stop at a time the place is closed, and set-time activities (cruises, the Earnslaw, hot pools) are only right in the suggested trips, where each was checked by hand.
+  - To decide: which places get structured hours (all, or only those with set times), where the data comes from and who keeps it current (seasonal hours change), what the app does with it (a warning on the stop, "Full/closed" in Add to Trip's time pills, or placing around it), and whether booking times are fixed departure lists or just a "book ahead" flag with the operator's link.
+  - Related: Paddle Wānaka (closed May to August) and the Royal Albatross Centre's tour times, above.
+
 ### From the 1.3 Duo sweep (not in 1.3: upgrades and Duo only)
 - [ ] **Duo polish left after 1.3's reviews (2026-11-16), none blocking:** a guest's sample-day stops are made read-only by a one-hour hold, because the engine's `TimelineBlock` has no read-only prop (add `readOnly` in `@blacksands/components`); the map's search field loses focus when folding mid-search; the Today's Trip strip and Nearby wait for GPS, as on the phone; the guide's 28 pt left edge is three coupled numbers in `GuideBrowser`/`GuideList`; a few tests check styles rather than layout (no layout in Jest). Device-only notes to re-check on a real Duo: the town name shrink on long one-word names, the map's camera restore on fold.
 - [ ] **Profile's My Trip was empty right after signing in** (owner, Duo simulator, 2026-11-16). Probably not Duo-only; check on the phone.

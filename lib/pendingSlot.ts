@@ -12,8 +12,13 @@ export const setPendingSlot = (p: PendingSlot) => {
 
 // Kept until a place is added (or half an hour passes), so looking at one place and
 // backing out doesn't lose it.
-export const peekPendingSlot = (tripId: string): PendingSlot | null =>
-  pending && pending.tripId === tripId && Date.now() - pending.at < 30 * 60_000 ? pending : null;
+export const currentPendingSlot = (): PendingSlot | null =>
+  pending && Date.now() - pending.at < 30 * 60_000 ? pending : null;
+
+export const peekPendingSlot = (tripId: string): PendingSlot | null => {
+  const p = currentPendingSlot();
+  return p && p.tripId === tripId ? p : null;
+};
 
 export const clearPendingSlot = () => {
   pending = null;

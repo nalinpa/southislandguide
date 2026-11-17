@@ -119,6 +119,10 @@ jest.mock("@/lib/tour/useTourStepRoute", () => ({
   },
 }));
 
+// The trips, for a day's "Find more things to do".
+let mockTrips: any[] = [];
+jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => ({ itineraries: mockTrips }) }));
+
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn(), setParams: jest.fn() };
 // A town handed over by another screen (a trip's "Find more things to do").
 const mockParams: { area?: string } = {};
@@ -138,6 +142,7 @@ import { fireEvent, render, within } from "@testing-library/react-native";
 
 import SiteListPage from "@/app/(app)/(tabs)/sites/index";
 import { tokens } from "@/lib/ui/tokens";
+import { clearPendingSlot, setPendingSlot } from "@/lib/pendingSlot";
 import { SITE_CATEGORY_LABELS } from "@/lib/models";
 
 // In Christchurch unless a test says otherwise, so the tests that aren't about towns see
@@ -189,6 +194,8 @@ beforeEach(() => {
   mockBag.loc = null;
   mockBag.storedLoc = null;
   delete mockParams.area;
+  mockTrips = [];
+  clearPendingSlot();
   openSettings = jest.spyOn(Linking, "openSettings").mockResolvedValue(undefined as never);
 });
 
@@ -888,6 +895,90 @@ describe("the featured place", () => {
 
     expect(card(view)).toBeNull();
     expect(rowsOnly(view)).toEqual(["Riccarton Bush"]);
+  });
+});
+
+// "Find more things to do" on a trip day: the town's places closest first to the stop before the
+// free time, straight-line.
+describe("from a trip day", () => {
+  const FAR = { lat: -43.9, lng: 172.9 };
+  // Sumner Beach is the stop; Port Hills Walk is next to it, Riverside Market a bit further,
+  // Riccarton Bush furthest, and Godley Head has no position.
+  beforeEach(() => {
+    const at = (id: string, lat: number, lng: number) => {
+      Object.assign(mockBag.locations.find((l) => l.id === id)!, { lat, lng });
+    };
+    at("s1", -43.5, 172.6);
+    at("s4", -43.51, 172.61);
+    at("s3", -43.6, 172.7);
+    Object.assign(mockBag.locations.find((l) => l.id === "s2")!, FAR);
+    mockTrips = [
+      { id: "t1", days: [{ id: "d1", items: [{ siteId: "s1", slotIndex: 10 }] }] },
+    ];
+  });
+  const openFromDay = (slot = 20) => {
+    setPendingSlot({ tripId: "t1", dayId: "d1", slot });
+    mockParams.area = "christchurch";
+  };
+  const line = (view: any) => view.queryByText("Closest to Sumner Beach first");
+
+  it("lists the town closest first to the stop before the free time, under 'Closest to {stop} first'", async () => {
+    openFromDay();
+    const view = await render(<SiteListPage />);
+
+    expect(line(view)).toBeTruthy();
+    expect(line(view).props.accessibilityRole).toBe("text");
+    // The featured card (none ranked: the first listed) stays; the rows are closest first.
+    expect(view.getByTestId("featured-card").props.accessibilityLabel).toBe("Sumner Beach");
+    expect(rowsOnly(view)).toEqual(["Port Hills Walk", "Riverside Market", "Riccarton Bush"]);
+  });
+
+  it("opened normally keeps the usual order and no line", async () => {
+    const view = await render(<SiteListPage />);
+
+    expect(view.queryByText(/^Closest to /)).toBeNull();
+    expect(rowNames(view)).toEqual(["Sumner Beach", "Riccarton Bush", "Riverside Market", "Port Hills Walk"]);
+  });
+
+  it("with no stop to measure from, keeps the usual order", async () => {
+    openFromDay(5);
+    const view = await render(<SiteListPage />);
+
+    expect(view.queryByText(/^Closest to /)).toBeNull();
+    expect(rowNames(view)).toEqual(["Sumner Beach", "Riccarton Bush", "Riverside Market", "Port Hills Walk"]);
+  });
+
+  it("search and the category still filter the closest-first list", async () => {
+    mockBag.locations.push(makeSite("s5", "Godley Head", ["Walks"], { lat: -43.6, lng: 172.8 }));
+    openFromDay();
+    const view = await render(<SiteListPage />);
+
+    await fireEvent.press(view.getByText("Walks"));
+    expect(line(view)).toBeTruthy();
+    // Riccarton Bush stays the featured card (first listed); the rows under it are closest first.
+    expect(rowNames(view)).toEqual(["Riccarton Bush", "Port Hills Walk", "Godley Head"]);
+
+    await fireEvent.press(view.getByLabelText("Search places"));
+    await fireEvent.changeText(view.getByPlaceholderText("Search places"), "head");
+    expect(rowNames(view)).toEqual(["Godley Head"]);
+  });
+
+  it("puts places with no position last, in the usual order", async () => {
+    mockBag.locations.push(makeSite("s5", "Godley Head", ["Walks"], { lat: undefined, lng: undefined }));
+    openFromDay();
+    const view = await render(<SiteListPage />);
+
+    expect(rowsOnly(view)).toEqual(["Port Hills Walk", "Riverside Market", "Riccarton Bush", "Godley Head"]);
+  });
+
+  it("stops when another town is chosen", async () => {
+    mockBag.locations.push(makeSite("d1", "Otago Museum", ["Culture"], { area: "dunedin" }));
+    openFromDay();
+    const view = await render(<SiteListPage />);
+    await fireEvent.press(view.getByLabelText(/, choose a town$/));
+    await fireEvent.press(view.getByLabelText(/^Dunedin, /));
+
+    expect(view.queryByText(/^Closest to /)).toBeNull();
   });
 });
 

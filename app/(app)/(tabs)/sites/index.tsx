@@ -22,6 +22,10 @@ import { FeaturedCard } from "@/components/sites/FeaturedCard";
 import { nearestArea } from "@/components/map/MapRegion";
 import { AREAS, AREA_GUIDE_REGIONS, AREA_REGIONS, DEFAULT_AREA, areaName, areaShortName } from "@/lib/areas";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS, matchesSearch, type SiteCategory } from "@/lib/models";
+import { useItineraries } from "@/lib/hooks/useItineraries";
+import { currentPendingSlot } from "@/lib/pendingSlot";
+import { stopBefore } from "@/lib/utils/itineraryPhysics";
+import { nearestPlaces } from "@/lib/utils/nearby";
 import { useTourTarget } from "@/lib/tour/useTourTarget";
 import { useTourIfAny } from "@/lib/tour/TourContext";
 import { useTourStepRoute } from "@/lib/tour/useTourStepRoute";
@@ -113,6 +117,9 @@ export default function SiteListPage() {
   // the session: driving on to the next town doesn't change the list under the user.
   const [chosenArea, setChosenArea] = useState<string | null>(null);
   const [areaMenuOpen, setAreaMenuOpen] = useState(false);
+  // The town a trip day's "Find more things to do" opened Explore on: closest-first lasts while it is shown.
+  const [fromDayArea, setFromDayArea] = useState<string | null>(null);
+  const { itineraries } = useItineraries();
   const hereArea = useMemo(
     () => nearestArea(lockedLoc?.coords.latitude, lockedLoc?.coords.longitude, activeLocations),
     [lockedLoc, activeLocations],
@@ -156,6 +163,25 @@ export default function SiteListPage() {
 
   const rows = hooksBag.useSortedRows(sortableLocations, lockedLoc);
 
+  // Opened from a trip day's free time: this town's places closest first (straight line) to the
+  // stop before it, those with no position after in the usual order. With no trip, no stop or a
+  // stop with no position, the usual order and no line. Read at render, not reactive
+  // (lib/pendingSlot.ts), so an add that clears it ends this at the next render.
+  const closestTo = useMemo(() => {
+    const pending = fromDayArea === area ? currentPendingSlot() : null;
+    const trip = pending && itineraries.find((t) => t.id === pending.tripId);
+    const stopId = trip && pending ? stopBefore(trip.days, pending.dayId, pending.slot) : undefined;
+    const stop = stopId ? locations.find((l) => l.id === stopId) : undefined;
+    return stop && Number.isFinite(stop.lat) && Number.isFinite(stop.lng) ? stop : null;
+  }, [fromDayArea, area, itineraries, locations]);
+  const orderedRows = useMemo(() => {
+    if (!closestTo) return rows;
+    const byId = new Map(rows.map((r) => [r.location.id, r]));
+    const near = nearestPlaces(closestTo, rows.map((r) => r.location), { limit: rows.length });
+    const placed = new Set(near.map((n) => n.site.id));
+    return [...near.map((n) => byId.get(n.site.id)!), ...rows.filter((r) => !placed.has(r.location.id))];
+  }, [rows, closestTo]);
+
   // The card at the top, as in rotorua-guide and aklguide: the place with the highest
   // `featured` value (higher is more featured; none set counts as 0) among those shown, so
   // the chosen category's own when a tab is picked, and not again in the rows under it. A
@@ -173,10 +199,10 @@ export default function SiteListPage() {
   // On the Duo the featured place is an ordinary card, but still first (as on the phone),
   // so the row the tour points at is the place it opens.
   const listRows = useMemo(() => {
-    if (!featured) return rows;
-    const rest = rows.filter((r) => r.location.id !== featured.location.id);
+    if (!featured) return orderedRows;
+    const rest = orderedRows.filter((r) => r.location.id !== featured.location.id);
     return wide ? [featured, ...rest] : rest;
-  }, [rows, featured, wide]);
+  }, [orderedRows, featured, wide]);
 
   // The place beside the list: the one chosen if it is still in the rows, else the first (the
   // featured place on open). With no rows, none.
@@ -209,6 +235,7 @@ export default function SiteListPage() {
   useEffect(() => {
     if (!areaParam) return;
     setChosenArea(areaParam);
+    setFromDayArea(areaParam);
     setCategory(null);
     setSearchQuery("");
     setSearchOpen(false);
@@ -359,6 +386,12 @@ export default function SiteListPage() {
           </Pressable>
         ) : null}
   
+        {closestTo && (
+          <AppText variant="label" status="hint" accessibilityRole="text">
+            {`Closest to ${closestTo.name} first`}
+          </AppText>
+        )}
+
         {activeLocations.length > 0 && rows.length === 0 && (
           <AppText variant="body" status="hint" style={styles.centerText}>
             {searchQuery.trim()

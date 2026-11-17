@@ -15,7 +15,9 @@ import { usePlaceLookup } from "@/lib/hooks/usePlaceLookup";
 import { slotIndexToTimeLabel, slotsToDurationLabel, tripSummary, tryEdit } from "@/lib/utils/itineraryPhysics";
 import type { EditResult } from "@/lib/utils/itineraryPhysics";
 import type { PlaceLookup } from "@/lib/utils/transitMatrix";
-import { clearPendingSlot, peekPendingSlot } from "@/lib/pendingSlot";
+import { clearPendingSlot, peekPendingSlot, setPendingSlot } from "@/lib/pendingSlot";
+import { nearestPlaces } from "@/lib/utils/nearby";
+import { formatDistanceMeters } from "@blacksands/hooks";
 import { areaName } from "@/lib/areas";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { siteImage } from "@/lib/categoryImages";
@@ -62,7 +64,12 @@ const dayDate = (iso: string) =>
 
 // What was just added, for the done state. Its own copy: the form's trip and day are reset
 // whenever the trip list changes, and the save itself changes it.
-type Added = { tripId: string; tripTitle: string; dayId: string; dayLabel: string; slot: number };
+type Added = { tripId: string; tripTitle: string; dayId: string; dayLabel: string; slot: number;
+  /** Where the place ends, so a place picked from `near` can follow it. */
+  endSlot: number;
+  /** The closest places not in the trip, worked out once, with the trip as it now is. */
+  near: { id: string; name: string; meters: number }[];
+};
 
 type AddToTripModalProps = {
   /** `category` is the place's first, for its default image when it has no photo. */
@@ -78,7 +85,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   // The sheet is the card colour (CardShell basic), so the fades end in it, not the page's.
   const page = CARD_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
   const isOffline = netInfo.isConnected === false || netInfo.isInternetReachable === false;
-  const { places, ready: placesReady } = usePlaceLookup();
+  const { places, list: allPlaces, ready: placesReady } = usePlaceLookup();
 
   const [itineraryId, setItineraryId] = useState<string | null>(null);
   // Null until the user picks: the sheet then opens on the first day and time with room
@@ -203,6 +210,15 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
       return;
     }
     clearPendingSlot();
+    // ponytail: every place is open to everyone (isSiteLocked is always false), so "active" is the whole filter.
+    const origin = allPlaces.find((p) => p.id === site.id);
+    const inTrip = new Set([site.id, ...updatedDays.flatMap((d) => d.items.map((i) => i.siteId))]);
+    const near =
+      origin && Number.isFinite(origin.lat) && Number.isFinite(origin.lng)
+        ? nearestPlaces(origin, allPlaces.filter((p) => p.active !== false), { exclude: inTrip, addableOnly: true, limit: 3 }).map(
+            (n) => ({ id: n.site.id, name: n.site.name, meters: n.meters }),
+          )
+        : [];
     const dayIndex = selectedTrip.days.findIndex((d) => d.id === dayId);
     setAdded({
       tripId: selectedTrip.id,
@@ -210,6 +226,8 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
       dayId,
       dayLabel: `Day ${dayIndex + 1} · ${dayDate(day.date)}`,
       slot: placedItem.slotIndex ?? 0,
+      endSlot: (placedItem.slotIndex ?? 0) + (placedItem.durationSlots ?? durationSlots),
+      near,
     });
   };
 
@@ -219,6 +237,13 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
       pathname: "/(app)/(tabs)/itinerary/[itineraryId]",
       params: { itineraryId: done.tripId, jumpToDay: done.dayId, jumpToSlot: String(done.slot) },
     });
+  };
+
+  // The next place goes in right after this one, on the same day.
+  const openNear = (done: Added, id: string) => {
+    setPendingSlot({ tripId: done.tripId, dayId: done.dayId, slot: done.endSlot });
+    onClose();
+    router.push(`/(app)/(tabs)/sites/${id}`);
   };
 
   return (
@@ -246,6 +271,28 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                   {site.name} is on {added.dayLabel}
                   {itineraries.length > 1 ? ` of ${added.tripTitle}` : ""}.
                 </Text>
+                {added.near.length > 0 && (
+                  <View style={styles.near}>
+                    <Text style={styles.nearTitle}>Near {site.name}</Text>
+                    {added.near.map((n) => {
+                      const distance = formatDistanceMeters(n.meters);
+                      return (
+                        <TouchableOpacity
+                          key={n.id}
+                          style={styles.nearRow}
+                          accessibilityRole="button"
+                          accessibilityLabel={`${n.name}, ${distance}`}
+                          onPress={() => openNear(added, n.id)}
+                        >
+                          <Text style={styles.nearName} numberOfLines={1}>
+                            {n.name}
+                          </Text>
+                          <Text style={styles.nearDist}>{distance}</Text>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
+                )}
                 <AppButton variant="primary" fullWidth onPress={onClose}>
                   Done
                 </AppButton>
@@ -471,6 +518,18 @@ const styles = StyleSheet.create({
   done: { gap: tokens.space.sm, paddingTop: tokens.space.xs },
   doneTitle: { fontSize: 18, fontWeight: "700", color: tokens.colors.text },
   doneBody: { fontSize: 15, lineHeight: 22, color: tokens.colors.text2, marginBottom: tokens.space.sm },
+  near: { marginBottom: tokens.space.sm },
+  nearTitle: { fontSize: 14, fontWeight: "600", color: tokens.colors.text2, marginBottom: 2 },
+  nearRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    minHeight: 44,
+    borderBottomWidth: 1,
+    borderBottomColor: tokens.colors.line,
+  },
+  nearName: { flex: 1, fontSize: 16, fontWeight: "500", color: tokens.colors.text },
+  nearDist: { fontSize: 15, color: tokens.colors.textMuted },
   viewTrip: { alignSelf: "center", paddingVertical: 12, paddingHorizontal: tokens.space.md },
   viewTripText: { fontSize: 15, fontWeight: "600", color: tokens.colors.selected },
   // Minus and plus are round and sit close either side of the value: as squares at the

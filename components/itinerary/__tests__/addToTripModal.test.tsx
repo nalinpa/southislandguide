@@ -27,6 +27,7 @@ jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips
 const mockAreas: Record<string, string> = { "chc-a": "christchurch", "dun-a": "dunedin", "dun-b": "dunedin" };
 const mockLookup = {
   places: (id: string) => (id in mockAreas ? { area: mockAreas[id] } : undefined),
+  list: [] as any[],
   ready: true,
   count: 3,
   err: "",
@@ -68,6 +69,7 @@ beforeEach(() => {
   mockTrips.saveItinerary = jest.fn().mockResolvedValue("t1");
   mockTrips.itineraries = [makeTrip("t1")];
   mockLookup.ready = true;
+  mockLookup.list = [];
 });
 
 const makeStop = (id: string, siteId: string, slotIndex: number, durationSlots = 2) => ({
@@ -429,6 +431,88 @@ describe("refusals", () => {
     await waitFor(() => expect(view.getByText("Couldn't add to your trip. Try again.")).toBeTruthy());
     expect(onClose).not.toHaveBeenCalled();
     expect(mockRouter.push).not.toHaveBeenCalled();
+  });
+});
+
+// Q7: after adding, the places close to it, to carry on from.
+describe("places near the one just added", () => {
+  const place = (id: string, name: string, lat: number, lng: number, category = ["Nature"]) => ({
+    id,
+    name,
+    lat,
+    lng,
+    category,
+    active: true,
+  });
+  // 0.01 degrees of latitude is about 1.1 km.
+  const here = place("site-1", "Wai-O-Tapu", -38, 176);
+  const addIt = async (view: any) => {
+    await fireEvent.press(view.getByText("Add"));
+    await view.findByText("Added");
+  };
+
+  it("after adding, lists the 3 closest places not in the trip, with their distance", async () => {
+    mockLookup.list = [
+      here,
+      place("p4", "Far Four", -38.04, 176),
+      place("p1", "Near One", -38.01, 176),
+      place("p3", "Near Three", -38.03, 176),
+      place("p2", "Near Two", -38.02, 176),
+    ];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+
+    expect(view.getByText("Near Wai-O-Tapu")).toBeTruthy();
+    expect(view.getByLabelText(/^Near One, /)).toBeTruthy();
+    expect(view.getByLabelText(/^Near Two, /)).toBeTruthy();
+    expect(view.getByLabelText(/^Near Three, /)).toBeTruthy();
+    expect(view.queryByText("Far Four")).toBeNull();
+    expect(view.getByText("1.1 km")).toBeTruthy();
+  });
+
+  it("a tap opens that place with Add to Trip set to the same day, right after", async () => {
+    mockLookup.list = [here, place("p1", "Near One", -38.01, 176)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    const end = mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0];
+
+    await fireEvent.press(view.getByLabelText(/^Near One, /));
+
+    expect(peekPendingSlot("t1")).toEqual(
+      expect.objectContaining({ dayId: "day_1", slot: end.slotIndex + end.durationSlots }),
+    );
+    expect(onClose).toHaveBeenCalled();
+    expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/sites/p1");
+  });
+
+  it("offers no Stay and nothing already in the trip", async () => {
+    mockTrips.itineraries = [tripWithDays([makeStop("a", "in-trip", 1)])];
+    mockLookup.list = [
+      here,
+      place("in-trip", "Already There", -38.001, 176),
+      place("stay", "Cosy Lodge", -38.002, 176, ["Stay"]),
+      place("p1", "Near One", -38.01, 176),
+    ];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+
+    expect(view.getByText("Near One")).toBeTruthy();
+    expect(view.queryByText("Already There")).toBeNull();
+    expect(view.queryByText("Cosy Lodge")).toBeNull();
+  });
+
+  it("shows no Near list when nothing is left", async () => {
+    mockLookup.list = [here];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    expect(view.queryByText("Near Wai-O-Tapu")).toBeNull();
+  });
+
+  it("shows no Near list when the place has no position", async () => {
+    mockLookup.list = [{ ...here, lat: undefined, lng: undefined }, place("p1", "Near One", -38.01, 176)];
+    const noPos = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(noPos);
+    expect(noPos.queryByText("Near Wai-O-Tapu")).toBeNull();
   });
 });
 

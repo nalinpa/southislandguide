@@ -8,10 +8,10 @@ jest.mock("@/lib/uiKit", () => {
     ...base,
     components: {
       ...base.components,
-      TimelineBlock: ({ item, holdToDrag, onEdit, onDrop }: any) =>
+      TimelineBlock: ({ item, holdToDrag, readOnly, onEdit, onDrop }: any) =>
         React.createElement(
           TouchableOpacity,
-          { testID: "stop-" + item.siteId, onPress: () => onEdit(item), accessibilityHint: String(holdToDrag), accessibilityValue: { text: String(onDrop(item.id, 99)) } },
+          { testID: "stop-" + item.siteId, onPress: () => onEdit(item), accessibilityHint: String(holdToDrag), accessibilityLabel: String(readOnly), accessibilityValue: { text: String(onDrop(item.id, 99)) } },
           React.createElement(Text, null, "Stop: " + item.siteName),
         ),
       TransitBlock: () => null,
@@ -94,7 +94,8 @@ describe("a guest on the Duo", () => {
     const view = await render(<ItineraryListPage />);
     const first = view.getByTestId("stop-" + stopsOf(1)[0]);
 
-    expect(Number(first.props.accessibilityHint)).toBeGreaterThan(60_000);
+    expect(first.props.accessibilityLabel).toBe("true");
+    expect(first.props.accessibilityHint).toBe("undefined");
     expect(first.props.accessibilityValue.text).toBe(String(sample.days[0].items[0].slotIndex ?? 0));
     await fireEvent.press(first);
     expect(mockRouter.push).toHaveBeenCalledWith(`/(app)/(tabs)/sites/${stopsOf(1)[0]}`);

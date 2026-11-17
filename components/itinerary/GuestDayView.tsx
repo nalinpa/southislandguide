@@ -17,8 +17,6 @@ import type { PlaceLookup } from "@/lib/utils/transitMatrix";
 
 const { SLOT_HEIGHT, MAX_GRID_SLOTS } = PLANNER;
 const BLOCK_LEFT = 64;
-// A hold this long never comes: the sample's stops can't be picked up.
-const NEVER = 3_600_000;
 
 type Props = {
   days: ItineraryDay[];
@@ -94,7 +92,7 @@ export function GuestDayView({ days, index, places, iconFor }: Props) {
                   colors={{ grip: "rgba(255,255,255,0.7)", note: tokens.colors.success }}
                   maxSlots={MAX_GRID_SLOTS + 1}
                   slotHeight={SLOT_HEIGHT}
-                  holdToDrag={NEVER}
+                  readOnly
                   // Read-only: a drop settles where it started, and a tap opens the place.
                   onDrop={() => item.slotIndex ?? 0}
                   onDragStart={() => {}}

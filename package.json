@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@blacksands/client": "^0.4.0",
-    "@blacksands/components": "^0.13.1",
+    "@blacksands/components": "^0.13.2",
     "@blacksands/hooks": "^0.4.7",
     "@blacksands/ui": "^0.7.3",
     "@expo/ui": "~58.0.28",

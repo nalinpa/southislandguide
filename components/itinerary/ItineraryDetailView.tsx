@@ -991,6 +991,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                 <Fragment key={item.id}>
                   <components.TimelineBlock
                     wide={wide}
+                    plainTime
                     // When it starts and ends ("1:00 – 2:00 PM"), not its start and length.
                     item={{
                       ...item,

@@ -14,12 +14,13 @@ jest.mock("@/lib/uiKit", () => {
     ...kit,
     components: {
       ...kit.components,
-      TimelineBlock: ({ item, onDrop, onDragStart, onEdit, onNotePress, wide }: any) => {
+      TimelineBlock: ({ item, onDrop, onDragStart, onEdit, onNotePress, wide, plainTime }: any) => {
         // Counts mounts, to tell a remount from a redraw; and keeps the `wide` it was given.
         React.useEffect(() => {
           mockMounts.timeline++;
         }, []);
         mockMounts.wide = wide;
+        mockMounts.plainTime = plainTime;
         return React.createElement(
           View,
           null,
@@ -111,7 +112,7 @@ const mockAreas: Record<string, string> = {
   "dun-a": "dunedin",
   "dun-b": "dunedin",
 };
-const mockMounts = { overview: 0, timeline: 0, wide: undefined as boolean | undefined };
+const mockMounts = { overview: 0, timeline: 0, wide: undefined as boolean | undefined, plainTime: undefined as boolean | undefined };
 const mockInsets = { top: 44, bottom: 34, left: 0, right: 0 };
 const mockLookup = {
   places: (id: string) => (id in mockAreas ? { area: mockAreas[id] } : undefined),
@@ -1227,6 +1228,13 @@ describe("the trip, wide", () => {
     setPhone();
     await openTrip();
     expect(mockMounts.wide).toBe(false);
+  });
+
+  it("draws the stop times plain on a phone too", async () => {
+    setPhone();
+    await openTrip();
+    expect(mockMounts.wide).toBe(false);
+    expect(mockMounts.plainTime).toBe(true);
   });
 
   it("keeps the list across the breakpoint, and the day it was on", async () => {

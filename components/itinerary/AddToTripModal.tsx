@@ -72,9 +72,14 @@ type Added = { tripId: string; tripTitle: string; dayId: string; dayLabel: strin
   lastSlot: number;
   /** The trip's days as the last save in this sheet left them, so the next + packs against them. */
   days: ItineraryDay[];
-  /** The closest places not in the trip, worked out once, with the trip as it now is. */
+  /** The closest places not in the trip, worked out once, with the trip as it now is. More
+   *  than are shown: only the ones that still fit on the day are listed. */
   near: (NearRow & { durationSlots: number })[];
 };
+
+// How many of the closest places are kept to pick the listed ones from, and how many are listed.
+const NEAR_POOL = 20;
+const NEAR_SHOWN = 6;
 
 type AddToTripModalProps = {
   /** `category` is the place's first, for its default image when it has no photo. */
@@ -261,7 +266,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     const inTrip = new Set([site.id, ...updatedDays.flatMap((d) => d.items.map((i) => i.siteId))]);
     const near =
       origin && Number.isFinite(origin.lat) && Number.isFinite(origin.lng)
-        ? nearestPlaces(origin, allPlaces.filter((p) => p.active !== false), { exclude: inTrip, addableOnly: true, limit: 6 }).map(
+        ? nearestPlaces(origin, allPlaces.filter((p) => p.active !== false), { exclude: inTrip, addableOnly: true, limit: NEAR_POOL }).map(
             (n) => ({
               id: n.site.id,
               name: n.site.name,
@@ -328,6 +333,19 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     setRowState((r) => ({ ...r, [id]: { state: "added" } }));
   };
 
+  // Only places that still have room on the day are listed (owner, 2026-11-18): a row with
+  // no room was a + that could only say no. One already added (or saving) stays, with its tick.
+  const nearRows = added
+    ? added.near
+        .filter(
+          (n) =>
+            rowState[n.id]?.state === "added" ||
+            rowState[n.id]?.state === "saving" ||
+            candidateEdit(added.days, added.dayId, { id: n.id, name: n.name, imageUrl: n.imageUrl ?? undefined }, added.endSlot, n.durationSlots, places).result.ok,
+        )
+        .slice(0, NEAR_SHOWN)
+    : [];
+
   // The list is capped by a number, never by flex: CardShell's inner wrappers don't pass a
   // height down, and a flex: 1 list inside them collapsed the whole card on a phone (owner,
   // 2026-11-18). Phone: the card may reach 24 clear of the safe area top and bottom, and
@@ -341,7 +359,8 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
         <View style={[styles.wrapper, wide?.card]}>
           <CardShell status="basic" shrink style={[styles.card, wide && styles.wideCard]}>
             <View style={styles.header}>
-              <Text style={styles.title}>Add to Trip</Text>
+              {/* Once the place is in and there are places to follow it, the sheet is about those. */}
+              <Text style={styles.title}>{nearRows.length > 0 ? "Add the Next Stop" : "Add to Trip"}</Text>
               <TouchableOpacity
                 onPress={onClose}
                 disabled={Object.values(rowState).some((s) => s.state === "saving")}
@@ -359,7 +378,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                 line={`Added to ${added.dayLabel}${itineraries.length > 1 ? ` of ${added.tripTitle}` : ""}`}
                 dayNumber={added.dayNumber}
                 placeName={site.name}
-                rows={added.near}
+                rows={nearRows}
                 rowState={rowState}
                 onAdd={(id) => addNear(added, id)}
                 onOpen={(id) => openNear(added, id)}

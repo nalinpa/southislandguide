@@ -552,18 +552,31 @@ describe("places near the one just added", () => {
     });
   });
 
-  it("says No room left on Day 1 when it doesn't fit, and saves nothing", async () => {
-    // The first place fits; the next asks for a whole day.
-    mockLookup.list = [here, place("p1", "Near 1", -38.01, 176, ["Nature"], { recommendedDurationSlots: PLANNER.MAX_GRID_SLOTS })];
+  it("doesn't list a place that has no room on the day, and lists the next ones that do", async () => {
+    // The closest asks for a whole day; the two after it fit.
+    mockLookup.list = [
+      here,
+      place("big", "Whole Day", -38.001, 176, ["Nature"], { recommendedDurationSlots: PLANNER.MAX_GRID_SLOTS }),
+      ...nearby(2),
+    ];
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
     await addIt(view);
 
-    await fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
-
-    expect(await view.findByText("No room left on Day 1.")).toBeTruthy();
-    expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(1);
-    expect(view.getByLabelText("Add Near 1 to Day 1")).toBeTruthy();
+    expect(view.queryByLabelText(/^Whole Day, /)).toBeNull();
+    expect(view.getByText("Add the Next Stop")).toBeTruthy();
+    expect(view.queryByText("Add to Trip")).toBeNull();
     expect(view.getByLabelText(/^Near 1, /)).toBeTruthy();
+    expect(view.getByLabelText(/^Near 2, /)).toBeTruthy();
+  });
+
+  it("shows no Near list when nothing nearby has room on the day", async () => {
+    mockLookup.list = [here, place("big", "Whole Day", -38.001, 176, ["Nature"], { recommendedDurationSlots: PLANNER.MAX_GRID_SLOTS })];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+
+    expect(view.queryByText("Near Wai-O-Tapu")).toBeNull();
+    expect(view.getByText("Add to Trip")).toBeTruthy();
+    expect(view.getByText("Done")).toBeTruthy();
   });
 
   it("says Couldn't add when the save fails, and the + comes back", async () => {

@@ -224,4 +224,30 @@ describe("useAuthForm", () => {
       expect(result.current.err).toBe("Incorrect email or password.");
     });
   });
+
+  describe("errors and setters", () => {
+    it("an error clears when the email changes", async () => {
+      mockSignIn.mockRejectedValue(new Error("bad credentials"));
+      const { result } = await renderHook(() => useAuthForm("login"));
+      await act(async () => result.current.submit());
+      expect(result.current.err).toBe("bad credentials");
+      await act(async () => result.current.setEmail("a@b.com"));
+      expect(result.current.err).toBeNull();
+    });
+
+    it("an error clears when the mode changes", async () => {
+      const { result } = await renderHook(() => useAuthForm("login"));
+      await act(async () => result.current.setErr("Apple failed"));
+      expect(result.current.err).toBe("Apple failed");
+      await act(async () => result.current.setMode("signup"));
+      expect(result.current.err).toBeNull();
+    });
+
+    it("the setters keep their identity across renders", async () => {
+      const { result } = await renderHook(() => useAuthForm("login"));
+      const first = [result.current.setMode, result.current.setEmail, result.current.setPassword, result.current.setConfirm];
+      await act(async () => result.current.setEmail("a@b.com"));
+      expect([result.current.setMode, result.current.setEmail, result.current.setPassword, result.current.setConfirm]).toEqual(first);
+    });
+  });
 });

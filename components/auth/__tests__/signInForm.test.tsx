@@ -50,7 +50,7 @@ jest.mock("@/lib/providers/SessionProvider", () => ({ useSession: () => ({ sessi
 
 import React from "react";
 import { Platform } from "react-native";
-import { fireEvent, render } from "@testing-library/react-native";
+import { act, fireEvent, render } from "@testing-library/react-native";
 
 import { SignInForm } from "@/components/auth/SignInForm";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
@@ -104,6 +104,14 @@ describe("SignInForm", () => {
       expect(view.queryByText("or")).toBeNull();
     });
 
+    it("shows neither the buttons nor the divider on password reset", async () => {
+      const view = await render(<Form />);
+      await fireEvent.press(view.getByText("Forgot password?"));
+      expect(view.queryByLabelText("Password")).toBeNull();
+      expect(view.queryByText("Social fail")).toBeNull();
+      expect(view.queryByText("or")).toBeNull();
+    });
+
     it("a sign-in error shows in the form, and clears when the email changes", async () => {
       const view = await render(<Form />);
       await fireEvent.press(view.getByText("Social fail"));
@@ -117,6 +125,18 @@ describe("SignInForm", () => {
       expect(view.getByLabelText("Email").props.editable).toBe(true);
       await fireEvent.press(view.getByText("Social sheet open"));
       expect(view.getByLabelText("Email").props.editable).toBe(false);
+    });
+
+    it("tells the buttons to hold while the email form is submitting", async () => {
+      let release: (v?: unknown) => void = () => {};
+      (require("firebase/auth").signInWithEmailAndPassword as jest.Mock).mockReturnValue(new Promise((r) => (release = r)));
+      const view = await render(<Form />);
+      expect(view.getByText("Social enabled")).toBeTruthy();
+      await fireEvent.changeText(view.getByLabelText("Email"), "a@b.co");
+      await fireEvent.changeText(view.getByLabelText("Password"), "pw");
+      await fireEvent.press(view.getByRole("button", { name: "Sign in" }));
+      expect(view.getByText("Social disabled")).toBeTruthy();
+      await act(async () => release({}));
     });
   });
 });

@@ -183,6 +183,8 @@ describe("one provider at a time", () => {
 });
 
 describe("colours", () => {
+  // The Google button's coloured box.
+  const googleInner = (view: any) => view.getByTestId("google-inner");
   const scheme = (v: "light" | "dark") => jest.spyOn(require("react-native"), "useColorScheme").mockReturnValue(v);
   afterEach(() => jest.restoreAllMocks());
 
@@ -190,15 +192,25 @@ describe("colours", () => {
     scheme("dark");
     const view = await renderButtons();
     expect(view.getByTestId("apple-1")).toBeTruthy();
-    const google = view.getByText("Sign in with Google");
-    expect(StyleSheet.flatten(google.props.style).color).toBe("#1F1F1F");
-    expect(JSON.stringify(view.toJSON())).toContain('"backgroundColor":"#FFFFFF"');
+    const words = view.getByText("Sign in with Google");
+    expect(StyleSheet.flatten(words.props.style).color).toBe("#1F1F1F");
+    expect(StyleSheet.flatten(googleInner(view).props.style).backgroundColor).toBe("#FFFFFF");
   });
 
   it("light mode: both black", async () => {
     scheme("light");
     const view = await renderButtons();
     expect(view.getByTestId("apple-0")).toBeTruthy();
-    expect(JSON.stringify(view.toJSON())).toContain('"backgroundColor":"#000000"');
+    expect(StyleSheet.flatten(googleInner(view).props.style).backgroundColor).toBe("#000000");
+  });
+});
+
+describe("disabled", () => {
+  it("disabled: neither button starts a sign-in", async () => {
+    const view = await render(<SocialSignInButtons onError={onError} onBusyChange={onBusyChange} disabled />);
+    await fireEvent.press(view.getByText("Sign in with Apple"));
+    await fireEvent.press(view.getByText("Sign in with Google"));
+    expect(mockAppleSignIn).not.toHaveBeenCalled();
+    expect(mockGoogleSignIn).not.toHaveBeenCalled();
   });
 });

@@ -96,7 +96,7 @@ export function SocialSignInButtons({ onError, onBusyChange, disabled }: SocialS
         onPress={() => void handleAppleSignIn()}
       />
       <Pressable style={[styles.button, socialBusy && styles.dimmed]} disabled={socialBusy} onPress={() => void handleGoogleSignIn()}>
-        <View style={[styles.googleInner, dark && styles.googleInnerDark]}>
+        <View testID="google-inner" style={[styles.googleInner, dark && styles.googleInnerDark]}>
           {signingInWith === "google" ? (
             <ActivityIndicator color={dark ? "#1F1F1F" : "#FFFFFF"} />
           ) : (

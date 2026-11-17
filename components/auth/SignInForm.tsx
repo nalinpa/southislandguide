@@ -24,7 +24,8 @@ export function SignInForm({
   // only, as the buttons are. usesAppleSignIn stays in app.config.ts on purpose: without it
   // `eas build` switches the capability off at Apple.
   const [socialBusy, setSocialBusy] = useState(false);
-  const social = Platform.OS === "ios";
+  // Not on password reset: that screen is about the email.
+  const social = Platform.OS === "ios" && f.mode !== "reset";
   const busy = f.busy || socialBusy || session.status === "loading";
   return (
     <>

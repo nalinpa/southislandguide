@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -23,14 +23,11 @@ export function useAuthForm(initialMode: Mode) {
   const [notice, setNotice] = useState<string | null>(null);
 
   // An error (the email's or a provider's) goes when the person edits a field or changes mode.
-  const clearing = <T,>(set: (v: T) => void) => (v: T) => {
-    setErr(null);
-    set(v);
-  };
-  const setMode = clearing(setModeRaw);
-  const setEmail = clearing(setEmailRaw);
-  const setPassword = clearing(setPasswordRaw);
-  const setConfirm = clearing(setConfirmRaw);
+  // useCallback: the setters stay stable across renders, as plain useState setters were.
+  const setMode = useCallback((v: Mode) => (setErr(null), setModeRaw(v)), []);
+  const setEmail = useCallback((v: string) => (setErr(null), setEmailRaw(v)), []);
+  const setPassword = useCallback((v: string) => (setErr(null), setPasswordRaw(v)), []);
+  const setConfirm = useCallback((v: string) => (setErr(null), setConfirmRaw(v)), []);
 
   const title =
     mode === "login" ? "Welcome back" : mode === "signup" ? "Create account" : "Reset your password";

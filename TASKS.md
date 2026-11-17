@@ -57,10 +57,10 @@ Plan: the doc [Kiwi Guide 1.3 Plan](https://claude.ai/artifact/1qoZN26ADdcgrQPRm
 
 Plan: `docs/plans/duo-131.md`. Drawings: the [1.3.1 mocks page](https://claude.ai/artifact/6NR3pWF54NL36rgoNvfZhX). Picked values: `docs/plans/design-sweep.md`, "## Wide".
 
-- [ ] Explore with the chosen place beside it (Tasks 1 to 3)
-- [ ] Profile with a right pane: guide link, Saved Places, Photo credits, sign-in for a guest (Tasks 4 and 5)
-- [ ] The tour on the new Explore, and the full check (Task 6)
-- [ ] Check it on the Duo in the simulator (Task 7; `simulator` channel only)
+- [x] Explore with the chosen place beside it (Tasks 1 to 3) — built and reviewed 2026-11-17
+- [x] Profile with a right pane: guide link, Saved Places, Photo credits, sign-in for a guest (Tasks 4 and 5) — built and reviewed 2026-11-17
+- [x] The tour on the new Explore, and the full check (Task 6) — built and reviewed 2026-11-17
+- [ ] Check it on the Duo in the simulator (Task 7; `simulator` channel only) — on hold (owner, 2026-11-17); the check list is in the plan
 - [ ] Release: merge, bump to 1.3.1, store build; redo Duo screenshots 2, 6 and 7 and the Duo preview video
 
 **Never publish this branch to the `production` channel:** it has 1.3.0's runtime, so it would reach every 1.3 user.

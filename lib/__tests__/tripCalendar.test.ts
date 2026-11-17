@@ -11,8 +11,10 @@ const mockCalendar = {
   }),
 };
 const mockPermission = { granted: true };
+const mockStatus = { value: "granted" };
 const mockPicker = jest.fn(async (): Promise<any> => mockCalendar);
 jest.mock("expo-calendar", () => ({
+  getCalendarPermissions: jest.fn(async () => ({ status: mockStatus.value })),
   requestCalendarPermissions: jest.fn(async () => mockPermission),
   presentPicker: () => mockPicker(),
   ExpoCalendarEvent: {
@@ -26,6 +28,7 @@ jest.mock("@react-native-async-storage/async-storage", () =>
 import { Alert, Linking } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import * as Calendar from "expo-calendar";
 import { addTripToCalendar, tripCalendarEvents } from "@/lib/tripCalendar";
 import { packTrip } from "@/lib/utils/itineraryPhysics";
 import type { ItineraryDay, ItineraryItem } from "@/lib/models";
@@ -52,6 +55,8 @@ beforeEach(async () => {
   mockCreated.length = 0;
   mockDeleted.length = 0;
   mockPermission.granted = true;
+  mockStatus.value = "granted";
+  (Calendar.requestCalendarPermissions as jest.Mock).mockClear();
   mockCalendar.createEvent.mockClear();
   mockPicker.mockClear().mockImplementation(async () => mockCalendar);
   await AsyncStorage.clear();
@@ -174,5 +179,50 @@ describe("addTripToCalendar", () => {
     alertSpy.mock.calls[0][2][1].onPress();
     expect(openSettings).toHaveBeenCalled();
     openSettings.mockRestore();
+  });
+
+  const asking = ["Add to Calendar?", "Optional. Kiwi Guide puts each place and drive on a calendar you pick. Your trip works without it."];
+
+  it("the first time, says it's optional before iOS asks", async () => {
+    mockStatus.value = "undetermined";
+    const done = addTripToCalendar(trip, tripDays(), places);
+    await new Promise((r) => setTimeout(r, 0));
+
+    expect(alertSpy).toHaveBeenCalledWith(asking[0], asking[1], [
+      expect.objectContaining({ text: "Not Now" }),
+      expect.objectContaining({ text: "Continue" }),
+    ], expect.anything());
+    expect(Calendar.requestCalendarPermissions).not.toHaveBeenCalled();
+    alertSpy.mock.calls[0][2][1].onPress();
+    await done;
+    expect(Calendar.requestCalendarPermissions).toHaveBeenCalled();
+    expect(mockPicker).toHaveBeenCalled();
+  });
+
+  it("Not Now leaves without asking iOS", async () => {
+    mockStatus.value = "undetermined";
+    const done = addTripToCalendar(trip, tripDays(), places);
+    await new Promise((r) => setTimeout(r, 0));
+    alertSpy.mock.calls[0][2][0].onPress?.();
+    await done;
+
+    expect(Calendar.requestCalendarPermissions).not.toHaveBeenCalled();
+    expect(mockPicker).not.toHaveBeenCalled();
+  });
+
+  it("once allowed, goes straight to the picker", async () => {
+    await addTripToCalendar(trip, tripDays(), places);
+
+    expect(alertSpy).not.toHaveBeenCalledWith(asking[0], expect.anything(), expect.anything());
+    expect(mockPicker).toHaveBeenCalled();
+  });
+
+  it("once refused, offers Settings as before", async () => {
+    mockStatus.value = "denied";
+    mockPermission.granted = false;
+    await addTripToCalendar(trip, tripDays(), places);
+
+    expect(alertSpy).toHaveBeenCalledWith("Calendar Access Needed", expect.any(String), expect.any(Array));
+    expect(alertSpy).not.toHaveBeenCalledWith(asking[0], expect.anything(), expect.anything());
   });
 });

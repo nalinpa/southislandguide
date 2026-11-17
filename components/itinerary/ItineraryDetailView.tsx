@@ -1144,23 +1144,6 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                 accessibilityRole="button"
                 onPress={() => {
                   setShowTripMenu(false);
-                  // The trip as it stands on screen, with the open day's edits saved first.
-                  flushSave();
-                  void addTripToCalendar(
-                    { id: localTrip.id, title: localTrip.title },
-                    tripRef.current ? currentDays() : localTrip.days,
-                    places,
-                  );
-                }}
-              >
-                <Text style={styles.menuRowText}>Add to Calendar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.menuRow, styles.menuRowDivider]}
-                activeOpacity={0.6}
-                accessibilityRole="button"
-                onPress={() => {
-                  setShowTripMenu(false);
                   Alert.alert("Start a New Trip?", `It replaces ${localTrip.title || "My Trip"} and its places.`, [
                     { text: "Cancel", style: "cancel" },
                     {
@@ -1188,6 +1171,23 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                   <Text style={styles.menuRowText}>Switch Trip</Text>
                 </TouchableOpacity>
               )}
+              <TouchableOpacity
+                style={[styles.menuRow, styles.menuRowDivider]}
+                activeOpacity={0.6}
+                accessibilityRole="button"
+                onPress={() => {
+                  setShowTripMenu(false);
+                  // The trip as it stands on screen, with the open day's edits saved first.
+                  flushSave();
+                  void addTripToCalendar(
+                    { id: localTrip.id, title: localTrip.title },
+                    tripRef.current ? currentDays() : localTrip.days,
+                    places,
+                  );
+                }}
+              >
+                <Text style={styles.menuRowText}>Add to Calendar</Text>
+              </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuRow}
                 activeOpacity={0.6}

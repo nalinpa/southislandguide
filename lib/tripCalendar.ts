@@ -102,6 +102,22 @@ async function removeEvents(ids: string[]): Promise<string[]> {
 const looksLikeGoogle = (calendar: Calendar.ExpoCalendar) => /google|gmail/i.test(calendar.source?.name ?? "");
 
 export async function addTripToCalendar(trip: { id: string; title: string }, days: ItineraryDay[], places: PlaceLookup) {
+  // Before iOS asks the first time, say it's optional (it asks only once). Not Now, or an
+  // alert dismissed any other way, leaves without asking.
+  if ((await Calendar.getCalendarPermissions()).status === "undetermined") {
+    const goOn = await new Promise<boolean>((resolve) =>
+      Alert.alert(
+        "Add to Calendar?",
+        "Optional. Kiwi Guide puts each place and drive on a calendar you pick. Your trip works without it.",
+        [
+          { text: "Not Now", style: "cancel", onPress: () => resolve(false) },
+          { text: "Continue", onPress: () => resolve(true) },
+        ],
+        { onDismiss: () => resolve(false) },
+      ),
+    );
+    if (!goOn) return;
+  }
   const { granted } = await Calendar.requestCalendarPermissions();
   if (!granted) {
     Alert.alert("Calendar Access Needed", "Allow Kiwi Guide to use your calendars in Settings, then try again.", [

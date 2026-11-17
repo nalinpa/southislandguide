@@ -329,7 +329,7 @@ describe("the trip's top gap on the Duo", () => {
 });
 
 describe("the trip's ⋯ menu on the Duo", () => {
-  const words = ["Edit Trip", "Add to Calendar", "Start a New Trip", "Delete Trip"];
+  const words = ["Edit Trip", "Start a New Trip", "Add to Calendar", "Delete Trip"];
 
   it("is a centred 400 card with the same actions in the same order,", async () => {
     setWide({ width: 951, height: 669 });
@@ -340,8 +340,10 @@ describe("the trip's ⋯ menu on the Duo", () => {
     expect(flat(card).width).toBe(400);
     expect(flat(card.parent!).justifyContent).toBe("center");
     expect(flat(card.parent!).alignItems).toBe("center");
-    const shown = words.map((w) => view.getByText(w));
-    expect(shown).toHaveLength(4);
+    const shown = within(card)
+      .getAllByRole("button")
+      .map((b) => within(b).getByText(/./).props.children);
+    expect(shown).toEqual(words);
   });
 
   it("upright, is centred in the window too, with no fold-based padding", async () => {

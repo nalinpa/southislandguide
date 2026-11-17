@@ -553,6 +553,26 @@ describe("the trip menu", () => {
     expect(view.getByText("Delete Trip")).toBeTruthy();
   });
 
+  const rowTexts = (view: any) =>
+    within(view.getByTestId("trip-menu-card"))
+      .getAllByRole("button")
+      .map((b: any) => within(b).getByText(/./).props.children);
+
+  it("lists Edit Trip, Start a New Trip, Add to Calendar, Delete Trip, in that order", async () => {
+    const view = await openTrip();
+    await fireEvent.press(view.getByLabelText("Trip options"));
+
+    expect(rowTexts(view)).toEqual(["Edit Trip", "Start a New Trip", "Add to Calendar", "Delete Trip"]);
+  });
+
+  it("puts Switch Trip after Start a New Trip when there are two trips", async () => {
+    mockTrips.itineraries = [makeTrip(), { ...makeTrip(), id: "t2", title: "Taupo Leg" }];
+    const view = await openTrip();
+    await fireEvent.press(view.getByLabelText("Trip options"));
+
+    expect(rowTexts(view)).toEqual(["Edit Trip", "Start a New Trip", "Switch Trip", "Add to Calendar", "Delete Trip"]);
+  });
+
   it("opens the trip editor on the trip as it stands", async () => {
     const view = await openTrip();
     await fireEvent.press(view.getByLabelText("Trip options"));

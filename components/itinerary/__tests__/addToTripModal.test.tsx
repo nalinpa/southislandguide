@@ -597,4 +597,22 @@ describe("the Day row follows the chosen day", () => {
 
     expect(scrollTo()).not.toHaveBeenCalled();
   });
+
+  it("a second open scrolls from the new layout, not the old one", async () => {
+    mockTrips.itineraries = [makeTrip("t1", 10)];
+    setPendingSlot({ tripId: "t1", dayId: "day_9", slot: 9 });
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await layOut(view, "Day 9", 880);
+    expect(scrollTo()).toHaveBeenLastCalledWith({ x: 856, animated: false });
+    scrollTo().mockClear();
+
+    // Closed (site null) and opened for another place: the row is laid out afresh.
+    await view.rerender(<AddToTripModal site={null} onClose={onClose} />);
+    await view.rerender(<AddToTripModal site={{ ...site, id: "site-2" }} onClose={onClose} />);
+    expect(scrollTo()).not.toHaveBeenCalled();
+
+    await layOut(view, "Day 9", 900);
+    expect(scrollTo()).toHaveBeenCalledTimes(1);
+    expect(scrollTo()).toHaveBeenCalledWith({ x: 876, animated: false });
+  });
 });

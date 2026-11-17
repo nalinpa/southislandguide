@@ -119,7 +119,12 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     dayRow.current?.scrollTo({ x: Math.max(0, x - 24), animated: false });
   };
   useEffect(() => {
-    if (!added) wantScroll.current = true;
+    if (!added) {
+      wantScroll.current = true;
+      // Only a fresh layout of the chosen pill may trigger the scroll: the row is a new one
+      // by now (see its key), and a stored x from the last one may not match it.
+      pillX.current = {};
+    }
   }, [added, site?.id, itineraryId]);
   useEffect(scrollToChosen);
 
@@ -367,7 +372,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                 <>
                   <Text testID="add-day-label" style={[styles.label, wide && styles.wideLabel]}>Day</Text>
                   <View>
-                  <ScrollView ref={dayRow} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillRow}>
+                  <ScrollView key={`${selectedTrip.id}:${site.id}`} ref={dayRow} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillRow}>
                     {days.map((d, idx) => {
                       const active = day?.id === d.id;
                       // A day with no room can't be picked (owner, 2026-11-11).

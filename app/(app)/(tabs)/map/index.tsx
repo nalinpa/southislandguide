@@ -90,17 +90,25 @@ export default function MapScreen() {
   // survives, so focus it again if it was in use or let go within 500 ms before the width changed.
   // A deliberate dismiss (submit, clear, a place tapped) sets `ignoreBlur` so it never counts.
   const searchRef = useRef<React.ComponentRef<typeof TextInput>>(null);
-  const searchUse = useRef({ focused: false, blurredAt: 0, ignoreBlur: false });
+  // The blur can come before the fold's effect or just after it; either order refocuses once
+  // (`foldAt` + `refocused` cover the blur-after case and stop a loop).
+  const searchUse = useRef({ focused: false, blurredAt: 0, ignoreBlur: false, foldAt: 0, refocused: false });
   const dismissSearch = useCallback(() => {
-    searchUse.current = { focused: false, blurredAt: 0, ignoreBlur: true };
+    Object.assign(searchUse.current, { focused: false, blurredAt: 0, ignoreBlur: true });
     Keyboard.dismiss();
   }, []);
   const prevWide = useRef(wide);
   useEffect(() => {
     if (prevWide.current === wide) return;
     prevWide.current = wide;
-    const { focused, blurredAt } = searchUse.current;
-    if (focused || (blurredAt && Date.now() - blurredAt < 500)) searchRef.current?.focus();
+    const u = searchUse.current;
+    u.foldAt = Date.now();
+    u.refocused = false;
+    // Still focused: nothing to do yet, a blur may follow (handled in onBlur).
+    if (!u.focused && u.blurredAt && u.foldAt - u.blurredAt < 500) {
+      u.refocused = true;
+      searchRef.current?.focus();
+    }
   }, [wide]);
   // A category, or "trip": only the places in the person's trip (tester, 2026-11-11).
   const [mapFilter, setMapFilter] = useState<SiteCategory | "trip" | null>(null);
@@ -361,11 +369,16 @@ export default function MapScreen() {
             <TextInput
               ref={searchRef}
               onFocus={() => {
-                searchUse.current = { focused: true, blurredAt: 0, ignoreBlur: false };
+                Object.assign(searchUse.current, { focused: true, blurredAt: 0, ignoreBlur: false });
               }}
               onBlur={() => {
-                const { ignoreBlur } = searchUse.current;
-                searchUse.current = { focused: false, blurredAt: ignoreBlur ? 0 : Date.now(), ignoreBlur: false };
+                const u = searchUse.current;
+                const deliberate = u.ignoreBlur;
+                Object.assign(u, { focused: false, blurredAt: deliberate ? 0 : Date.now(), ignoreBlur: false });
+                if (!deliberate && !u.refocused && u.foldAt && Date.now() - u.foldAt < 500) {
+                  u.refocused = true;
+                  searchRef.current?.focus();
+                }
               }}
               style={styles.searchInput}
               placeholder="Search places..."

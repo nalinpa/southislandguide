@@ -800,6 +800,30 @@ describe("wide", () => {
       expect(view.getByPlaceholderText("Search places...").props.value).toBe("ric");
     });
 
+    it("keeps typing when the blur comes just after the fold", async () => {
+      const view = await render(<MapScreen />);
+      const input = view.getByPlaceholderText("Search places...");
+      await fireEvent(input, "focus");
+      ui().__setWide(true);
+      await view.rerender(<MapScreen />);
+      // Still focused at the fold: focusing now would be a no-op the blur then undoes.
+      expect(focus).not.toHaveBeenCalled();
+      await fireEvent(view.getByPlaceholderText("Search places..."), "blur");
+
+      expect(focus).toHaveBeenCalledTimes(1);
+    });
+
+    it("doesn't grab focus after a submit that follows a fold", async () => {
+      const view = await render(<MapScreen />);
+      const input = view.getByPlaceholderText("Search places...");
+      await fireEvent(input, "focus");
+      ui().__setWide(true);
+      await view.rerender(<MapScreen />);
+      await fireEvent(view.getByPlaceholderText("Search places..."), "submitEditing");
+      await fireEvent(view.getByPlaceholderText("Search places..."), "blur");
+      expect(focus).not.toHaveBeenCalled();
+    });
+
     it("doesn't grab focus after the search was submitted or cleared", async () => {
       const view = await render(<MapScreen />);
       const input = view.getByPlaceholderText("Search places...");

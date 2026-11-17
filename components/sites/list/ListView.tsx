@@ -1,7 +1,6 @@
 // components/sites/list/ListView.tsx
 import { useCallback, useEffect, useRef } from "react";
 import { View, StyleSheet, type RefreshControlProps } from "react-native";
-import { useHalves, useWide } from "@blacksands/ui";
 import { FlashList, type FlashListRef } from "@shopify/flash-list";
 
 import { ListItem } from "@/components/sites/list/ListItem";
@@ -20,8 +19,7 @@ type ListRow = SortedRow<{
   category: SiteCategory[];
 }>;
 
-// 24 between rows on a phone, 32 on the Duo (owner, 2026-11-16).
-const ItemSeparator = () => <View testID="list-separator" style={[styles.separator, useWide() && styles.separatorWide]} />;
+const ItemSeparator = () => <View testID="list-separator" style={styles.separator} />;
 
 type ListViewProps = {
   rows: ListRow[];
@@ -46,11 +44,6 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
   useEffect(() => {
     if (atTop) list.current?.scrollToOffset({ offset: 0, animated: false });
   }, [atTop]);
-
-  // The open Duo: one column upright, two sideways with a 24 gutter, 20 on the sides.
-  const wide = useWide();
-  const { upright } = useHalves();
-  const columns = !compact && wide && !upright ? 2 : 1;
 
   const renderItem = useCallback(
     ({ item, index }: { item: ListRow; index: number }) => {
@@ -77,13 +70,11 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
           distanceMeters={item.distanceMeters}
           onPress={onPressItem}
           index={index}
-          wide={wide}
         />
       );
-      const target = index === 0 && firstRowTarget ? <View {...firstRowTarget}>{row}</View> : row;
-      return columns === 2 ? <View testID="list-gutter" style={styles.gutter}>{target}</View> : target;
+      return index === 0 && firstRowTarget ? <View {...firstRowTarget}>{row}</View> : row;
     },
-    [onPressItem, firstRowTarget, wide, columns, compact, selectedId],
+    [onPressItem, firstRowTarget, compact, selectedId],
   );
 
   return (
@@ -97,8 +88,8 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
       ListHeaderComponent={header ?? null}
       ListEmptyComponent={ListEmptyComponent ?? null}
       refreshControl={refreshControl}
-      numColumns={columns}
-      contentContainerStyle={compact ? styles.contentCompact : wide ? (columns === 2 ? styles.contentTwo : styles.contentOne) : styles.listContent}
+      numColumns={1}
+      contentContainerStyle={compact ? styles.contentCompact : styles.listContent}
       showsVerticalScrollIndicator={false}
     />
   );
@@ -110,12 +101,7 @@ const styles = StyleSheet.create({
     paddingTop: tokens.space.md,
     paddingBottom: 100,
   },
-  // 12 each side of a card in a column, so the gutter is 24 and the edges stay 20.
-  gutter: { paddingHorizontal: 12 },
-  contentOne: { paddingHorizontal: 20, paddingTop: tokens.space.md, paddingBottom: 100 },
-  contentTwo: { paddingHorizontal: 8, paddingTop: tokens.space.md, paddingBottom: 100 },
   // 8 each side: the chosen row's fill starts there, 12 into the 20 margin.
   contentCompact: { paddingHorizontal: 8, paddingTop: 0, paddingBottom: 100 },
   separator: { height: 24 },
-  separatorWide: { height: 32 },
 });

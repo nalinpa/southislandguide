@@ -2,7 +2,7 @@ import { LayoutGrid } from "lucide-react-native";
 
 import { PickSheet } from "@/components/layout/PickSheet";
 import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
-import { tokens } from "@/lib/ui/tokens";
+import { lifted, tokens } from "@/lib/ui/tokens";
 import type { SiteCategory } from "@/lib/models";
 
 type CategorySheetProps = {
@@ -22,7 +22,7 @@ export function CategorySheet({ categories, ...rest }: CategorySheetProps) {
     return {
       ...c,
       icon: pin ? (
-        <pin.Icon size={20} color={pin.color} strokeWidth={2} />
+        <pin.Icon size={20} color={lifted(pin.color)} strokeWidth={2} />
       ) : (
         <LayoutGrid size={20} color={tokens.colors.text2} strokeWidth={2} />
       ),

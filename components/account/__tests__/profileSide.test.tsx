@@ -44,5 +44,7 @@ describe("ProfileSide", () => {
     const view = await render(<ProfileSide authed={false} picked={null} onClose={jest.fn()} />);
     expect(view.getByText("Sign In for More")).toBeTruthy();
     expect(view.queryByText("Open Guide")).toBeNull();
+    // Create-account mode sideways: the scroll lifts its lower fields above the keyboard.
+    expect(view.getByTestId("profile-card-scroll").props.automaticallyAdjustKeyboardInsets).toBe(true);
   });
 });

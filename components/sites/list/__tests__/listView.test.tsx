@@ -6,10 +6,11 @@ jest.mock("@shopify/flash-list", () => {
   const React = require("react");
   const { View } = require("react-native");
   return {
-    FlashList: ({ data, renderItem, keyExtractor }: any) =>
+    FlashList: ({ data, renderItem, keyExtractor, numColumns, ItemSeparatorComponent }: any) =>
       React.createElement(
         View,
-        null,
+        { testID: "flash", numColumns },
+        ItemSeparatorComponent ? React.createElement(ItemSeparatorComponent) : null,
         data.map((item: any, index: number) =>
           React.createElement(React.Fragment, { key: keyExtractor(item) }, renderItem({ item, index })),
         ),
@@ -39,5 +40,11 @@ describe("ListView", () => {
     expect(view.getAllByTestId("first-row")).toHaveLength(1);
     expect(within(view.getByTestId("first-row")).getByText("Row Sumner Beach")).toBeTruthy();
     expect(within(view.getByTestId("first-row")).queryByText("Row Riccarton Bush")).toBeNull();
+  });
+
+  it("is one column with 24 between the rows", async () => {
+    const view = await render(<ListView rows={[row("a", "Sumner Beach"), row("b", "Riccarton Bush")]} onPressItem={jest.fn()} />);
+    expect(view.getByTestId("flash").props.numColumns).toBe(1);
+    expect(view.getByTestId("list-separator")).toHaveStyle({ height: 24 });
   });
 });

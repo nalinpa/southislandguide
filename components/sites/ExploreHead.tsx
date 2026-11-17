@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
 import { SITE_CATEGORY_LABELS, type SiteCategory } from "@/lib/models";
-import { pair, tokens } from "@/lib/ui/tokens";
+import { tokens } from "@/lib/ui/tokens";
 import { wideTop } from "@/lib/ui/wideTop";
 import { useTourTarget } from "@/lib/tour/useTourTarget";
 
@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
     paddingLeft: 14,
     paddingRight: 12,
     borderWidth: 1.5,
-    backgroundColor: pair("rgba(9,92,101,0.12)", "#1A4247"),
-    borderColor: pair("#095C65", "rgba(127,208,214,0.55)"),
+    backgroundColor: tokens.colors.catPillFill,
+    borderColor: tokens.colors.catPillEdge,
   },
   pillText: { fontSize: 17, fontWeight: "600", color: tokens.colors.selected },
   pillChevron: { marginLeft: 8 },

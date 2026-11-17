@@ -100,6 +100,7 @@ function GuestCard() {
         style={styles.cardScroll}
         contentContainerStyle={styles.cardContent}
         keyboardShouldPersistTaps="handled"
+        automaticallyAdjustKeyboardInsets
         showsVerticalScrollIndicator={false}
       >
         <Text style={styles.title}>Sign In for More</Text>

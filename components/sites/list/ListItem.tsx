@@ -74,7 +74,7 @@ export function ListItem({
       >
         <View
           testID="list-photo"
-          style={[styles.photo, featured && !wide && styles.photoFeatured, wide && { height: upright ? 190 : 130 }]}
+          style={[styles.photo, featured && styles.photoFeatured, wide && { height: upright ? 190 : 130 }]}
         >
           {source ? (
             <Image testID={featured ? "featured-photo" : undefined} source={source} style={styles.image} />

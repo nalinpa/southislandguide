@@ -114,6 +114,7 @@ export default function AccountScreen() {
         onPress={() => (wide ? setPicked("credits") : router.push("/(app)/photo-credits"))}
         activeOpacity={0.6}
         accessibilityRole="button"
+        {...(wide && { accessibilityState: { selected: open === "credits" } })}
       >
         <Text style={styles.linkRowText}>Photo credits</Text>
         <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />

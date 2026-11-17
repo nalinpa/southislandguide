@@ -275,6 +275,14 @@ describe("pane", () => {
     expect(within(screen.getByTestId("place-pane")).getByTestId("place-scroll")).toBeTruthy();
   });
 
+  it("offers no Go Back when the place is not found: the Explore tab is already there", async () => {
+    mockBag.site = null;
+    await openPane();
+
+    expect(screen.getByText("Place Not Found")).toBeTruthy();
+    expect(screen.queryByText("Go Back")).toBeNull();
+  });
+
   it("does not register the placeAdd or placeSave tour targets", async () => {
     await openPane();
 

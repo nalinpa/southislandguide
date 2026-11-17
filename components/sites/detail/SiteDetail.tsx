@@ -10,7 +10,7 @@ import * as Linking from "expo-linking";
 import { ArrowLeft, ExternalLink, Star } from "lucide-react-native";
 
 import { LoadingState, ErrorCard, Stack, AppText, AppButton, ReviewModal, components } from "@/lib/uiKit";
-import { cardLift, darkEdge, lifted, tokens, SWEEP_COLORS, SWEEP_BUTTON, REVIEW_COLORS } from "@/lib/ui/tokens";
+import { cardLift, darkEdge, lifted, PAGE_SIDES, tokens, SWEEP_COLORS, SWEEP_BUTTON, REVIEW_COLORS } from "@/lib/ui/tokens";
 import { wideTop } from "@/lib/ui/wideTop";
 import { hooksBag } from "@/lib/hooksBag";
 import { openDirections } from "@/lib/utils/directions";
@@ -107,7 +107,7 @@ export function SiteDetail({ id, pane = false }: { id: string; pane?: boolean })
   const sideways = wide && !upright && !pane;
   const twoColumns = wide && upright && !pane;
   const insets = useSafeAreaInsets();
-  const page = useColorScheme() === "dark" ? "#06191B" : "#FFFFFF";
+  const page = PAGE_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
   // Upright: the photo is a third of the height and the sheet laps it from 300. Sideways:
   // the photo is the left page, full height, and the sheet is the right page.
   const photoHeight = sideways ? height : wide ? height / 3 : HERO_HEIGHT;
@@ -178,7 +178,7 @@ export function SiteDetail({ id, pane = false }: { id: string; pane?: boolean })
         <ErrorCard
           title="Place Not Found"
           message={entityErr || "Couldn't find this place."}
-          action={{ label: "Go Back", onPress: () => router.replace("/(app)/(tabs)/sites") }}
+          action={pane ? undefined : { label: "Go Back", onPress: () => router.replace("/(app)/(tabs)/sites") }}
         />
       </View>
     );

@@ -179,6 +179,7 @@ beforeEach(() => {
   jest.clearAllMocks();
   mockSession.status = "authed";
   mockSession.uid = "uid-1";
+  mockInsetTop = 44;
   mockEmailOptIn.optedIn = false;
   mockEmailOptIn.loading = false;
   mockAudience = "paid";
@@ -605,6 +606,19 @@ describe("wide", () => {
     expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/guide");
   });
 
+  it("wide: the first row and the right pane's card start 56 down upright, 32 sideways with no status-bar inset", async () => {
+    const tops = async (size: typeof UPRIGHT) => {
+      const { view } = await wideView(size);
+      return [
+        view.getByTestId("home-scroll").props.contentContainerStyle.paddingTop,
+        StyleSheet.flatten(view.getByTestId("profile-photo").parent!.props.style).marginTop,
+      ];
+    };
+    expect(await tops(UPRIGHT)).toEqual([56, 56]);
+    mockInsetTop = 0;
+    expect(await tops(SIDEWAYS)).toEqual([32, 32]);
+  });
+
   describe("guest", () => {
     beforeEach(() => {
       mockSession.status = "guest";
@@ -770,6 +784,7 @@ describe("wide", () => {
       fiveSaved();
       const { view, right } = await wideView();
       expect(viewAll(view)).not.toHaveStyle({ backgroundColor: tokens.colors.selFill });
+      expect(viewAll(view)).toHaveProp("accessibilityState", { selected: false });
 
       await fireEvent.press(viewAll(view));
 
@@ -777,6 +792,7 @@ describe("wide", () => {
       expect(right.getByText("Riverside Market")).toBeTruthy();
       expect(right.queryByText("Open Guide")).toBeNull();
       expect(viewAll(view)).toHaveStyle({ backgroundColor: tokens.colors.selFill, borderRadius: 12 });
+      expect(viewAll(view)).toHaveProp("accessibilityState", { selected: true });
     });
 
     it("wide: Photo credits opens the pane; the row takes the fill", async () => {
@@ -784,6 +800,7 @@ describe("wide", () => {
       const { view, right } = await wideView();
       const row = () => view.getByRole("button", { name: "Photo credits" });
       expect(row()).not.toHaveStyle({ backgroundColor: tokens.colors.selFill });
+      expect(row()).toHaveProp("accessibilityState", { selected: false });
 
       await fireEvent.press(row());
 
@@ -792,6 +809,14 @@ describe("wide", () => {
       expect(right.getByText("Photo: Miles Holden")).toBeTruthy();
       expect(right.queryByText("Open Guide")).toBeNull();
       expect(row()).toHaveStyle({ backgroundColor: tokens.colors.selFill, borderRadius: 12 });
+      expect(row()).toHaveProp("accessibilityState", { selected: true });
+    });
+
+    it("phone: the Photo credits and View All rows carry no selected state (the touchable fills the other keys with undefined)", async () => {
+      fiveSaved();
+      const view = await render(<AccountScreen />);
+      expect(view.getByRole("button", { name: "Photo credits" }).props.accessibilityState?.selected).toBeUndefined();
+      expect(viewAll(view).props.accessibilityState?.selected).toBeUndefined();
     });
 
     it("wide: the pane has its title, the count for Saved Places, and an × that brings the guide card back", async () => {

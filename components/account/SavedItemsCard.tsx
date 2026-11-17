@@ -62,6 +62,7 @@ export function SavedItemsCard({
               onPress={() => (onViewAll ? onViewAll() : router.push(`/(app)/saved-sites`))}
               activeOpacity={0.6}
               accessibilityRole="button"
+              {...(onViewAll && { accessibilityState: { selected: !!viewAllSelected } })}
             >
               <Text style={styles.viewAllText}>View All Saved Places</Text>
               <ChevronRight size={16} color={tokens.colors.selected} strokeWidth={2.5} />

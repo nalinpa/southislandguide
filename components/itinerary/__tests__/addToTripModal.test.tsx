@@ -42,7 +42,7 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 
 import { AddToTripModal } from "@/components/itinerary/AddToTripModal";
@@ -546,9 +546,55 @@ describe("on the Duo", () => {
     require("@blacksands/ui").__setWide(true, { width: 669, height: 951 });
     const wideView = await render(<AddToTripModal site={site} onClose={onClose} />);
     expect(wideView.getByTestId("add-day-fade")).toBeTruthy();
-    wideView.unmount();
+    await wideView.unmount();
     require("@blacksands/ui").__setWide(false);
     const phone = await render(<AddToTripModal site={site} onClose={onClose} />);
     expect(phone.queryByTestId("add-day-fade")).toBeNull();
+  });
+});
+
+// Owner, 2026-11-17: adding to day 9, the Day row still started at Day 1 with the chosen
+// pill off screen. The jest ScrollView mock keeps scrollTo as a shared jest.fn on the
+// prototype (cleared by clearAllMocks), so that is what the row's calls are read from.
+describe("the Day row follows the chosen day", () => {
+  const scrollTo = () => (ScrollView.prototype as any).scrollTo as jest.Mock;
+  // layout doesn't bubble: fire it on the pill itself, the nearest host with onLayout.
+  const layOut = (view: any, text: string, x: number) => {
+    let pill = view.getByText(text);
+    while (pill && !pill.props.onLayout) pill = pill.parent;
+    return fireEvent(pill, "layout", { nativeEvent: { layout: { x, y: 0, width: 110, height: 52 } } });
+  };
+
+  it("opens with the chosen day in view", async () => {
+    mockTrips.itineraries = [makeTrip("t1", 10)];
+    setPendingSlot({ tripId: "t1", dayId: "day_9", slot: 9 });
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    expect(scrollTo()).not.toHaveBeenCalled();
+
+    await layOut(view, "Day 9", 880);
+
+    expect(scrollTo()).toHaveBeenCalledTimes(1);
+    expect(scrollTo()).toHaveBeenCalledWith({ x: 856, animated: false });
+  });
+
+  it("stays at the start when day 1 is chosen", async () => {
+    mockTrips.itineraries = [makeTrip("t1", 10)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+
+    await layOut(view, "Day 1", 0);
+
+    for (const call of scrollTo().mock.calls) expect(call[0].x).toBe(0);
+  });
+
+  it("doesn't move the row when a pill is tapped", async () => {
+    mockTrips.itineraries = [makeTrip("t1", 10)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await layOut(view, "Day 1", 0);
+    scrollTo().mockClear();
+
+    await fireEvent.press(view.getByText("Day 3"));
+    await layOut(view, "Day 3", 220);
+
+    expect(scrollTo()).not.toHaveBeenCalled();
   });
 });

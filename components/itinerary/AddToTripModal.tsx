@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { View, Text, StyleSheet, Modal, TouchableOpacity, ScrollView, useColorScheme } from "react-native";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ScrollView, useColorScheme, type ScrollViewInstance } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
@@ -103,6 +103,26 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   // a moment after it appeared.
   useEffect(() => setAdded(null), [site?.id]);
 
+  // The Day row opens with the chosen day in view (owner, 2026-11-17: day 9 chosen, row at
+  // Day 1). Wanted on open, on a trip change and when the form comes back after "Added";
+  // also when the chosen day changes by itself (below), not when the user taps a pill.
+  // It runs once the chosen pill's x is known: that layout can land before or after the want.
+  const dayRow = useRef<ScrollViewInstance>(null);
+  const pillX = useRef<Record<string, number>>({});
+  const wantScroll = useRef(true);
+  const chosenDay = useRef<string | undefined>(undefined);
+  const scrollToChosen = () => {
+    const x = chosenDay.current ? pillX.current[chosenDay.current] : undefined;
+    if (!wantScroll.current || x === undefined) return;
+    wantScroll.current = false;
+    // The 24 leaves a sliver of the pill before it, so the earlier days are hinted.
+    dayRow.current?.scrollTo({ x: Math.max(0, x - 24), animated: false });
+  };
+  useEffect(() => {
+    if (!added) wantScroll.current = true;
+  }, [added, site?.id, itineraryId]);
+  useEffect(scrollToChosen);
+
   useEffect(() => {
     if (!site) return;
     const preselected = initialItineraryId ?? (itineraries.length === 1 ? itineraries[0].id : null);
@@ -172,6 +192,11 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     days.find((d) => d.id === pending?.dayId && dayFits(d.id)) ??
     days.find((d) => dayFits(d.id)) ??
     days[0];
+  // Ref writes in render, but idempotent: a changed day not from a tap wants the scroll.
+  if (chosenDay.current !== day?.id) {
+    chosenDay.current = day?.id;
+    wantScroll.current = true;
+  }
   const slot =
     startSlot ??
     (day && pending?.dayId === day.id && fitsAt(day.id, pending.slot) ? pending.slot : undefined) ??
@@ -342,7 +367,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                 <>
                   <Text testID="add-day-label" style={[styles.label, wide && styles.wideLabel]}>Day</Text>
                   <View>
-                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillRow}>
+                  <ScrollView ref={dayRow} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillRow}>
                     {days.map((d, idx) => {
                       const active = day?.id === d.id;
                       // A day with no room can't be picked (owner, 2026-11-11).
@@ -353,7 +378,16 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                           style={[styles.pill, active && styles.pillActive, !room && styles.pillDim]}
                           disabled={!room}
                           accessibilityState={{ selected: active, disabled: !room }}
-                          onPress={() => setDayId(d.id)}
+                          onLayout={(e) => {
+                            pillX.current[d.id] = e.nativeEvent.layout.x;
+                            scrollToChosen();
+                          }}
+                          onPress={() => {
+                            // Already on screen: the row stays put.
+                            chosenDay.current = d.id;
+                            wantScroll.current = false;
+                            setDayId(d.id);
+                          }}
                         >
                           <Text style={[styles.pillText, active && styles.pillTextActive]}>Day {idx + 1}</Text>
                           <Text style={[styles.pillSub, active && styles.pillTextActive]} numberOfLines={1}>

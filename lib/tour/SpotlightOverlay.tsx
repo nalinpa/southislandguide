@@ -99,14 +99,14 @@ export function SpotlightOverlay() {
 
   const top = insets.top + 16;
   const bottom = height - insets.bottom - 16;
-  // A target in Explore's list (wide): the card goes to its right, over the places.
+  // A target in Explore's left column (wide): the card goes to its right, over the place pane.
   const exploreList = upright ? EXPLORE_LIST.upright : EXPLORE_LIST.sideways;
-  const inBand = wide && !!targetRect && targetRect.x + targetRect.width <= exploreList;
+  const inList = wide && !!targetRect && targetRect.x + targetRect.width <= exploreList;
   const fitsBelow = !!targetRect && targetRect.y + targetRect.height + CARD_GAP + cardHeight <= bottom;
   const welcomeTop = !wide ? (height - cardHeight) / 2 : upright ? foldY - WELCOME_ABOVE_FOLD - cardHeight : (height - cardHeight) / 2;
   const cardTop = !targetRect
     ? Math.max(top, welcomeTop)
-    : inBand
+    : inList
       ? Math.max(
           top,
           Math.min(
@@ -127,7 +127,7 @@ export function SpotlightOverlay() {
   const sideRight = CARD_SIDE + insets.right;
   // Wide: a fixed 360 card, centred on its target (or the screen) and kept off the sides.
   const area = width - insets.left - insets.right;
-  const wideLeft = inBand
+  const wideLeft = inList
     ? exploreList + PLACE_COLUMN_SIDE
     : Math.min(
         Math.max(targetRect ? targetRect.x + targetRect.width / 2 - WIDE_CARD / 2 : insets.left + (area - WIDE_CARD) / 2, sideLeft),
@@ -138,7 +138,7 @@ export function SpotlightOverlay() {
   const pointerLeft = targetRect
     ? Math.min(Math.max(targetRect.x + targetRect.width / 2 - cardLeft, 28), cardWidth - 28) - POINTER / 2
     : 0;
-  // On the card's left edge, at the target's middle, for a band target.
+  // On the card's left edge, at the target's middle, for a target in the list column.
   // Kept on the card, clear of its corners, when the card has been moved up off a low target.
   const pointerTop = targetRect
     ? Math.min(
@@ -206,7 +206,7 @@ export function SpotlightOverlay() {
             pointerEvents="none"
             style={[
               styles.pointer,
-              inBand
+              inList
                 ? [styles.pointerLeft, { left: -POINTER / 2, top: pointerTop }]
                 : [fitsBelow ? styles.pointerUp : styles.pointerDown, { left: pointerLeft }],
             ]}

@@ -302,6 +302,85 @@ describe("SpotlightOverlay", () => {
       }
     });
 
+    // The new Explore head and first row (docs/plans/duo-131.md, Picked values), upright then sideways.
+    const heads = [
+      { name: "upright", win: { width: 669, height: 951 }, list: 268, top: 37, right: 0, town: 53 },
+      { name: "sideways", win: { width: 951, height: 669 }, list: 347, top: 0, right: 84, town: 32 },
+    ];
+    const clearOfTarget = (rect: { x: number; y: number; width: number; height: number }, list: number, win: { width: number }, right: number) => {
+      const { left, top } = cardStyle();
+      // Not over the target, inside the window less the rail, pointer on the card's left edge, level with the target.
+      expect(left).toBeGreaterThanOrEqual(rect.x + rect.width);
+      expect(left).toBeGreaterThanOrEqual(list);
+      expect(left + 360).toBeLessThanOrEqual(win.width - right - 12);
+      expect(pointerStyle().left).toBe(-7);
+      // (A target at the top of the window can sit above where the pointer may go, clear of the card's corner: then it meets the target's edge-to-edge span.)
+      const pointerY = top + pointerStyle().top + 7;
+      expect(pointerY).toBeGreaterThanOrEqual(rect.y);
+      expect(pointerY).toBeLessThanOrEqual(rect.y + rect.height);
+    };
+
+    it.each(heads)(
+      "wide tour: the town, guide and browse steps point at the new head, and the card sits clear of the 268 or 347 list ($name)",
+      async ({ win, list, top, right, town }) => {
+        ui().__setWide(true, win);
+        mockInsets.top = top;
+        mockInsets.right = right;
+        try {
+          await show();
+          await toTown();
+          const rects = {
+            town: { x: 20, y: town, width: 150, height: 32 },
+            guide: { x: list - 20 - 44 * 3 - 8, y: town + 40, width: 44, height: 44 },
+            browse: { x: 20, y: town + 40, width: 90, height: 40 },
+          };
+          for (const id of ["town", "guide", "browse"] as const) {
+            await act(async () => tour.registerTarget(id, rects[id]));
+            expect(tour.step?.id).toBe(id);
+            await layoutCard(200);
+            expect(cardStyle().left).toBe(list + 20);
+            clearOfTarget(rects[id], list, win, right);
+            if (id !== "browse") await act(async () => tour.next());
+          }
+        } finally {
+          mockInsets.top = 20;
+          mockInsets.right = 0;
+        }
+      },
+    );
+
+    it.each(heads)(
+      "wide tour: the place step points at the first row; the next step opens the place screen, as in 1.3 ($name)",
+      async ({ win, list, top, right, town }) => {
+        ui().__setWide(true, win);
+        mockInsets.top = top;
+        mockInsets.right = right;
+        try {
+          await show();
+          await toTown();
+          await act(async () => tour.registerStepRoute("place", "/(app)/(tabs)/sites/abc"));
+          await act(async () => tour.next()); // guide
+          await act(async () => tour.next()); // browse
+          await act(async () => tour.next()); // place
+          const row = { x: 0, y: town + 40 + 40 + 16, width: list, height: 64 };
+          await act(async () => tour.registerTarget("place", row));
+          expect(tour.step?.id).toBe("place");
+          await layoutCard(200);
+          expect(cardStyle().left).toBe(list + 20);
+          clearOfTarget(row, list, win, right);
+
+          const { router } = require("expo-router");
+          router.push.mockClear();
+          await act(async () => tour.next());
+          expect(tour.step?.id).toBe("placeAdd");
+          expect(router.push).toHaveBeenCalledWith("/(app)/(tabs)/sites/abc");
+        } finally {
+          mockInsets.top = 20;
+          mockInsets.right = 0;
+        }
+      },
+    );
+
     it("wide: the cut-out has a 2 pt selected ring", async () => {
       ui().__setWide(true, { width: 669, height: 951 });
       await show();

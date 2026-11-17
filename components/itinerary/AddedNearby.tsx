@@ -30,8 +30,8 @@ type Props = {
   onOpen: (id: string) => void;
   onDone: () => void;
   onViewTrip: () => void;
-  /** Caps the list's height on a wide sheet; the phone's list fills the card instead. */
-  listMaxHeight?: number;
+  /** Caps the list's height. A number, not flex: no height reaches here through the card. */
+  listMaxHeight: number;
 };
 
 // The done state of the Add to Trip sheet: where the place went, the places near it as
@@ -39,7 +39,7 @@ type Props = {
 export function AddedNearby({ line, dayNumber, placeName, rows, rowState, onAdd, onOpen, onDone, onViewTrip, listMaxHeight }: Props) {
   const busy = Object.values(rowState).some((s) => s.state === "saving");
   return (
-    <View style={[styles.done, rows.length > 0 && listMaxHeight === undefined && styles.tall]}>
+    <View style={styles.done}>
       <View style={styles.top}>
         <Check color={tokens.colors.success} size={18} strokeWidth={2.5} />
         <Text style={styles.topText}>{line}</Text>
@@ -47,7 +47,7 @@ export function AddedNearby({ line, dayNumber, placeName, rows, rowState, onAdd,
       {rows.length > 0 && (
         <>
           <Text style={styles.nearTitle}>Near {placeName}</Text>
-          <ScrollView style={listMaxHeight === undefined ? styles.list : { flexGrow: 0, maxHeight: listMaxHeight }} showsVerticalScrollIndicator={false}>
+          <ScrollView testID="near-list" style={{ flexGrow: 0, maxHeight: listMaxHeight }} showsVerticalScrollIndicator={false}>
             {rows.map((n, i) => {
               const s = rowState[n.id];
               const distance = formatDistanceMeters(n.meters);
@@ -111,12 +111,9 @@ export function AddedNearby({ line, dayNumber, placeName, rows, rowState, onAdd,
 
 const styles = StyleSheet.create({
   done: { gap: tokens.space.sm, paddingTop: tokens.space.xs },
-  // With rows the card is tall and the list takes what is between the line and the buttons.
-  tall: { flex: 1 },
   top: { flexDirection: "row", alignItems: "center", gap: 8 },
   topText: { flexShrink: 1, fontSize: 16, fontWeight: "600", color: tokens.colors.text },
   nearTitle: { fontSize: 13, fontWeight: "600", color: tokens.colors.text2, marginTop: tokens.space.xs },
-  list: { flex: 1 },
   rowWrap: { minHeight: 72, justifyContent: "center", paddingVertical: 8 },
   hairline: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: tokens.colors.line },
   row: { flexDirection: "row", alignItems: "center", gap: 12 },

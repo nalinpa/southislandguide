@@ -471,6 +471,20 @@ describe("places near the one just added", () => {
     expect(view.getByTestId("near-photo-p1")).toBeTruthy();
   });
 
+  // On a phone a flex: 1 list got no height through the card and the sheet collapsed, leaving
+  // only the dim layer over the app (owner, 2026-11-18). The list's height is a number.
+  it("caps the nearby list with a number, not flex, so the card can't collapse", async () => {
+    mockLookup.list = [here, ...nearby(8)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+
+    const list = StyleSheet.flatten(view.getByTestId("near-list").props.style);
+    expect(list.flex).toBeUndefined();
+    expect(list.flexGrow).toBe(0);
+    expect(typeof list.maxHeight).toBe("number");
+    expect(list.maxHeight).toBeGreaterThanOrEqual(140);
+  });
+
   it("names the trip when there is more than one", async () => {
     mockTrips.itineraries = [makeTrip("t1"), makeTrip("t2")];
     const view = await render(<AddToTripModal site={site} onClose={onClose} initialItineraryId="t1" />);

@@ -328,17 +328,18 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     setRowState((r) => ({ ...r, [id]: { state: "added" } }));
   };
 
-  // Phone: with rows the card takes the height the screen gives it, 24 clear of the safe area
-  // top and bottom, and the list scrolls inside. Wide: the card keeps its own size and the
-  // list its own cap, so Done and View Trip stay on a 669 pt screen.
-  const tall = !!added && added.near.length > 0 && !wide;
-  const tallHeight = windowHeight - insets.top - insets.bottom - 48;
+  // The list is capped by a number, never by flex: CardShell's inner wrappers don't pass a
+  // height down, and a flex: 1 list inside them collapsed the whole card on a phone (owner,
+  // 2026-11-18). Phone: the card may reach 24 clear of the safe area top and bottom, and
+  // 300 is the card's own chrome (header, line, title, Done, View Trip, padding). Wide: the
+  // cap that keeps Done and View Trip on a 669 pt screen.
+  const listMaxHeight = Math.max(140, wide ? windowHeight - 380 : windowHeight - insets.top - insets.bottom - 48 - 300);
 
   return (
     <Modal visible={!!site} transparent animationType={wide?.animation ?? "slide"}>
       <SafeAreaView edges={["left", "right"]} style={[styles.overlay, wide?.overlay]}>
-        <View style={[styles.wrapper, wide?.card, tall && { height: tallHeight, maxHeight: tallHeight }]}>
-          <CardShell status="basic" shrink style={[styles.card, wide && styles.wideCard, tall && styles.tallCard]}>
+        <View style={[styles.wrapper, wide?.card]}>
+          <CardShell status="basic" shrink style={[styles.card, wide && styles.wideCard]}>
             <View style={styles.header}>
               <Text style={styles.title}>Add to Trip</Text>
               <TouchableOpacity
@@ -364,7 +365,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                 onOpen={(id) => openNear(added, id)}
                 onDone={onClose}
                 onViewTrip={() => viewTrip(added)}
-                listMaxHeight={wide ? Math.max(140, windowHeight - 380) : undefined}
+                listMaxHeight={listMaxHeight}
               />
             ) : (
             <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
@@ -610,7 +611,6 @@ const styles = StyleSheet.create({
   submit: { marginTop: tokens.space.md },
   // Duo: every corner round; the 24 pt margin the Day row stops at (it cuts there, as on the
   // phone); labels 22 above and 10 under; 32 above Add, as between the groups.
-  tallCard: { flex: 1 },
   wideCard: { ...WIDE_CORNERS, paddingHorizontal: 24, paddingBottom: 24 },
   wideLabel: { marginTop: 22, marginBottom: 10 },
   wideSubmit: { marginTop: 32 },

@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AppState } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
 import { useSegments } from "expo-router";
 
 import { FULL_GUIDE_PRODUCT_ID } from "@/lib/constants/commerce";
+import { hooksBag } from "@/lib/hooksBag";
 import { useEntitlementGate } from "@/lib/hooks/useEntitlementGate";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { useTour } from "./TourContext";
@@ -46,7 +47,8 @@ function useLocationAnswered(): boolean {
 // the location prompt is answered (docs/plans/opening-tour.md, "When it starts"). Rotorua
 // started it on the first app start-up only, which missed anyone who signed in later.
 export function TourAutoStart() {
-  const { start } = useTour();
+  const { start, active } = useTour();
+  const { requestReview } = hooksBag.useReviewPrompt();
   const audience = useTourAudience();
   // Typed routes narrow the segments to the route being typed; any route can be current.
   const onTabs = (useSegments() as string[])[1] === "(tabs)";
@@ -54,6 +56,7 @@ export function TourAutoStart() {
 
   // Null until read. A store that can't be read counts as seen: better no tour than one
   // on every start-up.
+  const startedHere = useRef(false);
   const [seen, setSeen] = useState<boolean | null>(null);
   useEffect(() => {
     AsyncStorage.getItem(TOUR_SEEN_KEY)
@@ -65,8 +68,24 @@ export function TourAutoStart() {
     if (seen !== false || !audience || !onTabs || !locationAnswered) return;
     setSeen(true);
     AsyncStorage.setItem(TOUR_SEEN_KEY, "1").catch(() => {});
+    startedHere.current = true;
     start(audience);
   }, [seen, audience, onTabs, locationAnswered, start]);
+
+  // The first tour is the moment to ask for a rating, a second after it ends, finished or
+  // skipped. A tour replayed from Profile isn't started here, so it never asks.
+  const wasActive = useRef(false);
+  // Read through a ref: if the hook hands back a new function each render, the timer must survive.
+  const ask = useRef(requestReview);
+  ask.current = requestReview;
+  useEffect(() => {
+    const ended = wasActive.current && !active;
+    wasActive.current = active;
+    if (!ended || !startedHere.current) return;
+    startedHere.current = false;
+    const t = setTimeout(() => ask.current(), 1000);
+    return () => clearTimeout(t);
+  }, [active]);
 
   return null;
 }

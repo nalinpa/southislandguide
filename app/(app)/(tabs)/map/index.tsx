@@ -86,6 +86,22 @@ export default function MapScreen() {
     const t = setTimeout(() => setDebouncedSearchQuery(searchQuery), 300);
     return () => clearTimeout(t);
   }, [searchQuery]);
+  // iOS drops the search's first responder when the window resizes (a Duo fold); the text
+  // survives, so focus it again if it was in use or let go within 500 ms before the width changed.
+  // A deliberate dismiss (submit, clear, a place tapped) sets `ignoreBlur` so it never counts.
+  const searchRef = useRef<React.ComponentRef<typeof TextInput>>(null);
+  const searchUse = useRef({ focused: false, blurredAt: 0, ignoreBlur: false });
+  const dismissSearch = useCallback(() => {
+    searchUse.current = { focused: false, blurredAt: 0, ignoreBlur: true };
+    Keyboard.dismiss();
+  }, []);
+  const prevWide = useRef(wide);
+  useEffect(() => {
+    if (prevWide.current === wide) return;
+    prevWide.current = wide;
+    const { focused, blurredAt } = searchUse.current;
+    if (focused || (blurredAt && Date.now() - blurredAt < 500)) searchRef.current?.focus();
+  }, [wide]);
   // A category, or "trip": only the places in the person's trip (tester, 2026-11-11).
   const [mapFilter, setMapFilter] = useState<SiteCategory | "trip" | null>(null);
   const tripSiteIds = useMemo(
@@ -283,10 +299,10 @@ export default function MapScreen() {
       Haptics.selectionAsync();
       setSelectedSiteId(id);
       setSearchQuery("");
-      Keyboard.dismiss();
+      dismissSearch();
       bottomSheetRef.current?.snapToIndex(1);
     },
-    [setSelectedSiteId],
+    [setSelectedSiteId, dismissSearch],
   );
 
   if (loading || entitlementsLoading) {
@@ -343,6 +359,14 @@ export default function MapScreen() {
           <View testID="map-search-card" style={[styles.searchBox, wide && styles.searchBoxWide]}>
             <Search color={ON_MAP.icon} size={18} strokeWidth={1.75} />
             <TextInput
+              ref={searchRef}
+              onFocus={() => {
+                searchUse.current = { focused: true, blurredAt: 0, ignoreBlur: false };
+              }}
+              onBlur={() => {
+                const { ignoreBlur } = searchUse.current;
+                searchUse.current = { focused: false, blurredAt: ignoreBlur ? 0 : Date.now(), ignoreBlur: false };
+              }}
               style={styles.searchInput}
               placeholder="Search places..."
               placeholderTextColor={ON_MAP.placeholder}
@@ -352,7 +376,7 @@ export default function MapScreen() {
                 if (text) setMapFilter(null);
               }}
               returnKeyType="search"
-              onSubmitEditing={() => Keyboard.dismiss()}
+              onSubmitEditing={dismissSearch}
               autoCapitalize="none"
               autoCorrect={false}
             />
@@ -360,7 +384,7 @@ export default function MapScreen() {
               <TouchableOpacity
                 onPress={() => {
                   setSearchQuery("");
-                  Keyboard.dismiss();
+                  dismissSearch();
                 }}
                 hitSlop={8}
               >

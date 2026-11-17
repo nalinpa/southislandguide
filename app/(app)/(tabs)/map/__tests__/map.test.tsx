@@ -166,7 +166,7 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { Alert, Linking, StyleSheet } from "react-native";
+import { Alert, Linking, StyleSheet, TextInput } from "react-native";
 import { act, fireEvent, render, within } from "@testing-library/react-native";
 
 import MapScreen from "@/app/(app)/(tabs)/map/index";
@@ -777,6 +777,47 @@ describe("wide", () => {
     await view.rerender(<MapScreen />);
     expect(view.getByText("Overlay: Riverside Market")).toBeTruthy();
     expect(mockMapMounts.count).toBe(1);
+  });
+
+  // iOS drops first responder when the window resizes; the text survives, the keyboard doesn't.
+  describe("the search across a fold", () => {
+    let focus: jest.SpyInstance;
+    beforeEach(() => {
+      focus = jest.spyOn(TextInput.prototype as any, "focus").mockImplementation(() => {});
+    });
+    afterEach(() => focus.mockRestore());
+
+    it("keeps typing across a fold", async () => {
+      const view = await render(<MapScreen />);
+      const input = view.getByPlaceholderText("Search places...");
+      await fireEvent.changeText(input, "ric");
+      await fireEvent(input, "focus");
+      await fireEvent(input, "blur"); // what the resize does
+      ui().__setWide(true);
+      await view.rerender(<MapScreen />);
+
+      expect(focus).toHaveBeenCalledTimes(1);
+      expect(view.getByPlaceholderText("Search places...").props.value).toBe("ric");
+    });
+
+    it("doesn't grab focus after the search was submitted or cleared", async () => {
+      const view = await render(<MapScreen />);
+      const input = view.getByPlaceholderText("Search places...");
+      await fireEvent.changeText(input, "ric");
+      await fireEvent(input, "focus");
+      await fireEvent(input, "submitEditing");
+      await fireEvent(input, "blur");
+      ui().__setWide(true);
+      await view.rerender(<MapScreen />);
+      expect(focus).not.toHaveBeenCalled();
+    });
+
+    it("doesn't grab focus when the field wasn't in use", async () => {
+      const view = await render(<MapScreen />);
+      ui().__setWide(true);
+      await view.rerender(<MapScreen />);
+      expect(focus).not.toHaveBeenCalled();
+    });
   });
 
   it("keeps an open Add to Trip sheet across the breakpoint, wide card and dark edge on wide", async () => {

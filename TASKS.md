@@ -255,7 +255,7 @@ Owner, 2026-10-23: after launch. With no signal, the map tab shows pins and the 
 
 ### After launch — Apple and Google sign-in
 Owner, 2026-10-25: not in the first release, which signs in by email only. The steps are in [docs/plans/launch.md, After launch: Apple and Google sign-in](docs/plans/launch.md#after-launch-apple-and-google-sign-in).
-- [ ] **Wait for Apple:** the probe (Sign-in, above) answers `invalid_request` instead of `invalid_client`. Still `invalid_client` on 2026-11-12 (Rotorua's `app.blacksands.rtrguide` gets `invalid_request` the same day). Still `invalid_client` on 2026-11-17.
+- [ ] **Wait for Apple:** the probe (Sign-in, above) answers `invalid_request` instead of `invalid_client`. Still `invalid_client` on 2026-11-12 (Rotorua's `app.blacksands.rtrguide` gets `invalid_request` the same day). Still `invalid_client` on 2026-11-17. That day the owner found the App ID was already a primary App ID (so grouping was never the cause), then grouped it with Rotorua's; still `invalid_client` (the probe is only a hint while grouped). Left grouped. Sign-in is on hold (owner): 1.4 ships without it.
 - [ ] **Phone test:** a fresh Apple sign-up and sign-in, account deletion with the token revoked, and Google sign-in with the EAS web client ID set.
 - [ ] **Ship both together in a new store version**, never Google alone: put `<SocialSignInButtons>` back on the login screen, and update the privacy labels and review notes.
 

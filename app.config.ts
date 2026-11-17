@@ -6,7 +6,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   name: "Kiwi Guide",
   slug: "southislandguide",
   scheme: "southislandguide",
-  version: "1.3.0",
+  version: "1.4.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "automatic",
@@ -22,7 +22,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 
   ios: {
     bundleIdentifier: "app.blacksands.southislandguide",
-    supportsTablet: false,
+    supportsTablet: true,
     usesAppleSignIn: true,
     // So iOS offers to save the password at sign-up and fills it at sign-in. kiwiguide.app
     // vouches for the app in /.well-known/apple-app-site-association (kiwiguide-site).
@@ -32,6 +32,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     infoPlist: {
       NSLocationWhenInUseUsageDescription: "Kiwi Guide uses your location to show where you are on the map and how far away places are.",
       ITSAppUsesNonExemptEncryption: false,
+      // iPad turns freely; the top-level orientation keeps the iPhone portrait.
+      "UISupportedInterfaceOrientations~ipad": [
+        "UIInterfaceOrientationPortrait",
+        "UIInterfaceOrientationPortraitUpsideDown",
+        "UIInterfaceOrientationLandscapeLeft",
+        "UIInterfaceOrientationLandscapeRight",
+      ],
     },
   },
 

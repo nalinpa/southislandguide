@@ -66,12 +66,12 @@ Plan: `docs/plans/duo-131.md`. Drawings: the [1.3.1 mocks page](https://claude.a
 **Never publish this branch to the `production` channel:** it has 1.3.0's runtime, so it would reach every 1.3 user.
 
 ### 1.4 — proposed 2026-11-16, scope is the owner's call
-Nothing here is decided. JS-only fixes can go out as OTAs on 1.3's runtime once it's live (`--platform ios`), so a 1.4 store build is only needed for sign-in and iPad.
+Plan: `docs/plans/1.4-build.md`. Owner, 2026-11-17: 1.3.1 is folded into 1.4; iPad ships in 1.4, all four orientations, iPhone stays portrait. 1.4's runtime is `e8b1306b30394c6831757b19dbfbf5ae066ce26d`.
+Nothing else here is decided. JS-only fixes can go out as OTAs on 1.3's runtime once it's live (`--platform ios`), so a 1.4 store build is only needed for sign-in and iPad.
 - [ ] **Over the air, on 1.3's runtime:**
   - Profile's My Trip is empty right after signing in (Later, below).
-  - Drive times far off on some legs between towns, and the per-day "N h driving" 1–2 h short (After launch — drive times between stops). Option (a) needs a few hundred Maps lookups: quote first.
+  - Drive times: the suggested trips' legs are done (`ea76c0f`, 2026-11-13: the owner hand-checked all 74 legs, 32 corrected, `assets/data/leg-minutes.json`, shipped in 1.2). Trips people build themselves are left, not in 1.4 (plan Q9). The per-day "N h driving" is plan Task 7.
   - The phone's stop times, in the Duo's 13 pt medium, 90% white (Later, below).
-  - The suggested-trip dropdown, a cramped 220px scroll box (Suggested trips, below).
   - A guest's sample trip copied into their account after signing in (Trips tab for a guest, below).
   - The 15-second "Route Change" trace: check its release in Sentry first (backlog, below).
   - Duo polish (Later, below): `readOnly` on the engine's `TimelineBlock` (engine first, owner publishes), the map's search focus on fold, the guide's left edge.
@@ -255,7 +255,7 @@ Owner, 2026-10-23: after launch. With no signal, the map tab shows pins and the 
 
 ### After launch — Apple and Google sign-in
 Owner, 2026-10-25: not in the first release, which signs in by email only. The steps are in [docs/plans/launch.md, After launch: Apple and Google sign-in](docs/plans/launch.md#after-launch-apple-and-google-sign-in).
-- [ ] **Wait for Apple:** the probe (Sign-in, above) answers `invalid_request` instead of `invalid_client`. Still `invalid_client` on 2026-11-12 (Rotorua's `app.blacksands.rtrguide` gets `invalid_request` the same day).
+- [ ] **Wait for Apple:** the probe (Sign-in, above) answers `invalid_request` instead of `invalid_client`. Still `invalid_client` on 2026-11-12 (Rotorua's `app.blacksands.rtrguide` gets `invalid_request` the same day). Still `invalid_client` on 2026-11-17.
 - [ ] **Phone test:** a fresh Apple sign-up and sign-in, account deletion with the token revoked, and Google sign-in with the EAS web client ID set.
 - [ ] **Ship both together in a new store version**, never Google alone: put `<SocialSignInButtons>` back on the login screen, and update the privacy labels and review notes.
 

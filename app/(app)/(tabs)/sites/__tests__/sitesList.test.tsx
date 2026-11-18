@@ -940,9 +940,9 @@ describe("from a trip day", () => {
     setPendingSlot({ tripId: "t1", dayId: "d1", slot });
     mockParams.area = "christchurch";
   };
-  const line = (view: any) => view.queryByText("Closest to Sumner Beach first");
+  const line = (view: any) => view.queryByText("Closest places to Sumner Beach");
 
-  it("lists the town closest first to the stop before the free time, under 'Closest to {stop} first'", async () => {
+  it("lists the town closest first to the stop before the free time, under 'Closest places to {stop}'", async () => {
     openFromDay();
     const view = await render(<SiteListPage />);
 
@@ -956,7 +956,7 @@ describe("from a trip day", () => {
   it("opened normally keeps the usual order and no line", async () => {
     const view = await render(<SiteListPage />);
 
-    expect(view.queryByText(/^Closest to /)).toBeNull();
+    expect(view.queryByText(/^Closest places to /)).toBeNull();
     expect(rowNames(view)).toEqual(["Sumner Beach", "Riccarton Bush", "Riverside Market", "Port Hills Walk"]);
   });
 
@@ -964,7 +964,7 @@ describe("from a trip day", () => {
     openFromDay(5);
     const view = await render(<SiteListPage />);
 
-    expect(view.queryByText(/^Closest to /)).toBeNull();
+    expect(view.queryByText(/^Closest places to /)).toBeNull();
     expect(rowNames(view)).toEqual(["Sumner Beach", "Riccarton Bush", "Riverside Market", "Port Hills Walk"]);
   });
 
@@ -998,7 +998,7 @@ describe("from a trip day", () => {
     await fireEvent.press(view.getByLabelText(/, choose a town$/));
     await fireEvent.press(view.getByLabelText(/^Dunedin, /));
 
-    expect(view.queryByText(/^Closest to /)).toBeNull();
+    expect(view.queryByText(/^Closest places to /)).toBeNull();
   });
 });
 

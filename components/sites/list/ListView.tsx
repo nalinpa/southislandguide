@@ -35,6 +35,8 @@ type ListViewProps = {
    *  shape while it is true: unfolding the Duo mid-tour kept the phone list's offset, so
    *  the first compact row was off the top and the step had no cut-out (owner, 2026-11-18). */
   atTop?: boolean;
+  /** Jumps to the top when it changes after the first render (Explore opened from a trip day). */
+  jumpKey?: string | number;
   /** Explore beside the place on the open Duo: compact rows, one column, no gap between. */
   compact?: boolean;
   /** The compact row that is chosen. */
@@ -43,11 +45,16 @@ type ListViewProps = {
   tripIds?: ReadonlySet<string>;
 };
 
-export function ListView({ rows, header, onPressItem, ListEmptyComponent, refreshControl, firstRowTarget, atTop, compact, selectedId, tripIds }: ListViewProps) {
+export function ListView({ rows, header, onPressItem, ListEmptyComponent, refreshControl, firstRowTarget, atTop, jumpKey, compact, selectedId, tripIds }: ListViewProps) {
   const list = useRef<FlashListRef<ListRow>>(null);
   useEffect(() => {
     if (atTop) list.current?.scrollToOffset({ offset: 0, animated: false });
   }, [atTop, compact]);
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (mounted.current) list.current?.scrollToOffset({ offset: 0, animated: false });
+    mounted.current = true;
+  }, [jumpKey]);
 
   const renderItem = useCallback(
     ({ item, index }: { item: ListRow; index: number }) => {

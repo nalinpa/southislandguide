@@ -27,8 +27,8 @@ jest.mock("@/components/sites/list/ListView", () => {
   const React = require("react");
   const { Text, TouchableOpacity, View } = require("react-native");
   return {
-    ListView: ({ rows, header, onPressItem, ListEmptyComponent, firstRowTarget, compact, selectedId, tripIds }: any) => {
-      mockListProps = { compact, selectedId };
+    ListView: ({ rows, header, onPressItem, ListEmptyComponent, firstRowTarget, compact, selectedId, tripIds, jumpKey }: any) => {
+      mockListProps = { compact, selectedId, jumpKey };
       React.useEffect(() => {
         mockListMounts += 1;
       }, []);
@@ -539,6 +539,24 @@ describe("towns", () => {
       expect(rowNames(view)).toEqual(["Caroline Bay"]);
       expect(view.getByLabelText("Timaru, choose a town")).toBeTruthy();
       expect(mockRouter.setParams).toHaveBeenCalledWith({ area: undefined });
+    });
+
+    // The tab stays mounted with its old scroll offset, so each hand-over sends the list back
+    // to the top, the same town a second time included.
+    it("opened from a trip day, hands the list a new jumpKey", async () => {
+      const view = await render(<SiteListPage />);
+      const first = mockListProps.jumpKey;
+
+      mockParams.area = "timaru";
+      await view.rerender(<SiteListPage />);
+      const second = mockListProps.jumpKey;
+      expect(second).not.toBe(first);
+
+      mockParams.area = undefined;
+      await view.rerender(<SiteListPage />);
+      mockParams.area = "timaru";
+      await view.rerender(<SiteListPage />);
+      expect(mockListProps.jumpKey).not.toBe(second);
     });
 
     // "Find more things to do" means the town's whole list, even where a filter left on from
@@ -1117,7 +1135,7 @@ describe("wide (the open Duo)", () => {
     wide(UPRIGHT);
     const view = await render(<SiteListPage />);
 
-    expect(mockListProps).toEqual({ compact: true, selectedId: "s1" });
+    expect(mockListProps).toEqual({ compact: true, selectedId: "s1", jumpKey: 0 });
     expect(paneText(view)).toBe("Place s1 pane");
   });
 

@@ -310,6 +310,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   // against the days as the last save here left them (not the trip list, which may not have
   // refetched yet). The list isn't recomputed, so rows stay where they are.
   const addNear = async (done: Added, id: string) => {
+    if (isOffline) return; // a paused save would hold the sheet; the + is off too
     const n = done.near.find((x) => x.id === id);
     if (!n) return;
     const { newItem, result } = candidateEdit(done.days, done.dayId, { id: n.id, name: n.name, imageUrl: n.imageUrl ?? undefined }, done.endSlot, n.durationSlots, places);
@@ -363,7 +364,6 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
               <Text style={styles.title}>{nearRows.length > 0 ? "Add the Next Stop" : "Add to Trip"}</Text>
               <TouchableOpacity
                 onPress={onClose}
-                disabled={Object.values(rowState).some((s) => s.state === "saving")}
                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                 accessibilityRole="button"
                 accessibilityLabel="Close"
@@ -380,6 +380,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
                 placeName={site.name}
                 rows={nearRows}
                 rowState={rowState}
+                offline={isOffline}
                 onAdd={(id) => addNear(added, id)}
                 onOpen={(id) => openNear(added, id)}
                 onDone={onClose}

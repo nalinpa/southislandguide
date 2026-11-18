@@ -21,6 +21,13 @@ jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 47, bottom: 34, left: 0, right: 0 }),
 }));
 
+// Icons render as a bare View carrying their name and colour, so a test can read the colour.
+jest.mock("lucide-react-native", () => {
+  const React = require("react");
+  const { View } = require("react-native");
+  return new Proxy({}, { get: (_t, name) => (props: any) => React.createElement(View, { testID: `icon-${String(name)}`, color: props.color }) });
+});
+
 const mockNet = { isConnected: true as boolean | null, isInternetReachable: true as boolean | null };
 jest.mock("@react-native-community/netinfo", () => ({ useNetInfo: () => mockNet }));
 
@@ -51,6 +58,7 @@ import { ScrollView, StyleSheet } from "react-native";
 import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 
 import { AddToTripModal } from "@/components/itinerary/AddToTripModal";
+import { tokens } from "@/lib/ui/tokens";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { clearPendingSlot, peekPendingSlot, setPendingSlot } from "@/lib/pendingSlot";
 
@@ -610,7 +618,7 @@ describe("places near the one just added", () => {
     expect(view.getByLabelText("Add Near 2 to Day 1").props.accessibilityState.disabled).toBe(false);
   });
 
-  it("Done, View Trip, close and the rows wait while a place is being added", async () => {
+  it("View Trip and the rows wait while a place is being added", async () => {
     mockLookup.list = [here, ...nearby(2)];
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);
     await addIt(view);
@@ -619,9 +627,7 @@ describe("places near the one just added", () => {
 
     const pressed = fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
     await view.findByLabelText("Adding Near 1");
-    await fireEvent.press(view.getByText("Done"));
     await fireEvent.press(view.getByText("View Trip"));
-    await fireEvent.press(view.getByLabelText("Close"));
     await fireEvent.press(view.getByLabelText(/^Near 2, /));
     expect(onClose).not.toHaveBeenCalled();
     expect(mockRouter.push).not.toHaveBeenCalled();
@@ -631,6 +637,47 @@ describe("places near the one just added", () => {
     await view.findByLabelText("Near 1 added");
     await fireEvent.press(view.getByText("Done"));
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("the added ticks use the words-and-icons colour, not the fill colour", async () => {
+    mockLookup.list = [here, ...nearby(1)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    await fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
+    const row = await view.findByLabelText("Near 1 added");
+
+    expect(view.getAllByTestId("icon-Check").map((c) => c.props.color)).toEqual([tokens.colors.surf, tokens.colors.surf]);
+    expect(row).toBeTruthy();
+  });
+
+  it("Done and close still work while a + is saving", async () => {
+    mockLookup.list = [here, ...nearby(2)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    mockTrips.saveItinerary.mockImplementationOnce(() => new Promise<string>(() => {}));
+
+    fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
+    await view.findByLabelText("Adding Near 1");
+    await fireEvent.press(view.getByText("Done"));
+    expect(onClose).toHaveBeenCalledTimes(1);
+    await fireEvent.press(view.getByLabelText("Close"));
+    expect(onClose).toHaveBeenCalledTimes(2);
+  });
+
+  it("offline, the nearby + buttons are disabled and say Reconnect to add more; nothing is saved on a tap", async () => {
+    mockLookup.list = [here, ...nearby(2)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    mockTrips.saveItinerary.mockClear();
+    mockNet.isConnected = false;
+    await view.rerender(<AddToTripModal site={site} onClose={onClose} />);
+
+    expect(view.getByText("Reconnect to add more.")).toBeTruthy();
+    const plus = view.getByLabelText("Add Near 1 to Day 1");
+    expect(plus.props.accessibilityState.disabled).toBe(true);
+    await fireEvent.press(plus);
+    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+    expect(view.getByText("Done")).toBeTruthy();
   });
 
   it("a save that finishes after the sheet moved to another place writes nothing into it", async () => {

@@ -26,6 +26,8 @@ type Props = {
   placeName: string;
   rows: NearRow[];
   rowState: Record<string, RowState>;
+  /** No signal: every + is off, since a paused save would lock the sheet. */
+  offline: boolean;
   onAdd: (id: string) => void;
   onOpen: (id: string) => void;
   onDone: () => void;
@@ -36,17 +38,18 @@ type Props = {
 
 // The done state of the Add to Trip sheet: where the place went, the places near it as
 // photo rows each with its own +, and Done and View Trip pinned under the list.
-export function AddedNearby({ line, dayNumber, placeName, rows, rowState, onAdd, onOpen, onDone, onViewTrip, listMaxHeight }: Props) {
+export function AddedNearby({ line, dayNumber, placeName, rows, rowState, offline, onAdd, onOpen, onDone, onViewTrip, listMaxHeight }: Props) {
   const busy = Object.values(rowState).some((s) => s.state === "saving");
   return (
     <View style={styles.done}>
       <View style={styles.top}>
-        <Check color={tokens.colors.success} size={18} strokeWidth={2.5} />
+        <Check color={tokens.colors.surf} size={18} strokeWidth={2.5} />
         <Text style={styles.topText}>{line}</Text>
       </View>
       {rows.length > 0 && (
         <>
           <Text style={styles.nearTitle}>Near {placeName}</Text>
+          {offline && <Text style={styles.offline}>Reconnect to add more.</Text>}
           <ScrollView testID="near-list" style={{ flexGrow: 0, maxHeight: listMaxHeight }} showsVerticalScrollIndicator={false}>
             {rows.map((n, i) => {
               const s = rowState[n.id];
@@ -73,7 +76,7 @@ export function AddedNearby({ line, dayNumber, placeName, rows, rowState, onAdd,
                     </TouchableOpacity>
                     {s?.state === "added" ? (
                       <View style={styles.plus} accessible accessibilityLabel={`${n.name} added`}>
-                        <Check color={tokens.colors.success} size={20} />
+                        <Check color={tokens.colors.surf} size={20} />
                       </View>
                     ) : s?.state === "saving" ? (
                       <View style={styles.plus}>
@@ -84,8 +87,8 @@ export function AddedNearby({ line, dayNumber, placeName, rows, rowState, onAdd,
                         style={styles.plus}
                         accessibilityRole="button"
                         accessibilityLabel={`Add ${n.name} to Day ${dayNumber}`}
-                        accessibilityState={{ disabled: busy }}
-                        disabled={busy}
+                        accessibilityState={{ disabled: busy || offline }}
+                        disabled={busy || offline}
                         onPress={() => onAdd(n.id)}
                       >
                         <Plus color={tokens.colors.selected} size={20} />
@@ -99,7 +102,7 @@ export function AddedNearby({ line, dayNumber, placeName, rows, rowState, onAdd,
           </ScrollView>
         </>
       )}
-      <AppButton variant="primary" fullWidth disabled={busy} onPress={onDone}>
+      <AppButton variant="primary" fullWidth onPress={onDone}>
         Done
       </AppButton>
       <TouchableOpacity style={styles.viewTrip} accessibilityRole="button" disabled={busy} onPress={onViewTrip}>
@@ -131,6 +134,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: tokens.colors.selFill,
   },
+  offline: { fontSize: 14, color: tokens.colors.textMuted },
   message: { fontSize: 14, color: tokens.colors.danger, marginTop: 4 },
   viewTrip: { alignSelf: "center", paddingVertical: 12, paddingHorizontal: tokens.space.md },
   viewTripText: { fontSize: 15, fontWeight: "600", color: tokens.colors.selected },

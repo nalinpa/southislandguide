@@ -68,6 +68,18 @@ describe("ListView", () => {
     expect(mockScrollToOffset).not.toHaveBeenCalled();
   });
 
+  it("jumps to the top when jumpKey changes, and not on first mount", async () => {
+    const rows = [row("a", "Sumner Beach"), row("b", "Riccarton Bush")];
+    const view = await render(<ListView rows={rows} onPressItem={jest.fn()} jumpKey={1} />);
+    expect(mockScrollToOffset).not.toHaveBeenCalled();
+
+    await view.rerender(<ListView rows={rows} onPressItem={jest.fn()} jumpKey={1} />);
+    expect(mockScrollToOffset).not.toHaveBeenCalled();
+
+    await view.rerender(<ListView rows={rows} onPressItem={jest.fn()} jumpKey={2} />);
+    expect(mockScrollToOffset).toHaveBeenCalledWith({ offset: 0, animated: false });
+  });
+
   it("is one column with 24 between the rows", async () => {
     const view = await render(<ListView rows={[row("a", "Sumner Beach"), row("b", "Riccarton Bush")]} onPressItem={jest.fn()} />);
     expect(view.getByTestId("flash").props.numColumns).toBe(1);

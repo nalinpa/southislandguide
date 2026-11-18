@@ -233,11 +233,13 @@ export default function SiteListPage() {
   // Handed over by another screen: taken once, then cleared. This tab screen keeps its
   // params, and the same town sent again later must still count as new. It opens on the
   // town's whole list: a category or search left on from before is cleared.
+  const [jumpKey, setJumpKey] = useState(0);
   const { area: areaParam } = useLocalSearchParams<{ area?: string }>();
   useEffect(() => {
     if (!areaParam) return;
     setChosenArea(areaParam);
     setFromDayArea(areaParam);
+    setJumpKey((k) => k + 1);
     setCategory(null);
     setSearchQuery("");
     setSearchOpen(false);
@@ -469,6 +471,7 @@ export default function SiteListPage() {
             tripIds={tripIds}
             firstRowTarget={wide || !featured ? placeTarget : undefined}
             atTop={touring}
+            jumpKey={jumpKey}
             refreshControl={refreshControl}
             ListEmptyComponent={emptyList}
           />

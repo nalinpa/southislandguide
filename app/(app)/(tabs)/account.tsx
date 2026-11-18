@@ -154,7 +154,9 @@ export default function AccountScreen() {
   const danger: Group = ["danger", <DangerZoneCard />];
   const groups = [
     ...(wide && !isAuthed ? [["guide", guide] as Group] : []),
-    ["who", <UserInfoCard />],
+    // Not for a guest on a wide screen: the sign-in form is on the right already, so the
+    // card's "Sign In / Create Account" button said the same thing twice (owner, 2026-11-18).
+    ...(wide && !isAuthed ? [] : [["who", <UserInfoCard />] as Group]),
     ...(tour ? [["tour", tour] as Group] : []),
     ["map", <OfflineMapCard />],
     ...(isAuthed ? [["trip", <ItinerariesCard />] as Group, [

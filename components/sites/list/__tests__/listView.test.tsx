@@ -2,20 +2,28 @@
 // row, and only that one (lib/tour).
 
 // Not transformed for jest; a plain map over the rows does for what is checked here.
+const mockScrollToOffset = jest.fn();
 jest.mock("@shopify/flash-list", () => {
   const React = require("react");
   const { View } = require("react-native");
   return {
-    FlashList: ({ data, renderItem, keyExtractor, numColumns, ItemSeparatorComponent }: any) =>
-      React.createElement(
+    FlashList: React.forwardRef(({ data, renderItem, keyExtractor, numColumns, ItemSeparatorComponent }: any, ref: any) => {
+      React.useImperativeHandle(ref, () => ({ scrollToOffset: mockScrollToOffset }));
+      return React.createElement(
         View,
         { testID: "flash", numColumns },
         ItemSeparatorComponent ? React.createElement(ItemSeparatorComponent) : null,
         data.map((item: any, index: number) =>
           React.createElement(React.Fragment, { key: keyExtractor(item) }, renderItem({ item, index })),
         ),
-      ),
+      );
+    }),
   };
+});
+
+jest.mock("@/components/sites/list/PlaceRow", () => {
+  const { Text } = require("react-native");
+  return { PlaceRow: ({ name }: any) => require("react").createElement(Text, null, "Compact " + name) };
 });
 
 jest.mock("@/components/sites/list/ListItem", () => {
@@ -31,6 +39,8 @@ import { ListView } from "@/components/sites/list/ListView";
 const row = (id: string, name: string) => ({ location: { id, name, category: ["Walks"] }, distanceMeters: null }) as any;
 
 describe("ListView", () => {
+  beforeEach(() => mockScrollToOffset.mockClear());
+
   it("hands the tour's target to the first row only", async () => {
     const target = { ref: React.createRef<any>(), onLayout: jest.fn(), testID: "first-row" } as any;
     const view = await render(
@@ -40,6 +50,22 @@ describe("ListView", () => {
     expect(view.getAllByTestId("first-row")).toHaveLength(1);
     expect(within(view.getByTestId("first-row")).getByText("Row Sumner Beach")).toBeTruthy();
     expect(within(view.getByTestId("first-row")).queryByText("Row Riccarton Bush")).toBeNull();
+  });
+
+  it("on the tour, jumps to the top again when the rows turn compact (the Duo unfolded mid-tour)", async () => {
+    const rows = [row("a", "Sumner Beach"), row("b", "Riccarton Bush")];
+    const view = await render(<ListView rows={rows} onPressItem={jest.fn()} atTop />);
+    mockScrollToOffset.mockClear();
+
+    await view.rerender(<ListView rows={rows} onPressItem={jest.fn()} atTop compact />);
+    expect(mockScrollToOffset).toHaveBeenCalledWith({ offset: 0, animated: false });
+  });
+
+  it("off the tour, turning compact leaves the list where it is", async () => {
+    const rows = [row("a", "Sumner Beach"), row("b", "Riccarton Bush")];
+    const view = await render(<ListView rows={rows} onPressItem={jest.fn()} />);
+    await view.rerender(<ListView rows={rows} onPressItem={jest.fn()} compact />);
+    expect(mockScrollToOffset).not.toHaveBeenCalled();
   });
 
   it("is one column with 24 between the rows", async () => {

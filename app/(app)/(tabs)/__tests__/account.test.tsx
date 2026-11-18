@@ -629,11 +629,12 @@ describe("wide", () => {
       mockSession.uid = undefined;
     });
 
-    it("wide guest: left starts with the guide card and its button is white; right is the sign-in card on the Login photo", async () => {
+    it("wide guest: left starts with the guide card and its button is white, with no sign-in card of its own; right is the sign-in card on the Login photo", async () => {
       const { view, left, right } = await wideView();
       const leftTree = JSON.stringify(view.toJSON()).split('"profile-right"')[0];
 
-      for (const [a, b] of [["Open Guide", "User Info Card"], ["User Info Card", "Show me around"], ["Show me around", "Map for no signal"], ["Map for no signal", "Photo credits"]]) {
+      expect(view.queryByText("User Info Card")).toBeNull();
+      for (const [a, b] of [["Open Guide", "Show me around"], ["Show me around", "Map for no signal"], ["Map for no signal", "Photo credits"]]) {
         expect(leftTree.indexOf(a)).toBeGreaterThanOrEqual(0);
         expect(leftTree.indexOf(a)).toBeLessThan(leftTree.indexOf(b));
       }

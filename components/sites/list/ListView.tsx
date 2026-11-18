@@ -31,7 +31,9 @@ type ListViewProps = {
   /** The opening tour's target (useTourTarget), on the first row only. */
   firstRowTarget?: TourTarget;
   /** Jumps to the top when it turns true: the tour points at the first place, which a
-   *  scrolled list has moved off the screen (owner, 2026-11-13). */
+   *  scrolled list has moved off the screen (owner, 2026-11-13). Again when the rows change
+   *  shape while it is true: unfolding the Duo mid-tour kept the phone list's offset, so
+   *  the first compact row was off the top and the step had no cut-out (owner, 2026-11-18). */
   atTop?: boolean;
   /** Explore beside the place on the open Duo: compact rows, one column, no gap between. */
   compact?: boolean;
@@ -45,7 +47,7 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
   const list = useRef<FlashListRef<ListRow>>(null);
   useEffect(() => {
     if (atTop) list.current?.scrollToOffset({ offset: 0, animated: false });
-  }, [atTop]);
+  }, [atTop, compact]);
 
   const renderItem = useCallback(
     ({ item, index }: { item: ListRow; index: number }) => {

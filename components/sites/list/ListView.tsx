@@ -92,7 +92,7 @@ export function ListView({ rows, header, onPressItem, ListEmptyComponent, refres
 
   return (
     <FlashList
-      // Off (owner, 2026-11-18): rows are never added live, and on an unfold it undid the tour's
+      // Off here only (owner, 2026-11-18; Saved Places and reviews keep it): on an unfold it undid the tour's
       // jump to the top (the featured place joins the rows, so the list moved down one to "keep its place").
       maintainVisibleContentPosition={{ disabled: true }}
       ref={list}

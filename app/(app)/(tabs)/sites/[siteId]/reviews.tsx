@@ -140,8 +140,6 @@ function SiteReviews({ id, siteName }: { id: string; siteName?: string }) {
       <Stack.Screen options={LIST_OPTIONS} />
 
       <FlashList
-        // Off, as on every list in the app (owner, 2026-11-18): rows are never added live.
-        maintainVisibleContentPosition={{ disabled: true }}
         data={safeReviews}
         keyExtractor={(item) => item.id}
         // @ts-ignore

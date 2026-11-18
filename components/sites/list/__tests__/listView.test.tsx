@@ -7,11 +7,11 @@ jest.mock("@shopify/flash-list", () => {
   const React = require("react");
   const { View } = require("react-native");
   return {
-    FlashList: React.forwardRef(({ data, renderItem, keyExtractor, numColumns, ItemSeparatorComponent }: any, ref: any) => {
+    FlashList: React.forwardRef(({ data, renderItem, keyExtractor, numColumns, ItemSeparatorComponent, maintainVisibleContentPosition }: any, ref: any) => {
       React.useImperativeHandle(ref, () => ({ scrollToOffset: mockScrollToOffset }));
       return React.createElement(
         View,
-        { testID: "flash", numColumns },
+        { testID: "flash", numColumns, maintainVisibleContentPosition },
         ItemSeparatorComponent ? React.createElement(ItemSeparatorComponent) : null,
         data.map((item: any, index: number) =>
           React.createElement(React.Fragment, { key: keyExtractor(item) }, renderItem({ item, index })),
@@ -78,6 +78,11 @@ describe("ListView", () => {
 
     await view.rerender(<ListView rows={rows} onPressItem={jest.fn()} jumpKey={2} />);
     expect(mockScrollToOffset).toHaveBeenCalledWith({ offset: 0, animated: false });
+  });
+
+  it("doesn't hold the first row in place when the rows change (it undid the tour's jump to the top on an unfold)", async () => {
+    const view = await render(<ListView rows={[row("a", "Sumner Beach")]} onPressItem={jest.fn()} />);
+    expect(view.getByTestId("flash").props.maintainVisibleContentPosition).toEqual({ disabled: true });
   });
 
   it("is one column with 24 between the rows", async () => {

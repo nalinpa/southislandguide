@@ -161,6 +161,8 @@ export function SavedPlacesList({
       {top?.(rows.length)}
       {categoryTabs}
       <FlashList
+        // Off, as on every list in the app (owner, 2026-11-18): rows are never added live.
+        maintainVisibleContentPosition={{ disabled: true }}
         data={rows}
         keyExtractor={(item) => item.location.id}
         renderItem={({ item, index }: { item: SiteRow; index: number }) => (

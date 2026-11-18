@@ -392,7 +392,9 @@ export default function SiteListPage() {
         ) : null}
   
         {closestTo && (
-          <AppText variant="label" status="hint" accessibilityRole="text">
+          // Body size, not the small capitals of a label, with room above and below on the
+          // phone (owner, 2026-11-18: it was too small and tight there).
+          <AppText variant="body" status="hint" accessibilityRole="text" style={[styles.closest, !wide && styles.closestPhone]}>
             {`Closest to ${closestTo.name} first`}
           </AppText>
         )}
@@ -546,6 +548,8 @@ const styles = StyleSheet.create({
   headerStack: { paddingTop: tokens.space.md, paddingBottom: 8, width: "100%" },
   // The compact list pads 8, so the notices take 12 more to meet the head's 20.
   headerStackWide: { paddingHorizontal: 12 },
+  closest: { fontWeight: "600" },
+  closestPhone: { paddingVertical: 6 },
   paddedSection: { paddingHorizontal: 16 },
   searchInputWrap: {
     flexDirection: "row",

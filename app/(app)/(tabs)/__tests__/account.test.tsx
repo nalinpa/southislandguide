@@ -629,7 +629,7 @@ describe("wide", () => {
       mockSession.uid = undefined;
     });
 
-    it("wide guest: left starts with the guide card and its button is white, with no sign-in card of its own; right is the sign-in card on the Login photo", async () => {
+    it("wide guest: left starts with the guide card and its button is white, with no sign-in card of its own", async () => {
       const { view, left, right } = await wideView();
       const leftTree = JSON.stringify(view.toJSON()).split('"profile-right"')[0];
 
@@ -641,8 +641,6 @@ describe("wide", () => {
       expect(left.getByRole("button", { name: "Open Guide" })).toHaveStyle({ backgroundColor: "#FFFFFF", height: 52 });
       expect(left.getByText("Open Guide")).toHaveStyle({ color: "#063F45" });
       expect(left.getByText(/Your guide to the/)).toHaveStyle({ fontSize: 28, lineHeight: 33 });
-      expect(right.getByTestId("profile-photo").props.source).toEqual([require("@/assets/login.webp")]);
-      expect(right.getByTestId("profile-wash")).toHaveStyle({ backgroundColor: photoWash });
       expect(right.queryByText("Open Guide")).toBeNull();
       expect(left.queryByText("Saved Items Card")).toBeNull();
     });
@@ -650,13 +648,39 @@ describe("wide", () => {
     it("wide guest: the card holds \"Sign In for More\", its line, and the form with Create an account as an outline button, and no \"Continue as guest\" link", async () => {
       const { right } = await wideView();
 
-      expect(right.getByTestId("profile-card")).toHaveStyle({ maxWidth: 380, borderRadius: 20, backgroundColor: tokens.colors.page });
+      expect(right.getByTestId("profile-card")).toHaveStyle({ width: "100%", maxWidth: 480, alignSelf: "center" });
       expect(right.getByText("Sign In for More")).toHaveStyle({ fontSize: 22, lineHeight: 27, fontWeight: "700" });
       expect(right.getByText("Sign in to save places, plan trips and leave reviews.")).toHaveStyle({ fontSize: 16, lineHeight: 22, color: tokens.colors.text2 });
       expect(right.getByLabelText("Email")).toBeTruthy();
       expect(right.getByLabelText("Password")).toBeTruthy();
       expect(right.getByRole("button", { name: "Create an account" })).toHaveStyle({ borderWidth: 1.5, height: 52 });
       expect(right.queryByText("Continue as guest")).toBeNull();
+    });
+
+    it.each([["upright", UPRIGHT], ["sideways", SIDEWAYS]])("Duo guest, %s: the sign-in form fills the right pane, with no photo behind it", async (_, size) => {
+      {
+        const { view, right } = await wideView(size);
+        expect(view.getByTestId("profile-right")).toHaveStyle({ backgroundColor: tokens.colors.page });
+        expect(right.queryByTestId("profile-photo")).toBeNull();
+        expect(right.queryByTestId("profile-wash")).toBeNull();
+        expect(right.getByText("Sign In for More")).toBeTruthy();
+        expect(right.getByText("Sign in to save places, plan trips and leave reviews.")).toBeTruthy();
+        expect(right.getByLabelText("Email")).toBeTruthy();
+        const card = StyleSheet.flatten(right.getByTestId("profile-card").props.style);
+        expect(card.maxHeight).toBeUndefined();
+        expect(card.shadowOpacity).toBeUndefined();
+        expect(card.borderRadius).toBeUndefined();
+        const content = StyleSheet.flatten(right.getByTestId("profile-card-scroll").props.contentContainerStyle);
+        expect(content).toMatchObject({ paddingHorizontal: 24, paddingBottom: 24, paddingTop: size === UPRIGHT ? 56 : 16 });
+      }
+    });
+
+    it("iPad guest: the sign-in card still sits on the Login photo", async () => {
+      const { right } = await wideView({ width: 1376, height: 1032 });
+
+      expect(right.getByTestId("profile-photo").props.source).toEqual([require("@/assets/login.webp")]);
+      expect(right.getByTestId("profile-wash")).toHaveStyle({ backgroundColor: photoWash });
+      expect(right.getByTestId("profile-card")).toHaveStyle({ maxWidth: 380, borderRadius: 20 });
     });
 
     it("wide guest: a failed sign-in shows its error in the card", async () => {
@@ -684,15 +708,14 @@ describe("wide", () => {
       expect(within(view.getByTestId("profile-left")).queryByText("Open Guide")).toBeNull();
     });
 
-    it("wide sideways guest: create-account mode scrolls inside the card", async () => {
+    it("wide sideways guest: create-account mode scrolls in the pane", async () => {
       const { view, right } = await wideView(SIDEWAYS);
       const scroll = right.getByTestId("profile-card-scroll");
 
       await fireEvent.press(right.getByText("Create an account"));
 
-      // The card is held to the photo's height and its content scrolls inside it, with taps
-      // still reaching the fields while the keyboard is up.
-      expect(right.getByTestId("profile-card")).toHaveStyle({ maxHeight: "100%" });
+      // The form fills the pane and scrolls, with taps still reaching the fields while the
+      // keyboard is up.
       expect(scroll.props.keyboardShouldPersistTaps).toBe("handled");
       expect(within(scroll).getByLabelText("Confirm password")).toBeTruthy();
       expect(within(scroll).getByRole("checkbox")).toBeTruthy();
@@ -885,17 +908,19 @@ describe("wide", () => {
     it("wide guest: Photo credits opens the pane over the sign-in card, and × brings the card back; there is no Saved Places row", async () => {
       mockSession.status = "guest";
       mockSession.uid = undefined;
-      const { view, right } = await wideView();
+      const { view } = await wideView();
+      // The pane is a different view once picked, so look it up each time.
+      const right = () => within(view.getByTestId("profile-right"));
       expect(view.queryByRole("button", { name: "View All Saved Places" })).toBeNull();
 
       await fireEvent.press(view.getByRole("button", { name: "Photo credits" }));
 
-      expect(right.getByText("Photo Credits")).toBeTruthy();
-      expect(right.queryByText("Sign In for More")).toBeNull();
+      expect(right().getByText("Photo Credits")).toBeTruthy();
+      expect(right().queryByText("Sign In for More")).toBeNull();
 
-      await fireEvent.press(right.getByRole("button", { name: "Close" }));
+      await fireEvent.press(right().getByRole("button", { name: "Close" }));
 
-      expect(right.getByText("Sign In for More")).toBeTruthy();
+      expect(right().getByText("Sign In for More")).toBeTruthy();
     });
 
     it("wide: a guest is never shown Saved Places, even if it was open when they signed out", async () => {

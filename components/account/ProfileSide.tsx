@@ -18,6 +18,9 @@ import { CARD_SIDES, cardLift, photoWash, tokens } from "@/lib/ui/tokens";
 const GUIDE_PHOTO = require("../../assets/guide-road.webp");
 const LOGIN_PHOTO = require("../../assets/login.webp");
 
+// The Duo's window is 951 x 669 or 669 x 951 pt; the smallest iPad's short side is 744.
+const DUO_SHORT_SIDE = 700;
+
 // The open Duo's right pane: a photo card with the guide link on it, or for a guest the
 // sign-in form. Saved Places or Photo credits (`picked`) take the pane over, with a title row
 // whose × brings the photo card back.
@@ -30,7 +33,7 @@ export function ProfileSide({
   picked: "saved" | "credits" | null;
   onClose: () => void;
 }) {
-  const { upright } = useHalves();
+  const { upright, width, height } = useHalves();
   const insets = useSafeAreaInsets();
   if (picked) {
     return (
@@ -49,6 +52,8 @@ export function ProfileSide({
       </View>
     );
   }
+  // On the Duo the guest's form is too tall for a card on the photo: it fills the pane instead.
+  if (!authed && Math.min(width, height) < DUO_SHORT_SIDE) return <GuestPane top={profileTop(upright, insets.top)} />;
   return (
     <View testID="profile-right" style={styles.pane}>
       <View style={[styles.photoCard, { marginTop: profileTop(upright, insets.top) }]}>
@@ -84,6 +89,27 @@ function GuideCard() {
         <Text style={styles.openText}>Open Guide</Text>
         <ArrowRight size={16} color={CARD_SIDES.light} strokeWidth={2.75} />
       </TouchableOpacity>
+    </View>
+  );
+}
+
+function GuestPane({ top }: { top: number }) {
+  const form = useAuthForm("login");
+  return (
+    <View testID="profile-right" style={[styles.pane, styles.picked]}>
+      <ScrollView
+        testID="profile-card-scroll"
+        contentContainerStyle={[styles.paneContent, { paddingTop: top }]}
+        keyboardShouldPersistTaps="handled"
+        automaticallyAdjustKeyboardInsets
+        showsVerticalScrollIndicator={false}
+      >
+        <View testID="profile-card" style={styles.paneCard}>
+          <Text style={styles.title}>Sign In for More</Text>
+          <Text style={styles.line}>Sign in to save places, plan trips and leave reviews.</Text>
+          <SignInForm form={form} wide />
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -138,6 +164,8 @@ const styles = StyleSheet.create({
   // The scroll clips to the card's corners; the card itself can't (a shadow and a clip don't mix on iOS).
   cardScroll: { flexGrow: 0, borderRadius: 20 },
   cardContent: { padding: 24, gap: tokens.space.xs },
+  paneContent: { paddingHorizontal: 24, paddingBottom: 24 },
+  paneCard: { width: "100%", maxWidth: 480, alignSelf: "center", gap: tokens.space.xs },
   headline: { fontSize: 28, lineHeight: 33, fontWeight: "800", color: CARD_SIDES.light, letterSpacing: -0.6 },
   openBtn: {
     height: 52,

@@ -6,7 +6,7 @@
 jest.mock("@/lib/uiKit", () => {
   const React = require("react");
   const { Text } = require("react-native");
-  return { AppText: ({ children, style }: any) => React.createElement(Text, { style }, children) };
+  return { AppText: ({ children, ...props }: any) => React.createElement(Text, props, children) };
 });
 
 jest.mock("react-native-svg", () => {
@@ -44,7 +44,7 @@ jest.mock("@/lib/auth/googleSignIn", () => ({
 
 import React from "react";
 import { Platform, StyleSheet } from "react-native";
-import { fireEvent, render, waitFor } from "@testing-library/react-native";
+import { fireEvent, render, waitFor, within } from "@testing-library/react-native";
 
 import { SocialSignInButtons } from "@/components/auth/SocialSignInButtons";
 
@@ -202,6 +202,38 @@ describe("colours", () => {
     const view = await renderButtons();
     expect(view.getByTestId("apple-0")).toBeTruthy();
     expect(StyleSheet.flatten(googleInner(view).props.style).backgroundColor).toBe("#000000");
+  });
+});
+
+describe("row", () => {
+  const renderRow = () => render(<SocialSignInButtons onError={onError} onBusyChange={onBusyChange} row />);
+
+  it("row: Apple and Google share one row, each half width", async () => {
+    const view = await renderRow();
+    const row = view.getByTestId("social-row");
+    expect(row).toHaveStyle({ flexDirection: "row", gap: 12 });
+    expect(within(row).getByText("Sign in with Apple")).toBeTruthy();
+    expect(within(row).getByText("Sign in with Google")).toBeTruthy();
+    const words = view.getByText("Sign in with Google");
+    expect(words.props.numberOfLines).toBe(1);
+    expect(words.props.adjustsFontSizeToFit).toBe(true);
+    expect(words.props.minimumFontScale).toBe(0.75);
+  });
+
+  it("without row, there is no social-row wrapper", async () => {
+    const view = await renderButtons();
+    expect(view.queryByTestId("social-row")).toBeNull();
+    expect(view.getByText("Sign in with Google").props.numberOfLines).toBeUndefined();
+  });
+
+  it("pressing each button in row mode still starts its sign-in", async () => {
+    const view = await renderRow();
+    await fireEvent.press(view.getByText("Sign in with Apple"));
+    await waitFor(() => expect(mockAppleSignIn).toHaveBeenCalledTimes(1));
+    await view.unmount();
+    const again = await renderRow();
+    await fireEvent.press(again.getByText("Sign in with Google"));
+    await waitFor(() => expect(mockGoogleSignIn).toHaveBeenCalledTimes(1));
   });
 });
 

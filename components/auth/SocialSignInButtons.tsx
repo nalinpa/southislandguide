@@ -30,10 +30,12 @@ type SocialSignInButtonsProps = {
   onBusyChange?: (busy: boolean) => void;
   // The email form is submitting: no sign-in may start.
   disabled?: boolean;
+  // Side by side in one row, half width each, to save height (the sideways Duo's sign-in pane).
+  row?: boolean;
 };
 
 // Renders a fragment; the sign-in form spaces the two buttons.
-export function SocialSignInButtons({ onError, onBusyChange, disabled }: SocialSignInButtonsProps) {
+export function SocialSignInButtons({ onError, onBusyChange, disabled, row }: SocialSignInButtonsProps) {
   const dark = useColorScheme() === "dark";
   // Tracks *which* provider's sheet is open, not just whether one is — a
   // single shared boolean can't tell the two buttons apart, so signing in
@@ -86,33 +88,55 @@ export function SocialSignInButtons({ onError, onBusyChange, disabled }: SocialS
   // ponytail: iOS-only until the Android app is registered in Firebase (needs SHA-1)
   if (Platform.OS !== "ios") return null;
 
+  const apple = (
+    <AppleAuthentication.AppleAuthenticationButton
+      buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+      buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle[dark ? "WHITE" : "BLACK"]}
+      cornerRadius={12}
+      style={[styles.button, socialBusy && styles.dimmed]}
+      onPress={() => void handleAppleSignIn()}
+    />
+  );
+  const google = (
+    <Pressable style={[styles.button, socialBusy && styles.dimmed]} disabled={socialBusy} onPress={() => void handleGoogleSignIn()}>
+      <View testID="google-inner" style={[styles.googleInner, dark && styles.googleInnerDark]}>
+        {signingInWith === "google" ? (
+          <ActivityIndicator color={dark ? "#1F1F1F" : "#FFFFFF"} />
+        ) : (
+          <>
+            <GoogleMark />
+            <AppText
+              style={[styles.googleText, dark && styles.googleTextDark, row && styles.shrink]}
+              {...(row ? { numberOfLines: 1, adjustsFontSizeToFit: true, minimumFontScale: 0.75 } : null)}
+            >
+              Sign in with Google
+            </AppText>
+          </>
+        )}
+      </View>
+    </Pressable>
+  );
+  if (row) {
+    return (
+      <View testID="social-row" style={styles.row}>
+        <View style={styles.half}>{apple}</View>
+        <View style={styles.half}>{google}</View>
+      </View>
+    );
+  }
   return (
     <>
-      <AppleAuthentication.AppleAuthenticationButton
-        buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-        buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle[dark ? "WHITE" : "BLACK"]}
-        cornerRadius={12}
-        style={[styles.button, socialBusy && styles.dimmed]}
-        onPress={() => void handleAppleSignIn()}
-      />
-      <Pressable style={[styles.button, socialBusy && styles.dimmed]} disabled={socialBusy} onPress={() => void handleGoogleSignIn()}>
-        <View testID="google-inner" style={[styles.googleInner, dark && styles.googleInnerDark]}>
-          {signingInWith === "google" ? (
-            <ActivityIndicator color={dark ? "#1F1F1F" : "#FFFFFF"} />
-          ) : (
-            <>
-              <GoogleMark />
-              <AppText style={[styles.googleText, dark && styles.googleTextDark]}>Sign in with Google</AppText>
-            </>
-          )}
-        </View>
-      </Pressable>
+      {apple}
+      {google}
     </>
   );
 }
 
 const styles = StyleSheet.create({
   button: { width: "100%", height: 50 },
+  row: { flexDirection: "row", gap: 12 },
+  half: { flex: 1, minWidth: 0 },
+  shrink: { flexShrink: 1 },
   dimmed: { opacity: 0.5 },
   googleInner: {
     width: "100%",

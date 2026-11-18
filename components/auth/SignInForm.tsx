@@ -13,10 +13,13 @@ import { tokens } from "@/lib/ui/tokens";
 export function SignInForm({
   form: f,
   wide,
+  socialRow,
   onGuest,
 }: {
   form: ReturnType<typeof useAuthForm>;
   wide?: boolean;
+  // Apple and Google side by side, to save height.
+  socialRow?: boolean;
   onGuest?: () => void;
 }) {
   const { session } = useSession();
@@ -31,7 +34,7 @@ export function SignInForm({
     <>
       {social ? (
         <View style={styles.social}>
-          <SocialSignInButtons onError={f.setErr} onBusyChange={setSocialBusy} disabled={f.busy} />
+          <SocialSignInButtons onError={f.setErr} onBusyChange={setSocialBusy} disabled={f.busy} row={socialRow} />
           <View style={styles.divider}>
             <View style={styles.line} />
             <AppText style={styles.or}>or</AppText>

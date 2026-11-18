@@ -52,7 +52,11 @@ jest.mock("@/lib/uiKit", () => {
   return { ...kit, AuthPanel: createAuthPanel(formTokens, kit) };
 });
 // The provider buttons load native Google sign-in; this suite is about the account page.
-jest.mock("@/components/auth/SocialSignInButtons", () => ({ SocialSignInButtons: () => null }));
+// A marker for how the form asked the buttons to be laid out.
+jest.mock("@/components/auth/SocialSignInButtons", () => {
+  const { View } = require("react-native");
+  return { SocialSignInButtons: ({ row }: any) => <View testID={row ? "social-row" : "social-stacked"} /> };
+});
 jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
 jest.mock("@/lib/firebase", () => ({ auth: {} }));
 jest.mock("firebase/firestore", () => ({ doc: jest.fn(), getDoc: jest.fn(), setDoc: jest.fn(), serverTimestamp: jest.fn() }));
@@ -664,7 +668,6 @@ describe("wide", () => {
         expect(right.queryByTestId("profile-photo")).toBeNull();
         expect(right.queryByTestId("profile-wash")).toBeNull();
         expect(right.getByText("Sign In for More")).toBeTruthy();
-        expect(right.getByText("Sign in to save places, plan trips and leave reviews.")).toBeTruthy();
         expect(right.getByLabelText("Email")).toBeTruthy();
         const card = StyleSheet.flatten(right.getByTestId("profile-card").props.style);
         expect(card.maxHeight).toBeUndefined();
@@ -681,6 +684,33 @@ describe("wide", () => {
       expect(right.getByTestId("profile-photo").props.source).toEqual([require("@/assets/login.webp")]);
       expect(right.getByTestId("profile-wash")).toHaveStyle({ backgroundColor: photoWash });
       expect(right.getByTestId("profile-card")).toHaveStyle({ maxWidth: 380, borderRadius: 20 });
+    });
+
+    it("Duo guest sideways: the two sign-in buttons are side by side; upright they are stacked", async () => {
+      const sideways = await wideView(SIDEWAYS);
+      expect(sideways.right.getByTestId("social-row")).toBeTruthy();
+      await sideways.view.unmount();
+      const upright = await wideView(UPRIGHT);
+      expect(upright.right.getByTestId("social-stacked")).toBeTruthy();
+      expect(upright.right.queryByTestId("social-row")).toBeNull();
+    });
+
+    it("Duo guest sideways: no 'Sign in to save places…' line; upright and iPad keep it", async () => {
+      const sideways = await wideView(SIDEWAYS);
+      expect(sideways.right.getByText("Sign In for More")).toBeTruthy();
+      expect(sideways.right.queryByText("Sign in to save places, plan trips and leave reviews.")).toBeNull();
+      await sideways.view.unmount();
+      const upright = await wideView(UPRIGHT);
+      expect(upright.right.getByText("Sign in to save places, plan trips and leave reviews.")).toBeTruthy();
+      await upright.view.unmount();
+      const ipad = await wideView({ width: 1376, height: 1032 });
+      expect(ipad.right.getByText("Sign in to save places, plan trips and leave reviews.")).toBeTruthy();
+    });
+
+    it("iPad guest: stacked", async () => {
+      const { right } = await wideView({ width: 1376, height: 1032 });
+      expect(right.getByTestId("social-stacked")).toBeTruthy();
+      expect(right.queryByTestId("social-row")).toBeNull();
     });
 
     it("wide guest: a failed sign-in shows its error in the card", async () => {

@@ -36,11 +36,12 @@ jest.mock("firebase/auth", () => ({
 jest.mock("@/components/auth/SocialSignInButtons", () => {
   const { Text } = require("react-native");
   return {
-    SocialSignInButtons: ({ onError, onBusyChange, disabled }: any) => (
+    SocialSignInButtons: ({ onError, onBusyChange, disabled, row }: any) => (
       <>
         <Text onPress={() => onError("Apple sign-in failed.")}>Social fail</Text>
         <Text onPress={() => onBusyChange(true)}>Social sheet open</Text>
         <Text>{disabled ? "Social disabled" : "Social enabled"}</Text>
+        <Text>{row ? "Social row" : "Social stacked"}</Text>
       </>
     ),
   };
@@ -55,7 +56,7 @@ import { act, fireEvent, render } from "@testing-library/react-native";
 import { SignInForm } from "@/components/auth/SignInForm";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 
-const Form = (props: { wide?: boolean; onGuest?: () => void }) => <SignInForm form={useAuthForm("login")} {...props} />;
+const Form = (props: { wide?: boolean; socialRow?: boolean; onGuest?: () => void }) => <SignInForm form={useAuthForm("login")} {...props} />;
 
 describe("SignInForm", () => {
   it("draws the guest link only when it is given one", async () => {
@@ -95,6 +96,13 @@ describe("SignInForm", () => {
       const text = JSON.stringify(view.toJSON());
       expect(text.indexOf("Social fail")).toBeLessThan(text.indexOf("or"));
       expect(text.indexOf('"or"')).toBeLessThan(text.indexOf("Email"));
+    });
+
+    it("socialRow hands row to the buttons", async () => {
+      const view = await render(<Form />);
+      expect(view.getByText("Social stacked")).toBeTruthy();
+      await view.rerender(<Form socialRow />);
+      expect(view.getByText("Social row")).toBeTruthy();
     });
 
     it("shows neither the buttons nor the divider off iOS", async () => {

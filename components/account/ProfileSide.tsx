@@ -53,7 +53,7 @@ export function ProfileSide({
     );
   }
   // On the Duo the guest's form is too tall for a card on the photo: it fills the pane instead.
-  if (!authed && Math.min(width, height) < DUO_SHORT_SIDE) return <GuestPane top={profileTop(upright, insets.top)} />;
+  if (!authed && Math.min(width, height) < DUO_SHORT_SIDE) return <GuestPane top={profileTop(upright, insets.top)} upright={upright} />;
   return (
     <View testID="profile-right" style={styles.pane}>
       <View style={[styles.photoCard, { marginTop: profileTop(upright, insets.top) }]}>
@@ -93,7 +93,8 @@ function GuideCard() {
   );
 }
 
-function GuestPane({ top }: { top: number }) {
+// Sideways the pane is short: Apple and Google share a row and the sub-line goes.
+function GuestPane({ top, upright }: { top: number; upright: boolean }) {
   const form = useAuthForm("login");
   return (
     <View testID="profile-right" style={[styles.pane, styles.picked]}>
@@ -106,8 +107,8 @@ function GuestPane({ top }: { top: number }) {
       >
         <View testID="profile-card" style={styles.paneCard}>
           <Text style={styles.title}>Sign In for More</Text>
-          <Text style={styles.line}>Sign in to save places, plan trips and leave reviews.</Text>
-          <SignInForm form={form} wide />
+          {upright ? <Text style={styles.line}>Sign in to save places, plan trips and leave reviews.</Text> : null}
+          <SignInForm form={form} wide socialRow={!upright} />
         </View>
       </ScrollView>
     </View>

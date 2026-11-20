@@ -383,6 +383,14 @@ describe("Privacy policy, terms and contact", () => {
     });
   }
 
+  it("the Rate Kiwi Guide row opens the App Store's write-review page", async () => {
+    const view = await render(<AccountScreen />);
+
+    await fireEvent.press(view.getByRole("button", { name: "Rate Kiwi Guide" }));
+
+    expect(openUrlSpy).toHaveBeenCalledWith("https://apps.apple.com/app/id6818057796?action=write-review");
+  });
+
   it("says where to write when Mail can't open", async () => {
     openUrlSpy.mockRejectedValue(new Error("no mail account"));
     const view = await render(<AccountScreen />);
@@ -583,6 +591,7 @@ describe("wide", () => {
     "Privacy policy",
     "Terms of use",
     "Contact us",
+    "Rate Kiwi Guide",
     "Danger Zone Card",
   ];
 

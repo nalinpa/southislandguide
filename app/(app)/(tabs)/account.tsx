@@ -27,6 +27,7 @@ import { useTourAudience } from "@/lib/tour/TourAutoStart";
 const PRIVACY_URL = "https://blacksands.app/kiwi-guide#privacy";
 const TERMS_URL = "https://blacksands.app/kiwi-guide#terms";
 const SUPPORT_EMAIL = "info@blacksandsdigital.nz";
+const RATE_URL = "https://apps.apple.com/app/id6818057796?action=write-review";
 
 // Out of the app, to the browser or Mail. That can fail (no mail account set up on the
 // phone), so say where to go instead.
@@ -39,6 +40,10 @@ const LEGAL_ROWS = [
   {
     label: "Contact us",
     open: () => openOut(`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent("Kiwi Guide")}`, `Email us at ${SUPPORT_EMAIL}`),
+  },
+  {
+    label: "Rate Kiwi Guide",
+    open: () => openOut(RATE_URL, "Open Kiwi Guide in the App Store"),
   },
 ];
 

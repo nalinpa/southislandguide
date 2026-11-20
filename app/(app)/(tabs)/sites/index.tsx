@@ -17,6 +17,7 @@ import { ListView } from "@/components/sites/list/ListView";
 import { AreaSheet, type AreaOption } from "@/components/sites/AreaSheet";
 import { CategorySheet } from "@/components/sites/CategorySheet";
 import { ExploreHead, EXPLORE_LIST } from "@/components/sites/ExploreHead";
+import { logEvent } from "@/lib/analytics";
 import { SiteDetail } from "@/components/sites/detail/SiteDetail";
 import { FeaturedCard } from "@/components/sites/FeaturedCard";
 import { nearestArea } from "@/components/map/MapRegion";
@@ -467,7 +468,14 @@ export default function SiteListPage() {
           <ListView
             rows={listRows}
             header={header}
-            onPressItem={wide ? setSelectedId : openPlace}
+            onPressItem={
+              wide
+                ? (id) => {
+                    logEvent("place_opened");
+                    setSelectedId(id);
+                  }
+                : openPlace
+            }
             compact={wide}
             selectedId={shownId}
             tripIds={tripIds}

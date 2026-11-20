@@ -3,7 +3,7 @@
 // at a trip's fifth stop (expo-store-review via hooksBag.useReviewPrompt).
 const mockRequestReview = jest.fn();
 jest.mock("@react-native-community/netinfo", () => require("@react-native-community/netinfo/jest/netinfo-mock"));
-jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn() }));
+jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn(), logTripThreeStops: jest.fn() }));
 jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
 jest.mock("@/lib/providers/SessionProvider", () => ({ useSession: jest.fn() }));
 jest.mock("@/lib/services/itineraryService", () => ({
@@ -29,7 +29,7 @@ import { ApiError } from "@blacksands/client";
 notifyManager.setScheduler((cb) => cb());
 import { useSession } from "@/lib/providers/SessionProvider";
 import { itineraryService } from "@/lib/services/itineraryService";
-import { logEvent } from "@/lib/analytics";
+import { logTripThreeStops } from "@/lib/analytics";
 import { registerTripWrites, useItineraries } from "@/lib/hooks/useItineraries";
 import type { Itinerary } from "@/lib/models";
 
@@ -69,7 +69,7 @@ describe("useItineraries", () => {
     mockSaveItinerary.mockReset();
     mockDeleteItinerary.mockReset();
     mockRequestReview.mockReset();
-    (logEvent as jest.Mock).mockClear();
+    (logTripThreeStops as jest.Mock).mockClear();
   });
 
   it("does not query when logged out", async () => {
@@ -405,7 +405,7 @@ describe("useItineraries", () => {
     expect(mockRequestReview).not.toHaveBeenCalled();
   });
 
-  it("logs trip_three_stops when a save takes a trip from 2 to 3, not 3 to 4", async () => {
+  it("asks to log trip_three_stops when a save takes a trip from 2 to 3, not 3 to 4", async () => {
     signedIn();
     mockGetMyItineraries.mockResolvedValueOnce([withStops(2)]).mockResolvedValue([withStops(3)]);
     mockSaveItinerary.mockResolvedValue("itin-1");
@@ -413,16 +413,29 @@ describe("useItineraries", () => {
     await waitFor(() => expect(result.current.itineraries).toHaveLength(1));
 
     await addStop(result, 3);
-    expect(logEvent).toHaveBeenCalledTimes(1);
-    expect(logEvent).toHaveBeenCalledWith("trip_three_stops");
+    expect(logTripThreeStops).toHaveBeenCalledTimes(1);
+    expect(logTripThreeStops).toHaveBeenCalledWith("itin-1");
 
-    // The refetch after the save brings the trip back with 3 stops: the next save starts from there.
     await waitFor(() => expect(result.current.itineraries[0].days[0].items).toHaveLength(3));
     await addStop(result, 4);
-    expect(logEvent).toHaveBeenCalledTimes(1);
+    expect(logTripThreeStops).toHaveBeenCalledTimes(1);
   });
 
-  it("logs trip_three_stops for a new trip saved with 3 stops, not with 2", async () => {
+  it("passes the trip id again on a second 2 to 3 crossing (once per trip is the helper's rule)", async () => {
+    signedIn();
+    mockGetMyItineraries.mockResolvedValue([withStops(3)]);
+    mockSaveItinerary.mockResolvedValue("itin-1");
+    const { result } = await renderHook(() => useItineraries(), { wrapper });
+    await waitFor(() => expect(result.current.itineraries).toHaveLength(1));
+    mockGetMyItineraries.mockResolvedValue([withStops(2)]);
+    await addStop(result, 2);
+    expect(logTripThreeStops).not.toHaveBeenCalled();
+    await waitFor(() => expect(result.current.itineraries[0].days[0].items).toHaveLength(2));
+    await addStop(result, 3);
+    expect(logTripThreeStops).toHaveBeenCalledWith("itin-1");
+  });
+
+  it("a new trip saved with 3 stops passes the id the create returned; with 2 nothing", async () => {
     signedIn();
     mockGetMyItineraries.mockResolvedValue([]);
     mockSaveItinerary.mockResolvedValue("new-id");
@@ -432,11 +445,12 @@ describe("useItineraries", () => {
     await act(async () => {
       await result.current.saveItinerary({ title: "Two", days: withStops(2).days });
     });
-    expect(logEvent).not.toHaveBeenCalled();
+    expect(logTripThreeStops).not.toHaveBeenCalled();
     await act(async () => {
       await result.current.saveItinerary({ title: "Three", days: withStops(3).days });
     });
-    expect(logEvent).toHaveBeenCalledTimes(1);
+    expect(logTripThreeStops).toHaveBeenCalledTimes(1);
+    expect(logTripThreeStops).toHaveBeenCalledWith("new-id");
   });
 
   it("does not ask when a suggested trip replaces one, jumping past 5", async () => {

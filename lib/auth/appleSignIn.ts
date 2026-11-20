@@ -35,7 +35,9 @@ export async function signInWithApple(): Promise<void> {
   });
 
   const result = await signInWithCredential(auth, firebaseCredential);
-  if (getAdditionalUserInfo(result)?.isNewUser) logSignUp("apple");
+  try {
+    if (getAdditionalUserInfo(result)?.isNewUser) logSignUp("apple");
+  } catch {} // analytics must never break a sign-in that has worked
 
   // Store the Apple refresh token server-side so account deletion can later
   // revoke it (App Store guideline 5.1.1(v)). Non-fatal by design: sign-in has

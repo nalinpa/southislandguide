@@ -22,6 +22,8 @@ export async function signInWithGoogle(): Promise<{ signedIn: boolean }> {
 
   const googleCredential = GoogleAuthProvider.credential(idToken);
   const result = await signInWithCredential(auth, googleCredential);
-  if (getAdditionalUserInfo(result)?.isNewUser) logSignUp("google");
+  try {
+    if (getAdditionalUserInfo(result)?.isNewUser) logSignUp("google");
+  } catch {} // analytics must never break a sign-in that has worked
   return { signedIn: true };
 }

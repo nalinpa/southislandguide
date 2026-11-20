@@ -3,6 +3,7 @@ import {
   logEvent as fbLogEvent,
   setAnalyticsCollectionEnabled,
 } from "@react-native-firebase/analytics";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Updates from "expo-updates";
 
 export type AppEvent =
@@ -20,7 +21,8 @@ export type AppEvent =
 // text goes in any param (see the brief); only counts and fixed ids.
 export function logEvent(name: AppEvent, params?: Record<string, string | number>): void {
   try {
-    Promise.resolve(fbLogEvent(getAnalytics(), name as string, params)).catch(() => {});
+    // RNFB 27's modular logEvent returns void; only a synchronous throw can reach here.
+    fbLogEvent(getAnalytics(), name as string, params);
   } catch {}
 }
 
@@ -37,4 +39,18 @@ export function initAnalytics(): void {
     const on = !__DEV__ && Updates.channel === "production";
     Promise.resolve(setAnalyticsCollectionEnabled(getAnalytics(), on)).catch(() => {});
   } catch {}
+}
+
+const THREE_STOPS_KEY = "analytics.threeStopsLogged";
+
+// trip_three_stops is once per trip, ever: the trip ids that already logged are kept on the
+// phone. Fire and forget; a storage failure drops the event rather than risk a repeat.
+// ponytail: read-check-write isn't atomic, so two saves in the same instant could both log.
+export function logTripThreeStops(tripId: string): void {
+  (async () => {
+    const logged: string[] = JSON.parse((await AsyncStorage.getItem(THREE_STOPS_KEY)) ?? "[]");
+    if (logged.includes(tripId)) return;
+    await AsyncStorage.setItem(THREE_STOPS_KEY, JSON.stringify([...logged, tripId]));
+    logEvent("trip_three_stops");
+  })().catch(() => {});
 }

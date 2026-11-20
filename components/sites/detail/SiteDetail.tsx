@@ -49,8 +49,11 @@ export function latestReview<T extends { userId: string; reviewCreatedAt?: strin
 // and leaves the route's chrome (back button, status bar, scrolled bar) and the tour's
 // targets to the full place screen, which can be mounted at the same time.
 export function SiteDetail({ id, pane = false }: { id: string; pane?: boolean }) {
-  // Once per mount: the screen and the Duo's pane are keyed by place id.
-  useEffect(() => logEvent("place_opened"), []);
+  // Once per mount of the screen. Not the Duo's pane: Explore shows the first place there
+  // without a tap; its row tap logs it (sites/index.tsx).
+  useEffect(() => {
+    if (!pane) logEvent("place_opened");
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const { session } = useSession();
   const uid = session.status === "authed" ? session.uid : null;
 

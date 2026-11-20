@@ -66,6 +66,14 @@ describe("sign_up analytics", () => {
     expect(logSignUp).toHaveBeenCalledWith("apple");
   });
 
+  it("a throw while reading new-user info does not break apple sign-in", async () => {
+    (getAdditionalUserInfo as jest.Mock).mockImplementation(() => {
+      throw new Error("bad rawUserInfo");
+    });
+    await expect(signInWithApple()).resolves.not.toThrow();
+    expect(logSignUp).not.toHaveBeenCalled();
+  });
+
   it("a returning Apple user logs nothing", async () => {
     mockSignInWithCredential.mockReset().mockResolvedValue({ user: {} });
     (getAdditionalUserInfo as jest.Mock).mockReturnValue({ isNewUser: false });

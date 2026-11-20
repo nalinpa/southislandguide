@@ -8,6 +8,7 @@ jest.mock("expo-router", () => {
   const actual = jest.requireActual("expo-router");
   return { ...actual, Stack: Object.assign(actual.Stack, { Screen: (p: any) => (mockScreen(p), null) }) };
 });
+jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn() }));
 jest.mock("@/components/layout/LightStatusBar", () => {
   const { Text } = require("react-native");
   return { LightStatusBar: () => require("react").createElement(Text, null, "Light Status Bar") };
@@ -147,6 +148,7 @@ import { useLocalSearchParams } from "expo-router";
 import { fireEvent, renderRouter, screen, within } from "expo-router/testing-library";
 
 import { SiteDetail } from "@/components/sites/detail/SiteDetail";
+import { logEvent } from "@/lib/analytics";
 import { tokens } from "@/lib/ui/tokens";
 import type { Site } from "@/lib/models";
 
@@ -210,6 +212,12 @@ beforeEach(() => {
 });
 
 describe("pane", () => {
+  it("mounting the pane logs nothing: Explore shows the first place without a tap", async () => {
+    ui().__setWide(true, { width: 669, height: 951 });
+    await openPane();
+    expect(logEvent).not.toHaveBeenCalled();
+  });
+
   it("has no back button, no scrolled bar, no status bar change, no Stack.Screen", async () => {
     ui().__setWide(true, { width: 669, height: 951 });
     await openPane();

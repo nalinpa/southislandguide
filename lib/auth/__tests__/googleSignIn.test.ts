@@ -60,6 +60,14 @@ describe("sign_up analytics", () => {
     expect(logSignUp).toHaveBeenCalledWith("google");
   });
 
+  it("a throw while reading new-user info does not break google sign-in", async () => {
+    (getAdditionalUserInfo as jest.Mock).mockImplementation(() => {
+      throw new Error("bad rawUserInfo");
+    });
+    await expect(signInWithGoogle()).resolves.not.toThrow();
+    expect(logSignUp).not.toHaveBeenCalled();
+  });
+
   it("a returning Google user logs nothing", async () => {
     (getAdditionalUserInfo as jest.Mock).mockReturnValue({ isNewUser: false });
     await signInWithGoogle();

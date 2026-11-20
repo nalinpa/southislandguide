@@ -138,6 +138,9 @@ jest.mock("expo-router", () => ({
   useFocusEffect: (effect: () => void) => require("react").useEffect(effect, []),
 }));
 
+jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn() }));
+
+import { logEvent } from "@/lib/analytics";
 import React from "react";
 import { Linking, StyleSheet } from "react-native";
 import { fireEvent, render, within } from "@testing-library/react-native";
@@ -1150,6 +1153,17 @@ describe("wide (the open Duo)", () => {
     expect(within(view.getByTestId("tour-target-place")).getByText("Row Riverside Market")).toBeTruthy();
     expect(mockStepRoutes.place).toBe("/(app)/(tabs)/sites/s3");
     expect(view.queryByTestId("featured-card")).toBeNull();
+  });
+
+  it("logs place_opened on a wide row tap, not when the pane shows the first place", async () => {
+    wide(UPRIGHT);
+    const view = await render(<SiteListPage />);
+    expect(logEvent).not.toHaveBeenCalled();
+
+    await fireEvent.press(view.getByText("Row Riccarton Bush"));
+
+    expect(logEvent).toHaveBeenCalledTimes(1);
+    expect(logEvent).toHaveBeenCalledWith("place_opened");
   });
 
   it("shows a tapped row in the pane and does not navigate", async () => {

@@ -3,14 +3,11 @@ import { areaName } from "@/lib/areas";
 import { PLANNER } from "@/lib/constants/gameplay";
 import type { ItineraryDay, ItineraryItem } from "@/lib/models";
 
-const { MAX_GRID_SLOTS } = PLANNER;
+import { slotIndexToTimeLabel, slotsToDurationLabel } from "./slotLabels";
 
-// Grid starts at 8:00 AM; each slot is 30 minutes
-export function slotsToDurationLabel(durationSlots: number): string {
-  if (durationSlots === 1) return "30 min";
-  const hours = durationSlots / 2;
-  return `${hours} Hour${hours !== 1 ? "s" : ""}`;
-}
+export { slotsToDurationLabel, slotIndexToTimeLabel } from "./slotLabels";
+
+const { MAX_GRID_SLOTS } = PLANNER;
 
 // How far down the timeline grid a time of day sits, in pixels from the first
 // (8:00 AM) row, or null when it falls outside the grid (before 8 AM or after
@@ -19,16 +16,6 @@ export function timelineOffsetForMinutes(minutesSinceMidnight: number): number |
   const fromStart = minutesSinceMidnight - 8 * 60;
   if (fromStart < 0 || fromStart > PLANNER.MAX_GRID_SLOTS * 30) return null;
   return (fromStart / 30) * PLANNER.SLOT_HEIGHT;
-}
-
-export function slotIndexToTimeLabel(slotIndex: number): string {
-  const totalMinutes = 8 * 60 + slotIndex * 30;
-  // Past midnight on a day that runs over: the next morning's hours.
-  const hours = Math.floor(totalMinutes / 60) % 24;
-  const minutes = totalMinutes % 60;
-  const period = hours >= 12 ? "PM" : "AM";
-  const displayHour = hours % 12 || 12;
-  return `${displayHour}:${minutes.toString().padStart(2, "0")} ${period}`;
 }
 
 // "11:30 AM – 12:30 PM", or "1:00 – 2:00 PM" when both ends are in the same half of the

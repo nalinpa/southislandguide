@@ -6,6 +6,11 @@ import { writeFileSync } from "node:fs";
 import { ITINERARY_TEMPLATES } from "../lib/itineraryTemplates.ts";
 import { slotIndexToTimeLabel, slotsToDurationLabel } from "../lib/utils/slotLabels.ts";
 import { areaName } from "../lib/areaNames.ts";
+import { PLACE_IMAGE_TYPES } from "../lib/placeImageTypes.ts";
+
+// The app's default photo for a place with none: its type's, else its first category's (see siteImage).
+const TYPE_OF = new Map(Object.entries(PLACE_IMAGE_TYPES).flatMap(([type, ids]) => ids.map((id) => [id, type])));
+const fallbackOf = (id, category) => (TYPE_OF.has(id) ? `types/${TYPE_OF.get(id)}` : category?.[0] ? `categories/${category[0]}` : null);
 
 const out = process.argv[2] ?? "../kiwiguide-site/public/plan/trips.json";
 const res = await fetch("https://api.blacksands.app/v1/southislandguide/locations");
@@ -33,6 +38,7 @@ const trips = ITINERARY_TEMPLATES.map((t) => {
         durationLabel: slotsToDurationLabel(i.durationSlots),
         category: p.category ?? [],
         thumb: p.imageThumbnailUrl ?? null,
+        fallback: fallbackOf(i.siteId, p.category),
       };
     });
     return { town: towns.join(" → "), lastTown: towns.at(-1), items };

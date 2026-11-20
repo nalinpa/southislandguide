@@ -6,7 +6,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   name: "Kiwi Guide",
   slug: "southislandguide",
   scheme: "southislandguide",
-  version: "1.4.0",
+  version: "1.5.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "automatic",
@@ -32,6 +32,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     infoPlist: {
       NSLocationWhenInUseUsageDescription: "Kiwi Guide uses your location to show where you are on the map and how far away places are.",
       ITSAppUsesNonExemptEncryption: false,
+      // Firebase Analytics for ads attribution only: no personalised-ads signals. No ad id either (see the
+      // analytics plugin below), so there is no tracking prompt.
+      GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS: false,
       // iPad turns freely; the top-level orientation keeps the iPhone portrait.
       "UISupportedInterfaceOrientations~ipad": [
         "UIInterfaceOrientationPortrait",
@@ -56,6 +59,18 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     "expo-router",
     "expo-apple-authentication",
     "expo-sharing",
+    "@react-native-firebase/app",
+    [
+      "@react-native-firebase/analytics",
+      // withoutAdIdSupport: builds with FirebaseAnalyticsCore, so no IDFA and no AdSupport.
+      // On-device conversion: Google Ads conversions measured on the phone, no ad id needed.
+      { ios: { withoutAdIdSupport: true, googleAppMeasurementOnDeviceConversion: true } },
+    ],
+    [
+      // RNFB 27 (Firebase iOS SDK 13, SPM only) refuses "static" at pod install.
+      "expo-build-properties",
+      { ios: { useFrameworks: "dynamic" } },
+    ],
     [
       // Add to Calendar on a trip. Full access, not write-only: write-only can't show the
       // calendar list, so nobody could pick their Google calendar. No reminders.

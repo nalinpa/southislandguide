@@ -13,10 +13,13 @@ jest.mock("@react-native-google-signin/google-signin", () => ({
 jest.mock("firebase/auth", () => ({
   GoogleAuthProvider: { credential: jest.fn() },
   signInWithCredential: jest.fn(),
+  getAdditionalUserInfo: jest.fn(),
 }));
+jest.mock("@/lib/analytics", () => ({ logSignUp: jest.fn() }));
 
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
+import { GoogleAuthProvider, signInWithCredential, getAdditionalUserInfo } from "firebase/auth";
+import { logSignUp } from "@/lib/analytics";
 import { getGoogleSignInErrorMessage, signInWithGoogle } from "@/lib/auth/googleSignIn";
 
 const mockConfigure = GoogleSignin.configure as jest.Mock;
@@ -38,6 +41,35 @@ describe("getGoogleSignInErrorMessage", () => {
   it("falls back to a generic message for non-Error, non-coded values", () => {
     expect(getGoogleSignInErrorMessage("nope")).toBe("Something went wrong");
     expect(getGoogleSignInErrorMessage(undefined)).toBe("Something went wrong");
+  });
+});
+
+describe("sign_up analytics", () => {
+  beforeEach(() => {
+    mockHasPlayServices.mockReset().mockResolvedValue(true);
+    mockSignIn.mockReset().mockResolvedValue({ type: "success", data: { idToken: "t" } });
+    mockCredential.mockReset().mockReturnValue({});
+    mockSignInWithCredential.mockReset().mockResolvedValue({ user: {} });
+    (logSignUp as jest.Mock).mockClear();
+  });
+
+  it("a new Google user logs sign_up with google", async () => {
+    (getAdditionalUserInfo as jest.Mock).mockReturnValue({ isNewUser: true });
+    await signInWithGoogle();
+    expect(logSignUp).toHaveBeenCalledTimes(1);
+    expect(logSignUp).toHaveBeenCalledWith("google");
+  });
+
+  it("a returning Google user logs nothing", async () => {
+    (getAdditionalUserInfo as jest.Mock).mockReturnValue({ isNewUser: false });
+    await signInWithGoogle();
+    expect(logSignUp).not.toHaveBeenCalled();
+  });
+
+  it("a cancelled sign-in logs nothing", async () => {
+    mockSignIn.mockResolvedValue({ type: "cancelled" });
+    await signInWithGoogle();
+    expect(logSignUp).not.toHaveBeenCalled();
   });
 });
 

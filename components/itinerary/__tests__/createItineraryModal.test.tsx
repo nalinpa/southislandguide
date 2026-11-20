@@ -18,6 +18,7 @@ jest.mock("react-native-ui-datepicker", () => {
   return { __esModule: true, default: () => React.createElement(View, null) };
 });
 
+jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn() }));
 jest.mock("expo-crypto", () => ({ randomUUID: () => "uuid-fixed" }));
 
 const mockNet = { isConnected: true as boolean | null, isInternetReachable: true as boolean | null };
@@ -38,6 +39,7 @@ import { ApiError } from "@blacksands/client";
 import { CreateItineraryModal } from "@/components/itinerary/CreateItineraryModal";
 import { ITINERARY_TEMPLATES, defaultTemplateKey } from "@/lib/itineraryTemplates";
 import { areaName } from "@/lib/areas";
+import { logEvent } from "@/lib/analytics";
 
 // The first ancestor of a node whose flattened style sets `key`.
 const styleUp = (node: any, key: string) => {
@@ -162,6 +164,36 @@ describe("creating a blank trip", () => {
 
     await waitFor(() => expect(props.onCreated).toHaveBeenCalledWith("trip-new"));
     expect(props.onClose).toHaveBeenCalled();
+  });
+});
+
+describe("analytics", () => {
+  it("a trip by hand logs trip_created once", async () => {
+    const view = await openModal();
+    await fireEvent.press(view.getByText("Create Trip"));
+    await waitFor(() => expect(props.onCreated).toHaveBeenCalled());
+    expect(logEvent).toHaveBeenCalledTimes(1);
+    expect(logEvent).toHaveBeenCalledWith("trip_created");
+  });
+
+  it("a suggested trip logs suggested_trip_picked with its town and days, not trip_created", async () => {
+    const template = ITINERARY_TEMPLATES[0];
+    const view = await openModal({ showTemplateOption: true });
+    await fireEvent.press(view.getByText(areaName(template.start)));
+    await fireEvent.press(view.getByText("Blank"));
+    await fireEvent.press(view.getByText(template.label));
+    await fireEvent.press(view.getByText("Create Trip"));
+    await waitFor(() => expect(props.onCreated).toHaveBeenCalled());
+    expect(logEvent).toHaveBeenCalledTimes(1);
+    expect(logEvent).toHaveBeenCalledWith("suggested_trip_picked", { start_town: template.start, days: template.days.length });
+  });
+
+  it("a failed save logs nothing", async () => {
+    mockTrips.saveItinerary = jest.fn().mockRejectedValue(new Error("x"));
+    const view = await openModal();
+    await fireEvent.press(view.getByText("Create Trip"));
+    await waitFor(() => expect(view.getByText("Failed to create trip. Try again.")).toBeTruthy());
+    expect(logEvent).not.toHaveBeenCalled();
   });
 });
 
@@ -342,6 +374,7 @@ describe("editing a trip", () => {
     expect(payload.days.map((d: any) => d.id)).toEqual(["d1", "d2", "d3", "day_uuid-fixed"]);
     expect(payload.days[1].items).toHaveLength(2);
     expect(props.onCreated).toHaveBeenCalledWith("trip-1");
+    expect(logEvent).not.toHaveBeenCalled(); // an edit is not a new trip
   });
 
   it("asks before shortening it past days that hold places, and saves only on yes", async () => {

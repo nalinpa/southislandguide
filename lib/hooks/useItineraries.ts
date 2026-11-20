@@ -7,6 +7,7 @@ import { itineraryService } from "@/lib/services/itineraryService";
 import { useSession } from "@/lib/providers/SessionProvider";
 import { hooksBag } from "@/lib/hooksBag";
 import { PLANNER } from "@/lib/constants/gameplay";
+import { logEvent } from "@/lib/analytics";
 import type { Itinerary } from "@/lib/models";
 
 const stopCount = (days?: Itinerary["days"]) => days?.reduce((n, d) => n + d.items.length, 0);
@@ -108,6 +109,8 @@ export function useItineraries() {
       // on Start a New Trip saving a suggested trip over this one, which jumps straight
       // past 5. Before the refetch, so the prompt isn't held up by the network.
       if (context?.prevStops === 4 && stopCount(variables.days) === 5) requestReview();
+      // Once per trip: the save that first takes it from under 3 stops to 3 or more.
+      if ((context?.prevStops ?? 0) < 3 && (stopCount(variables.days) ?? 0) >= 3) logEvent("trip_three_stops");
       await queryClient.invalidateQueries({ queryKey });
     },
   });

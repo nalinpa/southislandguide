@@ -7,6 +7,7 @@ import {
 import * as Sentry from "@sentry/react-native";
 import { auth } from "@/lib/firebase";
 import { getAuthErrorMessage } from "@/lib/auth/authErrors";
+import { logSignUp } from "@/lib/analytics";
 import { saveEmailOptIn } from "@/lib/hooks/useEmailOptIn";
 
 type Mode = "login" | "signup" | "reset";
@@ -55,6 +56,7 @@ export function useAuthForm(initialMode: Mode) {
         await signInWithEmailAndPassword(auth, email, password);
       } else if (mode === "signup") {
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
+        logSignUp("email");
         // Yes or no, both recorded. Not awaited: the account exists, so a failed save (no
         // signal) mustn't stop the sign-up. The answer then reads as no, which is safe.
         saveEmailOptIn(user.uid, emailOptIn).catch(Sentry.captureException);

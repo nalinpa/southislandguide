@@ -19,6 +19,7 @@ import { clearPendingSlot, peekPendingSlot, setPendingSlot } from "@/lib/pending
 import { nearestPlaces } from "@/lib/utils/nearby";
 import { areaName } from "@/lib/areas";
 import { PLANNER } from "@/lib/constants/gameplay";
+import { logEvent } from "@/lib/analytics";
 import { siteImage } from "@/lib/categoryImages";
 import { AddedNearby, type NearRow, type RowState } from "@/components/itinerary/AddedNearby";
 import type { ItineraryDay, ItineraryItem, SiteCategory } from "@/lib/models";
@@ -260,6 +261,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
       setErrorMsg("Couldn't add to your trip. Try again.");
       return;
     }
+    logEvent("place_added_to_trip");
     clearPendingSlot();
     // ponytail: every place is open to everyone (isSiteLocked is always false), so "active" is the whole filter.
     const origin = allPlaces.find((p) => p.id === site.id);
@@ -327,6 +329,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
       setRowState((r) => ({ ...r, [id]: { state: "message", text: "Couldn't add to your trip. Try again." } }));
       return;
     }
+    logEvent("place_added_to_trip");
     // The save happened; the sheet has moved on, so nothing of it goes into the new one.
     if (started !== generation.current) return;
     const placed = result.days.find((d) => d.id === done.dayId)!.items.find((i) => i.id === newItem.id)!;

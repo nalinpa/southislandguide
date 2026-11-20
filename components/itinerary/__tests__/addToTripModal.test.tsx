@@ -46,6 +46,8 @@ const mockLookup = {
 };
 jest.mock("@/lib/hooks/usePlaceLookup", () => ({ usePlaceLookup: () => mockLookup }));
 
+jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn() }));
+
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
 jest.mock("expo-router", () => ({
   get router() {
@@ -60,6 +62,7 @@ import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import { AddToTripModal } from "@/components/itinerary/AddToTripModal";
 import { tokens } from "@/lib/ui/tokens";
 import { PLANNER } from "@/lib/constants/gameplay";
+import { logEvent } from "@/lib/analytics";
 import { clearPendingSlot, peekPendingSlot, setPendingSlot } from "@/lib/pendingSlot";
 
 const site = { id: "site-1", name: "Wai-O-Tapu", imageUrl: "https://example.test/w.jpg" };
@@ -153,6 +156,17 @@ describe("adding", () => {
     const day2 = payload.days.find((d: any) => d.id === "day_2");
     expect(day2.items).toHaveLength(1);
     expect(day2.items[0].siteName).toBe("Wai-O-Tapu");
+  });
+
+  it("logs place_added_to_trip once per save, and nothing when the save fails", async () => {
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    mockTrips.saveItinerary.mockRejectedValueOnce(new Error("x"));
+    await fireEvent.press(view.getByText("Add"));
+    await waitFor(() => expect(view.getByText("Couldn't add to your trip. Try again.")).toBeTruthy());
+    expect(logEvent).not.toHaveBeenCalled();
+    await fireEvent.press(view.getByText("Add"));
+    await waitFor(() => expect(logEvent).toHaveBeenCalledTimes(1));
+    expect(logEvent).toHaveBeenCalledWith("place_added_to_trip");
   });
 
   it("starts the visit in the chosen part of the day", async () => {
@@ -585,6 +599,16 @@ describe("places near the one just added", () => {
     expect(view.queryByText("Near Wai-O-Tapu")).toBeNull();
     expect(view.getByText("Add to Trip")).toBeTruthy();
     expect(view.getByText("Done")).toBeTruthy();
+  });
+
+  it("the + on a nearby row logs place_added_to_trip once more", async () => {
+    mockLookup.list = [here, ...nearby(1)];
+    const view = await render(<AddToTripModal site={site} onClose={onClose} />);
+    await addIt(view);
+    expect(logEvent).toHaveBeenCalledTimes(1);
+    await fireEvent.press(view.getByLabelText("Add Near 1 to Day 1"));
+    await waitFor(() => expect(logEvent).toHaveBeenCalledTimes(2));
+    expect(logEvent).toHaveBeenLastCalledWith("place_added_to_trip");
   });
 
   it("says Couldn't add when the save fails, and the + comes back", async () => {

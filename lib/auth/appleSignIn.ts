@@ -1,9 +1,10 @@
 import * as AppleAuthentication from "expo-apple-authentication";
 import * as Crypto from "expo-crypto";
-import { OAuthProvider, signInWithCredential } from "firebase/auth";
+import { getAdditionalUserInfo, OAuthProvider, signInWithCredential } from "firebase/auth";
 import * as Sentry from "@sentry/react-native";
 import { auth } from "@/lib/firebase";
 import { client } from "@/lib/api";
+import { logSignUp } from "@/lib/analytics";
 import { getAuthErrorMessage } from "@/lib/auth/authErrors";
 
 export const getAppleSignInErrorMessage = getAuthErrorMessage;
@@ -33,7 +34,8 @@ export async function signInWithApple(): Promise<void> {
     rawNonce,
   });
 
-  await signInWithCredential(auth, firebaseCredential);
+  const result = await signInWithCredential(auth, firebaseCredential);
+  if (getAdditionalUserInfo(result)?.isNewUser) logSignUp("apple");
 
   // Store the Apple refresh token server-side so account deletion can later
   // revoke it (App Store guideline 5.1.1(v)). Non-fatal by design: sign-in has

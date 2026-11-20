@@ -1,0 +1,40 @@
+import {
+  getAnalytics,
+  logEvent as fbLogEvent,
+  setAnalyticsCollectionEnabled,
+} from "@react-native-firebase/analytics";
+import * as Updates from "expo-updates";
+
+export type AppEvent =
+  | "tour_finished"
+  | "suggested_trip_picked"
+  | "trip_created"
+  | "place_added_to_trip"
+  | "trip_three_stops"
+  | "place_opened"
+  | "map_opened"
+  | "guide_section_opened"
+  | "sign_up";
+
+// A failed log is dropped: analytics must never break the app. No user id, email or typed
+// text goes in any param (see the brief); only counts and fixed ids.
+export function logEvent(name: AppEvent, params?: Record<string, string | number>): void {
+  try {
+    Promise.resolve(fbLogEvent(getAnalytics(), name as string, params)).catch(() => {});
+  } catch {}
+}
+
+// Firebase's recommended sign_up event.
+export function logSignUp(method: "apple" | "google" | "email"): void {
+  logEvent("sign_up", { method });
+}
+
+// Native collection starts off (FIREBASE_ANALYTICS_COLLECTION_ENABLED in app.config.ts), so
+// dev builds, previews and the simulator never reach the production property. Only the
+// store build's channel turns it on. Called once, from the root layout.
+export function initAnalytics(): void {
+  try {
+    const on = !__DEV__ && Updates.channel === "production";
+    Promise.resolve(setAnalyticsCollectionEnabled(getAnalytics(), on)).catch(() => {});
+  } catch {}
+}

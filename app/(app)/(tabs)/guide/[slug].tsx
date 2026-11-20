@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
@@ -5,6 +6,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { ErrorCard } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
 import { GUIDE_CATEGORIES } from "@/lib/guideContent";
+import { logEvent } from "@/lib/analytics";
 import { GuideBrowser } from "@/components/guide/GuideBrowser";
 
 // Back pops the tab history (app/(app)/(tabs)/_layout.tsx) to the guide list this was
@@ -21,9 +23,15 @@ const backToGuideList = () =>
 // detail page.
 export default function GuideCategoryRoute() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
+  // Not keyed like the article: this instance stays and only the slug changes, so it
+  // logs each section as it opens.
+  const known = GUIDE_CATEGORIES.some((c) => c.slug === slug);
+  useEffect(() => {
+    if (known) logEvent("guide_section_opened", { section: String(slug) });
+  }, [known, slug]);
   // The browser draws the article page on a phone and the split on the open Duo, in one
   // tree, so folding keeps the article's scroll. A slug that is gone is the not-found page.
-  if (GUIDE_CATEGORIES.some((c) => c.slug === slug)) {
+  if (known) {
     return <GuideBrowser key={String(slug)} initialSlug={String(slug)} articleMode />;
   }
   return <GuideNotFound key={String(slug)} />;

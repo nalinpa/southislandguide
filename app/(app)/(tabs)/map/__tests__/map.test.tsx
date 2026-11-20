@@ -165,17 +165,21 @@ jest.mock("@/lib/hooks/useOfflineMap", () => ({ useOfflineMap: () => mockOffline
 jest.mock("@/lib/offlineMap", () => ({ offlineMapDir: () => ({ uri: "file:///c/offline-map" }) }));
 
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
+// A focus effect runs when the screen gains focus; mounting is the first focus.
 jest.mock("expo-router", () => ({
   get router() {
     return mockRouter;
   },
+  useFocusEffect: (cb: () => void) => require("react").useEffect(cb, [cb]),
 }));
+jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn() }));
 
 import React from "react";
 import { Alert, Linking, StyleSheet, TextInput } from "react-native";
 import { act, fireEvent, render, within } from "@testing-library/react-native";
 
 import MapScreen from "@/app/(app)/(tabs)/map/index";
+import { logEvent } from "@/lib/analytics";
 import { PLANNER } from "@/lib/constants/gameplay";
 import { SITE_CATEGORIES, SITE_CATEGORY_LABELS } from "@/lib/models";
 import { darkEdge, tokens } from "@/lib/ui/tokens";
@@ -230,6 +234,16 @@ beforeEach(() => {
   mockOfflineMap.level = null;
   mockMapMounts.count = 0;
   mockSheets.trip = undefined;
+});
+
+describe("analytics", () => {
+  it("logs map_opened once on focus, and not again on a re-render", async () => {
+    const view = await render(<MapScreen />);
+    expect(logEvent).toHaveBeenCalledTimes(1);
+    expect(logEvent).toHaveBeenCalledWith("map_opened");
+    await view.rerender(<MapScreen />);
+    expect(logEvent).toHaveBeenCalledTimes(1);
+  });
 });
 
 // Online, Apple Maps is clearer and has names; the saved map is only for no signal.

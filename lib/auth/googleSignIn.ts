@@ -1,7 +1,8 @@
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
+import { getAdditionalUserInfo, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import Constants from "expo-constants";
 import { auth } from "@/lib/firebase";
+import { logSignUp } from "@/lib/analytics";
 import { getAuthErrorMessage } from "@/lib/auth/authErrors";
 
 export const getGoogleSignInErrorMessage = getAuthErrorMessage;
@@ -20,6 +21,7 @@ export async function signInWithGoogle(): Promise<{ signedIn: boolean }> {
   }
 
   const googleCredential = GoogleAuthProvider.credential(idToken);
-  await signInWithCredential(auth, googleCredential);
+  const result = await signInWithCredential(auth, googleCredential);
+  if (getAdditionalUserInfo(result)?.isNewUser) logSignUp("google");
   return { signedIn: true };
 }

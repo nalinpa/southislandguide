@@ -6,6 +6,7 @@ jest.mock("firebase/auth", () => ({
   createUserWithEmailAndPassword: jest.fn(),
   sendPasswordResetEmail: jest.fn(),
 }));
+jest.mock("@/lib/analytics", () => ({ logSignUp: jest.fn() }));
 const mockSaveEmailOptIn = jest.fn();
 jest.mock("@/lib/hooks/useEmailOptIn", () => ({
   saveEmailOptIn: (...args: any[]) => mockSaveEmailOptIn(...args),
@@ -17,6 +18,7 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
 } from "firebase/auth";
+import { logSignUp } from "@/lib/analytics";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 
 const mockSignIn = signInWithEmailAndPassword as jest.Mock;
@@ -29,6 +31,7 @@ describe("useAuthForm", () => {
     mockSignUp.mockReset();
     mockReset.mockReset();
     mockSaveEmailOptIn.mockReset();
+    (logSignUp as jest.Mock).mockClear();
   });
 
   describe("canSubmit", () => {
@@ -109,6 +112,27 @@ describe("useAuthForm", () => {
     });
 
     // The box starts unticked, and a no is recorded too, with its date.
+    it("logs sign_up with email on signup, and nothing on login or a failed signup", async () => {
+      mockSignUp.mockResolvedValue({ user: { uid: "u1" } });
+      mockSignIn.mockResolvedValue({});
+      const login = await renderHook(() => useAuthForm("login"));
+      await act(async () => login.result.current.setEmail("a@b.com"));
+      await act(async () => login.result.current.setPassword("pw"));
+      await act(async () => login.result.current.submit());
+      expect(logSignUp).not.toHaveBeenCalled();
+
+      const { result } = await renderHook(() => useAuthForm("signup"));
+      await act(async () => result.current.setEmail("a@b.com"));
+      await act(async () => result.current.setPassword("pw"));
+      await act(async () => result.current.setConfirm("pw"));
+      mockSignUp.mockRejectedValueOnce(new Error("x"));
+      await act(async () => result.current.submit());
+      expect(logSignUp).not.toHaveBeenCalled();
+      await act(async () => result.current.submit());
+      expect(logSignUp).toHaveBeenCalledTimes(1);
+      expect(logSignUp).toHaveBeenCalledWith("email");
+    });
+
     it("records no for email when the box was left unticked", async () => {
       mockSignUp.mockResolvedValue({ user: { uid: "new-user" } });
       mockSaveEmailOptIn.mockResolvedValue(undefined);

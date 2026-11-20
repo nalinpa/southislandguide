@@ -12,12 +12,15 @@ jest.mock("expo-crypto", () => ({
 jest.mock("firebase/auth", () => ({
   OAuthProvider: jest.fn(),
   signInWithCredential: jest.fn(),
+  getAdditionalUserInfo: jest.fn(),
 }));
+jest.mock("@/lib/analytics", () => ({ logSignUp: jest.fn() }));
 jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
 
 import * as AppleAuthentication from "expo-apple-authentication";
 import * as Crypto from "expo-crypto";
-import { OAuthProvider, signInWithCredential } from "firebase/auth";
+import { OAuthProvider, signInWithCredential, getAdditionalUserInfo } from "firebase/auth";
+import { logSignUp } from "@/lib/analytics";
 import * as Sentry from "@sentry/react-native";
 import { client } from "@/lib/api";
 import { getAppleSignInErrorMessage, signInWithApple } from "@/lib/auth/appleSignIn";
@@ -43,6 +46,31 @@ describe("getAppleSignInErrorMessage", () => {
   it("falls back to a generic message for non-Error, non-coded values", () => {
     expect(getAppleSignInErrorMessage("nope")).toBe("Something went wrong");
     expect(getAppleSignInErrorMessage(undefined)).toBe("Something went wrong");
+  });
+});
+
+describe("sign_up analytics", () => {
+  beforeEach(() => {
+    mockSignInAsync.mockReset().mockResolvedValue({ identityToken: "t" });
+    mockGetRandomBytes.mockReset().mockResolvedValue(new Uint8Array([0]));
+    mockDigest.mockReset().mockResolvedValue("h");
+    mockOAuthProvider.mockReset().mockImplementation(() => ({ credential: jest.fn() }));
+    (logSignUp as jest.Mock).mockClear();
+  });
+
+  it("a new Apple user logs sign_up with apple", async () => {
+    mockSignInWithCredential.mockReset().mockResolvedValue({ user: {} });
+    (getAdditionalUserInfo as jest.Mock).mockReturnValue({ isNewUser: true });
+    await signInWithApple();
+    expect(logSignUp).toHaveBeenCalledTimes(1);
+    expect(logSignUp).toHaveBeenCalledWith("apple");
+  });
+
+  it("a returning Apple user logs nothing", async () => {
+    mockSignInWithCredential.mockReset().mockResolvedValue({ user: {} });
+    (getAdditionalUserInfo as jest.Mock).mockReturnValue({ isNewUser: false });
+    await signInWithApple();
+    expect(logSignUp).not.toHaveBeenCalled();
   });
 });
 

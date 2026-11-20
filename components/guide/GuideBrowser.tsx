@@ -20,6 +20,7 @@ import {
   type RegionId,
 } from "@/lib/guideContent";
 import { REGION_TABS } from "@/lib/guideRegions";
+import { logEvent } from "@/lib/analytics";
 
 // The guide's list. On a phone the list is a page and a tap opens the section's own page; on
 // the open Duo the list sits beside the section (a tap shows it on the right) and the region is
@@ -120,7 +121,11 @@ export function GuideBrowser({ initialSlug, articleMode }: { initialSlug?: strin
           <GuideList
             categories={visible}
             selectedSlug={wide ? chosen?.slug : undefined}
-            onSelect={(s) => (wide ? setSlug(s) : router.push(`/(app)/(tabs)/guide/${s}`))}
+            onSelect={(s) => {
+              if (!wide) return router.push(`/(app)/(tabs)/guide/${s}`);
+              logEvent("guide_section_opened", { section: s }); // a phone logs when the section's page opens
+              setSlug(s);
+            }}
             wide={wide}
           />
         </View>

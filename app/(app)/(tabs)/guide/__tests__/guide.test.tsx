@@ -69,12 +69,15 @@ jest.mock("expo-router", () => ({
   useFocusEffect: (effect: () => void) => require("react").useEffect(effect, []),
 }));
 
+jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn() }));
+
 import React from "react";
 import { fireEvent, render, within as within_ } from "@testing-library/react-native";
 
 import GuideIndexPage from "@/app/(app)/(tabs)/guide/index";
 import GuideCategoryPage from "@/app/(app)/(tabs)/guide/[slug]";
 import { GUIDE_CATEGORIES, ISLAND_CATEGORIES, REGIONS, REGIONS_WITH_CONTENT } from "@/lib/guideContent";
+import { logEvent } from "@/lib/analytics";
 import { tokens } from "@/lib/ui/tokens";
 import { GUIDE_EDGE, GUIDE_LIST_PAD } from "@/components/guide/GuideList";
 
@@ -266,6 +269,17 @@ describe("a section page", () => {
   });
 
   // Dark and bold, not the orange they were: orange is kept for what to tap.
+  it("opening the section page logs guide_section_opened once, with its slug; a missing slug logs nothing", async () => {
+    const view = await render(<GuideCategoryPage />);
+    expect(logEvent).toHaveBeenCalledTimes(1);
+    expect(logEvent).toHaveBeenCalledWith("guide_section_opened", { section: first.slug });
+    await view.unmount();
+    (logEvent as jest.Mock).mockClear();
+    mockParams.slug = "no-such-section";
+    await render(<GuideCategoryPage />);
+    expect(logEvent).not.toHaveBeenCalled();
+  });
+
   it("sets subheadings bold in the text colour, larger than a paragraph", async () => {
     const withHeading = GUIDE_CATEGORIES.find((c) => paragraphs(c.body).some(isHeading))!;
     const heading = paragraphs(withHeading.body).find(isHeading)!;
@@ -358,6 +372,18 @@ describe("on the open Duo", () => {
   const wide = (size ={ width: 669, height: 951 }) => require("@blacksands/ui").__setWide(true, size);
   const flexOf = (node: any) => StyleSheet.flatten(node.props.style).flex;
   const second = ISLAND_CATEGORIES[1];
+
+  it("a tap on a section logs guide_section_opened once, with its slug", async () => {
+    wide();
+    const view = await render(<GuideIndexPage />);
+    const { within } = require("@testing-library/react-native");
+    expect(logEvent).not.toHaveBeenCalled();
+
+    await fireEvent.press(within(view.getByTestId("guide-list-pane")).getByText(second.title));
+
+    expect(logEvent).toHaveBeenCalledTimes(1);
+    expect(logEvent).toHaveBeenCalledWith("guide_section_opened", { section: second.slug });
+  });
 
   it("lists the sections beside the first one, and a tap shows a section without navigating", async () => {
     wide();

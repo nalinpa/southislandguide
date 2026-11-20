@@ -3,6 +3,7 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { router, usePathname } from "expo-router";
 
+import { logEvent } from "@/lib/analytics";
 import { stepsFor, TOUR_TAB_ROUTES, type TourAudience, type TourStep } from "./tourSteps";
 
 export type TourRect = { x: number; y: number; width: number; height: number };
@@ -80,6 +81,7 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
   const next = useCallback(() => {
     const nextIndex = stepIndex + 1;
     if (nextIndex >= steps.length) {
+      logEvent("tour_finished");
       setActive(false);
       return;
     }

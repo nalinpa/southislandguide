@@ -3,12 +3,14 @@
 // for them (guest, free or paid: lib/tour/tourSteps.ts).
 jest.mock("expo-router", () => ({ router: { navigate: jest.fn(), push: jest.fn() }, usePathname: () => mockPathname() }));
 const mockPathname = jest.fn(() => "/");
+jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn() }));
 
 import React from "react";
 import { renderHook, act } from "@testing-library/react-native";
 import { router } from "expo-router";
 
 import { TourProvider, useTour } from "@/lib/tour/TourContext";
+import { logEvent } from "@/lib/analytics";
 
 const mockNavigate = router.navigate as jest.Mock;
 const mockPush = router.push as jest.Mock;
@@ -60,6 +62,18 @@ describe("TourContext", () => {
     expect(result.current.stepCount).toBe(7);
     expect(await walk(result)).toEqual(["welcome", "town", "guide", "browse", "place", "trip", "map"]);
     expect(result.current.step).toBeNull();
+  });
+
+  it("finishing the tour logs tour_finished once; skipping logs nothing", async () => {
+    const { result } = await renderHook(() => useTour(), { wrapper });
+    (logEvent as jest.Mock).mockClear();
+    await act(async () => result.current.start("guest"));
+    await act(async () => result.current.skip());
+    expect(logEvent).not.toHaveBeenCalled();
+    await act(async () => result.current.start("guest"));
+    await walk(result);
+    expect(logEvent).toHaveBeenCalledTimes(1);
+    expect(logEvent).toHaveBeenCalledWith("tour_finished");
   });
 
   it("start() again begins from the first step", async () => {

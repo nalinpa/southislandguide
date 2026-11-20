@@ -3,7 +3,7 @@ import { View, StyleSheet, useColorScheme, Text, TextInput, TouchableOpacity, Sc
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { useHalves, useWide } from "@blacksands/ui";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import * as Haptics from "expo-haptics";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useNetInfo } from "@react-native-community/netinfo";
@@ -36,6 +36,7 @@ import { PremiumFeatureModal } from "@/components/itinerary/PremiumFeatureModal"
 
 import { nearestArea } from "@/components/map/MapRegion";
 import { DEFAULT_AREA } from "@/lib/areas";
+import { logEvent } from "@/lib/analytics";
 
 export default function MapScreen() {
   const wide = useWide();
@@ -44,6 +45,8 @@ export default function MapScreen() {
   // Locate and layers sit level with the search card, but never under the status bar's icons.
   const controlsAt = Math.max(searchAt, useSafeAreaInsets().top + 8);
   const card = CARD_SIDES[useColorScheme() === "dark" ? "dark" : "light"];
+  // Each time the tab gains focus (it stays mounted between visits).
+  useFocusEffect(useCallback(() => logEvent("map_opened"), []));
   const { session } = useSession();
   const uid = session.status === "authed" ? session.uid : null;
 

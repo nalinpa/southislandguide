@@ -35,6 +35,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       // Firebase Analytics for ads attribution only: no personalised-ads signals. No ad id either (see the
       // analytics plugin below), so there is no tracking prompt.
       GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS: false,
+      // Off until JS says otherwise (lib/analytics.ts turns it on for the production channel), so dev
+      // builds, previews and the simulator never send to the live property, first_open included.
+      FIREBASE_ANALYTICS_COLLECTION_ENABLED: false,
       // iPad turns freely; the top-level orientation keeps the iPhone portrait.
       "UISupportedInterfaceOrientations~ipad": [
         "UIInterfaceOrientationPortrait",

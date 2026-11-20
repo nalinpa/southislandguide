@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Animated, ScrollView, View, StyleSheet, Pressable, useColorScheme } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useHalves, useWide } from "@blacksands/ui";
@@ -28,6 +28,7 @@ import { LightStatusBar } from "@/components/layout/LightStatusBar";
 import { QuickActions } from "@/components/sites/detail/ActionsBar";
 import { CATEGORY_CONFIG } from "@/components/map/SiteMarker";
 import { useTourTarget } from "@/lib/tour/useTourTarget";
+import { logEvent } from "@/lib/analytics";
 
 // Height of the back button's row: the 44pt disc with 8pt above and below. The
 // bar that fades in on scroll is this tall under the status bar.
@@ -48,6 +49,8 @@ export function latestReview<T extends { userId: string; reviewCreatedAt?: strin
 // and leaves the route's chrome (back button, status bar, scrolled bar) and the tour's
 // targets to the full place screen, which can be mounted at the same time.
 export function SiteDetail({ id, pane = false }: { id: string; pane?: boolean }) {
+  // Once per mount: the screen and the Duo's pane are keyed by place id.
+  useEffect(() => logEvent("place_opened"), []);
   const { session } = useSession();
   const uid = session.status === "authed" ? session.uid : null;
 

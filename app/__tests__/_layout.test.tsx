@@ -58,6 +58,7 @@ jest.mock("@/lib/tour/TourContext", () => ({
 jest.mock("@/lib/tour/TourAutoStart", () => ({
   TourAutoStart: () => require("react").createElement(require("react-native").Text, null, "tour auto start"),
 }));
+jest.mock("@/lib/analytics", () => ({ initAnalytics: jest.fn() }));
 jest.mock("@/lib/tour/SpotlightOverlay", () => ({
   SpotlightOverlay: () => require("react").createElement(require("react-native").Text, null, "tour overlay"),
 }));

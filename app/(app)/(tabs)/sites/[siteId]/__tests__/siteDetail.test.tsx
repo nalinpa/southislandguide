@@ -72,6 +72,8 @@ jest.mock("@/components/itinerary/AddToTripModal", () => {
   };
 });
 
+jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn() }));
+
 const mockSession = { status: "authed", uid: "uid-1" } as any;
 jest.mock("@/lib/providers/SessionProvider", () => ({ useSession: () => ({ session: mockSession }) }));
 
@@ -142,6 +144,7 @@ import { router } from "expo-router";
 import { fireEvent, renderRouter, screen, within } from "expo-router/testing-library";
 
 import SiteDetailRoute from "@/app/(app)/(tabs)/sites/[siteId]/index";
+import { logEvent } from "@/lib/analytics";
 import type { Site } from "@/lib/models";
 import { darkEdge, tokens } from "@/lib/ui/tokens";
 
@@ -197,6 +200,14 @@ beforeEach(() => {
   mockSheets.trip = undefined;
   mockSheets.review = undefined;
   mockMounts.actions = 0;
+});
+
+describe("analytics", () => {
+  it("opening a place logs place_opened once", async () => {
+    await openDetail();
+    expect(logEvent).toHaveBeenCalledTimes(1);
+    expect(logEvent).toHaveBeenCalledWith("place_opened");
+  });
 });
 
 describe("what it shows", () => {

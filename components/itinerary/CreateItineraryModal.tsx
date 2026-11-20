@@ -15,6 +15,7 @@ import { useWideSheet, WIDE_CORNERS } from "@/lib/ui/useWideSheet";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { ITINERARY_TEMPLATES, TRIP_STARTS, defaultTemplateKey, type TripStart } from "@/lib/itineraryTemplates";
 import { areaName } from "@/lib/areas";
+import { logEvent } from "@/lib/analytics";
 import { redateTrip, slotIndexToTimeLabel, slotsToDurationLabel } from "@/lib/utils/itineraryPhysics";
 import type { Itinerary } from "@/lib/models";
 import { PLANNER } from "@/lib/constants/gameplay";
@@ -228,6 +229,8 @@ export function CreateItineraryModal({
         endDate: isoDate(endDate),
         days,
       });
+      if (template) logEvent("suggested_trip_picked", { start_town: template.start, days: dayCount });
+      else logEvent("trip_created");
       onCreated(replaceId ?? savedId ?? "");
       onClose();
     } catch (err) {

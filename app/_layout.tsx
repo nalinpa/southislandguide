@@ -17,6 +17,7 @@ import { hooksBag } from "@/lib/hooksBag";
 import { dropImpossibleTraces } from "@/lib/sentryTraces";
 import { useAppOpenCount } from "@/lib/hooks/useAppOpenCount";
 import { useUpdateOnReturn } from "@/lib/hooks/useUpdateOnReturn";
+import { initAnalytics } from "@/lib/analytics";
 import { TourProvider } from "@/lib/tour/TourContext";
 import { TourAutoStart } from "@/lib/tour/TourAutoStart";
 import { SpotlightOverlay } from "@/lib/tour/SpotlightOverlay";
@@ -33,6 +34,9 @@ Sentry.init({
   enableNativeFramesTracking: false,
   beforeSendTransaction: dropImpossibleTraces,
 });
+
+// Collection starts off natively (app.config.ts); this turns it on for the store build only.
+initAnalytics();
 
 SplashScreen.preventAutoHideAsync();
 

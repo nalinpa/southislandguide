@@ -4,7 +4,7 @@ Owner's decisions, 2026-11-21. Design only: the build plan comes after the owner
 
 ## Why
 
-The quiz at `kiwiguide.app/plan/` gives every visitor one of the app's 26 suggested trips, picked by start town and length. Most visitors don't fit those: a different number of days, an event they're building the trip around (a wedding, a concert, a conference), another city to start from, hikers or not, food tips or not, things they want to do (surfing, skiing), how much they're willing to drive (owner, 2026-11-21). The builder makes a trip for them from their answers, so the ad funnel's promise ("your trip, already in the app") holds for everyone.
+The quiz at `kiwiguide.app/plan/` gives every visitor one of the app's 26 suggested trips, picked by start town and length. Most visitors don't fit those: a different number of days, another city to start from, hikers or not, food tips or not, things they want to do (surfing, skiing), how much they're willing to drive (owner, 2026-11-21). The builder makes a trip for them from their answers, so the ad funnel's promise ("your trip, already in the app") holds for everyone.
 
 Second, iPad downloads are growing (owner): the quiz must work well on an iPad.
 
@@ -17,7 +17,7 @@ Second, iPad downloads are growing (owner): the quiz must work well on an iPad.
 
 ## Goals
 
-- Any start city on the list, any length from 3 to 21 days, an event on fixed days, a pace, a drive limit, food on or off, activities: each answer changes the trip itself, not only what's highlighted.
+- Any start city on the list, any length from 3 to 21 days, a pace, a drive limit, food on or off, activities: each answer changes the trip itself, not only what's highlighted.
 - The trip on the site is exactly the trip the app opens: same places, days, times.
 - Instant: the trip shows as soon as the last answer is tapped.
 - Good trips: built from the app's 51 hand-checked days wherever they fit.
@@ -27,6 +27,7 @@ Second, iPad downloads are growing (owner): the quiz must work well on an iPad.
 
 - No AI in this release (owner picked rules, 2026-11-21). An AI "why this day" line can be added on top later (approach C).
 - No free-text wishes.
+- **No events for now** (owner, 2026-11-21): a trip built around fixed days in one town (a wedding, a concert) is later. When it comes back: one event, one town, consecutive days kept free, arriving the night before; it needs real dates instead of season and month.
 - No editing the trip on the site (the app's Edit Trip does that).
 - No payment.
 - No North Island, no app or api change, no Firestore schema change.
@@ -37,7 +38,6 @@ Second, iPad downloads are growing (owner): the quiz must work well on an iPad.
 - A trip on the site that isn't the one in the app.
 - A day the app would re-time on first open (stops overlapping, a drive that doesn't fit), or past 10 PM.
 - A drive day longer than the visitor's limit without saying so.
-- An event day with something planned on it, or the trip not in the event town those nights.
 - A place the app keeps out of trips (`NOT_TRIP_STOPS` in `lib/__tests__/itineraryTemplates.test.ts`) or an inactive place.
 - A slow page on a phone on mobile data.
 - Questions that change nothing.
@@ -71,35 +71,33 @@ kiwiguide.app/plan/
  Where do you arrive?        Christchurch · Queenstown · Picton · Dunedin · Nelson · Invercargill
  Where do you leave from?    Same place · (the other cities)
  How many days?              3 … 21
- Building around an event?   No · Yes → which town · which days of the trip (or dates)
- When?                       event → the trip's real dates · no event → season, then month (as today)
+ When?                       season, then month (as today)
  How active?                 Easy · Some walking · Big hikes
  How much driving?           A little (≤ 2 h a day) · Some (≤ 4 h) · Happy to drive (≤ 6 h)
  Into?                       Scenic · Walks · Food & wine · Culture · Water · Adventure … (any, Next)
  Food tips?                  Yes · No
  Anything to do?             Surfing · Skiing · Hot pools · … (any, optional, Next)
- ──── the reveal: your trip day by day (event days marked) → Save → account → App Store, as today
+ ──── the reveal: your trip day by day → Save → account → App Store, as today
 ```
 
 - Order and wording are the owner's to settle in the mocks. "Where do you leave from?" is Claude's addition: a trip that ends in another city is a different route.
-- One question per screen, progress bar, back, as today. Answers that don't apply are skipped (no month screen with an event, no skiing outside June to October).
-- The reveal is today's reveal: the trip's title, from/to, dates, each day's town, stops, times and photos, event days marked ("Your event in Wānaka"), and the season line. When a drive day is over the visitor's limit, the reveal says so on that day.
+- One question per screen, progress bar, back, as today. Answers that don't apply are skipped (no skiing outside June to October).
+- The reveal is today's reveal: the trip's title, from/to, dates, each day's town, stops, times and photos, and the season line. When a drive day is over the visitor's limit, the reveal says so on that day.
 
 ### How a trip is built
 
-1. **Hand-checked trip first.** No event, and a suggested trip with the same start, end and length exists: that trip, then step 4.
-2. **Route from the day blocks.** `lib/itineraryTemplates.ts` is built from 51 hand-checked day blocks: town days (`WANAKA_DAY`, `GLENORCHY_DAY`…) and travel days (`QUEENSTOWN_TO_TE_ANAU_DAY`…), each with its stops, times and opening hours checked. Each block starts the day in one town and ends it in another (or the same). The builder strings blocks together: starts in the arrival city, ends in the leaving city, exactly the asked number of days, travel days within the drive limit, the event town on the event days.
+1. **Hand-checked trip first.** A suggested trip with the same start, end and length exists: that trip, then step 3.
+2. **Route from the day blocks.** `lib/itineraryTemplates.ts` is built from 51 hand-checked day blocks: town days (`WANAKA_DAY`, `GLENORCHY_DAY`…) and travel days (`QUEENSTOWN_TO_TE_ANAU_DAY`…), each with its stops, times and opening hours checked. Each block starts the day in one town and ends it in another (or the same). The builder strings blocks together: starts in the arrival city, ends in the leaving city, exactly the asked number of days, travel days within the drive limit.
    - **A block's towns:** blocks are only lists of stops, so the export works out each block's start and end town from its first and last stops' areas, with a short hand-set list in the export for blocks where that's wrong (as `start` is set by hand on the templates today: Christchurch to Queenstown starts at Rakaia). A test checks every block's towns against the suggested trips that use it (Claude's call).
    - **Weekdays and seasons:** every block's stops are inside opening hours on every day of the week (the templates' rule), so a block fits any date and the search needs no weekday. Seasons are handled as today: the season line on the reveal (Claude's call).
-3. **Event days** are days in the event town with nothing planned. The trip arrives there by the night before and leaves the morning after. One event, in one town, on consecutive days, at most the trip's length minus one day (Claude's call).
-4. **Personalise:**
+3. **Personalise:**
    - **Food off:** remove the stops whose only category is Food.
    - **Pace:** Easy drops a day's longest walk where the day has more than about three stops; Big hikes adds or swaps in the town's long walks (Walks places of two hours or more).
    - **Interests and activities:** a town day with room gets a matching place from that town (featured first); an activity the visitor picked is placed on a day in a town that has it.
    - Never a `NOT_TRIP_STOPS` place, an inactive place, or the same place twice.
    - Pace, interests and activities are preferences, not filters: a Big hikes visitor on a route with no long walks still gets a trip (Claude's call).
-5. **Time it with `packTrip`** and check every day fits: `packTrip` returns every stop at the slot it was given (nothing moved) and nothing ends past slot 28 (10 PM). That is the whole check, the same one the suggested-trips test makes. A day that doesn't fit drops its last added stop and is timed again.
-6. **When nothing fits** (say 3 days, arrive Nelson, leave Invercargill, a little driving): first allow longer drive days (marked on the reveal); if still nothing, end in the nearest city that works and say so ("Ends in Dunedin: Invercargill doesn't fit in 3 days"). Never change the number of days, never a dead end (Claude's call).
+4. **Time it with `packTrip`** and check every day fits: `packTrip` returns every stop at the slot it was given (nothing moved) and nothing ends past slot 28 (10 PM). That is the whole check, the same one the suggested-trips test makes. A day that doesn't fit drops its last added stop and is timed again.
+5. **When nothing fits** (say 3 days, arrive Nelson, leave Invercargill, a little driving): first allow longer drive days (marked on the reveal); if still nothing, end in the nearest city that works and say so ("Ends in Dunedin: Invercargill doesn't fit in 3 days"). Never change the number of days, never a dead end (Claude's call).
 
 - **More days in a town than it has blocks** (21 days, a little driving): a free day in that town ("A free day in Wānaka", nothing planned), not a repeated block.
 - **Choosing between routes that fit:** prefer fewer repeats of a town, more of the visitor's interests and activities, and the hand-checked trips' own routes; equal scores pick the same route every time (same answers, same trip).
@@ -114,14 +112,14 @@ kiwiguide.app/plan/
 ### Saving
 
 - As today: the same account step, the same trip shape (title, dates, `day_<n>` days, `item_<uuid>` items, site id and name, slot, duration, both labels), the same replace-my-trip question.
-- Title: the suggested trip's label when step 1 picked one; else "South Island in <n> Days" (with "around <event town>" when there's an event) — owner to word in the mocks.
-- Dates: an event gives real dates; otherwise season and month, as today.
+- Title: the suggested trip's label when step 1 picked one; else "South Island in <n> Days" — owner to word in the mocks.
+- Dates: season and month, as today.
 - Once saved, the trip is the visitor's and the app's: never rebuilt when the data changes, so no seed or version is stored (Claude's call).
 
 ### Measuring
 
 - A Google Analytics step event for each new question, as the quiz's steps today, with fixed answer ids only (no typed text).
-- `quiz_reveal` and `trip_saved` gain `kind` (`suggested` or `built`), `days`, `start`, `end`, `event` (yes or no), `pace`, `drive`.
+- `quiz_reveal` and `trip_saved` gain `kind` (`suggested` or `built`), `days`, `start`, `end`, `pace`, `drive`.
 
 ## Order
 
@@ -136,7 +134,7 @@ kiwiguide.app/plan/
 ## Decided by the owner (2026-11-21)
 
 - The builder: more questions, a trip built for the visitor. Rules in the browser (A), not AI.
-- What the answers change: number of days, an event the trip is built around, start city, hikers or not, food tips or not, activities (surfing, skiing), how much driving.
+- What the answers change: number of days, start city, hikers or not, food tips or not, activities (surfing, skiing), how much driving.
 - Free.
 - The quiz works well on iPad.
 
@@ -145,12 +143,11 @@ kiwiguide.app/plan/
 - Arrival cities: Christchurch, Queenstown, Picton, Dunedin, Nelson, Invercargill.
 - A "Where do you leave from?" question.
 - 3 to 21 days.
-- Drive limits 2 h, 4 h, 6 h a day; event and last days excepted, and over-limit days marked.
+- Drive limits 2 h, 4 h, 6 h a day; over-limit days marked.
 - A hand-checked trip wins whenever the answers fit one.
 - Free days when a town has more days than blocks.
 - Activities tagged in a file, not in Firestore.
 - iPad first, as its own deploy.
-- One event, one town, consecutive days.
 - When nothing fits: longer drives first, then the nearest end city; never fewer days.
 - Pace, interests and activities are preferences, not filters.
 - A saved trip is never rebuilt.

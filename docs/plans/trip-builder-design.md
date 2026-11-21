@@ -73,7 +73,8 @@ kiwiguide.app/plan/
  When?                       season, then month (as today)
  How active?                 Easy · Some walking · Big hikes
  How much driving?           A little (≤ 2 h a day) · Some (≤ 4 h) · Happy to drive (≤ 6 h)
- What are you into?          Relax · Sightseeing · Nature · Adventure (any, Next)
+ What's the vibe?            Relax · Sightseeing · Nature · Adventure (any, Next)
+ What are you into?          Scenic · Walks · Nature · Water · Culture · Attractions · Adventure (any, Next)
  Food tips?                  Yes · No
  Anything to do?             Surfing · Skiing · Hot pools · … (any, optional, Next)
  ──── the reveal: your trip day by day → Save → account → App Store, as today
@@ -93,7 +94,7 @@ kiwiguide.app/plan/
 3. **Personalise:**
    - **Food off:** remove the stops whose only category is Food.
    - **Pace:** Easy drops a day's longest walk where the day has more than about three stops; Big hikes adds or swaps in the town's long walks (Walks places of two hours or more).
-   - **Into (vibe) and activities:** a town day with room gets a place from that town whose `vibe` matches (featured first), and the day's own stops that don't match any picked vibe are the first to go when a day is trimmed; an activity the visitor picked is placed on a day in a town that has it.
+   - **Vibe, into and activities:** a town day with room gets a place from that town that matches the picked vibes (`vibe` field) and the picked categories ("into"), both matches scoring higher than one, featured first; when a day is trimmed, the stops that match neither go first; an activity the visitor picked is placed on a day in a town that has it.
    - Never a `NOT_TRIP_STOPS` place, an inactive place, or the same place twice.
    - Pace, interests and activities are preferences, not filters: a Big hikes visitor on a route with no long walks still gets a trip (Claude's call).
 4. **Time it with `packTrip`** and check every day fits: `packTrip` returns every stop at the slot it was given (nothing moved) and nothing ends past slot 28 (10 PM). That is the whole check, the same one the suggested-trips test makes. A day that doesn't fit drops its last added stop and is timed again.
@@ -106,7 +107,7 @@ kiwiguide.app/plan/
 
 - The export (`scripts/export-site-trips.mjs`) also writes the builder's data: the day blocks with their start and end towns, the candidate places per town (id, name, category, area, stop length, featured, vibe, activities, thumbnail), and the drive and leg tables `packTrip` reads.
 - **Two new place fields** (owner, 2026-11-21), as custom fields in the app's `locationFields` registry (the engine's `multiselect` type), so they're edited in the admin panel's place form like any other field:
-  - `vibe`: Relax · Sightseeing · Nature · Adventure, any number. It answers "What are you into?" (owner: keep the "into" wording; vibe makes the match tighter than the eight categories). Categories stay as they are for Explore and the map.
+  - `vibe`: Relax · Sightseeing · Nature · Adventure, any number. It answers its own question, "What's the vibe?", asked before "What are you into?", which stays on the place categories (owner, 2026-11-21: both). "Into" leaves out Food, which has its own yes/no question (Claude's call). Categories stay as they are for Explore and the map.
   - `activities`: surfing, skiing, …
   - **Filling them:** Claude proposes both for all 1,034 places from category and description, as a list the owner checks; then one batch write, and the cached place list cleared after (direct writes need it). Adding the fields to the registry is a live config change: on the owner's go.
   - The app ignores both fields until it has a use for them (the in-app planner, later).
@@ -140,7 +141,7 @@ kiwiguide.app/plan/
 
 - The builder: more questions, a trip built for the visitor. Rules in the browser (A), not AI.
 - What the answers change: number of days, start city, hikers or not, food tips or not, activities (surfing, skiing), how much driving.
-- A `vibe` field on places (Relax, Sightseeing, Nature, Adventure) behind the "What are you into?" question, which keeps its wording.
+- A `vibe` field on places (Relax, Sightseeing, Nature, Adventure) and its own question, "What's the vibe?", before "What are you into?" (categories). Both questions.
 - Free.
 - The quiz works well on iPad.
 

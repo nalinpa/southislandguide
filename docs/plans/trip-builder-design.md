@@ -68,8 +68,7 @@ Second, iPad downloads are growing (owner): the quiz must work well on an iPad.
 ```
 kiwiguide.app/plan/
 
- Where do you arrive?        Christchurch · Queenstown · Picton · Dunedin · Nelson · Invercargill
- Where do you leave from?    Same place · (the other cities)
+ Where do you start?         Christchurch · Queenstown · Picton · Dunedin · Nelson · Invercargill
  How many days?              3 … 21
  When?                       season, then month (as today)
  How active?                 Easy · Some walking · Big hikes
@@ -80,14 +79,15 @@ kiwiguide.app/plan/
  ──── the reveal: your trip day by day → Save → account → App Store, as today
 ```
 
-- Order and wording are the owner's to settle in the mocks. "Where do you leave from?" is Claude's addition: a trip that ends in another city is a different route.
+- Order and wording are the owner's to settle in the mocks.
+- **One start question, no end question** (owner, 2026-11-21: "could be where you start"). The builder picks where the trip ends. When both fit, the reveal offers the choice, as it does today between suggested trips: back where you started ("Loop · back in Queenstown") or the best one-way trip ("Ends in Christchurch"), one tap to pick. One-way only when it's at least as good a trip and a city on the list (Claude's call).
 - One question per screen, progress bar, back, as today. Answers that don't apply are skipped (no skiing outside June to October).
 - The reveal is today's reveal: the trip's title, from/to, dates, each day's town, stops, times and photos, and the season line. When a drive day is over the visitor's limit, the reveal says so on that day.
 
 ### How a trip is built
 
-1. **Hand-checked trip first.** A suggested trip with the same start, end and length exists: that trip, then step 3.
-2. **Route from the day blocks.** `lib/itineraryTemplates.ts` is built from 51 hand-checked day blocks: town days (`WANAKA_DAY`, `GLENORCHY_DAY`…) and travel days (`QUEENSTOWN_TO_TE_ANAU_DAY`…), each with its stops, times and opening hours checked. Each block starts the day in one town and ends it in another (or the same). The builder strings blocks together: starts in the arrival city, ends in the leaving city, exactly the asked number of days, travel days within the drive limit.
+1. **Hand-checked trip first.** Suggested trips with the same start and length exist: those are the choices on the reveal, then step 3.
+2. **Route from the day blocks.** `lib/itineraryTemplates.ts` is built from 51 hand-checked day blocks: town days (`WANAKA_DAY`, `GLENORCHY_DAY`…) and travel days (`QUEENSTOWN_TO_TE_ANAU_DAY`…), each with its stops, times and opening hours checked. Each block starts the day in one town and ends it in another (or the same). The builder strings blocks together: starts in the start city, ends back there or in another city on the list, exactly the asked number of days, travel days within the drive limit.
    - **A block's towns:** blocks are only lists of stops, so the export works out each block's start and end town from its first and last stops' areas, with a short hand-set list in the export for blocks where that's wrong (as `start` is set by hand on the templates today: Christchurch to Queenstown starts at Rakaia). A test checks every block's towns against the suggested trips that use it (Claude's call).
    - **Weekdays and seasons:** every block's stops are inside opening hours on every day of the week (the templates' rule), so a block fits any date and the search needs no weekday. Seasons are handled as today: the season line on the reveal (Claude's call).
 3. **Personalise:**
@@ -97,7 +97,7 @@ kiwiguide.app/plan/
    - Never a `NOT_TRIP_STOPS` place, an inactive place, or the same place twice.
    - Pace, interests and activities are preferences, not filters: a Big hikes visitor on a route with no long walks still gets a trip (Claude's call).
 4. **Time it with `packTrip`** and check every day fits: `packTrip` returns every stop at the slot it was given (nothing moved) and nothing ends past slot 28 (10 PM). That is the whole check, the same one the suggested-trips test makes. A day that doesn't fit drops its last added stop and is timed again.
-5. **When nothing fits** (say 3 days, arrive Nelson, leave Invercargill, a little driving): first allow longer drive days (marked on the reveal); if still nothing, end in the nearest city that works and say so ("Ends in Dunedin: Invercargill doesn't fit in 3 days"). Never change the number of days, never a dead end (Claude's call).
+5. **When nothing fits** (say 3 days from Invercargill, a little driving): allow longer drive days, marked on the reveal. Never change the number of days, never a dead end (Claude's call).
 
 - **More days in a town than it has blocks** (21 days, a little driving): a free day in that town ("A free day in Wānaka", nothing planned), not a repeated block.
 - **Choosing between routes that fit:** prefer fewer repeats of a town, more of the visitor's interests and activities, and the hand-checked trips' own routes; equal scores pick the same route every time (same answers, same trip).
@@ -140,15 +140,15 @@ kiwiguide.app/plan/
 
 ## Calls made by Claude (owner to check)
 
-- Arrival cities: Christchurch, Queenstown, Picton, Dunedin, Nelson, Invercargill.
-- A "Where do you leave from?" question.
+- Start cities: Christchurch, Queenstown, Picton, Dunedin, Nelson, Invercargill.
+- The builder picks the end: back at the start or one-way, both offered when both fit.
 - 3 to 21 days.
 - Drive limits 2 h, 4 h, 6 h a day; over-limit days marked.
 - A hand-checked trip wins whenever the answers fit one.
 - Free days when a town has more days than blocks.
 - Activities tagged in a file, not in Firestore.
 - iPad first, as its own deploy.
-- When nothing fits: longer drives first, then the nearest end city; never fewer days.
+- When nothing fits: longer drive days, marked; never fewer days.
 - Pace, interests and activities are preferences, not filters.
 - A saved trip is never rebuilt.
 

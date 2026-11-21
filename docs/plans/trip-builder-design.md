@@ -100,7 +100,10 @@ kiwiguide.app/plan/
    - **Food off:** remove the stops whose only category is Food.
    - **Pace:** Easy drops a day's longest walk where the day has more than about three stops; Big hikes adds or swaps in the town's long walks (Walks places of two hours or more).
    - **Vibe, into and activities:** a town day with room gets a place from that town that matches the picked vibes (`vibe` field) and the picked categories ("into"), both matches scoring higher than one, featured first; when a day is trimmed, the stops that match neither go first; an activity the visitor picked is placed on a day in a town that has it.
-   - Never a `NOT_TRIP_STOPS` place, an inactive place, or the same place twice.
+   - Never a `NOT_TRIP_STOPS` place or an inactive place. The builder never adds a place already in the trip; the hand-checked days' own stops stay as written, deliberate repeats included (Claude's call, 2026-11-22).
+   - Added stops end by 6 PM (8 PM for outdoor-only places): a stand-in for opening hours, which the data doesn't have (Claude's call).
+   - Free days: at most one in four days of the trip, only in towns that have a town day; past that, longer drive days (marked) instead (Claude's call).
+   - Easy never drops a featured place or a day's only walk.
    - Pace, interests and activities are preferences, not filters: a Big hikes visitor on a route with no long walks still gets a trip (Claude's call).
 4. **Time it with `packTrip`** and check every day fits: `packTrip` returns every stop at the slot it was given (nothing moved) and nothing ends past slot 28 (10 PM). That is the whole check, the same one the suggested-trips test makes. A day that doesn't fit drops its last added stop and is timed again.
 5. **When nothing fits** (say 3 days from Invercargill, a little driving): allow longer drive days, marked on the reveal. Never change the number of days, never a dead end (Claude's call).

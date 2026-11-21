@@ -83,6 +83,11 @@ kiwiguide.app/plan/
 - Order and wording are the owner's to settle in the mocks.
 - **One start question, no end question** (owner, 2026-11-21: "could be where you start"). The builder picks where the trip ends. When both fit, the reveal offers the choice, as it does today between suggested trips: back where you started ("Loop · back in Queenstown") or the best one-way trip ("Ends in Christchurch"), one tap to pick. One-way only when it's at least as good a trip and a city on the list (Claude's call).
 - One question per screen, progress bar, back, as today. Answers that don't apply are skipped (no skiing outside June to October).
+- **Two photo breaks** (owner, 2026-11-21, after other funnels): a full-screen photo, one line, its credit, and Next (tap only, no auto-advance).
+  - After "How many days?": the start town's photo and a line from the answers ("Queenstown, 10 days. Good pick: enough for the lakes and Fiordland.").
+  - After "What's the vibe?": a photo for the vibe (Adventure: Shotover Jet; Nature: Diamond Lake; Relax: Gore Bay; Sightseeing: Lake Pukaki) and "Over 1,000 places on the island. Picking the ones that fit you." The builder's data finishes loading behind it.
+  - Photos only under the site's photo rule (`kiwiguide-site/docs/photo-sources.md`: open licences, a row there, the credit on the page); a new photo needs the owner's OK. Lines only true facts from the data or the visitor's answers; no invented social proof.
+  - Exact lines, photos and placement in the mocks.
 - The reveal is today's reveal: the trip's title, from/to, dates, each day's town, stops, times and photos, and the season line. When a drive day is over the visitor's limit, the reveal says so on that day.
 
 ### How a trip is built
@@ -144,6 +149,7 @@ kiwiguide.app/plan/
 - A `vibe` field on places (Relax, Sightseeing, Nature, Adventure) and its own question, "What's the vibe?", before "What are you into?" (categories). Both questions.
 - Free.
 - The quiz works well on iPad.
+- Two photo breaks in the quiz.
 
 ## Calls made by Claude (owner to check)
 

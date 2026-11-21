@@ -1,0 +1,33 @@
+// Places that stay in the app but are never a suggested trip's stop (owner, 2026-10-24):
+// fine to find in Explore, not what a trip should send everyone to.
+export const NOT_TRIP_STOPS: readonly string[] = [
+  "south-canterbury-museum",
+  "timaru-botanic-gardens",
+  "taste-of-kiwi-springfield",
+  "springfield-doughnut",
+  "akaroa-museum",
+  "okains-bay-maori-and-colonial-museum",
+  "rakaia-salmon-statue",
+  "murchison-district-museum",
+  "west-coast-wildlife-centre",
+  "ross-goldfields-water-race-walk",
+  "blacks-point-museum",
+  "the-bearded-miners",
+  "denniston-plateau-brakehead",
+  "puzzling-world",
+  "ophir-post-office-bridge",
+  "goldfields-mining-centre",
+  "cromwell-heritage-precinct",
+  "bannockburn-sluicings",
+  "clyde-dam-lookout-historic-clyde",
+  "shaky-bridge-alexandra-clock",
+  "otago-central-rail-trail-day-ride",
+  "te-hikoi-museum-riverton",
+  "fiordland-cinema-ata-whenua",
+  "ross-creek-reservoir",
+  "olveston-historic-home",
+  "the-lost-gypsy-gallery",
+  // Everything in Gore.
+  "eastern-southland-gallery",
+  "old-hokonui-moonshine-museum",
+];

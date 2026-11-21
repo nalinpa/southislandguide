@@ -2,15 +2,30 @@
 // Usage: node --no-warnings scripts/export-site-trips.mjs [../kiwiguide-site/public/plan/trips.json]
 // Fetches the live place list once (a KV cache: no Firestore reads) for each stop's
 // area, category and thumbnail.
-import { writeFileSync } from "node:fs";
+// Also writes the trip builder's data (builder-data.json) and its timing code (pack.js) beside it.
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { build } from "esbuild";
 import { ITINERARY_TEMPLATES } from "../lib/itineraryTemplates.ts";
 import { slotIndexToTimeLabel, slotsToDurationLabel } from "../lib/utils/slotLabels.ts";
 import { areaName } from "../lib/areaNames.ts";
-import { PLACE_IMAGE_TYPES } from "../lib/placeImageTypes.ts";
 
-// The app's default photo for a place with none: its type's, else its first category's (see siteImage).
-const TYPE_OF = new Map(Object.entries(PLACE_IMAGE_TYPES).flatMap(([type, ids]) => ids.map((id) => [id, type])));
-const fallbackOf = (id, category) => (TYPE_OF.has(id) ? `types/${TYPE_OF.get(id)}` : category?.[0] ? `categories/${category[0]}` : null);
+const here = path.dirname(fileURLToPath(import.meta.url));
+const root = path.resolve(here, "..");
+const alias = { "@": root };
+
+// builderData imports the app with "@/" paths, which Node can't resolve: bundle it to a temp file.
+const tmp = mkdtempSync(path.join(tmpdir(), "builder-data-"));
+let builderMod;
+try {
+  await build({ entryPoints: [path.join(here, "lib/builderData.ts")], bundle: true, platform: "node", format: "esm", outfile: path.join(tmp, "builderData.mjs"), alias, logLevel: "warning" });
+  builderMod = await import(pathToFileURL(path.join(tmp, "builderData.mjs")).href);
+} finally {
+  rmSync(tmp, { recursive: true, force: true });
+}
+const { builderData, sourceHash, fallbackOf } = builderMod;
 
 const out = process.argv[2] ?? "../kiwiguide-site/public/plan/trips.json";
 const res = await fetch("https://api.blacksands.app/v1/southislandguide/locations");
@@ -54,5 +69,21 @@ const trips = ITINERARY_TEMPLATES.map((t) => {
 });
 
 if (missing.length) throw new Error(`Template stops missing from the live list:\n${missing.join("\n")}`);
+const outDir = path.dirname(out);
+const source = sourceHash(root);
 writeFileSync(out, JSON.stringify({ version: 1, exportedAt: new Date().toISOString(), trips }, null, 2) + "\n");
 console.log(`${trips.length} trips -> ${out}`);
+
+// Builder data: vibe and activities from the live list when it has them, else from the owner-checked tags file.
+const tags = JSON.parse(readFileSync(path.join(root, "docs/plans/trip-builder-tags.json"), "utf8"));
+const list = [...places.values()].map((p) => ({ ...p, vibe: p.vibe ?? (tags[p.id] ?? tags[p.slug])?.vibe, activities: p.activities ?? (tags[p.id] ?? tags[p.slug])?.activities }));
+const data = { source, ...builderData(ITINERARY_TEMPLATES, list) };
+writeFileSync(path.join(outDir, "builder-data.json"), JSON.stringify(data));
+console.log(`${data.blocks.length} blocks, ${Object.keys(data.places).length} places -> builder-data.json`);
+
+// pack.js: the app's packTrip with the drive tables inlined. Nothing but the app's own code may go in.
+const r = await build({ entryPoints: [path.join(here, "pack-entry.ts")], bundle: true, minify: true, format: "iife", platform: "browser", target: "es2019", outfile: path.join(outDir, "pack.js"), alias, metafile: true, banner: { js: `/* Kiwi Guide pack.js, source ${source} */` }, footer: { js: "if(typeof module!==\"undefined\")module.exports=globalThis.KiwiPack;" }, logLevel: "warning" });
+const inputs = Object.keys(r.metafile.inputs);
+const outside = inputs.filter((f) => f.includes("node_modules") || /react-native|expo/.test(f));
+if (outside.length) throw new Error(`pack.js pulled in code outside the app's timing files:\n${outside.join("\n")}`);
+console.log(`pack.js <- ${inputs.join(", ")}`);

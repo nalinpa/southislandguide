@@ -44,6 +44,7 @@ import waitaki from "@/assets/data/waitaki_valley_places.json";
 import wanaka from "@/assets/data/wanaka_places.json";
 import westernSouthland from "@/assets/data/western_southland_places.json";
 import { PLANNER } from "@/lib/constants/gameplay";
+import { NOT_TRIP_STOPS } from "@/lib/notTripStops";
 import { ITINERARY_TEMPLATES, defaultTemplateKey } from "@/lib/itineraryTemplates";
 import { canAddToItinerary, type ItineraryDay, type SiteCategory } from "@/lib/models";
 import { packTrip } from "@/lib/utils/itineraryPhysics";
@@ -51,39 +52,6 @@ import { packTrip } from "@/lib/utils/itineraryPhysics";
 type Place = { slug: string; name: string; category: string[]; area?: string; active?: boolean };
 const bySlug = new Map(([...christchurch, ...timaru, ...dunedin, ...queenstown, ...fiordland, ...wanaka, ...centralOtago, ...mackenzie, ...midCanterbury, ...marlboroughSounds, ...kaikoura, ...hanmer, ...westernSouthland, ...invercargill, ...catlins, ...arthursPass, ...punakaiki, ...hokitika, ...glacierCountry, ...haast, ...oamaru, ...nelson, ...abelTasman, ...goldenBay, ...nelsonLakes, ...buller, ...marlborough, ...waitaki] as Place[]).map((p) => [p.slug, p]));
 
-// Places that stay in the app but are never a suggested trip's stop (owner, 2026-10-24):
-// fine to find in Explore, not what a trip should send everyone to.
-const NOT_TRIP_STOPS = [
-  "south-canterbury-museum",
-  "timaru-botanic-gardens",
-  "taste-of-kiwi-springfield",
-  "springfield-doughnut",
-  "akaroa-museum",
-  "okains-bay-maori-and-colonial-museum",
-  "rakaia-salmon-statue",
-  "murchison-district-museum",
-  "west-coast-wildlife-centre",
-  "ross-goldfields-water-race-walk",
-  "blacks-point-museum",
-  "the-bearded-miners",
-  "denniston-plateau-brakehead",
-  "puzzling-world",
-  "ophir-post-office-bridge",
-  "goldfields-mining-centre",
-  "cromwell-heritage-precinct",
-  "bannockburn-sluicings",
-  "clyde-dam-lookout-historic-clyde",
-  "shaky-bridge-alexandra-clock",
-  "otago-central-rail-trail-day-ride",
-  "te-hikoi-museum-riverton",
-  "fiordland-cinema-ata-whenua",
-  "ross-creek-reservoir",
-  "olveston-historic-home",
-  "the-lost-gypsy-gallery",
-  // Everything in Gore.
-  "eastern-southland-gallery",
-  "old-hokonui-moonshine-museum",
-];
 
 const packed = new Map(
   ITINERARY_TEMPLATES.map((t) => [t.key, packTrip(t.days as unknown as ItineraryDay[], (siteId) => bySlug.get(siteId))]),

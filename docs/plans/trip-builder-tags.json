@@ -1,0 +1,3515 @@
+{
+  "315-motel-riccarton": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "97-motel-moray": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "a-la-baguette": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "abel-tasman-aquataxi-coast-track-day-walk": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "adventure-inn-marahau": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "adventure-queenstown-hostel": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "akaroa-freedom-camping-area": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "akaroa-harbour-lookout": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "akaroa-harbour-nature-cruise": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "akaroa-lighthouse-and-garden-of-tane": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "akaroa-museum": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "al-forno-pizza-pohara": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "albert-town-campground": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "alfred-stream-reserve-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "all-day-bay-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "allans-beach": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "alpine-lodge-restaurant-st-arnaud": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "alps-2-ocean-otematata-kurow": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "anatoki-salmon": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "anchorage-campsite-abel-tasman": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "andrews-shelter-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "antigua-boatsheds-kayak-canoe-hire": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "around-the-basin-bike-hire": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": [
+      "mountain-biking"
+    ]
+  },
+  "arrowtown-bakery": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "arrowtown-chinese-settlement": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "arthurs-pass-national-park-visitor-centre": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "arthurs-pass-walking-track-bridal-veil": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "aussie-bay-doc-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "avon-river-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "awaroa-godley-head-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "awaroa-godley-head-loop": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "bacon-buttie-station": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "baldwin-street": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "balibu-invercargill": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "bannockburn-sluicings": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "barkers-foodstore-geraldine": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "barrys-bay-cheese": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "barrytown-knifemaking": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "bazils-hostel-surf-school": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "kayaking",
+      "mountain-biking",
+      "surfing"
+    ]
+  },
+  "beam-me-up-bagels": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "ben-lomond-track": {
+    "vibe": [
+      "nature",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "bendigo-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "benmore-dam-peninsula-track": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "bespoke-kitchen": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "big-fig-wanaka": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "big-tree-walk-peel-forest": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "black-forest-cafe-naseby": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "black-hole-maitai-river": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "blacks-point-museum": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "blak-shak-te-anau": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "blue-moon-bakehouse": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "blue-pools-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "bluff-hill-lookout": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "bobs-cove-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "bonz-n-stonz-carving-studio": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "bottled-lightning-powerhouse-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "boundary-street-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "bower-fish-supply": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "bridle-path": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "broadway-tearooms-and-bakery": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "bruce-bay": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "buller-gorge-swingbridge": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "bushy-beach-penguin-hide": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "buxton-carpark-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "c1-espresso": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "cable-bay-walkway-and-beach": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "cafe-neve": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "cape-foulwind-walkway-seal-colony": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "cardrona-hotel": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "caroline-bay": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "caroline-bay-overnight-parking": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "caroline-bay-penguins": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "cascade-creek-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "cathedral-caves": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "cathedral-cliffs-gore-bay": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "catlins-cafe-owaka": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "cave-stream-scenic-reserve": {
+    "vibe": [
+      "nature",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "centre-of-new-zealand-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "champagne-gully-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "charming-creek-walkway-mangatini-falls": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "chisholm-park-car-park-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "christchurch-adventure-park": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": [
+      "mountain-biking"
+    ]
+  },
+  "christchurch-art-gallery": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "christchurch-botanic-gardens": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "christchurch-farmers-market": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "christchurch-gondola": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "christchurch-tram": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "church-of-the-good-shepherd": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "classic-motorcycle-mecca": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "clay-cliffs-omarama": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "clifden-caves": {
+    "vibe": [
+      "nature",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "clifden-suspension-bridge": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "clyde-dam-lookout-historic-clyde": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "coalface-cafe-ngakawau": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "cobden-aromahana-lagoon-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "colac-bay-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "colac-bay-oraka": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": [
+      "surfing"
+    ]
+  },
+  "conical-hill-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "corsair-bay": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "cromwell-heritage-precinct": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "crown-range-summit-lookout": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "cruise-milford-small-boat-cruise": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "curbside-deli-timaru": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "curio-bay-petrified-forest": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "cycle-nelson-bike-hire": {
+    "vibe": [
+      "nature",
+      "adventure"
+    ],
+    "activities": [
+      "mountain-biking"
+    ]
+  },
+  "dark-sky-project-summit-experience": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "stargazing"
+    ]
+  },
+  "dart-river-wilderness-jet": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": []
+  },
+  "deer-park-heights": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "deer-valley-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "denniston-plateau-brakehead": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "devils-punchbowl-falls": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "devils-staircase-lookout": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "diamond-harbour-ferry": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "diamond-lake-rocky-mountain-track": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "dorothy-falls": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "doubtful-sound-wilderness-cruise": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "dp1-cafe": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "dunedin-botanic-garden": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "dunedin-chinese-garden": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "dunedin-public-art-gallery": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "dunedin-railway-station": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "duntroon-domain-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "duntroon-hotel": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "eastern-southland-gallery": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "edwin-fox-maritime-museum": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "elephant-rocks-anatini": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "emersons-brewery": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "encounter-kaikoura": {
+    "vibe": [
+      "nature",
+      "adventure"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "eriks-fish-and-chips": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "esplanade-surf-school": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": [
+      "surfing"
+    ]
+  },
+  "euro-food-store-westport": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "fairlie-bakehouse": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "farewell-spit-eco-tours": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "fat-pipi-pizza": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "fergburger": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "fiordland-cinema-ata-whenua": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "fire-and-slice": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "fishy-business-on-roto": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "fittal-street-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "florence-hill-lookout": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "foodelicious-twizel": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "formerly-the-blackball-hilton": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "founders-heritage-park": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "fox-glacier-south-side-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "frankton-track-and-frankton-beach": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "franz-josef-glacier-heli-hike": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "franz-josef-glacier-valley-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "frasers-beach-manapouri": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "fyffe-house": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "garden-city-motel": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "gemstone-beach-orepuki": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "george-street-motel-apartments": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "geraldine-cheese-company": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "gillespies-beach": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "glacier-country-scenic-flights": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "glacier-explorers": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "glacier-hot-pools": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "hot-pools"
+    ]
+  },
+  "glencoe-campsite": {
+    "vibe": [
+      "relax",
+      "nature"
+    ],
+    "activities": []
+  },
+  "glenorchy-lagoon-walkway": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "glenorchy-wharf-and-red-shed": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "global-village-backpackers": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "glow-worm-accommodation": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "glow-worm-dell": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "goldfields-mining-centre": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "gore-bay-buxton-camp": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "governors-bay-queen-charlotte-drive": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "grizzly-baked-goods-the-welder": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "haast-playground-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "hagley-park-loop": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "hanmer-adventure-bike-hire": {
+    "vibe": [
+      "nature",
+      "adventure"
+    ],
+    "activities": [
+      "mountain-biking"
+    ]
+  },
+  "hanmer-backpackers": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "hanmer-springs-bungy": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": []
+  },
+  "hanmer-springs-jet-boating-waiau-ferry-bridge": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": []
+  },
+  "hanmer-springs-thermal-pools-and-spa": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "hot-pools"
+    ]
+  },
+  "hans-bay-campsite-lake-kaniere": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "harbour-street-bakery-oamaru": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "harry-ell-walkway-victoria-park": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "hawkes-lookout": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "he-puna-taimoana-hot-pools": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "hot-pools"
+    ]
+  },
+  "henry-creek-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "heritage-forest-and-woodland-walks": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "hinewai-reserve": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "hokitika-beach-driftwood-sign": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "hokitika-cycles-bike-hire": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": []
+  },
+  "hokitika-gorge": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "hokitika-museum": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "hokitika-sandwich-company": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "hooker-valley-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "hot-tubs-omarama": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "hot-pools"
+    ]
+  },
+  "hotel-give": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "howells-point-reserve": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "surfing"
+    ]
+  },
+  "humboldt-falls-hollyford-road": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "international-antarctic-centre": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "invercargill-holiday-park": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "isthmus-peak-track": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "iveagh-bay-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "jailhouse-accommodation": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "jays-dumpling-cafe": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "jimmy-armers-beach-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "jones-family-fruit-stall": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "kaikoura-lookout": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "kaikoura-peninsula-walkway": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "kaikoura-seafood-bbq-kiosk": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "kaimoana-takeaways": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "kaiteriteri-beach": {
+    "vibe": [
+      "relax",
+      "nature"
+    ],
+    "activities": []
+  },
+  "kaiteriteri-recreation-reserve-campground": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "katiki-beach-north-reserve": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "katiki-point-lighthouse": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "kawarau-bridge-bungy": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "kawatiri-beach-reserve-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "kawatiri-coastal-trail": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "kawatiri-historic-railway-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "kea-point-track": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "kepler-track-brod-bay": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "kerr-bay-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "kerr-bay-short-walks": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "key-summit-track": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "kiwi-park-queenstown": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "klondyke-corner-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "knights-point-lookout": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "kohaihai-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "kura-tawhiti-castle-hill": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "kurow-hill-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "la-mia-pizza": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "labyrinth-rocks-park": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "lake-camp-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "lake-clearwater": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "lake-dunstan-trail-chp-bike-rentals": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": [
+      "mountain-biking"
+    ]
+  },
+  "lake-gunn-nature-walk": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "lake-hauroko-lookout-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "lake-hawea-esplanade-reserve": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "lake-ianthe-matahi-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "lake-kaniere-canoe-cove": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "lake-mahinapua-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "lake-mahinapua-hotel": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "lake-mapourika": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "lake-marian-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "lake-matheson-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "lake-middleton-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "lake-paringa-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "lake-pearson-moana-rua": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "lake-pukaki-overnight-campervan-parking": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "lake-rotoiti-jetty-kerr-bay": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "lake-rotoroa": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "lake-sylvan-track-and-campsite": {
+    "vibe": [
+      "relax",
+      "nature"
+    ],
+    "activities": []
+  },
+  "lake-tennyson": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "lakes-district-museum-and-gold-panning": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "larnach-castle": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "le-bons-bay": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "learn-to-surf-sumner": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": [
+      "surfing"
+    ]
+  },
+  "lewis-pass-alpine-nature-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "lindis-pass-summit-lookout": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "little-high-eatery": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "little-river-rail-trail": {
+    "vibe": [
+      "nature",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "lowburn-harbour-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "luggate-campground": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "lumsden-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "lyell-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "lyttelton-farmers-market": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "makarora-country-cafe": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "maniototo-curling-naseby": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "mapua-wharf": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "marahau-sea-kayaks": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": [
+      "kayaking",
+      "wildlife"
+    ]
+  },
+  "maruia-falls": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "maruia-hot-springs": {
+    "vibe": [
+      "relax",
+      "nature"
+    ],
+    "activities": [
+      "hot-pools"
+    ]
+  },
+  "matheson-cafe": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "mavora-lakes-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "mccrackens-rest": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "mclean-falls": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "mcmillan-road-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "miles-better-pies": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "milford-foreshore-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "mills-bay-mussels-havelock": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "mirror-lakes": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "moana-lakefront-lake-brunner": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "moeraki-boulders": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "moke-lake-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "molesworth-acheron-road": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "monkey-bay-walk-rarangi": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "monkey-island-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "monkey-island-orepuki": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": [
+      "surfing"
+    ]
+  },
+  "monro-beach-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "monteiths-brewery": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "motuara-island-bird-sanctuary-cruise": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "motueka-saltwater-baths": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "motueka-sunday-market": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "motupipi-car-park-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "moturoa-rabbit-island": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "mount-iron-track": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "mount-robert-circuit": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "mountain-helicopters-scenic-flights": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "mr-and-mrs-potato-clyde": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "mrs-woollys-general-store": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "mt-cook-alpine-salmon-shop": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "mt-john-summit-astro-cafe": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "stargazing"
+    ]
+  },
+  "mt-sunday-edoras-track": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "murchison-district-museum": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "murray-creek-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "museum-of-kawatiri": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "national-transport-and-toy-museum": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "naval-point-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "nelson-classic-car-museum": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "nelson-provincial-museum": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "nelson-saturday-market": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "nevis-bungy": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": []
+  },
+  "new-brighton-beach-and-pier": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "surfing"
+    ]
+  },
+  "new-brighton-surf": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": [
+      "surfing"
+    ]
+  },
+  "ngarua-caves": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "nins-bin": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "nourish-reefton-wilsons-hotel": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "nugget-point-lighthouse": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "oamaru-backpackers": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "oamaru-blue-penguin-colony": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "oamaru-farmers-market": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "oamaru-public-garden": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "oamaru-victorian-precinct": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "ohau-point-seal-colony": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "okains-bay-camping-ground": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "kayaking",
+      "stargazing"
+    ]
+  },
+  "okains-bay-maori-and-colonial-museum": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "okarito-campground": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "okarito-kayaks": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "okarito-trig-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "old-hokonui-moonshine-museum": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "old-school-cafe-puponga": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "olveston-historic-home": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "omaka-aviation-heritage-centre": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "onsen-hot-pools": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "hot-pools"
+    ]
+  },
+  "oparara-arch": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "ophir-post-office-bridge": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "opuke-thermal-pools": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "hot-pools"
+    ]
+  },
+  "orana-wildlife-park": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "oreti-beach": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "original-marlborough-wine-tours": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": [
+      "wine"
+    ]
+  },
+  "orokonui-ecosanctuary": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "otago-central-rail-trail-day-ride": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "otago-farmers-market": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "otira-viaduct-lookout": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "otto-macdonalds-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "owaka-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "paddle-wanaka": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "pancake-rocks-and-blowholes-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "papatowai-doc-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "park-cafe-marahau": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "peak-hill-lake-coleridge": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "peakes-kitchen-papatowai": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "peel-forest-campground-doc": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "pelorus-bridge-doc-campground": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "pelorus-bridge-scenic-reserve": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "pelorus-mail-boat": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "pembroke-patisserie": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "peters-lookout": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "pics-peanut-butter-world": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "pineapple-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "pjs-pies": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "pleasant-flat-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "pohara-beach": {
+    "vibe": [
+      "relax",
+      "nature"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "pohatu-penguins": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "point-elizabeth-walkway": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "pororari-river-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "porpoise-bay": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "port-motueka-beach-reserve-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "provisions-of-arrowtown": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "puhi-puhi-doc-campsite": {
+    "vibe": [
+      "relax",
+      "nature"
+    ],
+    "activities": []
+  },
+  "pukatea-whites-bay": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "punakaiki-cavern": {
+    "vibe": [
+      "nature",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "punanga-manu-o-te-anau-bird-sanctuary": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "punting-on-the-avon": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "purakaunui-falls": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "puzzling-world": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "queen-charlotte-drive-cullen-point": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "queen-charlotte-track-day-walk": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "queenstown-bay-beach": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "queenstown-gardens": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "queenstown-hill-time-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "rakaia-gorge-campground": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "rakaia-gorge-walkway": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "rakaia-salmon-statue": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "rangitata-rafts": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": []
+  },
+  "rapaki-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "rawhiti-cave": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "red-bridge-reserve-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "red-star-burger-bar": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "redcliff-te-anau": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "reefton-heritage-walk-and-visitor-centre": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "remarkables-road-lake-alta": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "renwick-domain-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "riccarton-house-and-bush": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "riuwaka-resurgence": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "river-restaurant-takeaways-kurow": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "rivers-cafe-murchison": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "riverside-markets": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "roaring-billy-falls-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "rob-roy-glacier-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "ross-creek-reservoir": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "ross-goldfields-water-race-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "round-bush-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "routeburn-track-day-walk": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "royal-albatross-centre": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "roys-peak-track": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "sandfly-bay-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "sandfly-cafe-te-anau": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "sangas-pies": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "scotts-beach-walk-heaphy-track": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "scotts-brewing-co": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "seal-swim-kaikoura": {
+    "vibe": [
+      "nature",
+      "adventure"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "sealy-tarns-track": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "shag-point-matakaea": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "shaky-bridge-alexandra-clock": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "shantytown-heritage-park": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "sharplin-falls-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "sheffield-pies": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "ship-creek-tauparikaka-walks": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "shotover-jet": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": []
+  },
+  "sign-of-the-kiwi": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "signal-hill-lookout": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "skippers-canyon": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "skyline-queenstown-gondola-and-luge": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "slab-hut-creek-campsite": {
+    "vibe": [
+      "relax",
+      "nature"
+    ],
+    "activities": []
+  },
+  "slope-point-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "slope-point-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "snakebite-brewery": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "snout-track-picton": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "southern-comfort-backpackers": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "split-apple-rock": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "springfield-doughnut": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "st-bathans-blue-lake": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "st-clair-beach": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "surfing"
+    ]
+  },
+  "st-clair-hot-salt-water-pool": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "hot-pools"
+    ]
+  },
+  "star-tavern-cape-foulwind": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "starfish-cafe-st-clair": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "steampunk-hq": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "stewart-island-ferry-bluff": {
+    "vibe": [
+      "adventure"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "stirling-point-bluff": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "sumner-beach-and-cave-rock": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "surat-bay-beach-walk": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "sutton-salt-lake": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "tahunanui-beach": {
+    "vibe": [
+      "relax",
+      "nature"
+    ],
+    "activities": []
+  },
+  "taieri-gorge-railway": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "tailor-made-tekapo-accommodation": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "talbot-forest-scenic-reserve": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "taramea-bay-store": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "tasman-bay-backpackers": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "tasman-glacier-view-blue-lakes": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "taste-of-kiwi-springfield": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "tauranga-bay-beach": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": [
+      "surfing",
+      "wildlife"
+    ]
+  },
+  "taylor-dam-reserve-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "taylors-mistake-beach": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "surfing"
+    ]
+  },
+  "taylors-mistake-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "taylors-stream-reserve-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "te-ana-maori-rock-art-centre": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "te-anau-central-backpackers": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "te-anau-glowworm-caves": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "te-hikoi-museum-riverton": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "te-moana-gorge-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "te-waikoropupu-springs": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "teetotal-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "tekapo-springs": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "hot-pools",
+      "stargazing"
+    ]
+  },
+  "that-wanaka-tree": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "the-alpine-grind-methven": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-arts-centre": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "the-batch-cafe-invercargill": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-bearded-miners": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "the-better-batter-tekapo": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-burleigh-blenheim": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-common-cafe-and-garden-bar": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-courthouse-cafe": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-cow": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-craypot-jackson-bay": {
+    "vibe": [
+      "relax",
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "the-crib-cafe-riverton": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-fat-tui": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-grindhouse-cafe-timaru": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-grove-scenic-reserve": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "the-hard-antler-haast": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-hungry-hydro-otematata": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-lost-gypsy-gallery": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "the-mussel-inn": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-neck-lookout": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "the-pier-hotel-kaikoura": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-staveley-store": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-store-kekerengu": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-strand-freedom-camping-reefton": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "the-suter-art-gallery": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "the-wholemeal-cafe": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "thicket-burn-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "thunder-creek-and-fantail-falls": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "timaru-botanic-gardens": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "tjs-kitchen-invercargill": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "toad-hall-motueka": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "toastie-lords-picton": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "toitu-otago-settlers-museum": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "top-shop-kaikoura": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "totaranui-campground": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "transitional-cardboard-cathedral": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "tranzalpine-train": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "truman-track": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "tss-earnslaw-cruise": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "tuhura-otago-museum": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "tui-base-camp-tuatapere": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "tunnel-beach-track": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "tutaki-bakery-murchison": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "twelve-mile-delta-campground": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "underworld-adventures-charleston": {
+    "vibe": [
+      "sightseeing",
+      "adventure"
+    ],
+    "activities": []
+  },
+  "vanished-world-centre": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "vogel-st-kitchen": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "vulcan-hotel-st-bathans": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "waikawa-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "wainui-falls": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "waipapa-point-lighthouse": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "wairau-diversion-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "waitaki-braids-cafe": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "waitaki-museum": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "waitangi-west-campground-lake-aviemore": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": [
+      "kayaking"
+    ]
+  },
+  "waitohi-bush-domain": {
+    "vibe": [
+      "relax",
+      "nature"
+    ],
+    "activities": []
+  },
+  "waiuta-ghost-town": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "waka-on-avon": {
+    "vibe": [
+      "sightseeing"
+    ],
+    "activities": []
+  },
+  "wanaka-bakpaka": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "wanaka-recreation-centre-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "warrington-domain-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "waterfall-track-dog-stream-waterfall": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": []
+  },
+  "west-bay-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "west-coast-treetop-walk": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": []
+  },
+  "west-coast-wildlife-centre": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "west-end-car-park-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "whale-watch-kaikoura": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "wharariki-beach": {
+    "vibe": [
+      "sightseeing",
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "whatamango-bay-doc-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "white-horse-hill-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "whites-bay-campsite": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "whitestone-cheese-diner": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "wild-pie-co-westport": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "willowbank-wildlife-reserve": {
+    "vibe": [
+      "nature"
+    ],
+    "activities": [
+      "wildlife"
+    ]
+  },
+  "winchester-bridge-freedom-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "wine-tours-by-bike": {
+    "vibe": [
+      "relax",
+      "adventure"
+    ],
+    "activities": [
+      "wine"
+    ]
+  },
+  "woodstock-domain-camping": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  },
+  "yonder": {
+    "vibe": [
+      "relax"
+    ],
+    "activities": []
+  }
+}

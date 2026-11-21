@@ -108,7 +108,7 @@ kiwiguide.app/plan/
 4. **Time it with `packTrip`** and check every day fits: `packTrip` returns every stop at the slot it was given (nothing moved) and nothing ends past slot 28 (10 PM). That is the whole check, the same one the suggested-trips test makes. A day that doesn't fit drops its last added stop and is timed again.
 5. **When nothing fits** (say 3 days from Invercargill, a little driving): allow longer drive days, marked on the reveal. Never change the number of days, never a dead end (Claude's call).
 
-- **More days in a town than it has blocks** (21 days, a little driving): a free day in that town ("A free day in Wānaka", nothing planned), not a repeated block.
+- **More days in a town than it has blocks** (21 days, a little driving): a free day in that town ("A free day in Wānaka", nothing planned), up to one in four days. Past that a block may be used a second time (never on consecutive days, at most twice, only when no unused block fits); its sights already in the trip are removed and the day is topped up from the town (Claude's call, 2026-11-22).
 - **Choosing between routes that fit:** prefer fewer repeats of a town, more of the visitor's interests and activities, and the hand-checked trips' own routes; equal scores pick the same route every time (same answers, same trip).
 
 ### Data

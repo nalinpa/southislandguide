@@ -25,6 +25,7 @@
 - Firestore: a full place-list read costs 559 reads (free plan 50k a day); the api's list is cached in KV. After any direct Firestore write, clear the cached list (`scripts/clear-places-cache.js`, from PowerShell: npx is missing in Git Bash) and re-check it live.
 - Every deploy (`npx wrangler deploy`), the `locationFields` registry change and the Firestore batch write are on the owner's separate go. Commit only what the task names; never TASKS.md or the owner's untracked files; never the root `.gitignore`. enginev1 is not a git repo.
 - The owner sees designs first (Task 2); no critics unless the owner asks.
+- **Branches (owner, 2026-11-21):** Task 1 goes to the live site (kiwiguide-site `main`, deployed). Tasks 2 to 6 go on a `trip-builder` branch in kiwiguide-site (and in south-island, from `main` once 1.5 is merged, else from `1.5`), previewed with `npx wrangler versions upload` (a preview URL, not live); Task 7 merges and deploys on the owner's go.
 
 ## Review Focus
 

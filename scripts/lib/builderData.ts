@@ -118,13 +118,15 @@ export function builderData(templates: ItineraryTemplate[], placeList: BuilderPl
     return { key: t.key, start: t.start, end: at, label: t.label, blockIds };
   });
 
-  // Minutes of driving in a block: the legs from the start town's hub through the stops in
-  // order, each leg's half-hour slots at 30 minutes.
+  // Minutes of driving between towns in a block: the legs from the start town's hub through the
+  // stops in order that cross from one area to another (getLeg's `drive`), each leg's half-hour
+  // slots at 30 minutes. In-town hops don't count: the drive limit is about the road between towns.
   function driveMinutes(startTown: string, day: ItineraryTemplateDay) {
     let from = HUBS[startTown];
     let slots = 0;
     for (const i of day.items) {
-      slots += getLeg(from, i.siteId, lookup).slots;
+      const leg = getLeg(from, i.siteId, lookup);
+      if (leg.drive) slots += leg.slots;
       from = i.siteId;
     }
     return slots * 30;

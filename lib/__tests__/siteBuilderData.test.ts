@@ -111,17 +111,25 @@ describe("the builder's data", () => {
     expect({ startTown: b.startTown, endTown: b.endTown }).toEqual({ startTown, endTown });
   });
 
-  it("driveMinutes: the sum of getLeg minutes from the start town's hub through the stops", () => {
+  it("driveMinutes: the between-town legs (getLeg drive) from the start town's hub through the stops", () => {
     const hubs = AREA_HUBS as Record<string, string>;
     for (const b of data.blocks) {
       let from = hubs[b.startTown];
       let slots = 0;
       for (const i of b.items) {
-        slots += getLeg(from, i.siteId, lookup).slots;
+        const leg = getLeg(from, i.siteId, lookup);
+        if (leg.drive) slots += leg.slots;
         from = i.siteId;
       }
       expect({ id: b.id, driveMinutes: b.driveMinutes }).toEqual({ id: b.id, driveMinutes: slots * 30 });
     }
+  });
+
+  it("driveMinutes: a walking day is 0, a day up the lake or to Te Anau is not", () => {
+    const mins = (id: string) => data.blocks.find((b) => b.id === id)!.driveMinutes;
+    expect(mins("christchurch-botanic-gardens..avon-river-walk")).toBe(0);
+    expect(mins("bobs-cove-track..eriks-fish-and-chips")).toBeGreaterThan(0);
+    expect(mins("skyline-queenstown-gondola-and-luge..te-anau-glowworm-caves")).toBeGreaterThan(120);
   });
 
   it("has no place a trip must not use", () => {

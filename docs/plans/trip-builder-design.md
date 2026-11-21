@@ -85,7 +85,7 @@ kiwiguide.app/plan/
 - One question per screen, progress bar, back, as today. Answers that don't apply are skipped (no skiing outside June to October).
 - **Two photo breaks** (owner, 2026-11-21, after other funnels): a full-screen photo, one line, its credit, and Next (tap only, no auto-advance).
   - After "How many days?": the start town's photo and a line from the answers ("Queenstown, 10 days. Good pick: enough for the lakes and Fiordland.").
-  - After "What's the vibe?": a photo for the vibe (Adventure: Shotover Jet; Nature: Diamond Lake; Relax: Gore Bay; Sightseeing: Lake Pukaki) and "Over 1,000 places on the island. Picking the ones that fit you." The builder's data finishes loading behind it.
+  - After "What's the vibe?": a photo for the vibe (Adventure: Shotover Jet; Nature: Diamond Lake; Relax: Gore Bay; Sightseeing: Lake Pukaki) and "Over 500 places on the island. Picking the ones that fit you." The builder's data finishes loading behind it.
   - Photos only under the site's photo rule (`kiwiguide-site/docs/photo-sources.md`: open licences, a row there, the credit on the page); a new photo needs the owner's OK. Lines only true facts from the data or the visitor's answers; no invented social proof.
   - Exact lines, photos and placement in the mocks.
 - The reveal is today's reveal: the trip's title, from/to, dates, each day's town, stops, times and photos, and the season line. When a drive day is over the visitor's limit, the reveal says so on that day.
@@ -189,4 +189,4 @@ The owner said to run the plan without waiting, so the build follows these defau
 - Free day: "A free day in <town>" with "Nothing planned. Swim, sleep in, or pick something from Explore in the app."
 - Over the limit: "Long drive. About <h> h <mm> of driving. Over your <n> h limit."
 - Missing activity: "Nothing for <activity> on this route.", once under the summary line.
-- Breaks: the draft lines; vibe photos Adventure: Shotover Jet, Nature: Diamond Lake, Relax: Gore Bay, Sightseeing: Lake Pukaki; start-town photos as today's town cards (the three new cities' photos are the owner's to OK).
+- Breaks: the draft lines (break 2: "Over 500 places on the island. Picking the ones that fit you.", true of the live list); vibe photos Adventure: Shotover Jet, Nature: Diamond Lake, Relax: Gore Bay, Sightseeing: Lake Pukaki; start-town photos as today's town cards (the three new cities' photos are the owner's to OK).

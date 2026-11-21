@@ -5,7 +5,9 @@
  *   node scripts/set-place-tags.js [file] --apply    # write
  *
  * [file] defaults to docs/plans/trip-builder-tags.json: { "<slug>": { vibe: [], activities: [] } }.
- * Only those two fields are written (set with merge), so nothing else on a place changes.
+ * Only those two fields are written (update), so nothing else on a place changes, and a slug with
+ * no doc fails rather than making one. Both runs fetch the live list once (the api's KV cache, no
+ * Firestore reads) and list any slug not in it; --apply refuses while there are any.
  *
  * Credentials: GOOGLE_APPLICATION_CREDENTIALS, as in upload-places.js. The dry run needs none.
  * After --apply it drops the api's copy of the place list and prints how many places in
@@ -33,6 +35,18 @@ function buildUpdates(tags, options) {
   });
 }
 
+// The slugs with no doc in the live list (by doc id: update() writes to the doc with that id).
+function missingSlugs(updates, live) {
+  const ids = new Set(live.map((p) => p.id));
+  return updates.map((u) => u.slug).filter((slug) => !ids.has(slug));
+}
+
+async function liveList() {
+  const res = await fetch(LIVE_LIST);
+  if (!res.ok) throw new Error(`live list: HTTP ${res.status}`);
+  return (await res.json()).data.locations;
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const apply = args.includes("--apply");
@@ -41,6 +55,9 @@ async function main() {
 
   console.log(`${apply ? "APPLY" : "DRY RUN"} -> ${EXPECTED_PROJECT}/${COLLECTION}`);
   console.log(`  source:  ${path.relative(process.cwd(), file)} (${updates.length} places)`);
+  const missing = missingSlugs(updates, await liveList());
+  console.log(missing.length ? `  not in the live list (${missing.length}): ${missing.join(", ")}` : "  every slug is in the live list");
+  if (apply && missing.length) throw new Error("Refusing --apply: fix or drop the slugs not in the live list first.");
   if (!apply) {
     for (const i of [0, Math.floor(updates.length / 2), updates.length - 1]) {
       if (updates[i]) console.log(`  e.g. ${updates[i].slug}: ${JSON.stringify(updates[i].data)}`);
@@ -62,13 +79,13 @@ async function main() {
 
   for (let i = 0; i < updates.length; i += 500) {
     const batch = db.batch();
-    for (const u of updates.slice(i, i + 500)) batch.set(col.doc(u.slug), u.data, { merge: true });
+    for (const u of updates.slice(i, i + 500)) batch.update(col.doc(u.slug), u.data);
     await batch.commit();
   }
   console.log(`Wrote ${updates.length} docs.`);
   clearPlacesCache();
 
-  const live = (await (await fetch(LIVE_LIST)).json()).data.locations;
+  const live = await liveList();
   console.log(`Live list: ${live.filter((p) => p.vibe !== undefined).length} of ${live.length} places have vibe.`);
 }
 
@@ -78,4 +95,4 @@ if (require.main === module) {
     process.exit(1);
   });
 }
-module.exports = { buildUpdates, OPTIONS };
+module.exports = { buildUpdates, missingSlugs, OPTIONS };

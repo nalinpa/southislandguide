@@ -1,6 +1,6 @@
 // buildUpdates: one { slug, data: { vibe, activities } } per slug, nothing else touched,
 // and a throw on a value outside the registry options or on an empty vibe.
-const { buildUpdates } = require("../set-place-tags");
+const { buildUpdates, missingSlugs } = require("../set-place-tags");
 
 const options = { vibe: ["relax", "nature"], activities: ["surfing", "wine"] };
 
@@ -26,5 +26,17 @@ describe("buildUpdates", () => {
 
   it("throws on an empty vibe", () => {
     expect(() => buildUpdates({ x: { vibe: [], activities: [] } }, options)).toThrow(/vibe/);
+  });
+});
+
+describe("missingSlugs", () => {
+  it("lists the slugs with no doc in the live list, by doc id", () => {
+    const updates = [{ slug: "a-place" }, { slug: "gone-place" }, { slug: "b-slug" }];
+    const live = [{ id: "a-place" }, { id: "XyZ123", slug: "b-slug" }];
+    expect(missingSlugs(updates, live)).toEqual(["gone-place", "b-slug"]);
+  });
+
+  it("is empty when every slug is live", () => {
+    expect(missingSlugs([{ slug: "a" }], [{ id: "a" }, { id: "b" }])).toEqual([]);
   });
 });

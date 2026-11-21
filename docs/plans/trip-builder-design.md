@@ -172,3 +172,18 @@ kiwiguide.app/plan/
 - File layout in kiwiguide-site; the export's shape.
 - Exactly which stops Easy drops and Big hikes adds, within the rules above.
 - The iPad breakpoints' exact numbers.
+
+## Design step (Claude's defaults, 2026-11-21; owner to confirm)
+
+The owner said to run the plan without waiting, so the build follows these defaults from the mocks (https://claude.ai/artifact/9XubNmyDw9h44P625HDowV) until the owner changes them:
+
+- Order: start, days, break 1, when (season, month), how active, how much driving, vibe, break 2, into, food tips, activities, then the trip choice and the reveal.
+- Days: a 3–21 picker (not today's length bands).
+- Into: a pick list of the seven categories (not the swipe deck).
+- Activities: Surfing, Skiing (June to October only), Hot pools, Mountain biking, Kayaking, Wildlife, Stargazing, Wine; each shown only when enough towns on reachable routes have it.
+- Title: "South Island in <n> Days"; a hand-checked trip keeps its own label.
+- Loop and one-way: "Loop · back in <start>" and "Ends in <city>".
+- Free day: "A free day in <town>" with "Nothing planned. Swim, sleep in, or pick something from Explore in the app."
+- Over the limit: "Long drive. About <h> h <mm> of driving. Over your <n> h limit."
+- Missing activity: "Nothing for <activity> on this route.", once under the summary line.
+- Breaks: the draft lines; vibe photos Adventure: Shotover Jet, Nature: Diamond Lake, Relax: Gore Bay, Sightseeing: Lake Pukaki; start-town photos as today's town cards (the three new cities' photos are the owner's to OK).

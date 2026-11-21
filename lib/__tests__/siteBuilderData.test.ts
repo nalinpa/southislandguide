@@ -41,7 +41,7 @@ import AREA_HUBS from "@/assets/data/area-hubs.json";
 import { ITINERARY_TEMPLATES } from "@/lib/itineraryTemplates";
 import { NOT_TRIP_STOPS } from "@/lib/notTripStops";
 import { getLeg } from "@/lib/utils/transitMatrix";
-import { START_CITIES, builderData, sourceHash } from "../../scripts/lib/builderData";
+import { HAND_END_TOWN, OVERNIGHT_TOWNS, START_CITIES, builderData, sourceHash } from "../../scripts/lib/builderData";
 
 type Place = { slug: string; name: string; category: string[]; area?: string; active?: boolean; lat: number; lng: number };
 const PLACES = ([...abelTasman, ...arthursPass, ...buller, ...catlins, ...centralOtago, ...christchurch, ...dunedin, ...fiordland, ...glacierCountry, ...goldenBay, ...haast, ...hanmer, ...hokitika, ...invercargill, ...kaikoura, ...mackenzie, ...marlborough, ...marlboroughSounds, ...nelson, ...nelsonLakes, ...oamaru, ...punakaiki, ...midCanterbury, ...queenstown, ...timaru, ...waitaki, ...wanaka, ...westernSouthland] as Place[]);
@@ -84,6 +84,31 @@ describe("the builder's data", () => {
       }
       expect({ key: t.key, end: t.end }).toEqual({ key: t.key, end: at });
     }
+  });
+
+  it("every block starts and ends in a town trips sleep in", () => {
+    for (const b of data.blocks) {
+      expect({ id: b.id, start: OVERNIGHT_TOWNS.includes(b.startTown), end: OVERNIGHT_TOWNS.includes(b.endTown) }).toEqual({ id: b.id, start: true, end: true });
+    }
+    for (const t of data.templates) expect({ key: t.key, end: OVERNIGHT_TOWNS.includes(t.end) }).toEqual({ key: t.key, end: true });
+    for (const id of Object.keys(HAND_END_TOWN)) expect(data.blocks.some((b) => b.id === id)).toBe(true);
+  });
+
+  // Written by hand from the day sequences in lib/itineraryTemplates.ts, not from the chain.
+  it.each([
+    ["christchurch-botanic-gardens..avon-river-walk", "christchurch", "christchurch"],
+    ["shotover-jet..arrowtown-chinese-settlement", "queenstown", "queenstown"],
+    ["bobs-cove-track..eriks-fish-and-chips", "queenstown", "queenstown"],
+    ["skyline-queenstown-gondola-and-luge..te-anau-glowworm-caves", "queenstown", "te-anau"],
+    ["pancake-rocks-and-blowholes-walk..monteiths-brewery", "hokitika", "greymouth"],
+    ["pancake-rocks-and-blowholes-walk..monteiths-brewery@westport", "westport", "greymouth"],
+    ["toad-hall-motueka..park-cafe-marahau", "nelson", "abel-tasman"],
+    ["toad-hall-motueka..park-cafe-marahau@abel-tasman", "abel-tasman", "abel-tasman"],
+    ["toad-hall-motueka..star-tavern-cape-foulwind@abel-tasman", "abel-tasman", "westport"],
+    ["the-grove-scenic-reserve..queen-charlotte-drive-cullen-point", "golden-bay", "picton"],
+  ])("%s: sleeps from %s to %s", (id, startTown, endTown) => {
+    const b = data.blocks.find((x) => x.id === id)!;
+    expect({ startTown: b.startTown, endTown: b.endTown }).toEqual({ startTown, endTown });
   });
 
   it("driveMinutes: the sum of getLeg minutes from the start town's hub through the stops", () => {

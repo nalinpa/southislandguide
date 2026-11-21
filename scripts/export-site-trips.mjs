@@ -25,7 +25,7 @@ try {
 } finally {
   rmSync(tmp, { recursive: true, force: true });
 }
-const { builderData, sourceHash, fallbackOf } = builderMod;
+const { builderData, sourceHash, sourceFiles, fallbackOf } = builderMod;
 
 const out = process.argv[2] ?? "../kiwiguide-site/public/plan/trips.json";
 const res = await fetch("https://api.blacksands.app/v1/southislandguide/locations");
@@ -86,4 +86,8 @@ const r = await build({ entryPoints: [path.join(here, "pack-entry.ts")], bundle:
 const inputs = Object.keys(r.metafile.inputs);
 const outside = inputs.filter((f) => f.includes("node_modules") || /react-native|expo/.test(f));
 if (outside.length) throw new Error(`pack.js pulled in code outside the app's timing files:\n${outside.join("\n")}`);
+// The drift hash must cover every input of pack.js.
+const unhashed = inputs.filter((f) => !sourceFiles(root).includes(f));
+if (unhashed.length) throw new Error(`pack.js inputs missing from the source hash (scripts/lib/builderData.ts):
+${unhashed.join(", ")}`);
 console.log(`pack.js <- ${inputs.join(", ")}`);

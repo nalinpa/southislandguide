@@ -14,20 +14,43 @@ import { getLeg } from "@/lib/utils/transitMatrix";
 
 export const START_CITIES = ["christchurch", "queenstown", "picton", "dunedin", "nelson", "invercargill"];
 
-// Blocks whose last stop isn't where the night is spent, by block id (the blocks' first
-// and last stop ids). Everything else ends in its last stop's area.
-export const HAND_END_TOWN: Record<string, string> = {};
+// The towns a trip sleeps in (read from the day sequences in lib/itineraryTemplates.ts). Arrowtown
+// and Glenorchy are day trips from Queenstown; the Marlborough Sounds road ends at the Picton ferry.
+export const OVERNIGHT_TOWNS: readonly string[] = [
+  "christchurch", "queenstown", "wanaka", "te-anau", "tekapo", "aoraki-mount-cook", "kaikoura", "invercargill",
+  "catlins", "dunedin", "greymouth", "hokitika", "franz-josef", "fox-glacier", "haast", "nelson", "abel-tasman",
+  "golden-bay", "westport", "picton",
+];
 
-// The app files the site's copy depends on: the trips, the timing code and the drive data.
-const SOURCE_FILES = ["lib/itineraryTemplates.ts", "lib/utils/itineraryPhysics.ts", "lib/utils/transitMatrix.ts", "lib/areas.ts"];
+// Where the night is spent for a block whose last stop is in a town trips do not sleep in, by
+// block id (first and last stop ids). Required: builderData throws for a block with neither.
+export const HAND_END_TOWN: Record<string, string> = {
+  // Shotover Jet, then Arrowtown for the afternoon: back to Queenstown for the night.
+  "shotover-jet..arrowtown-chinese-settlement": "queenstown",
+  // Golden Bay over Takaka Hill, then the Sounds road: the trip ends at the Picton ferry.
+  "the-grove-scenic-reserve..queen-charlotte-drive-cullen-point": "picton",
+};
+
+// Every input of builder-data.json and pack.js: the trips, the timing code and the drive data
+// (the export checks this list against pack.js's bundle inputs).
+const SOURCE_FILES = [
+  "lib/itineraryTemplates.ts", "lib/utils/itineraryPhysics.ts", "lib/utils/transitMatrix.ts", "lib/areas.ts",
+  "lib/areaNames.ts", "lib/constants/gameplay.ts", "lib/utils/slotLabels.ts", "lib/utils/geoDistance.ts",
+  "lib/notTripStops.ts", "lib/placeImageTypes.ts", "assets/data/transit/index.ts",
+  "scripts/pack-entry.ts", "scripts/lib/builderData.ts", "scripts/export-site-trips.mjs",
+];
 const SOURCE_DATA = ["area-drive-minutes.json", "area-hubs.json", "far-place-minutes.json", "leg-minutes.json"];
 
-export function sourceHash(root: string): string {
-  const files = [
+export function sourceFiles(root: string): string[] {
+  return [
     ...SOURCE_FILES,
     ...SOURCE_DATA.map((f) => `assets/data/${f}`),
-    ...readdirSync(path.join(root, "assets/data/transit")).sort().map((f) => `assets/data/transit/${f}`),
+    ...readdirSync(path.join(root, "assets/data/transit")).filter((f) => f.endsWith(".json")).sort().map((f) => `assets/data/transit/${f}`),
   ];
+}
+
+export function sourceHash(root: string): string {
+  const files = sourceFiles(root);
   const h = createHash("sha256");
   for (const f of files) h.update(f + "\0" + readFileSync(path.join(root, f), "utf8").replace(/\r\n/g, "\n") + "\0");
   return h.digest("hex").slice(0, 12);
@@ -56,6 +79,13 @@ export type BuilderPlace = {
 
 const HUBS: Record<string, string> = AREA_HUBS_JSON;
 
+function endTownOf(id: string, lastArea: string): string {
+  if (OVERNIGHT_TOWNS.includes(lastArea)) return lastArea;
+  const hand = HAND_END_TOWN[id.split("@")[0]];
+  if (!hand) throw new Error(`block ${id} ends in ${lastArea}, which no trip sleeps in: add it to HAND_END_TOWN`);
+  return hand;
+}
+
 export function builderData(templates: ItineraryTemplate[], placeList: BuilderPlace[]) {
   const places = new Map(placeList.map((p) => [(p.id ?? p.slug)!, p]));
   const lookup = (id: string) => places.get(id) as { area: string; lat: number; lng: number } | undefined;
@@ -79,7 +109,7 @@ export function builderData(templates: ItineraryTemplate[], placeList: BuilderPl
       if (!b) {
         const last = day.items[day.items.length - 1].siteId;
         const id = variants.length ? `${base}@${at}` : base;
-        b = { id, startTown: at, endTown: HAND_END_TOWN[id] ?? lookup(last)!.area, driveMinutes: driveMinutes(at, day), items: day.items.map(({ siteId, siteName, slotIndex, durationSlots }) => ({ siteId, siteName, slotIndex, durationSlots })) };
+        b = { id, startTown: at, endTown: endTownOf(id, lookup(last)!.area), driveMinutes: driveMinutes(at, day), items: day.items.map(({ siteId, siteName, slotIndex, durationSlots }) => ({ siteId, siteName, slotIndex, durationSlots })) };
         blocks.set(id, b);
       }
       at = b.endTown;

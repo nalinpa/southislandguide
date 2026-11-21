@@ -74,14 +74,14 @@
 - Create: `docs/plans/trip-builder-tags.json` (the proposal, slug → `{ vibe: string[], activities: string[] }`, all active places)
 
 **Interfaces:**
-- Produces: every active place doc in Firestore (`southislandguide`) has `vibe: string[]` (values from `relax`, `sightseeing`, `nature`, `adventure`) and `activities: string[]` (values from the owner's list in the spec's Design step); the live place list returns both.
+- Produces until Task 7: `docs/plans/trip-builder-tags.json`, which Task 4's export reads for `vibe` and `activities` (live fields win once they exist). After Task 7: every active place doc in Firestore (`southislandguide`) has `vibe: string[]` (values from `relax`, `sightseeing`, `nature`, `adventure`) and `activities: string[]` (values from the owner's list in the spec's Design step); the live place list returns both.
 
-- [ ] **Step 1 (owner's go): the registry.** The owner adds two fields in the admin portal's custom fields (or `PUT /v1/southislandguide/admin/location-fields` with the whole list plus the two): `{ key: "vibe", label: "Vibe", type: "multiselect", options: ["relax", "sightseeing", "nature", "adventure"] }` and `{ key: "activities", label: "Activities", type: "multiselect", options: <the owner's list> }`. Then check one place's edit form shows both.
-- [ ] **Step 2: Propose the values.** From each place's `category` and `description` (the live list, one fetch, KV-cached), write `docs/plans/trip-builder-tags.json` and a readable version for the owner (an artifact, grouped by town, each place one line: name, category, proposed vibes and activities). Rules: every active place gets at least one vibe; an activity only when the description says the place offers it; skiing only for ski fields. Stop; the owner checks and edits.
+- [ ] **Step 1 (moved to Task 7, owner, 2026-11-21: nothing live before the end): the registry.** The owner adds two fields in the admin portal's custom fields (or `PUT /v1/southislandguide/admin/location-fields` with the whole list plus the two): `{ key: "vibe", label: "Vibe", type: "multiselect", options: ["relax", "sightseeing", "nature", "adventure"] }` and `{ key: "activities", label: "Activities", type: "multiselect", options: <the owner's list> }`. Then check one place's edit form shows both.
+- [ ] **Step 2: Propose the values.** From each place's `category` and `description` (the live list, one fetch, KV-cached), write `docs/plans/trip-builder-tags.json` and a readable version for the owner (an artifact, grouped by town, each place one line: name, category, proposed vibes and activities). Rules: every active place gets at least one vibe; an activity only when the description says the place offers it; skiing only for ski fields. The owner checks it in the Task 7 preview, not before (owner: run without waiting).
 - [ ] **Step 3: Write the failing test** `buildUpdates`: `buildUpdates(tags, options)` returns one `{ slug, data: { vibe, activities } }` per slug; it throws on a value not in `options.vibe` or `options.activities`, and on an empty `vibe`; `data` has only those two keys (never touches another field).
 - [ ] **Step 4: Run it to see it fail**, then **implement `buildUpdates(tags, options)` and the script.** The script reads the JSON, builds updates, and writes each with `set(data, { merge: true })` in batches of at most 500 (firebase-admin, credentials as in `scripts/upload-places.js`). Dry run by default (prints the count and three samples); writes only with `--apply`. After `--apply` it calls `clearPlacesCache` and prints how many places in the live list have `vibe`.
 - [ ] **Step 5: Run the tests**, then **commit** (app repo): `scripts/set-place-tags.js`, `scripts/__tests__/set-place-tags.test.js`, `docs/plans/trip-builder-tags.json`, message `feat(scripts): vibe and activities for every place`.
-- [ ] **Step 6 (owner's go): apply.** `node scripts/set-place-tags.js docs/plans/trip-builder-tags.json --apply` from PowerShell; if the cache clear fails from the script, clear it from PowerShell and re-check the live list. Then open Explore in the app (dev build) once: places still load.
+- [ ] **Step 6 (moved to Task 7): apply.** `node scripts/set-place-tags.js docs/plans/trip-builder-tags.json --apply` from PowerShell; if the cache clear fails from the script, clear it from PowerShell and re-check the live list. Then open Explore in the app (dev build) once: places still load.
 
 ---
 
@@ -183,6 +183,7 @@
 
 ### Task 7: Deploy and check (owner)
 
-- [ ] **Step 1 (owner's go):** `npx wrangler deploy` from `kiwiguide-site`.
+- [ ] **Step 0 (owner):** check the vibe and activities list (Task 3's artifact); then Task 3 Step 1 (registry) and Step 6 (apply), then re-run the export so it reads the live fields.
+- [ ] **Step 1 (owner's go):** merge `trip-builder` into `main` (kiwiguide-site; south-island into `main` after 1.5), then `npx wrangler deploy` from `kiwiguide-site`.
 - [ ] **Step 2 (owner):** on a phone and an iPad: three trips end to end (one suggested, one built loop, one built one-way), each saved to a fresh account and opened in the app; the app shows the same days, places and times, and moves nothing. GA Realtime shows the new step events and `quiz_reveal` / `trip_saved` with `kind`.
 - [ ] **Step 3:** note the deploy in TASKS.md (not committed) and memory.

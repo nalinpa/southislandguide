@@ -30,7 +30,7 @@ Second, iPad downloads are growing (owner): the quiz must work well on an iPad.
 - **No events for now** (owner, 2026-11-21): a trip built around fixed days in one town (a wedding, a concert) is later. When it comes back: one event, one town, consecutive days kept free, arriving the night before; it needs real dates instead of season and month.
 - No editing the trip on the site (the app's Edit Trip does that).
 - No payment.
-- No North Island, no app or api change, no Firestore schema change.
+- No North Island, no app or api code change. The only data change is two new place fields (below), through the engine's existing custom fields.
 - The in-app planner (owner's parked idea, 2026-10-21) isn't in this; the builder is written so it can move into the app later.
 
 ## Anti-goals (fails even if it works)
@@ -73,7 +73,7 @@ kiwiguide.app/plan/
  When?                       season, then month (as today)
  How active?                 Easy · Some walking · Big hikes
  How much driving?           A little (≤ 2 h a day) · Some (≤ 4 h) · Happy to drive (≤ 6 h)
- Into?                       Scenic · Walks · Food & wine · Culture · Water · Adventure … (any, Next)
+ What are you into?          Relax · Sightseeing · Nature · Adventure (any, Next)
  Food tips?                  Yes · No
  Anything to do?             Surfing · Skiing · Hot pools · … (any, optional, Next)
  ──── the reveal: your trip day by day → Save → account → App Store, as today
@@ -93,7 +93,7 @@ kiwiguide.app/plan/
 3. **Personalise:**
    - **Food off:** remove the stops whose only category is Food.
    - **Pace:** Easy drops a day's longest walk where the day has more than about three stops; Big hikes adds or swaps in the town's long walks (Walks places of two hours or more).
-   - **Interests and activities:** a town day with room gets a matching place from that town (featured first); an activity the visitor picked is placed on a day in a town that has it.
+   - **Into (vibe) and activities:** a town day with room gets a place from that town whose `vibe` matches (featured first), and the day's own stops that don't match any picked vibe are the first to go when a day is trimmed; an activity the visitor picked is placed on a day in a town that has it.
    - Never a `NOT_TRIP_STOPS` place, an inactive place, or the same place twice.
    - Pace, interests and activities are preferences, not filters: a Big hikes visitor on a route with no long walks still gets a trip (Claude's call).
 4. **Time it with `packTrip`** and check every day fits: `packTrip` returns every stop at the slot it was given (nothing moved) and nothing ends past slot 28 (10 PM). That is the whole check, the same one the suggested-trips test makes. A day that doesn't fit drops its last added stop and is timed again.
@@ -104,8 +104,13 @@ kiwiguide.app/plan/
 
 ### Data
 
-- The export (`scripts/export-site-trips.mjs`) also writes the builder's data: the day blocks with their start and end towns, the candidate places per town (id, name, category, area, stop length, featured, activities, thumbnail), and the drive and leg tables `packTrip` reads.
-- **Activities:** a new file in south-island, `assets/data/activity-tags.json` (place slug → activities), filled from the place descriptions and checked by the owner. No Firestore change. An activity shows as an answer only when enough towns on reachable routes have it; the first list is the owner's to pick in the mocks (surfing and skiing named; Claude proposes hot pools, mountain biking, kayaking, wildlife, stargazing, wine).
+- The export (`scripts/export-site-trips.mjs`) also writes the builder's data: the day blocks with their start and end towns, the candidate places per town (id, name, category, area, stop length, featured, vibe, activities, thumbnail), and the drive and leg tables `packTrip` reads.
+- **Two new place fields** (owner, 2026-11-21), as custom fields in the app's `locationFields` registry (the engine's `multiselect` type), so they're edited in the admin panel's place form like any other field:
+  - `vibe`: Relax · Sightseeing · Nature · Adventure, any number. It answers "What are you into?" (owner: keep the "into" wording; vibe makes the match tighter than the eight categories). Categories stay as they are for Explore and the map.
+  - `activities`: surfing, skiing, …
+  - **Filling them:** Claude proposes both for all 1,034 places from category and description, as a list the owner checks; then one batch write, and the cached place list cleared after (direct writes need it). Adding the fields to the registry is a live config change: on the owner's go.
+  - The app ignores both fields until it has a use for them (the in-app planner, later).
+- An activity shows as an answer only when enough towns on reachable routes have it; the first list is the owner's to pick in the mocks (surfing and skiing named; Claude proposes hot pools, mountain biking, kayaking, wildlife, stargazing, wine).
 - **`packTrip` on the site:** bundled from the app's own code into one self-hosted script by the export (one esbuild step, from south-island), not rewritten for the site. Its imports are plain TypeScript and JSON, no React Native (`itineraryPhysics.ts` → `transitMatrix.ts`, `areas.ts`, `areaNames.ts`, `slotLabels.ts`, `geoDistance.ts`, `gameplay.ts`, the data files; `models` and `guideContent` are type-only); if the bundle pulls in anything else, stop and bring it to the owner. A check fails when the site's copy differs from the app's.
 - **Size:** today's `trips.json` is 587 KB. The timing tables are 437 KB raw, 28 KB gzipped. The builder's data loads while the visitor answers (after the first question), not before the first screen. Budget for everything the quiz loads: 300 KB gzipped.
 
@@ -125,7 +130,7 @@ kiwiguide.app/plan/
 
 1. iPad (CSS only), deploy on the owner's go.
 2. Mocks of the new questions and the reveal, phone and iPad, owner picks.
-3. Activity tags (owner checks the list).
+3. The `vibe` and `activities` fields: registry (owner's go), Claude's proposed values, owner checks, batch write, cache cleared.
 4. The export: blocks, places, tables, `packTrip` bundle, drift check.
 5. The builder and its tests.
 6. The quiz screens and the reveal, measurement, privacy policy line if anything new is collected.
@@ -135,6 +140,7 @@ kiwiguide.app/plan/
 
 - The builder: more questions, a trip built for the visitor. Rules in the browser (A), not AI.
 - What the answers change: number of days, start city, hikers or not, food tips or not, activities (surfing, skiing), how much driving.
+- A `vibe` field on places (Relax, Sightseeing, Nature, Adventure) behind the "What are you into?" question, which keeps its wording.
 - Free.
 - The quiz works well on iPad.
 
@@ -146,7 +152,8 @@ kiwiguide.app/plan/
 - Drive limits 2 h, 4 h, 6 h a day; over-limit days marked.
 - A hand-checked trip wins whenever the answers fit one.
 - Free days when a town has more days than blocks.
-- Activities tagged in a file, not in Firestore.
+- `activities` is a second place field, beside `vibe`, not a separate file.
+- A place can have more than one vibe; Claude proposes them all, the owner checks.
 - iPad first, as its own deploy.
 - When nothing fits: longer drive days, marked; never fewer days.
 - Pace, interests and activities are preferences, not filters.

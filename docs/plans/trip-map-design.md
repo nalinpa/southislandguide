@@ -34,23 +34,26 @@ The trip screen is what visitors will pay to keep. A map of their route — the 
 | E. Apple MapKit JS | Apple Maps, familiar to iPhone users | Free up to 250,000 map views a day with the Apple Developer membership you already pay for | Script must load from Apple's CDN (breaks the self-hosted-scripts rule) and needs a signed token (a small worker route) | Medium |
 | (Google Maps JS) | Familiar | Paid after the free credit; quota already ran out once (Oct 2026) | Google's CDN script | Not considered |
 
-**Claude's pick: B (MapLibre + LINZ Basemaps)**, with A as the fallback if the MapLibre download is too heavy on phones.
-- It's free at any ad volume (unlike Mapbox, which charges past 50,000 loads a month with no cap), official NZ data, and the site keeps its self-hosted-scripts rule (unlike MapKit JS and Mapbox's hosted script).
-- It can be restyled to look like the site, not a generic map.
-- The cost is weight: MapLibre is roughly 200 KB gzipped. It must load only when the trip screen opens (never before), and the 300 KB budget gets a separate line for it.
-- MapKit JS is the strongest alternative if the owner prefers Apple's look: free at this scale, but it needs Apple's hosted script and a token route.
+**Picked: E, Apple MapKit JS (owner, 2026-11-22: "it aligns with the app").** The app's map is Apple Maps (`react-native-maps` with no provider, `components/map/SitesMapView.tsx`), so the site's map is the one visitors meet again in the app.
+- Free up to 250,000 map views a day on the owner's Apple Developer membership.
+- An exception to the site's self-hosted-scripts rule (owner's call): the CSP adds Apple's MapKit script host and its map and tile hosts (exact list from Apple's MapKit JS docs at build time).
+- Token: the owner creates a Maps ID and a MapKit JS key (.p8) in the Apple Developer account; the site's worker (`src/worker.js`) gets one route that signs a short-lived, origin-restricted token with that key, kept as a `wrangler secret` (the same pattern as the api's Apple sign-in key). On the owner's go.
+- Loads only when the trip screen opens; never blocks Save; the 300 KB budget excludes Apple's script (not ours, loaded on demand).
+- Fallback if MapKit JS is unavailable or over quota: B (MapLibre + LINZ Basemaps), then A.
+
+Claude's earlier pick was B (free, self-hosted, restylable), kept as the fallback.
 
 ## Constraints
 
 - Nothing loads before the trip screen; the map never blocks Save.
 - Credits shown on the map as the licence needs.
-- The CSP widens only by the one tile host named here.
+- The CSP widens only by Apple's MapKit hosts.
 - Works in light and dark (two map styles).
 
 ## Open for the owner
 
-- B (real map, zoom) or A (drawn poster, no zoom)?
+- Create the Maps ID and MapKit JS key in the Apple Developer account when this is scheduled.
 - With the paywall: the map in full before paying, or blurred?
-- Request a LINZ Developer key (email basemaps@linz.govt.nz) when this is scheduled.
+- (Fallback only) a LINZ Developer key (email basemaps@linz.govt.nz).
 
 Sources: Mapbox pricing (mapbox.com/pricing; docs.mapbox.com GL JS pricing), Apple MapKit JS limits (developer.apple.com/maps/mapkitjs), LINZ Basemaps docs (linz.govt.nz LINZ Basemaps documentation, "How to use LINZ Basemaps APIs"), MapTiler plans (maptiler.com/cloud/plans), Protomaps on Cloudflare (docs.protomaps.com/deploy/cloudflare). Checked 2026-11-22.

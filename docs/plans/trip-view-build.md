@@ -69,3 +69,23 @@
 - [ ] **Step 5: Look at it:** serve `public/` and shoot the reveal (Trip and Days) at 375 × 667, 390 × 844, 1024 × 1366, 1366 × 1024, light and dark, for Dunedin 12 days and Invercargill 21 days (with free days); no account created.
 - [ ] **Step 6: Commit** (site repo) `public/plan/tripview.js`, `public/img/icons.svg`, `public/plan/quiz.js`, `public/plan/index.html`, `public/styles.css`, `test/tripview.test.js` — `feat(plan): the trip as the app shows it`.
 - [ ] **Step 7 (controller):** `npx wrangler versions upload` from kiwiguide-site on `trip-builder`; send the owner the preview link.
+
+---
+
+## After the final review (2026-11-23)
+
+Built on `trip-builder`: app cdbc0f9; site b87eb3b (data), 86f1a3e (view), af523b4 (open-row contrast), 7f7cc31 (final fixes). The final review (four lenses, each finding verified, then triaged) found the words, numbers, dates, icons and colours match the app; its 17 must-fix items plus D9, D11, D15 and a dead-photo pin were fixed in 7f7cc31 and re-reviewed clean, checked in Chromium and WebKit. Preview (not deployed): https://69bfdeb1-kiwiguide.blacksands.workers.dev/plan/
+
+**Owner calls, after the preview:**
+1. iPad held upright: the app puts the list and the day side by side from 600 pt; the site switches at 1024 px, as the spec says. One media query if yes.
+2. The Days blocks' look: the app centres the name, adds a pale stripe down the left and a line every half hour; the site's blocks are plain. The CSS is ready if yes.
+3. The activity lines ("Hot pools: …"): now under the trip so Day 1 is on the first phone screen; or on each day's row.
+4. Drive words are the app's ("Drive to X", "A to B", "8:00 AM · About 1.5 hours", "60 min drive"), not the mock's "1.5 hour drive".
+5. Free days read as the app's empty day ("Nothing planned yet" / "Nothing here yet"); the old reveal's warmer line is gone.
+6. Focus ring: the site's kiwi ring is 1.48:1 on the light page, on every quiz control. Change it site-wide or leave it.
+7. Paywall: if the view fails, "Your days would not show" sits above Save. Revisit when Save leads to paying.
+8. End to end: nobody has saved a trip from this reveal and opened it in the app (needs a test account; writes to live Firestore).
+
+**Deferred (minor):** D3 wide rows keep the phone's type sizes, no band behind the list; D4 the Trip | Days switch scrolls away on the phone (the day strip stays); D6 screen-reader labels for rows (port the app's spoken rules, TripOverview.tsx:114-125); D7 at 320 px the route can break inside a town name; D8 `slotRangeLabel` and the previous-day rule are copies of app code (export them at the next export); D10 on wide screens the pinned day panel rides up at the end of a long trip; D12 tripview.js borrows quiz.js's `stopPhoto`; D13 `aria-current` on the phone's row; D14 the option-switch test covers `clampDay` only; D16 the open-row contrast test is long; D17 a dead `RN_STUB` exemption in the bundle guard; D18 pack-entry.ts imports itineraryPhysics twice.
+
+**Device checks left:** iPhone Safari and the in-app browsers (Instagram, Facebook, TikTok); VoiceOver; tap speed on an older phone (180-306 ms per tap at 4× CPU throttle); iOS page zoom, and the tap highlight on the day panel; Firefox; short laptop windows (1366×650, 1280×600); iPad Split View, Slide Over and Stage Manager sizes; a reveal shown before midnight and saved after.

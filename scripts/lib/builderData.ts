@@ -37,7 +37,7 @@ const SOURCE_FILES = [
   "lib/itineraryTemplates.ts", "lib/utils/itineraryPhysics.ts", "lib/utils/transitMatrix.ts", "lib/areas.ts",
   "lib/areaNames.ts", "lib/constants/gameplay.ts", "lib/utils/slotLabels.ts", "lib/utils/geoDistance.ts",
   "lib/notTripStops.ts", "lib/placeImageTypes.ts", "assets/data/transit/index.ts",
-  "scripts/pack-entry.ts", "scripts/lib/builderData.ts", "scripts/export-site-trips.mjs",
+  "scripts/pack-entry.ts", "scripts/rn-stub.ts", "lib/utils/tripLines.ts", "lib/ui/tokens.ts", "scripts/lib/builderData.ts", "scripts/export-site-trips.mjs",
 ];
 const SOURCE_DATA = ["area-drive-minutes.json", "area-hubs.json", "far-place-minutes.json", "leg-minutes.json"];
 

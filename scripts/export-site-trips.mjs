@@ -15,6 +15,7 @@ import { areaName } from "../lib/areaNames.ts";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");
 const alias = { "@": root };
+const RN_STUB = "scripts/rn-stub.ts"; // pack.js's only non-app input: tokens.ts needs react-native for pair()
 
 // builderData imports the app with "@/" paths, which Node can't resolve: bundle it to a temp file.
 const tmp = mkdtempSync(path.join(tmpdir(), "builder-data-"));
@@ -82,9 +83,9 @@ writeFileSync(path.join(outDir, "builder-data.json"), JSON.stringify(data));
 console.log(`${data.blocks.length} blocks, ${Object.keys(data.places).length} places -> builder-data.json`);
 
 // pack.js: the app's packTrip with the drive tables inlined. Nothing but the app's own code may go in.
-const r = await build({ entryPoints: [path.join(here, "pack-entry.ts")], bundle: true, minify: true, format: "iife", platform: "browser", target: "es2019", outfile: path.join(outDir, "pack.js"), alias, metafile: true, banner: { js: `/* Kiwi Guide pack.js, source ${source} */` }, footer: { js: "if(typeof module!==\"undefined\")module.exports=globalThis.KiwiPack;" }, logLevel: "warning" });
+const r = await build({ entryPoints: [path.join(here, "pack-entry.ts")], bundle: true, minify: true, format: "iife", platform: "browser", target: "es2019", outfile: path.join(outDir, "pack.js"), alias: { ...alias, "react-native": path.join(here, "rn-stub.ts") }, metafile: true, banner: { js: `/* Kiwi Guide pack.js, source ${source} */` }, footer: { js: "if(typeof module!==\"undefined\")module.exports=globalThis.KiwiPack;" }, logLevel: "warning" });
 const inputs = Object.keys(r.metafile.inputs);
-const outside = inputs.filter((f) => f.includes("node_modules") || /react-native|expo/.test(f));
+const outside = inputs.filter((f) => f.includes("node_modules") || (/react-native|expo/.test(f) && f !== RN_STUB));
 if (outside.length) throw new Error(`pack.js pulled in code outside the app's timing files:\n${outside.join("\n")}`);
 // The drift hash must cover every input of pack.js.
 const unhashed = inputs.filter((f) => !sourceFiles(root).includes(f));

@@ -41,6 +41,10 @@ import AREA_HUBS from "@/assets/data/area-hubs.json";
 import { ITINERARY_TEMPLATES } from "@/lib/itineraryTemplates";
 import { NOT_TRIP_STOPS } from "@/lib/notTripStops";
 import { getLeg } from "@/lib/utils/transitMatrix";
+import { dayLegs, tripSummary } from "@/lib/utils/itineraryPhysics";
+import { dateParts, routeLine } from "@/lib/utils/tripLines";
+import { areaName } from "@/lib/areas";
+import { tokens } from "@/lib/ui/tokens";
 import { HAND_END_TOWN, OVERNIGHT_TOWNS, START_CITIES, builderData, sourceHash } from "../../scripts/lib/builderData";
 
 type Place = { slug: string; name: string; category: string[]; area?: string; active?: boolean; lat: number; lng: number };
@@ -50,6 +54,9 @@ const lookup = (id: string) => byId.get(id);
 const data = builderData(ITINERARY_TEMPLATES, PLACES.map((p) => ({ ...p, id: p.slug })));
 const root = path.resolve(__dirname, "../..");
 const site = path.resolve(root, "../kiwiguide-site/public/plan");
+
+// tokens.ts needs react-native for pair(); the site's pack.js stubs it the same way (scripts/rn-stub.ts).
+jest.mock("react-native", () => ({ Platform: { OS: "ios" }, DynamicColorIOS: (c: unknown) => c }));
 
 describe("the builder's data", () => {
   it("blocks are the templates' distinct (day, start town) pairs", () => {
@@ -146,6 +153,13 @@ describe("the builder's data", () => {
   });
 });
 
+// Jest would run pack.js through babel's module interop, so evaluate it as the browser (and Node) does.
+const loadPack = () => {
+  const m = { exports: {} as Record<string, any> }; // eslint-disable-line @typescript-eslint/no-explicit-any
+  new Function("module", readFileSync(path.join(site, "pack.js"), "utf8"))(m);
+  return m.exports;
+};
+
 describe("the site's copy", () => {
   const siteBuilder = path.join(site, "builder-data.json");
   const here = existsSync(siteBuilder);
@@ -162,5 +176,24 @@ describe("the site's copy", () => {
     const files = ["builder-data.json", "pack.js", "trips.json", ...readdirSync(site).filter((f) => f.endsWith(".js") && f !== "pack.js")];
     const total = files.reduce((n, f) => n + gzipSync(readFileSync(path.join(site, f))).length, 0);
     expect(total).toBeLessThanOrEqual(300 * 1024);
+  });
+
+  maybe("pack.js exposes the trip helpers, equal to the app's", () => {
+    const pack = loadPack();
+    for (const k of ["tripSummary", "dayLegs", "routeLine", "dateParts", "areaName", "tokens"]) expect(pack[k]).toBeDefined();
+    const towns = ["Dunedin", "Aoraki / Mount Cook"];
+    expect(pack.routeLine(towns)).toBe(routeLine(towns));
+    expect(pack.dateParts("2026-12-25", "long")).toBe(dateParts("2026-12-25", "long"));
+    expect(pack.areaName("queenstown")).toBe(areaName("queenstown"));
+    const days = ITINERARY_TEMPLATES[0].days;
+    expect(pack.tripSummary(days, lookup)).toEqual(tripSummary(days, lookup));
+    expect(pack.dayLegs(days[0].items, lookup)).toEqual(dayLegs(days[0].items, lookup));
+  });
+
+  maybe("pack.js tokens are the app's { light, dark } colours", () => {
+    const pack = loadPack();
+    expect(pack.tokens.accent).toEqual(tokens.colors.accent);
+    expect(pack.tokens.page).toEqual({ light: "#FFFFFF", dark: "#06191B" });
+    expect(pack.tokens.highlightOnDark).toEqual({ light: "#FFB84D", dark: "#FFB84D" });
   });
 });

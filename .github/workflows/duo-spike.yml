@@ -1,6 +1,6 @@
-# Throwaway spike (2026-11-23), run 3: can artemnovichkov/hinge open and rotate the iPhone Duo
-# simulator headless on GitHub's Mac, and do Maestro's taps and screenshots work on the open
-# (inner) screen? Doesn't build the app. Delete this branch once answered.
+# Throwaway spike (2026-11-23), run 4: can skarol/duoctl tap and swipe on the open iPhone Duo's
+# inner screen, headless on GitHub's Mac, by coordinates and by accessibility label?
+# Doesn't build the app. Delete this branch once answered.
 name: duo-spike
 on:
   push:
@@ -11,8 +11,6 @@ jobs:
   spike:
     runs-on: xcode-27
     timeout-minutes: 30
-    env:
-      MAESTRO_DRIVER_STARTUP_TIMEOUT: "240000"
     steps:
       - name: Pick and boot the iPhone Duo
         run: |
@@ -25,88 +23,64 @@ jobs:
           print(duos[0][1])
           ")
           echo "UDID=$UDID" >> "$GITHUB_ENV"
-          echo "HINGE_DEVICE=$UDID" >> "$GITHUB_ENV"
+          echo "DUOCTL_UDID=$UDID" >> "$GITHUB_ENV"
           echo "UDID $UDID" | tee shots/report.txt
           xcrun simctl boot "$UDID" 2>&1 || true
           xcrun simctl bootstatus "$UDID" -b
           sleep 20
 
-      - name: Install hinge (keep a copy of the script to read)
+      - name: Install duoctl and AXe (AXe only for --label)
         run: |
           set +e
-          brew install artemnovichkov/tap/hinge 2>&1 | tail -5
-          { echo "=== hinge"; which hinge; brew info artemnovichkov/tap/hinge 2>&1 | head -8; } | tee -a shots/report.txt
-          cp "$(readlink -f "$(which hinge)")" shots/hinge-script.txt 2>/dev/null || cp "$(which hinge)" shots/hinge-script.txt
+          brew install skarol/tap/duoctl 2>&1 | tail -3
+          brew install cameroncooke/axe/axe 2>&1 | tail -3
+          { echo "=== versions"; brew info skarol/tap/duoctl 2>&1 | head -3; which axe; duoctl --help 2>&1 | head -40; } | tee -a shots/report.txt
+          cp "$(readlink -f "$(which duoctl)")" shots/duoctl-script.txt 2>/dev/null || true
 
-      - name: Folded, then open
+      - name: Open, wide
         run: |
           set +e
           R=shots/report.txt
-          snap() { xcrun simctl io "$UDID" screenshot --display=1 "shots/$1-outer.png" >/dev/null 2>&1; xcrun simctl io "$UDID" screenshot --display=3 "shots/$1-inner.png" >/dev/null 2>&1; }
-          { echo "=== folded posture"; hinge posture --json 2>&1; } | tee -a "$R"
-          snap 01-folded
-          { echo "=== hinge open"; hinge open 2>&1; } | tee -a "$R"
-          sleep 6
-          { echo "=== open posture"; hinge posture --json 2>&1; } | tee -a "$R"
-          snap 02-open
-          { echo "=== devicectl displays"; xcrun devicectl device info displays --device "$UDID" 2>&1 | head -40; } | tee -a "$R"
-
-      - name: Open, sideways
-        run: |
-          set +e
-          R=shots/report.txt
-          snap() { xcrun simctl io "$UDID" screenshot --display=1 "shots/$1-outer.png" >/dev/null 2>&1; xcrun simctl io "$UDID" screenshot --display=3 "shots/$1-inner.png" >/dev/null 2>&1; }
-          { echo "=== hinge orient landscape-left"; hinge orient landscape-left 2>&1; } | tee -a "$R"
-          sleep 6
-          { echo "=== sideways posture"; hinge posture --json 2>&1; } | tee -a "$R"
-          snap 03-open-sideways
-          { echo "=== hinge orient portrait"; hinge orient portrait 2>&1; } | tee -a "$R"
-          sleep 6
-          snap 04-open-upright-again
-
-      - name: A link opens on the open screen
-        run: |
-          set +e
-          xcrun simctl openurl "$UDID" "https://example.com" 2>&1 | tee -a shots/report.txt
+          { echo "=== duoctl open"; duoctl open 2>&1; sleep 4; duoctl rotate landscape 2>&1; sleep 4; echo "=== state"; duoctl state 2>&1; } | tee -a "$R"
+          xcrun simctl openurl "$UDID" "https://example.com"
           sleep 8
-          xcrun simctl io "$UDID" screenshot --display=3 shots/10-link-inner.png >/dev/null 2>&1
+          xcrun simctl io "$UDID" screenshot --display=3 shots/01-page.png >/dev/null 2>&1
+          duoctl screenshot shots/01b-page-duoctl.png 2>&1 | tee -a "$R"
 
-      - name: Install Maestro
+      - name: Tap by coordinates (Safari's + button)
         run: |
-          curl -fsSL "https://get.maestro.mobile.dev" | bash
-          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+          set +e
+          { echo "=== tap 739 48"; duoctl tap 739 48 2>&1; } | tee -a shots/report.txt
+          sleep 4
+          xcrun simctl io "$UDID" screenshot --display=3 shots/02-after-tap-plus.png >/dev/null 2>&1
 
-      - name: Maestro on the open screen
+      - name: Swipe (scroll a page)
+        run: |
+          set +e
+          xcrun simctl openurl "$UDID" "https://en.wikipedia.org/wiki/New_Zealand"
+          sleep 10
+          xcrun simctl io "$UDID" screenshot --display=3 shots/03-before-swipe.png >/dev/null 2>&1
+          { echo "=== swipe"; duoctl swipe 475 550 475 150 --duration 0.4 2>&1; } | tee -a shots/report.txt
+          sleep 4
+          xcrun simctl io "$UDID" screenshot --display=3 shots/04-after-swipe.png >/dev/null 2>&1
+
+      - name: Tap by label
         run: |
           set +e
           R=shots/report.txt
-          xcrun simctl launch "$UDID" com.apple.mobilesafari 2>&1 | tee -a "$R"
-          sleep 5
-          xcrun simctl io "$UDID" screenshot --display=3 shots/20-safari-before-tap-inner.png >/dev/null 2>&1
-          { echo "=== maestro hierarchy (does it see the inner screen?)"; maestro --device "$UDID" hierarchy 2>&1 | head -150; } | tee -a "$R"
-          cat > tap.yaml <<'EOF'
-          appId: com.apple.mobilesafari
-          ---
-          - takeScreenshot: shots/21-maestro-own-shot
-          - tapOn:
-              text: "Not Now"
-              optional: true
-          - tapOn:
-              text: "Search or enter website"
-              optional: true
-          - waitForAnimationToEnd
-          - takeScreenshot: shots/22-maestro-after-tap
-          EOF
-          { echo "=== maestro tap flow"; maestro --device "$UDID" test tap.yaml 2>&1; } | tee -a "$R"
-          sleep 3
-          xcrun simctl io "$UDID" screenshot --display=3 shots/23-safari-after-tap-inner.png >/dev/null 2>&1
+          { echo "=== elements"; duoctl elements 2>&1 | head -80; } | tee -a "$R"
+          for L in "Back" "New Tab" "Show Tabs" "Tab Overview" "Tabs"; do
+            echo "=== tap --label $L" | tee -a "$R"
+            duoctl tap --label "$L" 2>&1 | tee -a "$R"
+            sleep 3
+            xcrun simctl io "$UDID" screenshot --display=3 "shots/05-label-$(echo "$L" | tr ' ' '-').png" >/dev/null 2>&1
+          done
 
-      - name: Close again
-        if: always()
+      - name: Tall (the app's upright layout)
         run: |
           set +e
-          { echo "=== hinge close"; hinge close 2>&1; sleep 6; hinge posture --json 2>&1; } | tee -a shots/report.txt
-          xcrun simctl io "$UDID" screenshot --display=1 shots/30-closed-outer.png >/dev/null 2>&1
+          { echo "=== rotate portrait"; duoctl rotate portrait 2>&1; sleep 4; duoctl state 2>&1; } | tee -a shots/report.txt
+          xcrun simctl io "$UDID" screenshot --display=3 shots/06-tall.png >/dev/null 2>&1
 
       - name: Image sizes
         if: always()
@@ -115,7 +89,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: duo-spike-3
-          path: |
-            shots/
-            ~/.maestro/tests/
+          name: duo-spike-4
+          path: shots/

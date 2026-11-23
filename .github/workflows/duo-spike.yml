@@ -1,0 +1,81 @@
+# Throwaway spike (2026-11-23): does GitHub's Xcode 27 Mac boot an iPhone Duo simulator,
+# which position (folded/open) does it start in, and does Maestro's setOrientation rotate it?
+# Doesn't build the app. Delete this branch once answered.
+name: duo-spike
+on:
+  push:
+    branches: [duo-spike]
+  workflow_dispatch:
+
+jobs:
+  spike:
+    runs-on: xcode-27
+    timeout-minutes: 30
+    env:
+      MAESTRO_DRIVER_STARTUP_TIMEOUT: "240000"
+    steps:
+      - name: Xcode and Duo simulators on this image
+        run: |
+          xcodebuild -version
+          xcrun simctl list devicetypes | grep -i duo || echo "no Duo device type"
+          xcrun simctl list devices available | grep -i duo || echo "no Duo device"
+          echo "--- simctl subcommands mentioning fold/posture/hinge:"
+          xcrun simctl help 2>&1 | grep -iE "fold|posture|hinge" || echo "none"
+          echo "--- simctl ui:"
+          xcrun simctl ui 2>&1 | head -30 || true
+
+      - name: Boot the iPhone Duo
+        run: |
+          UDID=$(xcrun simctl list devices available -j | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)['devices']
+          duos = [(r, x['udid']) for r, v in d.items() for x in v if x['name'] == 'iPhone Duo']
+          duos.sort(key=lambda t: '27-1' not in t[0])
+          print(duos[0][1])
+          ")
+          echo "UDID=$UDID" >> "$GITHUB_ENV"
+          echo "Booting $UDID"
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          sleep 30
+          echo "--- io enumerate (displays):"
+          xcrun simctl io "$UDID" enumerate 2>&1 || true
+
+      - name: Screenshots at boot
+        run: |
+          mkdir -p shots
+          xcrun simctl io "$UDID" screenshot shots/01-boot-default.png || true
+          xcrun simctl io "$UDID" screenshot --display=internal shots/02-boot-internal.png || true
+          xcrun simctl io "$UDID" screenshot --display=external shots/03-boot-external.png || true
+
+      - name: Install Maestro
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+
+      - name: Rotate Settings with Maestro
+        run: |
+          cat > rotate.yaml <<'EOF'
+          appId: com.apple.Preferences
+          ---
+          - launchApp
+          - waitForAnimationToEnd
+          - takeScreenshot: shots/10-settings-portrait
+          - setOrientation: LANDSCAPE_LEFT
+          - waitForAnimationToEnd
+          - takeScreenshot: shots/11-settings-landscape
+          EOF
+          maestro --device "$UDID" test rotate.yaml
+          xcrun simctl io "$UDID" screenshot shots/12-after-rotate-simctl.png || true
+
+      - name: Image sizes (which screen, which way up)
+        if: always()
+        run: sips -g pixelWidth -g pixelHeight shots/*.png || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duo-spike
+          path: |
+            shots/
+            ~/.maestro/tests/

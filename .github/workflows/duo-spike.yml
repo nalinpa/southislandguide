@@ -1,6 +1,6 @@
-# Throwaway spike (2026-11-23), run 6: run 5 again with fixes. Location granted before launch,
-# "Open in Kiwi Guide?" tapped after every link (by name, else by position), raw element lists
-# printed, Homebrew self-update off. Delete this branch once answered.
+# Throwaway spike (2026-11-23), run 7: run 6 plus "Not Now" on the App Store review prompt,
+# two pop-ups by testID (guide region picker, Add to Trip), AXe from its GitHub release instead
+# of Homebrew, and shorter waits. Delete this branch once answered.
 name: duo-spike
 on:
   push:
@@ -16,6 +16,7 @@ jobs:
       HOMEBREW_NO_AUTO_UPDATE: "1"
       HOMEBREW_NO_INSTALL_CLEANUP: "1"
       HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: "1"
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Pick and boot the iPhone Duo
         run: |
@@ -32,11 +33,22 @@ jobs:
           echo "DUOCTL_UDID=$UDID" >> "$GITHUB_ENV"
           xcrun simctl boot "$UDID" 2>&1 || true
           xcrun simctl bootstatus "$UDID" -b
+          echo "booted $(date +%T)" | tee -a shots/report.txt
 
-      - name: Install duoctl and AXe
+      - name: Install duoctl (Homebrew) and AXe (GitHub release, Homebrew as fallback)
         run: |
-          brew install skarol/tap/duoctl cameroncooke/axe/axe 2>&1 | tail -2
-          echo "tools ready $(date +%T)" | tee -a shots/report.txt
+          brew install skarol/tap/duoctl 2>&1 | tail -1
+          echo "duoctl ready $(date +%T)" | tee -a shots/report.txt
+          mkdir -p axe-dl
+          if gh release download --repo cameroncooke/AXe --pattern "*.tar.gz" --dir axe-dl 2>&1 | tee -a shots/report.txt \
+             && tar -xzf axe-dl/*.tar.gz -C axe-dl \
+             && AXE_BIN=$(find axe-dl -type f -name axe -perm -u+x | head -1) && [ -n "$AXE_BIN" ]; then
+            echo "$(cd "$(dirname "$AXE_BIN")" && pwd)" >> "$GITHUB_PATH"
+            echo "AXe from release: $AXE_BIN $(date +%T)" | tee -a shots/report.txt
+          else
+            brew install cameroncooke/axe/axe 2>&1 | tail -1
+            echo "AXe from Homebrew $(date +%T)" | tee -a shots/report.txt
+          fi
 
       - name: Download and install the app, grant location
         env:
@@ -47,99 +59,87 @@ jobs:
           tar -xzf app.tar.gz -C app
           APP=$(find app -maxdepth 3 -name "*.app" -type d | head -1)
           xcrun simctl install "$UDID" "$APP"
-          xcrun simctl privacy "$UDID" grant location "$APP_ID" 2>&1 | tee -a shots/report.txt
-          xcrun simctl privacy "$UDID" grant location-always "$APP_ID" 2>&1 | tee -a shots/report.txt
+          xcrun simctl privacy "$UDID" grant location "$APP_ID" >/dev/null 2>&1
+          xcrun simctl privacy "$UDID" grant location-always "$APP_ID" >/dev/null 2>&1
           echo "installed $(date +%T)" | tee -a shots/report.txt
+          which axe | tee -a shots/report.txt
 
       - name: Helpers
         run: |
           cat > helpers.sh <<'EOF'
           R=shots/report.txt
-          shot() { # name, display (1 outer, 3 inner)
-            xcrun simctl io "$UDID" screenshot --display="${2:-3}" "shots/$1.png" >/dev/null 2>&1
-          }
+          shot() { xcrun simctl io "$UDID" screenshot --display="${2:-3}" "shots/$1.png" >/dev/null 2>&1; }
           size() { duoctl state | python3 -c "import json,sys; s=json.load(sys.stdin)['sizePoints']; print(int(s[0]), int(s[1]))"; }
-          tap_open() { # the "Open in Kiwi Guide?" prompt: by name, else by its measured position
-            if duoctl tap --label "Open" >/dev/null 2>&1; then echo "  Open: by name" | tee -a "$R"; return; fi
+          tap_open() { # "Open in Kiwi Guide?": by its measured position (proved in run 6)
             read W H < <(size)
             case "$W" in 669) X=408; Y=481;; 951) X=549; Y=341;; *) X=265; Y=345;; esac
-            duoctl tap "$X" "$Y" >/dev/null 2>&1 && echo "  Open: by position $X $Y (screen ${W}x${H})" | tee -a "$R"
+            duoctl tap "$X" "$Y" >/dev/null 2>&1
           }
-          go() { # route, shot name
+          not_now() { # the App Store review prompt, by name only (a blind tap could hit the app)
+            local t0=$(date +%s)
+            if duoctl tap --label "Not Now" >/dev/null 2>&1; then echo "  review prompt: Not Now ($(( $(date +%s) - t0 ))s)" | tee -a "$R"; sleep 2
+            else echo "  no review prompt ($(( $(date +%s) - t0 ))s)" | tee -a "$R"; fi
+          }
+          go() { # route, shot name, display
             echo "=== link $1 $(date +%T)" | tee -a "$R"
-            xcrun simctl openurl "$UDID" "southislandguide://$1" 2>&1 | tee -a "$R"
-            sleep 2
-            shot "$2-prompt"
-            tap_open
-            sleep 7
-            shot "$2"
+            xcrun simctl openurl "$UDID" "southislandguide://$1"
+            sleep 2; tap_open; sleep 4; not_now
+            shot "$2" "${3:-3}"
           }
-          elements() { # label
-            echo "=== elements: $1" | tee -a "$R"
-            duoctl elements 2>&1 | head -c 6000 | tee -a "$R"; echo | tee -a "$R"
+          tap_id() { # testID, shot name
+            echo "=== tap --id $1 $(date +%T)" | tee -a "$R"
+            duoctl tap --id "$1" 2>&1 | tee -a "$R"
+            sleep 3; shot "$2"
+          }
+          dismiss() { # close a pop-up: by a Close/Cancel/Done name, else tap the dim backdrop corner
+            for L in "Close" "Cancel" "Done"; do duoctl tap --label "$L" >/dev/null 2>&1 && { echo "  closed by $L" | tee -a "$R"; sleep 2; return; }; done
+            duoctl tap 12 140 >/dev/null 2>&1; echo "  closed by backdrop tap" | tee -a "$R"; sleep 2
           }
           EOF
 
-      - name: First launch, folded
-        run: |
-          set +e
-          xcrun simctl launch "$UDID" "$APP_ID" | tee -a shots/report.txt
-          sleep 25
-          xcrun simctl io "$UDID" screenshot --display=1 shots/01-folded-first-launch.png >/dev/null 2>&1
-
-      - name: Open, tall (the app's upright Duo layout), and the tour
+      - name: First launch, folded, then open tall and skip the tour
         run: |
           set +e
           source helpers.sh
-          duoctl open >/dev/null 2>&1; sleep 3; duoctl rotate portrait >/dev/null 2>&1; sleep 5
-          { echo "=== size"; size; } | tee -a "$R"
-          shot 02-open-tall-as-is
-          elements "open, tall, as is"
-          { echo "=== axe describe-ui (first 3000 chars)"; axe describe-ui --udid "$UDID" 2>&1 | head -c 3000; echo; } | tee -a "$R"
-          { echo "=== tap --label Skip tour"; duoctl tap --label "Skip tour" 2>&1; } | tee -a "$R"
-          sleep 4
-          shot 03-after-skip-tour
+          xcrun simctl launch "$UDID" "$APP_ID" >/dev/null
+          sleep 15
+          shot 01-folded-first-launch 1
+          duoctl open >/dev/null 2>&1; sleep 3; duoctl rotate portrait >/dev/null 2>&1; sleep 4
+          { echo "=== tap --label Skip tour $(date +%T)"; duoctl tap --label "Skip tour" 2>&1; } | tee -a "$R"
+          sleep 3
 
-      - name: Screens by link, tall
+      - name: Tall (the app's upright Duo layout)
         run: |
           set +e
           source helpers.sh
           for r in sites guide map itinerary account; do go "$r" "10-tall-$r"; done
+          go guide 20-tall-guide
+          tap_id region-pill 21-tall-region-sheet
+          dismiss; shot 22-tall-after-close
+          go sites 23-tall-sites
+          tap_id place-add 24-tall-add-to-trip
+          dismiss; shot 25-tall-after-close
 
-      - name: Pop-up by testID (guide region picker)
+      - name: Wide (the app's sideways Duo layout)
         run: |
           set +e
           source helpers.sh
-          go guide 20-tall-guide-again
-          elements "guide, tall"
-          { echo "=== tap --id region-pill"; duoctl tap --id region-pill 2>&1; } | tee -a "$R"
-          sleep 4
-          shot 21-tall-region-sheet
-
-      - name: Screens by link, wide (the app's sideways Duo layout)
-        run: |
-          set +e
-          source helpers.sh
-          duoctl rotate landscape >/dev/null 2>&1; sleep 5
-          { echo "=== size"; size; } | tee -a "$R"
+          duoctl rotate landscape >/dev/null 2>&1; sleep 4
           for r in sites guide map; do go "$r" "30-wide-$r"; done
+          go sites 31-wide-sites-again
+          tap_id place-add 32-wide-add-to-trip
+          dismiss
 
       - name: Folded again
         run: |
           set +e
           source helpers.sh
-          duoctl close >/dev/null 2>&1; sleep 5
-          { echo "=== size"; size; } | tee -a "$R"
-          echo "=== link sites (folded)" | tee -a "$R"
-          xcrun simctl openurl "$UDID" "southislandguide://sites"
-          sleep 2
-          tap_open
-          sleep 7
-          shot 40-folded-sites 1
+          duoctl close >/dev/null 2>&1; sleep 4
+          go sites 40-folded-sites 1
           echo "done $(date +%T)" | tee -a "$R"
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: duo-spike-6
+          name: duo-spike-7
           path: shots/

@@ -1,6 +1,6 @@
-# Throwaway spike (2026-11-23), run 2: what does the iPhone Duo simulator's inner screen show
-# while folded, does Maestro rotate an app that turns, and is there any way to start it open
-# (a stored setting, or a Simulator.app menu item)? Doesn't build the app. Delete this branch once answered.
+# Throwaway spike (2026-11-23), run 3: can artemnovichkov/hinge open and rotate the iPhone Duo
+# simulator headless on GitHub's Mac, and do Maestro's taps and screenshots work on the open
+# (inner) screen? Doesn't build the app. Delete this branch once answered.
 name: duo-spike
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
     env:
       MAESTRO_DRIVER_STARTUP_TIMEOUT: "240000"
     steps:
-      - name: Pick the iPhone Duo
+      - name: Pick and boot the iPhone Duo
         run: |
           mkdir -p shots
           UDID=$(xcrun simctl list devices available -j | python3 -c "
@@ -25,117 +25,88 @@ jobs:
           print(duos[0][1])
           ")
           echo "UDID=$UDID" >> "$GITHUB_ENV"
+          echo "HINGE_DEVICE=$UDID" >> "$GITHUB_ENV"
           echo "UDID $UDID" | tee shots/report.txt
+          xcrun simctl boot "$UDID" 2>&1 || true
+          xcrun simctl bootstatus "$UDID" -b
+          sleep 20
 
-      - name: Look for a stored fold setting
+      - name: Install hinge (keep a copy of the script to read)
+        run: |
+          set +e
+          brew install artemnovichkov/tap/hinge 2>&1 | tail -5
+          { echo "=== hinge"; which hinge; brew info artemnovichkov/tap/hinge 2>&1 | head -8; } | tee -a shots/report.txt
+          cp "$(readlink -f "$(which hinge)")" shots/hinge-script.txt 2>/dev/null || cp "$(which hinge)" shots/hinge-script.txt
+
+      - name: Folded, then open
         run: |
           set +e
           R=shots/report.txt
-          {
-          echo "=== Duo device type bundle"
-          BUNDLE=$(xcrun simctl list devicetypes -j | python3 -c "
-          import json, sys
-          print(next(t['bundlePath'] for t in json.load(sys.stdin)['devicetypes'] if t['name'] == 'iPhone Duo'))
-          ")
-          echo "$BUNDLE"
-          find "$BUNDLE" -maxdepth 3 | head -40
-          for f in "$BUNDLE"/Contents/Resources/*.plist; do echo "--- $f"; plutil -p "$f" 2>&1 | head -200; done
-          echo "=== device.plist (before boot)"
-          plutil -p ~/Library/Developer/CoreSimulator/Devices/$UDID/device.plist 2>&1 | head -120
-          echo "=== full simctl help"
-          xcrun simctl help 2>&1
-          echo "=== simctl io help"
-          xcrun simctl io 2>&1 | head -60
-          echo "=== Xcode apps"
-          ls "$(xcode-select -p)/Applications" 2>&1
-          echo "=== strings: fold / posture / hinge in the simulator frameworks and Simulator.app"
-          for b in \
-            /Library/Developer/PrivateFrameworks/CoreSimulator.framework/Versions/A/CoreSimulator \
-            "$(xcode-select -p)/Library/PrivateFrameworks/SimulatorKit.framework/Versions/A/SimulatorKit" \
-            "$(xcode-select -p)/Applications/Simulator.app/Contents/MacOS/Simulator"; do
-            echo "--- $b"
-            strings "$b" 2>/dev/null | grep -iE "posture|hinge|unfold|fold(ed|State|Angle)|DeviceHub" | sort -u | head -80
-          done
-          echo "=== Simulator.app defaults"
-          defaults read com.apple.iphonesimulator 2>&1 | head -60
-          } 2>&1 | tee -a "$R"
+          snap() { xcrun simctl io "$UDID" screenshot --display=1 "shots/$1-outer.png" >/dev/null 2>&1; xcrun simctl io "$UDID" screenshot --display=3 "shots/$1-inner.png" >/dev/null 2>&1; }
+          { echo "=== folded posture"; hinge posture --json 2>&1; } | tee -a "$R"
+          snap 01-folded
+          { echo "=== hinge open"; hinge open 2>&1; } | tee -a "$R"
+          sleep 6
+          { echo "=== open posture"; hinge posture --json 2>&1; } | tee -a "$R"
+          snap 02-open
+          { echo "=== devicectl displays"; xcrun devicectl device info displays --device "$UDID" 2>&1 | head -40; } | tee -a "$R"
 
-      - name: Boot and screenshot both screens
+      - name: Open, sideways
         run: |
-          xcrun simctl boot "$UDID" 2>&1 || true
-          xcrun simctl bootstatus "$UDID" -b
-          sleep 30
-          xcrun simctl io "$UDID" screenshot --display=1 shots/01-boot-outer.png 2>&1 | tee -a shots/report.txt || true
-          xcrun simctl io "$UDID" screenshot --display=3 shots/02-boot-inner.png 2>&1 | tee -a shots/report.txt || true
+          set +e
+          R=shots/report.txt
+          snap() { xcrun simctl io "$UDID" screenshot --display=1 "shots/$1-outer.png" >/dev/null 2>&1; xcrun simctl io "$UDID" screenshot --display=3 "shots/$1-inner.png" >/dev/null 2>&1; }
+          { echo "=== hinge orient landscape-left"; hinge orient landscape-left 2>&1; } | tee -a "$R"
+          sleep 6
+          { echo "=== sideways posture"; hinge posture --json 2>&1; } | tee -a "$R"
+          snap 03-open-sideways
+          { echo "=== hinge orient portrait"; hinge orient portrait 2>&1; } | tee -a "$R"
+          sleep 6
+          snap 04-open-upright-again
+
+      - name: A link opens on the open screen
+        run: |
+          set +e
+          xcrun simctl openurl "$UDID" "https://example.com" 2>&1 | tee -a shots/report.txt
+          sleep 8
+          xcrun simctl io "$UDID" screenshot --display=3 shots/10-link-inner.png >/dev/null 2>&1
 
       - name: Install Maestro
         run: |
           curl -fsSL "https://get.maestro.mobile.dev" | bash
           echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
 
-      - name: Rotate Safari with Maestro
-        run: |
-          cat > rotate.yaml <<'EOF'
-          appId: com.apple.mobilesafari
-          ---
-          - launchApp
-          - waitForAnimationToEnd
-          - takeScreenshot: shots/10-safari-portrait
-          - setOrientation: LANDSCAPE_LEFT
-          - waitForAnimationToEnd
-          - takeScreenshot: shots/11-safari-landscape
-          EOF
-          maestro --device "$UDID" test rotate.yaml 2>&1 | tee -a shots/report.txt || true
-          xcrun simctl io "$UDID" screenshot --display=1 shots/12-rotated-outer.png || true
-          xcrun simctl io "$UDID" screenshot --display=3 shots/13-rotated-inner.png || true
-
-      - name: Open Simulator.app and look for a fold menu item
+      - name: Maestro on the open screen
         run: |
           set +e
           R=shots/report.txt
-          open -a Simulator --args -CurrentDeviceUDID "$UDID"
-          sleep 25
-          xcrun simctl io "$UDID" screenshot --display=1 shots/20-gui-outer.png || true
-          xcrun simctl io "$UDID" screenshot --display=3 shots/21-gui-inner.png || true
-          screencapture -x shots/22-mac-desktop.png || true
-          cat > menus.js <<'EOF'
-          const p = Application('System Events').processes.byName('Simulator');
-          const out = [];
-          p.menuBars[0].menuBarItems().forEach(m => {
-            const top = m.name();
-            try {
-              m.menus[0].menuItems().forEach(i => {
-                const n = i.name(); out.push(top + ' > ' + n);
-                try { i.menus[0].menuItems().forEach(s => out.push(top + ' > ' + n + ' > ' + s.name())); } catch (e) {}
-              });
-            } catch (e) {}
-          });
-          out.join('\n');
+          xcrun simctl launch "$UDID" com.apple.mobilesafari 2>&1 | tee -a "$R"
+          sleep 5
+          xcrun simctl io "$UDID" screenshot --display=3 shots/20-safari-before-tap-inner.png >/dev/null 2>&1
+          { echo "=== maestro hierarchy (does it see the inner screen?)"; maestro --device "$UDID" hierarchy 2>&1 | head -150; } | tee -a "$R"
+          cat > tap.yaml <<'EOF'
+          appId: com.apple.mobilesafari
+          ---
+          - takeScreenshot: shots/21-maestro-own-shot
+          - tapOn:
+              text: "Not Now"
+              optional: true
+          - tapOn:
+              text: "Search or enter website"
+              optional: true
+          - waitForAnimationToEnd
+          - takeScreenshot: shots/22-maestro-after-tap
           EOF
-          { echo "=== Simulator.app menus"; osascript -l JavaScript menus.js 2>&1; } | tee -a "$R" || true
-          cat > click.js <<'EOF'
-          const p = Application('System Events').processes.byName('Simulator');
-          const re = /unfold|fully open|^open$|flat/i;
-          let hit = 'no matching item';
-          p.menuBars[0].menuBarItems().forEach(m => {
-            try {
-              m.menus[0].menuItems().forEach(i => {
-                const n = i.name() || '';
-                if (hit === 'no matching item' && re.test(n)) { i.click(); hit = 'clicked ' + m.name() + ' > ' + n; }
-                try { i.menus[0].menuItems().forEach(s => {
-                  const sn = s.name() || '';
-                  if (hit === 'no matching item' && re.test(sn)) { s.click(); hit = 'clicked ' + m.name() + ' > ' + n + ' > ' + sn; }
-                }); } catch (e) {}
-              });
-            } catch (e) {}
-          });
-          hit;
-          EOF
-          { echo "=== click attempt"; osascript -l JavaScript click.js 2>&1; } | tee -a "$R" || true
-          sleep 10
-          xcrun simctl io "$UDID" screenshot --display=1 shots/30-after-click-outer.png || true
-          xcrun simctl io "$UDID" screenshot --display=3 shots/31-after-click-inner.png || true
-          screencapture -x shots/32-mac-desktop-after.png || true
+          { echo "=== maestro tap flow"; maestro --device "$UDID" test tap.yaml 2>&1; } | tee -a "$R"
+          sleep 3
+          xcrun simctl io "$UDID" screenshot --display=3 shots/23-safari-after-tap-inner.png >/dev/null 2>&1
+
+      - name: Close again
+        if: always()
+        run: |
+          set +e
+          { echo "=== hinge close"; hinge close 2>&1; sleep 6; hinge posture --json 2>&1; } | tee -a shots/report.txt
+          xcrun simctl io "$UDID" screenshot --display=1 shots/30-closed-outer.png >/dev/null 2>&1
 
       - name: Image sizes
         if: always()
@@ -144,7 +115,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: duo-spike-2
+          name: duo-spike-3
           path: |
             shots/
             ~/.maestro/tests/

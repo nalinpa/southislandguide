@@ -1,7 +1,6 @@
-# Throwaway spike (2026-11-23), run 5: the real app (EAS 1.4.0 simulator build, secret DUO_APP_URL)
-# on the iPhone Duo simulator. Do its links open on the open Duo, do duoctl taps by testID and by
-# label work, can it load live data from GitHub's Mac, and how long does a run take?
-# Delete this branch once answered.
+# Throwaway spike (2026-11-23), run 6: run 5 again with fixes. Location granted before launch,
+# "Open in Kiwi Guide?" tapped after every link (by name, else by position), raw element lists
+# printed, Homebrew self-update off. Delete this branch once answered.
 name: duo-spike
 on:
   push:
@@ -14,6 +13,9 @@ jobs:
     timeout-minutes: 40
     env:
       APP_ID: app.blacksands.southislandguide
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+      HOMEBREW_NO_INSTALL_CLEANUP: "1"
+      HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: "1"
     steps:
       - name: Pick and boot the iPhone Duo
         run: |
@@ -36,7 +38,7 @@ jobs:
           brew install skarol/tap/duoctl cameroncooke/axe/axe 2>&1 | tail -2
           echo "tools ready $(date +%T)" | tee -a shots/report.txt
 
-      - name: Download and install the app
+      - name: Download and install the app, grant location
         env:
           DUO_APP_URL: ${{ secrets.DUO_APP_URL }}
         run: |
@@ -44,9 +46,39 @@ jobs:
           curl -fsSL "$DUO_APP_URL" -o app.tar.gz
           tar -xzf app.tar.gz -C app
           APP=$(find app -maxdepth 3 -name "*.app" -type d | head -1)
-          echo "app bundle: $(basename "$APP")" | tee -a shots/report.txt
           xcrun simctl install "$UDID" "$APP"
+          xcrun simctl privacy "$UDID" grant location "$APP_ID" 2>&1 | tee -a shots/report.txt
+          xcrun simctl privacy "$UDID" grant location-always "$APP_ID" 2>&1 | tee -a shots/report.txt
           echo "installed $(date +%T)" | tee -a shots/report.txt
+
+      - name: Helpers
+        run: |
+          cat > helpers.sh <<'EOF'
+          R=shots/report.txt
+          shot() { # name, display (1 outer, 3 inner)
+            xcrun simctl io "$UDID" screenshot --display="${2:-3}" "shots/$1.png" >/dev/null 2>&1
+          }
+          size() { duoctl state | python3 -c "import json,sys; s=json.load(sys.stdin)['sizePoints']; print(int(s[0]), int(s[1]))"; }
+          tap_open() { # the "Open in Kiwi Guide?" prompt: by name, else by its measured position
+            if duoctl tap --label "Open" >/dev/null 2>&1; then echo "  Open: by name" | tee -a "$R"; return; fi
+            read W H < <(size)
+            case "$W" in 669) X=408; Y=481;; 951) X=549; Y=341;; *) X=265; Y=345;; esac
+            duoctl tap "$X" "$Y" >/dev/null 2>&1 && echo "  Open: by position $X $Y (screen ${W}x${H})" | tee -a "$R"
+          }
+          go() { # route, shot name
+            echo "=== link $1 $(date +%T)" | tee -a "$R"
+            xcrun simctl openurl "$UDID" "southislandguide://$1" 2>&1 | tee -a "$R"
+            sleep 2
+            shot "$2-prompt"
+            tap_open
+            sleep 7
+            shot "$2"
+          }
+          elements() { # label
+            echo "=== elements: $1" | tee -a "$R"
+            duoctl elements 2>&1 | head -c 6000 | tee -a "$R"; echo | tee -a "$R"
+          }
+          EOF
 
       - name: First launch, folded
         run: |
@@ -55,69 +87,59 @@ jobs:
           sleep 25
           xcrun simctl io "$UDID" screenshot --display=1 shots/01-folded-first-launch.png >/dev/null 2>&1
 
-      - name: Open, tall (the app's upright Duo layout)
+      - name: Open, tall (the app's upright Duo layout), and the tour
         run: |
           set +e
-          R=shots/report.txt
+          source helpers.sh
           duoctl open >/dev/null 2>&1; sleep 3; duoctl rotate portrait >/dev/null 2>&1; sleep 5
-          { echo "=== state"; duoctl state; } 2>&1 | tee -a "$R"
-          xcrun simctl io "$UDID" screenshot --display=3 shots/02-open-tall-as-is.png >/dev/null 2>&1
-          { echo "=== elements (open, tall)"; duoctl elements 2>&1 | python3 -c "
-          import json, sys
-          try:
-              for e in json.load(sys.stdin):
-                  if e.get('label') or e.get('identifier'):
-                      f = e['frame']; print(e['type'], '|', e.get('label'), '|', e.get('identifier'), '|', round(f['x']), round(f['y']), round(f['width']), round(f['height']))
-          except Exception as x: print('could not parse elements:', x)
-          "; } | tee -a "$R"
-
-      - name: Close the tour by label
-        run: |
-          set +e
-          { echo "=== tap --label Skip tour"; duoctl tap --label "Skip tour" 2>&1; } | tee -a shots/report.txt
+          { echo "=== size"; size; } | tee -a "$R"
+          shot 02-open-tall-as-is
+          elements "open, tall, as is"
+          { echo "=== axe describe-ui (first 3000 chars)"; axe describe-ui --udid "$UDID" 2>&1 | head -c 3000; echo; } | tee -a "$R"
+          { echo "=== tap --label Skip tour"; duoctl tap --label "Skip tour" 2>&1; } | tee -a "$R"
           sleep 4
-          xcrun simctl io "$UDID" screenshot --display=3 shots/03-after-skip-tour.png >/dev/null 2>&1
+          shot 03-after-skip-tour
 
       - name: Screens by link, tall
         run: |
           set +e
-          for r in sites guide map itinerary account; do
-            echo "=== link $r $(date +%T)" | tee -a shots/report.txt
-            xcrun simctl openurl "$UDID" "southislandguide://$r" 2>&1 | tee -a shots/report.txt
-            sleep 8
-            xcrun simctl io "$UDID" screenshot --display=3 "shots/10-tall-$r.png" >/dev/null 2>&1
-          done
+          source helpers.sh
+          for r in sites guide map itinerary account; do go "$r" "10-tall-$r"; done
 
       - name: Pop-up by testID (guide region picker)
         run: |
           set +e
-          xcrun simctl openurl "$UDID" "southislandguide://guide"
-          sleep 6
-          { echo "=== tap --id region-pill"; duoctl tap --id region-pill 2>&1; } | tee -a shots/report.txt
+          source helpers.sh
+          go guide 20-tall-guide-again
+          elements "guide, tall"
+          { echo "=== tap --id region-pill"; duoctl tap --id region-pill 2>&1; } | tee -a "$R"
           sleep 4
-          xcrun simctl io "$UDID" screenshot --display=3 shots/20-tall-region-sheet.png >/dev/null 2>&1
+          shot 21-tall-region-sheet
 
       - name: Screens by link, wide (the app's sideways Duo layout)
         run: |
           set +e
+          source helpers.sh
           duoctl rotate landscape >/dev/null 2>&1; sleep 5
-          for r in sites guide map; do
-            xcrun simctl openurl "$UDID" "southislandguide://$r"
-            sleep 8
-            xcrun simctl io "$UDID" screenshot --display=3 "shots/30-wide-$r.png" >/dev/null 2>&1
-          done
+          { echo "=== size"; size; } | tee -a "$R"
+          for r in sites guide map; do go "$r" "30-wide-$r"; done
 
       - name: Folded again
         run: |
           set +e
+          source helpers.sh
           duoctl close >/dev/null 2>&1; sleep 5
+          { echo "=== size"; size; } | tee -a "$R"
+          echo "=== link sites (folded)" | tee -a "$R"
           xcrun simctl openurl "$UDID" "southislandguide://sites"
-          sleep 8
-          xcrun simctl io "$UDID" screenshot --display=1 shots/40-folded-sites.png >/dev/null 2>&1
-          echo "done $(date +%T)" | tee -a shots/report.txt
+          sleep 2
+          tap_open
+          sleep 7
+          shot 40-folded-sites 1
+          echo "done $(date +%T)" | tee -a "$R"
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: duo-spike-5
+          name: duo-spike-6
           path: shots/

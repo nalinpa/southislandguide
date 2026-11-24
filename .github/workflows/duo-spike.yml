@@ -1,11 +1,15 @@
-# Throwaway spike (2026-11-23), run 7: run 6 plus "Not Now" on the App Store review prompt,
-# two pop-ups by testID (guide region picker, Add to Trip), AXe from its GitHub release instead
-# of Homebrew, and shorter waits. Delete this branch once answered.
+# Throwaway spike (2026-11-24), run 8: run 7 with the app's open count seeded to 10 so the
+# App Store review prompt (5th start) never shows, the sim booting while tools install,
+# duoctl from its pinned v0.2.1 tarball (sha256 checked) instead of Homebrew, and no token
+# in the job. Delete this branch once answered.
 name: duo-spike
 on:
   push:
     branches: [duo-spike]
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   spike:
@@ -16,9 +20,8 @@ jobs:
       HOMEBREW_NO_AUTO_UPDATE: "1"
       HOMEBREW_NO_INSTALL_CLEANUP: "1"
       HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: "1"
-      GH_TOKEN: ${{ github.token }}
     steps:
-      - name: Pick and boot the iPhone Duo
+      - name: Pick the iPhone Duo and start it booting
         run: |
           mkdir -p shots
           echo "start $(date +%T)" | tee shots/report.txt
@@ -32,28 +35,25 @@ jobs:
           echo "UDID=$UDID" >> "$GITHUB_ENV"
           echo "DUOCTL_UDID=$UDID" >> "$GITHUB_ENV"
           xcrun simctl boot "$UDID" 2>&1 || true
-          xcrun simctl bootstatus "$UDID" -b
-          echo "booted $(date +%T)" | tee -a shots/report.txt
+          echo "boot started $(date +%T)" | tee -a shots/report.txt
 
-      - name: Install duoctl (Homebrew) and AXe (GitHub release, Homebrew as fallback)
+      - name: Install duoctl (pinned tarball) and AXe (Homebrew) while the sim boots
         run: |
-          brew install skarol/tap/duoctl 2>&1 | tail -1
+          curl -fsSL https://github.com/skarol/duoctl/archive/refs/tags/v0.2.1.tar.gz -o duoctl.tar.gz
+          echo "32332f5ae653e857e94c845c71a29d6a8056c550cf4f839a51830d0330026f77  duoctl.tar.gz" | shasum -a 256 -c
+          mkdir -p duoctl-src && tar -xzf duoctl.tar.gz -C duoctl-src --strip-components 1
+          chmod +x duoctl-src/skills/duoctl/scripts/duoctl
+          echo "$PWD/duoctl-src/skills/duoctl/scripts" >> "$GITHUB_PATH"
           echo "duoctl ready $(date +%T)" | tee -a shots/report.txt
-          mkdir -p axe-dl
-          if gh release download --repo cameroncooke/AXe --pattern "*.tar.gz" --dir axe-dl 2>&1 | tee -a shots/report.txt \
-             && tar -xzf axe-dl/*.tar.gz -C axe-dl \
-             && AXE_BIN=$(find axe-dl -type f -name axe -perm -u+x | head -1) && [ -n "$AXE_BIN" ]; then
-            echo "$(cd "$(dirname "$AXE_BIN")" && pwd)" >> "$GITHUB_PATH"
-            echo "AXe from release: $AXE_BIN $(date +%T)" | tee -a shots/report.txt
-          else
-            brew install cameroncooke/axe/axe 2>&1 | tail -1
-            echo "AXe from Homebrew $(date +%T)" | tee -a shots/report.txt
-          fi
+          brew install cameroncooke/axe/axe 2>&1 | tail -1
+          echo "AXe ready $(date +%T)" | tee -a shots/report.txt
 
-      - name: Download and install the app, grant location
+      - name: Wait for boot, install the app, grant location
         env:
           DUO_APP_URL: ${{ secrets.DUO_APP_URL }}
         run: |
+          xcrun simctl bootstatus "$UDID" -b
+          echo "booted $(date +%T)" | tee -a shots/report.txt
           mkdir -p app
           curl -fsSL "$DUO_APP_URL" -o app.tar.gz
           tar -xzf app.tar.gz -C app
@@ -62,7 +62,7 @@ jobs:
           xcrun simctl privacy "$UDID" grant location "$APP_ID" >/dev/null 2>&1
           xcrun simctl privacy "$UDID" grant location-always "$APP_ID" >/dev/null 2>&1
           echo "installed $(date +%T)" | tee -a shots/report.txt
-          which axe | tee -a shots/report.txt
+          duoctl --version | tee -a shots/report.txt
 
       - name: Helpers
         run: |
@@ -75,15 +75,23 @@ jobs:
             case "$W" in 669) X=408; Y=481;; 951) X=549; Y=341;; *) X=265; Y=345;; esac
             duoctl tap "$X" "$Y" >/dev/null 2>&1
           }
-          not_now() { # the App Store review prompt, by name only (a blind tap could hit the app)
-            local t0=$(date +%s)
-            if duoctl tap --label "Not Now" >/dev/null 2>&1; then echo "  review prompt: Not Now ($(( $(date +%s) - t0 ))s)" | tee -a "$R"; sleep 2
-            else echo "  no review prompt ($(( $(date +%s) - t0 ))s)" | tee -a "$R"; fi
+          manifest() { # AsyncStorage's file that holds the open count
+            grep -rl "appOpenCount" "$(xcrun simctl get_app_container "$UDID" "$APP_ID" data)/Library" 2>/dev/null | grep manifest.json | head -1
+          }
+          count() { # print, or with an argument set, the app's open count
+            python3 -I - "$(manifest)" "$1" <<'PY'
+          import json, sys
+          p, new = sys.argv[1], sys.argv[2]
+          if not p: print("  open count: no manifest found"); sys.exit()
+          m = json.load(open(p)); k = "southislandguide:appOpenCount"
+          print("  open count:", m.get(k), "->", new) if new else print("  open count:", m.get(k))
+          if new: m[k] = new; json.dump(m, open(p, "w"))
+          PY
           }
           go() { # route, shot name, display
             echo "=== link $1 $(date +%T)" | tee -a "$R"
             xcrun simctl openurl "$UDID" "southislandguide://$1"
-            sleep 2; tap_open; sleep 4; not_now
+            sleep 2; tap_open; sleep 4
             shot "$2" "${3:-3}"
           }
           tap_id() { # testID, shot name
@@ -97,12 +105,16 @@ jobs:
           }
           EOF
 
-      - name: First launch, folded, then open tall and skip the tour
+      - name: First launch, seed the open count, relaunch folded, open tall, skip the tour
         run: |
           set +e
           source helpers.sh
           xcrun simctl launch "$UDID" "$APP_ID" >/dev/null
           sleep 15
+          xcrun simctl terminate "$UDID" "$APP_ID"
+          count 10 | tee -a "$R"
+          xcrun simctl launch "$UDID" "$APP_ID" >/dev/null
+          sleep 12
           shot 01-folded-first-launch 1
           duoctl open >/dev/null 2>&1; sleep 3; duoctl rotate portrait >/dev/null 2>&1; sleep 4
           { echo "=== tap --label Skip tour $(date +%T)"; duoctl tap --label "Skip tour" 2>&1; } | tee -a "$R"
@@ -119,6 +131,7 @@ jobs:
           go sites 23-tall-sites
           tap_id place-add 24-tall-add-to-trip
           dismiss; shot 25-tall-after-close
+          count | tee -a "$R"
 
       - name: Wide (the app's sideways Duo layout)
         run: |
@@ -128,7 +141,8 @@ jobs:
           for r in sites guide map; do go "$r" "30-wide-$r"; done
           go sites 31-wide-sites-again
           tap_id place-add 32-wide-add-to-trip
-          dismiss
+          dismiss; shot 33-wide-after-close
+          count | tee -a "$R"
 
       - name: Folded again
         run: |
@@ -136,10 +150,11 @@ jobs:
           source helpers.sh
           duoctl close >/dev/null 2>&1; sleep 4
           go sites 40-folded-sites 1
+          count | tee -a "$R"
           echo "done $(date +%T)" | tee -a "$R"
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: duo-spike-7
+          name: duo-spike-8
           path: shots/

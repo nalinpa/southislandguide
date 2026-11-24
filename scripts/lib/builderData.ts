@@ -31,6 +31,56 @@ export const HAND_END_TOWN: Record<string, string> = {
   "the-grove-scenic-reserve..queen-charlotte-drive-cullen-point": "picton",
 };
 
+// Days the website's trip builder may use that no suggested trip in the app has (owner, 2026-11-24: "website only for
+// now"), each with the town it starts in and, when it is only for longer trips, the fewest trip days it goes in.
+export const SITE_DAYS: { start: string; minTripDays?: number; day: ItineraryTemplateDay }[] = [
+  // Dunedin down to the southern Catlins: 10:00 AM to 6:00 PM. The Catlins to Dunedin day has the northern Catlins, so the
+  // two make a loop from Dunedin. Cathedral Caves and Slope Point are left out for their seasons, as on the Bluff day.
+  {
+    start: "dunedin",
+    day: {
+      items: [
+        { siteId: "surat-bay-beach-walk", siteName: "Surat Bay Beach Walk", slotIndex: 4, durationSlots: 3 },
+        { siteId: "catlins-cafe-owaka", siteName: "Catlins Cafe", slotIndex: 8, durationSlots: 2 },
+        { siteId: "florence-hill-lookout", siteName: "Florence Hill Lookout", slotIndex: 11, durationSlots: 1 },
+        { siteId: "mclean-falls", siteName: "McLean Falls", slotIndex: 13, durationSlots: 2 },
+        // The forest shows at low tide.
+        { siteId: "curio-bay-petrified-forest", siteName: "Curio Bay Petrified Forest", slotIndex: 17, durationSlots: 3 },
+      ],
+    },
+  },
+  // Invercargill along the south coast through Riverton and Tuatapere to Te Anau, the Te Anau to Invercargill day the other
+  // way: 9:30 AM to 7:30 PM.
+  {
+    start: "invercargill",
+    day: {
+      items: [
+        { siteId: "howells-point-reserve", siteName: "Howells Point Reserve", slotIndex: 3, durationSlots: 3 },
+        { siteId: "the-crib-cafe-riverton", siteName: "The Crib Cafe", slotIndex: 7, durationSlots: 2 },
+        { siteId: "mccrackens-rest", siteName: "McCracken's Rest", slotIndex: 11, durationSlots: 1 },
+        { siteId: "clifden-suspension-bridge", siteName: "Clifden Suspension Bridge", slotIndex: 13, durationSlots: 1 },
+        { siteId: "frasers-beach-manapouri", siteName: "Frasers Beach, Lake Manapōuri", slotIndex: 17, durationSlots: 3 },
+        { siteId: "redcliff-te-anau", siteName: "Redcliff Restaurant & Bar", slotIndex: 21, durationSlots: 2 },
+      ],
+    },
+  },
+  // Dunedin inland through Gore and Lumsden to Te Anau, for trips of 5 days or more (owner): 9:00 AM to 8:30 PM. Nothing on
+  // the inland road is in the place list.
+  {
+    start: "dunedin",
+    minTripDays: 5,
+    day: {
+      items: [
+        { siteId: "dunedin-chinese-garden", siteName: "Lan Yuan, Dunedin Chinese Garden", slotIndex: 2, durationSlots: 2 },
+        { siteId: "miles-better-pies", siteName: "Miles Better Pies", slotIndex: 12, durationSlots: 1 },
+        { siteId: "punanga-manu-o-te-anau-bird-sanctuary", siteName: "Punanga Manu o Te Anau Bird Sanctuary", slotIndex: 14, durationSlots: 2 },
+        { siteId: "te-anau-glowworm-caves", siteName: "Te Anau Glowworm Caves", slotIndex: 17, durationSlots: 5 },
+        { siteId: "redcliff-te-anau", siteName: "Redcliff Restaurant & Bar", slotIndex: 23, durationSlots: 2 },
+      ],
+    },
+  },
+];
+
 // Every input of builder-data.json and pack.js: the trips, the timing code and the drive data
 // (the export checks this list against pack.js's bundle inputs).
 const SOURCE_FILES = [
@@ -94,7 +144,7 @@ export function builderData(templates: ItineraryTemplate[], placeList: BuilderPl
   // constants, and a few are used from two nights' towns (Abel Tasman day from Nelson or from
   // Motueka). Id "<first stop>..<last stop>"; a later start town of the same day adds
   // "@<startTown>" (in the order the templates first use them).
-  const blocks = new Map<string, { id: string; startTown: string; endTown: string; driveMinutes: number; items: ItineraryTemplateDay["items"] }>();
+  const blocks = new Map<string, { id: string; startTown: string; endTown: string; driveMinutes: number; minTripDays?: number; items: ItineraryTemplateDay["items"] }>();
   const baseIds = new Map<ItineraryTemplateDay, string>();
   const outTemplates = templates.map((t) => {
     let at: string = t.start;
@@ -117,6 +167,16 @@ export function builderData(templates: ItineraryTemplate[], placeList: BuilderPl
     });
     return { key: t.key, start: t.start, end: at, label: t.label, blockIds };
   });
+  // The website-only days, after the templates' (in no template, so no template pair)
+  for (const s of SITE_DAYS) {
+    const first = s.day.items[0].siteId, last = s.day.items[s.day.items.length - 1].siteId;
+    const id = blocks.has(`${first}..${last}`) ? `${first}..${last}@${s.start}` : `${first}..${last}`;
+    blocks.set(id, {
+      id, startTown: s.start, endTown: endTownOf(id, lookup(last)!.area), driveMinutes: driveMinutes(s.start, s.day),
+      ...(s.minTripDays ? { minTripDays: s.minTripDays } : {}),
+      items: s.day.items.map(({ siteId, siteName, slotIndex, durationSlots }) => ({ siteId, siteName, slotIndex, durationSlots })),
+    });
+  }
 
   // Minutes of driving between towns in a block: the legs from the start town's hub through the
   // stops in order that cross from one area to another (getLeg's `drive`), each leg's half-hour

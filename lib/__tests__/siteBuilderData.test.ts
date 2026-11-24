@@ -41,11 +41,11 @@ import AREA_HUBS from "@/assets/data/area-hubs.json";
 import { ITINERARY_TEMPLATES } from "@/lib/itineraryTemplates";
 import { NOT_TRIP_STOPS } from "@/lib/notTripStops";
 import { getLeg } from "@/lib/utils/transitMatrix";
-import { dayLegs, tripSummary } from "@/lib/utils/itineraryPhysics";
+import { dayLegs, packTrip, tripSummary } from "@/lib/utils/itineraryPhysics";
 import { dateParts, routeLine } from "@/lib/utils/tripLines";
 import { areaName } from "@/lib/areas";
 import { tokens } from "@/lib/ui/tokens";
-import { HAND_END_TOWN, OVERNIGHT_TOWNS, START_CITIES, builderData, sourceHash } from "../../scripts/lib/builderData";
+import { HAND_END_TOWN, OVERNIGHT_TOWNS, SITE_DAYS, START_CITIES, builderData, sourceHash } from "../../scripts/lib/builderData";
 
 type Place = { slug: string; name: string; category: string[]; area?: string; active?: boolean; lat: number; lng: number };
 const PLACES = ([...abelTasman, ...arthursPass, ...buller, ...catlins, ...centralOtago, ...christchurch, ...dunedin, ...fiordland, ...glacierCountry, ...goldenBay, ...haast, ...hanmer, ...hokitika, ...invercargill, ...kaikoura, ...mackenzie, ...marlborough, ...marlboroughSounds, ...nelson, ...nelsonLakes, ...oamaru, ...punakaiki, ...midCanterbury, ...queenstown, ...timaru, ...waitaki, ...wanaka, ...westernSouthland] as Place[]);
@@ -59,7 +59,7 @@ const site = path.resolve(root, "../kiwiguide-site/public/plan");
 jest.mock("react-native", () => ({ Platform: { OS: "ios" }, DynamicColorIOS: (c: unknown) => c }));
 
 describe("the builder's data", () => {
-  it("blocks are the templates' distinct (day, start town) pairs", () => {
+  it("blocks are the templates' distinct (day, start town) pairs, then the website-only days", () => {
     const days = new Set(ITINERARY_TEMPLATES.flatMap((t) => t.days));
     expect(days.size).toBe(51);
     const variants = data.blocks.filter((b) => b.id.includes("@"));
@@ -69,7 +69,7 @@ describe("the builder's data", () => {
       "toad-hall-motueka..park-cafe-marahau",
       "toad-hall-motueka..star-tavern-cape-foulwind",
     ]);
-    expect(data.blocks).toHaveLength(days.size + variants.length);
+    expect(data.blocks).toHaveLength(days.size + variants.length + SITE_DAYS.length);
     expect(new Set(data.blocks.map((b) => b.id)).size).toBe(data.blocks.length);
     for (const v of variants) {
       const plain = data.blocks.find((b) => b.id === v.id.split("@")[0])!;
@@ -144,6 +144,23 @@ describe("the builder's data", () => {
       expect({ id, active: byId.get(id)?.active !== false, kept: NOT_TRIP_STOPS.includes(id) }).toEqual({ id, active: true, kept: false });
     }
     for (const b of data.blocks) for (const i of b.items) expect({ id: i.siteId, there: i.siteId in data.places }).toEqual({ id: i.siteId, there: true });
+  });
+
+  // Owner, 2026-11-24: "website only for now"; Dunedin to Te Anau for trips of 5 days or more.
+  it("website-only days: Dunedin to the Catlins, Invercargill to Te Anau, Dunedin to Te Anau from 5 days, each the app's timing", () => {
+    const site = data.blocks.slice(-SITE_DAYS.length);
+    expect(site.map((b) => [b.id, b.startTown, b.endTown, b.minTripDays])).toEqual([
+      ["surat-bay-beach-walk..curio-bay-petrified-forest", "dunedin", "catlins", undefined],
+      ["howells-point-reserve..redcliff-te-anau", "invercargill", "te-anau", undefined],
+      ["dunedin-chinese-garden..redcliff-te-anau", "dunedin", "te-anau", 5],
+    ]);
+    expect(data.templates.some((t) => t.blockIds.some((id) => site.some((b) => b.id === id)))).toBe(false);
+    // each as the app would leave it, timed after the start town's hub
+    const hubs = AREA_HUBS as Record<string, string>;
+    for (const b of site) {
+      const out = packTrip([{ id: "0", date: "2027-01-01", items: [{ id: "h", siteId: hubs[b.startTown], siteName: "", slotIndex: 0, durationSlots: 1 }] }, { id: "1", date: "2027-01-02", items: b.items.map((i, k) => ({ ...i, id: String(k) })) }] as never, lookup as never)[1].items;
+      expect({ id: b.id, at: out.map((i) => i.slotIndex) }).toEqual({ id: b.id, at: b.items.map((i) => i.slotIndex) });
+    }
   });
 
   it("the starts: the six start cities, each with a block starting there", () => {

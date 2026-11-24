@@ -1,7 +1,7 @@
-# Throwaway spike (2026-11-24), run 8: run 7 with the app's open count seeded to 10 so the
-# App Store review prompt (5th start) never shows, the sim booting while tools install,
-# duoctl from its pinned v0.2.1 tarball (sha256 checked) instead of Homebrew, and no token
-# in the job. Delete this branch once answered.
+# Throwaway spike (2026-11-24), run 9: run 8 with "Open in Kiwi Guide?" tapped by name only
+# (it shows on the first link only; a tap by position hit the app), no blind taps anywhere,
+# AXe from its pinned release file (sha256 checked), timestamps around the slow start, and
+# the town and category pickers. Delete this branch once answered.
 name: duo-spike
 on:
   push:
@@ -17,9 +17,6 @@ jobs:
     timeout-minutes: 40
     env:
       APP_ID: app.blacksands.southislandguide
-      HOMEBREW_NO_AUTO_UPDATE: "1"
-      HOMEBREW_NO_INSTALL_CLEANUP: "1"
-      HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: "1"
     steps:
       - name: Pick the iPhone Duo and start it booting
         run: |
@@ -37,7 +34,7 @@ jobs:
           xcrun simctl boot "$UDID" 2>&1 || true
           echo "boot started $(date +%T)" | tee -a shots/report.txt
 
-      - name: Install duoctl (pinned tarball) and AXe (Homebrew) while the sim boots
+      - name: Install duoctl and AXe (pinned files, sha256 checked) while the sim boots
         run: |
           curl -fsSL https://github.com/skarol/duoctl/archive/refs/tags/v0.2.1.tar.gz -o duoctl.tar.gz
           echo "32332f5ae653e857e94c845c71a29d6a8056c550cf4f839a51830d0330026f77  duoctl.tar.gz" | shasum -a 256 -c
@@ -45,7 +42,11 @@ jobs:
           chmod +x duoctl-src/skills/duoctl/scripts/duoctl
           echo "$PWD/duoctl-src/skills/duoctl/scripts" >> "$GITHUB_PATH"
           echo "duoctl ready $(date +%T)" | tee -a shots/report.txt
-          brew install cameroncooke/axe/axe 2>&1 | tail -1
+          curl -fsSL https://github.com/cameroncooke/AXe/releases/download/v2.1.1/AXe-macOS-v2.1.1-universal.tar.gz -o axe.tar.gz
+          echo "8788838b1b32059d143cf06541b72fcaead85c16274457cdbff086510a5b17fa  axe.tar.gz" | shasum -a 256 -c
+          mkdir -p axe-bin && tar -xzf axe.tar.gz -C axe-bin
+          chmod +x axe-bin/axe
+          echo "$PWD/axe-bin" >> "$GITHUB_PATH"
           echo "AXe ready $(date +%T)" | tee -a shots/report.txt
 
       - name: Wait for boot, install the app, grant location
@@ -62,18 +63,16 @@ jobs:
           xcrun simctl privacy "$UDID" grant location "$APP_ID" >/dev/null 2>&1
           xcrun simctl privacy "$UDID" grant location-always "$APP_ID" >/dev/null 2>&1
           echo "installed $(date +%T)" | tee -a shots/report.txt
-          duoctl --version | tee -a shots/report.txt
+          { duoctl --version; axe --version; which axe; } 2>&1 | tee -a shots/report.txt
 
       - name: Helpers
         run: |
           cat > helpers.sh <<'EOF'
           R=shots/report.txt
+          t() { echo "  $1 $(date +%T)" | tee -a "$R"; }
           shot() { xcrun simctl io "$UDID" screenshot --display="${2:-3}" "shots/$1.png" >/dev/null 2>&1; }
-          size() { duoctl state | python3 -c "import json,sys; s=json.load(sys.stdin)['sizePoints']; print(int(s[0]), int(s[1]))"; }
-          tap_open() { # "Open in Kiwi Guide?": by its measured position (proved in run 6)
-            read W H < <(size)
-            case "$W" in 669) X=408; Y=481;; 951) X=549; Y=341;; *) X=265; Y=345;; esac
-            duoctl tap "$X" "$Y" >/dev/null 2>&1
+          tap_open() { # "Open in Kiwi Guide?" shows on the first link only: by name, never by position
+            if duoctl tap --label "Open" >/dev/null 2>&1; then t "Open prompt tapped"; sleep 2; else t "no Open prompt"; fi
           }
           manifest() { # AsyncStorage's file that holds the open count
             grep -rl "appOpenCount" "$(xcrun simctl get_app_container "$UDID" "$APP_ID" data)/Library" 2>/dev/null | grep manifest.json | head -1
@@ -91,7 +90,7 @@ jobs:
           go() { # route, shot name, display
             echo "=== link $1 $(date +%T)" | tee -a "$R"
             xcrun simctl openurl "$UDID" "southislandguide://$1"
-            sleep 2; tap_open; sleep 4
+            sleep 2; tap_open; sleep 3
             shot "$2" "${3:-3}"
           }
           tap_id() { # testID, shot name
@@ -99,26 +98,33 @@ jobs:
             duoctl tap --id "$1" 2>&1 | tee -a "$R"
             sleep 3; shot "$2"
           }
-          dismiss() { # close a pop-up: by a Close/Cancel/Done name, else tap the dim backdrop corner
+          tap_label() { # accessibility label, shot name
+            echo "=== tap --label $1 $(date +%T)" | tee -a "$R"
+            duoctl tap --label "$1" 2>&1 | tee -a "$R"
+            sleep 3; shot "$2"
+          }
+          dismiss() { # close a pop-up or alert by its Close/Cancel/Done name; no blind taps
             for L in "Close" "Cancel" "Done"; do duoctl tap --label "$L" >/dev/null 2>&1 && { echo "  closed by $L" | tee -a "$R"; sleep 2; return; }; done
-            duoctl tap 12 140 >/dev/null 2>&1; echo "  closed by backdrop tap" | tee -a "$R"; sleep 2
+            echo "  nothing to close" | tee -a "$R"
           }
           EOF
 
-      - name: First launch, seed the open count, relaunch folded, open tall, skip the tour
+      - name: First launch, seed the open count, relaunch folded, open tall
         run: |
           set +e
           source helpers.sh
-          xcrun simctl launch "$UDID" "$APP_ID" >/dev/null
+          xcrun simctl launch "$UDID" "$APP_ID" >/dev/null; t "launched"
           sleep 15
-          xcrun simctl terminate "$UDID" "$APP_ID"
+          xcrun simctl terminate "$UDID" "$APP_ID"; t "terminated"
           count 10 | tee -a "$R"
-          xcrun simctl launch "$UDID" "$APP_ID" >/dev/null
+          xcrun simctl launch "$UDID" "$APP_ID" >/dev/null; t "relaunched"
           sleep 12
-          shot 01-folded-first-launch 1
-          duoctl open >/dev/null 2>&1; sleep 3; duoctl rotate portrait >/dev/null 2>&1; sleep 4
-          { echo "=== tap --label Skip tour $(date +%T)"; duoctl tap --label "Skip tour" 2>&1; } | tee -a "$R"
+          shot 01-folded-first-launch 1; t "folded shot"
+          duoctl open >/dev/null 2>&1; t "duoctl open"
           sleep 3
+          duoctl rotate portrait >/dev/null 2>&1; t "duoctl rotate portrait"
+          sleep 4
+          duoctl tap --label "Skip tour" >/dev/null 2>&1 && t "tour skipped" || t "no tour"
 
       - name: Tall (the app's upright Duo layout)
         run: |
@@ -130,7 +136,11 @@ jobs:
           dismiss; shot 22-tall-after-close
           go sites 23-tall-sites
           tap_id place-add 24-tall-add-to-trip
-          dismiss; shot 25-tall-after-close
+          dismiss
+          tap_label "Queenstown, choose a town" 25-tall-town-picker
+          dismiss
+          tap_label "All, choose a category" 26-tall-category-picker
+          dismiss; shot 27-tall-after-close
           count | tee -a "$R"
 
       - name: Wide (the app's sideways Duo layout)
@@ -139,9 +149,16 @@ jobs:
           source helpers.sh
           duoctl rotate landscape >/dev/null 2>&1; sleep 4
           for r in sites guide map; do go "$r" "30-wide-$r"; done
-          go sites 31-wide-sites-again
-          tap_id place-add 32-wide-add-to-trip
-          dismiss; shot 33-wide-after-close
+          go guide 31-wide-guide-again
+          tap_id region-pill 32-wide-region-sheet
+          dismiss
+          go sites 33-wide-sites-again
+          tap_id place-add 34-wide-add-to-trip
+          dismiss
+          tap_label "Queenstown, choose a town" 35-wide-town-picker
+          dismiss
+          tap_label "All, choose a category" 36-wide-category-picker
+          dismiss; shot 37-wide-after-close
           count | tee -a "$R"
 
       - name: Folded again
@@ -156,5 +173,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: duo-spike-8
+          name: duo-spike-9
           path: shots/

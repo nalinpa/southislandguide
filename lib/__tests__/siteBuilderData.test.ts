@@ -83,7 +83,7 @@ describe("the builder's data", () => {
   it("a block's towns chain in every template", () => {
     const blocks = new Map(data.blocks.map((b) => [b.id, b]));
     for (const t of data.templates) {
-      let at = t.start;
+      let at: string = t.start;
       for (const id of t.blockIds) {
         const b = blocks.get(id)!;
         expect({ key: t.key, id, startTown: b.startTown }).toEqual({ key: t.key, id, startTown: at });
@@ -236,7 +236,7 @@ describe("the site's copy", () => {
     expect(pack.routeLine(towns)).toBe(routeLine(towns));
     expect(pack.dateParts("2026-12-25", "long")).toBe(dateParts("2026-12-25", "long"));
     expect(pack.areaName("queenstown")).toBe(areaName("queenstown"));
-    const days = ITINERARY_TEMPLATES[0].days;
+    const days = ITINERARY_TEMPLATES[0].days as unknown as Parameters<typeof tripSummary>[0]; // the helpers read no ids or dates
     expect(pack.tripSummary(days, lookup)).toEqual(tripSummary(days, lookup));
     expect(pack.dayLegs(days[0].items, lookup)).toEqual(dayLegs(days[0].items, lookup));
   });

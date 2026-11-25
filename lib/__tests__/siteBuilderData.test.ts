@@ -146,13 +146,16 @@ describe("the builder's data", () => {
     for (const b of data.blocks) for (const i of b.items) expect({ id: i.siteId, there: i.siteId in data.places }).toEqual({ id: i.siteId, there: true });
   });
 
-  // Owner, 2026-11-24: "website only for now"; Dunedin to Te Anau for trips of 5 days or more.
-  it("website-only days: Dunedin to the Catlins, Invercargill to Te Anau, Dunedin to Te Anau from 5 days, each the app's timing", () => {
+  // Owner, 2026-11-24: "website only for now"; Dunedin to Te Anau for trips of 5 days or more. 2026-11-25: Westport to Nelson
+  // through the Buller Gorge, Greymouth up the coast to Westport.
+  it("website-only days: Dunedin to the Catlins, Invercargill to Te Anau, Dunedin to Te Anau from 5 days, Westport to Nelson, Greymouth to Westport, each the app's timing", () => {
     const site = data.blocks.slice(-SITE_DAYS.length);
     expect(site.map((b) => [b.id, b.startTown, b.endTown, b.minTripDays])).toEqual([
       ["surat-bay-beach-walk..curio-bay-petrified-forest", "dunedin", "catlins", undefined],
       ["howells-point-reserve..redcliff-te-anau", "invercargill", "te-anau", undefined],
       ["dunedin-railway-station..redcliff-te-anau", "dunedin", "te-anau", 5],
+      ["buller-gorge-swingbridge..cable-bay-walkway-and-beach", "westport", "nelson", undefined],
+      ["point-elizabeth-walkway..star-tavern-cape-foulwind", "greymouth", "westport", undefined],
     ]);
     expect(data.templates.some((t) => t.blockIds.some((id) => site.some((b) => b.id === id)))).toBe(false);
     // each as the app would leave it, timed after the start town's hub

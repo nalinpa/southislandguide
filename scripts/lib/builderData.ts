@@ -81,6 +81,34 @@ export const SITE_DAYS: { start: string; minTripDays?: number; day: ItineraryTem
       ],
     },
   },
+  // Westport through the Buller Gorge, Murchison and Nelson Lakes to Nelson (owner, 2026-11-25): 9:30 AM to 6:30 PM. Before it
+  // a trip down the West Coast had no way back to Nelson, so Picton to Nelson in 7 days spent four nights in Kaikōura.
+  {
+    start: "westport",
+    day: {
+      items: [
+        { siteId: "buller-gorge-swingbridge", siteName: "Buller Gorge Swingbridge Adventure and Heritage Park", slotIndex: 3, durationSlots: 3 },
+        { siteId: "rivers-cafe-murchison", siteName: "Rivers Cafe", slotIndex: 7, durationSlots: 2 },
+        { siteId: "kawatiri-historic-railway-walk", siteName: "Kawatiri Historic Railway Walk", slotIndex: 11, durationSlots: 1 },
+        { siteId: "lake-rotoiti-jetty-kerr-bay", siteName: "Lake Rotoiti Jetty, Kerr Bay", slotIndex: 13, durationSlots: 2 },
+        { siteId: "cable-bay-walkway-and-beach", siteName: "Cable Bay Walkway and Beach", slotIndex: 18, durationSlots: 3 },
+      ],
+    },
+  },
+  // Greymouth up the coast through Punakaiki to Westport (owner, 2026-11-25): 9:30 AM to 8:00 PM. Before it a trip heading north
+  // went south to Hokitika first and drove back past Greymouth the next day.
+  {
+    start: "greymouth",
+    day: {
+      items: [
+        { siteId: "point-elizabeth-walkway", siteName: "Point Elizabeth Walkway", slotIndex: 3, durationSlots: 4 },
+        { siteId: "pancake-rocks-and-blowholes-walk", siteName: "Pancake Rocks and Blowholes Walk", slotIndex: 9, durationSlots: 2 },
+        { siteId: "truman-track", siteName: "Truman Track", slotIndex: 12, durationSlots: 2 },
+        { siteId: "cape-foulwind-walkway-seal-colony", siteName: "Cape Foulwind Walkway and Seal Colony", slotIndex: 16, durationSlots: 4 },
+        { siteId: "star-tavern-cape-foulwind", siteName: "Star Tavern", slotIndex: 21, durationSlots: 3 },
+      ],
+    },
+  },
 ];
 
 // Every input of builder-data.json and pack.js: the trips, the timing code and the drive data

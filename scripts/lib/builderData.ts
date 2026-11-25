@@ -65,13 +65,15 @@ export const SITE_DAYS: { start: string; minTripDays?: number; day: ItineraryTem
     },
   },
   // Dunedin inland through Gore and Lumsden to Te Anau, for trips of 5 days or more (owner): 9:00 AM to 8:30 PM. Nothing on
-  // the inland road is in the place list.
+  // the inland road is in the place list. It leaves from the railway station, open any time (it was the Chinese Garden next
+  // door, which opens at 10; owner, 2026-11-25: no stop before it opens): leaving an hour later would reach Te Anau as Miles
+  // Better Pies shuts at 3.
   {
     start: "dunedin",
     minTripDays: 5,
     day: {
       items: [
-        { siteId: "dunedin-chinese-garden", siteName: "Lan Yuan, Dunedin Chinese Garden", slotIndex: 2, durationSlots: 2 },
+        { siteId: "dunedin-railway-station", siteName: "Dunedin Railway Station", slotIndex: 2, durationSlots: 1 },
         { siteId: "miles-better-pies", siteName: "Miles Better Pies", slotIndex: 12, durationSlots: 1 },
         { siteId: "punanga-manu-o-te-anau-bird-sanctuary", siteName: "Punanga Manu o Te Anau Bird Sanctuary", slotIndex: 14, durationSlots: 2 },
         { siteId: "te-anau-glowworm-caves", siteName: "Te Anau Glowworm Caves", slotIndex: 17, durationSlots: 5 },
@@ -125,7 +127,33 @@ export type BuilderPlace = {
   vibe?: string[];
   activities?: string[];
   imageThumbnailUrl?: string;
+  hoursNote?: string;
 };
+
+// A place's main opening hours from its note in the app (owner, 2026-11-25: "carry from app"), in half-hour slots from
+// 8 AM (9 AM is 2; before 8 AM is below 0; past midnight above 32), for the site's builder to keep its stops inside: the
+// note's first clause, or when that has no time the first later one that isn't about something else (a market, a ferry,
+// the office, the café, a meal, tours, gates, a closure). "10am to 5pm" opens and closes; "from 11am" and "7.30am till
+// late" only open. None for a place open any time (any time, 24 hours, daylight, dawn, sunrise, sunset), or no clear hours.
+const ANY_TIME = /any ?time|24 hours|24\/7|always open|daylight|dawn|sunrise|sunset/;
+const ELSE = /closed|closure|market|ferry|office|caf[eé]|breakfast|brunch|lunch|dinner|kitchen|menu|tours?\b|departs|departures?|lifeguard|gates?\b|car ?park|visitor cent|display house|glasshouse|shops?\b|pizza/;
+const TIME = String.raw`(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm)`;
+const at = (h: string, m: string | undefined, ap: string) => ((+h % 12) + (ap === "pm" ? 12 : 0)) * 2 + (m ? +m / 30 : 0) - 16;
+export function openHours(note?: string): { open: number; close: number | null } | null {
+  const parts = (note ?? "").toLowerCase().replace(/\bnoon\b|\bmidday\b/g, "12pm").split(";");
+  if (!parts[0].trim() || ANY_TIME.test(parts[0])) return null;
+  const has = (c: string) => new RegExp(TIME).test(c);
+  const c = has(parts[0]) ? parts[0] : parts.slice(1).find((x) => has(x) && !ELSE.test(x));
+  if (!c) return null;
+  const r = c.match(new RegExp(String.raw`(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm)?\s*(?:to|–|-)\s*` + TIME));
+  if (r) {
+    const open = at(r[1], r[2], r[3] ?? (+r[1] % 12 > +r[4] % 12 ? "am" : r[6]));
+    const close = at(r[4], r[5], r[6]);
+    return { open, close: close <= open ? close + 48 : close }; // closing past midnight
+  }
+  const f = c.match(new RegExp(String.raw`from\s*` + TIME)) ?? c.match(new RegExp(TIME + String.raw`\s*(?:till|til|until)\s*late`));
+  return f ? { open: at(f[1], f[2], f[3]), close: null } : null;
+}
 
 const HUBS: Record<string, string> = AREA_HUBS_JSON;
 
@@ -196,6 +224,7 @@ export function builderData(templates: ItineraryTemplate[], placeList: BuilderPl
   const towns: Record<string, { name: string; placeIds: string[] }> = {};
   for (const [id, p] of places) {
     if (p.active === false || !p.area || NOT_TRIP_STOPS.includes(id) || p.category?.includes("Stay")) continue;
+    const hours = openHours(p.hoursNote);
     out[id] = {
       id,
       name: p.name,
@@ -209,6 +238,8 @@ export function builderData(templates: ItineraryTemplate[], placeList: BuilderPl
       activities: p.activities ?? [],
       thumb: p.imageThumbnailUrl ?? null,
       fallback: fallbackOf(id, p.category),
+      open: hours ? hours.open : null,
+      close: hours ? hours.close : null,
     };
     (towns[p.area] ??= { name: areaName(p.area), placeIds: [] }).placeIds.push(id);
   }

@@ -45,7 +45,7 @@ import { dayLegs, packTrip, tripSummary } from "@/lib/utils/itineraryPhysics";
 import { dateParts, routeLine } from "@/lib/utils/tripLines";
 import { areaName } from "@/lib/areas";
 import { tokens } from "@/lib/ui/tokens";
-import { HAND_END_TOWN, OVERNIGHT_TOWNS, SITE_DAYS, START_CITIES, builderData, sourceHash } from "../../scripts/lib/builderData";
+import { HAND_END_TOWN, OVERNIGHT_TOWNS, SITE_DAYS, START_CITIES, builderData, openHours, sourceHash } from "../../scripts/lib/builderData";
 
 type Place = { slug: string; name: string; category: string[]; area?: string; active?: boolean; lat: number; lng: number };
 const PLACES = ([...abelTasman, ...arthursPass, ...buller, ...catlins, ...centralOtago, ...christchurch, ...dunedin, ...fiordland, ...glacierCountry, ...goldenBay, ...haast, ...hanmer, ...hokitika, ...invercargill, ...kaikoura, ...mackenzie, ...marlborough, ...marlboroughSounds, ...nelson, ...nelsonLakes, ...oamaru, ...punakaiki, ...midCanterbury, ...queenstown, ...timaru, ...waitaki, ...wanaka, ...westernSouthland] as Place[]);
@@ -152,7 +152,7 @@ describe("the builder's data", () => {
     expect(site.map((b) => [b.id, b.startTown, b.endTown, b.minTripDays])).toEqual([
       ["surat-bay-beach-walk..curio-bay-petrified-forest", "dunedin", "catlins", undefined],
       ["howells-point-reserve..redcliff-te-anau", "invercargill", "te-anau", undefined],
-      ["dunedin-chinese-garden..redcliff-te-anau", "dunedin", "te-anau", 5],
+      ["dunedin-railway-station..redcliff-te-anau", "dunedin", "te-anau", 5],
     ]);
     expect(data.templates.some((t) => t.blockIds.some((id) => site.some((b) => b.id === id)))).toBe(false);
     // each as the app would leave it, timed after the start town's hub
@@ -161,6 +161,37 @@ describe("the builder's data", () => {
       const out = packTrip([{ id: "0", date: "2027-01-01", items: [{ id: "h", siteId: hubs[b.startTown], siteName: "", slotIndex: 0, durationSlots: 1 }] }, { id: "1", date: "2027-01-02", items: b.items.map((i, k) => ({ ...i, id: String(k) })) }] as never, lookup as never)[1].items;
       expect({ id: b.id, at: out.map((i) => i.slotIndex) }).toEqual({ id: b.id, at: b.items.map((i) => i.slotIndex) });
     }
+  });
+
+  // Owner, 2026-11-25: "carry from app": the site's builder keeps the stops it adds inside these.
+  it("opening hours: each trip place's main hours from its note, in half-hour slots from 8 AM", () => {
+    expect(openHours("Daily 9am to 11pm, last booking 10pm; bookings essential; 60 min private pool $122 for one")).toEqual({ open: 2, close: 30 });
+    expect(openHours("October to April: Wed to Mon 10am to 5pm, closed Tue; May to September: Fri to Mon 10am to 4pm")).toEqual({ open: 4, close: 18 });
+    expect(openHours("Dinner only, 5pm to 8pm; closed Tue and Wed")).toEqual({ open: 18, close: 24 });
+    expect(openHours("Summit road daily 9am to 4pm, $14 per vehicle; café daily 9am to 4pm, last orders 3.45pm")).toEqual({ open: 2, close: 16 });
+    expect(openHours("Open daily 7am to 2.30am; Fergbaker next door 6am to 2am")).toEqual({ open: -2, close: 37 }); // past midnight
+    expect(openHours("Daily from noon to 11pm; no bookings")).toEqual({ open: 8, close: 30 });
+    expect(openHours("Nov to Apr daily: breakfast 8 to 10am, lunch 12 to 2pm")).toEqual({ open: 0, close: 4 }); // "8 to 10am": 8 AM
+    // only an opening
+    expect(openHours("Open daily 7.30am till late; breakfast 7.30am to 11am; main menu from 11am")).toEqual({ open: -1, close: null });
+    expect(openHours("Daily from 11am; dinner 5pm to 9pm; closed Christmas Day")).toEqual({ open: 6, close: null });
+    expect(openHours("Listed daily from 10.15am; tours by booking")).toEqual({ open: 4.5, close: null });
+    // a first clause with no time: the next clause about the place itself
+    expect(openHours("Reopens 1 Oct 2026; summer (Oct to Mar) 9am to 5pm daily; April and September 10am to 4pm")).toEqual({ open: 2, close: 18 });
+    expect(openHours("Seasonal, 1 October to 31 March; Mon to Fri 6am to 7pm; Sat and Sun 7am to 7pm")).toEqual({ open: -4, close: 22 });
+    // open any time, times for something else, or departure times only
+    for (const n of ["Open daylight hours; free, donations welcome", "Open any time; café 8.30am to 4pm", "Open daily dawn to dusk, free; glasshouse 10am to 4pm",
+      "Building open to walk through during the day; farmers market Saturdays 8am to 12.30pm", "Open year round; Aviemore Dam road closed 5 and 15 Oct 2026, 8.30am to 4pm",
+      "Shops and cafes open daily with varied hours; ferry hourly 10am to 5pm daily", "Tide dependent departures from 6 Tasman Street; booking needed; office 8am to 5pm",
+      "Daily at 10.45am and 1.30pm, plus 3.45pm Dec to Mar", "", undefined])
+      expect({ n, h: openHours(n) }).toEqual({ n, h: null });
+    // every trip place carries them, from its own note
+    const notes = new Map(PLACES.map((p) => [p.slug, (p as { hoursNote?: string }).hoursNote]));
+    for (const [id, p] of Object.entries(data.places) as [string, { open: number | null; close: number | null }][]) {
+      const h = openHours(notes.get(id));
+      expect({ id, open: p.open, close: p.close }).toEqual({ id, open: h ? h.open : null, close: h ? h.close : null });
+    }
+    expect((data.places as Record<string, { open: number | null }>)["onsen-hot-pools"].open).toBe(2);
   });
 
   it("the starts: the six start cities, each with a block starting there", () => {

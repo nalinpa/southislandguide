@@ -68,5 +68,14 @@ export function useQuiz() {
       show({ state: blankQuiz(), step: "start" });
       void clearQuiz();
     },
+    /**
+     * The quiz done with, its trip saved (owner, 2026-11-28: "the trip builder doesnt really reset"): nothing left on
+     * the phone, so it opens next on its first question. What is on screen stays as it is: the quiz is closed over
+     * the trip, and its first question would show as it went.
+     */
+    clear: () => {
+      now.current = { state: blankQuiz(), step: "start" };
+      void clearQuiz();
+    },
   };
 }

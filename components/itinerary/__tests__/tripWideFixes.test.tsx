@@ -329,7 +329,7 @@ describe("the trip's top gap on the Duo", () => {
 });
 
 describe("the trip's ⋯ menu on the Duo", () => {
-  const words = ["Edit Trip", "Start a New Trip", "Add to Calendar", "Delete Trip"];
+  const words = ["Edit Trip", "Start a New Trip", "Build a New Trip", "Add to Calendar", "Delete Trip"];
 
   it("is a centred 400 card with the same actions in the same order,", async () => {
     setWide({ width: 951, height: 669 });

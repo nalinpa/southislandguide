@@ -241,4 +241,26 @@ describe("useQuiz", () => {
     expect(result.current.quiz).toEqual(BLANK);
     await waitFor(async () => expect(await AsyncStorage.getItem(KEY)).toBeNull());
   });
+
+  // Its trip saved, the quiz is done with (owner, 2026-11-28: "the trip builder doesnt really reset"): nothing left
+  // on the phone, so it opens next on its first question. The screen, closing over the trip, is left as it is, and
+  // a late tap on it puts nothing back.
+  it("clears what is on the phone once its trip is saved, leaving the screen as it is", async () => {
+    await AsyncStorage.setItem(KEY, JSON.stringify(HALF));
+    const result = await open();
+
+    await act(async () => result.current.clear());
+
+    expect(result.current.quiz).toEqual(HALF);
+    await waitFor(async () => expect(await AsyncStorage.getItem(KEY)).toBeNull());
+    let took: Quiz | null = HALF;
+    await act(async () => {
+      took = result.current.answer({ step: "finish", value: "christchurch" });
+    });
+    expect(took).toBeNull();
+    expect(await AsyncStorage.getItem(KEY)).toBeNull();
+
+    const next = await open();
+    expect(next.current.quiz).toEqual(BLANK);
+  });
 });

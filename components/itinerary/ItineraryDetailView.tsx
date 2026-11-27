@@ -1164,6 +1164,20 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
               >
                 <Text style={styles.menuRowText}>Start a New Trip</Text>
               </TouchableOpacity>
+              {/* The trip quiz, for someone who has a trip (owner, 2026-11-28). Nothing is asked here: the quiz asks
+                  before the trip it builds replaces this one. The open day's edits are saved first. */}
+              <TouchableOpacity
+                style={[styles.menuRow, styles.menuRowDivider]}
+                activeOpacity={0.6}
+                accessibilityRole="button"
+                onPress={() => {
+                  setShowTripMenu(false);
+                  flushSave();
+                  router.push({ pathname: "/build-trip", params: { from: "menu" } });
+                }}
+              >
+                <Text style={styles.menuRowText}>Build a New Trip</Text>
+              </TouchableOpacity>
               {itineraries.length > 1 && (
                 <TouchableOpacity
                   style={[styles.menuRow, styles.menuRowDivider]}

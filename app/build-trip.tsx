@@ -148,10 +148,10 @@ function useTrips(quiz: Quiz | null, today: Date) {
  * Picking a trip saves it as their trip, with the app's own save, and opens it on the Trips tab. One trip each
  * (PLANNER.MAX_ITINERARIES): a trip they have already is saved over, after asking in Start a New Trip's words. With
  * more than one (an account from before the cap), the one the Trips tab lists first, as the api lists them: the
- * newest first. saving: the trip being saved, or waited on. saved: the quiz's own answer, given once it is saved.
+ * newest first. saving: the trip being saved, or waited on. saved: once it is saved (the screen clears the quiz).
  * signedOut: the api turned their sign-in down, and they were signed out to sign in again, with this email.
  */
-function usePickToSave(today: Date, saved: (key: string) => void, signedOut: (email: string) => void) {
+function usePickToSave(today: Date, saved: () => void, signedOut: (email: string) => void) {
   const { itineraries, addFlow, saveItinerary } = useItineraries();
   const { places, ready, refresh: refreshPlaces } = usePlaceLookup();
   const { enableGuest } = useSession();
@@ -213,18 +213,20 @@ function usePickToSave(today: Date, saved: (key: string) => void, signedOut: (em
       inFlight.current = false;
       return failed(e);
     }
-    saved(trip.key);
+    saved();
     // The website's event, its params with it (measureParams); replaced as words, as the website's true or false.
     logEvent("trip_saved", { trip: trip.key, replaced: String(!!over), ...tripMeasure(trip, state) });
     // The quiz is closed under the trip, so Back from it is the Trips tab's own and never comes back into the quiz.
     if (open.current) router.dismissTo({ pathname: "/(app)/(tabs)/itinerary/[itineraryId]", params: { itineraryId: id } });
   };
 
-  const pick = async (trip: QuizTrip, state: QuizState) => {
+  // auto: the one trip that fits, taken as picked with no tap (the screen's).
+  const pick = async (trip: QuizTrip, state: QuizState, auto = false) => {
     if (saving || inFlight.current) return;
     // The choice, sent as the card is taken, as the website sends it as its card is picked (quiz.js 919): a save
-    // cancelled or failed after it still counts it. trip_saved comes once the trip is saved.
-    logEvent("quiz_step", { step: "choice", answer: trip.key });
+    // cancelled or failed after it still counts it. None for the one trip taken by itself, as the website sends
+    // none for its (731). trip_saved comes once the trip is saved.
+    if (!auto) logEvent("quiz_step", { step: "choice", answer: trip.key });
     let mine = itineraries[0];
     // Their trips aren't in yet (just signed in, say): the card waits for them, then goes on as ever.
     if (addFlow === null) {
@@ -248,10 +250,10 @@ function usePickToSave(today: Date, saved: (key: string) => void, signedOut: (em
 }
 
 export default function BuildTripScreen() {
-  const { quiz, answer, back, settle, startAgain } = useQuiz();
-  // The way in, for analytics: the tour's last step and the Trips tab say which they are.
+  const { quiz, answer, back, settle, startAgain, clear } = useQuiz();
+  // The way in, for analytics: the tour's last step, the Trips tab and the trip's menu say which they are.
   const { from } = useLocalSearchParams<{ from?: string }>();
-  const way = from === "tour" || from === "trips" ? from : "other";
+  const way = from === "tour" || from === "trips" || from === "menu" ? from : "other";
   const { session } = useSession();
   // Whether someone is signed in. null while the phone is still reading it: nothing is decided until it knows.
   const signedIn = session.status === "loading" ? null : session.status === "authed";
@@ -297,10 +299,11 @@ export default function BuildTripScreen() {
     }
     for (const e of quizStepEvents(took.state, a)) logEvent("quiz_step", e);
   };
-  // The pick's own quiz_step went as its card was tapped (usePickToSave): saved, it is only kept.
+  // Saved, the quiz is done with: cleared, so it opens next on its first question (owner, 2026-11-28: "the trip
+  // builder doesnt really reset"). The pick's quiz_step went as its card was tapped (usePickToSave).
   const { saving, pick } = usePickToSave(
     today,
-    (key) => answer({ step: "choice", value: key }),
+    clear,
     (email) => setAgain({ email }),
   );
   // ...and what that came to is kept, so Back and a quiz opened again start from what was on screen. Signing in
@@ -315,6 +318,19 @@ export default function BuildTripScreen() {
   const Step = step ? STEPS[step] : undefined;
   // The second photo break: its photo is the whole screen, the top row drawn over it in white.
   const onPhoto = step === "break2";
+
+  // One trip fits: there is nothing to choose (owner, 2026-11-28), so it is taken as picked, the way a tap on its
+  // card takes it, asking first over a trip they have (the website skips its cards for one trip: quiz.js 731). Once
+  // for a set of answers, which build one set of trips, kept: not again after a Cancel, a failed save or a sign-in
+  // that ran out (its card is there to tap). Saved, the quiz is cleared. Held, as a tap is, while there's no signal.
+  const tookOnly = useRef<QuizTrip[] | null>(null);
+  useEffect(() => {
+    if (step !== "choice" || !shown || !signedIn || offline || trips?.length !== 1 || tookOnly.current === trips) return;
+    tookOnly.current = trips;
+    void pick(trips[0], shown.state, true);
+    // pick and shown are made anew at every draw: this goes by the trips and by what holds a tap.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, trips, signedIn, offline]);
 
   const onAnswer = (a: QuizAnswer) => {
     // A trip picked from its card: saved, and opened in Trips. The cards only show once signed in.

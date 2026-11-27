@@ -568,19 +568,45 @@ describe("the trip menu", () => {
       .getAllByRole("button")
       .map((b: any) => within(b).getByText(/./).props.children);
 
-  it("lists Edit Trip, Start a New Trip, Add to Calendar, Delete Trip, in that order", async () => {
+  it("lists Edit Trip, Start a New Trip, Build a New Trip, Add to Calendar, Delete Trip, in that order", async () => {
     const view = await openTrip();
     await fireEvent.press(view.getByLabelText("Trip options"));
 
-    expect(rowTexts(view)).toEqual(["Edit Trip", "Start a New Trip", "Add to Calendar", "Delete Trip"]);
+    expect(rowTexts(view)).toEqual(["Edit Trip", "Start a New Trip", "Build a New Trip", "Add to Calendar", "Delete Trip"]);
   });
 
-  it("puts Switch Trip after Start a New Trip when there are two trips", async () => {
+  it("puts Switch Trip after Build a New Trip when there are two trips", async () => {
     mockTrips.itineraries = [makeTrip(), { ...makeTrip(), id: "t2", title: "Taupo Leg" }];
     const view = await openTrip();
     await fireEvent.press(view.getByLabelText("Trip options"));
 
-    expect(rowTexts(view)).toEqual(["Edit Trip", "Start a New Trip", "Switch Trip", "Add to Calendar", "Delete Trip"]);
+    expect(rowTexts(view)).toEqual(["Edit Trip", "Start a New Trip", "Build a New Trip", "Switch Trip", "Add to Calendar", "Delete Trip"]);
+  });
+
+  // The trip quiz for someone who has a trip (owner, 2026-11-28: "trip builder for people that already have a trip? in
+  // the ... menu for a start"). Nothing is asked here: the quiz asks before the trip it builds replaces this one.
+  it("opens the trip quiz from Build a New Trip, saying it came from the menu, with nothing asked", async () => {
+    const view = await openTrip();
+    await fireEvent.press(view.getByLabelText("Trip options"));
+
+    await fireEvent.press(view.getByText("Build a New Trip"));
+
+    expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/build-trip", params: { from: "menu" } });
+    expect(alertSpy).not.toHaveBeenCalled();
+    expect(view.queryByTestId("trip-menu-card")).toBeNull();
+  });
+
+  // In the same row as the rest of the menu.
+  it("draws Build a New Trip as its neighbour Start a New Trip is drawn", async () => {
+    const view = await openTrip();
+    await fireEvent.press(view.getByLabelText("Trip options"));
+    const rowOf = (label: string) => {
+      for (let n: any = view.getByText(label); n; n = n.parent) if (n.props?.accessibilityRole === "button") return n;
+      throw new Error(`${label} isn't in a row`);
+    };
+
+    expect(StyleSheet.flatten(rowOf("Build a New Trip").props.style)).toEqual(StyleSheet.flatten(rowOf("Start a New Trip").props.style));
+    expect(StyleSheet.flatten(view.getByText("Build a New Trip").props.style)).toEqual(StyleSheet.flatten(view.getByText("Start a New Trip").props.style));
   });
 
   it("opens the trip editor on the trip as it stands", async () => {

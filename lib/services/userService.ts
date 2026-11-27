@@ -3,6 +3,7 @@ import { auth } from "@/lib/firebase";
 import { hooksBag } from "@/lib/hooksBag";
 import { queryClient } from "@/lib/providers/AppProviders";
 import * as Sentry from "@sentry/react-native";
+import { clearQuiz } from "@/lib/tripBuilder/quizStorage";
 
 export const userService = {
   // Deletes server-side (DELETE /v1/southislandguide/account), not with
@@ -53,10 +54,14 @@ async function accountIsGone(): Promise<boolean> {
 // writes may be waiting for signal: left queued, they'd send with the next account's token
 // and land in that account. The saved copy follows the cache. Unsent review drafts are kept
 // by place, not by user, so the next account to sign in here would find them.
+// The trip quiz's answers go too (owner, 2026-11-28: "the trip builder doesnt really reset"): the next
+// person on the phone, or this one as a guest, starts it afresh. The quiz on screen when the api turned
+// its sign-in down keeps what it holds, and saves it again as it moves on.
 // Call it after auth.signOut(): before, a screen still signed in could refetch the data
 // straight back into the cache.
 export function clearLocalUserData(uid: string | undefined) {
   if (uid) queryClient.removeQueries({ predicate: (q) => q.queryKey.includes(uid) });
   queryClient.getMutationCache().clear();
   hooksBag.useDraftsStore.setState({ drafts: {} });
+  void clearQuiz();
 }

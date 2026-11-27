@@ -406,14 +406,16 @@ it("walks on through pace, driving, who, age, the vibe, the second photo break, 
   expect(progress(view)).toBe(SITE_PROGRESS.choice);
 
   await wait();
-  // one trip fits a week from Queenstown and back: a card of its own, to pick as any card is
+  // one trip fits a week from Queenstown and back: its card, and nothing to choose, so it is taken as picked and
+  // saved, as a tap on it would ("when one trip fits", below)
   expect(view.getByText("1 trip fits Queenstown and back · 7 days")).toBeTruthy();
   expect(view.getByText(CARDS_TITLE)).toBeTruthy();
   expect(view.getAllByTestId("trip-card")).toHaveLength(1);
   expect(within(view.getByTestId("trip-card")).getByText(WEEK.label)).toBeTruthy();
   expect(progress(view)).toBe(SITE_PROGRESS.choice);
-  // nothing picked yet
-  expect(await saved()).toEqual(after(15));
+  await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-new")));
+  // saved, the quiz is cleared, so it opens next on its first question
+  await waitFor(async () => expect(await saved()).toBeNull());
 });
 
 // The whole quiz by hand, with a long weekend's four days: two trips fit, so there are two cards.
@@ -446,7 +448,8 @@ it("walks from the first question to a trip: every question, the wait, the trip 
   await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-new")));
   expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(1);
   expect(mockTrips.saveItinerary.mock.calls[0][0]).toMatchObject({ title: BUILT.label, startArea: "queenstown" });
-  await waitFor(async () => expect(await saved()).toEqual(picked(short(15), BUILT.key)));
+  // saved, the quiz is cleared, so it opens next on its first question
+  await waitFor(async () => expect(await saved()).toBeNull());
 });
 
 it("skips the month for Not sure yet", async () => {
@@ -591,9 +594,9 @@ describe("Back", () => {
   });
 
   it("goes back a question at a time, over the photo breaks, the answers kept", async () => {
-    const view = await openTrips(picked(after(15), WEEK.key));
+    const view = await openTrips(short(15));
     const back = () => fireEvent.press(view.getByLabelText("Back"));
-    expect(view.getByText(WEEK.label)).toBeTruthy();
+    expect(view.getByText(BUILT.label)).toBeTruthy();
 
     // from the cards, past the account step (signed in), to the last question
     await back();
@@ -621,7 +624,7 @@ describe("Back", () => {
     expect(view.queryByText("Queenstown, 7 days.")).toBeNull();
     await back();
     expect(view.getByText("How many days?")).toBeTruthy();
-    expect(view.getByTestId("days-count").props.accessibilityLabel).toBe("7 days");
+    expect(view.getByTestId("days-count").props.accessibilityLabel).toBe("4 days");
     await back();
     expect(view.getByText("How long have you got?")).toBeTruthy();
     await back();
@@ -629,7 +632,7 @@ describe("Back", () => {
     expect(view.queryByLabelText("Back")).toBeNull();
 
     // the answers are kept, the trip saved last among them, and the step it went back to is saved
-    await waitFor(async () => expect(await saved()).toEqual({ state: picked(after(15), WEEK.key).state, step: "start" }));
+    await waitFor(async () => expect(await saved()).toEqual({ state: short(15).state, step: "start" }));
   });
 
   it("goes from the first photo break to the finish", async () => {
@@ -694,8 +697,9 @@ describe("Somewhere else?", () => {
     expect(view.queryByText("Nelson")).toBeNull();
   });
 
+  // Two trips fit a long weekend, so the cards stay up to reach Start again (one trip is saved as it shows).
   it("is shut again after Start again", async () => {
-    const view = await openTrips(after(15));
+    const view = await openTrips(short(15));
     // all the way back from the trip's card to the start, where the other towns are opened
     for (let i = 0; i < 13; i++) await fireEvent.press(view.getByLabelText("Back"));
     await tap(view, "Somewhere else?");
@@ -703,7 +707,7 @@ describe("Somewhere else?", () => {
 
     // and all the way on again: the answers are still there, the swipe cards show their last one, and the trip's
     // card is there at once (it was built for these answers on the way in), with Start again under it
-    await tap(view, "Queenstown", "About a week", "Next", "Finish back in Queenstown", "Next", "Summer", MONTH);
+    await tap(view, "Queenstown", "A long weekend", "Next", "Finish back in Queenstown", "Next", "Summer", MONTH);
     await tap(view, "Some walking", "Some", "Couple", "30–44", "Next", "Next");
     await fireEvent.press(view.getByLabelText("Yes, add wine"));
     await tap(view, "Yes", "Start again");
@@ -829,8 +833,8 @@ describe("the account step", () => {
     await waitFor(async () => expect(await saved()).toEqual(short(15)));
   });
 
-  // Left on the cards with a trip saved, then signed out since: no trips without an account. The trip saved last
-  // is kept, marked for after.
+  // Left on the cards, then signed out other than by the app's sign-out (which clears the quiz): no trips without an
+  // account. A trip an earlier version kept as picked stays marked.
   it("is where a quiz left on the cards opens for someone not signed in, nothing built until they are", async () => {
     mockSession.status = "guest";
     await AsyncStorage.setItem(KEY, JSON.stringify(picked(short(15), BUILT.key)));
@@ -1001,13 +1005,13 @@ describe("the wait for the trips", () => {
   });
 
   it("has no Back on the cards opened again before they are built", async () => {
-    await AsyncStorage.setItem(KEY, JSON.stringify(picked(after(15), WEEK.key)));
+    await AsyncStorage.setItem(KEY, JSON.stringify(short(15)));
     const view = await open(WAITING);
 
     expect(view.queryByLabelText("Back")).toBeNull();
 
     await wait();
-    expect(within(view.getByTestId("trip-card")).getByText(WEEK.label)).toBeTruthy();
+    expect(view.getByText(CARDS_TITLE)).toBeTruthy();
     await back(view);
     expect(view.getByText("Food tips?")).toBeTruthy();
   });
@@ -1077,8 +1081,8 @@ describe("picking a trip", () => {
     expect(body.endDate).toBe(body.days[3].date);
     expect(body.days.map((d: any) => d.items.map((i: any) => i.siteId))).toEqual(trip.days.map((d) => d.items.map((i) => i.siteId)));
     expect(alertSpy).not.toHaveBeenCalled();
-    // and the quiz keeps it as the trip saved last
-    await waitFor(async () => expect(await saved()).toEqual(picked(short(15), BUILT.key)));
+    // and the quiz is cleared, so it opens next on its first question
+    await waitFor(async () => expect(await saved()).toBeNull());
   });
 
   it("asks first when they have a trip, in Start a New Trip's words, and saves over it on Continue", async () => {
@@ -1165,7 +1169,7 @@ describe("picking a trip", () => {
     expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-new"));
   });
 
-  // Closed while it saves: the trip is still saved and kept as the pick, but there is no quiz to move on from.
+  // Closed while it saves: the trip is still saved and the quiz cleared, but there is no quiz to move on from.
   it("opens nothing when the quiz was closed before the save came back", async () => {
     let finish: (id: string) => void = () => {};
     mockTrips.saveItinerary = jest.fn(() => new Promise<string>((resolve) => (finish = resolve)));
@@ -1176,7 +1180,7 @@ describe("picking a trip", () => {
     await act(async () => finish("trip-new"));
 
     expect(mockRouter.dismissTo).not.toHaveBeenCalled();
-    await waitFor(async () => expect(await saved()).toEqual(picked(short(15), BUILT.key)));
+    await waitFor(async () => expect(await saved()).toBeNull());
   });
 
   it("keeps them on the cards when it can't be saved, in the app's words, the card tappable again", async () => {
@@ -1330,13 +1334,108 @@ describe("picking a trip", () => {
     });
   });
 
-  it("saves the one trip that fits from its own card", async () => {
-    const view = await openTrips(after(15));
+  // One trip fits the answers: nothing to choose (owner, 2026-11-28: "trip pick step shows even w only one card"), so
+  // it is taken as picked, the way a tap on its card takes it. The website skips its cards for one trip too (quiz.js
+  // 731), and sends no choice for it. Once for a set of answers.
+  describe("when one trip fits", () => {
+    const steps = () => mockLog.mock.calls.filter((c) => c[0] === "quiz_step");
 
-    await tap(view, WEEK.label);
+    it("is saved and opened in Trips with no tap, for someone with no trip yet", async () => {
+      await openTrips(after(15));
 
-    await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-new")));
-    expect(mockTrips.saveItinerary.mock.calls[0][0]).toMatchObject({ title: WEEK.label, startArea: "queenstown" });
+      await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-new")));
+      expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(1);
+      expect(mockTrips.saveItinerary.mock.calls[0][0]).toMatchObject({ title: WEEK.label, startArea: "queenstown" });
+      await waitFor(async () => expect(await saved()).toBeNull());
+      expect(steps()).toEqual([]);
+      expect(mockLog.mock.calls.filter((c) => c[0] === "trip_saved")).toHaveLength(1);
+      expect(alertSpy).not.toHaveBeenCalled();
+    });
+
+    it("asks first when they have a trip, and saves over it on Continue", async () => {
+      mockTrips.itineraries = [MINE];
+      mockTrips.saveItinerary = jest.fn(() => Promise.resolve(MINE.id));
+      await openTrips(after(15));
+
+      expect(alertSpy).toHaveBeenCalledWith("Start a New Trip?", "It replaces Hot Pools Weekend and its places.", expect.any(Array));
+      expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+      await press("Continue");
+
+      await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen(MINE.id)));
+      expect(mockTrips.saveItinerary.mock.calls[0][0]).toMatchObject({ id: MINE.id, title: WEEK.label });
+    });
+
+    it("leaves them on its card on Cancel, asks no more for these answers, and Back goes as ever", async () => {
+      mockTrips.itineraries = [MINE];
+      const view = await openTrips(after(15));
+      await press("Cancel");
+
+      expect(within(cardOf(view, WEEK.label)).queryByTestId("trip-saving")).toBeNull();
+      expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+      // back to the last question and on with the same answer: the same trip, not asked about again
+      await fireEvent.press(view.getByLabelText("Back"));
+      expect(view.getByText("Food tips?")).toBeTruthy();
+      await tap(view, "Yes");
+      expect(view.getByText(WEEK.label)).toBeTruthy();
+      expect(alertSpy).toHaveBeenCalledTimes(1);
+      // a tap on its card still saves it, after asking
+      await tap(view, WEEK.label);
+      expect(alertSpy).toHaveBeenCalledTimes(2);
+    });
+
+    // A save with no signal would only wait for it: held as a tap is held, and made once the signal is back.
+    it("is held with no signal, its card saying so, and saved once the signal is back", async () => {
+      mockNet.isConnected = false;
+      const view = await openTrips(after(15));
+
+      expect(view.getByText("Reconnect to Add")).toBeTruthy();
+      expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+
+      mockNet.isConnected = true;
+      await view.rerender(<BuildTripScreen />);
+      await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-new")));
+      expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(1);
+    });
+
+    it("waits for their trips when they aren't in yet, then goes on as ever", async () => {
+      mockTrips.addFlow = null;
+      mockListTrips.mockResolvedValue([]);
+      await openTrips(after(15));
+
+      await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-new")));
+      expect(mockListTrips).toHaveBeenCalledTimes(1);
+      expect(mockTrips.saveItinerary.mock.calls[0][0]).not.toHaveProperty("id");
+    });
+
+    it("goes to the account step on Sign in when the sign-in has run out, and isn't saved by itself again", async () => {
+      mockTrips.saveItinerary = jest.fn().mockRejectedValue(new ApiError(401, "unauthorized"));
+      const view = await openTrips(after(15));
+
+      await waitFor(() => expect(mockClearLocalUserData).toHaveBeenCalledWith("uid-1"));
+      mockSession.status = "guest";
+      await view.rerender(<BuildTripScreen />);
+      expect(view.getByText("Sign-in form: login, kia@ora.nz, Please sign in again to save your trip.")).toBeTruthy();
+
+      // signed in again: back on its card, to tap
+      mockSession.status = "authed";
+      await view.rerender(<BuildTripScreen />);
+      expect(view.getByText(WEEK.label)).toBeTruthy();
+      expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(1);
+    });
+
+    it("stays on its card with the app's words when it can't be saved, to tap again", async () => {
+      mockTrips.saveItinerary = jest.fn().mockRejectedValueOnce(new Error("no signal")).mockResolvedValueOnce("trip-new");
+      const view = await openTrips(after(15));
+
+      await waitFor(() => expect(alertSpy).toHaveBeenCalledWith("Couldn't save the trip. Try again."));
+      expect(within(cardOf(view, WEEK.label)).queryByTestId("trip-saving")).toBeNull();
+      expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(1);
+
+      await tap(view, WEEK.label);
+      await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-new")));
+      // the tap is a choice, as any tap on a card is
+      expect(steps()).toEqual([["quiz_step", { step: "choice", answer: WEEK.key }]]);
+    });
   });
 
   it("starts the quiz again from the foot of the cards, with nothing kept", async () => {
@@ -1363,40 +1462,6 @@ describe("a quiz left on the trips", () => {
     expect(await saved()).toEqual(short(15));
   });
 
-  it("opens again on the cards with the trip saved last marked, and Back from them is the last question", async () => {
-    const view = await openTrips(picked(short(15), CHECKED.key));
-
-    expect(build).toHaveBeenCalledTimes(1);
-    expect(cardOf(view, CHECKED.label).props.accessibilityState).toEqual({ selected: true });
-    expect(cardOf(view, BUILT.label).props.accessibilityState).toEqual({ selected: false });
-    expect(progress(view)).toBe(SITE_PROGRESS.choice);
-    expect(await saved()).toEqual(picked(short(15), CHECKED.key));
-
-    await fireEvent.press(view.getByLabelText("Back"));
-    expect(view.getByText("Food tips?")).toBeTruthy();
-    expect(progress(view)).toBe(SITE_PROGRESS.food);
-  });
-
-  // The trip saved from it is their trip now: another card replaces it, after asking.
-  it("asks before another trip replaces the one saved from it", async () => {
-    mockTrips.itineraries = [{ ...MINE, title: CHECKED.label }];
-    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
-    const view = await openTrips(picked(short(15), CHECKED.key));
-
-    await tap(view, BUILT.label);
-
-    expect(alertSpy).toHaveBeenCalledWith("Start a New Trip?", `It replaces ${CHECKED.label} and its places.`, expect.any(Array));
-    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
-    alertSpy.mockRestore();
-  });
-
-  it("opens again on the one trip that fits, on its card", async () => {
-    const view = await openTrips(picked(after(15), WEEK.key));
-
-    expect(view.getAllByTestId("trip-card")).toHaveLength(1);
-    expect(cardOf(view, WEEK.label).props.accessibilityState).toEqual({ selected: true });
-  });
-
   // An older version showed the trip, read-only, before saving it: a quiz left there opens on the cards.
   it("opens on the cards when it was left on the trip of an older version", async () => {
     const view = await openTrips({ ...picked(short(15), BUILT.key), step: "reveal" } as unknown as Quiz);
@@ -1404,13 +1469,64 @@ describe("a quiz left on the trips", () => {
     expect(view.getByText(CARDS_TITLE)).toBeTruthy();
     expect(cardOf(view, BUILT.label).props.accessibilityState).toEqual({ selected: true });
   });
+});
 
-  // The builder's data changed in an update, say: the trip saved last isn't one of these any more.
-  it("marks no card when the trip saved last is no longer one of them", async () => {
-    const view = await openTrips(picked(short(15), "a-trip-that-is-gone"));
+// Once its trip is saved, the quiz is done with (owner, 2026-11-28: "the trip builder doesnt really reset"): cleared,
+// so the next open, from the Trips tab, the tour or the trip's menu, is its first question with nothing answered. A
+// quiz closed before any save opens again where it was left, as ever.
+describe("once its trip is saved", () => {
+  it("is cleared, and opens next on its first question with nothing answered", async () => {
+    const view = await openTrips(short(15));
 
-    expect(view.getByText(CARDS_TITLE)).toBeTruthy();
-    expect(view.getAllByTestId("trip-card").map((c: any) => c.props.accessibilityState.selected)).toEqual([false, false]);
+    await tap(view, BUILT.label);
+    await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalled());
+    await waitFor(async () => expect(await saved()).toBeNull());
+    await view.unmount();
+    jest.useRealTimers();
+    mockLog.mockClear();
+
+    const next = await open();
+    expect(next.queryByLabelText("Back")).toBeNull();
+    expect(next.getAllByTestId("town-card").map((c: any) => c.props.accessibilityState.selected)).toEqual([false, false, false, false]);
+    // a new visit: its first answer begins the quiz again
+    await tap(next, "Queenstown");
+    expect(mockLog.mock.calls[0]).toEqual(["quiz_start", { from: "other" }]);
+  });
+
+  it("is cleared when the one trip that fits is saved by itself", async () => {
+    await openTrips(after(15));
+
+    await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalled());
+    await waitFor(async () => expect(await saved()).toBeNull());
+  });
+
+  // Not saved: the answers stay, for the cards again or to try again.
+  it("isn't cleared by a Replace cancelled, or a save that failed", async () => {
+    const alertSpy: jest.SpyInstance = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    const press = (text: string) =>
+      act(async () => alertSpy.mock.calls[alertSpy.mock.calls.length - 1][2].find((b: any) => b.text === text).onPress?.());
+    mockTrips.itineraries = [MINE];
+    mockTrips.saveItinerary = jest.fn().mockRejectedValue(new Error("no signal"));
+    const view = await openTrips(short(15));
+
+    await tap(view, BUILT.label);
+    await press("Cancel");
+    expect(await saved()).toEqual(short(15));
+
+    await tap(view, BUILT.label);
+    await press("Continue");
+    await waitFor(() => expect(alertSpy).toHaveBeenCalledWith("Couldn't save the trip. Try again."));
+    expect(await saved()).toEqual(short(15));
+    alertSpy.mockRestore();
+  });
+
+  it("keeps a quiz closed before any save, which opens again where it was left", async () => {
+    const view = await from(7, "How active?");
+    await tap(view, "Some walking");
+    await view.unmount();
+
+    const again = await open("How much driving?");
+    expect(again.getByLabelText("Back")).toBeTruthy();
   });
 });
 
@@ -1435,6 +1551,7 @@ describe("analytics", () => {
   it.each([
     ["the tour", { from: "tour" }, "tour"],
     ["the Trips tab", { from: "trips" }, "trips"],
+    ["the trip's menu", { from: "menu" }, "menu"],
     ["anywhere else", {}, "other"],
     ["an address it doesn't know", { from: "somewhere" }, "other"],
   ])("starts a fresh quiz from %s with quiz_start, once, as its first answer is given", async (_way, params, from) => {
@@ -1630,7 +1747,8 @@ const EVERY_STEP: [string, () => Quiz, string][] = [
   ["into", () => after(13), "What are you into?"],
   ["food", () => after(14), "Food tips?"],
   ["account", () => onAccount(after(15)), ACCOUNT_TITLE],
-  ["choice", () => after(15), CARDS_TITLE],
+  // Two trips: one alone would be saved as it shows.
+  ["choice", () => short(15), CARDS_TITLE],
 ];
 // The screen opened on one of them: someone not signed in for the account step, the trips built for the cards.
 const openOn = async ([step, quiz, title]: (typeof EVERY_STEP)[number]) => {

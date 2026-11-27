@@ -6,13 +6,16 @@ jest.mock("@/lib/providers/AppProviders", () => {
 });
 jest.mock("@/lib/hooksBag", () => ({ hooksBag: { useDraftsStore: { setState: jest.fn() } } }));
 jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
+// The trip quiz's answers kept on the phone (lib/tripBuilder/quizStorage, which has its own tests).
+const mockClearQuiz = jest.fn(() => Promise.resolve());
+jest.mock("@/lib/tripBuilder/quizStorage", () => ({ clearQuiz: () => mockClearQuiz() }));
 
 import * as Sentry from "@sentry/react-native";
 import { client } from "@/lib/api";
 import { auth } from "@/lib/firebase";
 import { hooksBag } from "@/lib/hooksBag";
 import { queryClient } from "@/lib/providers/AppProviders";
-import { userService } from "@/lib/services/userService";
+import { clearLocalUserData, userService } from "@/lib/services/userService";
 
 const mockDeleteAccount = client.auth.deleteAccount as jest.Mock;
 const mockSignOut = auth.signOut as jest.Mock;
@@ -115,5 +118,29 @@ describe("userService.deleteAccount", () => {
 
     await expect(userService.deleteAccount()).rejects.toThrow("server error");
     expect(mockSignOut).not.toHaveBeenCalled();
+  });
+});
+
+// Every sign-out ends here (the Account tab's, the trip quiz's when the api turned its sign-in down, and a deleted
+// account's). The trip quiz's answers go with the rest: the next person on the phone, or this one as a guest, starts
+// it afresh (owner, 2026-11-28: "the trip builder doesnt really reset").
+describe("clearLocalUserData", () => {
+  beforeEach(() => jest.clearAllMocks());
+
+  it("clears the trip quiz kept on the phone, with the account's cache, writes and drafts", () => {
+    clearLocalUserData("user-1");
+
+    expect(mockClearQuiz).toHaveBeenCalledTimes(1);
+    expect(mockRemoveQueries).toHaveBeenCalledTimes(1);
+    expect(mockClearMutations).toHaveBeenCalledTimes(1);
+    expect(mockSetDrafts).toHaveBeenCalledWith({ drafts: {} });
+  });
+
+  it("clears it after a deleted account too", async () => {
+    mockDeleteAccount.mockResolvedValue(null);
+
+    await userService.deleteAccount();
+
+    expect(mockClearQuiz).toHaveBeenCalledTimes(1);
   });
 });

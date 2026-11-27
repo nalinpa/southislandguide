@@ -14,7 +14,7 @@ import { useItineraries } from "@/lib/hooks/useItineraries";
 import { usePlaceLookup } from "@/lib/hooks/usePlaceLookup";
 import { slotIndexToTimeLabel, slotsToDurationLabel, tripSummary, tryEdit } from "@/lib/utils/itineraryPhysics";
 import type { EditResult } from "@/lib/utils/itineraryPhysics";
-import type { PlaceLookup } from "@/lib/utils/transitMatrix";
+import { areaHub, type PlaceLookup } from "@/lib/utils/transitMatrix";
 import { clearPendingSlot, peekPendingSlot, setPendingSlot } from "@/lib/pendingSlot";
 import { nearestPlaces } from "@/lib/utils/nearby";
 import { areaName } from "@/lib/areas";
@@ -35,7 +35,8 @@ type Site = { id: string; name: string; imageUrl?: string; category?: SiteCatego
 
 // The trip as adding the place to a day at a time would leave it, through the gate every
 // edit goes through. Used to add it, and beforehand to say which days and times have room.
-function candidateEdit(days: ItineraryDay[], dayId: string, site: Site, startSlot: number, durationSlots: number, places: PlaceLookup) {
+// startFrom: where day 1 sets off, for a trip that records its start town (itineraryPhysics).
+function candidateEdit(days: ItineraryDay[], dayId: string, site: Site, startSlot: number, durationSlots: number, places: PlaceLookup, startFrom?: string) {
   const newItem: ItineraryItem = {
     id: `item_${Date.now()}`,
     siteId: site.id,
@@ -56,6 +57,7 @@ function candidateEdit(days: ItineraryDay[], dayId: string, site: Site, startSlo
     days.map((d) => (d.id === dayId ? { ...d, items } : d)),
     dayId,
     places,
+    startFrom,
   );
   return { newItem, result };
 }
@@ -73,6 +75,8 @@ type Added = { tripId: string; tripTitle: string; dayId: string; dayLabel: strin
   lastSlot: number;
   /** The trip's days as the last save in this sheet left them, so the next + packs against them. */
   days: ItineraryDay[];
+  /** Where the trip's day 1 sets off, if it records its start town (areaHub). */
+  startFrom?: string;
   /** The closest places not in the trip, worked out once, with the trip as it now is. More
    *  than are shown: only the ones that still fit on the day are listed. */
   near: (NearRow & { durationSlots: number })[];
@@ -162,11 +166,13 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
   }, [site?.id, initialItineraryId, itineraries]);
 
   const selectedTrip = itineraries.find((i) => i.id === itineraryId);
+  // Where the trip's day 1 sets off, for one that records its start town: every fit below counts from it.
+  const startFrom = areaHub(selectedTrip?.startArea);
   // Each day's towns, as the trip overview shows them, so a day can be told apart by more
   // than its number.
   const summary = useMemo(
-    () => (selectedTrip && placesReady ? tripSummary(selectedTrip.days, places) : []),
-    [selectedTrip, placesReady, places],
+    () => (selectedTrip && placesReady ? tripSummary(selectedTrip.days, places, startFrom) : []),
+    [selectedTrip, placesReady, places, startFrom],
   );
 
   // The gap "Find more things to do" was opened from, if its day is still there. Its time
@@ -189,7 +195,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     if (!site || !selectedTrip || !placesReady) return map;
     for (const d of selectedTrip.days) {
       times.forEach((t, i) => {
-        const { newItem, result } = candidateEdit(selectedTrip.days, d.id, site, t.startSlot, durationSlots, places);
+        const { newItem, result } = candidateEdit(selectedTrip.days, d.id, site, t.startSlot, durationSlots, places, startFrom);
         // The packer moves a place later until it fits, so asking for Morning on a day
         // with a busy morning "fits", in the afternoon. That part of the day is full all
         // the same (owner, 2026-11-11): full when the place would land in a later part.
@@ -246,7 +252,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
       return;
     }
     const dayId = day.id;
-    const { newItem, result } = candidateEdit(selectedTrip.days, dayId, site, slot, durationSlots, places);
+    const { newItem, result } = candidateEdit(selectedTrip.days, dayId, site, slot, durationSlots, places, startFrom);
     if (!result.ok) {
       setErrorMsg(result.reason);
       return;
@@ -288,6 +294,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
       dayNumber: dayIndex + 1,
       lastSlot: placedItem.slotIndex ?? 0,
       days: updatedDays,
+      startFrom,
       endSlot: (placedItem.slotIndex ?? 0) + (placedItem.durationSlots ?? durationSlots),
       near,
     });
@@ -315,7 +322,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     if (isOffline) return; // a paused save would hold the sheet; the + is off too
     const n = done.near.find((x) => x.id === id);
     if (!n) return;
-    const { newItem, result } = candidateEdit(done.days, done.dayId, { id: n.id, name: n.name, imageUrl: n.imageUrl ?? undefined }, done.endSlot, n.durationSlots, places);
+    const { newItem, result } = candidateEdit(done.days, done.dayId, { id: n.id, name: n.name, imageUrl: n.imageUrl ?? undefined }, done.endSlot, n.durationSlots, places, done.startFrom);
     if (!result.ok) {
       setRowState((r) => ({ ...r, [id]: { state: "message", text: `No room left on Day ${done.dayNumber}.` } }));
       return;
@@ -345,7 +352,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
           (n) =>
             rowState[n.id]?.state === "added" ||
             rowState[n.id]?.state === "saving" ||
-            candidateEdit(added.days, added.dayId, { id: n.id, name: n.name, imageUrl: n.imageUrl ?? undefined }, added.endSlot, n.durationSlots, places).result.ok,
+            candidateEdit(added.days, added.dayId, { id: n.id, name: n.name, imageUrl: n.imageUrl ?? undefined }, added.endSlot, n.durationSlots, places, added.startFrom).result.ok,
         )
         .slice(0, NEAR_SHOWN)
     : [];

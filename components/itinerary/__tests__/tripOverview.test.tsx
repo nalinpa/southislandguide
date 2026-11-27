@@ -236,72 +236,17 @@ describe("TripOverview", () => {
     expect(view.getByText("South Island Trip")).toBeTruthy();
   });
 
-  // The trip quiz draws the trip it has built with this list before it is saved, under a heading of its own
-  // (the trip's name, when it is and what it was built for).
-  describe("unsaved", () => {
-    const { Text } = require("react-native");
-    const unsaved = (dates: string[]) =>
-      render(
-        <TripOverview
-          title="South Island Trip"
-          days={packTrip(dates.map((date, i) => ({ id: "day_" + (i + 1), date, items: [at("s" + i, "chc-a")] })), places)}
-          places={places}
-          imageFor={() => null}
-          onOpenDay={jest.fn()}
-          header={<Text>Their own heading</Text>}
-          unsaved
-        />,
-      );
-
-    it("leaves its own name and dates row out: the caller's header says them", async () => {
-      const view = await unsaved(["2020-10-14"]);
-
-      expect(view.getByText("Their own heading")).toBeTruthy();
-      expect(view.queryByText("South Island Trip")).toBeNull();
-      expect(view.queryByText(/1 day/)).toBeNull();
-      expect(view.getByText("Day 1 · Wed 14 Oct")).toBeTruthy();
-    });
-
-    // Its dates are a first guess (the first of the month picked), so a day that falls on today means nothing:
-    // and scrolling to it would open the list below the caller's heading.
-    it("has no today, and opens at its top, even with a day on today's date", async () => {
-      const scrollTo = (ScrollView.prototype as any).scrollTo as jest.Mock;
-      scrollTo.mockClear();
-      const view = await unsaved(["2020-01-01", "2020-01-02", localIso(new Date())]);
-
-      await fireEvent(view.getByTestId("day-row-day_3"), "layout", { nativeEvent: { layout: { x: 16, y: 400, width: 343, height: 110 } } });
-
-      expect(view.queryByText("Today")).toBeNull();
-      expect(view.queryByLabelText(/today/)).toBeNull();
-      expect(scrollTo).not.toHaveBeenCalled();
-    });
-  });
-
-  // The trip quiz marks a day with more driving than was asked for. The list has no such rule of its own (it
-  // doesn't know what was asked for), so the caller says the line and the list shows it as it shows its own warning.
-  it("shows a caller's own line on a day, and reads it out with that row", async () => {
-    const days = packTrip(
-      [
-        { id: "day_1", date: "2020-10-14", items: [at("a", "chc-a")] },
-        { id: "day_2", date: "2020-10-15", items: [at("b", "chc-b")] },
-      ],
-      places,
-    );
+  // A trip from the trip quiz records the town it starts from: day 1 sets off from there (its hub, standing in here
+  // as a Christchurch place), so it opens with the drive out of it, said and counted as a later day's is.
+  it("says and counts day 1's drive out of the town a trip starts from", async () => {
+    const days = packTrip([{ id: "day_1", date: "2020-10-14", items: [at("a", "dun-a")] }], places, "chc-a");
     const view = await render(
-      <TripOverview
-        title="South Island Trip"
-        days={days}
-        places={places}
-        imageFor={() => null}
-        onOpenDay={jest.fn()}
-        dayNote={(n) => (n === 1 ? "Long drive. About 4 h 30 of driving." : null)}
-      />,
+      <TripOverview title="South Island Trip" days={days} places={places} imageFor={() => null} onOpenDay={jest.fn()} startFrom="chc-a" />,
     );
 
-    expect(view.getAllByText("Long drive. About 4 h 30 of driving.")).toHaveLength(1);
-    expect(view.getByText("Long drive. About 4 h 30 of driving.")).toHaveStyle({ color: tokens.colors.warning });
-    expect(view.getByLabelText("Day 2, Thursday 15 October, Christchurch, 1 place, Long drive. About 4 h 30 of driving.")).toBeTruthy();
-    expect(view.getByLabelText("Day 1, Wednesday 14 October, Christchurch, 1 place")).toBeTruthy();
+    expect(view.getByText("Starts with the drive from Christchurch")).toBeTruthy();
+    expect(view.getByText("1 place · 4.5 hours driving")).toBeTruthy();
+    expect(view.getByLabelText("Day 1, Wednesday 14 October, Dunedin, 1 place, 4.5 hours driving, starts with the drive from Christchurch")).toBeTruthy();
   });
 });
 

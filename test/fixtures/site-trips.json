@@ -1,5 +1,5 @@
 {
- "site": "190334c6d59c2e25bdb1437c4d08b5d1dda45377",
+ "site": "f2c29c9bb07e691925c65a136cd8fb0312f61507",
  "cases": [
   {"ans":{"start":"christchurch","days":21,"pace":"hikes","drive":120,"food":true,"vibes":[],"into":[],"activities":[]},"trips":3,"sha256":"482e67f2c26d777f49fecdeba1c98ab4ddf3e24d8d66fd014b6ee9038efa489a"},
   {"ans":{"start":"christchurch","days":17,"pace":"hikes","drive":120,"food":true,"vibes":[],"into":[],"activities":[]},"trips":2,"sha256":"b74d69464b33936bdd3f241e17dd1db22e0be4d7968010987e891fc29790c482"},

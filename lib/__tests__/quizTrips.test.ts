@@ -9,7 +9,7 @@ jest.mock("@/assets/data/area-drive-minutes.json", () => jest.requireActual("../
 jest.mock("@/assets/data/area-hubs.json", () => jest.requireActual("../../assets/data/area-hubs.json"));
 jest.mock("@/assets/data/far-place-minutes.json", () => jest.requireActual("../../assets/data/far-place-minutes.json"));
 jest.mock("@/assets/data/leg-minutes.json", () => jest.requireActual("../../assets/data/leg-minutes.json"));
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 
 import data from "@/assets/data/builder-data.json";
@@ -180,6 +180,12 @@ describe("a built trip as the app's trip", () => {
     expect(new Set(all).size).toBe(all.length);
   });
 
+  // So the trip screen can draw day 1's drive out of it, as the builder timed it (the website sends the same, 68fc178).
+  it("says which town it starts from", () => {
+    expect(trip.start).toBe("queenstown");
+    expect(tripBody(trip, "2027-01-30", ids).startArea).toBe("queenstown");
+  });
+
   // A place can be switched off after the builder's data was made. The app drops a stop it has no place for.
   it("drops a stop whose place the app doesn't have, and keeps the rest of its day", () => {
     const gone = trip.days[0].items[0].siteId;
@@ -209,5 +215,23 @@ describe("a built trip as the app's trip", () => {
     const theirs = theirOwn.tripBody(trip, "2027-01-30", () => String(++k));
 
     expect(JSON.stringify(tripBody(trip, "2027-01-30", ids))).toBe(JSON.stringify(theirs));
+  });
+});
+
+// The bundled builder's data is the website's copy (scripts/copy-site-builder.mjs), made from the live place list.
+// A place in it that the app's place files don't have, or have switched off, would be dropped from a trip (above).
+describe("the builder's data in the app", () => {
+  // Riverside Markets: entered by hand in the admin panel, so in no place file (scripts/set-area.js, its EXTRA).
+  const BY_HAND = ["DXWpQTSPRQQKPt7SIcVi"];
+
+  it("names only places the app's place files have, switched on", () => {
+    const dir = path.resolve(__dirname, "../../assets/data");
+    const files = readdirSync(dir).filter((f) => /places.*\.json$/.test(f));
+    const on = new Set(
+      files.flatMap((f) => (JSON.parse(readFileSync(path.join(dir, f), "utf8")) as { slug: string; active?: boolean }[]).filter((p) => p.active !== false).map((p) => p.slug)),
+    );
+    const named = new Set([...Object.keys(data.places), ...data.blocks.flatMap((b) => b.items.map((i) => i.siteId))]);
+
+    expect([...named].filter((id) => !on.has(id) && !BY_HAND.includes(id))).toEqual([]);
   });
 });

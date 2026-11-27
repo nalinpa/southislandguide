@@ -299,6 +299,22 @@ describe("overlapping dates", () => {
     expect(mockTrips.saveItinerary).toHaveBeenCalledWith(expect.objectContaining({ id: "t1" }));
   });
 
+  // A trip from the trip quiz records the town it starts from. A trip saved over it here has none, so its own
+  // day 1 isn't timed from that town: the start goes with the trip it belonged to.
+  it("clears the start town of the trip it replaces, and a new trip has none to send", async () => {
+    mockTrips.itineraries = [{ id: "t1", title: "Quiz Trip", startDate: "2020-01-01", endDate: "2020-01-02", days: [], startArea: "christchurch" }];
+    const replace = await openModal({ replaceId: "t1" });
+    await fireEvent.press(replace.getByText("Create Trip"));
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(1));
+    expect(mockTrips.saveItinerary.mock.calls[0][0]).toMatchObject({ id: "t1", startArea: null });
+    await replace.unmount();
+
+    const fresh = await openModal();
+    await fireEvent.press(fresh.getByText("Create Trip"));
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(2));
+    expect(mockTrips.saveItinerary.mock.calls[1][0]).not.toHaveProperty("startArea");
+  });
+
   it("explains the server's own overlap rejection", async () => {
     mockTrips.saveItinerary = jest.fn().mockRejectedValue(new ApiError(409, "overlap"));
     const view = await openModal();
@@ -375,6 +391,8 @@ describe("editing a trip", () => {
     expect(payload.days[1].items).toHaveLength(2);
     expect(props.onCreated).toHaveBeenCalledWith("trip-1");
     expect(logEvent).not.toHaveBeenCalled(); // an edit is not a new trip
+    // and it keeps the town it starts from, if it has one: an edit doesn't send it
+    expect(payload).not.toHaveProperty("startArea");
   });
 
   it("asks before shortening it past days that hold places, and saves only on yes", async () => {

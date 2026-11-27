@@ -47,6 +47,9 @@ const mockLookup = {
 jest.mock("@/lib/hooks/usePlaceLookup", () => ({ usePlaceLookup: () => mockLookup }));
 
 jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn() }));
+// Where a trip that starts in Christchurch sets off (only a trip from the trip quiz says where it starts): the
+// Botanic Gardens stand in for the town's hub.
+jest.mock("@/assets/data/area-hubs.json", () => ({ christchurch: "chc-a" }));
 
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
 jest.mock("expo-router", () => ({
@@ -426,6 +429,28 @@ describe("refusals", () => {
     await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
     const day1 = mockTrips.saveItinerary.mock.calls[0][0].days[0].items;
     expect(day1.map((i: any) => i.siteId)).toEqual(["chc-a", "dun-b"]);
+  });
+
+  // Day 1 of a trip that says where it starts sets off from that town: a Dunedin place goes after the 4.5 hour drive
+  // out of Christchurch, so Morning has no room and the sheet opens on Midday, landing at 12:30.
+  it("puts a place on day 1 after the drive from the town a trip starts from", async () => {
+    mockTrips.itineraries = [{ ...tripWithDays([], []), startArea: "christchurch" }];
+    const view = await render(<AddToTripModal site={dunedinPlace} onClose={onClose} />);
+
+    await fireEvent.press(view.getByText("Add"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    expect(mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0]).toMatchObject({ siteId: "dun-a", slotIndex: 9 });
+  });
+
+  it("puts it in the morning on a trip that doesn't say where it starts", async () => {
+    mockTrips.itineraries = [tripWithDays([], [])];
+    const view = await render(<AddToTripModal site={dunedinPlace} onClose={onClose} />);
+
+    await fireEvent.press(view.getByText("Add"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    expect(mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0]).toMatchObject({ siteId: "dun-a", slotIndex: 1 });
   });
 
   it("waits for the place list, so nothing is added without the drive check", async () => {

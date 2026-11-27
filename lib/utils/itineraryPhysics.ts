@@ -109,25 +109,28 @@ export function dayOverflows(items: ItineraryItem[]): boolean {
 // Where the traveller was before a day: the last place of the nearest earlier day
 // that has any. The app doesn't know where they sleep, so a change of area overnight
 // is always driven on the morning of the later day.
-export function dayStartSiteId(days: ItineraryDay[], dayIndex: number): string | undefined {
+// `startFrom`, on every function below that takes it: where the trip sets off, for a trip
+// that records its start town (its hub, transitMatrix's areaHub). Day 1 starts there, as
+// a later day starts from the last stop before it. Left out, day 1 starts with its first place.
+export function dayStartSiteId(days: ItineraryDay[], dayIndex: number, startFrom?: string): string | undefined {
   for (let i = dayIndex - 1; i >= 0; i--) {
     const items = days[i].items ?? [];
     if (items.length > 0) return items[items.length - 1].siteId;
   }
-  return undefined;
+  return startFrom;
 }
 
 // The stop a new place at `slot` of a day would follow: that day's last item starting
 // before it, else where the traveller was before the day.
-export function stopBefore(days: ItineraryDay[], dayId: string, slot: number): string | undefined {
+export function stopBefore(days: ItineraryDay[], dayId: string, slot: number, startFrom?: string): string | undefined {
   const dayIndex = days.findIndex((d) => d.id === dayId);
   if (dayIndex < 0) return undefined;
   const before = (days[dayIndex].items ?? []).filter((i) => (i.slotIndex || 0) < slot);
-  return before.length ? before[before.length - 1].siteId : dayStartSiteId(days, dayIndex);
+  return before.length ? before[before.length - 1].siteId : dayStartSiteId(days, dayIndex, startFrom);
 }
 
-export function packTrip(days: ItineraryDay[], places: PlaceLookup): ItineraryDay[] {
-  return days.map((day, i) => ({ ...day, items: runPhysicsEngine(day.items ?? [], places, dayStartSiteId(days, i)) }));
+export function packTrip(days: ItineraryDay[], places: PlaceLookup, startFrom?: string): ItineraryDay[] {
+  return days.map((day, i) => ({ ...day, items: runPhysicsEngine(day.items ?? [], places, dayStartSiteId(days, i, startFrom)) }));
 }
 
 // `move` is set on a drive only: the place it leads to (where a moved start is kept, as
@@ -182,16 +185,16 @@ export type DaySummary = {
 // One line per day for the trip view. `days` are packed, as the day timeline holds them.
 // No rule about travel lives here: what is a drive, how long it is and where a day
 // starts all come from dayLegs, so the trip view and the timeline can't disagree.
-export function tripSummary(days: ItineraryDay[], places: PlaceLookup): DaySummary[] {
+export function tripSummary(days: ItineraryDay[], places: PlaceLookup, startFrom?: string): DaySummary[] {
   return days.map((day, i) => {
     const items = day.items ?? [];
-    const startFrom = dayStartSiteId(days, i);
-    const legs = dayLegs(items, places, startFrom);
+    const from = dayStartSiteId(days, i, startFrom);
+    const legs = dayLegs(items, places, from);
     const opening = legs.find((leg) => leg.key === "opening");
     const areas: string[] = [];
     // Nothing planned: the traveller is still where they were, which is also where the
     // next day's drive is counted from.
-    const stayingIn = items.length === 0 && startFrom ? places(startFrom)?.area : undefined;
+    const stayingIn = items.length === 0 && from ? places(from)?.area : undefined;
     if (stayingIn) areas.push(stayingIn);
     for (const item of items) {
       const area = places(item.siteId)?.area;
@@ -250,9 +253,9 @@ export type EditResult = { ok: true; days: ItineraryDay[] } | { ok: false; reaso
 // is checked because changing a day's last place changes the drive the next day opens
 // with. "Later than it does now", so a trip already running late (saved before drive
 // times, or before a time was raised) can still be edited back into shape.
-export function tryEdit(current: ItineraryDay[], next: ItineraryDay[], editedDayId: string, places: PlaceLookup): EditResult {
-  const before = packTrip(current, places);
-  const days = packTrip(next, places);
+export function tryEdit(current: ItineraryDay[], next: ItineraryDay[], editedDayId: string, places: PlaceLookup, startFrom?: string): EditResult {
+  const before = packTrip(current, places, startFrom);
+  const days = packTrip(next, places, startFrom);
   const bad = days.findIndex((day) => {
     const was = before.find((d) => d.id === day.id);
     return dayOverflows(day.items) && endSlot(day.items) > endSlot(was?.items ?? []);
@@ -260,7 +263,7 @@ export function tryEdit(current: ItineraryDay[], next: ItineraryDay[], editedDay
   if (bad === -1) return { ok: true, days };
 
   const day = days[bad];
-  const legs = dayLegs(day.items, places, dayStartSiteId(days, bad));
+  const legs = dayLegs(day.items, places, dayStartSiteId(days, bad, startFrom));
 
   if (day.id !== editedDayId) {
     const n = current.findIndex((d) => d.id === day.id) + 1;

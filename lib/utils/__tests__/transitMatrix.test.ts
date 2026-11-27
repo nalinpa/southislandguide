@@ -34,7 +34,21 @@ jest.mock("@/assets/data/far-place-minutes.json", () => ({
 // Two pairs checked by hand: one inside Christchurch, one from Christchurch to Timaru.
 jest.mock("@/assets/data/leg-minutes.json", () => ({ "chc-b|chc-c": 45, "chc-c|tim-a": 80 }));
 
-import { getLeg, type PlaceLookup } from "@/lib/utils/transitMatrix";
+import { areaHub, getLeg, type PlaceLookup } from "@/lib/utils/transitMatrix";
+
+// Where a trip that starts in a town sets off, as the trip builder times its first drive (the trip quiz's trips record
+// their start town).
+describe("areaHub", () => {
+  it("is the town's hub, the place its drive times are measured from", () => {
+    expect(areaHub("queenstown")).toBe("qt-hub");
+  });
+
+  it("is none for no town, or a town with no hub", () => {
+    expect(areaHub(undefined)).toBeUndefined();
+    expect(areaHub(null)).toBeUndefined();
+    expect(areaHub("christchurch")).toBeUndefined();
+  });
+});
 
 // The area each test place is visited from. "nowhere" is listed but has no area; an id
 // that isn't a key here ("ghost") isn't in the place list at all. "oamaru" is an area the

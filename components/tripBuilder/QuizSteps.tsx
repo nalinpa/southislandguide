@@ -75,8 +75,8 @@ export type StepProps = {
 
 // The website's own small helpers (its page half, which the copy leaves out).
 const town = (id: string | null) => site.TOWNS.find((t) => t.id === id);
-export const days = (n: number | null) => `${n} ${n === 1 ? "day" : "days"}`;
-export const or = (names: string[]) => (names.length < 2 ? names.join("") : `${names.slice(0, -1).join(", ")} or ${names[names.length - 1]}`);
+const days = (n: number | null) => `${n} ${n === 1 ? "day" : "days"}`;
+const or = (names: string[]) => (names.length < 2 ? names.join("") : `${names.slice(0, -1).join(", ")} or ${names[names.length - 1]}`);
 // The days picker's quick numbers.
 const CHIPS = [3, 5, 7, 10, 12, 14, 17, 21];
 // The second break's four photos are the website's own files, so they load from it.
@@ -468,8 +468,23 @@ export function FoodStep({ state, onAnswer }: StepProps) {
   );
 }
 
-/** While the trips are built: the website's waiting words. */
-export function WaitStep() {
+/**
+ * While the trips are built: the website's waiting words. failed: building them failed, and its words for a load
+ * that failed stand in. Its way on is Start again: trying the same answers again would build them the same way.
+ */
+export function WaitStep({ failed, onAgain }: { failed?: boolean; onAgain?: () => void }) {
+  if (failed) {
+    return (
+      <View style={styles.step}>
+        <QuizHead title="Something went wrong" lead="The trips would not load." />
+        <View style={styles.foot}>
+          <AppButton variant="primary" fullWidth shape={QUIZ_BUTTON} onPress={onAgain}>
+            Start again
+          </AppButton>
+        </View>
+      </View>
+    );
+  }
   return (
     <View style={styles.step}>
       <QuizHead kicker="One moment" title="Picking the places that fit you…" />
@@ -492,10 +507,17 @@ function townsOf(trip: QuizTrip) {
 }
 
 /**
- * The trips that fit, a card each: the app's hand-checked trips first, then the ones built for the answers. Only
- * shown when there are several: one trip shows on its own (quizFlow's tripStep).
+ * The trips that fit, a card each (one trip: one card): the app's hand-checked trips first, then the ones built for
+ * the answers. A tap picks the trip, which the screen saves and opens in Trips; the one saved last is marked.
+ * saving: the trip being saved, its card busy and every card held till it is done. onAgain: Start again, at the foot.
  */
-export function ChoiceStep({ state, onAnswer, trips }: StepProps & { trips: QuizTrip[] }) {
+export function ChoiceStep({
+  state,
+  onAnswer,
+  trips,
+  saving = null,
+  onAgain,
+}: StepProps & { trips: QuizTrip[]; saving?: string | null; onAgain?: () => void }) {
   const photos = tripCardPhotos(trips);
   const from = town(state.start)?.name;
   const where = state.end === state.start ? `${from} and back` : `${from} to ${town(state.end)?.name}`;
@@ -512,9 +534,16 @@ export function ChoiceStep({ state, onAnswer, trips }: StepProps & { trips: Quiz
           line={townsOf(t)}
           foot={`${days(t.days.length)} · ${t.end === t.start ? `Loop · back in ${areaName(t.start)}` : `Ends in ${areaName(t.end)}`}`}
           selected={state.pick === t.key}
+          busy={saving === t.key}
+          disabled={saving !== null}
           onPress={() => onAnswer({ step: "choice", value: t.key })}
         />
       ))}
+      <View style={styles.foot}>
+        <AppButton variant="ghost" fullWidth disabled={saving !== null} onPress={onAgain}>
+          Start again
+        </AppButton>
+      </View>
     </View>
   );
 }

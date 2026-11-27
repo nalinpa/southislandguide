@@ -9,7 +9,7 @@ import timezone from "dayjs/plugin/timezone";
 import { areaName } from "@/lib/areas";
 import { dayLegs, dayStartSiteId } from "@/lib/utils/itineraryPhysics";
 import type { ItineraryDay } from "@/lib/models";
-import type { PlaceLookup } from "@/lib/utils/transitMatrix";
+import { areaHub, type PlaceLookup } from "@/lib/utils/transitMatrix";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -36,12 +36,13 @@ export type TripEvent = {
 const at = (date: string, slot: number) => dayjs.tz(`${date} 08:00`, NZ).add(slot * 30, "minute").toDate();
 
 // One event per place and one per drive between towns, as the day timeline shows them.
-// Short in-town hops aren't drives there either.
-export function tripCalendarEvents(tripTitle: string, days: ItineraryDay[], places: PlaceLookup): TripEvent[] {
+// Short in-town hops aren't drives there either. startFrom: where day 1 sets off, for a trip
+// that records its start town (itineraryPhysics's dayStartSiteId).
+export function tripCalendarEvents(tripTitle: string, days: ItineraryDay[], places: PlaceLookup, startFrom?: string): TripEvent[] {
   const events: TripEvent[] = [];
   days.forEach((day, i) => {
     const notes = `Day ${i + 1} of ${tripTitle} · Kiwi Guide`;
-    for (const leg of dayLegs(day.items, places, dayStartSiteId(days, i))) {
+    for (const leg of dayLegs(day.items, places, dayStartSiteId(days, i, startFrom))) {
       if (!leg.drive) continue;
       events.push({
         kind: "drive",
@@ -101,7 +102,11 @@ async function removeEvents(ids: string[]): Promise<string[]> {
 
 const looksLikeGoogle = (calendar: Calendar.ExpoCalendar) => /google|gmail/i.test(calendar.source?.name ?? "");
 
-export async function addTripToCalendar(trip: { id: string; title: string }, days: ItineraryDay[], places: PlaceLookup) {
+export async function addTripToCalendar(
+  trip: { id: string; title: string; startArea?: string | null },
+  days: ItineraryDay[],
+  places: PlaceLookup,
+) {
   // Before iOS asks the first time, say it's optional (it asks only once). Not Now, or an
   // alert dismissed any other way, leaves without asking.
   if ((await Calendar.getCalendarPermissions()).status === "undetermined") {
@@ -132,7 +137,7 @@ export async function addTripToCalendar(trip: { id: string; title: string }, day
   if (!calendar) return;
 
   const title = trip.title || "My Trip";
-  const events = tripCalendarEvents(title, days, places);
+  const events = tripCalendarEvents(title, days, places, areaHub(trip.startArea));
   const earlier = await earlierEventIds(trip.id);
   const keep = (list: string[]) => AsyncStorage.setItem(storeKey(trip.id), JSON.stringify(list)).catch(() => {});
   const ids: string[] = [];

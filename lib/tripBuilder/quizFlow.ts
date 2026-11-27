@@ -64,16 +64,16 @@ export type QuizAnswer =
   // the swipe cards, once the last one is answered (the copied deckAnswers gives the two lists)
   | { step: "into"; value: { into: string[]; activities: string[] } }
   | { step: "food"; value: boolean }
-  // the picked trip's key
+  // the picked trip's key, once it is saved (the screen's): the trip saved last
   | { step: "choice"; value: string };
-/** Every step that takes an answer, and the trip itself. */
-export type QuizStep = QuizAnswer["step"] | "reveal";
+/** Every step that takes an answer, and the account step (left by signing in: accountStep). */
+export type QuizStep = QuizAnswer["step"] | "account";
 /** The quiz: its answers and the step it is on. */
 export type Quiz = { state: QuizState; step: QuizStep };
 
-// "heard": not asked in the app. "account": the app asks for a sign-in at Save. "done": the website's
-// "now get the app" screen.
-const WEB_ONLY = ["heard", "account", "done"];
+// "heard": not asked in the app. "reveal": the trip, read-only until saved; in the app a picked trip is saved
+// and opens in Trips (owner, 2026-11-27: "save on pick"). "done": the website's "now get the app" screen.
+const WEB_ONLY = ["heard", "reveal", "done"];
 /** The website's steps in its order, less the three the app doesn't show. */
 export const QUIZ_STEPS = site.STEPS.filter((s) => !WEB_ONLY.includes(s)) as QuizStep[];
 
@@ -132,54 +132,60 @@ export function answerQuiz(st: QuizState, a: QuizAnswer): Quiz {
     case "into":
       return { state: { ...st, into: [...a.value.into], activities: [...a.value.activities], pick: null }, step: "food" };
     case "food":
-      // the website asks how they heard and for an account here; the app goes straight to the trips
-      return { state: { ...st, food: a.value, pick: null }, step: "choice" };
+      // the website asks how they heard here; the app goes straight to the account step, which someone signed
+      // in only passes through (accountStep)
+      return { state: { ...st, food: a.value, pick: null }, step: "account" };
     case "choice":
-      return { state: { ...st, pick: a.value }, step: "reveal" };
+      // the cards are the last step: the screen saves the trip and opens it in Trips
+      return { state: { ...st, pick: a.value }, step: "choice" };
   }
 }
 
 /**
  * Where Back goes from a step (the website's prevStep). From the first step it is the first step: the website
  * shows no Back there.
- * trips: the trips built for the answers (null: not built yet). Only the trip itself ("reveal") needs them.
+ * signedIn: whether someone is signed in. From the trip cards, Back goes past the account step for them.
  */
-export function backQuiz(st: QuizState, step: QuizStep, trips?: readonly { key: string }[] | null): QuizStep {
-  // The trip: back to the trip cards. One trip never showed its cards (tripStep), so Back from it goes on past them.
-  if (step === "reveal" && trips?.length !== 1) return "choice";
+export function backQuiz(st: QuizState, step: QuizStep, signedIn = false): QuizStep {
   // "Not sure yet" skipped the month on the way in.
   if (step === "pace") return st.season && st.season !== "unsure" ? "month" : "season";
   // The copied rule (never onto a photo break, nor the driving question a long, short trip skipped), stepped again
-  // past the steps the app doesn't show.
-  let at = site.backStep(site.STEPS.indexOf(step === "reveal" ? "choice" : step), st);
-  while (WEB_ONLY.includes(site.STEPS[at])) at = site.backStep(at, st);
+  // past the steps the app doesn't show, and past the account step for someone signed in: it would only send them
+  // on again (the website's prevStep).
+  const skip = signedIn ? [...WEB_ONLY, "account"] : WEB_ONLY;
+  let at = site.backStep(site.STEPS.indexOf(step), st);
+  while (skip.includes(site.STEPS[at])) at = site.backStep(at, st);
   return site.STEPS[at] as QuizStep;
 }
 
 /**
- * The trip cards ("choice") and the trip ("reveal"), settled against the trips built for the answers (the
- * website's render does this before it draws either). Any other step comes back as it is.
- * trips: null while they aren't built yet, and then nothing changes (the website shows its waiting screen and
- * leaves the pick alone). An empty list is built trips, none fitting the answers.
+ * The account step and the trip cards, settled against the sign-in (the website's render does this before it draws
+ * either): trips require an account (owner, 2026-11-27). Someone signed in goes on from the account step to the
+ * trip cards; someone who isn't is shown the account step in place of the cards, the pick kept for when they are.
+ * Any other step comes back as it is.
+ * The answers come back as the very ones given, so a screen can settle the quiz each time it draws.
+ * signedIn: null while the phone is still reading whether anyone is signed in. Nothing is decided then: for the
+ * account step and the cards this is null (wait for it); the questions come back as they are.
  */
-export function tripStep(st: QuizState, step: QuizStep, trips: readonly { key: string }[] | null): Quiz {
-  if (!trips) return { state: { ...st }, step };
-  // The picked trip isn't one of these (the answers or the data changed): pick again.
-  if (step === "reveal" && !trips.some((t) => t.key === st.pick)) return tripStep({ ...st, pick: null }, "choice", trips);
-  // One trip for the answers: no cards, it shows on its own (Back from it goes past the cards: backQuiz).
-  if (step === "choice" && trips.length === 1) return { state: { ...st, pick: trips[0].key }, step: "reveal" };
-  return { state: { ...st }, step };
+export function accountStep(q: Quiz, signedIn: boolean | null): Quiz | null {
+  if (q.step !== "account" && q.step !== "choice") return q;
+  if (signedIn === null) return null;
+  if (signedIn && q.step === "account") return { state: q.state, step: "choice" };
+  if (!signedIn && q.step === "choice") return { state: q.state, step: "account" };
+  return q;
 }
 
 /**
  * The quiz as it was left, from what was saved (anything, or nothing): the answers that still fit, on the saved
- * step or, when an earlier question has no answer, on that question.
+ * step or, when an earlier question has no answer, on that question. Who is signed in by then is accountStep's.
  */
 export function resumeQuiz(saved: unknown, today: Date): Quiz {
   const was = (saved ?? {}) as { state?: unknown; step?: unknown };
   // The copied rules: an answer that doesn't fit goes, with every answer after it.
   const state: QuizState = { ...site.cleanState(was.state, today), heard: "skip" };
+  // Left on the trip, which an older version showed before saving: the cards, with the trip picked.
+  const left = was.step === "reveal" ? "choice" : was.step;
   // A step that isn't one of the app's: the first question, as the website does with an address it can't read.
-  const step = QUIZ_STEPS.includes(was.step as QuizStep) ? (was.step as QuizStep) : "start";
+  const step = QUIZ_STEPS.includes(left as QuizStep) ? (left as QuizStep) : "start";
   return { state, step: site.STEPS[site.firstOpenStep(state, site.STEPS.indexOf(step))] as QuizStep };
 }

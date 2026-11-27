@@ -44,6 +44,12 @@ jest.mock("@/lib/uiKit", () => {
           ),
           React.createElement(
             TouchableOpacity,
+            // A drop at 8:00 AM, the top of the day.
+            { onPress: () => onDrop(item.id, 0), accessibilityRole: "button" },
+            React.createElement(Text, null, "Drop early " + item.siteName),
+          ),
+          React.createElement(
+            TouchableOpacity,
             { onPress: () => onEdit(item), accessibilityRole: "button" },
             React.createElement(Text, null, "Edit " + item.siteName),
           ),
@@ -103,6 +109,9 @@ jest.mock("@/components/itinerary/EditItemModal", () => {
   };
 });
 
+// Where a trip that starts in Christchurch sets off: the Gardens stand in for the town's hub. A trip records its
+// start town only when it came from the trip quiz; no other trip here has one.
+jest.mock("@/assets/data/area-hubs.json", () => ({ christchurch: "chc-a" }));
 // The area each known place is visited from. "site-1" isn't in the list, so its legs are
 // the flat half hour, as every leg was before drive times. Christchurch to Dunedin is
 // 9 slots (4.5 hours).
@@ -781,6 +790,82 @@ describe("the drive between areas", () => {
     expect(gaps).toHaveLength(2);
     expect(gaps[0]).toHaveStyle({ top: 4 * 72, height: 7 * 72 });
     expect(gaps[1]).toHaveStyle({ top: 22 * 72, height: 6 * 72 });
+  });
+});
+
+// A trip from the trip quiz records the town it starts from (startArea). Day 1 sets off from that town's hub, as a
+// later day sets off from the last stop before it, so day 1 opens with the drive out of it. Every other trip in this
+// file has none, and its day 1 is as it always was.
+describe("a trip that starts in a town", () => {
+  const fromChristchurch = (...days: ReturnType<typeof makeItem>[][]) => ({ ...tripOf(...days), startArea: "christchurch" });
+
+  it("opens day 1 with the drive out of that town, and counts it on the trip view", async () => {
+    mockTrips.itineraries = [fromChristchurch([museum({ slotIndex: 9 })])];
+    const view = await openTripView();
+
+    await waitFor(() => expect(view.getByText("Starts with the drive from Christchurch")).toBeTruthy());
+    expect(view.getByText("1 place · 4.5 hours driving")).toBeTruthy();
+    await fireEvent.press(view.getByText("Days"));
+    expect(view.getByText("Drive to Dunedin")).toBeTruthy();
+    expect(view.getByTestId("drive-block")).toHaveStyle({ top: 0, height: 9 * 72 });
+    // timed after it already, as the trip builder left it: nothing to save
+    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+  });
+
+  it("draws no such drive for a trip that doesn't say where it starts", async () => {
+    mockTrips.itineraries = [tripOf([museum({ slotIndex: 9 })])];
+    const view = await openTrip();
+
+    expect(view.getByText("Museum")).toBeTruthy();
+    expect(view.queryByTestId("drive-block")).toBeNull();
+  });
+
+  it("re-times and saves a stored day 1 that left no room for that drive", async () => {
+    mockTrips.itineraries = [fromChristchurch([museum({ slotIndex: 2 })])];
+    await openTrip();
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    expect(mockTrips.saveItinerary.mock.calls[0][0].days[0].items.map((i: any) => i.slotIndex)).toEqual([9]);
+  });
+
+  // Every edit is packed through the gate: a stop dragged into the morning goes back to after the drive.
+  it("keeps the drive when a stop on day 1 is moved into the morning", async () => {
+    entitle();
+    mockTrips.itineraries = [fromChristchurch([museum({ slotIndex: 9 }), castle({ slotIndex: 12 })])];
+    const view = await openTrip();
+
+    await fireEvent.press(view.getByText("Drop early Museum"));
+    await fireEvent.press(view.getByText("Trip"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    expect(mockTrips.saveItinerary.mock.calls[0][0].days[0].items.map((i: any) => [i.id, i.slotIndex])).toEqual([
+      ["museum", 9],
+      ["castle", 12],
+    ]);
+    expect(view.getByText("Starts with the drive from Christchurch")).toBeTruthy();
+  });
+
+  it("opens Explore on that town from an empty day 1", async () => {
+    mockTrips.itineraries = [fromChristchurch([], [museum()])];
+    const view = await openTrip();
+
+    await fireEvent.press(view.getAllByText("Nothing here yet")[0]);
+
+    expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/(app)/(tabs)/sites", params: { area: "christchurch" } });
+  });
+
+  it("puts that drive in the calendar too", async () => {
+    mockTrips.itineraries = [fromChristchurch([museum({ slotIndex: 9 })])];
+    const view = await openTrip();
+    await fireEvent.press(view.getByLabelText("Trip options"));
+
+    await fireEvent.press(view.getByText("Add to Calendar"));
+
+    expect(mockAddTripToCalendar).toHaveBeenCalledWith(
+      { id: "t1", title: "Hot Pools Weekend", startArea: "christchurch" },
+      expect.any(Array),
+      mockLookup.places,
+    );
   });
 });
 

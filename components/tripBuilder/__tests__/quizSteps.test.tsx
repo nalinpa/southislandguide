@@ -356,6 +356,18 @@ describe("How many days?", () => {
       expect(count(view)).toBe(`${least} days`);
     });
 
+    // VoiceOver's double-tap goes to an element's own activate handler; with none, iOS taps the element's middle,
+    // which on the slider would put the knob half way along. Its own does nothing: the days go up or down by a swipe.
+    it("stays on its count when a screen reader double-taps it", async () => {
+      const view = await laidOut();
+      const own = slider(view).props.onAccessibilityTap;
+
+      if (own) await act(async () => own());
+      else await fireEvent.press(view.getByTestId("days-slider-tap"), { nativeEvent: { locationX: WIDTH / 2 } });
+
+      expect(count(view)).toBe("7 days");
+    });
+
     it("shows its ends under it, for the eye only: a screen reader has them from the slider", async () => {
       const view = await laidOut();
       const ends = view.getByTestId("days-ends", { includeHiddenElements: true });

@@ -16,6 +16,14 @@ const FAR_PLACE_MINUTES: Record<string, Record<string, number>> = FAR_PLACE_MINU
 // in order, the same both ways. A pair listed here wins over everything below.
 const LEG_MINUTES: Record<string, number> = LEG_MINUTES_JSON;
 
+/**
+ * Where a trip that starts in `area` sets off: the area's hub, as the trip builder times a trip's first drive. None
+ * for no area, or an area with no hub (then day 1 starts with its first place, as on a trip with no start town).
+ */
+export function areaHub(area: string | null | undefined): string | undefined {
+  return area ? AREA_HUBS[area] : undefined;
+}
+
 // Trip items carry only a place id, so whoever works out travel hands in a way to look a
 // place up: the live place list (lib/hooks/usePlaceLookup.ts), never a bundled copy,
 // because places are added and re-homed in the admin panel at any time.

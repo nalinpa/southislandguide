@@ -1,5 +1,5 @@
-// The quiz's last screens before the trip itself (stage 5 of docs/plans/app-trip-builder.md): the waiting
-// screen and the trip cards. The words and each card's contents are the website's (the page half of
+// The quiz's last screens (stages 5 and 6 of docs/plans/app-trip-builder.md): the waiting screen and the trip
+// cards, where a tap picks the trip the screen then saves. The words and each card's contents are the website's (the page half of
 // kiwiguide-site public/plan/quiz.js: waitScreen, and its `choice` screen with routeLine and endLabel); the
 // photos are picked by the copied tripPhotos. The trips here are made up, so nothing is built.
 
@@ -68,8 +68,9 @@ const BUILT: QuizTrip = {
 const LOOP: QuizState = { ...blankQuiz(), start: "queenstown", end: "queenstown", band: "weekend", days: 4 };
 
 const onAnswer = jest.fn();
-const cards = (over: Partial<QuizState> = {}, trips: QuizTrip[] = [CHECKED, BUILT]) =>
-  render(<ChoiceStep state={{ ...LOOP, ...over }} trips={trips} onAnswer={onAnswer} />);
+const onAgain = jest.fn();
+const cards = (over: Partial<QuizState> = {}, trips: QuizTrip[] = [CHECKED, BUILT], saving: string | null = null) =>
+  render(<ChoiceStep state={{ ...LOOP, ...over }} trips={trips} onAnswer={onAnswer} saving={saving} onAgain={onAgain} />);
 // The card a trip's name is on.
 const cardOf = (view: any, label: string) => {
   for (let n = view.getByText(label); n; n = n.parent) if (n.props?.testID === "trip-card") return n;
@@ -86,6 +87,20 @@ describe("while the trips are built", () => {
     expect(view.getByText("One moment")).toBeTruthy();
     expect(view.getByRole("header").props.children).toBe("Picking the places that fit you…");
     expect(focus.mock.calls[0][0].props.children).toBe("Picking the places that fit you…");
+  });
+
+  // The website's waitScreen for a load that failed; its Try again would build the same answers the same way.
+  it("says the website's words when building them failed, with Start again", async () => {
+    const onAgain = jest.fn();
+    const view = await render(<WaitStep failed onAgain={onAgain} />);
+
+    expect(view.getByRole("header").props.children).toBe("Something went wrong");
+    expect(view.getByText("The trips would not load.")).toBeTruthy();
+    expect(view.queryByText("One moment")).toBeNull();
+    expect(focus.mock.calls[0][0].props.children).toBe("Something went wrong");
+
+    await fireEvent.press(view.getByText("Start again"));
+    expect(onAgain).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -178,11 +193,38 @@ describe("Which one sounds like you?", () => {
     expect(onAnswer).toHaveBeenCalledWith({ step: "choice", value: "built-queenstown-4-loop" });
   });
 
+  // A tap saves the trip (the screen's): while it does, that card says so and nothing more can be picked.
+  it("shows the card being saved as busy, and holds every card till it is done", async () => {
+    const view = await cards({}, [CHECKED, BUILT], BUILT.key);
+
+    expect(within(cardOf(view, BUILT.label)).getByTestId("trip-saving")).toBeTruthy();
+    expect(within(cardOf(view, CHECKED.label)).queryByTestId("trip-saving")).toBeNull();
+    expect(cardOf(view, BUILT.label).props.accessibilityState).toEqual({ selected: false, busy: true, disabled: true });
+    expect(cardOf(view, CHECKED.label).props.accessibilityState).toEqual({ selected: false, disabled: true });
+    await fireEvent.press(view.getByText(BUILT.label));
+    await fireEvent.press(view.getByText(CHECKED.label));
+    expect(onAnswer).not.toHaveBeenCalled();
+    // and Start again waits too
+    expect(view.getByText("Start again")).toBeTruthy();
+    await fireEvent.press(view.getByText("Start again"));
+    expect(onAgain).not.toHaveBeenCalled();
+  });
+
+  // Under the cards, quiet: the quiz's way back to its first question once the trips are in.
+  it("has Start again at its foot", async () => {
+    const view = await cards();
+
+    await fireEvent.press(view.getByText("Start again"));
+
+    expect(onAgain).toHaveBeenCalledTimes(1);
+  });
+
   // One sentence, with commas where the card has its dots (as a day's row in the trip view is read out).
   it("reads each card to a screen reader as one button, saying everything on it", async () => {
     const view = await cards();
 
-    expect(view.getAllByRole("button")).toHaveLength(2);
+    // a card each, and Start again
+    expect(view.getAllByRole("button")).toHaveLength(3);
     expect(
       view.getByLabelText("Built for you. South Island in 4 Days. Queenstown, Te Anau, Milford Sound, Queenstown. 4 days, Loop, back in Queenstown"),
     ).toBeTruthy();

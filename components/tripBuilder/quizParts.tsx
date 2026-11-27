@@ -6,6 +6,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   AccessibilityInfo,
+  ActivityIndicator,
   Animated,
   Easing,
   PanResponder,
@@ -275,24 +276,30 @@ type TripCardProps = {
   line: string;
   /** How long it is and how it ends. */
   foot: string;
-  /** The trip looked at before (back from it). */
+  /** The trip saved last (it was picked, and so saved). */
   selected?: boolean;
+  /** Being saved: a spinner in its corner. */
+  busy?: boolean;
+  /** Held while a trip is being saved, this one or another: no tap goes through. */
+  disabled?: boolean;
   onPress: () => void;
 };
 
 // A trip to pick (.q-trip): the website's bordered card, a photo across its top and the words under it. To a
 // screen reader it is one button that says everything on it, with commas where the card has its dots (as a
 // day's row in the trip view is read out).
-export function TripCard({ img, badge, checked, title, line, foot, selected = false, onPress }: TripCardProps) {
+export function TripCard({ img, badge, checked, title, line, foot, selected = false, busy = false, disabled = false, onPress }: TripCardProps) {
   return (
     <TouchableOpacity
       testID="trip-card"
       style={[styles.trip, selected && styles.optionOn]}
       activeOpacity={0.8}
       onPress={onPress}
+      // Only while held: the button adds it to what a screen reader is told.
+      disabled={disabled || undefined}
       accessibilityRole="button"
       accessibilityLabel={`${badge}. ${title}. ${line}. ${foot.replaceAll(" · ", ", ")}`}
-      accessibilityState={{ selected }}
+      accessibilityState={busy ? { selected, busy } : { selected }}
     >
       {img ? <Image testID="trip-photo" source={{ uri: img }} style={styles.tripPhoto} contentFit="cover" transition={150} accessible={false} /> : null}
       <View style={styles.tripWords}>
@@ -301,6 +308,11 @@ export function TripCard({ img, badge, checked, title, line, foot, selected = fa
         <Text style={styles.tripLine}>{line}</Text>
         <Text style={styles.tripFoot}>{foot}</Text>
       </View>
+      {busy ? (
+        <View testID="trip-saving" style={styles.tripBusy}>
+          <ActivityIndicator color={tokens.colors.selected} />
+        </View>
+      ) : null}
     </TouchableOpacity>
   );
 }
@@ -356,7 +368,8 @@ type DaysSliderProps = { value: number; min: number; max: number; onChange: (n: 
 // about 14 pt wide on a phone, so it needs no animation thread, and it runs as it is in the tests.
 // It takes a touch only once the finger has gone sideways, as the swipe cards do, so a scroll that starts on it
 // still scrolls the page; a tap on its line puts the knob there.
-// To a screen reader it is a slider: swipe up or down for a day more or fewer.
+// To a screen reader it is a slider: swipe up or down for a day more or fewer. A double-tap is its own and does
+// nothing: without a handler of its own, iOS taps its middle, which would jump the knob half way along.
 export function DaysSlider({ value, min, max, onChange }: DaysSliderProps) {
   // The touch handlers are made once; they read the newest numbers through this. width: the slider's, for
   // turning where a finger is into a day. from: where the finger went down.
@@ -401,6 +414,7 @@ export function DaysSlider({ value, min, max, onChange }: DaysSliderProps) {
         if (e.nativeEvent.actionName === "increment") step(1);
         if (e.nativeEvent.actionName === "decrement") step(-1);
       }}
+      onAccessibilityTap={() => {}}
       {...slider.handlers}
     >
       <View pointerEvents="none" style={styles.sliderLine} />
@@ -524,6 +538,18 @@ const styles = StyleSheet.create({
   // dark until it loads, as a town's is.
   trip: { borderWidth: 2, borderColor: tokens.colors.line, borderRadius: 18, overflow: "hidden", backgroundColor: tokens.colors.bgCard },
   tripPhoto: { width: "100%", height: 120, backgroundColor: NIGHT },
+  // The spinner on a card being saved: a card-coloured disc in its corner, as the town cards' tick sits.
+  tripBusy: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: tokens.colors.bgCard,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   tripWords: { gap: 4, paddingTop: 14, paddingHorizontal: 16, paddingBottom: 16 },
   // .q-badge: a small tag in capitals. .q-built is the line's grey. .q-sugg is the website's yellow with dark
   // words: here the amber that stands for it on the loop's ring, the photo's dark for its words, the same in

@@ -39,11 +39,10 @@ jest.mock("expo-router", () => ({
 }));
 
 import React from "react";
-import { Alert, StyleSheet, Text } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { fireEvent, render, within } from "@testing-library/react-native";
 
 import ItineraryListPage from "@/app/(app)/(tabs)/itinerary/index";
-import { GuestDayView } from "@/components/itinerary/GuestDayView";
 import { ITINERARY_TEMPLATES } from "@/lib/itineraryTemplates";
 
 const ui = () => require("@blacksands/ui");
@@ -117,42 +116,5 @@ describe("a guest on the Duo", () => {
     await view.rerender(<ItineraryListPage />);
     expect(within(view.getByTestId("day-heading")).getByText("Day 3")).toBeTruthy();
     alertSpy.mockRestore();
-  });
-});
-
-// The trip quiz draws a day of the trip it has built with the same view, under a top row of its own, before the
-// trip is saved: so it says where the heading starts, takes a tap on a stop itself, and has a line of its own
-// to put under the heading.
-describe("a day drawn for another screen", () => {
-  const days = sample.days.map((day: any, i: number) => ({
-    id: "day_" + (i + 1),
-    date: "2026-02-0" + (i + 1),
-    items: day.items.map((item: any, j: number) => ({ ...item, id: "stop_" + i + "_" + j, timeLabel: "", durationLabel: "" })),
-  }));
-  const day = (over: object = {}) =>
-    render(<GuestDayView days={days} index={0} places={() => undefined} iconFor={() => () => null} {...over} />);
-  const headingTop = (view: any) => (StyleSheet.flatten(view.getByTestId("day-heading").props.style) as any).paddingTop;
-
-  it("starts its heading where it is told to, in place of a pane's own start at the top of the screen", async () => {
-    expect(headingTop(await day())).toBe(32);
-    expect(headingTop(await day({ top: 0 }))).toBe(0);
-  });
-
-  it("hands a tap on a stop to its caller, which then decides what it does", async () => {
-    const onOpenPlace = jest.fn();
-    const view = await day({ onOpenPlace });
-
-    await fireEvent.press(view.getByTestId("stop-" + stopsOf(1)[0]));
-
-    expect(onOpenPlace).toHaveBeenCalledWith(stopsOf(1)[0]);
-    expect(mockRouter.push).not.toHaveBeenCalled();
-  });
-
-  it("shows its caller's line under the heading, and none of its own", async () => {
-    expect(within((await day()).getByTestId("day-heading")).queryByText("Long drive.")).toBeNull();
-
-    const view = await day({ note: <Text>Long drive.</Text> });
-
-    expect(within(view.getByTestId("day-heading")).getByText("Long drive.")).toBeTruthy();
   });
 });

@@ -11,6 +11,7 @@ import {
   tripSummary,
   redateTrip,
   stopBefore,
+  dayStartSiteId,
 } from "@/lib/utils/itineraryPhysics";
 import type { PlaceLookup } from "@/lib/utils/transitMatrix";
 import type { ItineraryDay, ItineraryItem } from "@/lib/models";
@@ -606,5 +607,69 @@ describe("stopBefore", () => {
 
   it("stopBefore: undefined on an empty first day", () => {
     expect(stopBefore([makeDay("d1", []), days[1]], "d1", 4)).toBeUndefined();
+  });
+});
+
+// A trip that records where it starts (the trip quiz's: its start town's hub, as the trip builder times it). Day 1
+// sets off from there, as each later day sets off from the last stop before it. Without one, a trip is timed as
+// every test above has it.
+describe("a trip with a start", () => {
+  // A Christchurch place standing in for the town's hub. Christchurch to Dunedin is 9 slots.
+  const START = "chc-a";
+  const inDunedin = (slotIndex: number, id = "a") => makeItem({ id, siteId: "dun-a", slotIndex });
+
+  it("opens day 1 with the drive from it, and the first place starts after it", () => {
+    expect(slots(packTrip([makeDay("d1", [inDunedin(1)])], places, START)[0].items)).toEqual([9]);
+    expect(slots(packTrip([makeDay("d1", [inDunedin(1)])], places)[0].items)).toEqual([1]);
+  });
+
+  it("draws that drive and counts it in the day's driving, from the start's town", () => {
+    const days = packTrip([makeDay("d1", [inDunedin(1)])], places, START);
+
+    expect(dayLegs(days[0].items, places, dayStartSiteId(days, 0, START))).toEqual([
+      expect.objectContaining({ key: "opening", slots: 9, drive: { fromArea: "christchurch", toArea: "dunedin" } }),
+    ]);
+    expect(tripSummary(days, places, START)[0]).toMatchObject({ areas: ["dunedin"], openingDrive: { fromArea: "christchurch", slots: 9 }, driveSlots: 9 });
+    expect(tripSummary(days, places)[0]).toMatchObject({ openingDrive: null, driveSlots: 0 });
+  });
+
+  it("is where a day sets off while every day before it is empty, and where an empty first day is", () => {
+    const days = [makeDay("d1", []), makeDay("d2", [inDunedin(1)])];
+
+    expect(dayStartSiteId(days, 0, START)).toBe(START);
+    expect(dayStartSiteId(days, 1, START)).toBe(START);
+    expect(slots(packTrip(days, places, START)[1].items)).toEqual([9]);
+    expect(tripSummary(packTrip(days, places, START), places, START)[0].areas).toEqual(["christchurch"]);
+    expect(stopBefore(days, "d1", 4, START)).toBe(START);
+  });
+
+  it("gives way to the last stop of a day before, once one has any", () => {
+    const days = [makeDay("d1", [inDunedin(9)]), makeDay("d2", [makeItem({ id: "b", siteId: "dun-b", slotIndex: 1 })])];
+
+    expect(dayStartSiteId(days, 1, START)).toBe("dun-a");
+    expect(slots(packTrip(days, places, START)[1].items)).toEqual([1]);
+  });
+
+  // Every edit goes through the gate, which packs the trip: a place moved into the morning's drive goes back after it.
+  it("keeps day 1's drive through an edit of day 1", () => {
+    const current = packTrip([makeDay("d1", [inDunedin(9), makeItem({ id: "b", siteId: "dun-b", slotIndex: 12 })])], places, START);
+    const movedToEight = [{ ...current[0], items: [{ ...current[0].items[0], slotIndex: 0 }, current[0].items[1]] }];
+
+    const kept = tryEdit(current, movedToEight, "d1", places, START);
+    expect(kept.ok && slots(kept.days[0].items)).toEqual([9, 12]);
+    const without = tryEdit(current, movedToEight, "d1", places);
+    expect(without.ok && slots(without.days[0].items)).toEqual([0, 12]);
+  });
+
+  // Too much on day 1 after the drive: refused, as any day that would run past 10 PM is.
+  it("refuses an edit that leaves day 1 no room after the drive", () => {
+    const current = packTrip([makeDay("d1", [inDunedin(9)])], places, START);
+    const long = [{ ...current[0], items: [{ ...current[0].items[0], durationSlots: 20 }] }];
+
+    expect(tryEdit(current, long, "d1", places, START)).toEqual({
+      ok: false,
+      reason: "There isn't time for the drive to Dunedin on this day. Try a different day or a shorter visit.",
+    });
+    expect(tryEdit(current, long, "d1", places).ok).toBe(true);
   });
 });

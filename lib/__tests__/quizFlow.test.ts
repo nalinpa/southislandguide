@@ -1,7 +1,7 @@
 // The quiz's memory in the app: the steps, where each answer leads, what it clears, where Back goes, and where
 // a saved quiz opens again. The rules are the website's (kiwiguide-site public/plan/quiz.js, the page half),
 // run over the copied quiz logic.
-import { QUIZ_STEPS, answerQuiz, backQuiz, blankQuiz, resumeQuiz, tripStep, type Quiz, type QuizAnswer, type QuizState } from "@/lib/tripBuilder/quizFlow";
+import { QUIZ_STEPS, accountStep, answerQuiz, backQuiz, blankQuiz, resumeQuiz, type Quiz, type QuizAnswer, type QuizState } from "@/lib/tripBuilder/quizFlow";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const site = require("@/lib/tripBuilder/quizLogic");
@@ -31,15 +31,22 @@ const after = (answers: QuizAnswer[], from: QuizState = blankQuiz()): Quiz =>
   answers.reduce<Quiz>((quiz, a) => answerQuiz(quiz.state, a), { state: from, step: "start" });
 // The whole quiz answered, then some answers changed.
 const done = (...changes: QuizAnswer[]) => after(changes, after(ANSWERS).state);
+// Every question answered: on the account step, nothing picked.
+const ON_ACCOUNT = after(ANSWERS.slice(0, -1));
+// The same, signed in: on the trip cards.
+const ON_CARDS: Quiz = { ...ON_ACCOUNT, step: "choice" };
+// A trip picked, which saves it (owner, 2026-11-27: "save on pick"): still the trip cards, the pick kept.
+const PICKED = after(ANSWERS);
 
 describe("the app's steps", () => {
   // A step added on the website fails here, so its rule gets written before it reaches a phone.
   it("are the website's in its order, less the three the app doesn't show", () => {
     expect(QUIZ_STEPS).toEqual([
       "start", "band", "days", "finish", "break1", "season", "month", "pace", "drive",
-      "who", "age", "vibe", "break2", "into", "food", "choice", "reveal",
+      "who", "age", "vibe", "break2", "into", "food", "account", "choice",
     ]);
-    expect(site.STEPS.filter((s: string) => !(QUIZ_STEPS as string[]).includes(s))).toEqual(["heard", "account", "done"]);
+    // the trip, read-only before it is saved: in the app a picked trip is saved and opens in Trips
+    expect(site.STEPS.filter((s: string) => !(QUIZ_STEPS as string[]).includes(s))).toEqual(["heard", "reveal", "done"]);
   });
 });
 
@@ -53,9 +60,13 @@ describe("a blank quiz", () => {
 });
 
 describe("an answer", () => {
-  it("leads to the website's next step, with no stop for how they heard or an account", () => {
+  // The account step is left by signing in, not by an answer (accountStep). A trip picked from the cards is saved and
+  // opened in Trips (the screen's), so the quiz stays on the cards with the pick: there when it is opened again.
+  it("leads to the website's next step, with no stop for how they heard: from the last question to the account step", () => {
     const steps = ANSWERS.map((_a, i) => after(ANSWERS.slice(0, i + 1)).step);
-    expect(steps).toEqual(QUIZ_STEPS.slice(1));
+    expect(steps).toEqual([...QUIZ_STEPS.slice(1, QUIZ_STEPS.indexOf("account") + 1), "choice"]);
+    expect(ON_ACCOUNT.step).toBe("account");
+    expect(PICKED).toEqual({ state: { ...ON_CARDS.state, pick: "trip-a" }, step: "choice" });
   });
 
   it("is kept in the website's shape, so the copied logic reads the builder's answers from it", () => {
@@ -146,7 +157,7 @@ describe("a step skipped", () => {
 describe("Back", () => {
   it("goes to the question before, never to a photo break", () => {
     const { state } = after(ANSWERS);
-    expect(QUIZ_STEPS.map((step) => [step, backQuiz(state, step, [{ key: "trip-a" }, { key: "trip-b" }])])).toEqual([
+    expect(QUIZ_STEPS.map((step) => [step, backQuiz(state, step)])).toEqual([
       ["start", "start"],
       ["band", "start"],
       ["days", "band"],
@@ -162,9 +173,9 @@ describe("Back", () => {
       ["break2", "vibe"],
       ["into", "vibe"],
       ["food", "into"],
-      // past the website's "How did you hear about us?" and its account step
-      ["choice", "food"],
-      ["reveal", "choice"],
+      // past the website's "How did you hear about us?"
+      ["account", "food"],
+      ["choice", "account"],
     ]);
   });
 
@@ -172,13 +183,13 @@ describe("Back", () => {
     expect(backQuiz(done({ step: "season", value: "unsure" }).state, "pace")).toBe("season");
   });
 
-  // One trip never shows its cards (tripStep), so Back to them would only show the trip again.
-  it("from the trip goes to the trip cards, or past them when there is only one trip", () => {
+  // Signed in, the account step would only send them on to the cards again (the website's prevStep).
+  it("from the trip cards goes past the account step when signed in, and to it when not", () => {
     const { state } = after(ANSWERS);
-    expect(backQuiz(state, "reveal", [{ key: "trip-a" }])).toBe("food");
-    expect(backQuiz(state, "reveal", [])).toBe("choice");
-    // trips not built yet: the cards, as on the website while its data loads
-    expect(backQuiz(state, "reveal")).toBe("choice");
+    expect(backQuiz(state, "choice", true)).toBe("food");
+    expect(backQuiz(state, "choice", false)).toBe("account");
+    // from the account step itself: the last question
+    expect(backQuiz(state, "account", false)).toBe("food");
   });
 
   // The driving question a long, short trip skipped on the way in is skipped on the way back too (owner, 2026-11-27).
@@ -190,41 +201,44 @@ describe("Back", () => {
   });
 });
 
-describe("the trip steps, once the trips are built", () => {
-  const A = { key: "trip-a" }, B = { key: "trip-b" };
-  const noPick = after(ANSWERS.slice(0, -1)); // on the trip cards, nothing picked
-
-  it("several trips: the cards stay up, and a picked trip shows", () => {
-    expect(tripStep(noPick.state, "choice", [A, B])).toEqual(noPick);
-    expect(tripStep(after(ANSWERS).state, "reveal", [A, B])).toEqual(after(ANSWERS));
+// The website's render, before it draws: an account step with a sign-in goes on to the trip cards (quiz.js 721),
+// and the trip cards without one go to the account step (725). Trips require an account (owner, 2026-11-27).
+describe("the account step, settled against the sign-in", () => {
+  it("goes on to the trip cards once signed in", () => {
+    expect(accountStep(ON_ACCOUNT, true)).toEqual(ON_CARDS);
   });
 
-  it("one trip: no cards, it is picked and shows on its own", () => {
-    expect(tripStep(noPick.state, "choice", [B])).toEqual({ state: { ...noPick.state, pick: "trip-b" }, step: "reveal" });
+  it("stays up for someone not signed in", () => {
+    expect(accountStep(ON_ACCOUNT, false)).toBe(ON_ACCOUNT);
   });
 
-  // The answers or the app's data changed since it was picked.
-  it("a picked trip that isn't among them: the pick is dropped and the cards show", () => {
-    const { state } = after(ANSWERS);
-    expect(tripStep(state, "reveal", [B, { key: "trip-c" }])).toEqual({ state: { ...state, pick: null }, step: "choice" });
-    // and with one trip left, that one shows
-    expect(tripStep(state, "reveal", [B])).toEqual({ state: { ...state, pick: "trip-b" }, step: "reveal" });
+  it("is where the trip cards go for someone not signed in, the trip picked kept for when they are", () => {
+    expect(accountStep(ON_CARDS, false)).toEqual(ON_ACCOUNT);
+    expect(accountStep(PICKED, false)).toEqual({ state: PICKED.state, step: "account" });
+    expect(accountStep(PICKED, false)!.state.pick).toBe("trip-a");
   });
 
-  it("trips not built yet: the picked trip stays picked", () => {
-    const quiz = after(ANSWERS);
-    expect(tripStep(quiz.state, "reveal", null)).toEqual({ state: quiz.state, step: "reveal" });
-    expect(tripStep(quiz.state, "choice", null)).toEqual({ state: quiz.state, step: "choice" });
+  it("leaves the trip cards to someone signed in, and the questions to anyone", () => {
+    expect(accountStep(ON_CARDS, true)).toBe(ON_CARDS);
+    expect(accountStep(PICKED, true)).toBe(PICKED);
+    const food = after(ANSWERS.slice(0, 14));
+    expect(food.step).toBe("food");
+    expect(accountStep(food, true)).toBe(food);
+    expect(accountStep(food, false)).toBe(food);
   });
 
-  it("built, and no trip fits the answers: the pick is dropped and the cards' step shows", () => {
-    const quiz = after(ANSWERS);
-    expect(tripStep(quiz.state, "reveal", [])).toEqual({ state: { ...quiz.state, pick: null }, step: "choice" });
+  // The phone reads the sign-in when the app opens: until it is known, neither the account step nor a trip is shown.
+  it("decides nothing while the sign-in is still being read: no account step and no trips, the questions as they are", () => {
+    expect(accountStep(ON_ACCOUNT, null)).toBeNull();
+    expect(accountStep(ON_CARDS, null)).toBeNull();
+    const food = after(ANSWERS.slice(0, 14));
+    expect(accountStep(food, null)).toBe(food);
   });
 
-  it("leaves every other step as it is", () => {
-    const { state } = after(ANSWERS);
-    expect(tripStep(state, "food", [A])).toEqual({ state, step: "food" });
+  // A screen settles the quiz as it draws, every time: what it builds the trips from mustn't look new each time.
+  it("keeps the very answers it was given", () => {
+    expect(accountStep(ON_ACCOUNT, true)!.state).toBe(ON_ACCOUNT.state);
+    expect(accountStep(ON_CARDS, false)!.state).toBe(ON_CARDS.state);
   });
 });
 
@@ -236,11 +250,20 @@ describe("a saved quiz opened again", () => {
   });
 
   // "How did you hear about us?" counts as answered, so the copied logic never stops there.
-  it("comes back on the trip cards or the trip when every question is answered", () => {
-    const cards = after(ANSWERS.slice(0, -1));
-    expect(cards.step).toBe("choice");
-    expect(resumeQuiz(cards, TODAY)).toEqual(cards);
-    expect(resumeQuiz(after(ANSWERS), TODAY)).toEqual(after(ANSWERS));
+  it("comes back on the account step or the trip cards when every question is answered, the trip picked kept", () => {
+    expect(resumeQuiz(ON_ACCOUNT, TODAY)).toEqual(ON_ACCOUNT);
+    expect(resumeQuiz(ON_CARDS, TODAY)).toEqual(ON_CARDS);
+    expect(resumeQuiz(PICKED, TODAY)).toEqual(PICKED);
+  });
+
+  // Left on the trip, the read-only step the app had before a picked trip was saved: the cards, the pick kept.
+  it("on the trip of an older version comes back on the trip cards", () => {
+    expect(resumeQuiz({ ...PICKED, step: "reveal" }, TODAY)).toEqual(PICKED);
+  });
+
+  // Signed in since it was left (on the Account tab, say): the account step only sends them on.
+  it("on the account step goes on to the trip cards for someone signed in by then", () => {
+    expect(accountStep(resumeQuiz(ON_ACCOUNT, TODAY), true)).toEqual(ON_CARDS);
   });
 
   it("with nothing saved is a blank quiz on the first question", () => {
@@ -252,6 +275,7 @@ describe("a saved quiz opened again", () => {
     const { state } = after(ANSWERS);
     expect(resumeQuiz({ state: { ...state, pace: null }, step: "food" }, TODAY).step).toBe("pace");
     expect(resumeQuiz({ state: { ...state, pick: null }, step: "reveal" }, TODAY).step).toBe("choice");
+    expect(resumeQuiz({ state: { ...state, food: null }, step: "account" }, TODAY).step).toBe("food");
     // an earlier step than the gap is left alone
     expect(resumeQuiz({ state: { ...state, pace: null }, step: "days" }, TODAY).step).toBe("days");
   });
@@ -277,7 +301,7 @@ describe("a saved quiz opened again", () => {
     expect(resumeQuiz({ state: unsure, step: "month" }, TODAY).step).toBe("season");
   });
 
-  it.each([["a step the app doesn't have", "account"], ["no step", undefined], ["a step that isn't one", 7]])(
+  it.each([["a step the app doesn't have", "heard"], ["the website's last step", "done"], ["no step", undefined], ["a step that isn't one", 7]])(
     "with %s opens on the first question, answers kept",
     (_name, step) => {
       const { state } = after(ANSWERS);
@@ -354,16 +378,24 @@ describe("anywhere the quiz can get to", () => {
     let n = seed;
     const roll = (below: number) => (n = (n * 48271) % 2147483647) % below;
     let quiz: Quiz = { state: blankQuiz(), step: "start" };
+    // Not signed in at first: the account step is on the way.
+    let signedIn = false;
     const seen = new Set<string>();
     for (let tap = 0; tap < 3000; tap++) {
-      const trips = roll(2) ? [{ key: "trip-a" }] : [{ key: "trip-a" }, { key: "trip-b" }];
       const options = choices(quiz.state, quiz.step);
-      // From the trip, Start again now and then, so first answers are given many times over.
-      if (quiz.step === "reveal" && roll(2)) quiz = { state: blankQuiz(), step: "start" };
-      // Back every other tap, so the walk wanders over the whole quiz, and always from the trip (no answer to give).
-      else if (!options.length || roll(2) === 0) quiz = { state: quiz.state, step: backQuiz(quiz.state, quiz.step, trips) };
+      // Once a trip is picked (and saved), Start again now and then, so first answers are given many times over;
+      // signed out now and then by the time it is (from the Account tab), so the account step comes round again.
+      if (quiz.step === "choice" && quiz.state.pick && roll(2)) {
+        quiz = { state: blankQuiz(), step: "start" };
+        signedIn = roll(2) === 0;
+      }
+      // On the account step, signing in now and then.
+      else if (quiz.step === "account" && roll(2)) signedIn = true;
+      // Back every other tap, so the walk wanders over the whole quiz, and always from the account step (no answer
+      // to give).
+      else if (!options.length || roll(2) === 0) quiz = { state: quiz.state, step: backQuiz(quiz.state, quiz.step, signedIn) };
       else quiz = answerQuiz(quiz.state, options[roll(options.length)]);
-      quiz = tripStep(quiz.state, quiz.step, trips);
+      quiz = accountStep(quiz, signedIn)!;
       seen.add(quiz.step);
       const again = resumeQuiz(JSON.parse(JSON.stringify(quiz)), TODAY);
       // As on the website, the answers after a question waiting to be asked again (the finish, after a new start

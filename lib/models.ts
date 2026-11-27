@@ -126,6 +126,10 @@ export type Itinerary = {
   startDate: string;
   endDate: string;
   days: ItineraryDay[];
+  // The town the trip sets off from, an area id ("christchurch"): day 1 starts at its hub,
+  // as a later day starts from the stop before it. Set on a trip from the trip quiz; none on
+  // one made in the app, and null to clear it. The api drops a value it doesn't know.
+  startArea?: string | null;
   createdAt: string;
   updatedAt: string;
 };

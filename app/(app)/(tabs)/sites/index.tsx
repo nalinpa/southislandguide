@@ -27,6 +27,7 @@ import { useItineraries } from "@/lib/hooks/useItineraries";
 import { useTripPlaces } from "@/lib/hooks/useTripPlaces";
 import { currentPendingSlot } from "@/lib/pendingSlot";
 import { stopBefore } from "@/lib/utils/itineraryPhysics";
+import { areaHub } from "@/lib/utils/transitMatrix";
 import { nearestPlaces } from "@/lib/utils/nearby";
 import { useTourTarget } from "@/lib/tour/useTourTarget";
 import { useTourIfAny } from "@/lib/tour/TourContext";
@@ -173,7 +174,7 @@ export default function SiteListPage() {
   const closestTo = useMemo(() => {
     const pending = fromDayArea === area ? currentPendingSlot() : null;
     const trip = pending && itineraries.find((t) => t.id === pending.tripId);
-    const stopId = trip && pending ? stopBefore(trip.days, pending.dayId, pending.slot) : undefined;
+    const stopId = trip && pending ? stopBefore(trip.days, pending.dayId, pending.slot, areaHub(trip.startArea)) : undefined;
     const stop = stopId ? locations.find((l) => l.id === stopId) : undefined;
     return stop && Number.isFinite(stop.lat) && Number.isFinite(stop.lng) ? stop : null;
   }, [fromDayArea, area, itineraries, locations]);

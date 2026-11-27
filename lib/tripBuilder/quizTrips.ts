@@ -30,8 +30,11 @@ const site = require("./quizLogic") as {
 export type QuizStop = BuiltStop & { thumb?: string | null; fallback?: string | null; category: string[]; activities: string[] };
 /** A trip built for the quiz, each stop with its place's photo, kinds and activities (as the website hands its cards). */
 export type QuizTrip = Omit<BuiltTrip, "days"> & { days: (Omit<BuiltDay, "items"> & { items: QuizStop[] })[] };
-/** A trip as the app saves one (the api's body), and as its trip view draws one: a name, its dates and its days. */
-export type TripBody = { title: string; startDate: string; endDate: string; days: ItineraryDay[] };
+/**
+ * A trip as the app saves one (the api's body): a name, its dates, its days, and the town it starts from (day 1 is
+ * timed from that town's hub).
+ */
+export type TripBody = { title: string; startDate: string; endDate: string; days: ItineraryDay[]; startArea?: string };
 
 /** The first day of the trip as the answers have it ("2027-01-01"). The trip's days are dated from it. */
 export function tripStart(state: QuizState, today: Date): string {
@@ -105,7 +108,7 @@ function addDays(iso: string, n: number): string {
 /**
  * One built trip as the app's trip: named by its label, dated day by day from startDate, each stop with an id of
  * its own. Field for field the website's tripBody.
- * newId: an id for a stop (a random one to save with; any that differ, to draw with).
+ * newId: a new id for each stop (a random one).
  * has: whether the app has a place. A stop whose place it doesn't have (switched off since the builder's data was
  * made) is dropped, and the rest of its day stays as it was timed.
  */
@@ -125,5 +128,8 @@ export function tripBody(trip: BuiltTrip, startDate: string, newId: () => string
         durationLabel: stop.durationLabel,
       })),
   }));
-  return { title: trip.label, startDate, endDate: days.length ? days[days.length - 1].date : startDate, days };
+  const body: TripBody = { title: trip.label, startDate, endDate: days.length ? days[days.length - 1].date : startDate, days };
+  // Last, and only with a town, as the website's adds it.
+  if (trip.start) body.startArea = trip.start;
+  return body;
 }

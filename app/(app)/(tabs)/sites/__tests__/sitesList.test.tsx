@@ -124,6 +124,9 @@ jest.mock("@/lib/tour/useTourStepRoute", () => ({
 let mockTrips: any[] = [];
 const trip = (...siteIds: string[]) => [{ id: "t1", days: [{ id: "d1", date: "2026-12-01", items: siteIds.map((siteId) => ({ siteId })) }] }];
 jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => ({ itineraries: mockTrips }) }));
+// Where a trip that starts in Christchurch sets off (only a trip from the trip quiz says): Sumner Beach stands in
+// for the town's hub.
+jest.mock("@/assets/data/area-hubs.json", () => ({ christchurch: "s1" }));
 
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn(), setParams: jest.fn() };
 // A town handed over by another screen (a trip's "Find more things to do").
@@ -969,6 +972,16 @@ describe("from a trip day", () => {
 
     expect(view.queryByText(/^Closest places to /)).toBeNull();
     expect(rowNames(view)).toEqual(["Sumner Beach", "Riccarton Bush", "Riverside Market", "Port Hills Walk"]);
+  });
+
+  // Day 1 of a trip that says where it starts sets off from that town: before its first stop, that is the stop before.
+  it("measures from the town a trip starts from, before day 1's first stop", async () => {
+    mockTrips = [{ id: "t1", startArea: "christchurch", days: [{ id: "d1", items: [] }] }];
+    openFromDay(5);
+    const view = await render(<SiteListPage />);
+
+    expect(line(view)).toBeTruthy();
+    expect(rowsOnly(view)).toEqual(["Port Hills Walk", "Riverside Market", "Riccarton Bush"]);
   });
 
   it("search and the category still filter the closest-first list", async () => {

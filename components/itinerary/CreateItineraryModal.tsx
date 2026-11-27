@@ -223,7 +223,8 @@ export function CreateItineraryModal({
 
     try {
       const savedId = await saveItinerary({
-        ...(replaceId ? { id: replaceId } : {}),
+        // Over another trip: its start town goes with it (a trip quiz trip's day 1 is timed from it; this one isn't).
+        ...(replaceId ? { id: replaceId, startArea: null } : {}),
         title: resolvedTitle,
         startDate: isoDate(startDate),
         endDate: isoDate(endDate),

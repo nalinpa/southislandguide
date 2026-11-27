@@ -75,6 +75,18 @@ describe("itineraryService", () => {
     expect(id).toBe("new-id");
   });
 
+  // A trip from the trip quiz records the town it starts from, which the api keeps; an update sends what it is given.
+  it("saveItinerary sends a new trip's start town, and only when it has one", async () => {
+    mockCreate.mockResolvedValue({ itinerary: itin({ id: "new-id" }) });
+    const trip = { title: "New trip", startDate: "2026-02-01", endDate: "2026-02-03", days: [] };
+
+    await itineraryService.saveItinerary({ ...trip, startArea: "christchurch" });
+    await itineraryService.saveItinerary(trip);
+
+    expect(mockCreate.mock.calls[0][0]).toEqual({ ...trip, startArea: "christchurch" });
+    expect(mockCreate.mock.calls[1][0]).not.toHaveProperty("startArea");
+  });
+
   it("deleteItinerary removes by id", async () => {
     mockRemove.mockResolvedValue(undefined);
 

@@ -101,6 +101,17 @@ describe("tripCalendarEvents", () => {
     expect(events.map((e) => e.title)).toEqual(["Place a", "Place b", "Drive to Dunedin", "Place c"]);
   });
 
+  // A trip from the trip quiz records the town it starts from: day 1 opens with the drive out of it (its hub).
+  it("adds day 1's drive out of the town a trip starts from", () => {
+    const day1 = days(["2026-12-01", [at("a", "dun-a", 9)]]);
+
+    const events = tripCalendarEvents("Road Trip", day1, places, "chc-a");
+
+    expect(events.map((e) => e.title)).toEqual(["Drive to Dunedin", "Place a"]);
+    expect(events[0].startDate.toISOString()).toBe("2026-11-30T19:00:00.000Z"); // 8 AM NZDT
+    expect(tripCalendarEvents("Road Trip", day1, places).map((e) => e.title)).toEqual(["Place a"]);
+  });
+
   it("keeps a place's own note above the trip's", () => {
     const [stop] = tripCalendarEvents("Summer", days(["2026-12-01", [at("a", "chc-a", 0, 2, { note: "Book ahead" })]]), places);
     expect(stop.notes).toBe("Book ahead\n\nDay 1 of Summer · Kiwi Guide");

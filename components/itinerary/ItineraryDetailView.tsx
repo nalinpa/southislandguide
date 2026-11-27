@@ -49,6 +49,7 @@ import {
   type DayLeg,
 } from "@/lib/utils/itineraryPhysics";
 import { areaName } from "@/lib/areas";
+import { areaHub } from "@/lib/utils/transitMatrix";
 import { dayRouteUrl } from "@/lib/utils/dayRoute";
 import { openMaps, phoneIsOutsideNZ } from "@/lib/utils/directions";
 import { addTripToCalendar } from "@/lib/tripCalendar";
@@ -143,6 +144,9 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   const menuSheet = useWideSheet("dialog", { centred: true });
 
   const [localTrip, setLocalTrip] = useState<Itinerary | null>(sourceTrip);
+  // Where day 1 sets off, for a trip that records its start town (one from the trip quiz): every packing, drive and
+  // town of the trip below counts from it, as a later day counts from the stop before it. None: as it always was.
+  const startFrom = areaHub(localTrip?.startArea);
   const [activeDayId, setActiveDayId] = useState<string | null>(null);
   const activeDay = localTrip?.days.find((d) => d.id === activeDayId) || localTrip?.days[0];
   // A trip opens on its trip view (every day on one page); the day timeline is the other
@@ -177,8 +181,8 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   }, [tripId, activeDay?.id, view]);
   // Each day's towns, for the right side's heading (the phone doesn't show it).
   const daySummary = useMemo(
-    () => (localTrip && wide ? tripSummary(localTrip.days, places) : []),
-    [localTrip, wide, places],
+    () => (localTrip && wide ? tripSummary(localTrip.days, places, startFrom) : []),
+    [localTrip, wide, places, startFrom],
   );
   // On the Duo the timeline is one ScrollView for every day, so a day would open wherever the
   // last one was scrolled to. Each opens at its start: its first stop (the top for an empty
@@ -210,8 +214,8 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   const legs = useMemo(() => {
     if (!localTrip) return [];
     const dayIndex = localTrip.days.findIndex((d) => d.id === activeDay?.id);
-    return dayLegs(localItems, places, dayStartSiteId(localTrip.days, dayIndex));
-  }, [localItems, localTrip, activeDay?.id, places]);
+    return dayLegs(localItems, places, dayStartSiteId(localTrip.days, dayIndex, startFrom));
+  }, [localItems, localTrip, activeDay?.id, places, startFrom]);
   // The open day as one Google Maps drive (tester, 2026-11-09).
   const routeUrl = useMemo(() => dayRouteUrl(localItems, places), [localItems, places]);
   const legAfter = useMemo(() => new Map(legs.map((leg) => [leg.key, leg])), [legs]);
@@ -340,7 +344,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     correctedTripIdRef.current = key;
 
     const sortedDays = localTrip.days.map((day) => ({ ...day, items: [...(day.items ?? [])].sort(bySlot) }));
-    const packedDays = packTrip(sortedDays, places);
+    const packedDays = packTrip(sortedDays, places, startFrom);
     const anyFixed = packedDays.some((day, d) =>
       day.items.some((item, i) => item.slotIndex !== sortedDays[d].items[i].slotIndex),
     );
@@ -359,6 +363,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
       const packed = packTrip(
         localTrip.days.map((d) => (d.id === activeDay.id ? { ...d, items: sorted } : d)),
         places,
+        startFrom,
       )[dayIndex].items;
       const needsCorrection = sorted.some((item, i) => item.slotIndex !== packed[i].slotIndex);
       setLocalItems(packed);
@@ -418,7 +423,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   // telling the user why it can't be done. The whole trip, because changing one day's
   // last place changes the drive the next day opens with.
   const applyEdit = (nextDays: ItineraryDay[], editedDayId: string): ItineraryDay[] | null => {
-    const result = tryEdit(currentDays(), nextDays, editedDayId, places);
+    const result = tryEdit(currentDays(), nextDays, editedDayId, places, startFrom);
     if (result.ok) return result.days;
     Alert.alert("Not Enough Time", result.reason);
     return null;
@@ -634,7 +639,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
       );
     // A longer visit the day has no room for is refused, but the note that came with
     // it is kept, at the length the visit already had.
-    const days = applyEdit(withDuration(newDurationSlots), dayId) ?? packTrip(withDuration(current.durationSlots || 2), places);
+    const days = applyEdit(withDuration(newDurationSlots), dayId) ?? packTrip(withDuration(current.durationSlots || 2), places, startFrom);
     showDays(days);
     setEditingItem(null);
   };
@@ -744,7 +749,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
     const before = events.filter((e) => e.start < slot).pop();
     if (before) return before.area;
     const dayIndex = localTrip.days.findIndex((d) => d.id === activeDay?.id);
-    const startId = dayStartSiteId(localTrip.days, dayIndex);
+    const startId = dayStartSiteId(localTrip.days, dayIndex, startFrom);
     return (startId ? places(startId)?.area : undefined) ?? events[0]?.area;
   };
   // `addAt` is the time Add to Trip then opens on: the gap's start, unless the caller's
@@ -800,7 +805,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   // (moveItemToDay, the one handleMoveDay makes) passes the gate.
   const daysNow = editingItem ? currentDays() : [];
   const cannotMoveTo = (dayId: string) =>
-    !!editingItem && !tryEdit(daysNow, moveItemToDay(daysNow, editingItem.id, dayId), dayId, places).ok;
+    !!editingItem && !tryEdit(daysNow, moveItemToDay(daysNow, editingItem.id, dayId), dayId, places, startFrom).ok;
 
   return (
     <View style={styles.safeArea}>
@@ -898,6 +903,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
               title={localTrip.title || "My Trip"}
               days={localTrip.days}
               places={places}
+              startFrom={startFrom}
               imageFor={imageForArea}
               onOpenDay={handleOpenDay}
               wide={wide}
@@ -1180,7 +1186,7 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                   // The trip as it stands on screen, with the open day's edits saved first.
                   flushSave();
                   void addTripToCalendar(
-                    { id: localTrip.id, title: localTrip.title },
+                    { id: localTrip.id, title: localTrip.title, startArea: localTrip.startArea },
                     tripRef.current ? currentDays() : localTrip.days,
                     places,
                   );

@@ -9,6 +9,7 @@ import {
   Animated,
   Easing,
   PanResponder,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -16,6 +17,7 @@ import {
   useWindowDimensions,
   type LayoutChangeEvent,
   type TextInstance,
+  type ViewInstance,
 } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -219,17 +221,24 @@ type TownCardProps = {
   selected?: boolean;
   /** The loop back to the start town: the website's ring round it. */
   home?: boolean;
+  /** Takes a screen reader's focus when it shows: the first town "Somewhere else?" brings up, as on the website. */
+  focus?: boolean;
   onPress: () => void;
 };
 
 // A town to pick: its photo fills the card, with its name and a line in white over a dark fade at the foot.
 // The photos come from the api, as on the website: with no signal the card is its dark fill and still reads.
-export function TownCard({ img, title, line, selected = false, home, onPress }: TownCardProps) {
+export function TownCard({ img, title, line, selected = false, home, focus, onPress }: TownCardProps) {
   const { share, onWords } = useShare(300);
+  const button = useRef<ViewInstance>(null);
+  useEffect(() => {
+    if (focus && button.current) AccessibilityInfo.sendAccessibilityEvent(button.current, "focus");
+  }, [focus]);
   return (
     // The shadow is on this view and the clipping on the one inside: iOS cuts a shadow off a view that clips.
     <View style={[styles.cardLift, share]}>
       <TouchableOpacity
+        ref={button}
         testID="town-card"
         style={styles.card}
         activeOpacity={0.8}
@@ -252,6 +261,47 @@ export function TownCard({ img, title, line, selected = false, home, onPress }: 
       </TouchableOpacity>
       {home ? <View testID="town-home-ring" pointerEvents="none" style={styles.cardRing} /> : null}
     </View>
+  );
+}
+
+type TripCardProps = {
+  /** A photo of one of the trip's places. "": none, and the card is its words alone. */
+  img: string;
+  badge: string;
+  /** One of the app's hand-checked trips: its badge stands out. */
+  checked?: boolean;
+  title: string;
+  /** The towns the trip goes through. */
+  line: string;
+  /** How long it is and how it ends. */
+  foot: string;
+  /** The trip looked at before (back from it). */
+  selected?: boolean;
+  onPress: () => void;
+};
+
+// A trip to pick (.q-trip): the website's bordered card, a photo across its top and the words under it. To a
+// screen reader it is one button that says everything on it, with commas where the card has its dots (as a
+// day's row in the trip view is read out).
+export function TripCard({ img, badge, checked, title, line, foot, selected = false, onPress }: TripCardProps) {
+  return (
+    <TouchableOpacity
+      testID="trip-card"
+      style={[styles.trip, selected && styles.optionOn]}
+      activeOpacity={0.8}
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={`${badge}. ${title}. ${line}. ${foot.replaceAll(" · ", ", ")}`}
+      accessibilityState={{ selected }}
+    >
+      {img ? <Image testID="trip-photo" source={{ uri: img }} style={styles.tripPhoto} contentFit="cover" transition={150} accessible={false} /> : null}
+      <View style={styles.tripWords}>
+        <Text style={[styles.badge, checked && styles.badgeChecked]}>{badge}</Text>
+        <Text style={styles.tripName}>{title}</Text>
+        <Text style={styles.tripLine}>{line}</Text>
+        <Text style={styles.tripFoot}>{foot}</Text>
+      </View>
+    </TouchableOpacity>
   );
 }
 
@@ -297,35 +347,40 @@ export function PhotoBreak({ uri, line, credit, children }: { uri: string; line:
 // The slider's height (a full finger) and its knob.
 const SLIDER = 44;
 const KNOB = 28;
+// A sideways move this long takes the slider; less, or more up and down than sideways, is left to the page.
+const SLIDER_TAKE = 4;
 
 type DaysSliderProps = { value: number; min: number; max: number; onChange: (n: number) => void };
 
 // The website's range input. Dragged the way the trip view's drive block is (PanResponder): a day is a step
 // about 14 pt wide on a phone, so it needs no animation thread, and it runs as it is in the tests.
+// It takes a touch only once the finger has gone sideways, as the swipe cards do, so a scroll that starts on it
+// still scrolls the page; a tap on its line puts the knob there.
 // To a screen reader it is a slider: swipe up or down for a day more or fewer.
 export function DaysSlider({ value, min, max, onChange }: DaysSliderProps) {
   // The touch handlers are made once; they read the newest numbers through this. width: the slider's, for
   // turning where a finger is into a day. from: where the finger went down.
   const live = useRef({ width: 0, min, max, onChange, from: 0 });
   Object.assign(live.current, { min, max, onChange });
-  const [pan] = useState(() => {
+  const [slider] = useState(() => {
     // The day under a point on the slider: the knob's middle runs from half a knob in to half a knob short.
     const set = (x: number) => {
       const { width: w, min: lo, max: hi } = live.current;
       const run = w - KNOB;
       if (run > 0) live.current.onChange(Math.max(lo, Math.min(hi, lo + Math.round(((x - KNOB / 2) / run) * (hi - lo)))));
     };
-    return PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
-      // A drag on the slider is the slider's: the page under it doesn't take it back to scroll.
+    const pan = PanResponder.create({
+      onMoveShouldSetPanResponder: (_e, g) => Math.abs(g.dx) > SLIDER_TAKE && Math.abs(g.dx) > Math.abs(g.dy),
+      // Once it is a drag along the slider it stays the slider's: the page doesn't take it back to scroll.
       onPanResponderTerminationRequest: () => false,
+      // From where the finger is now; PanResponder counts how far it goes from here.
       onPanResponderGrant: (e) => {
         live.current.from = e.nativeEvent.locationX;
         set(live.current.from);
       },
       onPanResponderMove: (_e, g) => set(live.current.from + g.dx),
     });
+    return { set, handlers: pan.panHandlers };
   });
   // How far along the line the knob is, 0 to 1. Drawn by share of the line (flex), not by the measured width, so
   // it is in place on the first frame.
@@ -346,15 +401,18 @@ export function DaysSlider({ value, min, max, onChange }: DaysSliderProps) {
         if (e.nativeEvent.actionName === "increment") step(1);
         if (e.nativeEvent.actionName === "decrement") step(-1);
       }}
-      {...pan.panHandlers}
+      {...slider.handlers}
     >
-      {/* Nothing inside takes a touch, so where a finger lands is measured from the slider's own edge. */}
       <View pointerEvents="none" style={styles.sliderLine} />
       <View pointerEvents="none" style={styles.sliderRow}>
         <View testID="days-slider-fill" style={[styles.sliderFill, { flex: along }]} />
         <View style={styles.sliderKnob} />
         <View testID="days-slider-rest" style={{ flex: 1 - along }} />
       </View>
+      {/* Over the whole slider, the only thing in it that takes a touch, so where a finger lands is measured
+          from the slider's own edge. A tap puts the knob there. It gives the touch up to a scroll of the page,
+          and to the slider itself once the finger goes sideways. Not a stop of its own for a screen reader. */}
+      <Pressable testID="days-slider-tap" accessible={false} style={StyleSheet.absoluteFill} onPress={(e) => slider.set(e.nativeEvent.locationX)} />
     </View>
   );
 }
@@ -462,6 +520,32 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderColor: tokens.colors.highlightOnDark,
   },
+  // .q-trip: a 2 pt line round a card-coloured card with 18 corners, which cut the photo's; its photo 120 tall,
+  // dark until it loads, as a town's is.
+  trip: { borderWidth: 2, borderColor: tokens.colors.line, borderRadius: 18, overflow: "hidden", backgroundColor: tokens.colors.bgCard },
+  tripPhoto: { width: "100%", height: 120, backgroundColor: NIGHT },
+  tripWords: { gap: 4, paddingTop: 14, paddingHorizontal: 16, paddingBottom: 16 },
+  // .q-badge: a small tag in capitals. .q-built is the line's grey. .q-sugg is the website's yellow with dark
+  // words: here the amber that stands for it on the loop's ring, the photo's dark for its words, the same in
+  // light and dark as the website's is.
+  badge: {
+    alignSelf: "flex-start",
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+    borderRadius: 6,
+    overflow: "hidden",
+    fontSize: 12,
+    fontWeight: "800",
+    letterSpacing: 0.7,
+    textTransform: "uppercase",
+    color: tokens.colors.text,
+    backgroundColor: tokens.colors.line,
+  },
+  badgeChecked: { color: NIGHT, backgroundColor: tokens.colors.highlightOnDark },
+  tripName: { fontSize: 19, lineHeight: 24, fontWeight: "800", color: tokens.colors.text },
+  tripLine: { fontSize: 14, lineHeight: 20, color: tokens.colors.text2 },
+  // The website's accent line: teal here, as nothing on it is a button of its own.
+  tripFoot: { marginTop: 6, fontSize: 13, fontWeight: "800", color: tokens.colors.selected },
   // .q-brk-card: the photo as a card with a deeper shadow.
   breakLift: { borderRadius: 20, backgroundColor: NIGHT, ...cardLift, shadowOffset: { width: 0, height: 12 }, shadowOpacity: 0.3, shadowRadius: 20 },
   breakPhoto: { width: "100%", aspectRatio: 3 / 2, borderRadius: 20 },

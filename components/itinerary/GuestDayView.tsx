@@ -1,4 +1,4 @@
-import { Fragment, useMemo, type ComponentType } from "react";
+import { Fragment, useMemo, type ComponentType, type ReactNode } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { router } from "expo-router";
 import { Car } from "lucide-react-native";
@@ -24,12 +24,20 @@ type Props = {
   places: PlaceLookup;
   /** A place's kind icon, as its map pin draws it. */
   iconFor: (siteId: string) => ComponentType<{ color: string; size: number }>;
+  /** The heading's top padding, for a caller already clear of the status bar (the trip quiz, under
+   *  its own top row). Left out: a pane that starts at the top of the screen. */
+  top?: number;
+  /** A tap on a stop. Left out: it opens the place. */
+  onOpenPlace?: (siteId: string) => void;
+  /** Under the heading: a line of the caller's own about the day (the trip quiz: more driving than was asked for). */
+  note?: ReactNode;
 };
 
 // The open Duo's day side for a guest: one day of the suggested trip, read-only. The same
 // heading and blocks as the signed-in day (ItineraryDetailView), on the same slot scale from the
 // day's first stop (no hour grid), with nothing to drag or edit; a tap opens the place.
-export function GuestDayView({ days, index, places, iconFor }: Props) {
+// The trip quiz draws a day of the trip it has built with it too (components/tripBuilder/TripReveal).
+export function GuestDayView({ days, index, places, iconFor, top, onOpenPlace, note }: Props) {
   const insets = useSafeAreaInsets();
   const day = days[index];
   const items = day?.items ?? [];
@@ -70,9 +78,10 @@ export function GuestDayView({ days, index, places, iconFor }: Props) {
   if (!day) return null;
   return (
     <View style={styles.fill}>
-      <View testID="day-heading" style={[styles.heading, { paddingTop: wideTop(insets.top, insets.top + tokens.space.md) }]}>
+      <View testID="day-heading" style={[styles.heading, { paddingTop: top ?? wideTop(insets.top, insets.top + tokens.space.md) }]}>
         <Text style={styles.date}>{`Day ${index + 1}`}</Text>
         {areas.length > 0 ? <Text style={styles.route}>{routeLine(areas.map(areaName))}</Text> : null}
+        {note}
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View testID="guest-timeline" style={{ height: (last - first) * SLOT_HEIGHT + 100, marginTop: tokens.space.md }}>
@@ -97,7 +106,7 @@ export function GuestDayView({ days, index, places, iconFor }: Props) {
                   onDrop={() => item.slotIndex ?? 0}
                   onDragStart={() => {}}
                   onDragEnd={() => {}}
-                  onEdit={() => router.push(`/(app)/(tabs)/sites/${item.siteId}`)}
+                  onEdit={() => (onOpenPlace ? onOpenPlace(item.siteId) : router.push(`/(app)/(tabs)/sites/${item.siteId}`))}
                 />
                 {legAfter.has(item.id) ? renderLeg(legAfter.get(item.id)!) : null}
               </Fragment>

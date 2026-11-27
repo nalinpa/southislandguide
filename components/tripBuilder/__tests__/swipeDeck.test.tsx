@@ -200,6 +200,26 @@ describe("Yes and No", () => {
     expect(timing).toHaveBeenCalledTimes(1);
     expect(onAnswer).not.toHaveBeenCalled();
   });
+
+  // The card has flown off and its answer is in, but the next card hasn't been drawn yet: a second tap or
+  // swipe in that gap is still on the card just answered, and must not answer it again (the deck would move on
+  // a card too far).
+  it("take one answer for a card: a second, before the next card shows, is nothing", async () => {
+    const view = await deck();
+
+    await fireEvent.press(view.getByLabelText("Yes, add scenic"));
+    await fireEvent.press(view.getByLabelText("No, skip scenic"));
+    await fireEvent.press(view.getByLabelText("Yes, add scenic"));
+    await swipe(view, -150);
+
+    expect(onAnswer.mock.calls).toEqual([[true]]);
+    expect(timing).toHaveBeenCalledTimes(1);
+
+    // the next card is answered as usual
+    await view.rerender(<SwipeDeck card={WALKS} count="2 of 11" onAnswer={onAnswer} />);
+    await fireEvent.press(view.getByLabelText("No, skip walks"));
+    expect(onAnswer.mock.calls).toEqual([[true], [false]]);
+  });
 });
 
 describe("a swipe", () => {
@@ -241,6 +261,7 @@ describe("a swipe", () => {
     await swipe(view, 60, 50);
     expect(onAnswer).toHaveBeenLastCalledWith(true);
 
+    await view.rerender(<SwipeDeck card={WALKS} count="2 of 11" onAnswer={onAnswer} />);
     await swipe(view, -60, 50);
     expect(onAnswer).toHaveBeenLastCalledWith(false);
     expect(onAnswer).toHaveBeenCalledTimes(2);
@@ -287,9 +308,21 @@ describe("with reduce motion on", () => {
     await fireEvent.press(view.getByLabelText("Yes, add scenic"));
     expect(onAnswer).toHaveBeenLastCalledWith(true);
 
+    await view.rerender(<SwipeDeck card={WALKS} count="2 of 11" onAnswer={onAnswer} />);
     await swipe(view, -150);
     expect(onAnswer).toHaveBeenLastCalledWith(false);
     expect(timing).not.toHaveBeenCalled();
+  });
+
+  // No fly-off to wait for, so the answer is in at once and the same gap is there before the next card shows.
+  it("a card still takes one answer: a second, before the next card shows, is nothing", async () => {
+    const view = await deck();
+
+    await fireEvent.press(view.getByLabelText("No, skip scenic"));
+    await fireEvent.press(view.getByLabelText("Yes, add scenic"));
+    await swipe(view, 150);
+
+    expect(onAnswer.mock.calls).toEqual([[false]]);
   });
 
   it("a card let go short of the point is put back, not sprung back", async () => {
@@ -374,6 +407,20 @@ describe("the nudge", () => {
     // not counted as seen: it can play when the setting is turned off
     expect(deckNudge.seen).toBe(false);
   });
+});
+
+// React can run an effect, undo it and run it again (it does in its strict mode). The deck marks itself gone
+// when it is undone, so it has to mark itself back when it is run.
+it("is not left dead when its effects are run twice", async () => {
+  const view = await render(
+    <React.StrictMode>
+      <SwipeDeck card={SCENIC} next={WALKS} count="1 of 11" onAnswer={onAnswer} />
+    </React.StrictMode>,
+  );
+
+  await fireEvent.press(view.getByLabelText("Yes, add scenic"));
+
+  expect(onAnswer).toHaveBeenCalledWith(true);
 });
 
 it("says nothing after it has gone: a card still flying when the question is left answers nothing", async () => {

@@ -20,6 +20,13 @@ type TripOverviewProps = {
   onOpenDay: (dayId: string) => void;
   /** Above the trip's name, inside the scroll (the guest's sign-in card). */
   header?: ReactNode;
+  /** A trip looked at before it is saved (the trip quiz's built trip). No name and dates row: the
+   *  caller's header says them, with what the trip was built for. And no day is today: the dates are
+   *  a first guess, and scrolling to one would open the list below that header. */
+  unsaved?: boolean;
+  /** A line of the caller's own on a day, by its position in `days` (from 0), drawn and read out as
+   *  the list's own warning is (the trip quiz: a day with more driving than was asked for). */
+  dayNote?: (index: number) => string | null;
   /** A sample, not a trip of theirs (the guest's suggested trip): no dates, as it isn't
    *  booked, no count of days (its name says it), and no arrow on a row. A tap still calls
    *  onOpenDay, which asks them to sign in. No lock on each row either: the one sign-in
@@ -61,6 +68,8 @@ export function TripOverview({
   imageFor,
   onOpenDay,
   header,
+  unsaved = false,
+  dayNote,
   locked = false,
   wide = false,
   selectedDay,
@@ -85,6 +94,7 @@ export function TripOverview({
       showsVerticalScrollIndicator={false}
     >
       {header}
+      {unsaved ? null : (
       <View style={[styles.headingRow, wide && styles.headingRowWide]}>
         <View style={styles.heading}>
           <Text style={styles.tripTitle}>{title}</Text>
@@ -97,9 +107,10 @@ export function TripOverview({
         </View>
         {wide ? menu : null}
       </View>
+      )}
       {days.map((day, index) => {
         const { placeCount, areas, openingDrive, driveSlots, overflows } = summary[index];
-        const isToday = !locked && day.date === today;
+        const isToday = !locked && !unsaved && day.date === today;
         const selected = wide && selectedDay === index;
         const towns = areas.map(areaName);
         const meta =
@@ -110,6 +121,7 @@ export function TripOverview({
         // next day starts.
         const lastArea = areas[areas.length - 1];
         const picture = lastArea ? imageFor(lastArea) : null;
+        const note = dayNote?.(index);
 
         const spoken = [
           `Day ${index + 1}`,
@@ -119,6 +131,7 @@ export function TripOverview({
           ...(placeCount === 0 ? ["nothing planned yet"] : meta.split(" · ")),
           opening ? opening.charAt(0).toLowerCase() + opening.slice(1) : null,
           overflows ? "runs past 10 PM" : null,
+          note,
           locked ? "locked" : null,
         ]
           .filter(Boolean)
@@ -178,6 +191,7 @@ export function TripOverview({
               ) : null}
 
               {overflows ? <Text style={[styles.overflow, wide && styles.detailWide]}>Runs past 10 PM</Text> : null}
+              {note ? <Text style={[styles.overflow, wide && styles.detailWide]}>{note}</Text> : null}
             </View>
             {selected && onDeleteDay ? (
               <TouchableOpacity

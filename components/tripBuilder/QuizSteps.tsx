@@ -2,16 +2,18 @@
 // words are the website's (the page half of kiwiguide-site public/plan/quiz.js: its `screens`), drawn from the
 // copied lists (quizLogic.js). Each hands its pick back in quizFlow's shape; where it leads is quizFlow's.
 // The pieces and their look are in quizParts.
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AccessibilityInfo, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Minus, Plus } from "lucide-react-native";
 
 import builderData from "@/assets/data/builder-data.json";
 import { AppButton } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
+import { areaName } from "@/lib/areas";
 import type { BuilderAnswers } from "@/lib/tripBuilder";
 import type { QuizAnswer, QuizState } from "@/lib/tripBuilder/quizFlow";
-import { BreakPhoto, DaysSlider, OptionButton, PhotoBreak, QUIZ_BUTTON, QuizHead, TownCard, fetchAhead } from "./quizParts";
+import type { QuizTrip } from "@/lib/tripBuilder/quizTrips";
+import { BreakPhoto, DaysSlider, OptionButton, PhotoBreak, QUIZ_BUTTON, QuizHead, TownCard, TripCard, fetchAhead } from "./quizParts";
 import { SwipeDeck } from "./SwipeDeck";
 
 type Town = { id: string; name: string; sub: string; out: string; img: string; more?: boolean };
@@ -50,6 +52,8 @@ const site = require("@/lib/tripBuilder/quizLogic") as {
   deckAnswer: (deck: Deck, cards: SiteCard[], yes: boolean, st: QuizState) => { deck: Deck | null; st: QuizState };
   // 1: the start town's photo, with a head and a body. 2: the website's photo for the vibe, with its credit.
   breakLine: (n: 1 | 2, st: QuizState) => { line: string; head?: string; body?: string; img: string; credit: string };
+  // A photo for each trip's card: one of its own places', never one an earlier card has. "": the trip has none.
+  tripPhotos: (trips: QuizTrip[]) => string[];
 };
 
 export type StepProps = {
@@ -71,8 +75,8 @@ export type StepProps = {
 
 // The website's own small helpers (its page half, which the copy leaves out).
 const town = (id: string | null) => site.TOWNS.find((t) => t.id === id);
-const days = (n: number | null) => `${n} ${n === 1 ? "day" : "days"}`;
-const or = (names: string[]) => (names.length < 2 ? names.join("") : `${names.slice(0, -1).join(", ")} or ${names[names.length - 1]}`);
+export const days = (n: number | null) => `${n} ${n === 1 ? "day" : "days"}`;
+export const or = (names: string[]) => (names.length < 2 ? names.join("") : `${names.slice(0, -1).join(", ")} or ${names[names.length - 1]}`);
 // The days picker's quick numbers.
 const CHIPS = [3, 5, 7, 10, 12, 14, 17, 21];
 // The second break's four photos are the website's own files, so they load from it.
@@ -85,6 +89,8 @@ const startMonth = (state: QuizState, today: Date) => +site.startDateFor(state, 
 export function StartStep({ state, onAnswer, open, onOpen }: StepProps) {
   const all = open || !!town(state.start)?.more;
   const more = site.TOWNS.filter((t) => t.more);
+  // "Somewhere else?" was tapped here, and goes: a screen reader's focus moves to the first town it shows.
+  const asked = useRef(false);
   return (
     <View style={styles.step}>
       <QuizHead kicker="Plan your South Island trip in a minute" title="Where do you start?" />
@@ -95,10 +101,21 @@ export function StartStep({ state, onAnswer, open, onOpen }: StepProps) {
           title={t.name}
           line={t.sub}
           selected={state.start === t.id}
+          focus={asked.current && t.id === more[0].id}
           onPress={() => onAnswer({ step: "start", value: t.id })}
         />
       ))}
-      {all ? null : <TownCard img={more[0].img} title="Somewhere else?" line={or(more.map((t) => t.name))} onPress={() => onOpen?.()} />}
+      {all ? null : (
+        <TownCard
+          img={more[0].img}
+          title="Somewhere else?"
+          line={or(more.map((t) => t.name))}
+          onPress={() => {
+            asked.current = true;
+            onOpen?.();
+          }}
+        />
+      )}
     </View>
   );
 }
@@ -201,6 +218,8 @@ export function FinishStep({ state, onAnswer, open, onOpen }: StepProps) {
   // open already when the pick is one of the towns behind "Somewhere else?"
   const cards = site.finishCards(state.start, state.days, !!open || !!(state.end && state.end !== state.start && town(state.end)?.more));
   const finish = (id: string) => onAnswer({ step: "finish", value: id });
+  // "Somewhere else?" was tapped here: the first town that was behind it, for a screen reader's focus to move to.
+  const asked = useRef<string | null>(null);
   return (
     <View style={styles.step}>
       <QuizHead kicker={`${days(state.days)} from ${home?.name}`} title="Where does your trip finish?" />
@@ -215,14 +234,27 @@ export function FinishStep({ state, onAnswer, open, onOpen }: StepProps) {
         />
       ) : null}
       {cards.towns.map(town).map((t) =>
-        t ? <TownCard key={t.id} img={t.img} title={t.name} line={t.out} selected={state.end === t.id} onPress={() => finish(t.id)} /> : null,
+        t ? (
+          <TownCard
+            key={t.id}
+            img={t.img}
+            title={t.name}
+            line={t.out}
+            selected={state.end === t.id}
+            focus={asked.current === t.id}
+            onPress={() => finish(t.id)}
+          />
+        ) : null,
       )}
       {cards.behind.length ? (
         <TownCard
           img={town(cards.behind[0])?.img ?? ""}
           title="Somewhere else?"
           line={or(cards.behind.map((id) => town(id)?.name ?? id))}
-          onPress={() => onOpen?.()}
+          onPress={() => {
+            asked.current = cards.behind[0];
+            onOpen?.();
+          }}
         />
       ) : null}
     </View>
@@ -432,6 +464,57 @@ export function FoodStep({ state, onAnswer }: StepProps) {
       <QuizHead kicker="Nearly there" title="Food tips?" lead="Cafés and places to eat, placed along each day." />
       <OptionButton label="Yes" hint="Add the good places to eat" selected={state.food === true} onPress={() => onAnswer({ step: "food", value: true })} />
       <OptionButton label="No" hint="Just the places to see" selected={state.food === false} onPress={() => onAnswer({ step: "food", value: false })} />
+    </View>
+  );
+}
+
+/** While the trips are built: the website's waiting words. */
+export function WaitStep() {
+  return (
+    <View style={styles.step}>
+      <QuizHead kicker="One moment" title="Picking the places that fit you…" />
+    </View>
+  );
+}
+
+/**
+ * A photo for each trip's card, as the website picks them. A place with no photo of its own has its kind's
+ * stand-in, which is one of the website's files. "": no photo.
+ */
+export const tripCardPhotos = (trips: QuizTrip[]) => site.tripPhotos(trips).map((p) => (p.startsWith("/") ? SITE + p : p));
+
+// The website's routeLine: the start town, then the town each day ends in, a town said once while the trip stays in it.
+function townsOf(trip: QuizTrip) {
+  const names = [areaName(trip.start)];
+  for (const d of trip.days) if (names[names.length - 1] !== areaName(d.town)) names.push(areaName(d.town));
+  const line = names.join(", ");
+  return line.length > 110 ? `${line.slice(0, 110).replace(/,?\s+\S*$/, "")}…` : line;
+}
+
+/**
+ * The trips that fit, a card each: the app's hand-checked trips first, then the ones built for the answers. Only
+ * shown when there are several: one trip shows on its own (quizFlow's tripStep).
+ */
+export function ChoiceStep({ state, onAnswer, trips }: StepProps & { trips: QuizTrip[] }) {
+  const photos = tripCardPhotos(trips);
+  const from = town(state.start)?.name;
+  const where = state.end === state.start ? `${from} and back` : `${from} to ${town(state.end)?.name}`;
+  return (
+    <View style={styles.step}>
+      <QuizHead kicker={`${trips.length === 1 ? "1 trip fits" : `${trips.length} trips fit`} ${where} · ${days(state.days)}`} title="Which one sounds like you?" />
+      {trips.map((t, n) => (
+        <TripCard
+          key={t.key}
+          img={photos[n]}
+          badge={t.kind === "built" ? "Built for you" : "Hand-checked trip"}
+          checked={t.kind !== "built"}
+          title={t.label}
+          line={townsOf(t)}
+          foot={`${days(t.days.length)} · ${t.end === t.start ? `Loop · back in ${areaName(t.start)}` : `Ends in ${areaName(t.end)}`}`}
+          selected={state.pick === t.key}
+          onPress={() => onAnswer({ step: "choice", value: t.key })}
+        />
+      ))}
     </View>
   );
 }

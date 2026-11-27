@@ -74,8 +74,8 @@ export function SwipeDeck({ card, next, count, first, onAnswer }: SwipeDeckProps
   const reduce = useReduceMotion();
   // Everything below is made once; it reads the newest card and callback through this.
   // off: how far a card flies, clear of the window from wherever its column sits. busy: a card is on its way
-  // off. gone: the question has been left.
-  const live = useRef({ card, onAnswer, off: 0, busy: false, gone: false });
+  // off. answered: the card whose answer was last passed on. gone: the question has been left.
+  const live = useRef({ card, onAnswer, off: 0, busy: false, answered: null as string | null, gone: false });
   Object.assign(live.current, { card, onAnswer, off: width * 1.3 });
 
   const [deck] = useState(() => {
@@ -94,14 +94,27 @@ export function SwipeDeck({ card, next, count, first, onAnswer }: SwipeDeckProps
       nudge.moving = undefined;
     };
 
+    // The card on top can still be answered: it isn't on its way off, and its answer hasn't been passed on. Once
+    // it has, the next card takes a moment to be drawn; a tap or swipe in that moment is still on this card, and
+    // must not answer it again (the deck would go on a card too far).
+    const open = () => {
+      const now = live.current;
+      return !now.busy && !now.gone && now.answered !== now.card.id;
+    };
+    const pass = (id: string, yes: boolean) => {
+      live.current.answered = id;
+      live.current.onAnswer(yes);
+    };
+
     // A card answered: it flies off, then the answer is passed on (the next card, or the next question).
     const decide = (yes: boolean) => {
+      if (!open()) return;
       const now = live.current;
-      if (now.busy || now.gone) return;
+      const id = now.card.id;
       stopNudge();
-      if (reduce.current) return now.onAnswer(yes);
+      if (reduce.current) return pass(id, yes);
       now.busy = true;
-      Animated.timing(panOf(now.card.id), {
+      Animated.timing(panOf(id), {
         toValue: yes ? now.off : -now.off,
         duration: OFF_MS,
         easing: Easing.out(Easing.quad),
@@ -109,14 +122,14 @@ export function SwipeDeck({ card, next, count, first, onAnswer }: SwipeDeckProps
       }).start(({ finished }) => {
         now.busy = false;
         // Stopped, or the question left mid-flight: nothing was answered.
-        if (finished && !now.gone) now.onAnswer(yes);
+        if (finished && !now.gone) pass(id, yes);
       });
     };
 
     // The finger lifted (or the touch was taken away): past the point or a quick flick answers, else back it goes.
     const letGo = (g: PanResponderGestureState) => {
       const now = live.current;
-      if (now.busy) return;
+      if (!open()) return;
       const flick = Math.abs(g.vx) > FLICK && Math.abs(g.dx) > FLICK_FROM && g.vx * g.dx > 0;
       if (Math.abs(g.dx) > PAST || flick) return decide(g.dx > 0);
       const pan = panOf(now.card.id);
@@ -127,11 +140,11 @@ export function SwipeDeck({ card, next, count, first, onAnswer }: SwipeDeckProps
     const responder = PanResponder.create({
       // Not on a touch alone, so the page under the cards can still be scrolled from them (the website's
       // touch-action: pan-y): only once the finger has gone sideways.
-      onMoveShouldSetPanResponder: (_e, g) => !live.current.busy && Math.abs(g.dx) > TAKE && Math.abs(g.dx) > Math.abs(g.dy),
+      onMoveShouldSetPanResponder: (_e, g) => open() && Math.abs(g.dx) > TAKE && Math.abs(g.dx) > Math.abs(g.dy),
       onPanResponderTerminationRequest: () => false,
       onPanResponderGrant: stopNudge,
       onPanResponderMove: (_e, g) => {
-        if (!live.current.busy) panOf(live.current.card.id).setValue(g.dx);
+        if (open()) panOf(live.current.card.id).setValue(g.dx);
       },
       onPanResponderRelease: (_e, g) => letGo(g),
       onPanResponderTerminate: (_e, g) => letGo(g),
@@ -140,12 +153,13 @@ export function SwipeDeck({ card, next, count, first, onAnswer }: SwipeDeckProps
     return { panOf, decide, nudge, stopNudge, handlers: responder.panHandlers };
   });
 
-  useEffect(
-    () => () => {
+  // Set back when the effect runs, not only where the deck is made: React may undo an effect and run it again.
+  useEffect(() => {
+    live.current.gone = false;
+    return () => {
       live.current.gone = true;
-    },
-    [],
-  );
+    };
+  }, []);
 
   // A new card is read out, with where it is in the deck. Not the first: the question has just been.
   const shown = useRef(card.id);

@@ -16,7 +16,7 @@ jest.mock("expo-linear-gradient", () => {
 
 import React from "react";
 import { AccessibilityInfo } from "react-native";
-import { fireEvent, render, within } from "@testing-library/react-native";
+import { act, fireEvent, render, within } from "@testing-library/react-native";
 
 import { BandStep, BreakStep, DaysStep, FinishStep, MonthStep, SeasonStep, StartStep } from "@/components/tripBuilder/QuizSteps";
 import { blankQuiz, type QuizState } from "@/lib/tripBuilder/quizFlow";
@@ -228,8 +228,9 @@ describe("How many days?", () => {
     const WIDTH = 300;
     const xOf = (n: number) => 14 + ((n - least) / (21 - least)) * (WIDTH - 28);
     let t = 0;
-    // A touch as PanResponder reads it: one finger, where it went down on the slider, and from where to where since.
-    const touch = (locationX: number, fromX = 0, toX = 0) => {
+    // A touch as PanResponder reads it: one finger, where it is on the slider, and from where to where since
+    // (across, and up or down).
+    const touch = (locationX: number, fromX = 0, toX = 0, fromY = 0, toY = 0) => {
       t += 1;
       const finger = {
         touchActive: true,
@@ -237,20 +238,27 @@ describe("How many days?", () => {
         startPageY: 0,
         startTimeStamp: 0,
         currentPageX: toX,
-        currentPageY: 0,
+        currentPageY: toY,
         currentTimeStamp: t,
         previousPageX: fromX,
-        previousPageY: 0,
+        previousPageY: fromY,
         previousTimeStamp: t - 1,
       };
       return {
         touchHistory: { numberActiveTouches: 1, indexOfSingleActiveTouch: 0, mostRecentTimeStamp: t, touchBank: [finger] },
-        nativeEvent: { locationX, touches: [], changedTouches: [] },
+        nativeEvent: { locationX, touches: [finger], changedTouches: [finger] },
       };
     };
+    // The slider's own handlers are called as the phone calls them. (fireEvent passes nothing on to a view that
+    // doesn't want a touch that hasn't moved, which the slider doesn't: not its layout, nor a screen reader's
+    // swipe, nor a drag it has already been given.)
+    const drag = (view: any, ...steps: [name: "Grant" | "Move" | "Release", event: ReturnType<typeof touch>][]) =>
+      act(async () => {
+        for (const [name, event] of steps) slider(view).props[`onResponder${name}`](event);
+      });
     const laidOut = async () => {
       const view = await render(<DaysStep state={week} onAnswer={onAnswer} />);
-      await fireEvent(slider(view), "layout", { nativeEvent: { layout: { x: 0, y: 0, width: WIDTH, height: 44 } } });
+      await act(async () => slider(view).props.onLayout({ nativeEvent: { layout: { x: 0, y: 0, width: WIDTH, height: 44 } } }));
       return view;
     };
 
@@ -261,15 +269,23 @@ describe("How many days?", () => {
       expect(slider(view).props.accessibilityValue).toEqual({ min: least, max: 21, now: 7, text: "7 days" });
     });
 
-    it("sets the days where it is touched, and follows the finger", async () => {
+    it("goes to where its line is tapped", async () => {
       const view = await laidOut();
 
-      await fireEvent(slider(view), "responderGrant", touch(xOf(12)));
+      await fireEvent.press(view.getByTestId("days-slider-tap"), { nativeEvent: { locationX: xOf(12) } });
+
       expect(count(view)).toBe("12 days");
       expect(chip(view, 12).props.accessibilityState).toEqual({ selected: true });
+    });
+
+    it("follows a finger dragged along it, from where the finger is", async () => {
+      const view = await laidOut();
+
+      await drag(view, ["Grant", touch(xOf(12))]);
+      expect(count(view)).toBe("12 days");
 
       // three days' worth to the right
-      await fireEvent(slider(view), "responderMove", touch(xOf(12), 100, 100 + (xOf(15) - xOf(12))));
+      await drag(view, ["Move", touch(xOf(12), 100, 100 + (xOf(15) - xOf(12)))]);
       expect(count(view)).toBe("15 days");
       expect(slider(view).props.accessibilityValue.now).toBe(15);
 
@@ -280,12 +296,29 @@ describe("How many days?", () => {
     it("stops at its ends however far the finger goes", async () => {
       const view = await laidOut();
 
-      await fireEvent(slider(view), "responderGrant", touch(xOf(7)));
-      await fireEvent(slider(view), "responderMove", touch(xOf(7), 0, 900));
+      await drag(view, ["Grant", touch(xOf(7))], ["Move", touch(xOf(7), 0, 900)]);
       expect(count(view)).toBe("21 days");
 
-      await fireEvent(slider(view), "responderMove", touch(xOf(7), 900, -900));
+      await drag(view, ["Move", touch(xOf(7), 900, -900)]);
       expect(count(view)).toBe(`${least} days`);
+    });
+
+    // The page under the slider scrolls on a small phone. A touch that starts on the slider and goes up or down
+    // is the page's; the slider takes it only once it has gone sideways.
+    it("takes a touch only once it goes sideways, so a scroll that starts on it still scrolls the page", async () => {
+      const view = await laidOut();
+      const moved = (dx: number, dy: number) => {
+        slider(view).props.onStartShouldSetResponderCapture(touch(0));
+        slider(view).props.onMoveShouldSetResponderCapture(touch(0, 0, dx, 0, dy));
+        return slider(view).props.onMoveShouldSetResponder(touch(0, dx, dx, dy, dy));
+      };
+
+      expect(slider(view).props.onStartShouldSetResponder(touch(0))).toBe(false);
+      expect(moved(12, 3)).toBe(true);
+      expect(moved(-12, 3)).toBe(true);
+      expect(moved(3, 12)).toBe(false);
+      expect(moved(2, 0)).toBe(false);
+      expect(count(view)).toBe("7 days");
     });
 
     // By share of the line, not by a measured width: in place on the first frame, before anything is laid out.
@@ -308,18 +341,18 @@ describe("How many days?", () => {
     // VoiceOver: swipe up or down on it, a day at a time. It reads its own new value, so nothing is announced twice.
     it("moves a day at a time with a screen reader, and no further than its ends", async () => {
       const view = await laidOut();
-      const act = (actionName: string) => fireEvent(slider(view), "accessibilityAction", { nativeEvent: { actionName } });
+      const swipe = (actionName: string) => act(async () => slider(view).props.onAccessibilityAction({ nativeEvent: { actionName } }));
 
-      await act("increment");
+      await swipe("increment");
       expect(count(view)).toBe("8 days");
-      await act("decrement");
-      await act("decrement");
+      await swipe("decrement");
+      await swipe("decrement");
       expect(count(view)).toBe("6 days");
       expect(announce).not.toHaveBeenCalled();
 
-      for (let i = 0; i < 30; i++) await act("increment");
+      for (let i = 0; i < 30; i++) await swipe("increment");
       expect(count(view)).toBe("21 days");
-      for (let i = 0; i < 30; i++) await act("decrement");
+      for (let i = 0; i < 30; i++) await swipe("decrement");
       expect(count(view)).toBe(`${least} days`);
     });
 
@@ -514,5 +547,56 @@ describe("a question's heading", () => {
     const [node, kind] = focus.mock.calls[0];
     expect(kind).toBe("focus");
     expect(node.props.children).toBe(title);
+  });
+});
+
+// "Somewhere else?" goes when it is tapped, and a screen reader's focus would go with it. The website moves
+// focus to the first of the towns it has just shown; so does the app.
+describe("the towns Somewhere else? shows", () => {
+  const focus = AccessibilityInfo.sendAccessibilityEvent as jest.Mock;
+  // The label of what the screen reader was last sent to (a town card), or the words of a heading.
+  const focused = () => {
+    const [node, kind] = focus.mock.calls[focus.mock.calls.length - 1];
+    expect(kind).toBe("focus");
+    return node.props.accessibilityLabel ?? node.props.children;
+  };
+  // The step as the screen holds it: whether the towns are showing is kept above it.
+  function Held({ Step, state }: { Step: typeof StartStep; state: QuizState }) {
+    const [open, setOpen] = React.useState(false);
+    return <Step state={state} onAnswer={onAnswer} open={open} onOpen={() => setOpen(true)} />;
+  }
+
+  it("on the start: the first of the other towns takes the screen reader's focus", async () => {
+    const view = await render(<Held Step={StartStep} state={st()} />);
+    expect(focused()).toBe("Where do you start?");
+
+    await fireEvent.press(view.getByText("Somewhere else?"));
+
+    expect(view.getByText("Dunedin")).toBeTruthy();
+    expect(focused()).toBe(`Dunedin. ${town("dunedin").sub}`);
+    expect(focus).toHaveBeenCalledTimes(2);
+  });
+
+  it("on the finish: the first of the further towns takes it", async () => {
+    // Three weeks from Queenstown: Dunedin, Nelson and Invercargill are behind it.
+    const state = st({ start: "queenstown", band: "long", days: 21 });
+    const first = town(site.finishCards("queenstown", 21, false).behind[0]);
+    const view = await render(<Held Step={FinishStep} state={state} />);
+
+    await fireEvent.press(view.getByText("Somewhere else?"));
+
+    expect(focused()).toBe(`${first.name}. ${first.out}`);
+  });
+
+  // Come back to with the towns already showing: the question is where a screen reader starts, as on any step.
+  it("is left to the heading when the towns were showing already", async () => {
+    await render(<StartStep state={st()} onAnswer={onAnswer} open />);
+    expect(focus).toHaveBeenCalledTimes(1);
+    expect(focused()).toBe("Where do you start?");
+
+    focus.mockClear();
+    await render(<FinishStep state={st({ start: "queenstown", band: "long", days: 21, end: "nelson" })} onAnswer={onAnswer} />);
+    expect(focus).toHaveBeenCalledTimes(1);
+    expect(focused()).toBe("Where does your trip finish?");
   });
 });

@@ -162,7 +162,9 @@ describe("guest", () => {
     await fireEvent.press(view.getByText("Build My Trip"));
 
     expect(mockRouter.push).toHaveBeenCalledWith("/build-trip");
-    expect(view.getByText("Sign In")).toBeTruthy();
+    // The kit's button kinds (test/uiKitMock): the quiz the main one, signing in the second.
+    expect(view.getByText("Build My Trip").props.variant).toBe("primary");
+    expect(view.getByText("Sign In").props.variant).toBe("secondary");
   });
 
   it("titles the screen in white on the brand bar", async () => {
@@ -220,7 +222,10 @@ describe("no trips yet", () => {
   it("offers the trip quiz first, then a trip of their own", async () => {
     const view = await render(<ItineraryListPage />);
 
-    expect(view.getByText("Create a Trip")).toBeTruthy();
+    expect(view.getByText("Answer a few questions and we'll plan your days. Or create a trip and add places yourself.")).toBeTruthy();
+    // The empty state's main button and its second (the kit's own kinds for each, test/uiKitMock).
+    expect(view.getByText("Build My Trip").props.variant).toBe("primary");
+    expect(view.getByText("Create a Trip").props.variant).toBe("secondary");
     await fireEvent.press(view.getByText("Build My Trip"));
     expect(mockRouter.push).toHaveBeenCalledWith("/build-trip");
     expect(view.queryByText("Create Modal")).toBeNull();

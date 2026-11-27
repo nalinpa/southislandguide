@@ -290,7 +290,8 @@ const styles = StyleSheet.create({
   previewScroll: { flexShrink: 1, flexGrow: 0, marginBottom: tokens.space.xs },
   title: { fontSize: 20, lineHeight: 25, fontWeight: "700", color: tokens.colors.text, letterSpacing: -0.2 },
   body: { fontSize: 15, color: tokens.colors.text2, lineHeight: 21 },
-  footer: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 10 },
+  // The gap only shows once the parts are wide enough to meet (large text sizes).
+  footer: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: 10 },
   dots: { flexDirection: "row", gap: 6 },
   // The step you're on is teal, as "selected" is everywhere; orange is the button to tap.
   dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: tokens.colors.border },
@@ -298,12 +299,17 @@ const styles = StyleSheet.create({
   // A quiet link, with its own 44pt of height so it's an easy tap.
   skipBtn: { minHeight: 44, justifyContent: "center", alignSelf: "flex-start", marginTop: 2 },
   skipText: { color: tokens.colors.selected, fontSize: 15, fontWeight: "500" },
+  // Gives way at large text sizes (from about AX1 "Build My Trip", the dots and Not Now are wider than a 375 pt
+  // card), its words wrapping, so the row stays inside the card. At the usual sizes it never has to.
   nextBtn: {
+    flexShrink: 1,
     minHeight: 44,
     justifyContent: "center",
     backgroundColor: tokens.button.primary.bg,
     paddingHorizontal: 24,
+    // Under the 44 at the usual sizes (one line is about 21 tall), so it shows only once the words wrap.
+    paddingVertical: 10,
     borderRadius: 12,
   },
-  nextText: { color: "#FFFFFF", fontSize: 16, fontWeight: "600" },
+  nextText: { color: "#FFFFFF", fontSize: 16, fontWeight: "600", textAlign: "center" },
 });

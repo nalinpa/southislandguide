@@ -30,6 +30,13 @@ jest.mock("@/lib/tour/TourTripPreview", () => ({
 }));
 // Which of the last step's buttons ended the tour.
 jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn() }));
+// Their trips (lib/hooks/useItineraries): known and none unless a test says otherwise, so the tour ends on the quiz.
+const mockTrips = { itineraries: [] as any[], addFlow: "create" as string | null };
+jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
+beforeEach(() => {
+  mockTrips.itineraries = [];
+  mockTrips.addFlow = "create";
+});
 
 import React from "react";
 import { AccessibilityInfo, Dimensions, StyleSheet } from "react-native";
@@ -94,6 +101,29 @@ describe("SpotlightOverlay", () => {
     expect(screen.toJSON()).toBeNull();
   });
 
+  // Someone signed in with a trip isn't offered the quiz (it would replace their trip): the map is last, as before.
+  it("says Done on the map for someone with a trip, with no Skip, and ends there", async () => {
+    mockTrips.itineraries = [{ id: "t1", title: "Hot Pools Weekend" }];
+    mockTrips.addFlow = "pick";
+    const { router } = require("expo-router");
+    router.push.mockClear();
+    await show();
+    await act(async () => tour.start("paid"));
+    for (let i = 0; i < 7; i++) await act(async () => tour.next());
+    const logEvent = require("@/lib/analytics").logEvent as jest.Mock;
+    logEvent.mockClear();
+
+    expect(screen.getByText("See It on the Map")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Done" })).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Skip tour" })).toBeNull();
+    expect(screen.queryByRole("button", { name: "Not Now" })).toBeNull();
+
+    await fireEvent.press(screen.getByRole("button", { name: "Done" }));
+    expect(screen.toJSON()).toBeNull();
+    expect(router.push).not.toHaveBeenCalled();
+    expect(logEvent.mock.calls).toEqual([["tour_finished"]]);
+  });
+
   it("goes on from the map with Next, Skip Tour still there", async () => {
     await show();
     await act(async () => tour.start("guest"));
@@ -148,6 +178,16 @@ describe("SpotlightOverlay", () => {
       expect(screen.toJSON()).toBeNull();
       expect(router.push).not.toHaveBeenCalled();
       expect(logEvent().mock.calls).toEqual([["tour_finished", { button: "not_now" }]]);
+    });
+
+    // From about AX1 the footer's parts are wider than a 375 pt card: the main button gives way and its words wrap,
+    // so the row stays inside the card.
+    it("lets the main button's words wrap at large text sizes", async () => {
+      await toLast();
+      const button = StyleSheet.flatten(screen.getByRole("button", { name: "Build My Trip" }).props.style);
+
+      expect(button.flexShrink).toBe(1);
+      expect(screen.getByText("Build My Trip").props.numberOfLines).toBeUndefined();
     });
 
     it("keeps Not Now at least 44pt tall, in Skip Tour's quiet look", async () => {

@@ -15,6 +15,9 @@ export type TourStep = {
   routeKey?: string;
   // Who sees it. Everyone when left out.
   who?: TourAudience[];
+  // Only for someone with no trip: a guest, or someone signed in whose trips are known and none. Decided when the
+  // tour reaches it (TourContext), so for a last step the one before it ends the tour otherwise.
+  noTrip?: boolean;
   // Points at nothing: the card is centred with no cut-out (the trip preview, the map).
   // Every other step's id has a screen registering it with useTourTarget(id).
   noTarget?: boolean;
@@ -83,11 +86,13 @@ export const TOUR_STEPS: TourStep[] = [
     body: "Every place around you. Tap a pin for details.",
   },
   // The trip quiz (owner, 2026-11-26: "add it to the tour as a final thing after the map"). On the Trips tab, so
-  // closing the quiz lands where the trip will be (docs/plans/app-trip-builder.md).
+  // closing the quiz lands where the trip will be (docs/plans/app-trip-builder.md). Not for someone with a trip:
+  // the one they pick would replace it, so for them the map ends the tour, as before.
   {
     id: "buildTrip",
     tabKey: "itinerary",
     noTarget: true,
+    noTrip: true,
     nextLabel: "Build My Trip",
     opens: "/build-trip",
     closeLabel: "Not Now",

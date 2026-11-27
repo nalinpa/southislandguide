@@ -18,11 +18,14 @@ type Any = any;
 
 const wrap = ({ children, style }: Any) => React.createElement(View, { style }, children);
 
-export function pressable(label: Any, onPress: Any, disabled?: boolean) {
+// `variant`: the kit button's kind, when the stand-in knows it, on the label's Text (`getByText(label).props.variant`)
+// so a test can tell the main button from the second. Nothing else changes for the others.
+export function pressable(label: Any, onPress: Any, disabled?: boolean, variant?: string) {
   return React.createElement(
     TouchableOpacity,
     { onPress, disabled, accessibilityRole: "button" },
-    React.createElement(Text, null, label),
+    // Not a Text prop: RN passes it through to the host, where a test reads it.
+    React.createElement(Text, (variant ? { variant } : null) as Any, label),
   );
 }
 
@@ -31,7 +34,8 @@ export function pressable(label: Any, onPress: Any, disabled?: boolean) {
 const text = ({ children, style, ...rest }: Any) => React.createElement(Text, { style, ...rest }, children);
 
 export const AppText = text;
-export const AppButton = ({ children, onPress, disabled }: Any) => pressable(children, onPress, disabled);
+// The kit's AppButton is "primary" unless told otherwise.
+export const AppButton = ({ children, onPress, disabled, variant = "primary" }: Any) => pressable(children, onPress, disabled, variant);
 export const AppIcon = () => null;
 // Icon-only, so its accessibilityLabel is the only way a test can find it — keep it on the
 // pressable itself rather than turning it into visible text.
@@ -170,13 +174,14 @@ export const components = {
           pressable("Close Trip Choice", onClose),
         )
       : null,
-  EmptyItineraryState: ({ description, createLabel, browseLabel, onCreateNew, onBrowse }: Any) =>
+  // Its buttons' kinds as the engine draws them: the main one primary, the second secondary ("flat") or ghost.
+  EmptyItineraryState: ({ description, createLabel, browseLabel, onCreateNew, onBrowse, variant }: Any) =>
     React.createElement(
       View,
       null,
       description ? React.createElement(Text, null, description) : null,
-      pressable(createLabel ?? "Create", onCreateNew),
-      pressable(browseLabel ?? "Browse", onBrowse),
+      pressable(createLabel ?? "Create", onCreateNew, undefined, "primary"),
+      pressable(browseLabel ?? "Browse", onBrowse, undefined, variant === "flat" ? "secondary" : "ghost"),
     ),
   Day: ({ label, children }: Any) =>
     React.createElement(View, null, label ? React.createElement(Text, null, label) : null, children),

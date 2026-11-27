@@ -4,6 +4,9 @@
 jest.mock("expo-router", () => ({ router: { navigate: jest.fn(), push: jest.fn() }, usePathname: () => mockPathname() }));
 const mockPathname = jest.fn(() => "/");
 jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn() }));
+// Their trips, as the app has them (lib/hooks/useItineraries). Known and none, unless a test says otherwise.
+const mockTrips = { itineraries: [] as any[], addFlow: "create" as string | null };
+jest.mock("@/lib/hooks/useItineraries", () => ({ useItineraries: () => mockTrips }));
 
 import React from "react";
 import { renderHook, act } from "@testing-library/react-native";
@@ -32,6 +35,9 @@ describe("TourContext", () => {
   beforeEach(() => {
     mockNavigate.mockClear();
     mockPush.mockClear();
+    (logEvent as jest.Mock).mockClear();
+    mockTrips.itineraries = [];
+    mockTrips.addFlow = "create";
   });
 
   it("starts inactive", async () => {
@@ -106,6 +112,98 @@ describe("TourContext", () => {
     expect(logEvent).toHaveBeenCalledTimes(1);
     expect(logEvent).toHaveBeenCalledWith("tour_finished", { button: "not_now" });
     expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  // The trip quiz's step is for someone with no trip: a trip they have would be replaced by the one they pick. Decided
+  // as the tour reaches its end, from the trips the app has then.
+  describe("the trip quiz's step", () => {
+    const MINE = { id: "t1", title: "Hot Pools Weekend" };
+    const known = (itineraries: any[]) => {
+      mockTrips.itineraries = itineraries;
+      mockTrips.addFlow = itineraries.length ? "pick" : "create";
+    };
+
+    it("goes to a guest, whatever is known of trips", async () => {
+      mockTrips.addFlow = null;
+      const { result } = await renderHook(() => useTour(), { wrapper });
+      await act(async () => result.current.start("guest"));
+
+      expect(result.current.stepCount).toBe(8);
+      expect((await walk(result)).pop()).toBe("buildTrip");
+    });
+
+    it("goes to someone signed in with no trip", async () => {
+      known([]);
+      const { result } = await renderHook(() => useTour(), { wrapper });
+      await act(async () => result.current.start("free"));
+
+      expect((await walk(result)).pop()).toBe("buildTrip");
+      expect(mockPush).toHaveBeenCalledWith("/build-trip");
+    });
+
+    it("isn't there for someone with a trip: the map ends the tour, as before, logged with no button", async () => {
+      known([MINE]);
+      const { result } = await renderHook(() => useTour(), { wrapper });
+      await act(async () => result.current.start("paid"));
+
+      expect(result.current.stepCount).toBe(8);
+      expect((await walk(result)).pop()).toBe("map");
+      expect((logEvent as jest.Mock).mock.calls).toEqual([["tour_finished"]]);
+      expect(mockPush).not.toHaveBeenCalled();
+    });
+
+    it("isn't there while their trips aren't known yet", async () => {
+      mockTrips.addFlow = null;
+      const { result } = await renderHook(() => useTour(), { wrapper });
+      await act(async () => result.current.start("free"));
+
+      expect((await walk(result)).pop()).toBe("map");
+      expect((logEvent as jest.Mock).mock.calls).toEqual([["tour_finished"]]);
+    });
+
+    it("counts trips that are known by the time the tour reaches the map", async () => {
+      mockTrips.addFlow = null;
+      const { result, rerender } = await renderHook(() => useTour(), { wrapper });
+      await act(async () => result.current.start("free"));
+      for (let i = 0; i < 7; i++) await act(async () => result.current.next());
+      expect(result.current.step?.id).toBe("map");
+      expect(result.current.stepIndex).toBe(result.current.stepCount - 1);
+
+      known([]);
+      await rerender({});
+
+      expect(result.current.stepIndex).toBe(result.current.stepCount - 2);
+      await act(async () => result.current.next());
+      expect(result.current.step?.id).toBe("buildTrip");
+    });
+
+    // The Account tab's "Show me around" starts the tour again: someone who has saved a trip since ends on the map.
+    it("isn't there on a replay from Profile once they have a trip", async () => {
+      const { result, rerender } = await renderHook(() => useTour(), { wrapper });
+      await act(async () => result.current.start("free"));
+      expect((await walk(result)).pop()).toBe("buildTrip");
+
+      known([MINE]);
+      await rerender({});
+      await act(async () => result.current.start("free"));
+
+      expect((await walk(result)).pop()).toBe("map");
+    });
+
+    // A trip that turns up while the step is on screen doesn't take the card away from under them.
+    it("stays once it is on screen", async () => {
+      known([]);
+      const { result, rerender } = await renderHook(() => useTour(), { wrapper });
+      await act(async () => result.current.start("free"));
+      for (let i = 0; i < 8; i++) await act(async () => result.current.next());
+      expect(result.current.step?.id).toBe("buildTrip");
+
+      known([MINE]);
+      await rerender({});
+
+      expect(result.current.step?.id).toBe("buildTrip");
+      expect(result.current.active).toBe(true);
+    });
   });
 
   it("start() again begins from the first step", async () => {

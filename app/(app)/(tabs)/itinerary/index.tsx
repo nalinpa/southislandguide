@@ -198,7 +198,7 @@ export default function ItineraryListPage() {
         <components.EmptyItineraryState
           onCreateNew={buildTrip}
           onBrowse={() => setIsCreating(true)}
-          description="Create a trip and start adding the places you want to see."
+          description="Answer a few questions and we'll plan your days. Or create a trip and add places yourself."
           createLabel="Build My Trip"
           browseLabel="Create a Trip"
           // The design sweep's look: flat on the white page, the orange main button and

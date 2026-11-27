@@ -24,6 +24,8 @@ describe("tourSteps", () => {
         id: "buildTrip",
         tabKey: "itinerary",
         noTarget: true,
+        // Not for someone with a trip (TourContext decides it at the end).
+        noTrip: true,
         nextLabel: "Build My Trip",
         opens: "/build-trip",
         closeLabel: "Not Now",

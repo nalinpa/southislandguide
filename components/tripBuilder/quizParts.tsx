@@ -39,7 +39,7 @@ const ON_PHOTO_LINE = "rgba(255,255,255,0.35)";
 
 /** The website's Next: the app's main button at its height, corners and label. Pass as AppButton's shape. */
 export const QUIZ_BUTTON = { radius: 16, height: 56, labelSize: 18, labelWeight: "800" } as const;
-/** The quiz's one column on a wide screen: the website's phone width, centred. Its own wide layouts are stage 8. */
+/** The quiz's column: the website's phone width, centred. The quiz keeps this one column on a wide screen too. */
 export const QUIZ_COLUMN = 520;
 
 /**

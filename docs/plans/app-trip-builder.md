@@ -114,6 +114,18 @@ One builder at a time, each reviewed before the next. The owner sees each stage 
 - **Part 2, being built:** save on pick (call 4), and the start town in the app.
 - **The start town** (owner: "include the start town fix"): a saved trip gains `startArea` (the town it starts from). The engine api keeps it (branch `trip-start-area` in the api repo, c2173bd: optional, null clears it, a bad value dropped; 260 api tests); the website's Save sends it (kiwiguide-site branch `trip-start-area`, 68fc178; 188 tests); the app saves it, clears it when New Trip saves over a trip, and draws day 1's drive out of the start town. **The api and website changes are committed locally, not deployed: deploying waits for the owner's word, the api first.** Until then the app works as before.
 
+## Stage 7 (2026-11-28)
+
+- **The tour's last step:** after "See It on the Map", on the Trips tab: "Build Your Trip" / "Answer a few questions and we'll plan your days.", "Build My Trip" (ends the tour, opens the quiz) and "Not Now". `tour_finished` carries `button`. Claude's call (the owner said to decide): it shows to guests and to signed-in people with no trip; someone with a trip ends on the map with Done, as before, so the tour never offers to replace their trip. The rating prompt after the first tour is skipped when the tour ends in the quiz.
+- **The Trips tab:** "Build My Trip" is the guest row's main button (Sign In second) and the signed-in empty state's main action (Create a Trip second; "Explore Places to Visit" dropped, as the empty state takes two buttons). Its line: "Answer a few questions and we'll plan your days. Or create a trip and add places yourself."
+- The temporary Account row and its channel check are gone. Commits 71c90db, d6003e9.
+
+## Stage 8 (2026-11-28)
+
+- **Analytics,** the website's names: `quiz_start { from: tour | trips | other }` once per fresh quiz, `quiz_step { step, answer }` per answer (who and age included, as on the website), `trip_saved { trip, replaced, kind, days, start, end, pace, drive }`. `sign_up` was already logged by the app's sign-in. Anonymous; collection stays off except on the production channel. The new params show in Firebase reports only once added as custom definitions in the console.
+- **Checks in tests:** every step on iPad, the Duo (folded, open upright and sideways) and a phone; dark colours; a VoiceOver sweep; a no-signal walk to the trip cards. Nothing needed fixing.
+- **For the owner on a phone or simulator:** iPad both ways (one centred column); the Duo folded and open (nothing under the fold, a swipe card across it); dark mode on every quiz screen; VoiceOver (each question's heading read first, "selected" on picked answers, the slider by swiping up and down, the cards by Yes and No); large text AX1–AX5 (nothing cut off; the tour's "Build My Trip" wraps; the guest Trips row stays on a 375 pt screen); flight mode (the quiz works, photos show their fills, the cards say "Reconnect to Add"); the tour's last card as a fresh guest and as someone with a trip.
+
 ## The quiz's photos and their licences (traced 2026-11-27)
 
 All are the app's own place photos, already credited on Account → Photo credits where the licence asks for it.

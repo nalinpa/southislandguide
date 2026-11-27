@@ -34,10 +34,15 @@ export function useQuiz() {
 
   return {
     quiz,
-    /** One answer taken: on to the step it leads to. An answer for a step the quiz isn't on is left out. */
-    answer: (a: QuizAnswer) => {
+    /**
+     * One answer taken: on to the step it leads to. An answer for a step the quiz isn't on is left out. Hands back
+     * the quiz the answer was taken on (null when it was left out), for what is said of it (analytics).
+     */
+    answer: (a: QuizAnswer): Quiz | null => {
       const q = now.current;
-      if (q && a.step === q.step) move(answerQuiz(q.state, a));
+      if (!q || a.step !== q.step) return null;
+      move(answerQuiz(q.state, a));
+      return q;
     },
     /**
      * Back a step, the answers kept. from: the step the Back was drawn on; a Back from a step the quiz has

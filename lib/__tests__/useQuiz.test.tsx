@@ -82,6 +82,19 @@ describe("useQuiz", () => {
     await waitFor(async () => expect(await saved()).toEqual(result.current.quiz));
   });
 
+  // What the screen tells analytics of an answer is read from the quiz it was taken on, and nothing of one left out.
+  it("hands back the quiz an answer was taken on, and nothing for one left out", async () => {
+    const result = await open();
+    const { answer } = result.current;
+    let took: (Quiz | null)[] = [];
+
+    await act(async () => {
+      took = [answer({ step: "start", value: "christchurch" }), answer({ step: "start", value: "picton" }), answer({ step: "food", value: true })];
+    });
+
+    expect(took).toEqual([BLANK, null, null]);
+  });
+
   it("goes back a step with the answers kept, and saves the step", async () => {
     await AsyncStorage.setItem(KEY, JSON.stringify(HALF));
     const result = await open();

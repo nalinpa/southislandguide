@@ -19,6 +19,16 @@ jest.mock("expo-linear-gradient", () => {
 jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 47, bottom: 34, left: 0, right: 0 }),
 }));
+// Icons are drawn as a plain view carrying their colours, so those are looked at too (the app's own stand-in draws
+// nothing: __mocks__/lucide-react-native.js).
+jest.mock("lucide-react-native", () => {
+  const React = require("react");
+  const { View } = require("react-native");
+  return new Proxy(
+    {},
+    { get: (_t, name) => ({ color, stroke, fill }: any) => React.createElement(View, { testID: `icon-${String(name)}`, color, stroke, fill }) },
+  );
+});
 // The form is the engine's sign-in, the login screen's, checked in dark with it: here, the step's own words.
 jest.mock("@/components/auth/SignInForm", () => ({ SignInForm: () => null }));
 jest.mock("@/lib/hooks/useAuthForm", () => ({ useAuthForm: () => ({ mode: "signup" }) }));
@@ -92,6 +102,11 @@ function lightColours(node: any, onFill = false, found: string[] = []): string[]
     for (const [key, value] of Object.entries(style)) {
       if (/color$/i.test(key) && typeof value === "string" && light.has(value)) found.push(`${node.type} ${key} ${value}`);
     }
+    // An icon's or a spinner's own colours, given as props rather than a style.
+    for (const key of ["color", "stroke", "fill"]) {
+      const value = node.props[key];
+      if (typeof value === "string" && light.has(value)) found.push(`${node.type} ${node.props.testID ?? ""} ${key} ${value}`);
+    }
     for (const c of node.props.colors ?? []) if (light.has(c)) found.push(`${node.type} gradient ${c}`);
   }
   for (const child of node.children ?? []) lightColours(child, fill, found);
@@ -134,6 +149,14 @@ describe("the quiz in dark", () => {
     expect(tokens.colors.text).toBe("#EEF6F3");
     expect(lightOnly().has("#0A1F1B")).toBe(true);
     expect(lightOnly().has("#FFFFFF")).toBe(true);
+  });
+
+  // And it sees an icon's colour: a picked answer's tick, and the chevron on the rest.
+  it("looks at the icons' colours", async () => {
+    const view = await render(<Q.BandStep state={ALL} onAnswer={noop} />);
+
+    expect(view.getByTestId("icon-Check").props.color).toBe(tokens.colors.selected);
+    expect(view.getAllByTestId("icon-ChevronRight")[0].props.color).toBe(tokens.colors.text2);
   });
 
   it.each(STEPS)("draws %s in dark colours only", async (_name, step) => {

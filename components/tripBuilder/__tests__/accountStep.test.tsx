@@ -56,6 +56,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { AccountStep } from "@/components/tripBuilder/AccountStep";
 import { EMAIL_OPT_IN_LABEL } from "@/lib/hooks/useEmailOptIn";
+import { tappable, unnamed } from "@/test/a11y";
 
 const focus = AccessibilityInfo.sendAccessibilityEvent as jest.Mock;
 // What each heading said when the screen reader was sent to it (a heading kept on screen changes its words later).
@@ -138,4 +139,20 @@ it("creates the account with what was typed, and records the email box", async (
 
   await waitFor(() => expect(createUserWithEmailAndPassword).toHaveBeenCalledWith({}, "new@ora.nz", "hunter22"));
   await waitFor(() => expect(mockSaveEmailOptIn).toHaveBeenCalledWith("new-user", true));
+});
+
+// VoiceOver (stage 8): every part of the form a finger can tap, on each of its three ways, has a role and a name
+// (test/a11y.ts; the kit's own buttons are stand-ins here whose role is fixed, pinned in the kit's own tests).
+it("names everything that can be tapped, on Create, Sign in and Reset", async () => {
+  const view = await render(<AccountStep />);
+  const sweep = () => {
+    expect(tappable(view.root as never).length).toBeGreaterThan(0);
+    expect(unnamed(view.root as never)).toEqual([]);
+  };
+
+  sweep();
+  await fireEvent.press(view.getByText("I have an account"));
+  sweep();
+  await fireEvent.press(view.getByText("Forgot password?"));
+  sweep();
 });

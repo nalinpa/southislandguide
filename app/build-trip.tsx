@@ -222,6 +222,9 @@ function usePickToSave(today: Date, saved: (key: string) => void, signedOut: (em
 
   const pick = async (trip: QuizTrip, state: QuizState) => {
     if (saving || inFlight.current) return;
+    // The choice, sent as the card is taken, as the website sends it as its card is picked (quiz.js 919): a save
+    // cancelled or failed after it still counts it. trip_saved comes once the trip is saved.
+    logEvent("quiz_step", { step: "choice", answer: trip.key });
     let mine = itineraries[0];
     // Their trips aren't in yet (just signed in, say): the card waits for them, then goes on as ever.
     if (addFlow === null) {
@@ -279,18 +282,25 @@ export default function BuildTripScreen() {
   // read, and on those steps until who is signed in is known...
   const shown = quiz && accountStep(quiz, signedIn);
   const { trips, failed } = useTrips(shown, today);
-  // Every answer the quiz takes, sent to analytics as the website's quiz sends them: quiz_start as a fresh quiz is
-  // begun (not for one opened again part way), then quiz_step for each answer. Back sends nothing.
+  // One quiz_start each time the quiz is opened, as the website sends one a visit (quiz.js 395–396): none for a
+  // quiz opened with its start town already answered, and Start again doesn't send another (its 921).
+  const started = useRef<boolean | null>(null);
+  if (quiz && started.current === null) started.current = !!quiz.state.start;
+  // Every answer the quiz takes, sent to analytics as the website's quiz sends them, after it is taken: an answer
+  // left out (a second tap, or one with a Back, before the screen caught up) sends nothing. Back sends nothing.
   const take = (a: QuizAnswer) => {
-    if (quiz) {
-      if (a.step === "start" && !quiz.state.start) logEvent("quiz_start", { from: way });
-      for (const e of quizStepEvents(quiz.state, a)) logEvent("quiz_step", e);
+    const took = answer(a);
+    if (!took) return;
+    if (a.step === "start" && !started.current) {
+      started.current = true;
+      logEvent("quiz_start", { from: way });
     }
-    answer(a);
+    for (const e of quizStepEvents(took.state, a)) logEvent("quiz_step", e);
   };
+  // The pick's own quiz_step went as its card was tapped (usePickToSave): saved, it is only kept.
   const { saving, pick } = usePickToSave(
     today,
-    (key) => take({ step: "choice", value: key }),
+    (key) => answer({ step: "choice", value: key }),
     (email) => setAgain({ email }),
   );
   // ...and what that came to is kept, so Back and a quiz opened again start from what was on screen. Signing in
@@ -365,7 +375,7 @@ export default function BuildTripScreen() {
             keyboardDismissMode="interactive"
             contentContainerStyle={[styles.content, { paddingBottom: 24 + insets.bottom }]}
           >
-            {/* One centred column on an iPad or an open Duo, until their own layouts (stage 8). */}
+            {/* The quiz keeps one centred column on a wide screen (an iPad, the open Duo): the phone's quiz in the middle. */}
             <View style={styles.column}>
               {Step ? (
                 <Step state={shown.state} onAnswer={onAnswer} {...held} />

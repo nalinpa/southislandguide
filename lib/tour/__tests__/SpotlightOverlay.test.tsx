@@ -28,6 +28,8 @@ jest.mock("react-native-reanimated", () => {
 jest.mock("@/lib/tour/TourTripPreview", () => ({
   TourTripPreview: () => require("react").createElement(require("react-native").Text, null, "trip preview"),
 }));
+// Which of the last step's buttons ended the tour.
+jest.mock("@/lib/analytics", () => ({ logEvent: jest.fn() }));
 
 import React from "react";
 import { AccessibilityInfo, Dimensions, StyleSheet } from "react-native";
@@ -92,17 +94,71 @@ describe("SpotlightOverlay", () => {
     expect(screen.toJSON()).toBeNull();
   });
 
-  it("says Done on the last step, with no Skip", async () => {
+  it("goes on from the map with Next, Skip Tour still there", async () => {
     await show();
     await act(async () => tour.start("guest"));
     for (let i = 0; i < 6; i++) await act(async () => tour.next());
 
     expect(screen.getByText("See It on the Map")).toBeTruthy();
-    expect(screen.getByRole("button", { name: "Done" })).toBeTruthy();
-    expect(screen.queryByRole("button", { name: "Skip tour" })).toBeNull();
+    expect(screen.getByRole("button", { name: "Next" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Skip tour" })).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Done" })).toBeNull();
+  });
 
-    await fireEvent.press(screen.getByRole("button", { name: "Done" }));
-    expect(screen.toJSON()).toBeNull();
+  // The last step offers the trip quiz: Build My Trip opens it, a quiet Not Now where Skip Tour was ends the tour.
+  describe("the last step", () => {
+    const logEvent = () => require("@/lib/analytics").logEvent as jest.Mock;
+    const toLast = async () => {
+      await show();
+      await act(async () => tour.start("guest"));
+      for (let i = 0; i < 7; i++) await act(async () => tour.next());
+      logEvent().mockClear();
+    };
+
+    it("offers the trip quiz, with Not Now and no Skip", async () => {
+      await toLast();
+
+      expect(screen.getByRole("header", { name: "Build Your Trip" })).toBeTruthy();
+      expect(screen.getByText("Answer a few questions and we'll plan your days.")).toBeTruthy();
+      expect(screen.getByRole("button", { name: "Build My Trip" })).toBeTruthy();
+      expect(within(screen.getByTestId("tour-card")).getByRole("button", { name: "Not Now" })).toBeTruthy();
+      expect(screen.queryByRole("button", { name: "Skip tour" })).toBeNull();
+      expect(screen.queryByTestId("tour-pointer")).toBeNull();
+    });
+
+    it("ends the tour and opens the quiz from Build My Trip", async () => {
+      await toLast();
+      const { router } = require("expo-router");
+      router.push.mockClear();
+
+      await fireEvent.press(screen.getByRole("button", { name: "Build My Trip" }));
+
+      expect(screen.toJSON()).toBeNull();
+      expect(router.push).toHaveBeenCalledWith("/build-trip");
+      expect(logEvent().mock.calls).toEqual([["tour_finished", { button: "build_my_trip" }]]);
+    });
+
+    it("ends the tour from Not Now, logged as finished, opening nothing", async () => {
+      await toLast();
+      const { router } = require("expo-router");
+      router.push.mockClear();
+
+      await fireEvent.press(screen.getByRole("button", { name: "Not Now" }));
+
+      expect(screen.toJSON()).toBeNull();
+      expect(router.push).not.toHaveBeenCalled();
+      expect(logEvent().mock.calls).toEqual([["tour_finished", { button: "not_now" }]]);
+    });
+
+    it("keeps Not Now at least 44pt tall, in Skip Tour's quiet look", async () => {
+      await show();
+      await act(async () => tour.start("guest"));
+      const skip = StyleSheet.flatten(screen.getByText("Skip Tour").props.style);
+      for (let i = 0; i < 7; i++) await act(async () => tour.next());
+
+      expect(StyleSheet.flatten(screen.getByRole("button", { name: "Not Now" }).props.style).minHeight).toBeGreaterThanOrEqual(44);
+      expect(StyleSheet.flatten(screen.getByText("Not Now").props.style)).toEqual(skip);
+    });
   });
 
   it("keeps a screen reader on the card, and reads each step out", async () => {
@@ -184,6 +240,11 @@ describe("SpotlightOverlay", () => {
     for (let i = 0; i < 5; i++) await act(async () => tour.next());
     expect(screen.getByText("Your Trip, Day by Day")).toBeTruthy();
     expect(screen.getByText("trip preview")).toBeTruthy();
+
+    // Not on the last step, on the same tab.
+    for (let i = 0; i < 2; i++) await act(async () => tour.next());
+    expect(screen.getByText("Build Your Trip")).toBeTruthy();
+    expect(screen.queryByText("trip preview")).toBeNull();
   });
 
   // It was a pill in the screen's top corner, moved to the bottom on the guide step to

@@ -8,10 +8,32 @@ const words = (audience: Parameters<typeof stepsFor>[0]) =>
   stepsFor(audience).map((s) => [s.id, s.title, s.body]);
 
 describe("tourSteps", () => {
-  it("gives a guest 7 steps, free and paid 8", () => {
-    expect(stepsFor("guest")).toHaveLength(7);
-    expect(stepsFor("free")).toHaveLength(8);
-    expect(stepsFor("paid")).toHaveLength(8);
+  it("gives a guest 8 steps, free and paid 9", () => {
+    expect(stepsFor("guest")).toHaveLength(8);
+    expect(stepsFor("free")).toHaveLength(9);
+    expect(stepsFor("paid")).toHaveLength(9);
+  });
+
+  // The owner, 2026-11-26: "add it to the tour as a final thing after the map". On the Trips tab, so closing the
+  // quiz lands where the trip will be (docs/plans/app-trip-builder.md). Everyone, guests too: the quiz asks for the
+  // account at its end.
+  it("ends for everyone on the Trips tab with the trip quiz, the map no longer last", () => {
+    for (const who of ["guest", "free", "paid"] as const) {
+      const steps = stepsFor(who);
+      expect(steps[steps.length - 1]).toEqual({
+        id: "buildTrip",
+        tabKey: "itinerary",
+        noTarget: true,
+        nextLabel: "Build My Trip",
+        opens: "/build-trip",
+        closeLabel: "Not Now",
+        title: "Build Your Trip",
+        body: "Answer a few questions and we'll plan your days.",
+      });
+      const map = steps[steps.length - 2];
+      expect(map.id).toBe("map");
+      expect(map.nextLabel).toBeUndefined();
+    }
   });
 
   it("gives each person the words in the plan", () => {
@@ -29,6 +51,7 @@ describe("tourSteps", () => {
     const end = [
       ["trip", "Your Trip, Day by Day", "Each day's towns and the drives between, worked out for you."],
       ["map", "See It on the Map", "Every place around you. Tap a pin for details."],
+      ["buildTrip", "Build Your Trip", "Answer a few questions and we'll plan your days."],
     ];
     expect(words("paid")).toEqual([
       ...start,
@@ -44,7 +67,9 @@ describe("tourSteps", () => {
   });
 
   it("never mentions the unlock or anything being free", () => {
-    for (const s of TOUR_STEPS) expect(`${s.title} ${s.body}`).not.toMatch(/free|unlock|premium|pay|buy/i);
+    for (const s of TOUR_STEPS) {
+      expect(`${s.title} ${s.body} ${s.nextLabel ?? ""} ${s.closeLabel ?? ""}`).not.toMatch(/free|unlock|premium|pay|buy/i);
+    }
   });
 
   // A step that points at something needs a screen that registers it with

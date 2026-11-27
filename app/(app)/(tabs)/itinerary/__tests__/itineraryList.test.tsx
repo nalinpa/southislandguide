@@ -132,6 +132,8 @@ describe("guest", () => {
     expect(view.getByTestId("trip-day-pane")).toBeTruthy();
     expect(view.queryByText("Trips")).toBeNull();
     expect(view.getByText("Sign In to Plan a Trip")).toBeTruthy();
+    expect(view.getByText("Build My Trip")).toBeTruthy();
+    expect(view.getByText("Sign In")).toBeTruthy();
   });
 
   it("asks a guest to sign in when they tap a day", async () => {
@@ -150,6 +152,17 @@ describe("guest", () => {
     await fireEvent.press(view.getByText("Sign In"));
 
     expect(mockRouter.push).toHaveBeenCalledWith("/(auth)/login");
+  });
+
+  // The owner, 2026-11-27: a trip-building button on the Trips tab while it has no trips. The quiz is open to
+  // guests (its account step comes at the end), so it is the row's main button and signing in the second.
+  it("opens the trip quiz from Build My Trip, the sign-in still beside it", async () => {
+    const view = await render(<ItineraryListPage />);
+
+    await fireEvent.press(view.getByText("Build My Trip"));
+
+    expect(mockRouter.push).toHaveBeenCalledWith("/build-trip");
+    expect(view.getByText("Sign In")).toBeTruthy();
   });
 
   it("titles the screen in white on the brand bar", async () => {
@@ -203,12 +216,14 @@ describe("loading and failure", () => {
 });
 
 describe("no trips yet", () => {
-  it("invites the user to create one or go browsing", async () => {
+  // The trip quiz is the main way in (owner, 2026-11-27), New Trip's sheet the second.
+  it("offers the trip quiz first, then a trip of their own", async () => {
     const view = await render(<ItineraryListPage />);
 
     expect(view.getByText("Create a Trip")).toBeTruthy();
-    await fireEvent.press(view.getByText("Explore Places to Visit"));
-    expect(mockRouter.push).toHaveBeenCalledWith("/(app)/(tabs)/sites");
+    await fireEvent.press(view.getByText("Build My Trip"));
+    expect(mockRouter.push).toHaveBeenCalledWith("/build-trip");
+    expect(view.queryByText("Create Modal")).toBeNull();
   });
 
   it("opens an unlocked create modal, and goes to the new trip once it exists", async () => {
@@ -229,6 +244,8 @@ describe("with trips", () => {
 
     expect(view.getByText("Detail view for t1")).toBeTruthy();
     expect(view.queryByText("Christchurch Trip t1")).toBeNull();
+    // Only while there are no trips (owner).
+    expect(view.queryByText("Build My Trip")).toBeNull();
   });
 
   it("lists trips when there's more than one", async () => {
@@ -238,6 +255,7 @@ describe("with trips", () => {
     expect(view.getByText("Trips")).toBeTruthy();
     expect(view.getByText("Christchurch Trip t1")).toBeTruthy();
     expect(view.getByText("Christchurch Trip t2")).toBeTruthy();
+    expect(view.queryByText("Build My Trip")).toBeNull();
   });
 
   it("shows each trip's dates and length", async () => {

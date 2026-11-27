@@ -163,13 +163,6 @@ jest.mock("@/lib/tour/TourContext", () => ({ useTour: () => ({ start: mockStartT
 let mockAudience: string | null = "paid";
 jest.mock("@/lib/tour/TourAutoStart", () => ({ useTourAudience: () => mockAudience }));
 
-// Whether this is the store build (lib/analytics, which has its own tests). Not, unless a test says so.
-let mockProduction = false;
-jest.mock("@/lib/analytics", () => ({
-  ...jest.requireActual("@/lib/analytics"),
-  onProductionChannel: () => mockProduction,
-}));
-
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
 jest.mock("expo-router", () => ({
   get router() {
@@ -198,7 +191,6 @@ beforeEach(() => {
   mockEmailOptIn.optedIn = false;
   mockEmailOptIn.loading = false;
   mockAudience = "paid";
-  mockProduction = false;
   mockOfflineMap.level = null;
   mockOfflineMap.progress = null;
   mockOfflineMap.error = null;
@@ -437,39 +429,17 @@ describe("Show me around", () => {
   });
 });
 
-// TEMP (stage 7 replaces this): the way in to the trip quiz while it is being built
-// (docs/plans/app-trip-builder.md). Guests too: anyone can take the quiz.
-describe("Build My Trip (test)", () => {
-  // The owner tests through updates on the development channel, which are production bundles, so the
-  // row goes by the channel: never in the store build.
-  it("is not there on the production channel, for a signed-in user or a guest", async () => {
-    mockProduction = true;
+// The trip quiz's ways in are the tour's last step and the Trips tab (docs/plans/app-trip-builder.md, stage 7):
+// the row it had here while it was being built is gone.
+describe("the trip quiz", () => {
+  it("has no row here, for a signed-in user or a guest", async () => {
     const view = await render(<AccountScreen />);
-    expect(view.queryByText("Build My Trip (test)")).toBeNull();
-    expect(view.getByText("Show me around")).toBeTruthy();
+    expect(view.queryByText(/Build My Trip/)).toBeNull();
 
     mockSession.status = "guest";
     mockSession.uid = undefined;
     const guest = await render(<AccountScreen />);
-    expect(guest.queryByText("Build My Trip (test)")).toBeNull();
-  });
-
-  it("opens the trip quiz for a signed-in user", async () => {
-    const view = await render(<AccountScreen />);
-
-    await fireEvent.press(view.getByRole("button", { name: "Build My Trip (test)" }));
-
-    expect(mockRouter.push).toHaveBeenCalledWith("/build-trip");
-  });
-
-  it("opens it for a guest too", async () => {
-    mockSession.status = "guest";
-    mockSession.uid = undefined;
-    const view = await render(<AccountScreen />);
-
-    await fireEvent.press(view.getByRole("button", { name: "Build My Trip (test)" }));
-
-    expect(mockRouter.push).toHaveBeenCalledWith("/build-trip");
+    expect(guest.queryByText(/Build My Trip/)).toBeNull();
   });
 });
 

@@ -22,6 +22,10 @@ export type TourStep = {
   dim?: number;
   // The card's button, when it isn't Next (or Done on the last step).
   nextLabel?: string;
+  // The last step's button opens this screen as it ends the tour.
+  opens?: string;
+  // A quiet second button that ends the tour too, where Skip Tour is on the other steps.
+  closeLabel?: string;
   title: string;
   body: string;
 };
@@ -77,6 +81,18 @@ export const TOUR_STEPS: TourStep[] = [
     dim: 0.4,
     title: "See It on the Map",
     body: "Every place around you. Tap a pin for details.",
+  },
+  // The trip quiz (owner, 2026-11-26: "add it to the tour as a final thing after the map"). On the Trips tab, so
+  // closing the quiz lands where the trip will be (docs/plans/app-trip-builder.md).
+  {
+    id: "buildTrip",
+    tabKey: "itinerary",
+    noTarget: true,
+    nextLabel: "Build My Trip",
+    opens: "/build-trip",
+    closeLabel: "Not Now",
+    title: "Build Your Trip",
+    body: "Answer a few questions and we'll plan your days.",
   },
 ];
 

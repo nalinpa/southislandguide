@@ -47,6 +47,16 @@ const askToSignIn = () =>
     { text: "Sign In", onPress: () => router.push("/(auth)/login") },
   ]);
 
+// The trip quiz (app/build-trip.tsx), the main way in while there's no trip (owner, 2026-11-27: "new trip
+// building button on the trip page when trip is empty"). Open to guests: it asks for the account at its end.
+const buildTrip = () => router.push("/build-trip");
+
+// The design sweep's second button: teal outlined on the white page.
+const OUTLINED = {
+  shape: { ...SWEEP_BUTTON, borderWidth: 1.5 },
+  colors: { bg: tokens.colors.page, border: tokens.colors.selected, text: tokens.colors.selected },
+};
+
 function GuestTrips() {
   const { places, list } = usePlaceLookup();
   const imageFor = useCallback((areaId: string) => areaImage(areaId, list), [list]);
@@ -61,8 +71,8 @@ function GuestTrips() {
 
   // The trip comes first and the way to sign in sits in a row fixed above the tab bar
   // (design sweep, round 2 of the Trips tab; docs/plans/design-sweep.md). It was a card at
-  // the top, which every critic read before the trip it was hiding. The button is the
-  // screen's main action, so it's the one orange thing here.
+  // the top, which every critic read before the trip it was hiding. Build My Trip is the
+  // screen's main action, so it's the one orange thing here; Sign In is the second.
   const signInRow = (
     <View style={styles.signInRow}>
       <View style={styles.signInText}>
@@ -72,9 +82,20 @@ function GuestTrips() {
         </View>
         <AppText style={styles.signInHint}>Make this trip yours, or build your own. We work out the drives.</AppText>
       </View>
-      <AppButton style={styles.signInButton} shape={{ height: 46 }} onPress={() => router.push("/(auth)/login")}>
-        Sign In
-      </AppButton>
+      <View style={styles.signInButtons}>
+        <AppButton style={styles.signInButton} shape={{ height: 46 }} onPress={buildTrip}>
+          Build My Trip
+        </AppButton>
+        <AppButton
+          variant="secondary"
+          style={styles.signInButton}
+          shape={{ ...OUTLINED.shape, height: 46 }}
+          colors={OUTLINED.colors}
+          onPress={() => router.push("/(auth)/login")}
+        >
+          Sign In
+        </AppButton>
+      </View>
     </View>
   );
 
@@ -172,21 +193,20 @@ export default function ItineraryListPage() {
     return (
       <View style={styles.container}>
         <TopBar title="Trips" />
+        {/* The trip quiz is the main way to a first trip (owner), New Trip's sheet the second. The kit's empty
+            state takes two buttons, so "Explore Places to Visit" gave its place up: Explore is the first tab. */}
         <components.EmptyItineraryState
-          onCreateNew={() => setIsCreating(true)}
-          onBrowse={() => router.push("/(app)/(tabs)/sites")}
+          onCreateNew={buildTrip}
+          onBrowse={() => setIsCreating(true)}
           description="Create a trip and start adding the places you want to see."
-          createLabel="Create a Trip"
-          browseLabel="Explore Places to Visit"
+          createLabel="Build My Trip"
+          browseLabel="Create a Trip"
           // The design sweep's look: flat on the white page, the orange main button and
           // a teal outlined second one.
           variant="flat"
           colors={SWEEP_COLORS}
           createButton={{ shape: SWEEP_BUTTON }}
-          browseButton={{
-            shape: { ...SWEEP_BUTTON, borderWidth: 1.5 },
-            colors: { bg: tokens.colors.page, border: tokens.colors.selected, text: tokens.colors.selected },
-          }}
+          browseButton={OUTLINED}
         />
         <CreateItineraryModal
           visible={isCreating}
@@ -286,7 +306,9 @@ const styles = StyleSheet.create({
   signInHead: { flexDirection: "row", alignItems: "center", gap: 6 },
   signInTitle: { flex: 1, fontSize: 15, fontWeight: "700", color: tokens.colors.text },
   signInHint: { fontSize: 13, lineHeight: 18, color: tokens.colors.text2, marginTop: 2 },
-  signInButton: { width: 104, paddingHorizontal: 0 },
+  // The two stacked, as wide as "Build My Trip" needs.
+  signInButtons: { gap: 8 },
+  signInButton: { width: 132, paddingHorizontal: 0 },
   // Sentence case, small and grey: the spaced capitals it was read as a form label.
   sampleLabel: { fontSize: 14, color: tokens.colors.textMuted, marginBottom: 2 },
   // A row on the page with a line under it, as a day row is (components/itinerary/TripOverview.tsx).

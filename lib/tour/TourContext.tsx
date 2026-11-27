@@ -1,5 +1,6 @@
 // The opening tour's engine, copied from Rotorua's lib/tour/TourContext.tsx. Changed here:
-// start() takes who is looking, and the tour walks only their steps (tourSteps.ts).
+// start() takes who is looking, and the tour walks only their steps (tourSteps.ts). The last
+// step can open a screen as it ends (the trip quiz) and have a second way out (close).
 import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { router, usePathname } from "expo-router";
 
@@ -17,6 +18,8 @@ type TourContextValue = {
   start: (audience: TourAudience) => void;
   next: () => void;
   skip: () => void;
+  // The last step's quiet second button (its closeLabel): ends the tour as its main button does, opening nothing.
+  close: () => void;
   registerTarget: (id: string, rect: TourRect) => void;
   registerStepRoute: (key: string, route: string | undefined) => void;
 };
@@ -78,15 +81,25 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
 
   const skip = useCallback(() => setActive(false), []);
 
+  // Finished, from either of the last step's buttons: logged with the button's words as an id ("build_my_trip",
+  // "not_now"), and the screen the step leads to opened once the tour is down.
+  const finish = useCallback((label: string, opens?: string) => {
+    logEvent("tour_finished", { button: label.toLowerCase().replace(/ /g, "_") });
+    setActive(false);
+    if (opens) router.push(opens as never);
+  }, []);
+
   const next = useCallback(() => {
     const nextIndex = stepIndex + 1;
     if (nextIndex >= steps.length) {
-      logEvent("tour_finished");
-      setActive(false);
+      const last = steps[stepIndex];
+      finish(last?.nextLabel ?? "Done", last?.opens);
       return;
     }
     goToStep(steps, nextIndex);
-  }, [steps, stepIndex, goToStep]);
+  }, [steps, stepIndex, goToStep, finish]);
+
+  const close = useCallback(() => finish(steps[stepIndex]?.closeLabel ?? "Done"), [steps, stepIndex, finish]);
 
   const step = active ? steps[stepIndex] ?? null : null;
   const targetRect = step ? targets[step.id] ?? null : null;
@@ -101,10 +114,11 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
       start,
       next,
       skip,
+      close,
       registerTarget,
       registerStepRoute,
     }),
-    [active, step, stepIndex, steps.length, targetRect, start, next, skip, registerTarget, registerStepRoute],
+    [active, step, stepIndex, steps.length, targetRect, start, next, skip, close, registerTarget, registerStepRoute],
   );
 
   return <TourContext.Provider value={value}>{children}</TourContext.Provider>;

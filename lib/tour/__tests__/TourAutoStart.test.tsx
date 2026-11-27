@@ -183,6 +183,24 @@ describe("TourAutoStart", () => {
       expect(mockRequestReview).toHaveBeenCalledTimes(1);
     });
 
+    // The tour's last step can open the trip quiz (lib/tour/tourSteps.ts): the rating card isn't put over its first
+    // question.
+    it("doesn't ask over the trip quiz the tour ended in", async () => {
+      const view = await render(<TourAutoStart />);
+      await settle();
+      jest.useFakeTimers();
+      mockActive = true;
+      await view.rerender(<TourAutoStart />);
+      mockActive = false;
+      mockSegments = ["build-trip"];
+      await view.rerender(<TourAutoStart />);
+
+      await act(async () => {
+        jest.advanceTimersByTime(5000);
+      });
+      expect(mockRequestReview).not.toHaveBeenCalled();
+    });
+
     it("doesn't ask when the tour is replayed from Profile", async () => {
       await act(async () => {
         await AsyncStorage.setItem(TOUR_SEEN_KEY, "1");

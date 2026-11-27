@@ -51,7 +51,12 @@ export function TourAutoStart() {
   const { requestReview } = hooksBag.useReviewPrompt();
   const audience = useTourAudience();
   // Typed routes narrow the segments to the route being typed; any route can be current.
-  const onTabs = (useSegments() as string[])[1] === "(tabs)";
+  const segments = useSegments() as string[];
+  const onTabs = segments[1] === "(tabs)";
+  // Read when the rating is due: the tour's last step can open the trip quiz, and the
+  // rating card isn't put over its first question.
+  const onQuiz = useRef(false);
+  onQuiz.current = segments[0] === "build-trip";
   const locationAnswered = useLocationAnswered();
 
   // Null until read. A store that can't be read counts as seen: better no tour than one
@@ -84,7 +89,7 @@ export function TourAutoStart() {
     wasActive.current = active;
     if (!ended || !startedHere.current) return;
     startedHere.current = false;
-    const t = setTimeout(() => ask.current(), 1000);
+    const t = setTimeout(() => !onQuiz.current && ask.current(), 1000);
     return () => clearTimeout(t);
   }, [active]);
 

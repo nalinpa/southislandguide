@@ -3,7 +3,8 @@
 // centred when its target hasn't registered, kept on screen at any height, and the layer
 // made a modal for screen readers, with each step read out as it comes up.
 // Since the design sweep (docs/plans/design-sweep.md): Skip Tour is inside the card, not a
-// pill in the screen's corner, and the card has a pointer to the part it is about.
+// pill in the screen's corner, and the card has a pointer to the part it is about. A last
+// step can have a quiet second button where Skip Tour sits (the trip quiz's Not Now).
 import React, { useEffect, useState } from "react";
 import {
   AccessibilityInfo,
@@ -45,7 +46,7 @@ const TAB_BAR = 64;
 const DIM_RGB = "3,38,43";
 
 export function SpotlightOverlay() {
-  const { active, step, stepIndex, stepCount, targetRect, next, skip } = useTour();
+  const { active, step, stepIndex, stepCount, targetRect, next, skip, close } = useTour();
   const win = useWindowDimensions();
   const wide = useWide();
   const { foldY, upright, ...halves } = useHalves();
@@ -228,18 +229,19 @@ export function SpotlightOverlay() {
                 <View key={i} style={[styles.dot, i === stepIndex && styles.dotActive]} />
               ))}
             </View>
-            {/* The way out, with the card it leaves. Not on the last step: Done ends it. */}
-            {!isLast && (
+            {/* The way out, with the card it leaves. Not Skip Tour on the last step, which its button ends: there,
+                only a second way out of its own (the trip quiz's Not Now), in the same quiet look. */}
+            {!isLast || step.closeLabel ? (
               <Pressable
                 style={({ pressed }) => [styles.skipBtn, pressed && styles.pressed]}
-                onPress={skip}
+                onPress={isLast ? close : skip}
                 hitSlop={10}
                 accessibilityRole="button"
-                accessibilityLabel="Skip tour"
+                accessibilityLabel={isLast ? step.closeLabel : "Skip tour"}
               >
-                <Text style={styles.skipText}>Skip Tour</Text>
+                <Text style={styles.skipText}>{isLast ? step.closeLabel : "Skip Tour"}</Text>
               </Pressable>
-            )}
+            ) : null}
           </View>
           <Pressable
             style={({ pressed }) => [styles.nextBtn, pressed && styles.pressed]}

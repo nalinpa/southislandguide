@@ -8,7 +8,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useSession } from "@/lib/providers/SessionProvider";
-import { onProductionChannel } from "@/lib/analytics";
 import { useEmailOptIn } from "@/lib/hooks/useEmailOptIn";
 import { LoadingState } from "@/lib/uiKit";
 import { CARD_SIDES, LAKE_SIDES, PAGE_SIDES, tokens } from "@/lib/ui/tokens";
@@ -113,22 +112,6 @@ export default function AccountScreen() {
     </TouchableOpacity>
   );
 
-  // TEMP (stage 7 replaces this): the way in to the trip quiz while it is being built
-  // (docs/plans/app-trip-builder.md). Guests too: anyone can take the quiz.
-  // Never in the store build. By the channel, not __DEV__: the owner's test updates are
-  // production bundles (on the development channel).
-  const quiz = !onProductionChannel() && (
-    <TouchableOpacity
-      style={styles.linkRow}
-      onPress={() => router.push("/build-trip")}
-      activeOpacity={0.6}
-      accessibilityRole="button"
-    >
-      <Text style={styles.linkRowText}>Build My Trip (test)</Text>
-      <ChevronRight size={18} color={tokens.colors.textMuted} strokeWidth={2} />
-    </TouchableOpacity>
-  );
-
   const credits = (
     <>
       <TouchableOpacity
@@ -180,7 +163,6 @@ export default function AccountScreen() {
     // card's "Sign In / Create Account" button said the same thing twice (owner, 2026-11-18).
     ...(wide && !isAuthed ? [] : [["who", <UserInfoCard />] as Group]),
     ...(tour ? [["tour", tour] as Group] : []),
-    ...(quiz ? [["quiz", quiz] as Group] : []),
     ["map", <OfflineMapCard />],
     ...(isAuthed ? [["trip", <ItinerariesCard />] as Group, [
             "saved",

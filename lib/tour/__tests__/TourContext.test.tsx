@@ -52,19 +52,19 @@ describe("TourContext", () => {
     const { result } = await renderHook(() => useTour(), { wrapper });
 
     await act(async () => result.current.start("paid"));
-    expect(result.current.stepCount).toBe(8);
-    expect(await walk(result)).toEqual(["welcome", "town", "guide", "browse", "place", "placeAdd", "trip", "map"]);
+    expect(result.current.stepCount).toBe(9);
+    expect(await walk(result)).toEqual(["welcome", "town", "guide", "browse", "place", "placeAdd", "trip", "map", "buildTrip"]);
 
     await act(async () => result.current.start("free"));
-    expect(await walk(result)).toEqual(["welcome", "town", "guide", "browse", "place", "placeSave", "trip", "map"]);
+    expect(await walk(result)).toEqual(["welcome", "town", "guide", "browse", "place", "placeSave", "trip", "map", "buildTrip"]);
 
     await act(async () => result.current.start("guest"));
-    expect(result.current.stepCount).toBe(7);
-    expect(await walk(result)).toEqual(["welcome", "town", "guide", "browse", "place", "trip", "map"]);
+    expect(result.current.stepCount).toBe(8);
+    expect(await walk(result)).toEqual(["welcome", "town", "guide", "browse", "place", "trip", "map", "buildTrip"]);
     expect(result.current.step).toBeNull();
   });
 
-  it("finishing the tour logs tour_finished once; skipping logs nothing", async () => {
+  it("finishing the tour logs tour_finished once, with the button; skipping logs nothing", async () => {
     const { result } = await renderHook(() => useTour(), { wrapper });
     (logEvent as jest.Mock).mockClear();
     await act(async () => result.current.start("guest"));
@@ -73,7 +73,39 @@ describe("TourContext", () => {
     await act(async () => result.current.start("guest"));
     await walk(result);
     expect(logEvent).toHaveBeenCalledTimes(1);
-    expect(logEvent).toHaveBeenCalledWith("tour_finished");
+    expect(logEvent).toHaveBeenCalledWith("tour_finished", { button: "build_my_trip" });
+  });
+
+  // The last step offers the trip quiz (lib/tour/tourSteps.ts): its button ends the tour and opens it.
+  it("opens the trip quiz from the last step's button, once the tour is over", async () => {
+    const { result } = await renderHook(() => useTour(), { wrapper });
+    await act(async () => result.current.start("guest"));
+    for (let i = 0; i < 7; i++) await act(async () => result.current.next());
+    expect(result.current.step?.id).toBe("buildTrip");
+    expect(mockNavigate).toHaveBeenLastCalledWith("/(app)/(tabs)/itinerary");
+    expect(mockPush).not.toHaveBeenCalled();
+
+    await act(async () => result.current.next());
+
+    expect(result.current.active).toBe(false);
+    expect(mockPush).toHaveBeenCalledTimes(1);
+    expect(mockPush).toHaveBeenCalledWith("/build-trip");
+  });
+
+  // Its quiet second button: the tour ends as Done ended it, logged with which button, and nothing opens.
+  it("ends the tour from the last step's second button, logging it, with nothing opened", async () => {
+    const { result } = await renderHook(() => useTour(), { wrapper });
+    await act(async () => result.current.start("free"));
+    for (let i = 0; i < 8; i++) await act(async () => result.current.next());
+    expect(result.current.step?.id).toBe("buildTrip");
+    (logEvent as jest.Mock).mockClear();
+
+    await act(async () => result.current.close());
+
+    expect(result.current.active).toBe(false);
+    expect(logEvent).toHaveBeenCalledTimes(1);
+    expect(logEvent).toHaveBeenCalledWith("tour_finished", { button: "not_now" });
+    expect(mockPush).not.toHaveBeenCalled();
   });
 
   it("start() again begins from the first step", async () => {

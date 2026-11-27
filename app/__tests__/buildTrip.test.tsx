@@ -57,11 +57,17 @@ const mockHideSplash = jest.fn((): any => Promise.resolve());
 jest.mock("expo-splash-screen", () => ({ hideAsync: () => mockHideSplash() }));
 
 const mockRouter = { back: jest.fn(), replace: jest.fn(), push: jest.fn(), dismissTo: jest.fn(), canGoBack: jest.fn(() => true) };
+// The way in, as the tour and the Trips tab hand it over (none unless a test gives one).
+let mockParams: Record<string, string> = {};
 jest.mock("expo-router", () => ({
   get router() {
     return mockRouter;
   },
+  useLocalSearchParams: () => mockParams,
 }));
+// What goes to analytics (lib/analytics, which has its own tests; collection is off but on the store build).
+const mockLog = jest.fn();
+jest.mock("@/lib/analytics", () => ({ logEvent: (...args: unknown[]) => mockLog(...args), logSignUp: jest.fn() }));
 // Signed in unless a test says otherwise: trips are for someone with an account. Signing in is the session
 // changing, as the sign-in sheets and the form all end in it.
 const mockSession: { status: string; uid?: string } = { status: "authed", uid: "uid-1" };
@@ -99,7 +105,7 @@ jest.mock("firebase/firestore", () => ({ doc: jest.fn(), getDoc: jest.fn(), setD
 jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
 
 import React from "react";
-import { AccessibilityInfo, Alert, Animated } from "react-native";
+import { AccessibilityInfo, Alert, Animated, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Sentry from "@sentry/react-native";
 import { ApiError } from "@blacksands/client";
@@ -244,6 +250,7 @@ beforeEach(async () => {
   jest.clearAllMocks();
   mockSession.status = "authed";
   mockAuth.currentUser = ME;
+  mockParams = {};
   mockTrips.itineraries = [];
   mockTrips.addFlow = "create";
   mockTrips.saveItinerary = jest.fn(() => Promise.resolve("trip-new"));
@@ -1404,4 +1411,349 @@ describe("a quiz left on the trips", () => {
     expect(view.getByText(CARDS_TITLE)).toBeTruthy();
     expect(view.getAllByTestId("trip-card").map((c: any) => c.props.accessibilityState.selected)).toEqual([false, false]);
   });
+});
+
+// The quiz's events, as the website's quiz sends them (kiwiguide-site public/plan/quiz.js: quiz_start, quiz_step for
+// each answer, trip_saved): the owner's "the quiz's events go to analytics". Who's travelling and how old are asked
+// for these only.
+describe("analytics", () => {
+  const logged = (name: string) => mockLog.mock.calls.filter((c) => c[0] === name).map((c) => c[1]);
+  // Analytics' limits (Firebase, GA4): names to 40 characters, values to 100, 25 params, and nothing about the person.
+  const withinLimits = () => {
+    for (const [name, params = {}] of mockLog.mock.calls) {
+      expect(name.length).toBeLessThanOrEqual(40);
+      expect(Object.keys(params).length).toBeLessThanOrEqual(25);
+      for (const [key, value] of Object.entries(params)) {
+        expect(key.length).toBeLessThanOrEqual(40);
+        expect(String(value).length).toBeLessThanOrEqual(100);
+        expect(String(value)).not.toMatch(/kia@ora\.nz|uid-1/);
+      }
+    }
+  };
+
+  it.each([
+    ["the tour", { from: "tour" }, "tour"],
+    ["the Trips tab", { from: "trips" }, "trips"],
+    ["anywhere else", {}, "other"],
+    ["an address it doesn't know", { from: "somewhere" }, "other"],
+  ])("starts a fresh quiz from %s with quiz_start, once, as its first answer is given", async (_way, params, from) => {
+    mockParams = params as Record<string, string>;
+    const view = await open();
+    expect(mockLog).not.toHaveBeenCalled();
+
+    await tap(view, "Queenstown", "About a week");
+
+    expect(mockLog.mock.calls).toEqual([
+      ["quiz_start", { from }],
+      ["quiz_step", { step: "start", answer: "queenstown" }],
+      ["quiz_step", { step: "band", answer: "week" }],
+    ]);
+  });
+
+  it("logs every answer in the website's words, the swipe cards' two lists apart, none for the photo breaks", async () => {
+    jest.useFakeTimers();
+    const view = await open();
+
+    await tap(view, "Queenstown", "A long weekend", "Next", "Finish back in Queenstown", "Next", "Summer", MONTH);
+    await tap(view, "Some walking", "Some", "Couple", "30–44", "Nature", "Next", "Next");
+    await swipeAll(view);
+    await tap(view, "Yes");
+    await wait();
+    await tap(view, BUILT.label);
+    await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalled());
+
+    expect(logged("quiz_start")).toHaveLength(1);
+    expect(logged("quiz_step")).toEqual([
+      { step: "start", answer: "queenstown" },
+      { step: "band", answer: "weekend" },
+      { step: "days", answer: "4" },
+      { step: "finish", answer: "queenstown" },
+      { step: "season", answer: "summer" },
+      { step: "month", answer: `${NEXT_SUMMER.month}-${NEXT_SUMMER.year}` },
+      { step: "pace", answer: "some" },
+      { step: "drive", answer: "240" },
+      { step: "who", answer: "couple" },
+      { step: "age", answer: "30-44" },
+      { step: "vibe", answer: "nature" },
+      { step: "into", answer: "Scenic" },
+      { step: "activities", answer: "wine" },
+      { step: "food", answer: "yes" },
+      { step: "choice", answer: BUILT.key },
+    ]);
+    withinLimits();
+  });
+
+  // Opened again part way, and its first question answered again: the quiz was begun before.
+  it("doesn't start a quiz opened again part way", async () => {
+    const view = await from(1, "How long have you got?");
+
+    await fireEvent.press(view.getByLabelText("Back"));
+    await tap(view, "Queenstown");
+
+    expect(mockLog.mock.calls).toEqual([["quiz_step", { step: "start", answer: "queenstown" }]]);
+  });
+
+  it("starts the quiz begun again with Start again", async () => {
+    mockParams = { from: "trips" };
+    const view = await openTrips(short(15));
+
+    await tap(view, "Start again", "Christchurch");
+
+    expect(mockLog.mock.calls).toEqual([
+      ["quiz_start", { from: "trips" }],
+      ["quiz_step", { step: "start", answer: "christchurch" }],
+    ]);
+  });
+
+  it("logs nothing on Back", async () => {
+    const view = await from(9, "Who’s travelling?");
+
+    await fireEvent.press(view.getByLabelText("Back"));
+    await fireEvent.press(view.getByLabelText("Back"));
+
+    expect(view.getByText("How active?")).toBeTruthy();
+    expect(mockLog).not.toHaveBeenCalled();
+  });
+
+  describe("a trip saved", () => {
+    let alertSpy: jest.SpyInstance;
+    beforeEach(() => {
+      alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    });
+    afterEach(() => alertSpy.mockRestore());
+    const press = (text: string) =>
+      act(async () => alertSpy.mock.calls[alertSpy.mock.calls.length - 1][2].find((b: any) => b.text === text).onPress?.());
+    // The website's measureParams: what the trip is and the answers it was built for, fixed ids and numbers only.
+    const MEASURE = { kind: "built", days: 4, start: "queenstown", end: "queenstown", pace: "some", drive: 240 };
+
+    it("logs the pick and trip_saved, with the trip, that it replaced nothing, and the website's params", async () => {
+      const view = await openTrips(short(15));
+
+      await tap(view, BUILT.label);
+      await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalled());
+
+      expect(mockLog.mock.calls).toEqual([
+        ["quiz_step", { step: "choice", answer: BUILT.key }],
+        ["trip_saved", { trip: BUILT.key, replaced: "false", ...MEASURE }],
+      ]);
+      withinLimits();
+    });
+
+    it("says when it replaced a trip of theirs", async () => {
+      mockTrips.itineraries = [MINE];
+      mockTrips.saveItinerary = jest.fn(() => Promise.resolve(MINE.id));
+      const view = await openTrips(short(15));
+      await tap(view, BUILT.label);
+
+      await press("Continue");
+
+      await waitFor(() => expect(logged("trip_saved")).toEqual([{ trip: BUILT.key, replaced: "true", ...MEASURE }]));
+    });
+
+    // Cancelled, then a save that failed.
+    it("logs nothing for a pick that wasn't saved", async () => {
+      mockTrips.itineraries = [MINE];
+      mockTrips.saveItinerary = jest.fn().mockRejectedValue(new Error("no signal"));
+      const view = await openTrips(short(15));
+      await tap(view, BUILT.label);
+      await press("Cancel");
+
+      await tap(view, BUILT.label);
+      await press("Continue");
+      await waitFor(() => expect(alertSpy).toHaveBeenCalledWith("Couldn't save the trip. Try again."));
+
+      expect(mockLog).not.toHaveBeenCalled();
+    });
+  });
+});
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const RN = require("react-native");
+
+// Stage 8's checks (docs/plans/app-trip-builder.md): what a phone, an iPad and the Duo, VoiceOver and no signal ask of
+// the quiz, as far as a test can see them. Dark is components/tripBuilder/__tests__/quizDark.test.tsx.
+
+// Every question and the screens after them: the saved quiz each opens on, and words only that one shows.
+const EVERY_STEP: [string, () => Quiz, string][] = [
+  ["start", () => after(0), "Where do you start?"],
+  ["band", () => after(1), "How long have you got?"],
+  ["days", () => after(2), "How many days?"],
+  ["finish", () => after(3), "Where does your trip finish?"],
+  ["break1", () => after(4), "Queenstown, 7 days."],
+  ["season", () => after(5), "Which NZ season are you picking?"],
+  ["month", () => after(6), "Which month?"],
+  ["pace", () => after(7), "How active?"],
+  ["drive", () => after(8), "How much driving?"],
+  ["who", () => after(9), "Who’s travelling?"],
+  ["age", () => after(10), "How old are you?"],
+  ["vibe", () => after(11), "What’s the vibe?"],
+  ["break2", () => after(12), BREAK2],
+  ["into", () => after(13), "What are you into?"],
+  ["food", () => after(14), "Food tips?"],
+  ["account", () => onAccount(after(15)), ACCOUNT_TITLE],
+  ["choice", () => after(15), CARDS_TITLE],
+];
+// The screen opened on one of them: someone not signed in for the account step, the trips built for the cards.
+const openOn = async ([step, quiz, title]: (typeof EVERY_STEP)[number]) => {
+  if (step === "account") mockSession.status = "guest";
+  if (step === "choice") return openTrips(quiz());
+  await AsyncStorage.setItem(KEY, JSON.stringify(quiz()));
+  return open(title);
+};
+// Whether these words sit in the quiz's column: the website's width at most, in the middle of the screen.
+const inColumn = (node: any) => {
+  for (let n = node; n; n = n.parent) {
+    const style = StyleSheet.flatten(n.props?.style) ?? {};
+    if (style.maxWidth === 520 && style.alignSelf === "center") return true;
+  }
+  return false;
+};
+
+// The quiz has one layout: a centred column of the website's width (520, QUIZ_COLUMN), so on an iPad or the open
+// Duo it is the phone's quiz in the middle of the screen. Every step drawn on each, the top row in the column too.
+describe("on every screen it can be on", () => {
+  const SCREENS: [string, boolean, { width: number; height: number }][] = [
+    ["an iPad sideways", true, { width: 1376, height: 1032 }],
+    ["an iPad upright", true, { width: 1032, height: 1376 }],
+    ["the Duo open upright", true, { width: 669, height: 951 }],
+    ["the Duo open sideways", true, { width: 951, height: 669 }],
+    ["the Duo folded (a phone)", false, { width: 393, height: 852 }],
+  ];
+  let size: jest.SpyInstance | undefined;
+  afterEach(() => size?.mockRestore());
+
+  it.each(SCREENS)("draws every step in the centred column on %s", async (_name, wide, window) => {
+    require("@blacksands/ui").__setWide(wide, window);
+    size = jest.spyOn(RN, "useWindowDimensions").mockReturnValue({ ...window, scale: 3, fontScale: 1 });
+
+    for (const entry of EVERY_STEP) {
+      const view = await openOn(entry);
+      expect(inColumn(view.getByText(entry[2]))).toBe(true);
+      expect(inColumn(view.getByLabelText("Close"))).toBe(true);
+      await view.unmount();
+      jest.useRealTimers();
+      mockSession.status = "authed";
+      await AsyncStorage.clear();
+    }
+  });
+});
+
+// VoiceOver: every button says what it is and what it does, a picked answer says it is picked, and nothing needs a
+// swipe (the swipe cards have their No and Yes, the trips their cards).
+describe("with VoiceOver", () => {
+  const words = (node: any): string =>
+    node
+      .queryAll((n: any) => n.type === "Text")
+      .flatMap((t: any) => [t.props.children].flat())
+      .filter((c: unknown) => typeof c === "string" || typeof c === "number")
+      .join(" ");
+  // Everything on screen a finger can tap (a press handler, as every touchable and pressable gives its view), as
+  // VoiceOver reaches it: a role, and a name (its label, or its words). A view kept from VoiceOver isn't one of its
+  // stops (the days slider's tap area: the slider is).
+  const audit = (view: any, where: string) => {
+    const touchable = view.root.queryAll((n: any) => typeof n.props.onClick === "function" && n.props.accessible !== false);
+    expect(touchable.length).toBeGreaterThan(0);
+    for (const t of touchable) {
+      const name = t.props.accessibilityLabel ?? words(t);
+      expect(`${where}: ${t.props.accessibilityRole ?? "no role"} "${name}"`).not.toMatch(/no role|""/);
+    }
+  };
+  // The button a line of words is in, and what it tells VoiceOver of its state.
+  const stateOf = (view: any, label: string) => {
+    for (let n = view.getByText(label); n; n = n.parent) if (n.props?.accessibilityRole === "button") return n.props.accessibilityState;
+    throw new Error(`${label} isn't in a button`);
+  };
+
+  it("can be taken from the first question to the trip cards and back, every button named, the answers said to be picked", async () => {
+    jest.useFakeTimers();
+    const view = await open();
+    // Forward: each screen's buttons, before it is answered.
+    const step = async (where: string, ...taps: string[]) => {
+      audit(view, where);
+      await tap(view, ...taps);
+    };
+    await step("start", "Queenstown");
+    await step("band", "A long weekend");
+    // The days: a slider VoiceOver turns up and down.
+    expect(view.getByRole("adjustable")).toBeTruthy();
+    await step("days", "Next");
+    await step("finish", "Finish back in Queenstown");
+    await step("break1", "Next");
+    await step("season", "Summer");
+    await step("month", MONTH);
+    await step("pace", "Some walking");
+    await step("drive", "Some");
+    await step("who", "Couple");
+    await step("age", "30–44");
+    await step("vibe", "Nature");
+    expect(stateOf(view, "Nature")).toEqual({ selected: true });
+    expect(stateOf(view, "Relax")).toEqual({ selected: false });
+    await tap(view, "Next");
+    await step("break2", "Next");
+    // The swipe cards, every one answered with its buttons: no swipe needed.
+    audit(view, "into");
+    expect(view.getByLabelText(/^No, skip /)).toBeTruthy();
+    expect(view.getByLabelText(/^Yes, add /)).toBeTruthy();
+    await swipeAll(view);
+    await step("food", "Yes");
+    await wait();
+    audit(view, "choice");
+    // Each trip is one button that says all that is on its card.
+    const cards = view.getAllByTestId("trip-card");
+    expect(cards).toHaveLength(2);
+    for (const card of cards) {
+      expect(card.props.accessibilityRole).toBe("button");
+      expect(card.props.accessibilityLabel).toMatch(/^(Built for you|Hand-checked trip)\. .+\. .+\. \d+ days, /);
+      expect(card.props.accessibilityState).toEqual({ selected: false });
+    }
+
+    // Back, a question at a time: the answer given is said to be the one picked.
+    const back = () => fireEvent.press(view.getByLabelText("Back"));
+    const given: [string, string][] = [
+      ["Food tips?", "Yes"],
+      ["What are you into?", ""],
+      ["What’s the vibe?", "Nature"],
+      ["How old are you?", "30–44"],
+      ["Who’s travelling?", "Couple"],
+      ["How much driving?", "Some"],
+      ["How active?", "Some walking"],
+      ["Which month?", MONTH],
+      ["Which NZ season are you picking?", "Summer"],
+      ["Where does your trip finish?", "Finish back in Queenstown"],
+      ["How many days?", ""],
+      ["How long have you got?", "A long weekend"],
+      ["Where do you start?", "Queenstown"],
+    ];
+    for (const [title, answer] of given) {
+      await back();
+      expect(view.getByText(title)).toBeTruthy();
+      audit(view, title);
+      if (answer) expect(stateOf(view, answer)).toEqual({ selected: true });
+    }
+  });
+});
+
+// No signal: the builder and its data are in the app, so the whole quiz can be answered and its trips built; the
+// photos, which load from the api, show their dark fills; and saving waits for the signal (stage 6).
+it("can be answered to the trip cards with no signal, the photos on their fills and the save held", async () => {
+  mockNet.isConnected = false;
+  mockNet.isInternetReachable = false;
+  mockPrefetch.mockImplementation(() => Promise.reject(new Error("no signal")));
+  jest.useFakeTimers();
+  const view = await open();
+  for (const card of view.getAllByTestId("town-card")) expect(card).toHaveStyle({ backgroundColor: tokens.colors.scrim });
+
+  await tap(view, "Queenstown", "A long weekend", "Next", "Finish back in Queenstown", "Next", "Summer", MONTH);
+  await tap(view, "Some walking", "Some", "Couple", "30–44", "Nature", "Next", "Next");
+  await swipeAll(view);
+  await tap(view, "Yes");
+  await wait();
+
+  expect(view.getAllByTestId("trip-card")).toHaveLength(2);
+  for (const photo of view.getAllByTestId("trip-photo")) expect(photo).toHaveStyle({ backgroundColor: tokens.colors.scrim });
+  expect(view.getByText("Reconnect to Add")).toBeTruthy();
+  await tap(view, BUILT.label);
+  expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+  expect(mockListTrips).not.toHaveBeenCalled();
+  expect(mockPrefetch).toHaveBeenCalled();
 });

@@ -48,8 +48,9 @@ const askToSignIn = () =>
   ]);
 
 // The trip quiz (app/build-trip.tsx), the main way in while there's no trip (owner, 2026-11-27: "new trip
-// building button on the trip page when trip is empty"). Open to guests: it asks for the account at its end.
-const buildTrip = () => router.push("/build-trip");
+// building button on the trip page when trip is empty"). Open to guests: it asks for the account at its end. The
+// way in goes with it, for the quiz's analytics (quiz_start).
+const buildTrip = () => router.push({ pathname: "/build-trip", params: { from: "trips" } });
 
 // The design sweep's second button: teal outlined on the white page.
 const OUTLINED = {

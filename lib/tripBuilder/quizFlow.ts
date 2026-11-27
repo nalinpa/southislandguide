@@ -82,6 +82,39 @@ export function blankQuiz(): QuizState {
 }
 
 /**
+ * An answer's quiz_step events for analytics, as the website's quiz sends them (its answered(): kiwiguide-site
+ * public/plan/quiz.js): the step and the answer in the website's words. Lists are joined with commas, or "none",
+ * from the quiz as the answer leaves it (the vibes in the website's order); a month is its number from 0 and its year
+ * ("0-2027"). The swipe cards give two, the cards said yes to and the activities; a photo break gives none.
+ */
+export function quizStepEvents(st: QuizState, a: QuizAnswer): { step: string; answer: string }[] {
+  const next = answerQuiz(st, a).state;
+  const list = (ids: string[] | null) => (ids?.length ? ids.join(",") : "none");
+  switch (a.step) {
+    case "break1":
+    case "break2":
+      return [];
+    case "days":
+      return [{ step: "days", answer: String(next.days) }];
+    case "month":
+      return [{ step: "month", answer: a.value ? `${a.value.month}-${a.value.year}` : "none" }];
+    case "drive":
+      return [{ step: "drive", answer: String(a.value) }];
+    case "vibe":
+      return [{ step: "vibe", answer: list(next.vibes) }];
+    case "into":
+      return [
+        { step: "into", answer: list(next.into) },
+        { step: "activities", answer: list(next.activities) },
+      ];
+    case "food":
+      return [{ step: "food", answer: a.value ? "yes" : "no" }];
+    default:
+      return [{ step: a.step, answer: a.value }];
+  }
+}
+
+/**
  * One answer taken: the answers with it in, and the step it leads to (the website's click handler).
  * Every answer the trips are built from clears the picked trip: the trips change with it.
  */

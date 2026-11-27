@@ -27,7 +27,8 @@ describe("tourSteps", () => {
         // Not for someone with a trip (TourContext decides it at the end).
         noTrip: true,
         nextLabel: "Build My Trip",
-        opens: "/build-trip",
+        // the way in, for analytics (quiz_start)
+        opens: "/build-trip?from=tour",
         closeLabel: "Not Now",
         title: "Build Your Trip",
         body: "Answer a few questions and we'll plan your days.",

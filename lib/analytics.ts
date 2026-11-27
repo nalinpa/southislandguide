@@ -15,7 +15,12 @@ export type AppEvent =
   | "place_opened"
   | "map_opened"
   | "guide_section_opened"
-  | "sign_up";
+  | "sign_up"
+  // The trip quiz's, with the website's names and params (kiwiguide-site public/plan/quiz.js): a fresh quiz begun
+  // (`from`: the way in), each answer (`step`, `answer`), and a picked trip saved.
+  | "quiz_start"
+  | "quiz_step"
+  | "trip_saved";
 
 // A failed log is dropped: analytics must never break the app. No user id, email or typed
 // text goes in any param (see the brief); only counts and fixed ids.

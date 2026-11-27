@@ -24,7 +24,16 @@ const site = require("./quizLogic") as {
   activitiesFor: (data: ActivityData, startMonth: number) => { id: string }[];
   // today: read when no month was picked (the season's first month still to come, or three months on).
   startDateFor: (st: QuizState, today: Date) => string;
+  measureParams: (option: QuizTrip, st: QuizState) => Record<string, string | number>;
 };
+
+/**
+ * The website's extra params on trip_saved (its measureParams): which kind of trip, how many days, where it starts
+ * and ends, and the pace and driving it was built for. Fixed ids and numbers only.
+ */
+export function tripMeasure(trip: QuizTrip, state: QuizState): Record<string, string | number> {
+  return site.measureParams(trip, state);
+}
 
 /** A stop with what the trip cards and the trip's notes read of its place: its photo, its kinds and its activities. */
 export type QuizStop = BuiltStop & { thumb?: string | null; fallback?: string | null; category: string[]; activities: string[] };

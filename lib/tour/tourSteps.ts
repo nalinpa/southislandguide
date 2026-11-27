@@ -94,7 +94,8 @@ export const TOUR_STEPS: TourStep[] = [
     noTarget: true,
     noTrip: true,
     nextLabel: "Build My Trip",
-    opens: "/build-trip",
+    // The way in, for the quiz's analytics (quiz_start).
+    opens: "/build-trip?from=tour",
     closeLabel: "Not Now",
     title: "Build Your Trip",
     body: "Answer a few questions and we'll plan your days.",

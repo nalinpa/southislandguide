@@ -95,7 +95,7 @@ describe("TourContext", () => {
 
     expect(result.current.active).toBe(false);
     expect(mockPush).toHaveBeenCalledTimes(1);
-    expect(mockPush).toHaveBeenCalledWith("/build-trip");
+    expect(mockPush).toHaveBeenCalledWith("/build-trip?from=tour");
   });
 
   // Its quiet second button: the tour ends as Done ended it, logged with which button, and nothing opens.
@@ -138,7 +138,7 @@ describe("TourContext", () => {
       await act(async () => result.current.start("free"));
 
       expect((await walk(result)).pop()).toBe("buildTrip");
-      expect(mockPush).toHaveBeenCalledWith("/build-trip");
+      expect(mockPush).toHaveBeenCalledWith("/build-trip?from=tour");
     });
 
     it("isn't there for someone with a trip: the map ends the tour, as before, logged with no button", async () => {

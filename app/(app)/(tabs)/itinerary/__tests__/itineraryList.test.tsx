@@ -161,7 +161,7 @@ describe("guest", () => {
 
     await fireEvent.press(view.getByText("Build My Trip"));
 
-    expect(mockRouter.push).toHaveBeenCalledWith("/build-trip");
+    expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/build-trip", params: { from: "trips" } });
     // The kit's button kinds (test/uiKitMock): the quiz the main one, signing in the second.
     expect(view.getByText("Build My Trip").props.variant).toBe("primary");
     expect(view.getByText("Sign In").props.variant).toBe("secondary");
@@ -227,7 +227,7 @@ describe("no trips yet", () => {
     expect(view.getByText("Build My Trip").props.variant).toBe("primary");
     expect(view.getByText("Create a Trip").props.variant).toBe("secondary");
     await fireEvent.press(view.getByText("Build My Trip"));
-    expect(mockRouter.push).toHaveBeenCalledWith("/build-trip");
+    expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/build-trip", params: { from: "trips" } });
     expect(view.queryByText("Create Modal")).toBeNull();
   });
 

@@ -164,7 +164,7 @@ describe("SpotlightOverlay", () => {
       await fireEvent.press(screen.getByRole("button", { name: "Build My Trip" }));
 
       expect(screen.toJSON()).toBeNull();
-      expect(router.push).toHaveBeenCalledWith("/build-trip");
+      expect(router.push).toHaveBeenCalledWith("/build-trip?from=tour");
       expect(logEvent().mock.calls).toEqual([["tour_finished", { button: "build_my_trip" }]]);
     });
 

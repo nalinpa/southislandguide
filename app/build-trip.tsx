@@ -7,7 +7,7 @@
 // before; the swipe from the left edge, which would leave the whole quiz, is off for this screen (app/_layout).
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { randomUUID } from "expo-crypto";
 import { useNetInfo } from "@react-native-community/netinfo";
 import * as SplashScreen from "expo-splash-screen";
@@ -17,6 +17,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { LoadingState, Screen } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
+import { logEvent } from "@/lib/analytics";
 import { auth } from "@/lib/firebase";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { usePlaceLookup } from "@/lib/hooks/usePlaceLookup";
@@ -48,8 +49,8 @@ import {
   type StepProps,
 } from "@/components/tripBuilder/QuizSteps";
 import { NIGHT, QUIZ_COLUMN, QuizHeader, fetchAhead, useReduceMotion } from "@/components/tripBuilder/quizParts";
-import { accountStep, type Quiz, type QuizAnswer, type QuizState, type QuizStep } from "@/lib/tripBuilder/quizFlow";
-import { builtTrips, quizTrips, tripBody, tripStart, type QuizTrip } from "@/lib/tripBuilder/quizTrips";
+import { accountStep, quizStepEvents, type Quiz, type QuizAnswer, type QuizState, type QuizStep } from "@/lib/tripBuilder/quizFlow";
+import { builtTrips, quizTrips, tripBody, tripMeasure, tripStart, type QuizTrip } from "@/lib/tripBuilder/quizTrips";
 import { useQuiz } from "@/lib/tripBuilder/useQuiz";
 
 // How far along each step is, out of 100: the website's own numbers (PROGRESS in its quiz.js) for the app's steps.
@@ -213,6 +214,8 @@ function usePickToSave(today: Date, saved: (key: string) => void, signedOut: (em
       return failed(e);
     }
     saved(trip.key);
+    // The website's event, its params with it (measureParams); replaced as words, as the website's true or false.
+    logEvent("trip_saved", { trip: trip.key, replaced: String(!!over), ...tripMeasure(trip, state) });
     // The quiz is closed under the trip, so Back from it is the Trips tab's own and never comes back into the quiz.
     if (open.current) router.dismissTo({ pathname: "/(app)/(tabs)/itinerary/[itineraryId]", params: { itineraryId: id } });
   };
@@ -243,6 +246,9 @@ function usePickToSave(today: Date, saved: (key: string) => void, signedOut: (em
 
 export default function BuildTripScreen() {
   const { quiz, answer, back, settle, startAgain } = useQuiz();
+  // The way in, for analytics: the tour's last step and the Trips tab say which they are.
+  const { from } = useLocalSearchParams<{ from?: string }>();
+  const way = from === "tour" || from === "trips" ? from : "other";
   const { session } = useSession();
   // Whether someone is signed in. null while the phone is still reading it: nothing is decided until it knows.
   const signedIn = session.status === "loading" ? null : session.status === "authed";
@@ -273,9 +279,18 @@ export default function BuildTripScreen() {
   // read, and on those steps until who is signed in is known...
   const shown = quiz && accountStep(quiz, signedIn);
   const { trips, failed } = useTrips(shown, today);
+  // Every answer the quiz takes, sent to analytics as the website's quiz sends them: quiz_start as a fresh quiz is
+  // begun (not for one opened again part way), then quiz_step for each answer. Back sends nothing.
+  const take = (a: QuizAnswer) => {
+    if (quiz) {
+      if (a.step === "start" && !quiz.state.start) logEvent("quiz_start", { from: way });
+      for (const e of quizStepEvents(quiz.state, a)) logEvent("quiz_step", e);
+    }
+    answer(a);
+  };
   const { saving, pick } = usePickToSave(
     today,
-    (key) => answer({ step: "choice", value: key }),
+    (key) => take({ step: "choice", value: key }),
     (email) => setAgain({ email }),
   );
   // ...and what that came to is kept, so Back and a quiz opened again start from what was on screen. Signing in
@@ -300,7 +315,7 @@ export default function BuildTripScreen() {
     }
     // Another start town: its finishes begin with "Somewhere else?" shut again, as on the website.
     if (a.step === "start" && a.value !== quiz?.state.start) setAllEnds(false);
-    answer(a);
+    take(a);
   };
   const restart = () => {
     setAllTowns(false);

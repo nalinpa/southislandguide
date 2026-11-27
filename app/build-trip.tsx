@@ -1,4 +1,4 @@
-// The trip quiz (docs/plans/app-trip-builder.md). Stage 3: the first half, start to month.
+// The trip quiz (docs/plans/app-trip-builder.md). Stages 3 and 4: every question, start to food.
 // A screen of the root stack, as share-frame is: it opens over the tabs, which stay as they were underneath, and
 // a guest can take it ((app) is a Slot, one screen at a time, and sends a signed-out visitor to the login).
 // The answers are kept on the phone after every tap (useQuiz), so Close loses nothing. Back is the question
@@ -11,8 +11,26 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { AppButton, LoadingState, Screen } from "@/lib/uiKit";
 import { tokens } from "@/lib/ui/tokens";
-import { BandStep, BreakStep, DaysStep, FinishStep, MonthStep, SeasonStep, StartStep, type StepProps } from "@/components/tripBuilder/QuizSteps";
-import { QUIZ_COLUMN, QuizHead, QuizHeader } from "@/components/tripBuilder/quizParts";
+import {
+  AgeStep,
+  BandStep,
+  Break2Step,
+  BreakStep,
+  DaysStep,
+  DriveStep,
+  FinishStep,
+  FoodStep,
+  IntoStep,
+  MonthStep,
+  PaceStep,
+  SeasonStep,
+  StartStep,
+  VibeStep,
+  WhoStep,
+  type Deck,
+  type StepProps,
+} from "@/components/tripBuilder/QuizSteps";
+import { NIGHT, QUIZ_COLUMN, QuizHead, QuizHeader } from "@/components/tripBuilder/quizParts";
 import type { QuizAnswer, QuizStep } from "@/lib/tripBuilder/quizFlow";
 import { useQuiz } from "@/lib/tripBuilder/useQuiz";
 
@@ -22,7 +40,8 @@ const QUIZ_PROGRESS: Record<QuizStep, number> = {
   who: 53, age: 58, vibe: 63, break2: 67, into: 74, food: 86, choice: 95, reveal: 97,
 };
 
-// The steps built so far. Stage 4 adds pace to food; stage 5 the trips.
+// The questions, drawn in the page under the top row. The second photo break isn't here: it fills the whole
+// screen. Nor are the trips (stage 5).
 const STEPS: Partial<Record<QuizStep, (props: StepProps) => ReactNode>> = {
   start: StartStep,
   band: BandStep,
@@ -31,6 +50,13 @@ const STEPS: Partial<Record<QuizStep, (props: StepProps) => ReactNode>> = {
   break1: BreakStep,
   season: SeasonStep,
   month: MonthStep,
+  pace: PaceStep,
+  drive: DriveStep,
+  who: WhoStep,
+  age: AgeStep,
+  vibe: VibeStep,
+  into: IntoStep,
+  food: FoodStep,
 };
 
 // Nothing behind it (a development build reloading onto it): the start screen, where a cold start goes.
@@ -39,10 +65,12 @@ const close = () => (router.canGoBack() ? router.back() : router.replace("/"));
 export default function BuildTripScreen() {
   const { quiz, answer, back, startAgain } = useQuiz();
   const insets = useSafeAreaInsets();
-  // "Somewhere else?" tapped on the start, and on the finish: every town is showing. Held here, above the
-  // questions (each is drawn afresh when it is come back to), for the visit, as the website holds its two.
+  // What the website holds for the visit, above its questions, and so here above ours (each is drawn afresh when
+  // it is come back to): "Somewhere else?" tapped on the start and on the finish, so every town is showing, and
+  // where the swipe cards were left.
   const [allTowns, setAllTowns] = useState(false);
   const [allEnds, setAllEnds] = useState(false);
+  const [deck, setDeck] = useState<Deck | null>(null);
 
   // The root layout holds the splash screen up and only the (app) and (auth) layouts take it down. This
   // screen is outside both, so opened first it would sit under the splash for good (the stage 0 spike did).
@@ -53,6 +81,8 @@ export default function BuildTripScreen() {
 
   const step = quiz?.step;
   const Step = step ? STEPS[step] : undefined;
+  // The second photo break: its photo is the whole screen, the top row drawn over it in white.
+  const onPhoto = step === "break2";
 
   const onAnswer = (a: QuizAnswer) => {
     // Another start town: its finishes begin with "Somewhere else?" shut again, as on the website.
@@ -62,24 +92,32 @@ export default function BuildTripScreen() {
   const again = () => {
     setAllTowns(false);
     setAllEnds(false);
+    setDeck(null);
     startAgain();
   };
-  const behind =
+  const held =
     step === "start"
       ? { open: allTowns, onOpen: () => setAllTowns(true) }
       : step === "finish"
         ? { open: allEnds, onOpen: () => setAllEnds(true) }
-        : null;
+        : step === "into"
+          ? { deck, onDeck: setDeck }
+          : null;
 
   return (
     // The pale page with white buttons on it, as the website's quiz is drawn; the status-bar inset is Screen's.
-    <Screen padded={false} background={tokens.colors.bgBase}>
+    // On the photo: its dark fill behind, and the clock in white.
+    <Screen padded={false} background={onPhoto ? NIGHT : tokens.colors.bgBase} {...(onPhoto ? { statusBarStyle: "light-content" as const } : null)}>
+      {/* First, so it is under the top row: laid over the whole screen, the clock's strip too. */}
+      {quiz && onPhoto ? <Break2Step state={quiz.state} onAnswer={onAnswer} /> : null}
       {/* There from the start, Close with it, while the saved quiz is read. Back is the question before, so
           not on the first. */}
-      <QuizHeader progress={step ? QUIZ_PROGRESS[step] : 0} onBack={step && step !== "start" ? back : undefined} onClose={close} />
-      {quiz ? (
-        // The key: every question opens at its top. No bounce when a question fits the screen, so a drag
-        // on the days slider stays the slider's.
+      <QuizHeader progress={step ? QUIZ_PROGRESS[step] : 0} onBack={step && step !== "start" ? back : undefined} onClose={close} onPhoto={onPhoto} />
+      {!quiz ? (
+        <LoadingState />
+      ) : onPhoto ? null : (
+        // The key: every question opens at its top. No bounce when a question fits the screen, so a sideways
+        // drag on the days slider or a swipe card stays theirs.
         <ScrollView
           key={quiz.step}
           showsVerticalScrollIndicator={false}
@@ -89,11 +127,12 @@ export default function BuildTripScreen() {
           {/* One centred column on an iPad or an open Duo, until their own layouts (stage 8). */}
           <View style={styles.column}>
             {Step ? (
-              <Step state={quiz.state} onAnswer={onAnswer} {...behind} />
+              <Step state={quiz.state} onAnswer={onAnswer} {...held} />
             ) : (
-              // TEMP (stage 4): stands in for pace onward. Start again is here so the quiz can be run again on a phone.
+              // TEMP (stage 5): stands in for the trips ("choice" and "reveal"). Start again is here so the quiz
+              // can be run again on a phone.
               <View style={styles.soon}>
-                <QuizHead title="More questions are coming." />
+                <QuizHead title="Your trip is next." />
                 <AppButton variant="secondary" fullWidth onPress={again}>
                   Start again
                 </AppButton>
@@ -101,8 +140,6 @@ export default function BuildTripScreen() {
             )}
           </View>
         </ScrollView>
-      ) : (
-        <LoadingState />
       )}
     </Screen>
   );

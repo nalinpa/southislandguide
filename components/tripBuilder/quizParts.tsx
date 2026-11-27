@@ -3,7 +3,7 @@
 // colours so dark mode holds. Its paper, bar and line are bgBase, bgCard and line; its muted words are text2.
 // Its two signal colours follow the app's rule instead (the tab bar, the tour's dots): teal for where you are and
 // what you picked (its orange bar and green chosen state), orange only for the button to tap (its green Next).
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   AccessibilityInfo,
   Animated,
@@ -19,24 +19,37 @@ import {
 } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Check, ChevronLeft, ChevronRight, X, type LucideIcon } from "lucide-react-native";
 
 import { cardLift, tokens } from "@/lib/ui/tokens";
 
 // The dark behind a photo and under the words on it (the website's "night"): the login screen's scrim, a plain
 // string so it can go into a gradient, and the same in light and dark, as a photo is.
-const NIGHT = tokens.colors.scrim;
+export const NIGHT = tokens.colors.scrim;
 // Words and ticks over a photo or a filled disc: white in light and dark (as the "In trip" badge has it).
-const ON_PHOTO = "#FFFFFF";
+export const ON_PHOTO = "#FFFFFF";
+// The top row over the second break's photo: a see-through white for the buttons' edge and for the bar's
+// line (the website's two), the same in light and dark as the photo is.
+const ON_PHOTO_EDGE = "rgba(255,255,255,0.5)";
+const ON_PHOTO_LINE = "rgba(255,255,255,0.35)";
 
 /** The website's Next: the app's main button at its height, corners and label. Pass as AppButton's shape. */
 export const QUIZ_BUTTON = { radius: 16, height: 56, labelSize: 18, labelWeight: "800" } as const;
 /** The quiz's one column on a wide screen: the website's phone width, centred. Its own wide layouts are stage 8. */
 export const QUIZ_COLUMN = 520;
 
+/**
+ * Photos fetched ahead of the screen that shows them, so that screen opens with its photo and not on its dark
+ * fill. With no signal nothing is fetched and nothing is said: the fill is what that screen then shows.
+ */
+export function fetchAhead(urls: string[]) {
+  Image.prefetch(urls).catch(() => {});
+}
+
 // Whether the phone is set to reduce motion, read when something is about to move. In a ref: turning it on
 // or off draws nothing by itself.
-function useReduceMotion() {
+export function useReduceMotion() {
   const reduce = useRef(false);
   useEffect(() => {
     void AccessibilityInfo.isReduceMotionEnabled().then((on) => {
@@ -52,7 +65,7 @@ function useReduceMotion() {
 
 // The bar slides to each step's place in a quarter of a second, the one thing that moves on the website's quiz
 // too; under reduce motion it jumps.
-function ProgressBar({ now }: { now: number }) {
+function ProgressBar({ now, onPhoto }: { now: number; onPhoto?: boolean }) {
   const reduce = useReduceMotion();
   const at = useRef(new Animated.Value(now)).current;
   const shown = useRef(now);
@@ -65,41 +78,71 @@ function ProgressBar({ now }: { now: number }) {
   }, [now, at, reduce]);
   return (
     <View
-      style={styles.bar}
+      style={[styles.bar, onPhoto && styles.barOnPhoto]}
       accessible
       accessibilityRole="progressbar"
       accessibilityLabel="Quiz progress"
       accessibilityValue={{ min: 0, max: 100, now }}
     >
-      <Animated.View style={[styles.barFill, { width: at.interpolate({ inputRange: [0, 100], outputRange: ["0%", "100%"] }) }]} />
+      <Animated.View
+        style={[styles.barFill, onPhoto && styles.barFillOnPhoto, { width: at.interpolate({ inputRange: [0, 100], outputRange: ["0%", "100%"] }) }]}
+      />
     </View>
   );
 }
 
-function RoundButton({ icon: Icon, label, onPress }: { icon: LucideIcon; label: string; onPress: () => void }) {
+type RoundButtonProps = { icon: LucideIcon; label: string; onPress: () => void; onPhoto?: boolean };
+
+function RoundButton({ icon: Icon, label, onPress, onPhoto }: RoundButtonProps) {
   return (
-    <TouchableOpacity style={styles.round} onPress={onPress} activeOpacity={0.6} accessibilityRole="button" accessibilityLabel={label}>
-      <Icon size={20} strokeWidth={2.2} color={tokens.colors.text} />
+    <TouchableOpacity
+      style={[styles.round, onPhoto && styles.roundOnPhoto]}
+      onPress={onPress}
+      activeOpacity={0.6}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+    >
+      <Icon size={20} strokeWidth={2.2} color={onPhoto ? ON_PHOTO : tokens.colors.text} />
     </TouchableOpacity>
   );
 }
+
+type QuizHeaderProps = {
+  progress: number;
+  onBack?: () => void;
+  onClose: () => void;
+  /** Over the second break's photo (PhotoBreak): see-through buttons with white marks, and a pale line for the bar. */
+  onPhoto?: boolean;
+};
 
 /**
  * The quiz's top row: a round Back (left out on the first question), the bar, and a round Close where the
  * website has its name. No title.
  */
-export function QuizHeader({ progress, onBack, onClose }: { progress: number; onBack?: () => void; onClose: () => void }) {
+export function QuizHeader({ progress, onBack, onClose, onPhoto }: QuizHeaderProps) {
   return (
     <View style={styles.header}>
-      {onBack ? <RoundButton icon={ChevronLeft} label="Back" onPress={onBack} /> : null}
-      <ProgressBar now={progress} />
-      <RoundButton icon={X} label="Close" onPress={onClose} />
+      {onBack ? <RoundButton icon={ChevronLeft} label="Back" onPress={onBack} onPhoto={onPhoto} /> : null}
+      <ProgressBar now={progress} onPhoto={onPhoto} />
+      <RoundButton icon={X} label="Close" onPress={onClose} onPhoto={onPhoto} />
     </View>
   );
 }
 
+type QuizHeadProps = {
+  kicker?: string;
+  title: string;
+  lead?: string;
+  /** A line in the kicker's quiet words under the question, where the website puts it there (the swipe cards' count). */
+  under?: ReactNode;
+  /** The photo breaks' smaller line. */
+  small?: boolean;
+  /** White, over the second break's photo. */
+  onPhoto?: boolean;
+};
+
 /** A question's head: the small line over it, the question, and a line under it. */
-export function QuizHead({ kicker, title, lead, small }: { kicker?: string; title: string; lead?: string; small?: boolean }) {
+export function QuizHead({ kicker, title, lead, under, small, onPhoto }: QuizHeadProps) {
   const heading = useRef<TextInstance>(null);
   // A new question: a screen reader starts at it, as the website moves focus to each new heading.
   useEffect(() => {
@@ -108,10 +151,11 @@ export function QuizHead({ kicker, title, lead, small }: { kicker?: string; titl
   return (
     <View style={styles.head}>
       {kicker ? <Text style={styles.kicker}>{kicker}</Text> : null}
-      <Text ref={heading} accessibilityRole="header" style={[styles.title, small && styles.titleSmall]}>
+      <Text ref={heading} accessibilityRole="header" style={[styles.title, small && styles.titleSmall, onPhoto && styles.titleOnPhoto]}>
         {title}
       </Text>
       {lead ? <Text style={[styles.lead, small && styles.leadSmall]}>{lead}</Text> : null}
+      {under ? <Text style={styles.kicker}>{under}</Text> : null}
     </View>
   );
 }
@@ -130,14 +174,16 @@ function useShare(most: number, around = 0) {
 type OptionButtonProps = {
   label: string;
   hint?: string;
-  /** The answer given before (back on a question already answered). */
+  /** The answer given before (back on a question already answered), or ticked now where several can be. */
   selected?: boolean;
+  /** Several can be picked (the vibe): a box to tick in place of the chevron, since a tap doesn't go on. */
+  box?: boolean;
   onPress: () => void;
 };
 
 // One answer in a list: the website's bordered button, with the chevron that says a tap goes straight on. The
 // one picked before has a teal border, a pale teal fill and a tick in place of the chevron.
-export function OptionButton({ label, hint, selected = false, onPress }: OptionButtonProps) {
+export function OptionButton({ label, hint, selected = false, box, onPress }: OptionButtonProps) {
   // 32: the button's own padding and border, above and below the words.
   const { share, onWords } = useShare(96, 32);
   return (
@@ -153,7 +199,11 @@ export function OptionButton({ label, hint, selected = false, onPress }: OptionB
         <Text style={styles.optionLabel}>{label}</Text>
         {hint ? <Text style={styles.optionHint}>{hint}</Text> : null}
       </View>
-      {selected ? (
+      {box ? (
+        <View testID="option-box" style={[styles.optionBox, selected && styles.optionBoxOn]}>
+          {selected ? <Check size={16} strokeWidth={3} color={ON_PHOTO} /> : null}
+        </View>
+      ) : selected ? (
         <Check size={20} strokeWidth={2.5} color={tokens.colors.selected} />
       ) : (
         <ChevronRight size={20} strokeWidth={2.5} color={tokens.colors.text2} />
@@ -213,6 +263,33 @@ export function BreakPhoto({ uri }: { uri: string }) {
       {/* ponytail: cut to 3:2, as the app frames its place photos; the website shows it at its own shape.
           Read the shape from the photo once it loads if a town's ever crops badly. */}
       <Image testID="town-photo" source={{ uri }} style={[styles.breakPhoto, { maxHeight: height * 0.52 }]} contentFit="cover" transition={150} accessible={false} />
+    </View>
+  );
+}
+
+/**
+ * The second photo break: the photo fills the screen, with its line, its credit and Next over a dark fade at the
+ * foot. Laid over the whole screen, under the top row, which is drawn over it (QuizHeader onPhoto). The photo
+ * loads from the website; with no signal the dark fill is there and the line still reads.
+ */
+export function PhotoBreak({ uri, line, credit, children }: { uri: string; line: string; credit?: string; children: ReactNode }) {
+  const insets = useSafeAreaInsets();
+  return (
+    <View testID="photo-break" style={styles.photoBreak}>
+      <Image testID="break-photo" source={{ uri }} style={StyleSheet.absoluteFill} contentFit="cover" transition={150} accessible={false} />
+      {/* A shade behind the top row, so its white marks read on a pale sky. */}
+      <LinearGradient pointerEvents="none" colors={[`${NIGHT}8C`, `${NIGHT}00`]} style={[styles.photoTop, { height: insets.top + 110 }]} />
+      <LinearGradient
+        colors={[`${NIGHT}00`, `${NIGHT}DB`, `${NIGHT}DB`]}
+        locations={[0, 0.55, 1]}
+        style={[styles.photoWords, { paddingBottom: 24 + insets.bottom }]}
+      >
+        <View style={styles.photoColumn}>
+          <QuizHead small onPhoto title={line} />
+          {credit ? <Text style={styles.photoCredit}>{credit}</Text> : null}
+          {children}
+        </View>
+      </LinearGradient>
     </View>
   );
 }
@@ -309,6 +386,11 @@ const styles = StyleSheet.create({
   // .q-bar: 8 tall and rounded, filling the row.
   bar: { flex: 1, height: 8, borderRadius: 4, backgroundColor: tokens.colors.line, overflow: "hidden" },
   barFill: { height: "100%", borderRadius: 4, backgroundColor: tokens.colors.selected },
+  // .q-photo: over the photo the buttons are see-through with a pale edge, the bar's line pale, and how far
+  // along is the amber that marks "you are here" on the app's dark bar (teal doesn't show on a photo).
+  roundOnPhoto: { backgroundColor: "transparent", borderColor: ON_PHOTO_EDGE },
+  barOnPhoto: { backgroundColor: ON_PHOTO_LINE },
+  barFillOnPhoto: { backgroundColor: tokens.colors.highlightOnDark },
   // .q-kicker and the quiz's h1 (28, semibold, tight), at the website's sizes: not in the app's type scale.
   head: { gap: 8, marginBottom: 8 },
   kicker: { fontSize: 15, fontWeight: "600", color: tokens.colors.text2 },
@@ -316,6 +398,7 @@ const styles = StyleSheet.create({
   lead: { fontSize: 17, lineHeight: 24, fontWeight: "600", color: tokens.colors.text },
   // The photo break's line (.q-brk-line) and the town's line under it (.q-brk-body).
   titleSmall: { fontSize: 26, lineHeight: 33 },
+  titleOnPhoto: { color: ON_PHOTO },
   leadSmall: { fontWeight: "400", lineHeight: 25 },
   // .q-btn: a 2 pt line round a card-coloured button with 14 corners; .q-on for the one picked.
   option: {
@@ -335,6 +418,17 @@ const styles = StyleSheet.create({
   optionWords: { flex: 1 },
   optionLabel: { fontSize: 17, lineHeight: 23, fontWeight: "600", color: tokens.colors.text },
   optionHint: { marginTop: 2, fontSize: 14, lineHeight: 19, color: tokens.colors.text2 },
+  // .q-chk: the box on a button where several can be picked; ticked, the app's teal fill with a white tick.
+  optionBox: {
+    width: 26,
+    height: 26,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: tokens.colors.text2,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  optionBoxOn: { borderColor: tokens.colors.accent, backgroundColor: tokens.colors.accent },
   // .q-town: 20 corners, a soft shadow (the app's card shadow, near the website's), at least 176 tall.
   cardLift: { minHeight: 176, borderRadius: 20, backgroundColor: NIGHT, ...cardLift },
   card: { flexGrow: 1, justifyContent: "flex-end", borderRadius: 20, overflow: "hidden", backgroundColor: NIGHT },
@@ -371,6 +465,12 @@ const styles = StyleSheet.create({
   // .q-brk-card: the photo as a card with a deeper shadow.
   breakLift: { borderRadius: 20, backgroundColor: NIGHT, ...cardLift, shadowOffset: { width: 0, height: 12 }, shadowOpacity: 0.3, shadowRadius: 20 },
   breakPhoto: { width: "100%", aspectRatio: 3 / 2, borderRadius: 20 },
+  // .q-brk and .q-brk-text: the whole screen, the words at its foot over a fade that starts well above them.
+  photoBreak: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0, justifyContent: "flex-end", backgroundColor: NIGHT },
+  photoTop: { position: "absolute", top: 0, right: 0, left: 0 },
+  photoWords: { paddingTop: 80, paddingHorizontal: 20 },
+  photoColumn: { width: "100%", maxWidth: QUIZ_COLUMN, alignSelf: "center", gap: 10 },
+  photoCredit: { fontSize: 13, lineHeight: 17, color: ON_PHOTO, opacity: 0.85 },
   // .q-range: a full finger tall, the line and knob drawn in its middle.
   slider: { height: SLIDER, justifyContent: "center" },
   // The whole line, behind; then, in a row over it, the filled part up to the knob, the knob, and the rest.

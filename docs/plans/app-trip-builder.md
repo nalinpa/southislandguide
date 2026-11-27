@@ -1,6 +1,6 @@
 # The trip builder quiz in the app (1.6) — plan
 
-Status: plan read by the owner and its questions answered, 2026-11-26. Stage 0 (speed check) done 2026-11-27. Stage 1 (the rules and data in the app) done 2026-11-27, committed on branch `1.6` (2d29cb3). Stage 2 (the quiz's memory) done 2026-11-27, committed (2b7c67a). Stage 3 (the first screens) is on the owner's phone since 2026-11-27, round 1; round 2 (the review's fixes and the website's look) is being built. Not committed. No stage starts without the owner's go.
+Status: stages 0–8 done, reviewed and committed on branch `1.6` (2026-11-28, HEAD 7adcf63, not pushed). Stage 9 (ship) waits for the owner's go, and the start town's api and website changes for the owner's word to deploy.
 
 ## What it is
 

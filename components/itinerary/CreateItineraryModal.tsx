@@ -148,6 +148,8 @@ export function CreateItineraryModal({
           startDate: newStart,
           endDate: newEnd,
           days,
+          // The town it starts from, said again: the api takes a save with a name and days but none to mean none.
+          startArea: editing.startArea ?? null,
         });
         onCreated(editing.id);
         onClose();

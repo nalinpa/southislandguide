@@ -7,6 +7,7 @@ import { StyleSheet, View } from "react-native";
 
 import { SignInForm } from "@/components/auth/SignInForm";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
+import type { StepProps } from "./QuizSteps";
 import { QuizHead } from "./quizParts";
 
 // The website's title and line for each of its three ways, by the form's name for each (its create, signin, forgot).
@@ -18,8 +19,12 @@ const WORDS = {
   reset: { title: "Reset your password", lead: "We will email you a link to choose a new password." },
 } as const;
 
-export function AccountStep() {
-  const form = useAuthForm("signup");
+// The website's line in the form's error line when the sign-in ran out mid-save (its account.js saveErrorMessage).
+const SIGN_IN_AGAIN = "Please sign in again to save your trip.";
+
+/** again: the sign-in ran out as a trip was saved, so the form opens on Sign in with their email, as the website's does. */
+export function AccountStep({ again }: Pick<StepProps, "again">) {
+  const form = useAuthForm(again ? "login" : "signup", again ? { email: again.email, err: SIGN_IN_AGAIN } : undefined);
   const words = WORDS[form.mode];
   return (
     <View style={styles.step}>

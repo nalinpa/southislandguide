@@ -12,15 +12,17 @@ import { saveEmailOptIn } from "@/lib/hooks/useEmailOptIn";
 
 type Mode = "login" | "signup" | "reset";
 
-export function useAuthForm(initialMode: Mode) {
+// start: what the form opens with besides its mode, for a caller that knows it (the trip quiz, after the api turned
+// a sign-in down: their email, and the line saying why). Left out, the form opens empty.
+export function useAuthForm(initialMode: Mode, start?: { email?: string; err?: string | null }) {
   const [mode, setModeRaw] = useState<Mode>(initialMode);
-  const [email, setEmailRaw] = useState("");
+  const [email, setEmailRaw] = useState(start?.email ?? "");
   const [password, setPasswordRaw] = useState("");
   const [confirm, setConfirmRaw] = useState("");
   // Unticked until the person ticks it: consent is given, never assumed.
   const [emailOptIn, setEmailOptIn] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(start?.err ?? null);
   const [notice, setNotice] = useState<string | null>(null);
 
   // An error (the email's or a provider's) goes when the person edits a field or changes mode.

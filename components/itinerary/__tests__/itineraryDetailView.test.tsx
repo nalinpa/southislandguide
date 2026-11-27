@@ -99,8 +99,9 @@ jest.mock("@/components/itinerary/EditItemModal", () => {
             null,
             React.createElement(Text, null, moveLocked ? "Edit Modal (move locked)" : "Edit Modal"),
             press("Remove stop", () => onRemove(item.id)),
-            // Ten hours, with a note.
+            // Ten hours, with a note; and thirteen, more than a day after a long drive has.
             press("Longer visit", () => onSave(item.id, 20, "bring cash")),
+            press("Much longer visit", () => onSave(item.id, 26, "bring cash")),
             ...availableDays
               .filter((d: any) => d.id !== currentDayId && !d.full)
               .map((d: any) => press("Move to " + d.label, () => onMoveDay(item.id, d.id))),
@@ -843,6 +844,48 @@ describe("a trip that starts in a town", () => {
       ["castle", 12],
     ]);
     expect(view.getByText("Starts with the drive from Christchurch")).toBeTruthy();
+  });
+
+  // Day 1 is the drive to 12:30, then the Museum to 9 PM: the Castle would end past the day's end. With no drive out
+  // of town the Museum could start earlier and make room.
+  it("offers no move onto day 1 that would only fit without the drive out of that town", async () => {
+    entitle();
+    mockTrips.itineraries = [fromChristchurch([museum({ slotIndex: 9, durationSlots: 17 })], [castle({ slotIndex: 2 })])];
+    const view = await openTrip();
+    await fireEvent.press(view.getByText("Day 2"));
+
+    await fireEvent.press(view.getByText("Edit Castle"));
+
+    expect(view.getByText("Edit Modal")).toBeTruthy();
+    expect(view.queryByText("Move to Day 1")).toBeNull();
+  });
+
+  // Stored running past the day's end after the drive (the packer can't move it before the drive): a longer visit is
+  // refused, and the note kept with the Museum where it was, not pulled earlier as if there were no drive.
+  it("keeps the drive when a longer visit on day 1 is refused", async () => {
+    mockTrips.itineraries = [fromChristchurch([museum({ slotIndex: 9, durationSlots: 21 })])];
+    const view = await openTrip();
+
+    await fireEvent.press(view.getByText("Edit Museum"));
+    await fireEvent.press(view.getByText("Much longer visit"));
+    await fireEvent.press(view.getByText("Trip"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    expect(mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0]).toMatchObject({
+      id: "museum",
+      slotIndex: 9,
+      durationSlots: 21,
+      note: "bring cash",
+    });
+  });
+
+  // On the open Duo the open day is headed by its towns: an empty day 1 is still in the town it starts from.
+  it("heads an empty day 1 with that town on the open Duo", async () => {
+    require("@blacksands/ui").__setWide(true, { width: 669, height: 951 });
+    mockTrips.itineraries = [fromChristchurch([], [museum()])];
+    const view = await openTripView();
+
+    expect(within(view.getByTestId("day-heading")).getByText("Christchurch")).toBeTruthy();
   });
 
   it("opens Explore on that town from an empty day 1", async () => {

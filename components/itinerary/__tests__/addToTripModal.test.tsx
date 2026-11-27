@@ -616,6 +616,23 @@ describe("places near the one just added", () => {
     expect(view.getByLabelText(/^Near 2, /)).toBeTruthy();
   });
 
+  // Day 1 of a trip from Christchurch: the drive to Dunedin, the Museum from 12:30 to 1:30, half an hour on to the
+  // next place. Eight and a half hours more runs past the day's end; it would fit if the day had no drive out of town.
+  it("on a trip that starts in a town, lists only places with room after the drive out of it", async () => {
+    mockTrips.itineraries = [{ ...tripWithDays([], []), startArea: "christchurch" }];
+    mockLookup.list = [
+      place("dun-a", "Otago Museum", -45.87, 170.5),
+      place("p1", "Near 1", -45.871, 170.5, ["Nature"], { recommendedDurationSlots: 17 }),
+      place("p2", "Near 2", -45.872, 170.5),
+    ];
+    const view = await render(<AddToTripModal site={dunedinPlace} onClose={onClose} />);
+    await addIt(view);
+
+    expect(savedDay1(0)[0]).toMatchObject({ siteId: "dun-a", slotIndex: 9 });
+    expect(view.queryByLabelText(/^Near 1, /)).toBeNull();
+    expect(view.getByLabelText(/^Near 2, /)).toBeTruthy();
+  });
+
   it("shows no Near list when nothing nearby has room on the day", async () => {
     mockLookup.list = [here, place("big", "Whole Day", -38.001, 176, ["Nature"], { recommendedDurationSlots: PLANNER.MAX_GRID_SLOTS })];
     const view = await render(<AddToTripModal site={site} onClose={onClose} />);

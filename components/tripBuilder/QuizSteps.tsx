@@ -71,6 +71,11 @@ export type StepProps = {
    */
   deck?: Deck | null;
   onDeck?: (deck: Deck | null) => void;
+  /**
+   * The account step: the api turned their sign-in down as a trip was being saved, and they were signed out. It
+   * opens on Sign in with this email in. Held by the screen, which saw it happen.
+   */
+  again?: { email: string } | null;
 };
 
 // The website's own small helpers (its page half, which the copy leaves out).
@@ -509,21 +514,24 @@ function townsOf(trip: QuizTrip) {
 /**
  * The trips that fit, a card each (one trip: one card): the app's hand-checked trips first, then the ones built for
  * the answers. A tap picks the trip, which the screen saves and opens in Trips; the one saved last is marked.
- * saving: the trip being saved, its card busy and every card held till it is done. onAgain: Start again, at the foot.
+ * saving: the trip being saved, its card busy and every card held till it is done. offline: no signal, so every card
+ * is held, as Add to Trip holds its own (a save would only wait for it). onAgain: Start again, at the foot.
  */
 export function ChoiceStep({
   state,
   onAnswer,
   trips,
   saving = null,
+  offline = false,
   onAgain,
-}: StepProps & { trips: QuizTrip[]; saving?: string | null; onAgain?: () => void }) {
+}: StepProps & { trips: QuizTrip[]; saving?: string | null; offline?: boolean; onAgain?: () => void }) {
   const photos = tripCardPhotos(trips);
   const from = town(state.start)?.name;
   const where = state.end === state.start ? `${from} and back` : `${from} to ${town(state.end)?.name}`;
   return (
     <View style={styles.step}>
       <QuizHead kicker={`${trips.length === 1 ? "1 trip fits" : `${trips.length} trips fit`} ${where} · ${days(state.days)}`} title="Which one sounds like you?" />
+      {offline ? <Text style={styles.offline}>Reconnect to Add</Text> : null}
       {trips.map((t, n) => (
         <TripCard
           key={t.key}
@@ -535,7 +543,7 @@ export function ChoiceStep({
           foot={`${days(t.days.length)} · ${t.end === t.start ? `Loop · back in ${areaName(t.start)}` : `Ends in ${areaName(t.end)}`}`}
           selected={state.pick === t.key}
           busy={saving === t.key}
-          disabled={saving !== null}
+          disabled={saving !== null || offline}
           onPress={() => onAnswer({ step: "choice", value: t.key })}
         />
       ))}
@@ -556,6 +564,8 @@ const styles = StyleSheet.create({
   breakStep: { gap: 24, paddingTop: 12 },
   // The swipe cards' count, in bold in the line under the question.
   deckCount: { fontWeight: "800" },
+  // No signal: Add to Trip's quiet line for the same, over the cards (its nearby list's).
+  offline: { fontSize: 14, color: tokens.colors.textMuted },
   // .q-next: the button at the foot of the screen.
   foot: { flexGrow: 1, justifyContent: "flex-end" },
   // .q-stepper, .q-step and .q-num: 64 round buttons either side of a large count.

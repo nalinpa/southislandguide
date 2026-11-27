@@ -274,4 +274,25 @@ describe("useAuthForm", () => {
       expect([result.current.setMode, result.current.setEmail, result.current.setPassword, result.current.setConfirm]).toEqual(first);
     });
   });
+
+  // The trip quiz, when the api turned a sign-in down mid-save: the form opens on Sign in with their email in and a
+  // line saying why. Every other form starts empty.
+  describe("started from what it is given", () => {
+    it("starts with the email and the line it is handed, which goes as any error does", async () => {
+      const { result } = await renderHook(() => useAuthForm("login", { email: "kia@ora.nz", err: "Please sign in again to save your trip." }));
+      expect(result.current.mode).toBe("login");
+      expect(result.current.email).toBe("kia@ora.nz");
+      expect(result.current.err).toBe("Please sign in again to save your trip.");
+
+      await act(async () => result.current.setPassword("pw"));
+      expect(result.current.err).toBeNull();
+      expect(result.current.canSubmit).toBe(true);
+    });
+
+    it("starts empty without one", async () => {
+      const { result } = await renderHook(() => useAuthForm("login"));
+      expect(result.current.email).toBe("");
+      expect(result.current.err).toBeNull();
+    });
+  });
 });

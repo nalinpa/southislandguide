@@ -391,8 +391,20 @@ describe("editing a trip", () => {
     expect(payload.days[1].items).toHaveLength(2);
     expect(props.onCreated).toHaveBeenCalledWith("trip-1");
     expect(logEvent).not.toHaveBeenCalled(); // an edit is not a new trip
-    // and it keeps the town it starts from, if it has one: an edit doesn't send it
-    expect(payload).not.toHaveProperty("startArea");
+    // and says it starts from no town: a save with a name and days that left it out would clear it (the api)
+    expect(payload).toHaveProperty("startArea", null);
+  });
+
+  // A trip from the trip quiz records the town it starts from. Editing it keeps that, said again with the edit.
+  it("keeps the town a trip starts from", async () => {
+    const fromQuiz = { ...trip, startArea: "christchurch" };
+    mockTrips.itineraries = [fromQuiz];
+    const view = await openModal({ trip: fromQuiz, showTemplateOption: true });
+
+    await fireEvent.press(view.getByText("Save Changes"));
+
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalled());
+    expect(mockTrips.saveItinerary.mock.calls[0][0]).toMatchObject({ id: "trip-1", startArea: "christchurch" });
   });
 
   it("asks before shortening it past days that hold places, and saves only on yes", async () => {

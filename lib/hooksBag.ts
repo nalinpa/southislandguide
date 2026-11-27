@@ -7,7 +7,7 @@ import * as Location from "expo-location";
 import * as StoreReview from "expo-store-review";
 import NetInfo from "@react-native-community/netinfo";
 import { client } from "@/lib/api";
-import { normalizeSite } from "@/lib/models";
+import { normalizeSite, type Site } from "@/lib/models";
 
 export const hooksBag = createHooks(client, {
   appId: "southislandguide",
@@ -64,13 +64,16 @@ hooksBag.useLocations = () => {
 
 // For pull to refresh. The shared useLocations doesn't hand back a refetch, so
 // this invalidates its query (key: the prefix above plus "locations") and
-// resolves when the refetch has finished.
+// resolves when the refetch has finished, with the list as it then is (active places
+// only, as useAllLocations has it): for a caller that checks against it at once (the
+// trip quiz, before it saves a trip). A refetch that failed leaves the copy it had.
 export function useRefreshLocations() {
   const queryClient = useQueryClient();
-  return useCallback(
-    () => queryClient.invalidateQueries({ queryKey: ["southislandguide", "locations"] }),
-    [queryClient],
-  );
+  return useCallback(async () => {
+    const queryKey = ["southislandguide", "locations"];
+    await queryClient.invalidateQueries({ queryKey });
+    return (queryClient.getQueryData<Site[]>(queryKey) ?? []).filter((l) => l.active);
+  }, [queryClient]);
 }
 
 // The shared hook only asks for permission once, on mount, so a user who enables

@@ -315,14 +315,18 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
     router.push(`/(app)/(tabs)/sites/${id}`);
   };
 
-  // The + on a nearby row: the place goes on the same day, after the one added last, packed
-  // against the days as the last save here left them (not the trip list, which may not have
-  // refetched yet). The list isn't recomputed, so rows stay where they are.
+  // A nearby place on the same day, after the one added last, packed against the days as the
+  // last save here left them (not the trip list, which may not have refetched yet). The one
+  // check for listing a row and for its +, so a + is only on a row that fits.
+  const nearEdit = (done: Added, n: Added["near"][number]) =>
+    candidateEdit(done.days, done.dayId, { id: n.id, name: n.name, imageUrl: n.imageUrl ?? undefined }, done.endSlot, n.durationSlots, places, done.startFrom);
+
+  // The + on a nearby row. The list isn't recomputed, so rows stay where they are.
   const addNear = async (done: Added, id: string) => {
     if (isOffline) return; // a paused save would hold the sheet; the + is off too
     const n = done.near.find((x) => x.id === id);
     if (!n) return;
-    const { newItem, result } = candidateEdit(done.days, done.dayId, { id: n.id, name: n.name, imageUrl: n.imageUrl ?? undefined }, done.endSlot, n.durationSlots, places, done.startFrom);
+    const { newItem, result } = nearEdit(done, n);
     if (!result.ok) {
       setRowState((r) => ({ ...r, [id]: { state: "message", text: `No room left on Day ${done.dayNumber}.` } }));
       return;
@@ -352,7 +356,7 @@ export function AddToTripModal({ site, onClose, initialItineraryId }: AddToTripM
           (n) =>
             rowState[n.id]?.state === "added" ||
             rowState[n.id]?.state === "saving" ||
-            candidateEdit(added.days, added.dayId, { id: n.id, name: n.name, imageUrl: n.imageUrl ?? undefined }, added.endSlot, n.durationSlots, places, added.startFrom).result.ok,
+            nearEdit(added, n).result.ok,
         )
         .slice(0, NEAR_SHOWN)
     : [];

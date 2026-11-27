@@ -113,6 +113,19 @@ it("takes the website's words for signing in and for a forgotten password, a scr
   expect(sent).toEqual(["Create your free account and we'll build your trip", "Sign in and we'll build your trip", "Reset your password"]);
 });
 
+// The api turned their sign-in down as a trip was saved (the screen signs them out): back here on Sign in with their
+// email in and the website's line for it (quiz.js 961–964, account.js 244), not on an empty Create.
+it("opens on Sign in with their email in and the website's line, after the sign-in ran out", async () => {
+  const view = await render(<AccountStep again={{ email: "kia@ora.nz" }} />);
+
+  expect(heading(view)).toBe("Sign in and we'll build your trip");
+  expect(view.getByText("Use your Kiwi Guide account.")).toBeTruthy();
+  expect(view.getByLabelText("Email").props.value).toBe("kia@ora.nz");
+  expect(view.getByText("Please sign in again to save your trip.")).toBeTruthy();
+  expect(view.getByRole("button", { name: "Sign in" })).toBeTruthy();
+  expect(view.queryByLabelText("Confirm password")).toBeNull();
+});
+
 // The app's own sign-up, as the login screen makes it: the account, then the email box's answer recorded.
 it("creates the account with what was typed, and records the email box", async () => {
   const view = await render(<AccountStep />);

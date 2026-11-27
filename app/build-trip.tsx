@@ -9,6 +9,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { randomUUID } from "expo-crypto";
+import { useNetInfo } from "@react-native-community/netinfo";
 import * as SplashScreen from "expo-splash-screen";
 import * as Sentry from "@sentry/react-native";
 import { ApiError } from "@blacksands/client";
@@ -20,6 +21,7 @@ import { auth } from "@/lib/firebase";
 import { useItineraries } from "@/lib/hooks/useItineraries";
 import { usePlaceLookup } from "@/lib/hooks/usePlaceLookup";
 import { useSession } from "@/lib/providers/SessionProvider";
+import { itineraryService } from "@/lib/services/itineraryService";
 import { clearLocalUserData } from "@/lib/services/userService";
 import type { Itinerary } from "@/lib/models";
 import { AccountStep } from "@/components/tripBuilder/AccountStep";
@@ -85,11 +87,9 @@ const close = () => (router.canGoBack() ? router.back() : router.replace("/"));
 const WAIT_MS = 1000;
 const DRAW_MS = 300;
 
-// The app's own words: New Trip's for a trip that wasn't saved and for dates another trip has, and the Trips tab's
-// for a sign-in the api no longer takes.
+// The app's own words, New Trip's: for a trip that wasn't saved, and for dates another trip has.
 const SAVE_FAILED = "Couldn't save the trip. Try again.";
 const DATES_TAKEN = "Those dates overlap an existing trip. Pick a different range.";
-const SIGNED_OUT = "Your session expired. Please sign in again.";
 
 /**
  * The trips for the answers, on the trip cards. null on every other step, and while the waiting screen is up.
@@ -147,13 +147,17 @@ function useTrips(quiz: Quiz | null, today: Date) {
  * Picking a trip saves it as their trip, with the app's own save, and opens it on the Trips tab. One trip each
  * (PLANNER.MAX_ITINERARIES): a trip they have already is saved over, after asking in Start a New Trip's words. With
  * more than one (an account from before the cap), the one the Trips tab lists first, as the api lists them: the
- * newest first. saving: the trip being saved. saved: the quiz's own answer, given once it is saved.
+ * newest first. saving: the trip being saved, or waited on. saved: the quiz's own answer, given once it is saved.
+ * signedOut: the api turned their sign-in down, and they were signed out to sign in again, with this email.
  */
-function usePickToSave(today: Date, saved: (key: string) => void) {
+function usePickToSave(today: Date, saved: (key: string) => void, signedOut: (email: string) => void) {
   const { itineraries, addFlow, saveItinerary } = useItineraries();
-  const { places, ready } = usePlaceLookup();
+  const { places, ready, refresh: refreshPlaces } = usePlaceLookup();
   const { enableGuest } = useSession();
   const [saving, setSaving] = useState<string | null>(null);
+  // A save under way. Not the state: two taps that land before the cards are held each bring an alert of their own
+  // on iPhone, and each alert's Continue holds the saving of the draw it came from.
+  const inFlight = useRef(false);
   // Closed while a save was out: the trip is still saved, but there is no quiz to move on from.
   const open = useRef(true);
   useEffect(
@@ -163,44 +167,75 @@ function usePickToSave(today: Date, saved: (key: string) => void) {
     [],
   );
 
-  // The api no longer takes their sign-in: signed out here as the Account tab signs out, but as a guest, so the
-  // tabs under the quiz stay where they are, and the quiz goes back to its account step to sign in again.
-  const signOut = async () => {
-    Alert.alert(SIGNED_OUT);
-    const uid = auth.currentUser?.uid;
+  const failed = async (e: unknown) => {
+    if (open.current) setSaving(null);
+    if (!(e instanceof ApiError && e.status === 401)) {
+      Alert.alert(e instanceof ApiError && e.status === 409 ? DATES_TAKEN : SAVE_FAILED);
+      return;
+    }
+    // The api no longer takes their sign-in: signed out here as the Account tab signs out, but as a guest, so the
+    // tabs under the quiz stay where they are, and the quiz goes back to its account step to sign in again with the
+    // email they had (the website's way, quiz.js 961–964). Read before signing out, and handed over first: the step
+    // takes it as it opens.
+    const { uid, email } = auth.currentUser ?? {};
+    signedOut(email ?? "");
     await enableGuest();
     await auth.signOut();
     clearLocalUserData(uid);
   };
 
+  // Which of the trip's places the app has. The phone's copy of the place list can be a day old, so when it lacks
+  // any of them (or isn't in yet) it is fetched afresh first: only a place still missing then is left off, as one
+  // switched off since the builder's data was made. With no list to go on at all, every stop is kept.
+  const placesKept = async (trip: QuizTrip) => {
+    const has = (id: string) => !!places(id);
+    if (ready && trip.days.every((d) => d.items.every((i) => has(i.siteId)))) return has;
+    let list: { id: string }[] = [];
+    try {
+      list = (await refreshPlaces()) ?? [];
+    } catch {
+      // not fetched: decided below as if no list were in
+    }
+    const fresh = new Set(list.map((p) => p.id));
+    return list.length ? (id: string) => fresh.has(id) : () => true;
+  };
+
   const save = async (trip: QuizTrip, state: QuizState, over?: Itinerary) => {
+    if (inFlight.current) return;
+    inFlight.current = true;
     setSaving(trip.key);
-    // A stop whose place the app doesn't have (switched off since the builder's data was made) is left off, once the
-    // app's list is in to say so.
-    const body = tripBody(trip, tripStart(state, today), randomUUID, (id) => !ready || !!places(id));
+    const body = tripBody(trip, tripStart(state, today), randomUUID, await placesKept(trip));
     let id: string;
     try {
       id = await saveItinerary(over ? { id: over.id, ...body } : body);
     } catch (e) {
-      if (open.current) setSaving(null);
-      if (e instanceof ApiError && e.status === 401) return void signOut();
-      Alert.alert(e instanceof ApiError && e.status === 409 ? DATES_TAKEN : SAVE_FAILED);
-      return;
+      inFlight.current = false;
+      return failed(e);
     }
     saved(trip.key);
     // The quiz is closed under the trip, so Back from it is the Trips tab's own and never comes back into the quiz.
     if (open.current) router.dismissTo({ pathname: "/(app)/(tabs)/itinerary/[itineraryId]", params: { itineraryId: id } });
   };
 
-  const pick = (trip: QuizTrip, state: QuizState) => {
-    if (saving) return;
-    // Whether they have a trip it would replace isn't known yet (their list hasn't loaded): nothing is saved.
-    if (addFlow === null) return void Alert.alert(SAVE_FAILED);
-    const mine = itineraries[0];
-    if (!mine) return void save(trip, state);
-    Alert.alert("Start a New Trip?", `It replaces ${mine.title || "My Trip"} and its places.`, [
+  const pick = async (trip: QuizTrip, state: QuizState) => {
+    if (saving || inFlight.current) return;
+    let mine = itineraries[0];
+    // Their trips aren't in yet (just signed in, say): the card waits for them, then goes on as ever.
+    if (addFlow === null) {
+      setSaving(trip.key);
+      try {
+        mine = (await itineraryService.getMyItineraries())[0];
+      } catch (e) {
+        return failed(e);
+      }
+      if (!open.current) return;
+      setSaving(null);
+    }
+    const over = mine;
+    if (!over) return save(trip, state);
+    Alert.alert("Start a New Trip?", `It replaces ${over.title || "My Trip"} and its places.`, [
       { text: "Cancel", style: "cancel" },
-      { text: "Continue", onPress: () => void save(trip, state, mine) },
+      { text: "Continue", onPress: () => void save(trip, state, over) },
     ]);
   };
   return { saving, pick };
@@ -218,8 +253,13 @@ export default function BuildTripScreen() {
   const [allTowns, setAllTowns] = useState(false);
   const [allEnds, setAllEnds] = useState(false);
   const [deck, setDeck] = useState<Deck | null>(null);
+  // The api turned their sign-in down as a trip was saved: the account step then opens on Sign in with this email.
+  const [again, setAgain] = useState<{ email: string } | null>(null);
   // One day for the whole visit: the trips are built for it and dated from it.
   const [today] = useState(() => new Date());
+  // No signal, as Add to Trip judges it: a save would only wait for it, so the cards are held, as its are.
+  const netInfo = useNetInfo();
+  const offline = netInfo.isConnected === false || netInfo.isInternetReachable === false;
 
   // The root layout holds the splash screen up and only the (app) and (auth) layouts take it down. This
   // screen is outside both, so opened first it would sit under the splash for good (the stage 0 spike did).
@@ -233,7 +273,11 @@ export default function BuildTripScreen() {
   // read, and on those steps until who is signed in is known...
   const shown = quiz && accountStep(quiz, signedIn);
   const { trips, failed } = useTrips(shown, today);
-  const { saving, pick } = usePickToSave(today, (key) => answer({ step: "choice", value: key }));
+  const { saving, pick } = usePickToSave(
+    today,
+    (key) => answer({ step: "choice", value: key }),
+    (email) => setAgain({ email }),
+  );
   // ...and what that came to is kept, so Back and a quiz opened again start from what was on screen. Signing in
   // on the account step is a change of session, not a tap: this is what moves the quiz on from it.
   useEffect(() => {
@@ -251,17 +295,18 @@ export default function BuildTripScreen() {
     // A trip picked from its card: saved, and opened in Trips. The cards only show once signed in.
     if (a.step === "choice") {
       const trip = trips?.find((t) => t.key === a.value);
-      if (trip && shown && signedIn) pick(trip, shown.state);
+      if (trip && shown && signedIn) void pick(trip, shown.state);
       return;
     }
     // Another start town: its finishes begin with "Somewhere else?" shut again, as on the website.
     if (a.step === "start" && a.value !== quiz?.state.start) setAllEnds(false);
     answer(a);
   };
-  const again = () => {
+  const restart = () => {
     setAllTowns(false);
     setAllEnds(false);
     setDeck(null);
+    setAgain(null);
     startAgain();
   };
   // Back is the question before, so not on the first. None while the trips aren't there (being built, or the build
@@ -275,7 +320,9 @@ export default function BuildTripScreen() {
         ? { open: allEnds, onOpen: () => setAllEnds(true) }
         : step === "into"
           ? { deck, onDeck: setDeck }
-          : null;
+          : step === "account"
+            ? { again }
+            : null;
 
   return (
     // The pale page with white buttons on it, as the website's quiz is drawn; the status-bar inset is Screen's.
@@ -308,9 +355,16 @@ export default function BuildTripScreen() {
               {Step ? (
                 <Step state={shown.state} onAnswer={onAnswer} {...held} />
               ) : trips ? (
-                <ChoiceStep state={shown.state} trips={trips} onAnswer={onAnswer} saving={saving} onAgain={again} />
+                <ChoiceStep
+                  state={shown.state}
+                  trips={trips}
+                  onAnswer={onAnswer}
+                  saving={saving}
+                  offline={offline}
+                  onAgain={restart}
+                />
               ) : (
-                <WaitStep failed={failed} onAgain={again} />
+                <WaitStep failed={failed} onAgain={restart} />
               )}
             </View>
           </ScrollView>

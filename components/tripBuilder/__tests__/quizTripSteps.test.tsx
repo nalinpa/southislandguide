@@ -69,8 +69,8 @@ const LOOP: QuizState = { ...blankQuiz(), start: "queenstown", end: "queenstown"
 
 const onAnswer = jest.fn();
 const onAgain = jest.fn();
-const cards = (over: Partial<QuizState> = {}, trips: QuizTrip[] = [CHECKED, BUILT], saving: string | null = null) =>
-  render(<ChoiceStep state={{ ...LOOP, ...over }} trips={trips} onAnswer={onAnswer} saving={saving} onAgain={onAgain} />);
+const cards = (over: Partial<QuizState> = {}, trips: QuizTrip[] = [CHECKED, BUILT], saving: string | null = null, offline = false) =>
+  render(<ChoiceStep state={{ ...LOOP, ...over }} trips={trips} onAnswer={onAnswer} saving={saving} offline={offline} onAgain={onAgain} />);
 // The card a trip's name is on.
 const cardOf = (view: any, label: string) => {
   for (let n = view.getByText(label); n; n = n.parent) if (n.props?.testID === "trip-card") return n;
@@ -208,6 +208,25 @@ describe("Which one sounds like you?", () => {
     expect(view.getByText("Start again")).toBeTruthy();
     await fireEvent.press(view.getByText("Start again"));
     expect(onAgain).not.toHaveBeenCalled();
+  });
+
+  // A save with no signal would wait for it, the card spinning: held instead, with Add to Trip's words for the same.
+  it("holds every card with no signal, saying so in Add to Trip's words", async () => {
+    const view = await cards({}, [CHECKED, BUILT], null, true);
+
+    expect(view.getByText("Reconnect to Add")).toBeTruthy();
+    expect(cardOf(view, BUILT.label).props.accessibilityState).toEqual({ selected: false, disabled: true });
+    await fireEvent.press(view.getByText(BUILT.label));
+    expect(onAnswer).not.toHaveBeenCalled();
+    // Start again needs no signal
+    await fireEvent.press(view.getByText("Start again"));
+    expect(onAgain).toHaveBeenCalledTimes(1);
+  });
+
+  it("says nothing of the signal while there is one", async () => {
+    const view = await cards();
+
+    expect(view.queryByText("Reconnect to Add")).toBeNull();
   });
 
   // Under the cards, quiet: the quiz's way back to its first question once the trips are in.

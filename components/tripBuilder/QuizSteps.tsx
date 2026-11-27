@@ -478,7 +478,7 @@ export function FoodStep({ state, onAnswer }: StepProps) {
  * that failed stand in. Its way on is Start again: trying the same answers again would build them the same way.
  * With one trip there are no cards: the screen stays up while that trip is saved (the screen's), and says why when it
  * can't be. offline: no signal, in Add to Trip's words (it is saved once the signal is back). saveError: the save
- * failed, in the app's words, with Try Again (onRetry) and Start again.
+ * failed, in the app's words, with Try Again (onRetry, when trying again could help) and Start again.
  */
 export function WaitStep({
   failed,
@@ -498,12 +498,12 @@ export function WaitStep({
       <View style={styles.step}>
         <QuizHead title="Something went wrong" lead={saveError ?? "The trips would not load."} />
         <View style={styles.foot}>
-          {saveError ? (
+          {saveError && onRetry ? (
             <AppButton variant="primary" fullWidth shape={QUIZ_BUTTON} onPress={onRetry}>
               Try Again
             </AppButton>
           ) : null}
-          <AppButton variant={saveError ? "ghost" : "primary"} fullWidth shape={QUIZ_BUTTON} onPress={onAgain}>
+          <AppButton variant={saveError && onRetry ? "ghost" : "primary"} fullWidth shape={QUIZ_BUTTON} onPress={onAgain}>
             Start again
           </AppButton>
         </View>

@@ -35,6 +35,16 @@ export async function clearQuiz(): Promise<void> {
   }
 }
 
+/** Whether the quiz on the phone holds these answers (and not a quiz begun since). */
+export async function holdsQuiz(state: QuizState): Promise<boolean> {
+  try {
+    const saved = JSON.parse((await AsyncStorage.getItem(KEY)) ?? "null");
+    return !!saved && JSON.stringify(saved.state) === JSON.stringify(state);
+  } catch {
+    return false;
+  }
+}
+
 /**
  * The quiz cleared from the phone if it still holds these answers. A save that lands after its quiz was closed
  * leaves a quiz begun since.

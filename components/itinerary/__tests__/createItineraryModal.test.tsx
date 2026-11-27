@@ -315,6 +315,24 @@ describe("overlapping dates", () => {
     expect(mockTrips.saveItinerary.mock.calls[1][0]).not.toHaveProperty("startArea");
   });
 
+  // The trip's screen, if it holds an edit of the trip replaced, drops it only on this mark (lib/tripReplaced).
+  it("marks the trip it replaces as saved over, once the save has landed, and not when it failed", async () => {
+    const { useReplaced } = require("@/lib/tripReplaced");
+    const { renderHook } = require("@testing-library/react-native");
+    const mark = await renderHook(() => useReplaced("t1"));
+    mockTrips.itineraries = [{ id: "t1", title: "Quiz Trip", startDate: "2020-01-01", endDate: "2020-01-02", days: [] }];
+    mockTrips.saveItinerary = jest.fn().mockRejectedValueOnce(new Error("no signal")).mockResolvedValueOnce("t1");
+    const view = await openModal({ replaceId: "t1" });
+    const before = mark.result.current;
+
+    await fireEvent.press(view.getByText("Create Trip"));
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(1));
+    expect(mark.result.current).toBe(before);
+
+    await fireEvent.press(view.getByText("Create Trip"));
+    await waitFor(() => expect(mark.result.current).toBe(before + 1));
+  });
+
   it("explains the server's own overlap rejection", async () => {
     mockTrips.saveItinerary = jest.fn().mockRejectedValue(new ApiError(409, "overlap"));
     const view = await openModal();

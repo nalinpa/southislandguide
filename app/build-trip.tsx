@@ -51,6 +51,8 @@ import {
 import { NIGHT, QUIZ_COLUMN, QuizHeader, fetchAhead, useReduceMotion } from "@/components/tripBuilder/quizParts";
 import { accountStep, type Quiz, type QuizAnswer, type QuizState, type QuizStep } from "@/lib/tripBuilder/quizFlow";
 import { builtTrips, quizTrips, tripBody, tripMeasure, tripSave, tripStart, type QuizTrip } from "@/lib/tripBuilder/quizTrips";
+import { holdsQuiz } from "@/lib/tripBuilder/quizStorage";
+import { markReplaced } from "@/lib/tripReplaced";
 import { useQuiz } from "@/lib/tripBuilder/useQuiz";
 
 // How far along each step is, out of 100: the website's own numbers (PROGRESS in its quiz.js) for the app's steps.
@@ -151,9 +153,9 @@ function useTrips(quiz: Quiz | null, today: Date) {
  * newest first, or the one whose menu the quiz was opened from (replace). saving: the trip being saved, or waited on.
  * done: these answers are done with (saved, or the one trip's Replace cancelled): the screen clears the quiz.
  * signedOut: the api turned their sign-in down, and they were signed out to sign in again, with this email; keep:
- * then saves the quiz on screen back to the phone, once the sign-out's clean-up has cleared it.
- * saveError: the one trip that fits, saved by itself, couldn't be (the app's words): it has no card to tap again,
- * so the waiting screen says so.
+ * then saves the quiz on screen back to the phone, once the sign-out's clean-up has cleared it, if the copy there was
+ * this quiz's. saveError: the one trip that fits, saved by itself, couldn't be (the app's words): it has no card to
+ * tap again, so the waiting screen says so (forget: says nothing of it again, as the quiz starts again).
  */
 function usePickToSave({
   today,
@@ -170,7 +172,8 @@ function usePickToSave({
 }) {
   const { itineraries, addFlow, saveItinerary } = useItineraries();
   const { places, ready, refresh: refreshPlaces } = usePlaceLookup();
-  const { enableGuest } = useSession();
+  const { session, enableGuest } = useSession();
+  const uid = session.status === "authed" ? session.uid : null;
   const [saving, setSaving] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
   // A save under way. Not the state: two taps that land before the cards are held each bring an alert of their own
@@ -186,8 +189,8 @@ function usePickToSave({
   );
 
   // auto: the one trip that fits, saved by itself, whose waiting screen says what went wrong (a card's tap is told
-  // in an alert, over the cards).
-  const failed = async (e: unknown, auto = false) => {
+  // in an alert, over the cards). state: the answers the save was for.
+  const failed = async (e: unknown, state: QuizState, auto = false) => {
     if (open.current) setSaving(null);
     if (!(e instanceof ApiError && e.status === 401)) {
       const words = e instanceof ApiError && e.status === 409 ? DATES_TAKEN : SAVE_FAILED;
@@ -200,13 +203,15 @@ function usePickToSave({
     // email they had (the website's way, quiz.js 961–964). Read before signing out, and handed over first: the step
     // takes it as it opens.
     // The clean-up clears the quiz on the phone, as any sign-out does: once it has, the answers on screen are saved
-    // back, whatever else has saved since.
-    const { uid, email } = auth.currentUser ?? {};
+    // back, whatever else has saved since. Only if the copy there was this quiz's: a quiz closed while its save was
+    // out puts nothing back over one begun since.
+    const ours = await holdsQuiz(state);
+    const { uid: signedOutUid, email } = auth.currentUser ?? {};
     signedOut(email ?? "");
     await enableGuest();
     await auth.signOut();
-    await clearLocalUserData(uid);
-    keep();
+    await clearLocalUserData(signedOutUid);
+    if (ours) keep();
   };
 
   // Which of the trip's places the app has. The phone's copy of the place list can be a day old, so when it lacks
@@ -230,19 +235,18 @@ function usePickToSave({
     inFlight.current = true;
     setSaving(trip.key);
     let id: string;
-    let landed: (id: string | null) => void = () => {};
-    tripSave.out = new Promise((resolve) => (landed = resolve));
+    const landed = tripSave.send(uid ?? "", state);
     try {
       const body = tripBody(trip, tripStart(state, today), randomUUID, await placesKept(trip));
       id = await saveItinerary(over ? { id: over.id, ...body } : body);
     } catch (e) {
       inFlight.current = false;
-      tripSave.out = null;
       landed(null);
-      return failed(e, auto);
+      return failed(e, state, auto);
     }
-    tripSave.out = null;
     landed(id);
+    // Saved over as a whole: the trip's screen drops an edit it still held of the trip replaced (lib/tripReplaced).
+    if (over) markReplaced(over.id);
     done(state);
     // The website's event, its params with it (measureParams); replaced as words, as the website's true or false.
     // And who's travelling and how old, which the quiz asks for analytics only: in the app they count here, at the
@@ -263,8 +267,22 @@ function usePickToSave({
 
   // auto: the one trip that fits, taken as picked with no tap (the screen's), behind its waiting screen.
   const pick = async (trip: QuizTrip, state: QuizState, auto = false) => {
-    if (saving || inFlight.current || tripSave.out) return;
+    if (saving || inFlight.current) return;
     setSaveError(null);
+    // A save of this quiz's own still out (it was closed while that save went, and opened again): waited for, the
+    // card busy, rather than saving a second time; the trip it saved is opened, or if it wasn't, this goes on as ever.
+    const out = tripSave.waiting(uid, state);
+    if (out) {
+      setSaving(trip.key);
+      const saved = await out;
+      if (!open.current) return;
+      if (saved) {
+        done(state);
+        router.dismissTo({ pathname: "/(app)/(tabs)/itinerary/[itineraryId]", params: { itineraryId: saved } });
+        return;
+      }
+      setSaving(null);
+    }
     let mine = theirs(itineraries);
     // Their trips aren't in yet (just signed in, say): the card waits for them, then goes on as ever. For the one
     // trip, taken with no tap, they are fetched afresh anyway: a trip made since on the website or another phone is
@@ -274,7 +292,7 @@ function usePickToSave({
       try {
         mine = theirs(await itineraryService.getMyItineraries());
       } catch (e) {
-        return failed(e, auto);
+        return failed(e, state, auto);
       }
       if (!open.current) return;
       setSaving(null);
@@ -300,18 +318,7 @@ function usePickToSave({
     ]);
   };
 
-  // The one trip taken: a save of it still out, from this quiz closed and opened again while it saved, is waited
-  // for rather than made a second time, and the trip it saved opened; if it failed, it is tried here.
-  const takeOnly = (trip: QuizTrip, state: QuizState) => {
-    if (!tripSave.out) return void pick(trip, state, true);
-    void tripSave.out.then((id) => {
-      if (!open.current) return;
-      if (!id) return void pick(trip, state, true);
-      done(state);
-      router.dismissTo({ pathname: "/(app)/(tabs)/itinerary/[itineraryId]", params: { itineraryId: id } });
-    });
-  };
-  return { saving, saveError, pick, takeOnly };
+  return { saving, saveError, pick, forget: () => setSaveError(null) };
 }
 
 export default function BuildTripScreen() {
@@ -370,7 +377,7 @@ export default function BuildTripScreen() {
   // The one trip that fits is taken once for a set of answers (below); after a sign-in the api turned down, once
   // more as they sign in again.
   const tookOnly = useRef<QuizTrip[] | null>(null);
-  const { saving, saveError, pick, takeOnly } = usePickToSave({
+  const { saving, saveError, pick, forget } = usePickToSave({
     today,
     done: clear,
     signedOut: (email) => {
@@ -403,7 +410,7 @@ export default function BuildTripScreen() {
   useEffect(() => {
     if (step !== "choice" || !shown || !signedIn || offline || !only || tookOnly.current === trips) return;
     tookOnly.current = trips;
-    takeOnly(only, shown.state);
+    void pick(only, shown.state, true);
     // pick and shown are made anew at every draw: this goes by the trips and by what holds a tap.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, trips, signedIn, offline]);
@@ -420,11 +427,15 @@ export default function BuildTripScreen() {
     if (a.step === "start" && a.value !== quiz?.state.start) setAllEnds(false);
     take(a);
   };
+  // Nothing of the quiz before is kept: not its error over the one trip, and the same answers again are a new set
+  // to take their one trip by itself.
   const restart = () => {
     setAllTowns(false);
     setAllEnds(false);
     setDeck(null);
     setAgain(null);
+    forget();
+    tookOnly.current = null;
     startAgain();
   };
   // Back is the question before, so not on the first. None from the waiting screen (the trips being built, the
@@ -482,7 +493,14 @@ export default function BuildTripScreen() {
                   onAgain={restart}
                 />
               ) : (
-                <WaitStep failed={failed} offline={!!only && offline} saveError={only ? saveError : null} onRetry={retry} onAgain={restart} />
+                <WaitStep
+                  failed={failed}
+                  offline={!!only && offline}
+                  saveError={only ? saveError : null}
+                  // Not for the dates taken: the same answers would only run into the same dates again.
+                  onRetry={saveError === DATES_TAKEN ? undefined : retry}
+                  onAgain={restart}
+                />
               )}
             </View>
           </ScrollView>

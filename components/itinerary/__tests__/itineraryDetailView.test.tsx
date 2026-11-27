@@ -950,13 +950,14 @@ describe("a trip that starts in a town", () => {
   });
 });
 
-// Saved over from outside this screen while it still held an edit it couldn't save (a save that failed, with no
-// signal): by the trip quiz, or by Start a New Trip. That edit was of the trip replaced: the screen takes the new trip,
-// and has nothing of the old one left to send over it.
-describe("a trip saved over from outside", () => {
-  // An edit to Gardens on day 1 whose save fails, so the screen keeps it to send again.
-  const editThatWontSave = async () => {
-    mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2 })])];
+// An edit the screen couldn't save (no signal), held to send again ("Couldn't Save Changes"), while the trip changes
+// under it. Saved over as a whole from inside the app (the trip quiz, or Start a New Trip: lib/tripReplaced), the edit
+// was of the trip replaced: the screen takes the new trip and sends nothing of the old one. Anything else (a place
+// added from outside, a save rolled back) leaves the edit held, to send as before.
+describe("an edit held while the trip changes", () => {
+  const { markReplaced } = require("@/lib/tripReplaced");
+  const editThatWontSave = async (trip = tripOf([gardens({ slotIndex: 2 })])) => {
+    mockTrips.itineraries = [trip];
     mockTrips.saveItinerary = jest.fn().mockRejectedValue(new Error("no signal"));
     const view = await openTrip();
     await fireEvent.press(view.getByText("Edit Gardens"));
@@ -971,6 +972,7 @@ describe("a trip saved over from outside", () => {
     await fireEvent.press(view.getByText("Trip"));
     await view.unmount();
   };
+  const sentGardens = () => mockTrips.saveItinerary.mock.calls[0][0].days[0].items.find((i: any) => i.id === "gardens");
 
   it("takes the trip the quiz saved over it, and never sends the old one back", async () => {
     const view = await editThatWontSave();
@@ -978,6 +980,7 @@ describe("a trip saved over from outside", () => {
     mockTrips.itineraries = [
       { ...makeTrip(), title: "South Island in 7 Days", days: [{ id: "day_1", date: "2026-10-01", items: [castle({ id: "quiz-1" })] }] },
     ];
+    await act(async () => markReplaced("t1"));
     await view.rerender(<ItineraryDetailView tripId="t1" />);
 
     expect(view.getByText("South Island in 7 Days")).toBeTruthy();
@@ -988,26 +991,48 @@ describe("a trip saved over from outside", () => {
     expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
   });
 
-  it("takes the new trip Start a New Trip saved over it, an empty one too", async () => {
-    const view = await editThatWontSave();
+  // Start a New Trip's blank trip: no places, and the name and first day it may share with the trip it replaced.
+  it("takes a blank Start a New Trip with the same name and first day, and never sends the old one back", async () => {
+    const SAME = { title: "South Island Trip", startDate: "2026-10-01", endDate: "2026-10-02" };
+    const view = await editThatWontSave({ ...tripOf([gardens({ slotIndex: 2 })], []), ...SAME });
 
     mockTrips.itineraries = [
-      {
-        ...makeTrip(),
-        title: "South Island Trip",
-        startDate: "2026-12-01",
-        endDate: "2026-12-02",
-        days: [
-          { id: "day_1", date: "2026-12-01", items: [] },
-          { id: "day_2", date: "2026-12-02", items: [] },
-        ],
-      },
+      { ...makeTrip(), ...SAME, days: [{ id: "day_1", date: "2026-10-01", items: [] }, { id: "day_2", date: "2026-10-02", items: [] }] },
     ];
+    await act(async () => markReplaced("t1"));
     await view.rerender(<ItineraryDetailView tripId="t1" />);
 
-    expect(view.getByText("South Island Trip")).toBeTruthy();
+    await fireEvent.press(view.getByText("Days"));
+    expect(view.queryByText("Gardens")).toBeNull();
     await leave(view);
     expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+  });
+
+  // Add to Trip from Explore or the map, or another phone: a place the screen never had. Not a new trip: the edit
+  // held is still sent.
+  it("keeps its edit when a place is added from outside", async () => {
+    const view = await editThatWontSave();
+
+    mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2 }), castle({ id: "item_added", slotIndex: 12 })])];
+    await view.rerender(<ItineraryDetailView tripId="t1" />);
+    await leave(view);
+
+    expect(mockTrips.saveItinerary).toHaveBeenCalled();
+    expect(sentGardens()).toMatchObject({ durationSlots: 20 });
+  });
+
+  // An Edit Trip that renamed and moved the trip, whose save failed: shown, then rolled back. The edit is still held.
+  it("keeps its edit through an Edit Trip that was rolled back", async () => {
+    const view = await editThatWontSave();
+
+    mockTrips.itineraries = [{ ...tripOf([gardens({ slotIndex: 2 })]), title: "Renamed", startDate: "2026-11-01", endDate: "2026-11-01" }];
+    await view.rerender(<ItineraryDetailView tripId="t1" />);
+    mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2 })])];
+    await view.rerender(<ItineraryDetailView tripId="t1" />);
+    await leave(view);
+
+    expect(mockTrips.saveItinerary).toHaveBeenCalled();
+    expect(sentGardens()).toMatchObject({ durationSlots: 20 });
   });
 
   // Its own save landing (the same places, the same trip): the edit made since is still the screen's to send.
@@ -1019,7 +1044,7 @@ describe("a trip saved over from outside", () => {
     await leave(view);
 
     expect(mockTrips.saveItinerary).toHaveBeenCalled();
-    expect(mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0]).toMatchObject({ id: "gardens", durationSlots: 20 });
+    expect(sentGardens()).toMatchObject({ durationSlots: 20 });
   });
 });
 

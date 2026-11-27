@@ -121,6 +121,7 @@ import data from "@/assets/data/builder-data.json";
 import { deckNudge } from "@/components/tripBuilder/SwipeDeck";
 import { accountStep, answerQuiz, blankQuiz, type Quiz, type QuizAnswer } from "@/lib/tripBuilder/quizFlow";
 import { quizTrips, tripSave, tripStart } from "@/lib/tripBuilder/quizTrips";
+import { replacedCount } from "@/lib/tripReplaced";
 import { tokens } from "@/lib/ui/tokens";
 import { tappable, unnamed } from "@/test/a11y";
 
@@ -253,8 +254,8 @@ beforeEach(async () => {
   // The one set of trips the app keeps is another trip's at the start of every test, so each one's own trips
   // are built in it: a wait is a wait whatever ran before.
   quizTrips({ ...after(15).state, days: 2 }, new Date());
-  // No save left out by the test before (one held to the end, say).
-  tripSave.out = null;
+  // A save the test before left out (one held to the end, say) let go, as a sign-out lets one go.
+  tripSave.reset();
   jest.clearAllMocks();
   mockSession.status = "authed";
   mockAuth.currentUser = ME;
@@ -1110,10 +1111,13 @@ describe("picking a trip", () => {
     expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
     expect(view.getByText(CARDS_TITLE)).toBeTruthy();
 
+    const before = replacedCount(MINE.id);
     await press("Continue");
 
     await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen(MINE.id)));
     expect(mockTrips.saveItinerary.mock.calls[0][0]).toMatchObject({ id: MINE.id, title: BUILT.label, startArea: "queenstown" });
+    // marked as saved over, for its screen to drop an edit it still held of the trip replaced (lib/tripReplaced)
+    expect(replacedCount(MINE.id)).toBe(before + 1);
   });
 
   it("saves nothing on Cancel, and leaves them on the cards to pick again", async () => {
@@ -1292,6 +1296,23 @@ describe("picking a trip", () => {
 
       await waitFor(() => expect(alertSpy).toHaveBeenCalledWith("Start a New Trip?", "It replaces Coast Trip and its places.", expect.any(Array)));
     });
+  });
+
+  // Closed while its save was out, which the api then turned down: the sign-out clears the phone, and the closed quiz
+  // puts nothing back over a quiz begun since.
+  it("puts nothing back over a quiz begun since, when a closed quiz's save is turned down", async () => {
+    let refuse: (e: Error) => void = () => {};
+    mockTrips.saveItinerary = jest.fn(() => new Promise<string>((_resolve, reject) => (refuse = reject)));
+    const view = await openTrips(short(15));
+    await tap(view, BUILT.label);
+    await view.unmount();
+    await AsyncStorage.setItem(KEY, JSON.stringify(after(3)));
+
+    await act(async () => refuse(new ApiError(401, "unauthorized")));
+    await waitFor(() => expect(mockClearLocalUserData).toHaveBeenCalled());
+    await act(async () => {});
+
+    expect(await saved()).toBeNull();
   });
 
   // Their trips aren't in yet (just signed in on a slow line, say): the card waits for them, then goes on as ever.
@@ -1521,24 +1542,33 @@ describe("picking a trip", () => {
       noCards(view);
     });
 
-    it("leaves with Close as ever while it waits for the signal, or saves", async () => {
+    // Closed while held for the signal; the signal back before the screen has gone, their trips being fetched as it
+    // goes: nothing is saved.
+    it("saves nothing once closed while it waited for the signal", async () => {
       mockNet.isConnected = false;
+      let list: (trips: any[]) => void = () => {};
+      mockListTrips.mockImplementation(() => new Promise((resolve) => (list = resolve)));
       const view = await openTrips(after(15));
       await fireEvent.press(view.getByLabelText("Close"));
       expect(mockRouter.back).toHaveBeenCalledTimes(1);
-      // closed, the signal comes back: nothing is saved
-      await view.unmount();
-      mockNet.isConnected = true;
-      await act(async () => {});
-      expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
 
       mockNet.isConnected = true;
-      mockTrips.saveItinerary = jest.fn(() => new Promise<string>(() => {}));
+      await view.rerender(<BuildTripScreen />);
+      await waitFor(() => expect(mockListTrips).toHaveBeenCalledTimes(1));
       await view.unmount();
-      const saving = await openTrips(after(15));
+      await act(async () => list([]));
+
+      expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+    });
+
+    it("closes with Close while it saves", async () => {
+      mockTrips.saveItinerary = jest.fn(() => new Promise<string>(() => {}));
+      const view = await openTrips(after(15));
       expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(1);
-      await fireEvent.press(saving.getByLabelText("Close"));
-      expect(mockRouter.back).toHaveBeenCalledTimes(2);
+
+      await fireEvent.press(view.getByLabelText("Close"));
+
+      expect(mockRouter.back).toHaveBeenCalledTimes(1);
     });
 
     it("waits for their trips when they aren't in yet, then goes on as ever", async () => {
@@ -1594,10 +1624,124 @@ describe("picking a trip", () => {
       const view = await openTrips(after(15));
 
       await waitFor(() => expect(view.getByText("Those dates overlap an existing trip. Pick a different range.")).toBeTruthy());
+      // the same answers would only run into the same dates: nothing to try again
+      expect(view.queryByText("Try Again")).toBeNull();
       await tap(view, "Start again");
 
       expect(view.getByText("Where do you start?")).toBeTruthy();
       noCards(view);
+    });
+
+    // 5: Start again from the save's error leaves nothing of it: the same answers again are saved by themselves.
+    it("starts afresh from the save's error, and the same answers are saved again by themselves", async () => {
+      mockTrips.saveItinerary = jest.fn().mockRejectedValueOnce(new Error("no signal")).mockResolvedValueOnce("trip-new");
+      const view = await openTrips(after(15));
+      await waitFor(() => expect(view.getByText("Couldn't save the trip. Try again.")).toBeTruthy());
+
+      await tap(view, "Start again");
+      expect(view.getByText("Where do you start?")).toBeTruthy();
+      await tap(view, "Queenstown", "About a week", "Next", "Finish back in Queenstown", "Next", "Summer", MONTH);
+      await tap(view, "Some walking", "Some", "Couple", "30–44", "Nature", "Next", "Next");
+      await swipeAll(view);
+      await tap(view, "Yes");
+
+      expect(view.queryByText("Couldn't save the trip. Try again.")).toBeNull();
+      await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-new")));
+      expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  // A save still out from a quiz closed while it saved (a slow line): kept outside the screen (quizTrips' tripSave),
+  // for this account and these answers only, and let go by a sign-out.
+  describe("with a save still out", () => {
+    // A save sent from the cards and the quiz closed before it lands; the land is the test's.
+    const sendAndClose = async () => {
+      let land: (id: string) => void = () => {};
+      mockTrips.saveItinerary = jest.fn(() => new Promise<string>((resolve) => (land = resolve)));
+      const view = await openTrips(short(15));
+      await tap(view, BUILT.label);
+      await view.unmount();
+      jest.useRealTimers();
+      await AsyncStorage.setItem(KEY, JSON.stringify(short(15)));
+      mockTrips.saveItinerary = jest.fn(() => Promise.resolve("trip-other"));
+      return (id: string) => act(async () => land(id));
+    };
+
+    // 3: opened again on the same answers (the cards there at once, their trips kept): a tap waits for that save,
+    // its card busy, then opens what it saved.
+    it("has a card tap wait for it when opened again on its answers, then opens its trip", async () => {
+      const land = await sendAndClose();
+      const view = await open(CARDS_TITLE);
+
+      await tap(view, CHECKED.label);
+
+      expect(within(cardOf(view, CHECKED.label)).getByTestId("trip-saving")).toBeTruthy();
+      expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+      expect(alertSpy).not.toHaveBeenCalled();
+      await land("trip-new");
+      await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-new")));
+      expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+    });
+
+    it("has a tap go on as ever once that save has failed", async () => {
+      let fail: (e: Error) => void = () => {};
+      mockTrips.saveItinerary = jest.fn(() => new Promise<string>((_resolve, reject) => (fail = reject)));
+      const first = await openTrips(short(15));
+      await tap(first, BUILT.label);
+      await first.unmount();
+      jest.useRealTimers();
+      mockTrips.saveItinerary = jest.fn(() => Promise.resolve("trip-other"));
+      const view = await open(CARDS_TITLE);
+
+      await tap(view, CHECKED.label);
+      await act(async () => fail(new Error("no signal")));
+
+      await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-other")));
+      expect(mockTrips.saveItinerary.mock.calls[0][0]).toMatchObject({ title: CHECKED.label });
+    });
+
+    // 2: a sign-out drops a save waiting for the signal without settling it: let go, it holds up nothing after.
+    it("holds up nothing after a sign-out lets it go", async () => {
+      await sendAndClose();
+      tripSave.reset();
+      const view = await open(CARDS_TITLE);
+
+      await tap(view, CHECKED.label);
+
+      await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-other")));
+    });
+
+    // A tap already waiting on it when the sign-out lets it go: told it wasn't saved, it goes on as a tap does.
+    it("lets a tap already waiting on it go on when a sign-out lets it go", async () => {
+      await sendAndClose();
+      const view = await open(CARDS_TITLE);
+      await tap(view, CHECKED.label);
+      expect(within(cardOf(view, CHECKED.label)).getByTestId("trip-saving")).toBeTruthy();
+
+      await act(async () => tripSave.reset());
+
+      await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-other")));
+    });
+
+    it("doesn't hold up a quiz on another account", async () => {
+      await sendAndClose();
+      mockSession.uid = "uid-2";
+      const view = await open(CARDS_TITLE);
+
+      await tap(view, CHECKED.label);
+
+      await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-other")));
+      mockSession.uid = "uid-1";
+    });
+
+    it("doesn't hold up a quiz on other answers", async () => {
+      await sendAndClose();
+      const other = through([...SHORT.slice(0, 14), { step: "food", value: false }]);
+      const view = await openTrips(other);
+
+      await fireEvent.press(view.getAllByTestId("trip-card")[0]);
+
+      await waitFor(() => expect(mockRouter.dismissTo).toHaveBeenCalledWith(tripScreen("trip-other")));
     });
   });
 

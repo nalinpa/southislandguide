@@ -9,6 +9,9 @@ jest.mock("@sentry/react-native", () => ({ captureException: jest.fn() }));
 // The trip quiz's answers kept on the phone (lib/tripBuilder/quizStorage, which has its own tests).
 const mockClearQuiz = jest.fn(() => Promise.resolve());
 jest.mock("@/lib/tripBuilder/quizStorage", () => ({ clearQuiz: () => mockClearQuiz() }));
+// A quiz save still out (lib/tripBuilder/quizTrips): let go with the rest.
+const mockLetGo = jest.fn();
+jest.mock("@/lib/tripBuilder/quizTrips", () => ({ tripSave: { reset: () => mockLetGo() } }));
 
 import * as Sentry from "@sentry/react-native";
 import { client } from "@/lib/api";
@@ -132,6 +135,8 @@ describe("clearLocalUserData", () => {
     await clearLocalUserData("user-1");
 
     expect(mockClearQuiz).toHaveBeenCalledTimes(1);
+    // a quiz save waiting for the signal is dropped with the queued writes, never settled: what waited on it is let go
+    expect(mockLetGo).toHaveBeenCalledTimes(1);
     expect(mockRemoveQueries).toHaveBeenCalledTimes(1);
     expect(mockClearMutations).toHaveBeenCalledTimes(1);
     expect(mockSetDrafts).toHaveBeenCalledWith({ drafts: {} });

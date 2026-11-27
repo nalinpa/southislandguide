@@ -52,7 +52,8 @@ import { areaName } from "@/lib/areas";
 import { areaHub } from "@/lib/utils/transitMatrix";
 import { dayRouteUrl } from "@/lib/utils/dayRoute";
 import { openMaps, phoneIsOutsideNZ } from "@/lib/utils/directions";
-import { addTripToCalendar } from "@/lib/tripCalendar";
+import { addTripToCalendar } from "@/lib/tripCalendar";
+import { useReplaced } from "@/lib/tripReplaced";
 import { setPendingSlot } from "@/lib/pendingSlot";
 import { areaImage } from "@/lib/areaImages";
 import { PLANNER } from "@/lib/constants/gameplay";
@@ -261,26 +262,17 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   const jumpAppliedRef = useRef<string | null>(null);
   const correctedTripIdRef = useRef<string | null>(null);
 
-  // The server's trip, taken unless the screen holds an edit still to send. Unless it was saved over from outside the
-  // screen (the trip quiz, or Start a New Trip, replacing it): then it has places the screen never had, or another
-  // name and first day. The edit held was of the trip replaced, and is dropped: sent later, it would put the old
-  // days back over the new trip.
-  const seen = useRef<{ items: Set<string>; title?: string; start?: string }>({ items: new Set() });
+  // The server's trip, taken unless the screen holds an edit still to send. Unless the trip was saved over as a whole
+  // from inside the app since the screen took it (the trip quiz, or Start a New Trip: lib/tripReplaced): the edit held
+  // was of the trip replaced, and is dropped, or sent later it would put the old days back over the new trip.
+  const replaced = useReplaced(tripId);
+  const takenAt = useRef(replaced);
   useEffect(() => {
-    const k = seen.current;
-    const savedOver =
-      !!sourceTrip &&
-      (sourceTrip.days.some((d) => d.items.some((i) => !k.items.has(i.id))) ||
-        (k.title !== undefined && sourceTrip.title !== k.title && sourceTrip.startDate !== k.start));
-    if (savedOver) hasUnsavedChanges.current = false;
+    if (replaced !== takenAt.current) hasUnsavedChanges.current = false;
     if (hasUnsavedChanges.current) return;
-    if (sourceTrip) {
-      for (const d of sourceTrip.days) for (const i of d.items) k.items.add(i.id);
-      k.title = sourceTrip.title;
-      k.start = sourceTrip.startDate;
-    }
+    takenAt.current = replaced;
     setLocalTrip(sourceTrip);
-  }, [sourceTrip]);
+  }, [sourceTrip, replaced]);
   useEffect(() => {
     if (!loading && !entitlementsLoading && !error && !localTrip) {
       router.replace("/(app)/(tabs)/itinerary");

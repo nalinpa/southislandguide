@@ -75,12 +75,42 @@ export function builderAnswers(state: QuizState, today: Date, from: ActivityData
 // The one set kept: the trips, and the answers they were built for.
 let kept: { key: string; trips: QuizTrip[] } | null = null;
 
+// A save of a quiz trip still out (the quiz screen's): by which account, for which answers, and what is told when it
+// lands (the trip's id, or null if it wasn't saved).
+type OutSave = { uid: string; answers: string; landed: Promise<string | null>; land: (id: string | null) => void };
+let out: OutSave | null = null;
+
 /**
- * A save of a quiz trip still out (the quiz screen's): the trip's id once it is saved, null if it wasn't. Kept here
- * with the trips, outside any screen: a quiz closed while it saved (a slow line) and opened again on the same answers
- * waits for it, rather than saving the trip a second time.
+ * The quiz's save still out, kept here with the trips, outside any screen: a quiz closed while it saved (a slow line)
+ * and opened again on the same answers, by the same account, waits for it rather than saving the trip a second time.
+ * Any other quiz goes on as ever.
  */
-export const tripSave: { out: Promise<string | null> | null } = { out: null };
+export const tripSave = {
+  /** A save sent: what to call when it lands, with the trip's id, or null if it wasn't saved. */
+  send(uid: string, state: QuizState): (id: string | null) => void {
+    let land: (id: string | null) => void = () => {};
+    const landed = new Promise<string | null>((resolve) => (land = resolve));
+    const save: OutSave = { uid, answers: JSON.stringify(state), landed, land };
+    out = save;
+    return (id) => {
+      if (out === save) out = null;
+      land(id);
+    };
+  },
+  /** This account's save for these answers still out, to wait on; null if there is none. */
+  waiting(uid: string | null, state: QuizState): Promise<string | null> | null {
+    return out && uid && out.uid === uid && out.answers === JSON.stringify(state) ? out.landed : null;
+  },
+  /**
+   * Every save forgotten, what waits on it told it wasn't saved: a sign-out, whose clean-up drops a save paused for
+   * the signal without ever settling it.
+   */
+  reset() {
+    const save = out;
+    out = null;
+    save?.land(null);
+  },
+};
 
 /** The trips already built for these answers, or null: for a screen to show them at once, without a wait. */
 export function builtTrips(state: QuizState, today: Date): QuizTrip[] | null {

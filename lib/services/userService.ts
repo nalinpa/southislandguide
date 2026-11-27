@@ -4,6 +4,7 @@ import { hooksBag } from "@/lib/hooksBag";
 import { queryClient } from "@/lib/providers/AppProviders";
 import * as Sentry from "@sentry/react-native";
 import { clearQuiz } from "@/lib/tripBuilder/quizStorage";
+import { tripSave } from "@/lib/tripBuilder/quizTrips";
 
 export const userService = {
   // Deletes server-side (DELETE /v1/southislandguide/account), not with
@@ -64,5 +65,7 @@ export function clearLocalUserData(uid: string | undefined): Promise<void> {
   if (uid) queryClient.removeQueries({ predicate: (q) => q.queryKey.includes(uid) });
   queryClient.getMutationCache().clear();
   hooksBag.useDraftsStore.setState({ drafts: {} });
+  // A quiz save paused for the signal went with the queued writes, never to settle: what waits on it is let go.
+  tripSave.reset();
   return clearQuiz();
 }

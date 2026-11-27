@@ -16,7 +16,11 @@ jest.mock("expo-router", () => {
   const React = require("react");
   const { Text } = require("react-native");
   const Stack = ({ children }: any) => React.createElement(React.Fragment, null, React.createElement(Text, null, "screens"), children);
-  Stack.Screen = () => null;
+  // Draws nothing; keeps each screen's options by its name, for the tests that read them.
+  Stack.Screen = ({ name, options }: any) => {
+    mockScreens[name] = options;
+    return null;
+  };
   return {
     Stack,
     useNavigationContainerRef: () => mockNavigationRef,
@@ -64,6 +68,7 @@ jest.mock("@/lib/tour/SpotlightOverlay", () => ({
 }));
 
 const mockRequestReview = jest.fn();
+const mockScreens: Record<string, any> = {};
 const mockNavigationRef = {};
 const mockRouter = { replace: jest.fn() };
 let mockOpenCount: number | null = null;
@@ -125,6 +130,17 @@ describe("RootLayout sides", () => {
     const sides = screen.getByTestId("safe-left-right");
     expect(within(sides).getByText("screens")).toBeTruthy();
     expect(within(sides).queryByText("tour overlay")).toBeNull();
+  });
+});
+
+// The trip quiz (app/build-trip.tsx): its own Back goes one question back and its Close leaves.
+// iOS's swipe from the left edge would leave the whole quiz, so it is off for that screen.
+describe("RootLayout trip quiz", () => {
+  it("switches the edge swipe off for the quiz", async () => {
+    await act(async () => {
+      render(<RootLayout />);
+    });
+    expect(mockScreens["build-trip"]).toEqual(expect.objectContaining({ gestureEnabled: false }));
   });
 });
 

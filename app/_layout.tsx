@@ -87,6 +87,9 @@ function RootLayout() {
                     title: "Share",
                   }}
                 />
+                {/* The trip quiz. Its own Back goes one question back and its Close leaves; the
+                    swipe from the left edge would leave the whole quiz, so it is off here. */}
+                <Stack.Screen name="build-trip" options={{ gestureEnabled: false }} />
               </Stack>
             </SafeAreaProvider>
           </SafeAreaView>

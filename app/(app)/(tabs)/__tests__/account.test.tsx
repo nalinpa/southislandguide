@@ -163,6 +163,13 @@ jest.mock("@/lib/tour/TourContext", () => ({ useTour: () => ({ start: mockStartT
 let mockAudience: string | null = "paid";
 jest.mock("@/lib/tour/TourAutoStart", () => ({ useTourAudience: () => mockAudience }));
 
+// Whether this is the store build (lib/analytics, which has its own tests). Not, unless a test says so.
+let mockProduction = false;
+jest.mock("@/lib/analytics", () => ({
+  ...jest.requireActual("@/lib/analytics"),
+  onProductionChannel: () => mockProduction,
+}));
+
 const mockRouter = { push: jest.fn(), replace: jest.fn(), back: jest.fn() };
 jest.mock("expo-router", () => ({
   get router() {
@@ -191,6 +198,7 @@ beforeEach(() => {
   mockEmailOptIn.optedIn = false;
   mockEmailOptIn.loading = false;
   mockAudience = "paid";
+  mockProduction = false;
   mockOfflineMap.level = null;
   mockOfflineMap.progress = null;
   mockOfflineMap.error = null;
@@ -426,6 +434,42 @@ describe("Show me around", () => {
     const view = await render(<AccountScreen />);
 
     expect(view.queryByText("Show me around")).toBeNull();
+  });
+});
+
+// TEMP (stage 7 replaces this): the way in to the trip quiz while it is being built
+// (docs/plans/app-trip-builder.md). Guests too: anyone can take the quiz.
+describe("Build My Trip (test)", () => {
+  // The owner tests through updates on the development channel, which are production bundles, so the
+  // row goes by the channel: never in the store build.
+  it("is not there on the production channel, for a signed-in user or a guest", async () => {
+    mockProduction = true;
+    const view = await render(<AccountScreen />);
+    expect(view.queryByText("Build My Trip (test)")).toBeNull();
+    expect(view.getByText("Show me around")).toBeTruthy();
+
+    mockSession.status = "guest";
+    mockSession.uid = undefined;
+    const guest = await render(<AccountScreen />);
+    expect(guest.queryByText("Build My Trip (test)")).toBeNull();
+  });
+
+  it("opens the trip quiz for a signed-in user", async () => {
+    const view = await render(<AccountScreen />);
+
+    await fireEvent.press(view.getByRole("button", { name: "Build My Trip (test)" }));
+
+    expect(mockRouter.push).toHaveBeenCalledWith("/build-trip");
+  });
+
+  it("opens it for a guest too", async () => {
+    mockSession.status = "guest";
+    mockSession.uid = undefined;
+    const view = await render(<AccountScreen />);
+
+    await fireEvent.press(view.getByRole("button", { name: "Build My Trip (test)" }));
+
+    expect(mockRouter.push).toHaveBeenCalledWith("/build-trip");
   });
 });
 

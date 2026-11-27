@@ -52,6 +52,20 @@ describe("analytics", () => {
     }
   });
 
+  // The same check, for anything else the store build mustn't show (the Profile's test row for the trip quiz).
+  // The owner's test updates go to the development channel as production bundles, so __DEV__ alone can't tell.
+  it("onProductionChannel is true only for a store bundle on the production channel", () => {
+    for (const [channel, dev, on] of [
+      ["production", false, true],
+      [null, false, false],
+      ["preview", false, false],
+      ["development", false, false],
+      ["production", true, false],
+    ] as const) {
+      expect(load(channel, dev).mod.onProductionChannel()).toBe(on);
+    }
+  });
+
   describe("logTripThreeStops", () => {
     const flush = () => new Promise((r) => setTimeout(r, 0));
 

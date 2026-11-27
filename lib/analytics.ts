@@ -31,13 +31,18 @@ export function logSignUp(method: "apple" | "google" | "email"): void {
   logEvent("sign_up", { method });
 }
 
+// The store build: a production bundle on the production channel. Dev builds, previews, the
+// simulator and the owner's test updates (production bundles on the development channel) are not.
+export function onProductionChannel(): boolean {
+  return !__DEV__ && Updates.channel === "production";
+}
+
 // Native collection starts off (FIREBASE_ANALYTICS_COLLECTION_ENABLED in app.config.ts), so
 // dev builds, previews and the simulator never reach the production property. Only the
 // store build's channel turns it on. Called once, from the root layout.
 export function initAnalytics(): void {
   try {
-    const on = !__DEV__ && Updates.channel === "production";
-    Promise.resolve(setAnalyticsCollectionEnabled(getAnalytics(), on)).catch(() => {});
+    Promise.resolve(setAnalyticsCollectionEnabled(getAnalytics(), onProductionChannel())).catch(() => {});
   } catch {}
 }
 

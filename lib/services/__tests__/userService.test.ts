@@ -127,13 +127,27 @@ describe("userService.deleteAccount", () => {
 describe("clearLocalUserData", () => {
   beforeEach(() => jest.clearAllMocks());
 
-  it("clears the trip quiz kept on the phone, with the account's cache, writes and drafts", () => {
-    clearLocalUserData("user-1");
+  // Handed back, so a caller can wait for it (the trip quiz saves its answers back once it is done).
+  it("clears the trip quiz kept on the phone, with the account's cache, writes and drafts", async () => {
+    await clearLocalUserData("user-1");
 
     expect(mockClearQuiz).toHaveBeenCalledTimes(1);
     expect(mockRemoveQueries).toHaveBeenCalledTimes(1);
     expect(mockClearMutations).toHaveBeenCalledTimes(1);
     expect(mockSetDrafts).toHaveBeenCalledWith({ drafts: {} });
+  });
+
+  it("is done only once the quiz is cleared", async () => {
+    let cleared: () => void = () => {};
+    mockClearQuiz.mockImplementationOnce(() => new Promise<void>((resolve) => (cleared = resolve)));
+    let done = false;
+    const all = clearLocalUserData("user-1").then(() => (done = true));
+    await Promise.resolve();
+    expect(done).toBe(false);
+
+    cleared();
+    await all;
+    expect(done).toBe(true);
   });
 
   it("clears it after a deleted account too", async () => {

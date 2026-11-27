@@ -476,14 +476,34 @@ export function FoodStep({ state, onAnswer }: StepProps) {
 /**
  * While the trips are built: the website's waiting words. failed: building them failed, and its words for a load
  * that failed stand in. Its way on is Start again: trying the same answers again would build them the same way.
+ * With one trip there are no cards: the screen stays up while that trip is saved (the screen's), and says why when it
+ * can't be. offline: no signal, in Add to Trip's words (it is saved once the signal is back). saveError: the save
+ * failed, in the app's words, with Try Again (onRetry) and Start again.
  */
-export function WaitStep({ failed, onAgain }: { failed?: boolean; onAgain?: () => void }) {
-  if (failed) {
+export function WaitStep({
+  failed,
+  offline,
+  saveError,
+  onRetry,
+  onAgain,
+}: {
+  failed?: boolean;
+  offline?: boolean;
+  saveError?: string | null;
+  onRetry?: () => void;
+  onAgain?: () => void;
+}) {
+  if (failed || saveError) {
     return (
       <View style={styles.step}>
-        <QuizHead title="Something went wrong" lead="The trips would not load." />
+        <QuizHead title="Something went wrong" lead={saveError ?? "The trips would not load."} />
         <View style={styles.foot}>
-          <AppButton variant="primary" fullWidth shape={QUIZ_BUTTON} onPress={onAgain}>
+          {saveError ? (
+            <AppButton variant="primary" fullWidth shape={QUIZ_BUTTON} onPress={onRetry}>
+              Try Again
+            </AppButton>
+          ) : null}
+          <AppButton variant={saveError ? "ghost" : "primary"} fullWidth shape={QUIZ_BUTTON} onPress={onAgain}>
             Start again
           </AppButton>
         </View>
@@ -493,6 +513,7 @@ export function WaitStep({ failed, onAgain }: { failed?: boolean; onAgain?: () =
   return (
     <View style={styles.step}>
       <QuizHead kicker="One moment" title="Picking the places that fit you…" />
+      {offline ? <Text style={styles.offline}>Reconnect to Add</Text> : null}
     </View>
   );
 }
@@ -564,10 +585,10 @@ const styles = StyleSheet.create({
   breakStep: { gap: 24, paddingTop: 12 },
   // The swipe cards' count, in bold in the line under the question.
   deckCount: { fontWeight: "800" },
-  // No signal: Add to Trip's quiet line for the same, over the cards (its nearby list's).
+  // No signal: Add to Trip's quiet line for the same, over the cards (its nearby list's), or on the waiting screen.
   offline: { fontSize: 14, color: tokens.colors.textMuted },
-  // .q-next: the button at the foot of the screen.
-  foot: { flexGrow: 1, justifyContent: "flex-end" },
+  // .q-next: the button at the foot of the screen (Try Again and Start again, when a save failed).
+  foot: { flexGrow: 1, justifyContent: "flex-end", gap: 8 },
   // .q-stepper, .q-step and .q-num: 64 round buttons either side of a large count.
   stepper: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 24, marginTop: 4 },
   stepBtn: {

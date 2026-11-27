@@ -261,8 +261,25 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
   const jumpAppliedRef = useRef<string | null>(null);
   const correctedTripIdRef = useRef<string | null>(null);
 
+  // The server's trip, taken unless the screen holds an edit still to send. Unless it was saved over from outside the
+  // screen (the trip quiz, or Start a New Trip, replacing it): then it has places the screen never had, or another
+  // name and first day. The edit held was of the trip replaced, and is dropped: sent later, it would put the old
+  // days back over the new trip.
+  const seen = useRef<{ items: Set<string>; title?: string; start?: string }>({ items: new Set() });
   useEffect(() => {
-    if (!hasUnsavedChanges.current) setLocalTrip(sourceTrip);
+    const k = seen.current;
+    const savedOver =
+      !!sourceTrip &&
+      (sourceTrip.days.some((d) => d.items.some((i) => !k.items.has(i.id))) ||
+        (k.title !== undefined && sourceTrip.title !== k.title && sourceTrip.startDate !== k.start));
+    if (savedOver) hasUnsavedChanges.current = false;
+    if (hasUnsavedChanges.current) return;
+    if (sourceTrip) {
+      for (const d of sourceTrip.days) for (const i of d.items) k.items.add(i.id);
+      k.title = sourceTrip.title;
+      k.start = sourceTrip.startDate;
+    }
+    setLocalTrip(sourceTrip);
   }, [sourceTrip]);
   useEffect(() => {
     if (!loading && !entitlementsLoading && !error && !localTrip) {
@@ -1173,7 +1190,8 @@ export function ItineraryDetailView({ tripId, jumpToDay, jumpToSlot }: Itinerary
                 onPress={() => {
                   setShowTripMenu(false);
                   flushSave();
-                  router.push({ pathname: "/build-trip", params: { from: "menu" } });
+                  // This trip is the one a trip built there replaces (an account from before one trip each has others).
+                  router.push({ pathname: "/build-trip", params: { from: "menu", trip: tripId } });
                 }}
               >
                 <Text style={styles.menuRowText}>Build a New Trip</Text>

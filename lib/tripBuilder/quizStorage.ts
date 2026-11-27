@@ -4,7 +4,7 @@
 // A storage failure is never passed on: the quiz works without it, and just starts again next time.
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { resumeQuiz, type Quiz } from "./quizFlow";
+import { resumeQuiz, type Quiz, type QuizState } from "./quizFlow";
 
 const KEY = "tripBuilder.quiz";
 
@@ -32,5 +32,18 @@ export async function clearQuiz(): Promise<void> {
     await AsyncStorage.removeItem(KEY);
   } catch {
     // Still there: the next save writes over it.
+  }
+}
+
+/**
+ * The quiz cleared from the phone if it still holds these answers. A save that lands after its quiz was closed
+ * leaves a quiz begun since.
+ */
+export async function clearSavedQuiz(state: QuizState): Promise<void> {
+  try {
+    const saved = JSON.parse((await AsyncStorage.getItem(KEY)) ?? "null");
+    if (saved && JSON.stringify(saved.state) === JSON.stringify(state)) await AsyncStorage.removeItem(KEY);
+  } catch {
+    // Unreadable, or still there: the next save writes over it.
   }
 }

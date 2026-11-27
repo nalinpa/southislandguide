@@ -16,10 +16,10 @@ export type AppEvent =
   | "map_opened"
   | "guide_section_opened"
   | "sign_up"
-  // The trip quiz's, with the website's names and params (kiwiguide-site public/plan/quiz.js): a fresh quiz begun
-  // (`from`: the way in), each answer (`step`, `answer`), and a picked trip saved.
+  // The trip quiz's start and finish, with the website's names and params (kiwiguide-site public/plan/quiz.js): a
+  // fresh quiz begun (`from`: the way in), and a picked trip saved. Not the website's quiz_step for each answer:
+  // in the app only the start and the finish count (owner, 2026-11-28).
   | "quiz_start"
-  | "quiz_step"
   | "trip_saved";
 
 // A failed log is dropped: analytics must never break the app. No user id, email or typed

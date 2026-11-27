@@ -75,6 +75,13 @@ export function builderAnswers(state: QuizState, today: Date, from: ActivityData
 // The one set kept: the trips, and the answers they were built for.
 let kept: { key: string; trips: QuizTrip[] } | null = null;
 
+/**
+ * A save of a quiz trip still out (the quiz screen's): the trip's id once it is saved, null if it wasn't. Kept here
+ * with the trips, outside any screen: a quiz closed while it saved (a slow line) and opened again on the same answers
+ * waits for it, rather than saving the trip a second time.
+ */
+export const tripSave: { out: Promise<string | null> | null } = { out: null };
+
 /** The trips already built for these answers, or null: for a screen to show them at once, without a wait. */
 export function builtTrips(state: QuizState, today: Date): QuizTrip[] | null {
   const ans = builderAnswers(state, today);

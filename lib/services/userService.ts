@@ -56,12 +56,13 @@ async function accountIsGone(): Promise<boolean> {
 // by place, not by user, so the next account to sign in here would find them.
 // The trip quiz's answers go too (owner, 2026-11-28: "the trip builder doesnt really reset"): the next
 // person on the phone, or this one as a guest, starts it afresh. The quiz on screen when the api turned
-// its sign-in down keeps what it holds, and saves it again as it moves on.
+// its sign-in down saves its answers back once this is done.
 // Call it after auth.signOut(): before, a screen still signed in could refetch the data
 // straight back into the cache.
-export function clearLocalUserData(uid: string | undefined) {
+// Done once the quiz is cleared: a caller can wait for it (the quiz, which saves its own answers back then).
+export function clearLocalUserData(uid: string | undefined): Promise<void> {
   if (uid) queryClient.removeQueries({ predicate: (q) => q.queryKey.includes(uid) });
   queryClient.getMutationCache().clear();
   hooksBag.useDraftsStore.setState({ drafts: {} });
-  void clearQuiz();
+  return clearQuiz();
 }

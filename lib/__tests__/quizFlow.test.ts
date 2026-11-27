@@ -7,13 +7,11 @@ import {
   answerQuiz,
   backQuiz,
   blankQuiz,
-  quizStepEvents,
   resumeQuiz,
   type Quiz,
   type QuizAnswer,
   type QuizState,
 } from "@/lib/tripBuilder/quizFlow";
-import data from "@/assets/data/builder-data.json";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const site = require("@/lib/tripBuilder/quizLogic");
@@ -420,68 +418,5 @@ describe("anywhere the quiz can get to", () => {
     }
     // the walk got everywhere
     expect([...seen].sort()).toEqual([...QUIZ_STEPS].sort());
-  });
-});
-
-// The quiz_step events for analytics, as the website sends them (kiwiguide-site public/plan/quiz.js, answered()):
-// each answer in the website's words, lists joined with commas or "none".
-describe("an answer's quiz_step events", () => {
-  const events = (answers: QuizAnswer[]) => {
-    let quiz: Quiz = { state: blankQuiz(), step: "start" };
-    return answers.flatMap((a) => {
-      const got = quizStepEvents(quiz.state, a);
-      quiz = answerQuiz(quiz.state, a);
-      return got;
-    });
-  };
-
-  it("words every answer as the website does, the swipe cards' two lists apart, and none for the photo breaks", () => {
-    expect(events(ANSWERS)).toEqual([
-      { step: "start", answer: "queenstown" },
-      { step: "band", answer: "week" },
-      { step: "days", answer: "7" },
-      { step: "finish", answer: "queenstown" },
-      { step: "season", answer: "summer" },
-      // the website's month buttons: the month counting from 0, then the year
-      { step: "month", answer: "0-2027" },
-      { step: "pace", answer: "some" },
-      { step: "drive", answer: "240" },
-      { step: "who", answer: "couple" },
-      { step: "age", answer: "30-44" },
-      { step: "vibe", answer: "nature" },
-      { step: "into", answer: "Scenic,Walks" },
-      { step: "activities", answer: "hot-pools" },
-      { step: "food", answer: "yes" },
-      { step: "choice", answer: "trip-a" },
-    ]);
-  });
-
-  it("says none for an empty list or no month, and no for no food tips", () => {
-    const st = after(ANSWERS.slice(0, 11)).state;
-    expect(quizStepEvents(st, { step: "vibe", value: [] })).toEqual([{ step: "vibe", answer: "none" }]);
-    expect(quizStepEvents(st, { step: "into", value: { into: [], activities: [] } })).toEqual([
-      { step: "into", answer: "none" },
-      { step: "activities", answer: "none" },
-    ]);
-    expect(quizStepEvents(st, { step: "month", value: null })).toEqual([{ step: "month", answer: "none" }]);
-    expect(quizStepEvents(st, { step: "food", value: false })).toEqual([{ step: "food", answer: "no" }]);
-  });
-
-  // The website keeps the vibes in its own list's order, whatever order they were tapped in.
-  it("lists the vibes in the website's order", () => {
-    const st = after(ANSWERS.slice(0, 11)).state;
-    expect(quizStepEvents(st, { step: "vibe", value: ["adventure", "relax"] })).toEqual([{ step: "vibe", answer: "relax,adventure" }]);
-  });
-
-  // Analytics keeps 100 characters of a value: the longest lists, every card said yes to in any month, fit.
-  it("keeps every answer within analytics' 100 characters", () => {
-    const st = after(ANSWERS.slice(0, 13)).state;
-    for (let month = 0; month < 12; month++) {
-      const cards = site.cardsFor(data, month);
-      const all = site.deckAnswers(cards, cards.map((c: { id: string }) => c.id));
-      for (const e of quizStepEvents(st, { step: "into", value: all })) expect(e.answer.length).toBeLessThanOrEqual(100);
-    }
-    const vibes = quizStepEvents(st, { step: "vibe", value: site.VIBES.map((v: { id: string }) => v.id) });
-    expect(vibes[0].answer.length).toBeLessThanOrEqual(100);
   });
 });

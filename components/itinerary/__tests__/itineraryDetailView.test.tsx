@@ -584,16 +584,28 @@ describe("the trip menu", () => {
   });
 
   // The trip quiz for someone who has a trip (owner, 2026-11-28: "trip builder for people that already have a trip? in
-  // the ... menu for a start"). Nothing is asked here: the quiz asks before the trip it builds replaces this one.
-  it("opens the trip quiz from Build a New Trip, saying it came from the menu, with nothing asked", async () => {
+  // the ... menu for a start"). Nothing is asked here: the quiz asks before the trip it builds replaces this one, and
+  // it is told which trip that is. The open day's edit is saved first, before the quiz opens.
+  it("opens the trip quiz from Build a New Trip, saying it came from this trip's menu, the open day saved first", async () => {
+    const order: string[] = [];
+    mockTrips.saveItinerary = jest.fn(() => {
+      order.push("save");
+      return Promise.resolve("t1");
+    });
+    mockRouter.push.mockImplementation(() => void order.push("open the quiz"));
     const view = await openTrip();
+    await fireEvent.press(view.getByText("Edit Wai-O-Tapu"));
+    await fireEvent.press(view.getByText("Longer visit"));
     await fireEvent.press(view.getByLabelText("Trip options"));
 
     await fireEvent.press(view.getByText("Build a New Trip"));
 
-    expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/build-trip", params: { from: "menu" } });
+    expect(order).toEqual(["save", "open the quiz"]);
+    expect(mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0]).toMatchObject({ id: "item-1", durationSlots: 20 });
+    expect(mockRouter.push).toHaveBeenCalledWith({ pathname: "/build-trip", params: { from: "menu", trip: "t1" } });
     expect(alertSpy).not.toHaveBeenCalled();
     expect(view.queryByTestId("trip-menu-card")).toBeNull();
+    mockRouter.push.mockReset();
   });
 
   // In the same row as the rest of the menu.
@@ -935,6 +947,79 @@ describe("a trip that starts in a town", () => {
       expect.any(Array),
       mockLookup.places,
     );
+  });
+});
+
+// Saved over from outside this screen while it still held an edit it couldn't save (a save that failed, with no
+// signal): by the trip quiz, or by Start a New Trip. That edit was of the trip replaced: the screen takes the new trip,
+// and has nothing of the old one left to send over it.
+describe("a trip saved over from outside", () => {
+  // An edit to Gardens on day 1 whose save fails, so the screen keeps it to send again.
+  const editThatWontSave = async () => {
+    mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2 })])];
+    mockTrips.saveItinerary = jest.fn().mockRejectedValue(new Error("no signal"));
+    const view = await openTrip();
+    await fireEvent.press(view.getByText("Edit Gardens"));
+    await fireEvent.press(view.getByText("Longer visit"));
+    await fireEvent.press(view.getByText("Trip"));
+    await waitFor(() => expect(mockTrips.saveItinerary).toHaveBeenCalledTimes(1));
+    mockTrips.saveItinerary = jest.fn().mockResolvedValue("t1");
+    return view;
+  };
+  const leave = async (view: any) => {
+    await fireEvent.press(view.getByText("Days"));
+    await fireEvent.press(view.getByText("Trip"));
+    await view.unmount();
+  };
+
+  it("takes the trip the quiz saved over it, and never sends the old one back", async () => {
+    const view = await editThatWontSave();
+
+    mockTrips.itineraries = [
+      { ...makeTrip(), title: "South Island in 7 Days", days: [{ id: "day_1", date: "2026-10-01", items: [castle({ id: "quiz-1" })] }] },
+    ];
+    await view.rerender(<ItineraryDetailView tripId="t1" />);
+
+    expect(view.getByText("South Island in 7 Days")).toBeTruthy();
+    await fireEvent.press(view.getByText("Days"));
+    expect(view.getByText("Castle")).toBeTruthy();
+    expect(view.queryByText("Gardens")).toBeNull();
+    await leave(view);
+    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+  });
+
+  it("takes the new trip Start a New Trip saved over it, an empty one too", async () => {
+    const view = await editThatWontSave();
+
+    mockTrips.itineraries = [
+      {
+        ...makeTrip(),
+        title: "South Island Trip",
+        startDate: "2026-12-01",
+        endDate: "2026-12-02",
+        days: [
+          { id: "day_1", date: "2026-12-01", items: [] },
+          { id: "day_2", date: "2026-12-02", items: [] },
+        ],
+      },
+    ];
+    await view.rerender(<ItineraryDetailView tripId="t1" />);
+
+    expect(view.getByText("South Island Trip")).toBeTruthy();
+    await leave(view);
+    expect(mockTrips.saveItinerary).not.toHaveBeenCalled();
+  });
+
+  // Its own save landing (the same places, the same trip): the edit made since is still the screen's to send.
+  it("keeps an edit of its own when the server's copy is only its own last save", async () => {
+    const view = await editThatWontSave();
+
+    mockTrips.itineraries = [tripOf([gardens({ slotIndex: 2, durationSlots: 4 })])];
+    await view.rerender(<ItineraryDetailView tripId="t1" />);
+    await leave(view);
+
+    expect(mockTrips.saveItinerary).toHaveBeenCalled();
+    expect(mockTrips.saveItinerary.mock.calls[0][0].days[0].items[0]).toMatchObject({ id: "gardens", durationSlots: 20 });
   });
 });
 

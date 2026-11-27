@@ -2,8 +2,8 @@
 // closing the quiz (or the app) keeps the answers. The rules are quizFlow's; nothing is decided here.
 import { useEffect, useRef, useState } from "react";
 
-import { accountStep, answerQuiz, backQuiz, blankQuiz, type Quiz, type QuizAnswer, type QuizStep } from "./quizFlow";
-import { clearQuiz, loadQuiz, saveQuiz } from "./quizStorage";
+import { accountStep, answerQuiz, backQuiz, blankQuiz, type Quiz, type QuizAnswer, type QuizState, type QuizStep } from "./quizFlow";
+import { clearQuiz, clearSavedQuiz, loadQuiz, saveQuiz } from "./quizStorage";
 
 export function useQuiz() {
   // null until the saved quiz has been read, so the screen waits rather than flash the first question.
@@ -69,13 +69,21 @@ export function useQuiz() {
       void clearQuiz();
     },
     /**
-     * The quiz done with, its trip saved (owner, 2026-11-28: "the trip builder doesnt really reset"): nothing left on
-     * the phone, so it opens next on its first question. What is on screen stays as it is: the quiz is closed over
-     * the trip, and its first question would show as it went.
+     * The quiz done with, its trip saved or Cancel pressed over the trip it would replace (owner, 2026-11-28: "the trip
+     * builder doesnt really reset"): these answers no longer on the phone, so it opens next on its first question. A
+     * quiz begun since is left. What is on screen stays as it is: the quiz is closing, and its first question would
+     * show as it went.
      */
-    clear: () => {
-      now.current = { state: blankQuiz(), step: "start" };
-      void clearQuiz();
+    clear: (state: QuizState) => {
+      if (now.current && JSON.stringify(now.current.state) === JSON.stringify(state)) now.current = { state: blankQuiz(), step: "start" };
+      void clearSavedQuiz(state);
+    },
+    /**
+     * The quiz on screen saved to the phone again as it stands: a sign-out's clean-up clears the phone's copy, and
+     * the quiz that signed out to sign in again (the api turned its sign-in down) keeps its answers.
+     */
+    keep: () => {
+      if (now.current) void saveQuiz(now.current);
     },
   };
 }

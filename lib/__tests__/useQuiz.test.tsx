@@ -249,7 +249,7 @@ describe("useQuiz", () => {
     await AsyncStorage.setItem(KEY, JSON.stringify(HALF));
     const result = await open();
 
-    await act(async () => result.current.clear());
+    await act(async () => result.current.clear(HALF.state));
 
     expect(result.current.quiz).toEqual(HALF);
     await waitFor(async () => expect(await AsyncStorage.getItem(KEY)).toBeNull());
@@ -262,5 +262,15 @@ describe("useQuiz", () => {
 
     const next = await open();
     expect(next.current.quiz).toEqual(BLANK);
+  });
+
+  // A save that lands after its quiz was closed, with another begun since: only the answers it saved are cleared.
+  it("leaves a quiz begun since on the phone", async () => {
+    const result = await open();
+    await AsyncStorage.setItem(KEY, JSON.stringify(HALF));
+
+    await act(async () => result.current.clear(BLANK.state));
+
+    expect(await saved()).toEqual(HALF);
   });
 });

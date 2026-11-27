@@ -1,6 +1,6 @@
 # The trip builder quiz in the app (1.6) — plan
 
-Status: plan read by the owner and its questions answered, 2026-11-26. Stage 0 (speed check) done 2026-11-27. Stage 1 (the rules and data in the app) built 2026-11-27 on branch `1.6`, not committed. No stage starts without the owner's go.
+Status: plan read by the owner and its questions answered, 2026-11-26. Stage 0 (speed check) done 2026-11-27. Stage 1 (the rules and data in the app) done 2026-11-27, committed on branch `1.6` (2d29cb3). Stage 2 (the quiz's memory) built and reviewed 2026-11-27, not committed. No stage starts without the owner's go.
 
 ## What it is
 
@@ -81,6 +81,17 @@ One builder at a time, each reviewed before the next. The owner sees each stage 
 - **Reviewed** (one reviewer, 2026-11-27): no blockers. Fixed: the day and stop types, a check on the quiz's answers, the wider answer sets, and a note from the script when the site has uncommitted edits. Left: the reviewer's worry that the phone's JavaScript engine might order two equal-cost routes differently. The phone matched 24 of 24 in stage 0; stage 8 runs the full set on a phone.
 - Whole suite 103 files green, typecheck clean. No `package.json` change (its scripts are part of the runtime fingerprint).
 
+## Stage 2 results (2026-11-27, the owner's go)
+
+- **The quiz's memory** (`lib/tripBuilder/quizFlow.ts`): the answers in the website's shape, the app's steps (the website's less "heard", "account" and "done"), where each answer leads, what it clears, where Back goes, and where a saved quiz opens again. The rules were read off the website's page code (its click handler, Back and render) and run over the copied logic.
+- **Kept on the phone** (`lib/tripBuilder/quizStorage.ts`): the answers and the step, so a half-done quiz comes back after the app is closed. The website forgets its quiz with the tab. It never expires (Claude's call); Start again clears it. A saved month that has passed is dropped, and the quiz opens on the first question with no answer.
+- **The built trips aren't saved**: they are built again from the answers.
+- **The copy script now hands out five more of the website's lists** the screens need (vibes, kinds of place, driving, seasons, month names). The website's own export line leaves them out; the script adds one line to the copy rather than changing the site.
+- **Reviewed** (one reviewer): the step, clear and Back rules match the website line for line. Fixed: days kept between the fewest for the start town and 21, vibes kept in the website's order, lists copied, trips "not built yet" told apart from "none fit", a type.
+- **Back skips the driving question when the way in skipped it** (owner, 2026-11-27: "i want that fixed in both"). Fixed on the website in the copied logic (`backStep` now takes the answers; site branch `quiz-back-skips-driving`, 190334c, local: not merged, pushed or deployed) and brought into the app by the copy script (the app's copy is stamped 190334c). Left as the website has it: the "Happy to drive" that the skip sets stays chosen if the trip is later changed to a short one, where the question is asked again.
+- **For stage 5:** the website drops activities not on offer for the start month (skiing) before it builds; the app has to do the same to build the same trips.
+- Tests: 59 for the flow, 7 for the storage.
+
 ## Catches
 
 - **Speed.** Measured in stage 0: under 0.3 s at worst on an iPhone XR. Not a catch any more.
@@ -98,4 +109,4 @@ The small-circle rule, Lots of walking after 6 PM and the Wānaka lakefront favo
 
 - Apple AI in the builder, and Siri (TASKS.md backlog).
 - Suggested trips edited in the admin panel (TASKS.md backlog).
-- A paywall on saving.
+- A paywall on saving. Payments come straight after 1.6 (owner, 2026-11-27): full access paid as in Rotorua, and a custom trip costing more on top (TASKS.md, After launch: the paid unlock).

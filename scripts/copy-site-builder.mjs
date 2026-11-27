@@ -1,7 +1,8 @@
 // Copies the website's trip builder into the app. The website (../kiwiguide-site) is the home of the rules:
 // change them there, commit, then run this. It takes the files as the site has them committed:
 //   public/plan/builder.js         -> lib/tripBuilder/builder.js     (the rules)
-//   public/plan/quiz.js            -> lib/tripBuilder/quizLogic.js   (the quiz's logic; its web page half left out)
+//   public/plan/quiz.js            -> lib/tripBuilder/quizLogic.js   (the quiz's logic; its web page half left out,
+//                                                                      and a few more of its lists handed out)
 //   public/plan/builder-data.json  -> assets/data/builder-data.json  (the day blocks and places the rules use)
 // and writes test/fixtures/site-trips.json: the trips the site's own builder and pack.js build for the answer
 // sets in that file, which lib/__tests__/tripBuilder.test.ts holds the app to. To cover another answer set,
@@ -47,6 +48,13 @@ const header = (file, more = "") =>
 const PAGE = '\n// ---- the page ----\nif (typeof document !== "undefined") (function () {';
 const halves = src["quiz.js"].split(PAGE);
 if (halves.length !== 2) throw new Error("quiz.js: can't find where the web page half starts");
+// Lists the app's screens show that the site's export line leaves out. Handed out too; the logic isn't touched.
+const EXTRA = ["VIBES", "INTO", "DRIVES", "SEASONS", "MONTH_NAMES"];
+for (const n of EXTRA) if (!new RegExp(`^var ${n} = `, "m").test(halves[0])) throw new Error(`quiz.js: no ${n} to hand out`);
+const extra = `
+// Added by the copy script: lists the site's export line leaves out.
+if (typeof module !== "undefined") Object.assign(module.exports, { ${EXTRA.map((n) => `${n}: ${n}`).join(", ")} });
+`;
 
 // The trips to hold the app to: the site's builder with the site's own pack.js, not the app's code.
 const cases = existsSync(path.join(root, CASES)) ? JSON.parse(readFileSync(path.join(root, CASES), "utf8")).cases : [];
@@ -69,7 +77,7 @@ try {
 
 const out = {
   "lib/tripBuilder/builder.js": header("builder.js") + src["builder.js"],
-  "lib/tripBuilder/quizLogic.js": header("quiz.js", " The web page half is left out.") + halves[0],
+  "lib/tripBuilder/quizLogic.js": header("quiz.js", " The web page half is left out.") + halves[0] + extra,
   "assets/data/builder-data.json": src["builder-data.json"],
   // one answer set a line
   [CASES]: `{\n "site": "${commit}",\n "cases": [\n${siteTrips.map((c) => "  " + JSON.stringify(c)).join(",\n")}\n ]\n}\n`,

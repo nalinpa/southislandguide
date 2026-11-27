@@ -125,11 +125,14 @@ def running_update(data: Path, app: Path) -> dict:
     out = {"build_runtime": runtime, "update_id": None, "update_time": None, "embedded": True}
     if not dbs:
         return out
-    con = sqlite3.connect(str(max(dbs, key=lambda p: p.stat().st_mtime)))
     try:
-        row = con.execute("SELECT id, commit_time FROM updates ORDER BY last_accessed DESC LIMIT 1").fetchone()
-    finally:
-        con.close()
+        con = sqlite3.connect(str(max(dbs, key=lambda p: p.stat().st_mtime)))
+        try:
+            row = con.execute("SELECT id, commit_time FROM updates ORDER BY last_accessed DESC LIMIT 1").fetchone()
+        finally:
+            con.close()
+    except sqlite3.Error:  # the app is still creating or writing its DB: not downloaded yet
+        return out
     if row:
         out["update_id"] = str(uuid.UUID(bytes=bytes(row[0])))
         out["update_time"] = datetime.fromtimestamp(row[1] / 1000, timezone.utc).isoformat()
@@ -154,14 +157,17 @@ def _cmd_session(args: list) -> int:
         email, password = os.environ.get("DUO_TEST_EMAIL"), os.environ.get("DUO_TEST_PASSWORD")
         if not email or not password:
             raise SignInError("no test account secrets")
-        key = api_key(app)
+        try:
+            key = api_key(app)
+        except (OSError, ValueError, KeyError, TypeError):
+            raise SignInError("no API key in the app")
         resp = sign_in(key, email, password)
         print("::add-mask::" + resp["idToken"])
         print("::add-mask::" + resp["refreshToken"])
         record = user_record(resp, key, int(time.time() * 1000))
         set_item(storage_dir(data), auth_key(key), json.dumps(record, separators=(",", ":")))
-    except SignInError as e:
-        line = "sign-in failed: %s" % e
+    except Exception as e:  # any failure leaves a status line; only SignInError text is shown, never other messages
+        line = "sign-in failed: %s" % (e if isinstance(e, SignInError) else type(e).__name__)
         print(line)
         status.write_text(line, encoding="utf-8")
         return 1

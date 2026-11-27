@@ -139,6 +139,14 @@ class SessionTests(unittest.TestCase):
         self.assertEqual(self.status.read_text(encoding="utf-8"),
                          "sign-in failed: no test account secrets")
 
+    def test_session_missing_app_config(self):
+        (self.app / "EXConstants.bundle" / "app.config").unlink()
+        env = {"DUO_TEST_EMAIL": "a@b.c", "DUO_TEST_PASSWORD": "pw"}
+        code, lines = self.run_session(env)
+        self.assertEqual(code, 1)
+        self.assertEqual(lines, ["sign-in failed: no API key in the app"])
+        self.assertEqual(self.status.read_text(encoding="utf-8"), "sign-in failed: no API key in the app")
+
 
 class UpdateTests(unittest.TestCase):
     def setUp(self):
@@ -180,6 +188,17 @@ class UpdateTests(unittest.TestCase):
         r = appstate.running_update(self.data, self.app)
         self.assertIs(r["embedded"], True)
         self.assertIsNone(r["update_id"])
+
+    def test_update_db_without_table(self):
+        d = self.data / "Library" / "Application Support" / ".expo-internal"
+        d.mkdir(parents=True)
+        sqlite3.connect(d / "expo-v4.db").close()
+        for args in ([], ["--wait", "1"]):
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                code = appstate.main(["update", str(self.data), str(self.app)] + args)
+            self.assertEqual(code, 0)
+            self.assertIs(json.loads(out.getvalue())["embedded"], True)
 
 
 if __name__ == "__main__":

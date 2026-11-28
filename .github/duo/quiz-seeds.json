@@ -1,0 +1,487 @@
+[
+ {
+  "n": "01",
+  "step": "start",
+  "quiz": {
+   "state": {
+    "start": null,
+    "end": null,
+    "band": null,
+    "days": null,
+    "season": null,
+    "month": null,
+    "pace": null,
+    "drive": null,
+    "who": null,
+    "age": null,
+    "vibes": null,
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "start"
+  }
+ },
+ {
+  "n": "02",
+  "step": "band",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": null,
+    "band": null,
+    "days": null,
+    "season": null,
+    "month": null,
+    "pace": null,
+    "drive": null,
+    "who": null,
+    "age": null,
+    "vibes": null,
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "band"
+  }
+ },
+ {
+  "n": "03",
+  "step": "days",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": null,
+    "band": "week",
+    "days": null,
+    "season": null,
+    "month": null,
+    "pace": null,
+    "drive": null,
+    "who": null,
+    "age": null,
+    "vibes": null,
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "days"
+  }
+ },
+ {
+  "n": "04",
+  "step": "finish",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": null,
+    "band": "week",
+    "days": 7,
+    "season": null,
+    "month": null,
+    "pace": null,
+    "drive": null,
+    "who": null,
+    "age": null,
+    "vibes": null,
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "finish"
+  }
+ },
+ {
+  "n": "05",
+  "step": "break1",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": "queenstown",
+    "band": "week",
+    "days": 7,
+    "season": null,
+    "month": null,
+    "pace": null,
+    "drive": null,
+    "who": null,
+    "age": null,
+    "vibes": null,
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "break1"
+  }
+ },
+ {
+  "n": "06",
+  "step": "season",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": "queenstown",
+    "band": "week",
+    "days": 7,
+    "season": null,
+    "month": null,
+    "pace": null,
+    "drive": null,
+    "who": null,
+    "age": null,
+    "vibes": null,
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "season"
+  }
+ },
+ {
+  "n": "07",
+  "step": "month",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": "queenstown",
+    "band": "week",
+    "days": 7,
+    "season": "summer",
+    "month": null,
+    "pace": null,
+    "drive": null,
+    "who": null,
+    "age": null,
+    "vibes": null,
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "month"
+  }
+ },
+ {
+  "n": "08",
+  "step": "pace",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": "queenstown",
+    "band": "week",
+    "days": 7,
+    "season": "summer",
+    "month": {
+     "month": 0,
+     "year": 2027
+    },
+    "pace": null,
+    "drive": null,
+    "who": null,
+    "age": null,
+    "vibes": null,
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "pace"
+  }
+ },
+ {
+  "n": "09",
+  "step": "drive",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": "queenstown",
+    "band": "week",
+    "days": 7,
+    "season": "summer",
+    "month": {
+     "month": 0,
+     "year": 2027
+    },
+    "pace": "some",
+    "drive": null,
+    "who": null,
+    "age": null,
+    "vibes": null,
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "drive"
+  }
+ },
+ {
+  "n": "10",
+  "step": "who",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": "queenstown",
+    "band": "week",
+    "days": 7,
+    "season": "summer",
+    "month": {
+     "month": 0,
+     "year": 2027
+    },
+    "pace": "some",
+    "drive": 240,
+    "who": null,
+    "age": null,
+    "vibes": null,
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "who"
+  }
+ },
+ {
+  "n": "11",
+  "step": "age",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": "queenstown",
+    "band": "week",
+    "days": 7,
+    "season": "summer",
+    "month": {
+     "month": 0,
+     "year": 2027
+    },
+    "pace": "some",
+    "drive": 240,
+    "who": "couple",
+    "age": null,
+    "vibes": null,
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "age"
+  }
+ },
+ {
+  "n": "12",
+  "step": "vibe",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": "queenstown",
+    "band": "week",
+    "days": 7,
+    "season": "summer",
+    "month": {
+     "month": 0,
+     "year": 2027
+    },
+    "pace": "some",
+    "drive": 240,
+    "who": "couple",
+    "age": "30-44",
+    "vibes": null,
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "vibe"
+  }
+ },
+ {
+  "n": "13",
+  "step": "break2",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": "queenstown",
+    "band": "week",
+    "days": 7,
+    "season": "summer",
+    "month": {
+     "month": 0,
+     "year": 2027
+    },
+    "pace": "some",
+    "drive": 240,
+    "who": "couple",
+    "age": "30-44",
+    "vibes": [
+     "relax",
+     "nature"
+    ],
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "break2"
+  }
+ },
+ {
+  "n": "14",
+  "step": "into",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": "queenstown",
+    "band": "week",
+    "days": 7,
+    "season": "summer",
+    "month": {
+     "month": 0,
+     "year": 2027
+    },
+    "pace": "some",
+    "drive": 240,
+    "who": "couple",
+    "age": "30-44",
+    "vibes": [
+     "relax",
+     "nature"
+    ],
+    "into": null,
+    "food": null,
+    "activities": null,
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "into"
+  }
+ },
+ {
+  "n": "15",
+  "step": "food",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": "queenstown",
+    "band": "week",
+    "days": 7,
+    "season": "summer",
+    "month": {
+     "month": 0,
+     "year": 2027
+    },
+    "pace": "some",
+    "drive": 240,
+    "who": "couple",
+    "age": "30-44",
+    "vibes": [
+     "relax",
+     "nature"
+    ],
+    "into": [
+     "Scenic",
+     "Walks"
+    ],
+    "food": null,
+    "activities": [
+     "hot-pools"
+    ],
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "food"
+  }
+ },
+ {
+  "n": "16",
+  "step": "account",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": "queenstown",
+    "band": "week",
+    "days": 7,
+    "season": "summer",
+    "month": {
+     "month": 0,
+     "year": 2027
+    },
+    "pace": "some",
+    "drive": 240,
+    "who": "couple",
+    "age": "30-44",
+    "vibes": [
+     "relax",
+     "nature"
+    ],
+    "into": [
+     "Scenic",
+     "Walks"
+    ],
+    "food": true,
+    "activities": [
+     "hot-pools"
+    ],
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "account"
+  }
+ },
+ {
+  "n": "17",
+  "step": "choice",
+  "quiz": {
+   "state": {
+    "start": "christchurch",
+    "end": "queenstown",
+    "band": "week",
+    "days": 7,
+    "season": "summer",
+    "month": {
+     "month": 0,
+     "year": 2027
+    },
+    "pace": "some",
+    "drive": 240,
+    "who": "couple",
+    "age": "30-44",
+    "vibes": [
+     "relax",
+     "nature"
+    ],
+    "into": [
+     "Scenic",
+     "Walks"
+    ],
+    "food": true,
+    "activities": [
+     "hot-pools"
+    ],
+    "heard": "skip",
+    "pick": null
+   },
+   "step": "choice"
+  }
+ }
+]

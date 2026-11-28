@@ -17,7 +17,7 @@ permissions:
 jobs:
   screens:
     runs-on: xcode-27
-    timeout-minutes: 60
+    timeout-minutes: 75
     env:
       APP_ID: app.blacksands.southislandguide
     steps:
@@ -85,6 +85,23 @@ jobs:
           tap_open() { # "Open in Kiwi Guide?" shows on the first link only: by name, never by position
             if duoctl tap --label "Open" >/dev/null 2>&1; then t "Open prompt tapped"; sleep 2; else t "no Open prompt"; fi
           }
+          at() { # a Duo position (folded, upright, sideways); DISP is the display to shoot
+            case "$1" in
+              folded) duoctl close >/dev/null 2>&1; DISP=1 ;;
+              upright) duoctl open >/dev/null 2>&1; duoctl rotate portrait >/dev/null 2>&1; DISP=3 ;;
+              sideways) duoctl open >/dev/null 2>&1; duoctl rotate landscape >/dev/null 2>&1; DISP=3 ;;
+            esac
+            sleep 3
+          }
+          quiz_shots() { # quiz seed n, its step name: the app restarted on that saved quiz, shot in every position
+            xcrun simctl terminate "$UDID" "$APP_ID"
+            python3 -I .github/duo/appstate.py quiz "$DATA" .github/duo/quiz-seeds.json "$1" | tee -a "$R"
+            xcrun simctl launch "$UDID" "$APP_ID" >/dev/null; sleep 12
+            xcrun simctl openurl "$UDID" "southislandguide://build-trip"
+            sleep 2; tap_open; sleep 4
+            for p in folded upright sideways; do at "$p"; shot "$p-quiz-$1-$2" "$DISP"; done
+            t "quiz $1 $2"
+          }
           EOF2
 
       - name: First launch
@@ -104,6 +121,16 @@ jobs:
           sleep 2; tap_open; sleep 3
           shot folded-profile-guest 1
 
+      - name: Quiz pass (guest)
+        run: |
+          set +e
+          source helpers.sh
+          # the saved quiz only counts across a restart, so each step is its own launch
+          for ns in $(python3 -I -c "import json; print(' '.join(s['n'] + ':' + s['step'] for s in json.load(open('.github/duo/quiz-seeds.json')) if s['n'] != '17'))"); do
+            quiz_shots "${ns%%:*}" "${ns#*:}"
+          done
+          at folded
+
       - name: Sign in (proof only; Task 4 moves it)
         env:
           DUO_TEST_EMAIL: ${{ secrets.DUO_TEST_EMAIL }}
@@ -119,6 +146,13 @@ jobs:
           xcrun simctl openurl "$UDID" "southislandguide://account"
           sleep 2; tap_open; sleep 3
           shot folded-profile-signed-in 1
+
+      - name: Quiz trip cards (signed in)
+        run: |
+          set +e
+          source helpers.sh
+          quiz_shots 17 choice
+          at folded
 
       - name: Report
         run: |

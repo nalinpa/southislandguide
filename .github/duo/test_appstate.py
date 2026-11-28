@@ -9,6 +9,7 @@ import plistlib
 import sqlite3
 import tempfile
 import unittest
+from datetime import date
 from pathlib import Path
 from unittest import mock
 
@@ -203,3 +204,46 @@ class UpdateTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class QuizTests(unittest.TestCase):
+    def setUp(self):
+        self._t = tempfile.TemporaryDirectory()
+        self.addCleanup(self._t.cleanup)
+        root = Path(self._t.name)
+        self.data, self.seeds = root / "data", root / "seeds.json"
+        self.seeds.write_text(json.dumps([
+            {"n": "01", "step": "start", "quiz": {"state": {"month": None}, "step": "start"}},
+            {"n": "07", "step": "pace", "quiz": {"state": {"month": {"month": 0, "year": 2000}}, "step": "pace"}},
+            {"n": "08", "step": "pace", "quiz": {"state": {"month": {"month": 11, "year": 2000}}, "step": "pace"}},
+        ]), encoding="utf-8")
+
+    def run_quiz(self, n):
+        out = io.StringIO()
+        with mock.patch.object(appstate, "_today", return_value=date(2026, 11, 28)),                 contextlib.redirect_stdout(out), contextlib.redirect_stderr(out):
+            code = appstate.main(["quiz", str(self.data), str(self.seeds), n])
+        return code, out.getvalue().strip()
+
+    def saved(self):
+        return json.loads(get_item(storage_dir(self.data), "tripBuilder.quiz"))
+
+    def test_quiz_writes_seed_and_tour(self):
+        code, out = self.run_quiz("01")
+        self.assertEqual(code, 0)
+        self.assertEqual(out, "quiz seed 01 start")
+        self.assertEqual(self.saved(), {"state": {"month": None}, "step": "start"})
+        self.assertEqual(get_item(storage_dir(self.data), "southislandguide:tourSeen"), "1")
+        self.assertNotIn(" ", get_item(storage_dir(self.data), "tripBuilder.quiz"))
+
+    def test_quiz_month_rolls_to_next_year(self):
+        self.run_quiz("07")
+        self.assertEqual(self.saved()["state"]["month"], {"month": 0, "year": 2027})
+
+    def test_quiz_month_this_year(self):
+        self.run_quiz("08")
+        self.assertEqual(self.saved()["state"]["month"], {"month": 11, "year": 2026})
+
+    def test_quiz_unknown_n(self):
+        code, out = self.run_quiz("99")
+        self.assertEqual(code, 1)
+        self.assertIn("no quiz seed 99", out)

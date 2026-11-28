@@ -23,11 +23,13 @@ import time
 import urllib.error
 import urllib.request
 import uuid
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 BUNDLE_ID = "app.blacksands.southislandguide"
 COUNT_KEY = "southislandguide:appOpenCount"
+TOUR_KEY = "southislandguide:tourSeen"
+QUIZ_KEY = "tripBuilder.quiz"
 INLINE_MAX = 1024
 
 
@@ -188,8 +190,31 @@ def _cmd_update(args: list) -> int:
     return 0
 
 
+def _today() -> date:
+    return date.today()
+
+
+def _cmd_quiz(args: list) -> int:
+    data, seeds, n = Path(args[0]), Path(args[1]), args[2]
+    seed = next((s for s in json.loads(seeds.read_text(encoding="utf-8")) if s["n"] == n), None)
+    if seed is None:
+        print("no quiz seed %s" % n)
+        return 1
+    quiz, today = seed["quiz"], _today()
+    # the app's monthsOf: a month still to come is this year's, an earlier one is next year's (the quiz's months count from 0)
+    month = quiz["state"].get("month")
+    if month:
+        month["year"] = today.year if month["month"] >= today.month - 1 else today.year + 1
+    folder = storage_dir(data)
+    # ponytail: the seeds follow the quiz's current ids; if the quiz changes, duoQuizSeeds.test.ts fails and the seeds are regenerated
+    set_item(folder, QUIZ_KEY, json.dumps(quiz, separators=(",", ":")))
+    set_item(folder, TOUR_KEY, "1")
+    print("quiz seed %s %s" % (n, seed["step"]))
+    return 0
+
+
 def main(argv: list) -> int:
-    cmds = {"count": _cmd_count, "session": _cmd_session, "update": _cmd_update}
+    cmds = {"count": _cmd_count, "session": _cmd_session, "update": _cmd_update, "quiz": _cmd_quiz}
     return cmds[argv[0]](argv[1:])
 
 

@@ -126,6 +126,16 @@ One builder at a time, each reviewed before the next. The owner sees each stage 
 - **Checks in tests:** every step on iPad, the Duo (folded, open upright and sideways) and a phone; dark colours; a VoiceOver sweep; a no-signal walk to the trip cards. Nothing needed fixing.
 - **For the owner on a phone or simulator:** iPad both ways (one centred column); the Duo folded and open (nothing under the fold, a swipe card across it); dark mode on every quiz screen; VoiceOver (each question's heading read first, "selected" on picked answers, the slider by swiping up and down, the cards by Yes and No); large text AX1–AX5 (nothing cut off; the tour's "Build My Trip" wraps; the guest Trips row stays on a 375 pt screen); flight mode (the quiz works, photos show their fills, the cards say "Reconnect to Add"); the tour's last card as a fresh guest and as someone with a trip.
 
+## After stage 8: the owner's follow-ups (2026-11-28)
+
+- One trip for the answers never shows the cards: the waiting screen leads straight to the save, or to "Start a New Trip?" (Cancel closes and clears the quiz).
+- "Build a New Trip" in the trip screen's ⋯ menu opens the quiz; it replaces that trip when they pick.
+- The quiz clears after a save and on sign-out; a half-done quiz still resumes.
+- App analytics are the start and the finish only (`quiz_start` with the way in, `trip_saved` with who and age); the website keeps its per-step funnel.
+- The trip screen drops a held edit only on an explicit "replaced" mark from the quiz or New Trip.
+- Commits 27dcf67, 6671e41, f684a3f.
+- **Hops under 15 minutes count as 15:** built and reviewed, then left out of 1.6 (owner, 2026-11-28). It lives on branch `short-hops` in both repos; TASKS.md's backlog lists what it needs first.
+
 ## The quiz's photos and their licences (traced 2026-11-27)
 
 All are the app's own place photos, already credited on Account → Photo credits where the licence asks for it.
